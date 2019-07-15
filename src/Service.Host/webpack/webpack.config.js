@@ -13,7 +13,7 @@ module.exports = {
         'silent-renew': './client/silent-renew/index.js'
     },
     output: {
-        path: path.join(__dirname, 'client/build'),
+        path: path.join(__dirname, '../client/build'),
         filename: '[name].js',
         publicPath: '/production/build/'
     },

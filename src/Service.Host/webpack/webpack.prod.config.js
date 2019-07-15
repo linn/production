@@ -7,7 +7,7 @@ module.exports = {
         'silent-renew': './client/silent-renew/index.js'
     },
     output: {
-        path: path.resolve(__dirname, 'client/build'), // string
+        path: path.resolve(__dirname, '../client/build'), // string
         filename: '[name].js',
         publicPath: '/production/build/'
     },
