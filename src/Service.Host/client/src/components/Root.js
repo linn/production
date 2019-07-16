@@ -5,7 +5,7 @@ import { OidcProvider } from 'redux-oidc';
 import { Router } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Navigation, linnTheme } from '@linn-it/linn-form-components-library';
-import { ThemeProvider } from '@material-ui/styles';
+import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import PropTypes from 'prop-types';
 import history from '../history';
 import App from './App';
@@ -24,22 +24,24 @@ const Root = ({ store }) => (
                                 <Navigation />
                                 <CssBaseline />
 
-                                <Route exact path="/" render={() => <Redirect to="/production" />} />
+                                <Route
+                                    exact
+                                    path="/"
+                                    render={() => <Redirect to="/production/maintenance" />}
+                                />
 
                                 <Route
-                                    path="/"
-                                    render={() => {
-                                        document.title = 'Production';
-                                        return false;
-                                    }}
+                                    exact
+                                    path="/production"
+                                    render={() => <Redirect to="/production/maintenance" />}
                                 />
 
                                 <Switch>
-                                    <Route exact path="/production" component={App} />
+                                    <Route exact path="/production/maintenance" component={App} />
 
                                     <Route
                                         exact
-                                        path="/production/signin-oidc-client"
+                                        path="/production/maintenance/signin-oidc-client"
                                         component={Callback}
                                     />
                                 </Switch>

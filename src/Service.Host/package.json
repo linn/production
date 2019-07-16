@@ -89,6 +89,7 @@
     "redux-api-middleware": "^2.3.0",
     "redux-devtools": "^3.4.1",
     "redux-oidc": "^3.0.2",
+    "redux-thunk": "^2.3.0",
     "typeface-roboto": "0.0.54"
   }
 }

@@ -9,12 +9,13 @@
     {
         public HomeModule()
         {
-            this.Get("/", args => new RedirectResponse("/production"));
-            this.Get("/production", _ => this.GetApp());
+            this.Get("/", args => new RedirectResponse("/production/maintenance"));
+            this.Get("/production", args => new RedirectResponse("/production/maintenance"));
+            this.Get("/production/maintenance", _ => this.GetApp());
             this.Get("/production/(.*)/create", _ => this.GetApp());
 
-            this.Get("/production/signin-oidc-client", _ => this.GetApp());
-            this.Get("/production/signin-oidc-silent", _ => this.SilentRenew());
+            this.Get("/production/maintenance/signin-oidc-client", _ => this.GetApp());
+            this.Get("/production/maintenance/signin-oidc-silent", _ => this.SilentRenew());
         }
 
         private object SilentRenew()
