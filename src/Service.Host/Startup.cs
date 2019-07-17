@@ -39,7 +39,10 @@ namespace Linn.Production.Service.Host
             var kmsKeyAlias = ConfigurationManager.Configuration["KMS_KEY_ALIAS"];
 
             services.TryAddSingleton<IAmazonS3>(new AmazonS3Client(new AmazonS3Config { RegionEndpoint = RegionEndpoint.EUWest1 }));
-            services.TryAddSingleton<IAmazonKeyManagementService>(new AmazonKeyManagementServiceClient(new AmazonKeyManagementServiceConfig { RegionEndpoint = RegionEndpoint.EUWest1 }));
+            services.TryAddSingleton<IAmazonKeyManagementService>(new AmazonKeyManagementServiceClient(new AmazonKeyManagementServiceConfig
+                                                                                                           {
+                                                                                                               RegionEndpoint = RegionEndpoint.EUWest1
+                                                                                                           }));
 
             services.AddDataProtection()
                 .SetApplicationName("auth-oidc")
