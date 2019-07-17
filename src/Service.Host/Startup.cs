@@ -2,16 +2,25 @@ namespace Linn.Production.Service.Host
 {
     using System.IdentityModel.Tokens.Jwt;
 
+    using Amazon;
+    using Amazon.KeyManagementService;
+    using Amazon.S3;
+
+    using AspNetCore.DataProtection.Aws.Kms;
+    using AspNetCore.DataProtection.Aws.S3;
+
     using Linn.Common.Authentication.Host.Extensions;
     using Linn.Common.Configuration;
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.OpenIdConnect;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.DataProtection;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
 
     using Nancy;
@@ -24,14 +33,25 @@ namespace Linn.Production.Service.Host
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            var keysBucketName = ConfigurationManager.Configuration["KEYS_BUCKET_NAME"];
+            var kmsKeyAlias = ConfigurationManager.Configuration["KMS_KEY_ALIAS"];
+
+            services.TryAddSingleton<IAmazonS3>(new AmazonS3Client(new AmazonS3Config { RegionEndpoint = RegionEndpoint.EUWest1 }));
+            services.TryAddSingleton<IAmazonKeyManagementService>(new AmazonKeyManagementServiceClient(new AmazonKeyManagementServiceConfig { RegionEndpoint = RegionEndpoint.EUWest1 }));
+
+            services.AddDataProtection()
+                .SetApplicationName("auth-oidc")
+                .PersistKeysToAwsS3(new S3XmlRepositoryConfig(keysBucketName))
+                .ProtectKeysWithAwsKms(new KmsXmlEncryptorConfig(kmsKeyAlias) { DiscriminatorAsContext = true });
+
 
             services.AddLinnAuthentication(
                 options =>
                     {
                         options.Authority = ConfigurationManager.Configuration["AUTHORITY_URI"];
-                        options.CallbackPath = new PathString("/production/signin-oidc");
+                        options.CallbackPath = new PathString("/production/maintenance/signin-oidc");
                     });
         }
 

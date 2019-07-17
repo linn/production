@@ -23,7 +23,7 @@ const render = Component => {
     );
 };
 
-if ((!user || user.expired) && window.location.pathname !== '/production/signin-oidc-client') {
+if ((!user || user.expired) && window.location.pathname !== '/production/maintenance/signin-oidc-client') {
     userManager.signinRedirect({
         data: { redirect: window.location.pathname + window.location.search }
     });

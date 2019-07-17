@@ -6,4 +6,13 @@
     <RootNamespace>Linn.Production.Persistence.LinnApps</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Linn.Common.Configuration" Version="2.0.0" />
+    <PackageReference Include="Linn.Common.Persistence" Version="2.0.1" />
+    <PackageReference Include="Linn.Common.Persistence.EntityFramework" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="2.19.0-beta4" />
+  </ItemGroup>
+
 </Project>
