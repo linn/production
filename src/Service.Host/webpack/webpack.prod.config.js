@@ -8,7 +8,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, '../client/build'), // string
         filename: '[name].js',
-        publicPath: '/production/build/'
+        publicPath: '/production/maintenance/build/'
     },
     module: {
         rules: [
