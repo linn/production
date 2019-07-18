@@ -8,7 +8,6 @@ import {
     PaginatedTable
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-import PaginatedTable2 from '../PaginatedTable';
 
 function AteFaultCodes({ loading, errorMessage, history, items }) {
     const [pageOptions, setPageOptions] = useState({
@@ -53,7 +52,7 @@ function AteFaultCodes({ loading, errorMessage, history, items }) {
                     {rowsToDisplay.length === 0 ? (
                         ''
                     ) : (
-                        <PaginatedTable2
+                        <PaginatedTable
                             columns={columns}
                             handleRowLinkClick={handleRowLinkClick}
                             rows={rowsToDisplay}
