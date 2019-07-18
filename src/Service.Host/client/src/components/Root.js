@@ -12,6 +12,7 @@ import App from './App';
 import Callback from '../containers/Callback';
 import userManager from '../helpers/userManager';
 import 'typeface-roboto';
+import AteFaultCodes from '../containers/ate/AteFaultCodes';
 
 const Root = ({ store }) => (
     <div>
@@ -43,6 +44,12 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/signin-oidc-client"
                                         component={Callback}
+                                    />
+
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate/fault-codes"
+                                        component={AteFaultCodes}
                                     />
                                 </Switch>
                             </div>
