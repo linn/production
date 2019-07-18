@@ -60,9 +60,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{95A1
 		scripts\test.sh = scripts\test.sh
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.LinnApps", "src\Domain.LinnApps\Domain.LinnApps.csproj", "{D5D3F7A1-04EB-4BF3-B846-F52AEAF4DBF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.LinnApps", "src\Domain.LinnApps\Domain.LinnApps.csproj", "{D5D3F7A1-04EB-4BF3-B846-F52AEAF4DBF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence.LinnApps", "src\Persistence.LinnApps\Persistence.LinnApps.csproj", "{8763A766-CDA0-41A9-B0DD-7AB099E48A34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.LinnApps", "src\Persistence.LinnApps\Persistence.LinnApps.csproj", "{8763A766-CDA0-41A9-B0DD-7AB099E48A34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
