@@ -23,7 +23,6 @@
         [SetUp]
         public void EstablishContext()
         {
-            // TODO do I want the domain service in here?
             this.OutstandingWorksOrdersReportFacade = Substitute.For<IOutstandingWorksOrdersReportFacade>();
 
             var bootstrapper = new ConfigurableBootstrapper(

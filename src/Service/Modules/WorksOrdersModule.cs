@@ -13,7 +13,6 @@
         {
             this.outstandingWorksOrdersReportFacade = outstandingWorksOrdersReportFacade;
 
-            // TODO get parameters for this
             this.Get("/production/maintenance/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
         }
 
