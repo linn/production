@@ -108,7 +108,7 @@ function AteFaultCode({
                                         ? 'This field cannot be changed'
                                         : `${faultCodeInvalid() ? 'This field is required' : ''}`
                                 }
-                                error={faultCodeInvalid()}
+                                required
                                 onChange={handleFieldChange}
                                 propertyName="faultCode"
                             />
@@ -120,7 +120,7 @@ function AteFaultCode({
                                 maxLength={50}
                                 fullWidth
                                 helperText={descriptionInvalid() ? 'This field is required' : ''}
-                                error={descriptionInvalid()}
+                                required
                                 onChange={handleFieldChange}
                                 propertyName="description"
                             />
