@@ -24,17 +24,41 @@ function AteFaultCodes({ loading, errorMessage, history, items }) {
     }));
 
     useEffect(() => {
+        const compare = (field, orderAscending) => (a, b) => {
+            if (!field) {
+                return 0;
+            }
+
+            if (a[field] < b[field]) {
+                return orderAscending ? -1 : 1;
+            }
+
+            if (a[field] > b[field]) {
+                return orderAscending ? 1 : -1;
+            }
+
+            return 0;
+        };
+
         if (!rows || rows.length === 0) {
             setRowsToDisplay([]);
         } else {
             setRowsToDisplay(
-                rows.slice(
-                    pageOptions.currentPage * pageOptions.rowsPerPage,
-                    pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
-                )
+                rows
+                    .sort(compare(pageOptions.orderBy, pageOptions.orderAscending))
+                    .slice(
+                        pageOptions.currentPage * pageOptions.rowsPerPage,
+                        pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
+                    )
             );
         }
-    }, [pageOptions, rows]);
+    }, [
+        pageOptions.currentPage,
+        pageOptions.rowsPerPage,
+        pageOptions.orderBy,
+        pageOptions.orderAscending,
+        rows
+    ]);
 
     const handleRowLinkClick = href => history.push(href);
 
@@ -51,6 +75,7 @@ function AteFaultCodes({ loading, errorMessage, history, items }) {
                     <CreateButton createUrl="/production/quality/ate/fault-codes/create" />
                     <PaginatedTable
                         columns={columns}
+                        sortable
                         handleRowLinkClick={handleRowLinkClick}
                         rows={rowsToDisplay}
                         pageOptions={pageOptions}
