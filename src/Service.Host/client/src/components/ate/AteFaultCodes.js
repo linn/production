@@ -16,12 +16,17 @@ function AteFaultCodes({ loading, errorMessage, history, items }) {
         currentPage: 0,
         rowsPerPage: 10
     });
+    const [rows, setRows] = useState([]);
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
-    const rows = items.map(el => ({
-        faultCode: el.faultCode,
-        description: el.description,
-        links: el.links
-    }));
+    useEffect(() => {
+        setRows(
+            items.map(el => ({
+                faultCode: el.faultCode,
+                description: el.description,
+                links: el.links
+            }))
+        );
+    }, [items]);
 
     useEffect(() => {
         const compare = (field, orderAscending) => (a, b) => {
