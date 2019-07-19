@@ -41,6 +41,8 @@ const Root = ({ store }) => (
 
                                 <Switch>
                                     <Route exact path="/production/maintenance" component={App} />
+                                    <Route exact path="/production/quality" component={App} />
+                                    <Route exact path="/production/quality/ate" component={App} />
 
                                     <Route
                                         exact
