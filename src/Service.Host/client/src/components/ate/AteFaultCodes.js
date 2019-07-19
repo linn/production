@@ -49,9 +49,6 @@ function AteFaultCodes({ loading, errorMessage, history, items }) {
             ) : (
                 <Fragment>
                     <CreateButton createUrl="/production/quality/ate/fault-codes/create" />
-                    {rowsToDisplay.length === 0 ? (
-                        ''
-                    ) : (
                         <PaginatedTable
                             columns={columns}
                             handleRowLinkClick={handleRowLinkClick}
@@ -60,7 +57,6 @@ function AteFaultCodes({ loading, errorMessage, history, items }) {
                             setPageOptions={setPageOptions}
                             totalItemCount={rows.length}
                         />
-                    )}
                 </Fragment>
             )}
         </Page>
