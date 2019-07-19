@@ -11,6 +11,7 @@ import history from '../history';
 import App from './App';
 import Callback from '../containers/Callback';
 import userManager from '../helpers/userManager';
+import OutstandingWorksOrdersReport from './reports/OutstandingWorksOrdersReport';
 import 'typeface-roboto';
 
 const Root = ({ store }) => (
@@ -43,6 +44,12 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/signin-oidc-client"
                                         component={Callback}
+                                    />
+
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/works-orders/outstanding-works-orders-report"
+                                        component={OutstandingWorksOrdersReport}
                                     />
                                 </Switch>
                             </div>
