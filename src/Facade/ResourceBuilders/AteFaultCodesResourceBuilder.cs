@@ -14,7 +14,9 @@
 
         public IEnumerable<AteFaultCodeResource> Build(IEnumerable<AteFaultCode> ateFaultCodes)
         {
-            return ateFaultCodes.Select(a => this.ateFaultCodeResourceBuilder.Build(a));
+            return ateFaultCodes
+                .OrderBy(b => b.FaultCode)
+                .Select(a => this.ateFaultCodeResourceBuilder.Build(a));
         }
 
         object IResourceBuilder<IEnumerable<AteFaultCode>>.Build(IEnumerable<AteFaultCode> ateFaultCodes) => this.Build(ateFaultCodes);

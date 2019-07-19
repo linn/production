@@ -13,6 +13,9 @@ import Callback from '../containers/Callback';
 import userManager from '../helpers/userManager';
 import OutstandingWorksOrdersReport from './reports/OutstandingWorksOrdersReport';
 import 'typeface-roboto';
+import AteFaultCodes from '../containers/ate/AteFaultCodes';
+import AteFaultCode from '../containers/ate/AteFaultCode';
+import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
 
 const Root = ({ store }) => (
     <div>
@@ -39,6 +42,8 @@ const Root = ({ store }) => (
 
                                 <Switch>
                                     <Route exact path="/production/maintenance" component={App} />
+                                    <Route exact path="/production/quality" component={App} />
+                                    <Route exact path="/production/quality/ate" component={App} />
 
                                     <Route
                                         exact
@@ -50,6 +55,22 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/works-orders/outstanding-works-orders-report"
                                         component={OutstandingWorksOrdersReport}
+                                    />
+
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate/fault-codes/create"
+                                        component={CreateAteFaultCode}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate/fault-codes/:id"
+                                        component={AteFaultCode}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate/fault-codes"
+                                        component={AteFaultCodes}
                                     />
                                 </Switch>
                             </div>

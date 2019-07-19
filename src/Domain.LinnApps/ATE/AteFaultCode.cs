@@ -6,7 +6,7 @@
     {
         public AteFaultCode(string faultCode)
         {
-            this.FaultCode = faultCode;
+            this.FaultCode = faultCode.ToUpper();
         }
 
         private AteFaultCode()
