@@ -49,14 +49,14 @@ function AteFaultCodes({ loading, errorMessage, history, items }) {
             ) : (
                 <Fragment>
                     <CreateButton createUrl="/production/quality/ate/fault-codes/create" />
-                        <PaginatedTable
-                            columns={columns}
-                            handleRowLinkClick={handleRowLinkClick}
-                            rows={rowsToDisplay}
-                            pageOptions={pageOptions}
-                            setPageOptions={setPageOptions}
-                            totalItemCount={rows.length}
-                        />
+                    <PaginatedTable
+                        columns={columns}
+                        handleRowLinkClick={handleRowLinkClick}
+                        rows={rowsToDisplay}
+                        pageOptions={pageOptions}
+                        setPageOptions={setPageOptions}
+                        totalItemCount={rows.length}
+                    />
                 </Fragment>
             )}
         </Page>
