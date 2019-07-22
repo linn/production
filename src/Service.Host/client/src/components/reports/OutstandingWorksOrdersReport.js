@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Grid, Button } from '@material-ui/core';
+import React from 'react';
+import { Grid } from '@material-ui/core';
 import {
     ReportTable,
     Loading,
@@ -10,13 +10,8 @@ import {
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function OutstandingWorksOrdersReport({ reportData, loading, config, errorMessage, fetchReport }) {
+function OutstandingWorksOrdersReport({ reportData, loading, config, errorMessage }) {
     const href = `${config.appRoot}/products/reports/sales-article-core-types/export`;
-
-    console.log(config);
-    console.log(reportData);
-    console.log(loading);
-    console.log(fetchReport);
 
     return (
         <Page>
@@ -30,8 +25,7 @@ function OutstandingWorksOrdersReport({ reportData, loading, config, errorMessag
                     <Title text="Outstanding Works Orders" />
                 </Grid>
                 <Grid item xs={4}>
-                    {/* <ExportButton href={href} /> */}
-                    <Button onClick={() => fetchReport()}>BLLLAAAAHHHHH</Button>
+                    <ExportButton href={href} />
                 </Grid>
                 <Grid item xs={12}>
                     {loading ? <Loading /> : ''}
