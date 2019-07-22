@@ -2,9 +2,13 @@
 {
     using Autofac;
 
+    using Domain.LinnApps;
+    using Domain.LinnApps.Repositories;
+
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
     using Linn.Production.Persistence.LinnApps;
+    using Linn.Production.Persistence.LinnApps.Repositories;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +18,10 @@
         {
             builder.RegisterType<ServiceDbContext>().AsSelf().As<DbContext>().InstancePerRequest();
             builder.RegisterType<TransactionManager>().As<ITransactionManager>();
+
+            // linnapps repositories
+            builder.RegisterType<BuildsRepository>().As<IBuildsRepository>();
+            builder.RegisterType<DepartmentsRepository>().As<IRepository<Department, string>>();
         }
     }
 }
