@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import OutstandingWorksOrdersReport from '../../components/reports/OutstandingWorksOrdersReport';
-import initialiseOnMount from '../common/initialiseOnMount';
 import actions from '../../actions/outstandingWorksOrdersReport';
 import config from '../../config';
 import * as reportTypes from '../../reportTypes';
@@ -19,8 +18,7 @@ const initialise = () => dispatch => {
 };
 
 const mapDispatchToProps = {
-    initialise,
-    fetchReport: actions.fetchReport()
+    initialise
 };
 
 export default connect(

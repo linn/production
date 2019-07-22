@@ -11,7 +11,7 @@ import history from '../history';
 import App from './App';
 import Callback from '../containers/Callback';
 import userManager from '../helpers/userManager';
-import OutstandingWorksOrdersReport from './reports/OutstandingWorksOrdersReport';
+import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
 import 'typeface-roboto';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
@@ -44,6 +44,11 @@ const Root = ({ store }) => (
                                     <Route exact path="/production/maintenance" component={App} />
                                     <Route exact path="/production/quality" component={App} />
                                     <Route exact path="/production/quality/ate" component={App} />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/works-orders"
+                                        component={App}
+                                    />
 
                                     <Route
                                         exact
