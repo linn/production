@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AssemblyName>Linn.Production.Domain.LinnApps</AssemblyName>
+    <RootNamespace>Linn.Production.Domain.LinnApps</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

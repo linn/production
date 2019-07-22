@@ -1,7 +1,6 @@
-﻿namespace Domain.LinnApps.Services
+﻿namespace Linn.Production.Domain.LinnApps.Services
 {
     using System;
-    using System.Collections.Generic;
 
     using Linn.Common.Reporting.Models;
 

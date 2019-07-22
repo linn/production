@@ -1,12 +1,12 @@
-﻿namespace Domain.LinnApps.Services
+﻿namespace Linn.Production.Domain.LinnApps.Services
 {
     using System;
     using System.Globalization;
 
-    using Domain.LinnApps.RemoteServices;
-    using Domain.LinnApps.Repositories;
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.Repositories;
 
     public class BuildsByDepartmentReportService : IBuildsByDepartmentReportService
     {

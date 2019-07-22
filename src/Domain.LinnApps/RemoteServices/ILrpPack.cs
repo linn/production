@@ -1,4 +1,4 @@
-﻿namespace Domain.LinnApps.RemoteServices
+﻿namespace Linn.Production.Domain.LinnApps.RemoteServices
 {
     public interface ILrpPack
     {

@@ -1,7 +1,9 @@
-﻿namespace Domain.LinnApps.Repositories
+﻿namespace Linn.Production.Domain.LinnApps.Repositories
 {
     using System;
     using System.Linq;
+
+    using Linn.Production.Domain.LinnApps;
 
     public interface IBuildsRepository
     {

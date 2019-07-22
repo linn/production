@@ -7,6 +7,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
+    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
 
@@ -22,6 +23,8 @@
             // linnapps repositories
             builder.RegisterType<BuildsRepository>().As<IBuildsRepository>();
             builder.RegisterType<DepartmentsRepository>().As<IRepository<Department, string>>();
+
+            builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
         }
     }
 }

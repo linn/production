@@ -3,6 +3,7 @@
     using Domain.LinnApps;
 
     using Linn.Common.Configuration;
+    using Linn.Production.Domain.LinnApps.ATE;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -16,11 +17,24 @@
 
         public DbQuery<Build> Builds { get; set; }
 
+        public DbSet<AteFaultCode> AteFaultCodes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            this.BuildAte(builder);
+
             this.BuildDepartments(builder);
             this.BuildBuilds(builder);
             base.OnModelCreating(builder);
+        }
+
+        protected void BuildAte(ModelBuilder builder)
+        {
+            builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
+            builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
+            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
+            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
+            builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,8 +1,6 @@
-﻿namespace Domain.LinnApps
+﻿namespace Linn.Production.Domain.LinnApps
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Build
     {
