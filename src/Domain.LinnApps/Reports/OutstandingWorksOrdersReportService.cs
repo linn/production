@@ -17,16 +17,7 @@
 
         public ResultsModel GetOutstandingWorksOrders()
         {
-            string outstandingWorksOrder;
             var table = this.databaseService.GetReport();
-            try
-            {
-                outstandingWorksOrder = table.Rows[0][0].ToString();
-            }
-            catch (IndexOutOfRangeException)
-            {
-                outstandingWorksOrder = string.Empty;
-            }
 
             var results =
                 new ResultsModel(
@@ -39,7 +30,8 @@
                             "Qty Outstanding"
                         })
                     {
-                        ReportTitle = new NameModel(outstandingWorksOrder)
+                        RowHeader = "Order Number",
+                        ReportTitle = new NameModel("Outstanding Works Orders")
                     };
 
             var rowId = 0;
