@@ -69,3 +69,5 @@ src/Service.Host/client/build/
 
 config.env
 local-update.sh
+
+.vscode/
