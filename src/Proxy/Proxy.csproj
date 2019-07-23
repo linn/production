@@ -8,18 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="Linn.Common.Proxy" Version="3.0.1" />
+    <PackageReference Include="Linn.Common.Configuration" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.31" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain.LinnApps\Domain.LinnApps.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Linn.Common.Configuration">
-      <HintPath>..\..\..\..\Users\AdamC\.nuget\packages\linn.common.configuration\2.0.0\lib\netstandard2.0\Linn.Common.Configuration.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
