@@ -7,6 +7,6 @@
 
     public interface IBuildsRepository
     {
-        IQueryable<BuildSummary> GetBuildsByDepartment(DateTime from, DateTime to);
+        IQueryable<BuildsSummary> GetBuildsByDepartment(DateTime from, DateTime to);
     }
 }

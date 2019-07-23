@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class BuildSummary
+    public class BuildsSummary
     {
         public DateTime WeekEnd { get; set; }
 

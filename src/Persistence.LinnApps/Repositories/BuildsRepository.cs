@@ -22,15 +22,15 @@
             this.weekPack = weekPack;
         }
 
-        public IQueryable<BuildSummary> GetBuildsByDepartment(DateTime from, DateTime to)
+        public IQueryable<BuildsSummary> GetBuildsByDepartment(DateTime from, DateTime to)
         {
            var groups = this.serviceDbContext.Builds.Where(b => b.BuildDate.Date >= from && b.BuildDate.Date <= to)
                 .GroupBy(b => new { b.DepartmentCode, Weekend = this.weekPack.GetLinnWeekEndDate(b.BuildDate.Date) });
 
-            var result = new List<BuildSummary>();
+            var result = new List<BuildsSummary>();
             foreach (var grouping in groups)
             {
-                result.Add(new BuildSummary
+                result.Add(new BuildsSummary
                                {
                                     Department = grouping.Key.DepartmentCode,
                                     Value = grouping.Sum(b => (b.LabourPrice + b.MaterialPrice)),

@@ -5,9 +5,11 @@
     using Domain.LinnApps.Services;
 
     using Linn.Production.Facade.Services;
+    using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
     using Nancy;
+    using Nancy.ModelBinding;
 
     public sealed class BuildsByDepartmentReportModule : NancyModule
     {
@@ -21,11 +23,12 @@
 
         private object GetBuildsSummary()
         {
-            var results = this.service.GetBuildsSummary(new DateTime(2006, 1, 27), new DateTime(2006, 1, 28));
-
+            var resource = this.Bind<BuildsSummaryReportOptionsRequestResource>();
+            var from = DateTime.Parse(resource.FromDate).Date;
+            var to = DateTime.Parse(resource.ToDate).Date;
+            var results = this.service.GetBuildsSummary(from, to);
             return this.Negotiate.WithModel(results).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
-
     }
-}
+}                                                                              
