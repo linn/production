@@ -1,11 +1,33 @@
-import { ReportActions } from '@linn-it/linn-form-components-library';
-import { buildsSummaryReportActionTypes as actionTypes } from './index';
-import * as reportTypes from '../reportTypes';
-import config from '../config';
+import { RSAA } from 'redux-api-middleware';
+import queryString from 'query-string';
+import * as sharedActionTypes from './index';
 
-export default new ReportActions(
-    reportTypes.buildsSummaryReport.actionType,
-    reportTypes.buildsSummaryReport.uri,
-    actionTypes,
-    config.appRoot
-);
+export default function ReportActions(actionTypeRoot, uri, actionTypes, appRoot) {
+    this.fetchReports = options => ({
+        [RSAA]: {
+            endpoint: options
+                ? `${appRoot}${uri}?${queryString.stringify(options)}`
+                : `${appRoot}${uri}`,
+            method: 'GET',
+            options: { requiresAuth: true },
+            headers: {
+                Accept: 'application/json'
+            },
+            types: [
+                {
+                    type: actionTypes[`REQUEST_${actionTypeRoot}_REPORT`],
+                    payload: { options }
+                },
+                {
+                    type: actionTypes[`RECEIVE_${actionTypeRoot}_REPORT`],
+                    payload: async (action, state, res) => ({ data: await res.json() })
+                },
+                {
+                    type: sharedActionTypes.FETCH_ERROR,
+                    payload: (action, state, res) =>
+                        res ? `Report - ${res.status} ${res.statusText}` : `Network request failed`
+                }
+            ]
+        }
+    });
+}

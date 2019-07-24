@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function BuildsByDepartmentReportOptions({ history }) {
-    const [fromDate, setFromDate] = useState(new Date());
-    const [toDate, setToDate] = useState(new Date());
+    const [fromDate, setFromDate] = useState(new Date('2006-01-27'));
+    const [toDate, setToDate] = useState(new Date('2006-01-28'));
 
     const handleClick = () =>
         history.push({
@@ -17,22 +17,16 @@ function BuildsByDepartmentReportOptions({ history }) {
         <Page>
             <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
                 <Grid item xs={12}>
-                    <Typography variant="h4" gutterBottom>
+                    <Typography variant="h6" gutterBottom>
                         Choose a date range:
                     </Typography>
                 </Grid>
                 <Grid item xs={5}>
-                    <DatePicker
-                        label="From Date"
-                        orientation="landscape"
-                        value={fromDate}
-                        onChange={setFromDate}
-                    />
+                    <DatePicker label="From Date" value={fromDate} onChange={setFromDate} />
                 </Grid>
                 <Grid item xs={5}>
                     <DatePicker
                         label="To Date"
-                        orientation="landscape"
                         value={toDate}
                         minDate={fromDate}
                         onChange={setToDate}
