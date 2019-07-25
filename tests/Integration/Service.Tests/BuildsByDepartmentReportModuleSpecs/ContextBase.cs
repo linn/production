@@ -36,6 +36,7 @@
 
                         with.ResponseProcessor<ResultsModelsJsonResponseProcessor>();
 
+
                         with.RequestStartup(
                             (container, pipelines, context) =>
                                 {
