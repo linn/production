@@ -8,6 +8,8 @@
     using Domain.LinnApps.RemoteServices;
     using Domain.LinnApps.Repositories;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class BuildsRepository : IBuildsRepository
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -22,24 +24,33 @@
             this.weekPack = weekPack;
         }
 
-        public IQueryable<BuildsSummary> GetBuildsByDepartment(DateTime from, DateTime to)
+        public IEnumerable<BuildsSummary> GetBuildsByDepartment(DateTime from, DateTime to, bool monthly = false)
         {
-           var groups = this.serviceDbContext.Builds.Where(b => b.BuildDate.Date >= from && b.BuildDate.Date <= to)
-                .GroupBy(b => new { b.DepartmentCode, Weekend = this.weekPack.GetLinnWeekEndDate(b.BuildDate.Date) });
-
-            var result = new List<BuildsSummary>();
-            foreach (var grouping in groups)
-            {
-                result.Add(new BuildsSummary
-                               {
-                                    Department = grouping.Key.DepartmentCode,
-                                    Value = grouping.Sum(b => (b.LabourPrice + b.MaterialPrice)),
-                                    DaysToBuild = grouping.Sum(b => this.lrpPack.GetDaysToBuildPart(b.PartNumber, b.Quantity)),
-                                    WeekEnd = grouping.Key.Weekend
-                               });
-            }
-
-            return result.AsQueryable();
+            return this.serviceDbContext.Builds
+                .Where(b => b.BuildDate > from && b.BuildDate < to).ToList()
+                .GroupBy(
+                    b => new
+                             {
+                                 b.DepartmentCode,
+                                 Weekend = monthly
+                                               ? new DateTime(
+                                                   b.BuildDate.Year,
+                                                   b.BuildDate.Month,
+                                                   DateTime.DaysInMonth(b.BuildDate.Year, b.BuildDate.Month))
+                                               : this.weekPack.GetLinnWeekEndDate(b.BuildDate)
+                             }).Select(
+                    x => new BuildsSummary
+                             {
+                                 Department = x.Key.DepartmentCode,
+                                 Value = x.Sum(b => (b.LabourPrice + b.MaterialPrice)),
+                                 DaysToBuild = x.Sum(b => this.lrpPack.GetDaysToBuildPart(b.PartNumber, b.Quantity)),
+                                 WeekEnd = monthly
+                                               ? new DateTime(
+                                                   x.Key.Weekend.Year,
+                                                   x.Key.Weekend.Month,
+                                                   DateTime.DaysInMonth(x.Key.Weekend.Year, x.Key.Weekend.Month))
+                                               : x.Key.Weekend
+                             }).OrderBy(s => s.WeekEnd);
         }
     }
 }

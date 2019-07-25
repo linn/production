@@ -5,5 +5,7 @@
         public string FromDate { get; set; }
 
         public string ToDate { get; set; }
+
+        public bool Monthly { get; set; }
     }
 }

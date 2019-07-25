@@ -13,23 +13,15 @@
     {
         private readonly IBuildsByDepartmentReportService buildsByDepartmentReportService;
 
-        private readonly ILrpPack lrpPack;
-
-        private readonly ILinnWeekPack weekPack;
-
         public BuildsByDepartmentReportFacadeService(
-            IBuildsByDepartmentReportService buildsByDepartmentReportService,
-            ILrpPack lrpPack,
-            ILinnWeekPack weekPack )
+            IBuildsByDepartmentReportService buildsByDepartmentReportService)
         {
             this.buildsByDepartmentReportService = buildsByDepartmentReportService;
-            this.lrpPack = lrpPack;
-            this.weekPack = weekPack;
         }
 
-        public IResult<ResultsModel> GetBuildsSummary(DateTime fromWeek, DateTime toWeek)
+        public IResult<IEnumerable<ResultsModel>> GetBuildsSummaryReports(DateTime fromWeek, DateTime toWeek, bool monthly = false)
         {
-            return new SuccessResult<ResultsModel>(this.buildsByDepartmentReportService.GetBuildsSummaryReport(fromWeek, toWeek));
+            return new SuccessResult<IEnumerable<ResultsModel>>(this.buildsByDepartmentReportService.GetBuildsSummaryReports(fromWeek, toWeek, monthly));
         }
     }
 }

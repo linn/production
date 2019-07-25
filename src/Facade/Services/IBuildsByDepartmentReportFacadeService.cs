@@ -10,6 +10,6 @@
 
     public interface IBuildsByDepartmentReportFacadeService
     {
-        IResult<ResultsModel> GetBuildsSummary(DateTime fromWeek, DateTime toWeek);
+        IResult<IEnumerable<ResultsModel>> GetBuildsSummaryReports(DateTime fromWeek, DateTime toWeek, bool monthly = false);
     }
 }
