@@ -8,8 +8,7 @@
 
         public string DepartmentCode { get; set; }
 
-        public string PartNumber { get; set; } // should this be a SalesArticle from Linn.Products.Domain.Linnapps.Products?
-
+        public string PartNumber { get; set; } 
         public decimal MaterialPrice { get; set; }
 
         public decimal LabourPrice { get; set; }
