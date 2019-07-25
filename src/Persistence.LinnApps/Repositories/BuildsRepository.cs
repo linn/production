@@ -27,7 +27,7 @@
         public IEnumerable<BuildsSummary> GetBuildsByDepartment(DateTime from, DateTime to, bool monthly = false)
         {
             return this.serviceDbContext.Builds
-                .Where(b => b.BuildDate > from && b.BuildDate < to).ToList()
+                .Where(b => b.BuildDate > from && b.BuildDate < to)
                 .GroupBy(
                     b => new
                              {
