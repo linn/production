@@ -2,6 +2,10 @@
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
 
+export const outstandingWorksOrdersReportActionTypes = makeReportActionTypes(
+    reportTypes.outstandingWorksOrdersReport.actionType
+);
+
 export const FETCH_ERROR = 'FETCH_ERROR';
 
 export const ateFaultCodeActionTypes = makeActionTypes(itemTypes.ateFaultCode.actionType);

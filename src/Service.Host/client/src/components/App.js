@@ -14,6 +14,16 @@ function App() {
                     <Typography color="primary">ATE Fault Codes</Typography>
                 </ListItem>
             </List>
+            <Typography variant="h6">Reports</Typography>
+            <List>
+                <ListItem
+                    component={Link}
+                    to="/production/maintenance/works-orders/outstanding-works-orders-report"
+                    button
+                >
+                    <Typography color="primary">Outstanding Works Orders Report</Typography>
+                </ListItem>
+            </List>
         </Page>
     );
 }

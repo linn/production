@@ -5,3 +5,9 @@ export const buildsSummaryReport = new ItemType(
     'BUILDS_SUMMARY',
     '/production/reports/builds-summary'
 );
+
+export const outstandingWorksOrdersReport = new ItemType(
+    'outstandingWorksOrdersReport',
+    'OUTSTANDING_WORKS_ORDERS',
+    '/production/maintenance/works-orders/outstanding-works-orders-report'
+);
