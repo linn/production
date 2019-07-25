@@ -4,13 +4,13 @@
 
     using Autofac;
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.ATE;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
-    using Linn.Production.Domain.LinnApps.Services;
-    using Linn.Production.Domain.LinnApps.Reports;
-    using Linn.Production.Facade.Services;
-    using Linn.Production.Proxy;
-    using Linn.Production.Resources;
+    using Domain.LinnApps.ATE;
+    using Domain.LinnApps.RemoteServices;
+    using Domain.LinnApps.Services;
+    using Domain.LinnApps.Reports;
+    using Facade.Services;
+    using Proxy;
+    using Resources;
 
     using Oracle.ManagedDataAccess.Client;
 
