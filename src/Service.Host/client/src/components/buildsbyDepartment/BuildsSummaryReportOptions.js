@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function BuildsByDepartmentReportOptions({ history }) {
-    const [fromDate, setFromDate] = useState(new Date('2006-01-27'));
-    const [toDate, setToDate] = useState(new Date('2006-01-28'));
+    const [fromDate, setFromDate] = useState(new Date());
+    const [toDate, setToDate] = useState(new Date());
     const [monthly, setMonthly] = useState(false);
 
     const handleClick = () =>
