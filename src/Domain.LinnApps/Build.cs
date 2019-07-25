@@ -9,6 +9,7 @@
         public string DepartmentCode { get; set; }
 
         public string PartNumber { get; set; } 
+
         public decimal MaterialPrice { get; set; }
 
         public decimal LabourPrice { get; set; }
