@@ -35,7 +35,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // Oracle proxies
-            builder.RegisterType<DatabaseProxy>().As<IDatabaseService>();
+            builder.RegisterType<DatabaseService>().As<IDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandindWorksOrdersReportDatabaseService>();
 
