@@ -16,6 +16,8 @@ import 'typeface-roboto';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
+import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsSummaryReportOptions';
+import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
 
 const Root = ({ store }) => (
     <div>
@@ -76,6 +78,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/quality/ate/fault-codes"
                                         component={AteFaultCodes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/builds-summary/options"
+                                        component={BuildsSummaryReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/builds-summary"
+                                        component={BuildsSummaryReport}
                                     />
                                 </Switch>
                             </div>

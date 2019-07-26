@@ -21,6 +21,9 @@ function App() {
                     to="/production/maintenance/works-orders/outstanding-works-orders-report"
                     button
                 >
+                    <Typography color="primary">Builds Sumary Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/builds-summary/options" button>
                     <Typography color="primary">Outstanding Works Orders Report</Typography>
                 </ListItem>
             </List>
