@@ -23,7 +23,7 @@
         public void SetUp()
         {
             var results = new List<ResultsModel> { new ResultsModel { ReportTitle = new NameModel("t") } };
-            this.BuildsByDepartmentReportFacadeService.GetBuildsSummaryReports(new DateTime(), new DateTime(), false)
+            this.BuildsByDepartmentReportFacadeService.GetBuildsSummaryReports(DateTime.UnixEpoch, DateTime.UnixEpoch, false)
                 .Returns(
                     new SuccessResult<IEnumerable<ResultsModel>>(results)
                         {
@@ -35,8 +35,8 @@
                 with =>
                     {
                         with.Header("Accept", "application/json");
-                        with.Query("fromDate", new DateTime().ToString("d"));
-                        with.Query("toDate", new DateTime().ToString("d"));
+                        with.Query("fromDate", DateTime.UnixEpoch.ToString("d"));
+                        with.Query("toDate", DateTime.UnixEpoch.ToString("d"));
                         with.Query("monthly", "false");
                     }).Result;
         }
@@ -51,8 +51,8 @@
         public void ShouldCallService()
         {
             this.BuildsByDepartmentReportFacadeService.Received().GetBuildsSummaryReports(
-                Arg.Any<DateTime>(),
-                Arg.Any<DateTime>(),
+                DateTime.UnixEpoch,
+                DateTime.UnixEpoch,
                 false);
         }
 
