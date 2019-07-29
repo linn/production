@@ -25,6 +25,7 @@ namespace Linn.Production.Persistence.LinnApps.Repositories
             throw new NotImplementedException();
         }
 
+        // TODO get the id here
         public void Add(SerialNumberIssue entity)
         {
             this.serviceDbContext.SerialNumberIssues.Add(entity);

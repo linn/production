@@ -1,12 +1,11 @@
-﻿using Linn.Production.Domain.LinnApps.SerialNumberIssue;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using Autofac;
 
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.SerialNumberIssue;
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
 

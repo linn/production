@@ -5,12 +5,13 @@
     using Autofac;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.ATE;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
-    using Linn.Production.Domain.LinnApps.Reports;
-    using Linn.Production.Facade.Services;
-    using Linn.Production.Proxy;
-    using Linn.Production.Resources;
+    using Domain.LinnApps.ATE;
+    using Domain.LinnApps.RemoteServices;
+    using Domain.LinnApps.Reports;
+    using Domain.LinnApps.SerialNumberIssue;
+    using Facade.Services;
+    using Proxy;
+    using Resources;
 
     using Oracle.ManagedDataAccess.Client;
 
@@ -23,6 +24,8 @@
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<SerialNumberIssueService>()
+                .As<IFacadeService<SerialNumberIssue, int, SerialNumberIssueResource, SerialNumberIssueResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // Oracle proxies
