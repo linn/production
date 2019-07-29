@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Linn.Common.Facade;
-using Linn.Production.Domain;
-using Linn.Production.Resources;
-
-namespace Linn.Production.Facade.ResourceBuilders
+﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Linn.Common.Facade;
+    using Linn.Production.Domain;
+    using Linn.Production.Resources;
+
     public class ProductionMeasuresListResourceBuilder : IResourceBuilder<IEnumerable<ProductionMeasures>>
     {
         private readonly ProductionMeasuresResourceBuilder productionMeasuresResourceBuilder = new ProductionMeasuresResourceBuilder();

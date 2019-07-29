@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FluentAssertions;
-using Linn.Common.Facade;
-using Linn.Production.Domain;
-using Linn.Production.Domain.LinnApps.ATE;
-using Linn.Production.Domain.LinnApps.Measures;
-using Linn.Production.Resources;
-using Nancy;
-using Nancy.Testing;
-using NSubstitute;
-using NUnit.Framework;
-
-namespace Linn.Production.Service.Tests.ProductionMeasuresModuleSpecs
+﻿namespace Linn.Production.Service.Tests.ProductionMeasuresModuleSpecs
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using FluentAssertions;
+    using Linn.Common.Facade;
+    using Linn.Production.Domain;
+    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Resources;
+    using Nancy;
+    using Nancy.Testing;
+    using NSubstitute;
+    using NUnit.Framework;
+
     public class WhenGettingProductionMeasures : ContextBase
     {
         [SetUp]

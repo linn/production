@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Linn.Common.Facade;
-using Linn.Common.Persistence;
-using Linn.Production.Domain;
-
-namespace Linn.Production.Facade.Services
+﻿namespace Linn.Production.Facade.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using Linn.Common.Facade;
+    using Linn.Common.Persistence;
+    using Linn.Production.Domain;
+
     public class ProductionMeasuresReportFacade : IProductionMeasuresReportFacade
     {
         private readonly IRepository<ProductionMeasures, string> productionMeasuresRepository;

@@ -1,8 +1,8 @@
-﻿using Linn.Production.Facade.Services;
-using Nancy;
-
-namespace Linn.Production.Service.Modules
+﻿namespace Linn.Production.Service.Modules
 {
+    using Linn.Production.Facade.Services;
+    using Nancy;
+
     public sealed class ProductionMeasuresModule : NancyModule
     {
         private readonly IProductionMeasuresReportFacade productionMeasuresReportFacade;

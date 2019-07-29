@@ -1,10 +1,10 @@
-﻿using System;
-using Linn.Common.Facade;
-using Linn.Production.Domain;
-using Linn.Production.Resources;
-
-namespace Linn.Production.Facade.ResourceBuilders
+﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
+    using Linn.Common.Facade;
+    using Linn.Production.Domain;
+    using Linn.Production.Resources;
+
     public class ProductionMeasuresResourceBuilder : IResourceBuilder<ProductionMeasures>
     {
         public ProductionMeasuresResource Build(ProductionMeasures productionMeasures)
