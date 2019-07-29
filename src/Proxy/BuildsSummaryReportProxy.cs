@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using Linn.Production.Domain.LinnApps;
 using Linn.Production.Domain.LinnApps.Reports;
@@ -34,8 +35,8 @@ namespace Linn.Production.Proxy
                         round(sum(lrp_pack.days_to_build_part(a.part_number,a.QUANTITY )), 1) mins 
                         from v_builds a,linn_departments d
                         where a.cr_dept = d.DEPARTMENT_CODE
-                        and bu_date between trunc(to_date('{from.ToShortDateString()}', 'dd/mm/yyyy')) 
-                        and trunc(to_date('{to.ToShortDateString()}', 'dd/mm/yyyy')) + 1
+                        and bu_date between trunc(to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) 
+                        and trunc(to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) + 1
                         group by a.cr_dept,
                         d.description,
                         {groupByClause}
