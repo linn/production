@@ -6,7 +6,7 @@ namespace Linn.Production.Domain.LinnApps.Services
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Linn.Common.Reporting.Models;
+    using Common.Reporting.Models;
 
 
     public class BuildsSummaryReportService : IBuildsSummaryReportService
@@ -21,7 +21,7 @@ namespace Linn.Production.Domain.LinnApps.Services
 
         public IEnumerable<ResultsModel> GetBuildsSummaryReports(DateTime from, DateTime to, bool monthly = false)
         {
-            var summaries = this.databaseService.GetBuildsSummaries(from, to, monthly).ToList(); // enumerate here
+            var summaries = this.databaseService.GetBuildsSummaries(from, to, monthly).ToList();
             
             var weeks = summaries.GroupBy(s => s.WeekEnd.Date);
             var reports = new List<ResultsModel>();
@@ -43,7 +43,7 @@ namespace Linn.Production.Domain.LinnApps.Services
                     results.SetColumnType(2, GridDisplayType.Value);
 
                     var row = results.AddRow(summary.Department);
-                    results.SetGridTextValue(row.RowIndex, 0, summary.Department); // is this a code??
+                    results.SetGridTextValue(row.RowIndex, 0, summary.Department);
                     results.SetGridValue(row.RowIndex, 1, summary.Value, decimalPlaces: 1);
                     results.SetGridValue(row.RowIndex, 2, summary.DaysToBuild, decimalPlaces: 1);
                 }
@@ -74,7 +74,7 @@ namespace Linn.Production.Domain.LinnApps.Services
                 results.SetColumnType(2, GridDisplayType.Value);
 
                 var row = results.AddRow(department.Key);
-                results.SetGridTextValue(row.RowIndex, 0, department.Key); // what is key??
+                results.SetGridTextValue(row.RowIndex, 0, department.Key);
                 results.SetGridValue(row.RowIndex, 1, department.TotalValue, decimalPlaces: 1);
                 results.SetGridValue(row.RowIndex, 2, department.TotalDays, decimalPlaces: 1);
             }
