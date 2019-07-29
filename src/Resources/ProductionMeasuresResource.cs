@@ -1,10 +1,14 @@
-﻿namespace Linn.Production.Domain
+﻿namespace Linn.Production.Resources
 {
     using System;
 
-    public class ProductionMeasures
+    public class ProductionMeasuresResource
     {
-        public Cit Cit { get; set; }
+        public string CitCode { get; set; }
+
+        public string CitName { get; set; }
+
+        public string CitBuildGroup { get; set; }
 
         public int? Ones { get; set; }
 
@@ -32,7 +36,7 @@
 
         public int? NumberOfBackOrders { get; set; }
 
-        public int? NumberOfPartsOrders { get; set; }
+        public int? NumberOfPartsBackOrdered { get; set; }
 
         public DateTime? OldestBackOrder { get; set; }
 
@@ -48,7 +52,7 @@
 
         public double? DaysRequiredCanDo3 { get; set; }
 
-        public string PboJobId { get; set; }
+        public int? PboJobId { get; set; }
 
         public double? UsageValue { get; set; }
 
@@ -62,7 +66,7 @@
 
         public int? ShortProc { get; set; }
 
-        public int? ShortAny{ get; set; }
+        public int? ShortAny { get; set; }
 
         public double? DeliveryPerformance1s { get; set; }
 

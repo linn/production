@@ -1,4 +1,6 @@
-﻿namespace Linn.Production.IoC
+﻿using Linn.Production.Domain;
+
+namespace Linn.Production.IoC
 {
     using Autofac;
 
@@ -25,6 +27,8 @@
             builder.RegisterType<DepartmentsRepository>().As<IRepository<Department, string>>();
 
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
+
+            builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
         }
     }
 }
