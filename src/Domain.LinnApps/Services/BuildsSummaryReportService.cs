@@ -1,30 +1,28 @@
-﻿namespace Linn.Production.Domain.LinnApps.Services
+﻿using Linn.Production.Domain.LinnApps.Reports;
+
+namespace Linn.Production.Domain.LinnApps.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-
-    using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
-    using Linn.Production.Domain.LinnApps.Repositories;
 
-    public class BuildsByDepartmentReportService : IBuildsByDepartmentReportService
+
+    public class BuildsSummaryReportService : IBuildsSummaryReportService
     {
-        private readonly IBuildsRepository buildsRepository;
+        private readonly IBuildsSummaryReportDatabaseService databaseService;
 
-        private readonly IRepository<Department, string> departmentRepository;
-
-        public BuildsByDepartmentReportService(IBuildsRepository buildsRepository, ILrpPack lrpPack, IRepository<Department, string> departmentRepository)
+        public BuildsSummaryReportService(
+            IBuildsSummaryReportDatabaseService databaseService)
         {
-            this.buildsRepository = buildsRepository;
-            this.departmentRepository = departmentRepository;
+            this.databaseService = databaseService;
         }
 
         public IEnumerable<ResultsModel> GetBuildsSummaryReports(DateTime from, DateTime to, bool monthly = false)
         {
-            var summaries = this.buildsRepository.GetBuildsByDepartment(from, to, monthly).ToList();
+            var summaries = this.databaseService.GetBuildsSummaries(from, to, monthly).ToList(); // enumerate here
+            
             var weeks = summaries.GroupBy(s => s.WeekEnd.Date);
             var reports = new List<ResultsModel>();
             foreach (var week in weeks)
@@ -45,7 +43,7 @@
                     results.SetColumnType(2, GridDisplayType.Value);
 
                     var row = results.AddRow(summary.Department);
-                    results.SetGridTextValue(row.RowIndex, 0, this.departmentRepository.FindById(summary.Department).Description);
+                    results.SetGridTextValue(row.RowIndex, 0, summary.Department); // is this a code??
                     results.SetGridValue(row.RowIndex, 1, summary.Value, decimalPlaces: 1);
                     results.SetGridValue(row.RowIndex, 2, summary.DaysToBuild, decimalPlaces: 1);
                 }
@@ -76,7 +74,7 @@
                 results.SetColumnType(2, GridDisplayType.Value);
 
                 var row = results.AddRow(department.Key);
-                results.SetGridTextValue(row.RowIndex, 0, this.departmentRepository.FindById(department.Key).Description);
+                results.SetGridTextValue(row.RowIndex, 0, department.Key); // what is key??
                 results.SetGridValue(row.RowIndex, 1, department.TotalValue, decimalPlaces: 1);
                 results.SetGridValue(row.RowIndex, 2, department.TotalDays, decimalPlaces: 1);
             }

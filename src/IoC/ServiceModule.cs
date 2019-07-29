@@ -19,7 +19,7 @@
         protected override void Load(ContainerBuilder builder)
         {
             // domain services
-            builder.RegisterType<BuildsByDepartmentReportService>().As<IBuildsByDepartmentReportService>();
+            builder.RegisterType<BuildsSummaryReportService>().As<IBuildsSummaryReportService>();
 
             // facade services
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
@@ -38,6 +38,7 @@
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandindWorksOrdersReportDatabaseService>();
+            builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
 
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter("connectionString", ConnectionStrings.ManagedConnectionString());
             builder.RegisterType<OracleCommand>().As<IDbCommand>();
