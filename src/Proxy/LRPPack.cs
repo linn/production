@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Proxy
 {
-    using System;
     using System.Data;
 
     using Domain.LinnApps.RemoteServices;

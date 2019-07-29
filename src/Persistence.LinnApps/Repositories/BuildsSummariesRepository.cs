@@ -8,23 +8,21 @@
     using Domain.LinnApps.RemoteServices;
     using Domain.LinnApps.Repositories;
 
-    using Microsoft.EntityFrameworkCore;
-
-    public class BuildsRepository : IBuildsRepository
+    public class BuildsSummariesRepository : IBuildsSummariesRepository
     {
         private readonly ServiceDbContext serviceDbContext;
         private readonly ILrpPack lrpPack;
 
         private readonly ILinnWeekPack weekPack;
 
-        public BuildsRepository(ServiceDbContext serviceDbContext, ILrpPack lrpPack, ILinnWeekPack weekPack)
+        public BuildsSummariesRepository(ServiceDbContext serviceDbContext, ILrpPack lrpPack, ILinnWeekPack weekPack)
         {
             this.serviceDbContext = serviceDbContext;
             this.lrpPack = lrpPack;
             this.weekPack = weekPack;
         }
 
-        public IEnumerable<BuildsSummary> GetBuildsByDepartment(DateTime from, DateTime to, bool monthly = false)
+        public IEnumerable<BuildsSummary> GetBuildsSummaries(DateTime from, DateTime to, bool monthly = false)
         {
             return this.serviceDbContext.Builds
                 .Where(b => b.BuildDate > from && b.BuildDate < to)

@@ -21,7 +21,7 @@
             builder.RegisterType<TransactionManager>().As<ITransactionManager>();
 
             // linnapps repositories
-            builder.RegisterType<BuildsRepository>().As<IBuildsRepository>();
+            builder.RegisterType<BuildsSummariesRepository>().As<IBuildsSummariesRepository>();
             builder.RegisterType<DepartmentsRepository>().As<IRepository<Department, string>>();
 
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();

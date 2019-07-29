@@ -11,17 +11,17 @@
 
     public class BuildsByDepartmentReportFacadeService : IBuildsByDepartmentReportFacadeService
     {
-        private readonly IBuildsByDepartmentReportService buildsByDepartmentReportService;
+        private readonly IBuildsSummaryReportService buildsSummaryReportService;
 
         public BuildsByDepartmentReportFacadeService(
-            IBuildsByDepartmentReportService buildsByDepartmentReportService)
+            IBuildsSummaryReportService buildsSummaryReportService)
         {
-            this.buildsByDepartmentReportService = buildsByDepartmentReportService;
+            this.buildsSummaryReportService = buildsSummaryReportService;
         }
 
         public IResult<IEnumerable<ResultsModel>> GetBuildsSummaryReports(DateTime fromWeek, DateTime toWeek, bool monthly = false)
         {
-            return new SuccessResult<IEnumerable<ResultsModel>>(this.buildsByDepartmentReportService.GetBuildsSummaryReports(fromWeek, toWeek, monthly));
+            return new SuccessResult<IEnumerable<ResultsModel>>(this.buildsSummaryReportService.GetBuildsSummaryReports(fromWeek, toWeek, monthly));
         }
     }
 }
