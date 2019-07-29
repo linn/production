@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
 
-    public interface IBuildsRepository
+    public interface IBuildsSummariesRepository
     {
-        IEnumerable<BuildsSummary> GetBuildsByDepartment(DateTime from, DateTime to, bool monthly = false);
+        IEnumerable<BuildsSummary> GetBuildsSummaries(DateTime from, DateTime to, bool monthly = false);
     }
 }
