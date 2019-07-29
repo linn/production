@@ -1,4 +1,6 @@
-﻿namespace Linn.Production.IoC
+﻿using Linn.Production.Domain.LinnApps.SerialNumberIssue;
+
+namespace Linn.Production.IoC
 {
     using Autofac;
 
@@ -19,6 +21,7 @@
 
             // linnapps repositories
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
+            builder.RegisterType<SerialNumberIssueRepository>().As<IRepository<SerialNumberIssue, int>>();
         }
     }
 }
