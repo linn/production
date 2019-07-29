@@ -24,6 +24,7 @@
                 Fives = 5,
                 StockValue = 200
             };
+
             var productionMeasures2 = new ProductionMeasures
             {
                 Cit = new Cit() { Code = "F", Name = "Final Assembly", BuildGroup = "PP", SortOrder = 1 },
@@ -35,10 +36,8 @@
                 StockValue = 100
             };
 
-
             this.ProductionMeasuresReportFacade.GetProductionMeasuresForCits()
                 .Returns(new SuccessResult<IEnumerable<ProductionMeasures>>(new List<ProductionMeasures> { productionMeasures, productionMeasures2 }));
-
 
             this.Response = this.Browser.Get(
                 "/production/reports/measures/cits",
