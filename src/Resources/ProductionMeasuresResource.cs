@@ -38,7 +38,7 @@
 
         public int? NumberOfPartsBackOrdered { get; set; }
 
-        public DateTime? OldestBackOrder { get; set; }
+        public string OldestBackOrder { get; set; }
 
         public string PtlJobref { get; set; }
 
