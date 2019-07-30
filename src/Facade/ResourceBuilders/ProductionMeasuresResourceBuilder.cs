@@ -27,7 +27,7 @@
                 StockValue = productionMeasures.StockValue,
                 BackOrderValue = productionMeasures.BackOrderValue,
                 PboJobId = productionMeasures.PboJobId,
-                OldestBackOrder = productionMeasures.OldestBackOrder,
+                OldestBackOrder = productionMeasures.OldestBackOrder?.ToString("o"),
                 ShortProc = productionMeasures.ShortProc,
                 DaysRequired3 = productionMeasures.DaysRequired3,
                 DaysRequiredCanDo12 = productionMeasures.DaysRequiredCanDo12,
