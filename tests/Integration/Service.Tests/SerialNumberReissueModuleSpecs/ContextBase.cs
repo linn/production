@@ -1,39 +1,35 @@
-﻿namespace Linn.Production.Service.Tests.SerialNumberIssueModuleSpecs
+﻿namespace Linn.Production.Service.Tests.SerialNumberReissueModuleSpecs
 {
     using System.Collections.Generic;
     using System.Security.Claims;
-
     using Linn.Common.Facade;
-    using Domain.LinnApps.SerialNumberIssue;
-    using Facade.ResourceBuilders;
-    using Resources;
-    using Modules;
-    using ResponseProcessors;
-
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Resources;
+    using Linn.Production.Service.Modules;
+    using Linn.Production.Service.ResponseProcessors;
     using Nancy.Testing;
-
     using NSubstitute;
-
     using NUnit.Framework;
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IFacadeService<SerialNumberIssue, int, SerialNumberIssueResource, SerialNumberIssueResource>
-            SerialNumberIssueService { get; private set; }
+        protected IFacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource>
+            SerialNumberReissueService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.SerialNumberIssueService = Substitute
-                .For<IFacadeService<SerialNumberIssue, int, SerialNumberIssueResource, SerialNumberIssueResource>>();
+            this.SerialNumberReissueService = Substitute
+                .For<IFacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
-                    with.Dependency(this.SerialNumberIssueService);
-                    with.Dependency<IResourceBuilder<SerialNumberIssue>>(new SerialNumberIssueResourceBuilder());
-                    with.Module<SerialNumberIssueModule>();
-                    with.ResponseProcessor<SerialNumberIssueResponseProcessor>();
+                    with.Dependency(this.SerialNumberReissueService);
+                    with.Dependency<IResourceBuilder<SerialNumberReissue>>(new SerialNumberReissueResourceBuilder());
+                    with.Module<SerialNumberReissueModule>();
+                    with.ResponseProcessor<SerialNumberReissueResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

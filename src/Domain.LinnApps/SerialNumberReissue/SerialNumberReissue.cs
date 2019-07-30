@@ -1,8 +1,8 @@
-﻿namespace Linn.Production.Domain.LinnApps.SerialNumberIssue
+﻿namespace Linn.Production.Domain.LinnApps.SerialNumberReissue
 {
-    public class SerialNumberIssue
+    public class SerialNumberReissue
     {
-        public SerialNumberIssue(string sernosGroup, string articleNumber)
+        public SerialNumberReissue(string sernosGroup, string articleNumber)
         {
             this.SernosGroup = sernosGroup;
             this.ArticleNumber = articleNumber;

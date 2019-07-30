@@ -1,22 +1,22 @@
-﻿using FluentAssertions;
-using Linn.Common.Facade;
-using Linn.Production.Domain.LinnApps.SerialNumberIssue;
-using Linn.Production.Resources;
-using NSubstitute;
-using NUnit.Framework;
-
-namespace Linn.Production.Facade.Tests.SerialNumberIssueServiceSpecs
+﻿namespace Linn.Production.Facade.Tests.SerialNumberReissueServiceSpecs
 {
-    public class WhenAddingSerialNumberIssue : ContextBase
-    {
-        private SerialNumberIssueResource resource;
+    using FluentAssertions;
+    using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Resources;
+    using NSubstitute;
+    using NUnit.Framework;
 
-        private IResult<SerialNumberIssue> result;
+    public class WhenAddingSerialNumberReissue : ContextBase
+    {
+        private SerialNumberReissueResource resource;
+
+        private IResult<SerialNumberReissue> result;
 
         [SetUp]
         public void SetUp()
         {
-            this.resource = new SerialNumberIssueResource
+            this.resource = new SerialNumberReissueResource
                                 {
                                     SernosGroup = "group",
                                     ArticleNumber = "art",
@@ -29,16 +29,16 @@ namespace Linn.Production.Facade.Tests.SerialNumberIssueServiceSpecs
         }
 
         [Test]
-        public void ShouldAddSerialNumberIssue()
+        public void ShouldAddSerialNumberReissue()
         {
-            this.SerialNumberIssueRepository.Received().Add(Arg.Any<SerialNumberIssue>());
+            this.SerialNumberReissueRepository.Received().Add(Arg.Any<SerialNumberReissue>());
         }
 
         [Test]
         public void ShouldReturnCreated()
         {
-            this.result.Should().BeOfType<CreatedResult<SerialNumberIssue>>();
-            var dataResult = ((CreatedResult<SerialNumberIssue>) this.result).Data;
+            this.result.Should().BeOfType<CreatedResult<SerialNumberReissue>>();
+            var dataResult = ((CreatedResult<SerialNumberReissue>) this.result).Data;
             dataResult.SernosGroup.Should().Be("group");
             dataResult.ArticleNumber.Should().Be("art");
             dataResult.SerialNumber.Should().Be(123);

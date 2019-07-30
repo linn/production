@@ -1,4 +1,6 @@
-﻿namespace Linn.Production.IoC
+﻿using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+
+namespace Linn.Production.IoC
 {
     using System.Data;
 
@@ -8,7 +10,6 @@
     using Domain.LinnApps.ATE;
     using Domain.LinnApps.RemoteServices;
     using Domain.LinnApps.Reports;
-    using Domain.LinnApps.SerialNumberIssue;
     using Facade.Services;
     using Proxy;
     using Resources;
@@ -24,8 +25,8 @@
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
-            builder.RegisterType<SerialNumberIssueService>()
-                .As<IFacadeService<SerialNumberIssue, int, SerialNumberIssueResource, SerialNumberIssueResource>>();
+            builder.RegisterType<SerialNumberReissueService>()
+                .As<IFacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // Oracle proxies

@@ -1,11 +1,12 @@
-﻿namespace Linn.Production.IoC
+﻿using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+
+namespace Linn.Production.IoC
 {
     using Autofac;
 
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
     using Linn.Production.Domain.LinnApps.ATE;
-    using Linn.Production.Domain.LinnApps.SerialNumberIssue;
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
 
@@ -20,7 +21,7 @@
 
             // linnapps repositories
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
-            builder.RegisterType<SerialNumberIssueRepository>().As<IRepository<SerialNumberIssue, int>>();
+            builder.RegisterType<SerialNumberReissueRepository>().As<IRepository<SerialNumberReissue, int>>();
         }
     }
 }

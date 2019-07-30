@@ -1,4 +1,4 @@
-﻿using Linn.Production.Domain.LinnApps.SerialNumberIssue;
+﻿using Linn.Production.Domain.LinnApps.SerialNumberReissue;
 
 namespace Linn.Production.Persistence.LinnApps
 {
@@ -15,7 +15,8 @@ namespace Linn.Production.Persistence.LinnApps
 
         public DbSet<AteFaultCode> AteFaultCodes { get; set; }
 
-        public DbSet<SerialNumberIssue> SerialNumberIssues { get; set; }
+        // TODO remove this - using pack
+        public DbSet<SerialNumberReissue> SerialNumberReissues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -48,18 +49,18 @@ namespace Linn.Production.Persistence.LinnApps
             builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
-        private void BuildSerialNumberIssues(ModelBuilder builder)
+        private void BuildSerialNumberReissues(ModelBuilder builder)
         {
-            builder.Entity<SerialNumberIssue>().ToTable("SERNOS_RENUM");
-            builder.Entity<SerialNumberIssue>().HasKey(s => s.Id);
-            builder.Entity<SerialNumberIssue>().Property(s => s.Id).HasColumnName("SNRENUM_ID");
-            builder.Entity<SerialNumberIssue>().Property(s => s.SernosGroup).HasColumnName("SERNOS_GROUP").HasMaxLength(10); ;
-            builder.Entity<SerialNumberIssue>().Property(s => s.SerialNumber).HasColumnName("SERNOS_NUMBER");
-            builder.Entity<SerialNumberIssue>().Property(s => s.NewSerialNumber).HasColumnName("NEW_SERNOS_NUMBER");
-            builder.Entity<SerialNumberIssue>().Property(s => s.Comments).HasColumnName("COMMENTS").HasMaxLength(200);
-            builder.Entity<SerialNumberIssue>().Property(s => s.CreatedBy).HasColumnName("CREATED_BY");
-            builder.Entity<SerialNumberIssue>().Property(s => s.ArticleNumber).HasColumnName("ARTICLE_NUMBER").HasMaxLength(14);
-            builder.Entity<SerialNumberIssue>().Property(s => s.NewArticleNumber).HasColumnName("NEW_ARTICLE_NUMBER").HasMaxLength(14);
+            builder.Entity<SerialNumberReissue>().ToTable("SERNOS_RENUM");
+            builder.Entity<SerialNumberReissue>().HasKey(s => s.Id);
+            builder.Entity<SerialNumberReissue>().Property(s => s.Id).HasColumnName("SNRENUM_ID");
+            builder.Entity<SerialNumberReissue>().Property(s => s.SernosGroup).HasColumnName("SERNOS_GROUP").HasMaxLength(10); ;
+            builder.Entity<SerialNumberReissue>().Property(s => s.SerialNumber).HasColumnName("SERNOS_NUMBER");
+            builder.Entity<SerialNumberReissue>().Property(s => s.NewSerialNumber).HasColumnName("NEW_SERNOS_NUMBER");
+            builder.Entity<SerialNumberReissue>().Property(s => s.Comments).HasColumnName("COMMENTS").HasMaxLength(200);
+            builder.Entity<SerialNumberReissue>().Property(s => s.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Entity<SerialNumberReissue>().Property(s => s.ArticleNumber).HasColumnName("ARTICLE_NUMBER").HasMaxLength(14);
+            builder.Entity<SerialNumberReissue>().Property(s => s.NewArticleNumber).HasColumnName("NEW_ARTICLE_NUMBER").HasMaxLength(14);
         }
     }
 }

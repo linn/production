@@ -2,7 +2,7 @@
 
 namespace Linn.Production.Resources
 {
-    public class SerialNumberIssueResource : HypermediaResource
+    public class SerialNumberReissueResource : HypermediaResource
     {
         public int Id { get; set; }
 
