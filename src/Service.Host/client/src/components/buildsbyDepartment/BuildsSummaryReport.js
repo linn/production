@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import {
     ReportTable,
@@ -34,10 +34,14 @@ const useStyles = makeStyles(theme => ({
 
 function Report({ reportData, loading }) {
     const getSteps = () =>
-        reportData ? reportData.map(r => r.reportResults[0].title.displayString) : [''];
+        reportData ? reportData.map(r => r.reportResults[0].title.displayString) : [];
 
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(false);
+
+    useEffect(() => {
+        setActiveStep(reportData ? reportData.length - 1 : false);
+    }, [reportData]);
 
     const handleStep = step => () => {
         if (activeStep === step) {
@@ -51,7 +55,7 @@ function Report({ reportData, loading }) {
         <Fragment>
             {reportData && reportData[index].reportResults[0].results.length > 0 ? (
                 <ReportTable
-                    showRowTitles={false}
+                    showRowTitles={index === reportData.length - 1}
                     reportData={reportData[index].reportResults[0]}
                     showTotals
                     title={
@@ -75,7 +79,15 @@ function Report({ reportData, loading }) {
                     <Step key={label} onClick={handleStep(index)}>
                         <StepLabel>{label}</StepLabel>
                         <StepContent>
-                            <Typography>{getStepContent(index)}</Typography>
+                            {getStepContent(index)}
+                            {reportData && index === reportData.length ? (
+                                <Typography variant="h6">
+                                    Click a department code to view build details for that
+                                    department
+                                </Typography>
+                            ) : (
+                                <Fragment />
+                            )}
                         </StepContent>
                     </Step>
                 ))}

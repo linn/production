@@ -11,5 +11,11 @@
     public interface IBuildsByDepartmentReportFacadeService
     {
         IResult<IEnumerable<ResultsModel>> GetBuildsSummaryReports(DateTime fromWeek, DateTime toWeek, bool monthly = false);
+
+        IResult<ResultsModel> GetBuildsDetailReport(DateTime fromWeek, DateTime toWeek, string department, 
+            string quantityOrValue, bool monthly = false);
+
+        IResult<IEnumerable<IEnumerable<string>>> GetBuildsDetailExport(DateTime from, DateTime to,
+            string department, string quantityOrValue, bool monthly);
     }
 }
