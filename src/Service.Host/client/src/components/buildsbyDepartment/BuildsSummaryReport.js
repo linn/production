@@ -80,8 +80,8 @@ function Report({ reportData, loading }) {
                         <StepLabel>{label}</StepLabel>
                         <StepContent>
                             {getStepContent(index)}
-                            {reportData && index === reportData.length ? (
-                                <Typography variant="h6">
+                            {reportData && index === reportData.length - 1 ? (
+                                <Typography variant="subtitle">
                                     Click a department code to view build details for that
                                     department
                                 </Typography>

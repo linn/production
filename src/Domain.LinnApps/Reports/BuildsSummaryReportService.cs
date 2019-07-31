@@ -80,7 +80,7 @@ namespace Linn.Production.Domain.LinnApps.Services
             }
             results.RowDrillDownTemplates.Add(
                 new DrillDownModel(
-                    "department", $"/production/reports/builds-detail?fromDate={@from.ToShortDateString()}&toDate={@to.ToShortDateString()}" +
+                    "department", $"/production/reports/builds-detail?fromDate={@from.Date}&toDate={@to.Date}" +
                                   "&department={rowId}" + $"&quantityOrValue=Value&monthly={monthly}"));
             return results;
         }
