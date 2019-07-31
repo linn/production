@@ -19,12 +19,16 @@
 
         public DbSet<AteFaultCode> AteFaultCodes { get; set; }
 
+        public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
 
             this.BuildDepartments(builder);
             this.BuildBuilds(builder);
+            this.BuildManufacturingSkills(builder);
             base.OnModelCreating(builder);
         }
 
@@ -74,6 +78,16 @@
             e.Property(b => b.MaterialPrice).HasColumnName("MATERIAL_PRICE");
             e.Property(b => b.Quantity).HasColumnName("QUANTITY");
             e.Property(b => b.DepartmentCode).HasColumnName("CR_DEPT");
+        }
+
+        private void BuildManufacturingSkills(ModelBuilder builder)
+        {
+            var e = builder.Entity<ManufacturingSkill>();
+            e.ToTable("MFG_SKILLS");
+            e.HasKey(s => s.SkillCode);
+            e.Property(s => s.SkillCode).HasColumnName("MFG_SKILL_CODE").HasMaxLength(10);
+            e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(s => s.HourlyRate).HasColumnName("HOURLY_RATE");
         }
     }
 }

@@ -23,7 +23,7 @@
             // linnapps repositories
             builder.RegisterType<BuildsSummariesRepository>().As<IBuildsSummariesRepository>();
             builder.RegisterType<DepartmentsRepository>().As<IRepository<Department, string>>();
-
+            builder.RegisterType<ManufacturingSkillsRepository>().As<IRepository<ManufacturingSkill, string>>();
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
         }
     }

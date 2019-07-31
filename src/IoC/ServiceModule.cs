@@ -1,4 +1,6 @@
-﻿namespace Linn.Production.IoC
+﻿using Linn.Production.Domain.LinnApps;
+
+namespace Linn.Production.IoC
 {
     using System.Data;
 
@@ -32,6 +34,9 @@
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<ManufacturingSkillService>()
+                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>
+                >();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // Oracle proxies
