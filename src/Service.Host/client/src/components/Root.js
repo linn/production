@@ -18,6 +18,7 @@ import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
 import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsSummaryReportOptions';
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
+import ProductionMeasures from '../containers/reports/measures/ProductionMeasures';
 
 const Root = ({ store }) => (
     <div>
@@ -88,6 +89,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/builds-summary"
                                         component={BuildsSummaryReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/measures"
+                                        component={ProductionMeasures}
                                     />
                                 </Switch>
                             </div>

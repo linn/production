@@ -14,3 +14,7 @@ export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );
+
+export const productionMeasuresCitsActionTypes = makeReportActionTypes(
+    reportTypes.productionMeasuresCitsReport.actionType
+);
