@@ -4,8 +4,6 @@
 
     public interface ISernosRenumPack
     {
-        bool ReissueSerialNumber(SerialNumberReissueResource resource);
-
-        string GetSernosRenumMessage();
+        string ReissueSerialNumber(SerialNumberReissueResource resource);
     }
 }

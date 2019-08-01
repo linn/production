@@ -3,10 +3,11 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
 
-    using Domain.LinnApps.Exceptions;
     using Domain.LinnApps.RemoteServices;
     using Domain.LinnApps.SerialNumberReissue;
     using Resources;
+
+    using System.Linq;
 
     public class SerialNumberReissueService : ISerialNumberReissueService
     {
@@ -22,9 +23,18 @@
 
         public IResult<SerialNumberReissue> ReissueSerialNumber(SerialNumberReissueResource resource)
         {
-            if (!sernosRenumPack.ReissueSerialNumber(resource))
+            var employee = resource.Links.FirstOrDefault(a => a.Rel == "created-by");
+
+            if (employee == null)
             {
-                throw new InvalidSerialNumberReissueException(this.sernosRenumPack.GetSernosRenumMessage());
+                return new BadRequestResult<SerialNumberReissue>("Must supply an employee number when Reissuing Serial Numbers");
+            }
+
+            var sernosRenumMessage = sernosRenumPack.ReissueSerialNumber(resource);
+
+            if (sernosRenumMessage != "SUCCESS")
+            {
+                return new BadRequestResult<SerialNumberReissue>(sernosRenumMessage);
             }
 
             var sernos = this.serialNumberReissueRepository.FindBy(

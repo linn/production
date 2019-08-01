@@ -15,7 +15,6 @@ namespace Linn.Production.Persistence.LinnApps
 
         public DbSet<AteFaultCode> AteFaultCodes { get; set; }
 
-        // TODO remove this - using pack
         public DbSet<SerialNumberReissue> SerialNumberReissues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

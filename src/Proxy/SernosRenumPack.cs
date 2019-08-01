@@ -7,34 +7,9 @@ namespace Linn.Production.Proxy
 {
     using Domain.LinnApps.RemoteServices;
 
-    // TODO need a method to get the message like in the sernos pack
-
     public class SernosRenumPack : ISernosRenumPack
     {
-        public string GetSernosRenumMessage()
-        {
-            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
-
-            var cmd = new OracleCommand("SERNOS_RENUM_PACK.SERNOS_RENUM_MESSAGE", connection)
-            {
-                CommandType = CommandType.StoredProcedure
-            };
-
-            var result = new OracleParameter(null, OracleDbType.Varchar2)
-            {
-                Direction = ParameterDirection.ReturnValue,
-                Size = 2000
-            };
-            cmd.Parameters.Add(result);
-
-            connection.Open();
-            cmd.ExecuteNonQuery();
-            connection.Close();
-
-            return result.Value.ToString();
-        }
-
-        public bool ReissueSerialNumber(SerialNumberReissueResource resource)
+        public string ReissueSerialNumber(SerialNumberReissueResource resource)
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
 
@@ -172,9 +147,7 @@ namespace Linn.Production.Proxy
             cmd.ExecuteNonQuery();
             connection.Close();
             
-            var plop = result.Value;
-
-            return result.Value.ToString() == "SUCCESS";
+            return result.Value.ToString();
 //
 ////            var success = int.Parse(result.Value.ToString());
 //

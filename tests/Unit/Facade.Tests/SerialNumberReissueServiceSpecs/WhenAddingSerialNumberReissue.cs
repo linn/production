@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using Linn.Common.Resources;
 
 namespace Linn.Production.Facade.Tests.SerialNumberReissueServiceSpecs
 {
@@ -26,7 +28,11 @@ namespace Linn.Production.Facade.Tests.SerialNumberReissueServiceSpecs
                                     SernosGroup = "group",
                                     ArticleNumber = "art",
                                     SerialNumber = 123,
-                                    NewArticleNumber = "newart"
+                                    NewArticleNumber = "newart",
+                                    Links = new List<LinkResource>
+                                                {
+                                                    new LinkResource("created-by", "/employees/33067")
+                                                }.ToArray()
                                 };
 
             this.serialNumberReissue = new SerialNumberReissue("group", "art")
@@ -37,7 +43,7 @@ namespace Linn.Production.Facade.Tests.SerialNumberReissueServiceSpecs
                 SerialNumber = 123
             };
 
-            this.SernosRenumPack.ReissueSerialNumber(Arg.Any<SerialNumberReissueResource>()).Returns(true);
+            this.SernosRenumPack.ReissueSerialNumber(Arg.Any<SerialNumberReissueResource>()).Returns("SUCCESS");
 
             this.SerialNumberResissueRepository.FindBy(Arg.Any<Expression<Func<SerialNumberReissue, bool>>>())
                 .Returns(this.serialNumberReissue);
