@@ -38,7 +38,7 @@ namespace Linn.Production.Persistence.LinnApps.Repositories
 
         public SerialNumberReissue FindBy(Expression<Func<SerialNumberReissue, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.SerialNumberReissues.Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<SerialNumberReissue> FilterBy(Expression<Func<SerialNumberReissue, bool>> expression)

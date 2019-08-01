@@ -18,7 +18,7 @@
         {
             this.requestResource = new SerialNumberReissueResource { ArticleNumber = "art", SernosGroup = "group" } ;
             var serialNumberReissue = new SerialNumberReissue("group", "art");
-            this.SerialNumberReissueService.Add(Arg.Any<SerialNumberReissueResource>())
+            this.SerialNumberReissueService.ReissueSerialNumber(Arg.Any<SerialNumberReissueResource>())
                 .Returns(new CreatedResult<SerialNumberReissue>(serialNumberReissue));
 
             this.Response = this.Browser.Post(
@@ -40,7 +40,7 @@
         public void SholdCallService()
         {
             this.SerialNumberReissueService.Received()
-                .Add(Arg.Is<SerialNumberReissueResource>(r => r.SernosGroup == this.requestResource.SernosGroup));
+                .ReissueSerialNumber(Arg.Is<SerialNumberReissueResource>(r => r.SernosGroup == this.requestResource.SernosGroup));
         }
 
         [Test]

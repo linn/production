@@ -4,13 +4,13 @@ namespace Linn.Production.Resources
 {
     public class SerialNumberReissueResource : HypermediaResource
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string SernosGroup { get; set; }
 
         public int SerialNumber { get; set; }
 
-        public int NewSerialNumber { get; set; }
+        public int? NewSerialNumber { get; set; }
 
         public string Comments { get; set; }
 

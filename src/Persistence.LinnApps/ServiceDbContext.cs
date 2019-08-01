@@ -21,6 +21,7 @@ namespace Linn.Production.Persistence.LinnApps
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
+            this.BuildSerialNumberReissues(builder);
             base.OnModelCreating(builder);
         }
 

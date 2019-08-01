@@ -1,6 +1,6 @@
 ﻿namespace Linn.Production.Proxy
 {
-    using Linn.Common.Configuration;
+    using Common.Configuration;
 
     public static class ConnectionStrings
     {

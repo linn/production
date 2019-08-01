@@ -1,8 +1,6 @@
-﻿using Linn.Production.Domain.LinnApps.SerialNumberReissue;
-
-namespace Linn.Production.Service.Modules
+﻿namespace Linn.Production.Service.Modules
 {
-    using Linn.Common.Facade;
+    using Facade.Services;
     using Resources;
     using Models;
 
@@ -11,10 +9,9 @@ namespace Linn.Production.Service.Modules
 
     public sealed class SerialNumberReissueModule : NancyModule
     {
-        private readonly IFacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource>
-            serialNumberReissueService;
+        private readonly ISerialNumberReissueService serialNumberReissueService;
 
-        public SerialNumberReissueModule(IFacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource> serialNumberReissueService)
+        public SerialNumberReissueModule(ISerialNumberReissueService serialNumberReissueService)
         {
             this.serialNumberReissueService = serialNumberReissueService;
             this.Post("/production/maintenance/serial-number-reissue", _ => this.AddSerialNumberReissue());
@@ -22,9 +19,10 @@ namespace Linn.Production.Service.Modules
 
         private object AddSerialNumberReissue()
         {
+            // TODO get user id from here
             var resource = this.Bind<SerialNumberReissueResource>();
 
-            var result = this.serialNumberReissueService.Add(resource);
+            var result = this.serialNumberReissueService.ReissueSerialNumber(resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

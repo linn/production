@@ -1,4 +1,6 @@
-﻿namespace Linn.Production.Service.Tests.SerialNumberReissueModuleSpecs
+﻿using Linn.Production.Facade.Services;
+
+namespace Linn.Production.Service.Tests.SerialNumberReissueModuleSpecs
 {
     using System.Collections.Generic;
     using System.Security.Claims;
@@ -14,14 +16,12 @@
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IFacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource>
-            SerialNumberReissueService { get; private set; }
+        protected ISerialNumberReissueService SerialNumberReissueService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.SerialNumberReissueService = Substitute
-                .For<IFacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource>>();
+            this.SerialNumberReissueService = Substitute.For<ISerialNumberReissueService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>

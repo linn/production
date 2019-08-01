@@ -1,39 +1,48 @@
-﻿using System;
-using System.Linq.Expressions;
-using Linn.Common.Facade;
-using Linn.Common.Persistence;
-using Linn.Production.Domain.LinnApps.SerialNumberReissue;
-using Linn.Production.Resources;
-
-namespace Linn.Production.Facade.Services
+﻿namespace Linn.Production.Facade.Services
 {
-    public class SerialNumberReissueService : FacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource>
+    using Linn.Common.Facade;
+    using Linn.Common.Persistence;
+
+    using Domain.LinnApps.Exceptions;
+    using Domain.LinnApps.RemoteServices;
+    using Domain.LinnApps.SerialNumberReissue;
+    using Resources;
+
+    public class SerialNumberReissueService : ISerialNumberReissueService
     {
-        public SerialNumberReissueService(IRepository<SerialNumberReissue, int> repository, ITransactionManager transactionManager) 
-            : base(repository, transactionManager)
+        private readonly ISernosRenumPack sernosRenumPack;
+
+        private readonly IRepository<SerialNumberReissue, int> serialNumberReissueRepository;
+
+        public SerialNumberReissueService(ISernosRenumPack sernosRenumPack, IRepository<SerialNumberReissue, int> serialNumberReissueRepository)
         {
+            this.sernosRenumPack = sernosRenumPack;
+            this.serialNumberReissueRepository = serialNumberReissueRepository;
         }
 
-        protected override SerialNumberReissue CreateFromResource(SerialNumberReissueResource resource)
+        public IResult<SerialNumberReissue> ReissueSerialNumber(SerialNumberReissueResource resource)
         {
-            return new SerialNumberReissue(resource.SernosGroup, resource.ArticleNumber)
+            if (!sernosRenumPack.ReissueSerialNumber(resource))
             {
-                Comments = resource.Comments,
-                CreatedBy = resource.CreatedBy,
-                NewArticleNumber = resource.NewArticleNumber,
-                NewSerialNumber = resource.NewSerialNumber,
-                SerialNumber = resource.SerialNumber,
-            };
-        }
+                throw new InvalidSerialNumberReissueException(this.sernosRenumPack.GetSernosRenumMessage());
+            }
 
-        protected override void UpdateFromResource(SerialNumberReissue entity, SerialNumberReissueResource updateResource)
-        {
-            throw new NotImplementedException();
-        }
+            var sernos = this.serialNumberReissueRepository.FindBy(
+                r => r.SerialNumber == resource.SerialNumber 
+                     && r.ArticleNumber == resource.ArticleNumber 
+                     && r.SernosGroup == resource.SernosGroup);
 
-        protected override Expression<Func<SerialNumberReissue, bool>> SearchExpression(string searchTerm)
-        {
-            throw new NotImplementedException();
+            var serialNumberReissue =  new SerialNumberReissue(sernos.SernosGroup, sernos.ArticleNumber)
+                                            {
+                                                SerialNumber = sernos.SerialNumber,
+                                                NewSerialNumber = sernos.NewSerialNumber,
+                                                NewArticleNumber = sernos.NewArticleNumber,
+                                                CreatedBy = sernos.CreatedBy,
+                                                Id = sernos.Id,
+                                                Comments = sernos.Comments
+                                            };
+
+            return new CreatedResult<SerialNumberReissue>(serialNumberReissue);
         }
     }
 }

@@ -22,17 +22,17 @@ namespace Linn.Production.IoC
         {
             // domain services
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
+            builder.RegisterType<SerialNumberReissueService>().As<ISerialNumberReissueService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
-            builder.RegisterType<SerialNumberReissueService>()
-                .As<IFacadeService<SerialNumberReissue, int, SerialNumberReissueResource, SerialNumberReissueResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // Oracle proxies
             builder.RegisterType<DatabaseProxy>().As<IDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandindWorksOrdersReportDatabaseService>();
+            builder.RegisterType<SernosRenumPack>().As<ISernosRenumPack>();
 
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter("connectionString", ConnectionStrings.ManagedConnectionString());
             builder.RegisterType<OracleCommand>().As<IDbCommand>();
