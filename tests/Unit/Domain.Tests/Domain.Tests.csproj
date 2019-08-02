@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Domain.LinnApps\Domain.LinnApps.csproj" />
     <ProjectReference Include="..\..\..\src\Domain\Domain.csproj" />
   </ItemGroup>
 

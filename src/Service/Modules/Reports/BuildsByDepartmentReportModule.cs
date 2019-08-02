@@ -2,8 +2,6 @@
 {
     using System;
 
-    using Domain.LinnApps.Services;
-
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
