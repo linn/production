@@ -1,4 +1,6 @@
 ﻿using Linn.Production.Domain.LinnApps;
+﻿using Linn.Production.Domain;
+
 
 namespace Linn.Production.IoC
 {
@@ -7,8 +9,6 @@ namespace Linn.Production.IoC
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using System.Collections.Generic;
-
-    using Autofac;
 
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Facade.ResourceBuilders;
@@ -24,6 +24,8 @@ namespace Linn.Production.IoC
             builder.RegisterType<AteFaultCodesResourceBuilder>().As<IResourceBuilder<IEnumerable<AteFaultCode>>>();
             builder.RegisterType<DepartmentResourceBuilder>().As<IResourceBuilder<Department>>();
             builder.RegisterType<DepartmentsResourceBuilder>().As<IResourceBuilder<IEnumerable<Department>>>();
+            builder.RegisterType<ProductionMeasuresResourceBuilder>().As<IResourceBuilder<ProductionMeasures>>();
+            builder.RegisterType<ProductionMeasuresListResourceBuilder>().As<IResourceBuilder<IEnumerable<ProductionMeasures>>>();
         }
     }
 }
