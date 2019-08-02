@@ -48,7 +48,8 @@ namespace Linn.Production.Proxy
             {
                 results.Add(new BuildsSummary
                 {
-                    Department = tableRow[0].ToString(),
+                    DepartmentDescription = tableRow[0].ToString(),
+                    DepartmentCode = tableRow[1].ToString(),
                     WeekEnd = ((DateTime)tableRow[2]).Date,
                     Value = ((decimal)tableRow[3]),
                     DaysToBuild = ((decimal)tableRow[4]),

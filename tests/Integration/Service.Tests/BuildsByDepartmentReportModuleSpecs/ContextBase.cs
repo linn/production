@@ -35,7 +35,8 @@
                         with.Module<BuildsByDepartmentReportModule>();
 
                         with.ResponseProcessor<ResultsModelsJsonResponseProcessor>();
-
+                        with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
+                        with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>

@@ -1,4 +1,6 @@
-﻿namespace Linn.Production.IoC
+﻿using Linn.Production.Domain.LinnApps;
+
+namespace Linn.Production.IoC
 {
     using System.Data;
 
@@ -20,9 +22,7 @@
         {
             // domain services
             builder.RegisterType<BuildsSummaryReportService>().As<IBuildsSummaryReportService>();
-
-            // facade services
-            builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
+            builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
 
             // Oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -32,7 +32,9 @@
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<DepartmentService>().As<IFacadeService<Department, string, DepartmentResource, DepartmentResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
+            builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
 
             // Oracle proxies
@@ -40,7 +42,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandindWorksOrdersReportDatabaseService>();
             builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
-
+            builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter("connectionString", ConnectionStrings.ManagedConnectionString());
             builder.RegisterType<OracleCommand>().As<IDbCommand>();
             builder.RegisterType<OracleDataAdapter>().As<IDataAdapter>();

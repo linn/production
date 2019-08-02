@@ -36,25 +36,25 @@ namespace Linn.Production.Domain.LinnApps.Services
                                           week.Key.ToString("d", CultureInfo.CurrentCulture))
                                   };
 
-                foreach (var summary in week.OrderBy(w => w.Department))
+                foreach (var summary in week.OrderBy(w => w.DepartmentDescription))
                 {
                     results.SetColumnType(0, GridDisplayType.TextValue);
                     results.SetColumnType(1, GridDisplayType.Value);
                     results.SetColumnType(2, GridDisplayType.Value);
 
-                    var row = results.AddRow(summary.Department);
-                    results.SetGridTextValue(row.RowIndex, 0, summary.Department);
+                    var row = results.AddRow(summary.DepartmentCode);
+                    results.SetGridTextValue(row.RowIndex, 0, summary.DepartmentDescription);
                     results.SetGridValue(row.RowIndex, 1, summary.Value, decimalPlaces: 1);
                     results.SetGridValue(row.RowIndex, 2, summary.DaysToBuild, decimalPlaces: 1);
                 }
-
+                
                 reports.Add(results);
             }
-            reports.Add(this.GetDepartmentTotals(summaries));
+            reports.Add(this.GetDepartmentTotals(summaries, from, to, monthly));
             return reports;
         }
 
-        private ResultsModel GetDepartmentTotals(IEnumerable<BuildsSummary> summaries)
+        private ResultsModel GetDepartmentTotals(IEnumerable<BuildsSummary> summaries, DateTime from, DateTime to, bool monthly)
         {
             var results = new ResultsModel(new[]
                                               {
@@ -64,7 +64,7 @@ namespace Linn.Production.Domain.LinnApps.Services
                                  ReportTitle = new NameModel("Totals")
                              };
 
-            var departments = summaries.GroupBy(a => a.Department).Select(
+            var departments = summaries.GroupBy(a => new { Code = a.DepartmentCode, Description =  a.DepartmentDescription}).Select(
                 a => new { a.Key, TotalValue = a.Sum(b => b.Value), TotalDays = a.Sum(b => b.DaysToBuild) });
 
             foreach (var department in departments)
@@ -73,11 +73,15 @@ namespace Linn.Production.Domain.LinnApps.Services
                 results.SetColumnType(1, GridDisplayType.Value);
                 results.SetColumnType(2, GridDisplayType.Value);
 
-                var row = results.AddRow(department.Key);
-                results.SetGridTextValue(row.RowIndex, 0, department.Key);
+                var row = results.AddRow(department.Key.Code);
+                results.SetGridTextValue(row.RowIndex, 0, department.Key.Description);
                 results.SetGridValue(row.RowIndex, 1, department.TotalValue, decimalPlaces: 1);
                 results.SetGridValue(row.RowIndex, 2, department.TotalDays, decimalPlaces: 1);
             }
+            results.RowDrillDownTemplates.Add(
+                new DrillDownModel(
+                    "department", $"/production/reports/builds-detail?fromDate={@from.Date}&toDate={@to.Date}" +
+                                  "&department={rowId}" + $"&quantityOrValue=Value&monthly={monthly}"));
             return results;
         }
     }
