@@ -5,6 +5,7 @@ import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
 import buildsSummaryReport from './buildsSummaryReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
+import productionMeasures from './productionMeasures';
 
 const rootReducer = combineReducers({
     oidc,
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     ateFaultCodes,
     buildsSummaryReport,
     outstandingWorksOrdersReport,
+    productionMeasures,
     ...sharedLibraryReducers
 });
 
