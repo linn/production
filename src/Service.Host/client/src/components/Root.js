@@ -18,6 +18,7 @@ import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
 import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsSummaryReportOptions';
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
+import SerialNumberReissue from '../containers/serialNumberReissue/SerialNumberReissue';
 
 const Root = ({ store }) => (
     <div>
@@ -79,6 +80,13 @@ const Root = ({ store }) => (
                                         path="/production/quality/ate/fault-codes"
                                         component={AteFaultCodes}
                                     />
+
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/serial-number-reissue"
+                                        component={SerialNumberReissue}
+                                    />
+
                                     <Route
                                         exact
                                         path="/production/reports/builds-summary/options"
