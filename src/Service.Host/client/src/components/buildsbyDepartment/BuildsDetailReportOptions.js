@@ -5,7 +5,7 @@ import { DatePicker } from '@material-ui/pickers';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function BuildsDetailReportOptions({ history, departments, departmentsLoading, errorMessage }) {
+function BuildsDetailReportOptions({ history, departments }) {
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
     const [monthly, setMonthly] = useState(false);
@@ -44,7 +44,7 @@ function BuildsDetailReportOptions({ history, departments, departmentsLoading, e
                     <Dropdown
                         label="Department"
                         propertyName="department"
-                        items={[...departments.map(d => d.description)]}
+                        items={departments.map(d => d.description)}
                         fullWidth
                         value={department ? department.description : ''}
                         onChange={handleDepartmentChange}
@@ -97,10 +97,16 @@ function BuildsDetailReportOptions({ history, departments, departmentsLoading, e
 
 BuildsDetailReportOptions.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    departments: PropTypes.arrayOf(
+        PropTypes.shape({ departmentCode: PropTypes.string, description: PropTypes.string })
+    ),
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
         toDate: PropTypes.string
     }).isRequired
+};
+BuildsDetailReportOptions.defaultProps = {
+    departments: []
 };
 
 export default BuildsDetailReportOptions;

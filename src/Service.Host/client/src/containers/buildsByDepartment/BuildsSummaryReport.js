@@ -10,12 +10,6 @@ const reportSelectors = new ReportSelectors('buildsSummaryReport');
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);
-    if (options.fromDate === 'undefined') {
-        options.fromDate = new Date().toISOString();
-    }
-    if (options.toDate === 'undefined') {
-        options.toDate = new Date().toISOString();
-    }
     return options;
 };
 
