@@ -1,14 +1,12 @@
-﻿using Linn.Production.Domain.LinnApps.SerialNumberReissue;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using System.Data;
 
     using Autofac;
-
     using Linn.Common.Facade;
     using Domain.LinnApps.ATE;
     using Domain.LinnApps.RemoteServices;
+    using Domain.LinnApps.Services;
     using Domain.LinnApps.Reports;
     using Facade.Services;
     using Proxy;
@@ -21,18 +19,29 @@ namespace Linn.Production.IoC
         protected override void Load(ContainerBuilder builder)
         {
             // domain services
+            builder.RegisterType<BuildsSummaryReportService>().As<IBuildsSummaryReportService>();
+
+            // facade services
+            builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
+
+            // Oracle proxies
+            builder.RegisterType<DatabaseService>().As<IDatabaseService>();
+            builder.RegisterType<LrpPack>().As<ILrpPack>();
+            builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<SerialNumberReissueService>().As<ISerialNumberReissueService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
+            builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
 
             // Oracle proxies
-            builder.RegisterType<DatabaseProxy>().As<IDatabaseService>();
+            builder.RegisterType<DatabaseService>().As<IDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandindWorksOrdersReportDatabaseService>();
             builder.RegisterType<SernosRenumPack>().As<ISernosRenumPack>();
+            builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
 
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter("connectionString", ConnectionStrings.ManagedConnectionString());
             builder.RegisterType<OracleCommand>().As<IDbCommand>();

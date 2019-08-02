@@ -46,6 +46,7 @@ obj/
 .vs/
 *.user
 *.csproj.DotSettings
+.vscode
 
 project.lock.json
 config.json
