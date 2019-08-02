@@ -17,3 +17,11 @@ export const serialNumberReissue = new ItemType(
     'SERIAL_NUMBER_REISSUE',
     '/production/maintenance/serial-number-reissue'
 );
+
+// Proxy items
+
+export const serialNumbers = new ItemType(
+    'serialNumbers',
+    'SERIAL_NUMBERS',
+    '/products/maint/serial-numbers'
+);

@@ -5,6 +5,7 @@ import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
 import buildsSummaryReport from './buildsSummaryReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
+import serialNumbers from './serialNumbers';
 import serialNumberReissue from './serialNumberReissue';
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
     ateFaultCodes,
     buildsSummaryReport,
     outstandingWorksOrdersReport,
+    serialNumbers,
     serialNumberReissue,
     ...sharedLibraryReducers
 });
