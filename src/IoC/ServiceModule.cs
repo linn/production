@@ -23,20 +23,14 @@
 
             // facade services
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
-
-            // Oracle proxies
-            builder.RegisterType<DatabaseService>().As<IDatabaseService>();
-            builder.RegisterType<LrpPack>().As<ILrpPack>();
-            builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
-            builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
-            builder.RegisterType<SerialNumberReissueService>().As<ISerialNumberReissueService>();
-
-            // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
 
-            // Oracle proxies
+            builder.RegisterType<LrpPack>().As<ILrpPack>();
+            builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
+            builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
+            builder.RegisterType<SerialNumberReissueService>().As<ISerialNumberReissueService>();
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandindWorksOrdersReportDatabaseService>();
