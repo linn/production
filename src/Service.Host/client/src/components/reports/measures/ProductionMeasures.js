@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Loading, Title, ExportButton } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
-import ProductionMeasuresCits from './ProductionMeasuresCits';
+import ProductionMeasuresCits from './ProductionMeasuresCitTable';
 import Page from '../../../containers/Page';
 
 function ProductionMeasures({ loading, citsData, config }) {
