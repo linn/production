@@ -7,5 +7,12 @@
         public string Description { get; set; }
 
         public int? HourlyRate { get; set; }
+
+        public ManufacturingSkill(string skillCode, string description, int? hourlyRate)
+        {
+            this.SkillCode = skillCode;
+            this.Description = description;
+            this.HourlyRate = hourlyRate;
+        }
     }
 }

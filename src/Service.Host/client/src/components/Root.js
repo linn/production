@@ -18,6 +18,9 @@ import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
 import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsSummaryReportOptions';
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
+import ManufacturingSkills from '../containers/manufacturingSkills/ManufacturingSkills';
+import ManufacturingSkill from '../containers/manufacturingSkills/ManufacturingSkill';
+import CreateManufacturingSkill from '../containers/manufacturingSkills/CreateManufacturingSkill';
 
 const Root = ({ store }) => (
     <div>
@@ -88,6 +91,21 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/builds-summary"
                                         component={BuildsSummaryReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/manufacturing-skills"
+                                        component={ManufacturingSkills}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/manufacturing-skills/create"
+                                        component={CreateManufacturingSkill}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/manufacturing-skills/:id"
+                                        component={ManufacturingSkill}
                                     />
                                 </Switch>
                             </div>

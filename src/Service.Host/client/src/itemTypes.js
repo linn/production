@@ -10,3 +10,13 @@ export const ateFaultCodes = new ItemType(
     'ATE_FAULT_CODES',
     '/production/quality/ate/fault-codes'
 );
+export const manufacturingSkill = new ItemType(
+    'manufacturingSkill',
+    'MANUFACTURING_SKILL',
+    '/production/manufacturing-skills'
+);
+export const manufacturingSkills = new ItemType(
+    'manufacturingSkills',
+    'MANUFACTURING_SKILLS',
+    '/production/manufacturing-skills'
+);

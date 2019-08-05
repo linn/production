@@ -17,7 +17,7 @@ namespace Linn.Production.Persistence.LinnApps.Repositories
 
         public ManufacturingSkill FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.ManufacturingSkills.Where(f => f.SkillCode == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<ManufacturingSkill> FindAll()
@@ -27,7 +27,7 @@ namespace Linn.Production.Persistence.LinnApps.Repositories
 
         public void Add(ManufacturingSkill entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.ManufacturingSkills.Add(entity);
         }
 
         public void Remove(ManufacturingSkill entity)

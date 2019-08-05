@@ -10,7 +10,7 @@ namespace Linn.Production.Service.ResponseProcessors
     public class ManufacturingSkillsResponseProcessor : JsonResponseProcessor<IEnumerable<ManufacturingSkill>>
     {
         public ManufacturingSkillsResponseProcessor(IResourceBuilder<IEnumerable<ManufacturingSkill>> resourceBuilder)
-            : base(resourceBuilder, "manufacturing-skill-codes", 1)
+            : base(resourceBuilder, "manufacturing-skills", 1)
         {
         }
     }

@@ -35,8 +35,9 @@ namespace Linn.Production.Service.Tests.ManufacturingSkillsModuleSpecs
                     with.Dependency<IResourceBuilder<ManufacturingSkill>>(new ManufacturingSkillResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<ManufacturingSkill>>>(
                         new ManufacturingSkillsResourceBuilder());
-                    with.Module<AteQualityModule>();
+                    with.Module<ManufacturingSkillsModule>();
                     with.ResponseProcessor<ManufacturingSkillsResponseProcessor>();
+                    with.ResponseProcessor<ManufacturingSkillResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {
