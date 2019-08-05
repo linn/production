@@ -8,7 +8,9 @@
 
         public decimal Value { get; set; }
 
-        public string Department { get; set; }
+        public string DepartmentDescription { get; set; }
+
+        public string DepartmentCode { get; set; }
 
         public decimal DaysToBuild { get; set; }
     }

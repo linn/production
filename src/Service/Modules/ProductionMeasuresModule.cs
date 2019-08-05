@@ -16,7 +16,7 @@
 
         private object GetProductionMeasuresForCits()
         {
-            return this.Negotiate.WithModel(productionMeasuresReportFacade.GetProductionMeasuresForCits());
+            return this.Negotiate.WithModel(this.productionMeasuresReportFacade.GetProductionMeasuresForCits());
         }
     }
 }

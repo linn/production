@@ -2,7 +2,7 @@
 {
     using System.Data;
 
-    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Domain.LinnApps.RemoteServices;
 
     public class OutstandingWorksOrdersReportProxy : IOutstandindWorksOrdersReportDatabaseService
     {

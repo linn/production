@@ -6,6 +6,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
@@ -24,9 +25,11 @@
             builder.RegisterType<BuildsSummaryReportService>().As<IBuildsSummaryReportService>();
             builder.RegisterType<WhoBuiltWhatReport>().As<IWhoBuiltWhatReport>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
+            builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<DepartmentService>().As<IFacadeService<Department, string, DepartmentResource, DepartmentResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
@@ -39,6 +42,7 @@
             builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandindWorksOrdersReportDatabaseService>();
+            builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();

@@ -39,7 +39,7 @@
                              }).Select(
                     x => new BuildsSummary
                              {
-                                 Department = x.Key.DepartmentCode,
+                                 DepartmentCode = x.Key.DepartmentCode,
                                  Value = x.Sum(b => (b.LabourPrice + b.MaterialPrice)),
                                  DaysToBuild = x.Sum(b => this.lrpPack.GetDaysToBuildPart(b.PartNumber, b.Quantity)),
                                  WeekEnd = monthly
