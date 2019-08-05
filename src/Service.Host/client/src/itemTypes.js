@@ -18,9 +18,9 @@ export const salesArticle = new ItemType(
     '/products/maint/sales-articles'
 );
 
-export const serialNumberReissueSalesArticle = new ItemType(
-    'serialNumberReissueSalesArticle',
-    'SERIAL_NUMBER_REISSUE_SALES_ARTICLE',
+export const salesArticles = new ItemType(
+    'salesArticles',
+    'SALES_ARTICLES',
     '/products/maint/sales-articles'
 );
 

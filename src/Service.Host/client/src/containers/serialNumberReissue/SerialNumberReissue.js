@@ -5,8 +5,8 @@ import salesArticleSelectors from '../../selectors/salesArticleSelectors';
 import SerialNumberReissue from '../../components/serialNumberReissue/SerialNumberReissue';
 import serialNumberReissueActions from '../../actions/serialNumberReissueActions';
 import serialNumberReissueSelectors from '../../selectors/serialNumberReissueSelectors';
-import serialNumberReissueSalesArticleActions from '../../actions/serialNumberReissueSalesArticleActions';
-import serialNumberReissueSalesArticleSelectors from '../../selectors/serialNumberReissueSalesArticleSelectors';
+import salesArticlesActions from '../../actions/salesArticlesActions';
+import salesArticlesSelectors from '../../selectors/salesArticlesSelectors';
 import serialNumberActions from '../../actions/serialNumberActions';
 import serialNumberSelectors from '../../selectors/serialNumberSelectors';
 
@@ -16,10 +16,10 @@ const mapStateToProps = state => ({
     item: serialNumberReissueSelectors.getItem(state),
     loading: serialNumberReissueSelectors.getLoading(state),
     salesArticle: salesArticleSelectors.getItem(state),
-    salesArticleSearchResults: serialNumberReissueSalesArticleSelectors
+    salesArticleSearchResults: salesArticlesSelectors
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.articleNumber, name: s.articleNumber })),
-    salesArticlesSearchLoading: serialNumberReissueSalesArticleSelectors.getSearchLoading(state),
+    salesArticlesSearchLoading: salesArticlesSelectors.getSearchLoading(state),
     serialNumbers: serialNumberSelectors.getItems(state),
     serialNumbersLoading: serialNumberSelectors.getLoading(state),
     snackbarVisible: serialNumberReissueSelectors.getSnackbarVisible(state)
@@ -29,8 +29,8 @@ const mapDispatchToProps = {
     addItem: serialNumberReissueActions.add,
     fetchSerialNumbers: serialNumberActions.fetchByQueryString,
     fetchSalesArticle: salesArticleActions.fetch,
-    searchSalesArticles: serialNumberReissueSalesArticleActions.search,
-    clearSalesArticlesSearch: serialNumberReissueSalesArticleActions.clearSearch,
+    searchSalesArticles: salesArticlesActions.search,
+    clearSalesArticlesSearch: salesArticlesActions.clearSearch,
     setEditStatus: serialNumberReissueActions.setEditStatus,
     setSnackbarVisible: serialNumberReissueActions.setSnackbarVisible
 };

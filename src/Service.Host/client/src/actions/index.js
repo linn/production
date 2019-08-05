@@ -13,14 +13,12 @@ export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.
 
 export const salesArticleActionTypes = makeActionTypes(itemTypes.salesArticle.actionType);
 
+export const salesArticles = makeActionTypes(itemTypes.salesArticles.actionType);
+
 export const serialNumbersActionTypes = makeActionTypes(itemTypes.serialNumbers.actionType);
 
 export const serialNumberReissueActionTypes = makeActionTypes(
     itemTypes.serialNumberReissue.actionType
-);
-
-export const serialNumberReissueSalesArticleActionTypes = makeActionTypes(
-    itemTypes.serialNumberReissueSalesArticle.actionType
 );
 
 export const buildsSummaryReportActionTypes = makeReportActionTypes(

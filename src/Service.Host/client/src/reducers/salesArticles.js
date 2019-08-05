@@ -1,5 +1,5 @@
 import { collectionStoreFactory } from '@linn-it/linn-form-components-library';
-import { serialNumberReissueSalesArticleActionTypes as actionTypes } from '../actions';
+import { salesArticles as actionTypes } from '../actions';
 import * as itemTypes from '../itemTypes';
 
 const defaultState = {
@@ -9,7 +9,7 @@ const defaultState = {
 };
 
 export default collectionStoreFactory(
-    itemTypes.serialNumberReissueSalesArticle.actionType,
+    itemTypes.salesArticles.actionType,
     actionTypes,
     defaultState
 );

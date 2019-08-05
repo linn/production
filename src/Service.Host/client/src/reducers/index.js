@@ -8,7 +8,7 @@ import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import salesArticle from './salesArticle';
 import serialNumbers from './serialNumbers';
 import serialNumberReissue from './serialNumberReissue';
-import serialNumberReissueSalesArticle from './serialNumberReissueSalesArticle';
+import salesArticles from './salesArticles';
 
 const rootReducer = combineReducers({
     oidc,
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
     salesArticle,
     serialNumbers,
     serialNumberReissue,
-    serialNumberReissueSalesArticle,
+    salesArticles,
     ...sharedLibraryReducers
 });
 
