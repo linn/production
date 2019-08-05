@@ -1,12 +1,11 @@
-﻿using Linn.Production.Domain;
-using Linn.Production.Domain.LinnApps.Measures;
-
-namespace Linn.Production.Persistence.LinnApps
+﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using Domain.LinnApps;
-
     using Linn.Common.Configuration;
+    using Linn.Production.Domain;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.ViewModels;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -26,6 +25,8 @@ namespace Linn.Production.Persistence.LinnApps
 
         public DbSet<ProductionMeasures> ProductionMeasures { get; set; }
 
+        public DbQuery<WhoBuiltWhat> WhoBuiltWhat { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -35,8 +36,21 @@ namespace Linn.Production.Persistence.LinnApps
 
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
+            this.QueryWhoBuildWhat(builder);
 
             base.OnModelCreating(builder);
+        }
+
+        protected void QueryWhoBuildWhat(ModelBuilder builder)
+        {
+            builder.Query<WhoBuiltWhat>().ToView("V_WHO_BUILT_WHAT");
+            builder.Query<WhoBuiltWhat>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<WhoBuiltWhat>().Property(t => t.CitName).HasColumnName("CIT_NAME");
+            builder.Query<WhoBuiltWhat>().Property(t => t.SernosDate).HasColumnName("SERNOS_DATE");
+            builder.Query<WhoBuiltWhat>().Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
+            builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
         }
 
         protected void BuildAte(ModelBuilder builder)

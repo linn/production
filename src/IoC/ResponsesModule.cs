@@ -1,15 +1,13 @@
-﻿using Linn.Production.Domain.LinnApps;
-﻿using Linn.Production.Domain;
-
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
+    using System.Collections.Generic;
+
     using Autofac;
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
-    using System.Collections.Generic;
-
+    using Linn.Production.Domain;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Facade.ResourceBuilders;
 

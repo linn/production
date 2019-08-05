@@ -1,17 +1,16 @@
-﻿using Linn.Production.Domain;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using Autofac;
 
-    using Domain.LinnApps;
-    using Domain.LinnApps.Repositories;
-
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
-    using Domain.LinnApps.ATE;
-    using Persistence.LinnApps;
-    using Persistence.LinnApps.Repositories;
+    using Linn.Production.Domain;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Repositories;
+    using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Persistence.LinnApps;
+    using Linn.Production.Persistence.LinnApps.Repositories;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -25,10 +24,11 @@ namespace Linn.Production.IoC
             // linnapps repositories
             builder.RegisterType<BuildsSummariesRepository>().As<IBuildsSummariesRepository>();
             builder.RegisterType<DepartmentsRepository>().As<IRepository<Department, string>>();
-
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
-
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
+
+            // linnapps views
+            builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
         }
     }
 }

@@ -1,13 +1,16 @@
-﻿namespace Linn.Production.Domain.LinnApps.Services
+﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
     using System;
-    using System.Collections.Generic;
 
-    using Common.Reporting.Models;
+    using Linn.Common.Reporting.Models;
 
     public interface IBuildsDetailReportService
     {
-        ResultsModel GetBuildsDetailReport(DateTime from, DateTime to, 
-            string department, string quantityOrValue, bool monthly = false);
+        ResultsModel GetBuildsDetailReport(
+            DateTime from,
+            DateTime to,
+            string department,
+            string quantityOrValue,
+            bool monthly = false);
     }
 }

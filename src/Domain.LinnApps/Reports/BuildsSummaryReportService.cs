@@ -1,13 +1,12 @@
-﻿using Linn.Production.Domain.LinnApps.Reports;
-
-namespace Linn.Production.Domain.LinnApps.Services
+﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using Common.Reporting.Models;
 
+    using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Services;
 
     public class BuildsSummaryReportService : IBuildsSummaryReportService
     {
@@ -22,7 +21,7 @@ namespace Linn.Production.Domain.LinnApps.Services
         public IEnumerable<ResultsModel> GetBuildsSummaryReports(DateTime from, DateTime to, bool monthly = false)
         {
             var summaries = this.databaseService.GetBuildsSummaries(from, to, monthly).ToList();
-            
+
             var weeks = summaries.GroupBy(s => s.WeekEnd.Date);
             var reports = new List<ResultsModel>();
             foreach (var week in weeks)
@@ -47,9 +46,10 @@ namespace Linn.Production.Domain.LinnApps.Services
                     results.SetGridValue(row.RowIndex, 1, summary.Value, decimalPlaces: 1);
                     results.SetGridValue(row.RowIndex, 2, summary.DaysToBuild, decimalPlaces: 1);
                 }
-                
+
                 reports.Add(results);
             }
+
             reports.Add(this.GetDepartmentTotals(summaries, from, to, monthly));
             return reports;
         }
@@ -64,7 +64,7 @@ namespace Linn.Production.Domain.LinnApps.Services
                                  ReportTitle = new NameModel("Totals")
                              };
 
-            var departments = summaries.GroupBy(a => new { Code = a.DepartmentCode, Description =  a.DepartmentDescription}).Select(
+            var departments = summaries.GroupBy(a => new { Code = a.DepartmentCode, Description = a.DepartmentDescription }).Select(
                 a => new { a.Key, TotalValue = a.Sum(b => b.Value), TotalDays = a.Sum(b => b.DaysToBuild) });
 
             foreach (var department in departments)
@@ -78,10 +78,12 @@ namespace Linn.Production.Domain.LinnApps.Services
                 results.SetGridValue(row.RowIndex, 1, department.TotalValue, decimalPlaces: 1);
                 results.SetGridValue(row.RowIndex, 2, department.TotalDays, decimalPlaces: 1);
             }
+
             results.RowDrillDownTemplates.Add(
                 new DrillDownModel(
-                    "department", $"/production/reports/builds-detail?fromDate={@from.Date}&toDate={@to.Date}" +
-                                  "&department={rowId}" + $"&quantityOrValue=Value&monthly={monthly}"));
+                    "department",
+                    $"/production/reports/builds-detail?fromDate={@from.Date}&toDate={@to.Date}" + "&department={rowId}"
+                                                                                                 + $"&quantityOrValue=Value&monthly={monthly}"));
             return results;
         }
     }

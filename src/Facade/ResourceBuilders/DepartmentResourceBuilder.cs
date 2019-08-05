@@ -1,13 +1,11 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.Facade.ResourceBuilders
+﻿namespace Linn.Production.Facade.ResourceBuilders
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
     public class DepartmentResourceBuilder : IResourceBuilder<Department>
@@ -21,14 +19,14 @@ namespace Linn.Production.Facade.ResourceBuilders
             };
         }
 
-        public string GetLocation(Department ateFaultCode)
+        public string GetLocation(Department department)
         {
             throw new NotImplementedException();
         }
 
-        object IResourceBuilder<Department>.Build(Department ateFaultCode) => this.Build(ateFaultCode);
+        object IResourceBuilder<Department>.Build(Department department) => this.Build(department);
 
-        private IEnumerable<LinkResource> BuildLinks(Department ateFaultCode)
+        private IEnumerable<LinkResource> BuildLinks(Department department)
         {
             throw new NotImplementedException();
         }

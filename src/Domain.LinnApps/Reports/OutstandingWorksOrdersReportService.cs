@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
-    using System;
     using System.Data;
 
     using Linn.Common.Reporting.Models;
