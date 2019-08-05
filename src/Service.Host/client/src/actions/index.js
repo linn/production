@@ -11,10 +11,16 @@ export const FETCH_ERROR = 'FETCH_ERROR';
 export const ateFaultCodeActionTypes = makeActionTypes(itemTypes.ateFaultCode.actionType);
 export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.actionType, false);
 
-export const serialNumberActionTypes = makeActionTypes(itemTypes.serialNumbers.actionType);
+export const salesArticleActionTypes = makeActionTypes(itemTypes.salesArticle.actionType);
+
+export const serialNumbersActionTypes = makeActionTypes(itemTypes.serialNumbers.actionType);
 
 export const serialNumberReissueActionTypes = makeActionTypes(
     itemTypes.serialNumberReissue.actionType
+);
+
+export const serialNumberReissueSalesArticleActionTypes = makeActionTypes(
+    itemTypes.serialNumberReissueSalesArticle.actionType
 );
 
 export const buildsSummaryReportActionTypes = makeReportActionTypes(

@@ -1,11 +1,15 @@
-import { itemStoreFactory } from '@linn-it/linn-form-components-library';
-import { serialNumberActionTypes as actionTypes } from '../actions';
+import { collectionWithLinksStoreFactory } from '@linn-it/linn-form-components-library';
+import { serialNumbersActionTypes as actionTypes } from '../actions';
 import * as itemTypes from '../itemTypes';
 
 const defaultState = {
     loading: false,
-    item: null,
-    editStatus: 'view'
+    items: [],
+    links: []
 };
 
-export default itemStoreFactory(itemTypes.serialNumbers.actionType, actionTypes, defaultState);
+export default collectionWithLinksStoreFactory(
+    itemTypes.serialNumbers.actionType,
+    actionTypes,
+    defaultState
+);

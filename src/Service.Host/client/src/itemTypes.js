@@ -12,16 +12,26 @@ export const ateFaultCodes = new ItemType(
     '/production/quality/ate/fault-codes'
 );
 
-export const serialNumberReissue = new ItemType(
-    'serialNumberReissue',
-    'SERIAL_NUMBER_REISSUE',
-    '/production/maintenance/serial-number-reissue'
+export const salesArticle = new ItemType(
+    'salesArticle',
+    'SALES_ARTICLE',
+    '/products/maint/sales-articles'
 );
 
-// Proxy items
+export const serialNumberReissueSalesArticle = new ItemType(
+    'serialNumberReissueSalesArticle',
+    'SERIAL_NUMBER_REISSUE_SALES_ARTICLE',
+    '/products/maint/sales-articles'
+);
 
 export const serialNumbers = new ItemType(
     'serialNumbers',
     'SERIAL_NUMBERS',
     '/products/maint/serial-numbers'
+);
+
+export const serialNumberReissue = new ItemType(
+    'serialNumberReissue',
+    'SERIAL_NUMBER_REISSUE',
+    '/production/maintenance/serial-number-reissue'
 );
