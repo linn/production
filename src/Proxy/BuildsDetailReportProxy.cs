@@ -1,10 +1,11 @@
-﻿using System;
-using System.Data;
-using System.Globalization;
-using Linn.Production.Domain.LinnApps.Reports;
-
-namespace Linn.Production.Proxy
+﻿namespace Linn.Production.Proxy
 {
+    using System;
+    using System.Data;
+    using System.Globalization;
+
+    using Linn.Production.Domain.LinnApps.RemoteServices;
+
     public class BuildsDetailReportProxy : IBuildsDetailReportDatabaseService
     {
         private readonly IDatabaseService db;
@@ -14,7 +15,11 @@ namespace Linn.Production.Proxy
             this.db = db;
         }
 
-        public DataTable GetBuildsDetail(DateTime from, DateTime to, string quantityOrValue, string department,
+        public DataTable GetBuildsDetail(
+            DateTime from,
+            DateTime to,
+            string quantityOrValue,
+            string department,
             bool monthly = false)
         {
             var totalBy = monthly ? "MONTH" : "WEEK";

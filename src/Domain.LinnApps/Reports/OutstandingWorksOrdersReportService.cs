@@ -7,9 +7,9 @@
 
     public class OutstandingWorksOrdersReportService : IOutstandingWorksOrdersReportService
     {
-        private readonly IOutstandindWorksOrdersReportDatabaseService databaseService;
+        private readonly IOutstandingWorksOrdersReportDatabaseService databaseService;
 
-        public OutstandingWorksOrdersReportService(IOutstandindWorksOrdersReportDatabaseService databaseService)
+        public OutstandingWorksOrdersReportService(IOutstandingWorksOrdersReportDatabaseService databaseService)
         {
             this.databaseService = databaseService;
         }

@@ -1,6 +1,5 @@
-﻿namespace Linn.Production.Domain
+﻿namespace Linn.Production.Domain.LinnApps.Measures
 {
-    using Linn.Production.Domain.LinnApps.Measures;
     using System;
 
     public class ProductionMeasures
@@ -73,15 +72,15 @@
 
         public bool HasMeasures()
         {
-            return this.Ones.HasValue || 
-                   this.Twos.HasValue || 
-                   this.Threes.HasValue || 
+            return this.Ones.HasValue ||
+                   this.Twos.HasValue ||
+                   this.Threes.HasValue ||
                    this.Fours.HasValue ||
                    this.Fives.HasValue ||
-                   this.BackOrderValue.HasValue || 
-                   this.OldestBackOrder.HasValue || 
+                   this.BackOrderValue.HasValue ||
+                   this.OldestBackOrder.HasValue ||
                    this.StockValue.HasValue ||
-                   this.OverStockValue.HasValue || 
+                   this.OverStockValue.HasValue ||
                    this.FFlaggedValue.HasValue;
         }
     }

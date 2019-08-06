@@ -2,14 +2,18 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+
     using FluentAssertions;
+
     using Linn.Common.Facade;
-    using Linn.Production.Domain;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
+
     using Nancy;
     using Nancy.Testing;
+
     using NSubstitute;
+
     using NUnit.Framework;
 
     public class WhenGettingProductionMeasures : ContextBase
@@ -19,7 +23,7 @@
         {
             var productionMeasures = new ProductionMeasures
             {
-                Cit = new Cit() { Code = "V", Name = "PCB", BuildGroup = "EP", SortOrder = 2},
+                Cit = new Cit { Code = "V", Name = "PCB", BuildGroup = "EP", SortOrder = 2 },
                 Ones = 5,
                 Fives = 5,
                 StockValue = 200
@@ -27,7 +31,7 @@
 
             var productionMeasures2 = new ProductionMeasures
             {
-                Cit = new Cit() { Code = "F", Name = "Final Assembly", BuildGroup = "PP", SortOrder = 1 },
+                Cit = new Cit { Code = "F", Name = "Final Assembly", BuildGroup = "PP", SortOrder = 1 },
                 Ones = 1,
                 Twos = 2,
                 Threes = 3,

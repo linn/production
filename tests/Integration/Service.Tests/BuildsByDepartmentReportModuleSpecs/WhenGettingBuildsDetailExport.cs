@@ -1,22 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
-using Linn.Common.Reporting.Resources.Extensions;
-using Nancy;
-using NSubstitute;
-
-namespace Linn.Production.Service.Tests.BuildsByDepartmentReportModuleSpecs
+﻿namespace Linn.Production.Service.Tests.BuildsByDepartmentReportModuleSpecs
 {
+    using System;
+    using System.Collections.Generic;
+
+    using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
+    using Linn.Common.Reporting.Resources.Extensions;
+
+    using Nancy;
+
+    using NSubstitute;
+
     using NUnit.Framework;
+
     public class WhenGettingBuildsDetailExport : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" }).ConvertToCsvList();
-            this.BuildsByDepartmentReportFacadeService.GetBuildsDetailExport(DateTime.UnixEpoch, DateTime.UnixEpoch, "001", "Value", false)
+            this.BuildsByDepartmentReportFacadeService.GetBuildsDetailExport(
+                    DateTime.UnixEpoch,
+                    DateTime.UnixEpoch,
+                    "001",
+                    "Value",
+                    false)
                 .Returns(
                     new SuccessResult<IEnumerable<IEnumerable<string>>>(results)
                     {
@@ -51,7 +61,7 @@ namespace Linn.Production.Service.Tests.BuildsByDepartmentReportModuleSpecs
                 DateTime.UnixEpoch,
                 "001",
                 "Value",
-                false); ;
+                false);
         }
     }
 }

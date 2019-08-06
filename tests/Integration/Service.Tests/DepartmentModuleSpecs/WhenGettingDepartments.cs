@@ -1,6 +1,4 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.Service.Tests.DepartmentModuleSpecs
+﻿namespace Linn.Production.Service.Tests.DepartmentModuleSpecs
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -8,6 +6,7 @@ namespace Linn.Production.Service.Tests.DepartmentModuleSpecs
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
 
     using Nancy;
     using Nancy.Testing;

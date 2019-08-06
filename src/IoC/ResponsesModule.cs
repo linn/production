@@ -9,6 +9,7 @@
     using Linn.Production.Domain;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Facade.ResourceBuilders;
 
     public class ResponsesModule : Module

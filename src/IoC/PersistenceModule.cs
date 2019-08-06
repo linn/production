@@ -4,9 +4,9 @@
 
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
-    using Linn.Production.Domain;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Persistence.LinnApps;

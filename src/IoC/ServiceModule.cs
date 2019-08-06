@@ -10,7 +10,6 @@
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
-    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -41,7 +40,7 @@
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
-                .As<IOutstandindWorksOrdersReportDatabaseService>();
+                .As<IOutstandingWorksOrdersReportDatabaseService>();
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
 
             // services
