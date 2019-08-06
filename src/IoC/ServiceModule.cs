@@ -40,7 +40,7 @@
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
-                .As<IOutstandindWorksOrdersReportDatabaseService>();
+                .As<IOutstandingWorksOrdersReportDatabaseService>();
             builder.RegisterType<SerialNumberReissueService>().As<ISerialNumberReissueService>();
             builder.RegisterType<SernosRenumPack>().As<ISernosRenumPack>();
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
