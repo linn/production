@@ -26,7 +26,7 @@
                 .Returns(new CreatedResult<ManufacturingSkill>(newSkill));
 
             this.Response = this.Browser.Post(
-                "/production/manufacturing-skills",
+                "/production/resources/manufacturing-skills",
                 with =>
                     {
                         with.Header("Accept", "application/json");

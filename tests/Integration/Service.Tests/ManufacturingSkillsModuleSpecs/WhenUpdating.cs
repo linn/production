@@ -23,7 +23,7 @@
                 .Returns(new SuccessResult<ManufacturingSkill>(skill));
 
             this.Response = this.Browser.Put(
-                "/production/manufacturing-skills/MYTEST",
+                "/production/resources/manufacturing-skills/MYTEST",
                 with =>
                     {
                         with.Header("Accept", "application/json");

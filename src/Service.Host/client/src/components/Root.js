@@ -106,17 +106,17 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/manufacturing-skills"
+                                        path="/production/resources/manufacturing-skills"
                                         component={ManufacturingSkills}
                                     />
                                     <Route
                                         exact
-                                        path="/production/manufacturing-skills/create"
+                                        path="/production/resources/manufacturing-skills/create"
                                         component={CreateManufacturingSkill}
                                     />
                                     <Route
                                         exact
-                                        path="/production/manufacturing-skills/:id"
+                                        path="/production/resources/manufacturing-skills/:id"
                                         component={ManufacturingSkill}
                                     />
                                 </Switch>

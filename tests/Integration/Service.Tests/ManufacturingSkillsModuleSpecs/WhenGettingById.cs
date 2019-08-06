@@ -19,7 +19,7 @@
                 .Returns(new SuccessResult<ManufacturingSkill>(skill));
 
             this.Response = this.Browser.Get(
-                "/production/manufacturing-skills/TESTCODE",
+                "/production/resources/manufacturing-skills/TESTCODE",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 

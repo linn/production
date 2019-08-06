@@ -23,7 +23,7 @@
 
         public string GetLocation(ManufacturingSkill manufacturingSkill)
         {
-            return $"/production/manufacturing-skills/{Uri.EscapeDataString(manufacturingSkill.SkillCode)}";
+            return $"/production/resources/manufacturing-skills/{Uri.EscapeDataString(manufacturingSkill.SkillCode)}";
         }
 
         object IResourceBuilder<ManufacturingSkill>.Build(ManufacturingSkill manufacturingSkill) => this.Build(manufacturingSkill);

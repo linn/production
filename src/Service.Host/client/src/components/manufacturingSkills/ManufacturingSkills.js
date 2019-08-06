@@ -98,7 +98,7 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
             ) : (
                 <Fragment>
                     <Fragment className={classes.actionsContainer}>
-                        <CreateButton createUrl="/production/manufacturing-skills/create" />
+                        <CreateButton createUrl="/production/resources/manufacturing-skills/create" />
                     </Fragment>
 
                     <PaginatedTable

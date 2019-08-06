@@ -18,10 +18,10 @@ namespace Linn.Production.Service.Modules
         public ManufacturingSkillsModule(IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource> manufacturingSkillService)
         {
             this.manufacturingSkillService = manufacturingSkillService;
-            this.Get("/production/manufacturing-skills", _ => this.GetAll());
-            this.Get("production/manufacturing-skills/{skillCode*}", parameters => this.GetById(parameters.skillCode));
-            this.Put("production/manufacturing-skills/{skillCode*}", parameters => this.UpdateManufacturingSkill(parameters.skillCode));
-            this.Post("production/manufacturing-skills", parameters => this.AddManufacturingSkill());
+            this.Get("/production/resources/manufacturing-skills", _ => this.GetAll());
+            this.Get("/production/resources/manufacturing-skills/{skillCode*}", parameters => this.GetById(parameters.skillCode));
+            this.Put("/production/resources/manufacturing-skills/{skillCode*}", parameters => this.UpdateManufacturingSkill(parameters.skillCode));
+            this.Post("/production/resources/manufacturing-skills", parameters => this.AddManufacturingSkill());
         }
 
         private object GetAll()

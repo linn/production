@@ -29,7 +29,7 @@
                 .Returns(new SuccessResult<IEnumerable<ManufacturingSkill>>(new List<ManufacturingSkill> { a, b }));
 
             this.Response = this.Browser.Get(
-                "/production/manufacturing-skills",
+                "/production/resources/manufacturing-skills",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 

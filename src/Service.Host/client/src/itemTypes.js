@@ -14,10 +14,10 @@ export const departments = new ItemType('departments', 'DEPARTMENTS', '/producti
 export const manufacturingSkill = new ItemType(
     'manufacturingSkill',
     'MANUFACTURING_SKILL',
-    '/production/manufacturing-skills'
+    '/production/resources/manufacturing-skills'
 );
 export const manufacturingSkills = new ItemType(
     'manufacturingSkills',
     'MANUFACTURING_SKILLS',
-    '/production/manufacturing-skills'
+    '/production/resources/manufacturing-skills'
 );
