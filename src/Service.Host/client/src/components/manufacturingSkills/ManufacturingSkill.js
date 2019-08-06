@@ -1,6 +1,5 @@
 ﻿import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { Grid } from '@material-ui/core';
 import {
     SaveBackCancelButtons,
@@ -25,8 +24,6 @@ function ManufacturingSkill({
     setEditStatus,
     setSnackbarVisible
 }) {
-    console.info(item);
-
     const [manufacturingSkill, setManufacturingSkill] = useState({});
     const [prevManufacturingSkill, setPrevManufacturingSkill] = useState({});
 
