@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useCallback, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
     Dropdown,
@@ -54,28 +54,31 @@ function SerialNumberReissue({
 
     useSearch(fetchSerialNumbers, searchTerm, null, 'sernosNumber');
 
+    const selectSerialNumber = useCallback(
+        sernosGroup => {
+            const sernos = serialNumbers.find(s => s.sernosGroup === sernosGroup);
+            setSelectedSerialNumber(sernos);
+            if (sernos) {
+                fetchSalesArticle(sernos.articleNumber);
+            }
+        },
+        [fetchSalesArticle, serialNumbers]
+    );
+
     useEffect(() => {
         if (serialNumbers && serialNumbers.length) {
-            // TODO try doing this on one line
-            // or could use reduce...
-            const groups = [];
-            serialNumbers.map(
-                sernos => !groups.includes(sernos.sernosGroup) && groups.push(sernos.sernosGroup)
-            );
-            const sortedGroups = sortList(groups);
+            const sortedGroups = serialNumbers.reduce((groups, serialNumber) => {
+                if (!groups.includes(serialNumber.sernosGroup)) {
+                    groups.push(serialNumber.sernosGroup);
+                }
+                return sortList(groups);
+            }, []);
+
             setSernosGroups(sortedGroups);
             setSelectedSernosGroup(sortedGroups[0] || '');
+            selectSerialNumber(sortedGroups[0]);
         }
-    }, [serialNumbers]);
-
-    // TODO convert this to function?
-    useEffect(() => {
-        const sernos = serialNumbers.find(s => s.sernosGroup === selectedSernosGroup);
-        setSelectedSerialNumber(sernos);
-        if (sernos) {
-            fetchSalesArticle(sernos.articleNumber);
-        }
-    }, [selectedSernosGroup, serialNumbers, fetchSalesArticle]);
+    }, [serialNumbers, selectSerialNumber]);
 
     const viewing = () => editStatus === 'view';
 
@@ -87,8 +90,9 @@ function SerialNumberReissue({
             setSearchTerm(newValue);
             return;
         }
-        if (propertyName === 'selectedSalesArticle') {
+        if (propertyName === 'selectedSernosGroup') {
             setSelectedSernosGroup(newValue);
+            selectSerialNumber(newValue);
             return;
         }
         setSelectedSerialNumber({ ...selectedSerialNumber, [propertyName]: newValue });
@@ -139,7 +143,6 @@ function SerialNumberReissue({
                     serialNumbers.length > 0 && (
                         <Fragment>
                             <Grid container spacing={3} className={classes.marginTop}>
-                                {/* TODO bring back margin top */}
                                 <Grid item xs={3}>
                                     <Dropdown
                                         value={selectedSernosGroup || ''}
@@ -147,7 +150,7 @@ function SerialNumberReissue({
                                         fullWidth
                                         items={sernosGroups.length ? sernosGroups : ['']}
                                         onChange={handleFieldChange}
-                                        propertyName="selectedSalesArticle"
+                                        propertyName="selectedSernosGroup"
                                     />
                                 </Grid>
                                 <Grid item xs={9} />
