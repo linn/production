@@ -6,6 +6,12 @@ export const buildsSummaryReport = new ItemType(
     '/production/reports/builds-summary'
 );
 
+export const buildsDetailReport = new ItemType(
+    'buildsDetail',
+    'BUILDS_DETAIL',
+    '/production/reports/builds-detail'
+);
+
 export const outstandingWorksOrdersReport = new ItemType(
     'outstandingWorksOrdersReport',
     'OUTSTANDING_WORKS_ORDERS',

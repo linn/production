@@ -3,9 +3,11 @@
     using System;
     using System.Linq;
     using System.Linq.Expressions;
-    using Microsoft.EntityFrameworkCore;
+
     using Linn.Common.Persistence;
-    using Linn.Production.Domain;
+    using Linn.Production.Domain.LinnApps.Measures;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class ProductionMeasuresRepository : IRepository<ProductionMeasures, string>
     {

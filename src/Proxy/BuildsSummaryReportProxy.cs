@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Globalization;
-using System.Linq;
-using Linn.Production.Domain.LinnApps;
-using Linn.Production.Domain.LinnApps.Reports;
-
-namespace Linn.Production.Proxy
+﻿namespace Linn.Production.Proxy
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Globalization;
+    using System.Linq;
+
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
+
     public class BuildsSummaryReportProxy : IBuildsSummaryReportDatabaseService
     {
         private readonly IDatabaseService db;
@@ -48,10 +49,11 @@ namespace Linn.Production.Proxy
             {
                 results.Add(new BuildsSummary
                 {
-                    Department = tableRow[0].ToString(),
+                    DepartmentDescription = tableRow[0].ToString(),
+                    DepartmentCode = tableRow[1].ToString(),
                     WeekEnd = ((DateTime)tableRow[2]).Date,
-                    Value = ((decimal)tableRow[3]),
-                    DaysToBuild = ((decimal)tableRow[4]),
+                    Value = (decimal)tableRow[3],
+                    DaysToBuild = (decimal)tableRow[4],
                 });
             }
 

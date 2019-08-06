@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Resources
 {
-    using System;
-
     public class ProductionMeasuresResource
     {
         public string CitCode { get; set; }
