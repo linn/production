@@ -3,7 +3,9 @@ import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
+import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
+import buildsDetailReport from './buildsDetailReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import salesArticle from './salesArticle';
 import serialNumbers from './serialNumbers';
@@ -14,6 +16,8 @@ const rootReducer = combineReducers({
     oidc,
     ateFaultCode,
     ateFaultCodes,
+    departments,
+    buildsDetailReport,
     buildsSummaryReport,
     outstandingWorksOrdersReport,
     salesArticle,

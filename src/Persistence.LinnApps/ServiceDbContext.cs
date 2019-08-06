@@ -1,12 +1,11 @@
-namespace Linn.Production.Persistence.LinnApps
+﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using Domain.LinnApps;
-
-    using Linn.Production.Domain;
-    using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Common.Configuration;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.ViewModels;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -28,6 +27,8 @@ namespace Linn.Production.Persistence.LinnApps
 
         public DbSet<ProductionMeasures> ProductionMeasures { get; set; }
 
+        public DbQuery<WhoBuiltWhat> WhoBuiltWhat { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -36,8 +37,30 @@ namespace Linn.Production.Persistence.LinnApps
             this.BuildBuilds(builder);
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
+            this.QueryWhoBuildWhat(builder);
 
             base.OnModelCreating(builder);
+        }
+
+        protected void QueryWhoBuildWhat(ModelBuilder builder)
+        {
+            builder.Query<WhoBuiltWhat>().ToView("V_WHO_BUILT_WHAT");
+            builder.Query<WhoBuiltWhat>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<WhoBuiltWhat>().Property(t => t.CitName).HasColumnName("CIT_NAME");
+            builder.Query<WhoBuiltWhat>().Property(t => t.SernosDate).HasColumnName("SERNOS_DATE");
+            builder.Query<WhoBuiltWhat>().Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
+            builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
+        }
+
+        protected void BuildAte(ModelBuilder builder)
+        {
+            builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
+            builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
+            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
+            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
+            builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -54,15 +77,6 @@ namespace Linn.Production.Persistence.LinnApps
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
-        }
-
-        private void BuildAte(ModelBuilder builder)
-        {
-            builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
-            builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
-            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
-            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
-            builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)
@@ -86,6 +100,7 @@ namespace Linn.Production.Persistence.LinnApps
             e.HasKey(d => d.DepartmentCode);
             e.Property(d => d.DepartmentCode).HasColumnName("DEPARTMENT_CODE").HasMaxLength(10);
             e.Property(d => d.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(d => d.PersonnelDepartment).HasColumnName("PERSONNEL_DEPARTMENT").HasMaxLength(1);
         }
 
         private void BuildBuilds(ModelBuilder builder)

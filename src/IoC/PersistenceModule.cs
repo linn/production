@@ -1,18 +1,18 @@
-﻿using Linn.Common.Persistence;
-using Linn.Common.Persistence.EntityFramework;
-using Linn.Production.Domain;
-using Linn.Production.Domain.LinnApps.SerialNumberReissue;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using Autofac;
 
     using Domain.LinnApps;
     using Domain.LinnApps.Repositories;
     using Domain.LinnApps.ATE;
+    using Domain.LinnApps.SerialNumberReissue;
     using Persistence.LinnApps;
     using Persistence.LinnApps.Repositories;
 
+    using Linn.Common.Persistence;
+    using Linn.Common.Persistence.EntityFramework;
+    using Domain.LinnApps.Measures;
+    using Domain.LinnApps.ViewModels;
     using Microsoft.EntityFrameworkCore;
 
     public class PersistenceModule : Module
@@ -28,6 +28,9 @@ namespace Linn.Production.IoC
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
             builder.RegisterType<SerialNumberReissueRepository>().As<IRepository<SerialNumberReissue, int>>();
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
+
+            // linnapps views
+            builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
         }
     }
 }

@@ -1,14 +1,16 @@
 ﻿namespace Linn.Production.IoC
 {
-    using Linn.Common.Facade;
+    using Autofac;
+
+    using Common.Facade;
     using Common.Reporting.Models;
-    using Domain;
     using Domain.LinnApps.ATE;
     using Domain.LinnApps.SerialNumberReissue;
     using Facade.ResourceBuilders;
-
-    using Autofac;
+    
     using System.Collections.Generic;
+    using Domain.LinnApps;
+    using Domain.LinnApps.Measures;
 
     public class ResponsesModule : Module
     {
@@ -20,6 +22,8 @@
             builder.RegisterType<AteFaultCodeResourceBuilder>().As<IResourceBuilder<AteFaultCode>>();
             builder.RegisterType<AteFaultCodesResourceBuilder>().As<IResourceBuilder<IEnumerable<AteFaultCode>>>();
             builder.RegisterType<SerialNumberReissueResourceBuilder>().As<IResourceBuilder<SerialNumberReissue>>();
+            builder.RegisterType<DepartmentResourceBuilder>().As<IResourceBuilder<Department>>();
+            builder.RegisterType<DepartmentsResourceBuilder>().As<IResourceBuilder<IEnumerable<Department>>>();
             builder.RegisterType<ProductionMeasuresResourceBuilder>().As<IResourceBuilder<ProductionMeasures>>();
             builder.RegisterType<ProductionMeasuresListResourceBuilder>().As<IResourceBuilder<IEnumerable<ProductionMeasures>>>();
         }

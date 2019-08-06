@@ -35,3 +35,5 @@ export const serialNumberReissue = new ItemType(
     'SERIAL_NUMBER_REISSUE',
     '/production/maintenance/serial-number-reissue'
 );
+
+export const departments = new ItemType('departments', 'DEPARTMENTS', '/production/departments');
