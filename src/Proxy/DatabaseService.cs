@@ -50,7 +50,7 @@
             cmd.ExecuteNonQuery();
             connection.Close();
 
-            return int.Parse(result.Value?.ToString());
+            return int.Parse(result.Value.ToString());
         }
     }
 }

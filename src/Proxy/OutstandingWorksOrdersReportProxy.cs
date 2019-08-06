@@ -4,7 +4,7 @@
 
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
-    public class OutstandingWorksOrdersReportProxy : IOutstandindWorksOrdersReportDatabaseService
+    public class OutstandingWorksOrdersReportProxy : IOutstandingWorksOrdersReportDatabaseService
     {
         private readonly IDatabaseService databaseService;
 

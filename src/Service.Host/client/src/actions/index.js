@@ -6,10 +6,17 @@ export const outstandingWorksOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.outstandingWorksOrdersReport.actionType
 );
 
+export const buildsDetailReportActionTypes = makeReportActionTypes(
+    reportTypes.buildsDetailReport.actionType
+);
+
 export const FETCH_ERROR = 'FETCH_ERROR';
 
 export const ateFaultCodeActionTypes = makeActionTypes(itemTypes.ateFaultCode.actionType);
 export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.actionType, false);
+
+export const departmentsActionTypes = makeActionTypes(itemTypes.departments.actionType, false);
+
 
 export const manufacturingSkillActionTypes = makeActionTypes(
     itemTypes.manufacturingSkill.actionType
