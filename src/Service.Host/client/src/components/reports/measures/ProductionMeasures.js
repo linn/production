@@ -25,7 +25,7 @@ function ProductionMeasures({ loading, citsData, config }) {
                 <Grid item xs={12}>
                     {loading ? <Loading /> : ''}
                 </Grid>
-                {citsData ? <ProductionMeasuresCits citsData={citsData} /> : 'No'}
+                {citsData ? <ProductionMeasuresCits citsData={citsData} config={config} /> : 'No'}
             </Grid>
         </Page>
     );
