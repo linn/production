@@ -83,10 +83,12 @@ function SerialNumberReissue({
     }, [serialNumbers, selectSerialNumber]);
 
     useEffect(() => {
-        setSelectedSerialNumber(sernos => ({
-            ...sernos,
-            newSerialNumber: reissuedSerialNumber.newSerialNumber
-        }));
+        if (reissuedSerialNumber) {
+            setSelectedSerialNumber(sernos => ({
+                ...sernos,
+                newSerialNumber: reissuedSerialNumber.newSerialNumber
+            }));
+        }
     }, [reissuedSerialNumber]);
 
     const viewing = () => editStatus === 'view';
