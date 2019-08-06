@@ -26,6 +26,9 @@ function App() {
                 >
                     <Typography color="primary">Outstanding Works Orders Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/reports/measures" button>
+                    <Typography color="primary">Operations Status Report (OSR)</Typography>
+                </ListItem>
             </List>
         </Page>
     );
