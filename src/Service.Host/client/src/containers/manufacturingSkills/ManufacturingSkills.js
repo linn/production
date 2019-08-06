@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchErrorSelectors } from '@linn-it/linn-form-components-library';
-import initialiseOnMount from '../initialiseOnMount';
+import { fetchErrorSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import ViewManufacturingSkills from '../../components/manufacturingSkills/ManufacturingSkills';
 import manufacturingSkillsActions from '../../actions/manufacturingSkillsActions';
 import manufacturingSkillsSelectors from '../../selectors/manufacturingSkillsSelectors';

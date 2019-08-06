@@ -1,14 +1,12 @@
-﻿using Linn.Production.Domain.LinnApps;
-using Linn.Production.Resources;
-
-namespace Linn.Production.Facade.ResourceBuilders
+﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using Linn.Common.Facade;
+    using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Resources;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Linn.Common.Facade;
-    using Linn.Common.Resources;
 
     public class ManufacturingSkillResourceBuilder : IResourceBuilder<ManufacturingSkill>
     {

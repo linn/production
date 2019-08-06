@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using Linn.Common.Persistence;
-using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.Persistence.LinnApps.Repositories
+﻿namespace Linn.Production.Persistence.LinnApps.Repositories
 {
+    using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps;
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+
     public class ManufacturingSkillsRepository : IRepository<ManufacturingSkill, string>
     {
         private readonly ServiceDbContext serviceDbContext;

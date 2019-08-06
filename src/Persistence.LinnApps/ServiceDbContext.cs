@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
     using Linn.Common.Configuration;
-    using Linn.Production.Domain;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
