@@ -14,6 +14,7 @@ import {
     sortList
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
 
@@ -43,7 +44,8 @@ function SerialNumberReissue({
     salesArticleSearchResults,
     salesArticlesSearchLoading,
     clearSalesArticlesSearch,
-    searchSalesArticles
+    searchSalesArticles,
+    reissuedSerialNumber
 }) {
     const [searchTerm, setSearchTerm] = useState(null);
     const [sernosGroups, setSernosGroups] = useState([]);
@@ -57,7 +59,7 @@ function SerialNumberReissue({
     const selectSerialNumber = useCallback(
         sernosGroup => {
             const sernos = serialNumbers.find(s => s.sernosGroup === sernosGroup);
-            setSelectedSerialNumber(sernos);
+            setSelectedSerialNumber({ ...sernos, newSerialNumber: null });
             if (sernos) {
                 fetchSalesArticle(sernos.articleNumber);
             }
@@ -79,6 +81,13 @@ function SerialNumberReissue({
             selectSerialNumber(sortedGroups[0]);
         }
     }, [serialNumbers, selectSerialNumber]);
+
+    useEffect(() => {
+        setSelectedSerialNumber(sernos => ({
+            ...sernos,
+            newSerialNumber: reissuedSerialNumber.newSerialNumber
+        }));
+    }, [reissuedSerialNumber]);
 
     const viewing = () => editStatus === 'view';
 
@@ -110,7 +119,13 @@ function SerialNumberReissue({
     };
 
     const handleSaveClick = () => {
-        addItem(selectedSerialNumber);
+        addItem({
+            sernosGroup: selectedSerialNumber.sernosGroup,
+            serialNumber: selectedSerialNumber.sernosNumber,
+            articleNumber: selectedSerialNumber.articleNumber,
+            newArticleNumber: selectedSerialNumber.newArticleNumber,
+            comments: selectedSerialNumber.comments
+        });
         setEditStatus('view');
     };
 
@@ -121,10 +136,14 @@ function SerialNumberReissue({
     return (
         <Page>
             <Grid container spacing={3}>
-                {errorMessage && <ErrorCard errorMessage={errorMessage} />}
                 <Grid item xs={12}>
                     <Title text="Reissue Serial Numbers" />
                 </Grid>
+                {errorMessage && (
+                    <Grid item xs={12}>
+                        <ErrorCard errorMessage={errorMessage} />
+                    </Grid>
+                )}
                 <Grid item xs={3}>
                     <SearchInputField
                         label="Search by Serial Number"
@@ -138,122 +157,126 @@ function SerialNumberReissue({
                 </Grid>
                 <Grid item xs={9} />
                 {loading || serialNumbersLoading ? (
-                    <Loading />
+                    <Grid item xs={12}>
+                        <Loading />
+                    </Grid>
                 ) : (
                     serialNumbers.length > 0 && (
                         <Fragment>
-                            <Grid container spacing={3} className={classes.marginTop}>
-                                <Grid item xs={3}>
-                                    <Dropdown
-                                        value={selectedSernosGroup || ''}
-                                        label="Filter by Sernos Group"
-                                        fullWidth
-                                        items={sernosGroups.length ? sernosGroups : ['']}
-                                        onChange={handleFieldChange}
-                                        propertyName="selectedSernosGroup"
-                                    />
-                                </Grid>
-                                <Grid item xs={9} />
-                                {selectedSerialNumber && (
-                                    <Fragment>
-                                        <SnackbarMessage
-                                            visible={snackbarVisible}
-                                            onClose={() => setSnackbarVisible(false)}
-                                            message="Save Successful"
-                                        />
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                disabled
-                                                label="Article Number"
-                                                type="string"
-                                                propertyName="articleNumber"
-                                                value={selectedSerialNumber.articleNumber}
-                                                fullWidth
-                                            />
-                                        </Grid>
-                                        <Grid item xs={1} />
-                                        <Grid item xs={5}>
-                                            <InputField
-                                                disabled
-                                                label="Description"
-                                                type="string"
-                                                propertyName="articleNumberDescription"
-                                                value={salesArticle ? salesArticle.description : ''}
-                                                fullWidth
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3} />
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                label="New Article Number"
-                                                disabled
-                                                type="string"
-                                                propertyName="newArticleNumber"
-                                                value={selectedSerialNumber.newArticleNumber}
-                                                fullWidth
-                                            />
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                            <div className={classes.searchIcon}>
-                                                <TypeaheadDialog
-                                                    title="Sales Article Search"
-                                                    onSelect={handleNewArticleNumberSelect}
-                                                    searchItems={salesArticleSearchResults}
-                                                    loading={salesArticlesSearchLoading}
-                                                    fetchItems={searchSalesArticles}
-                                                    clearSearch={clearSalesArticlesSearch}
-                                                />
-                                            </div>
-                                        </Grid>
-                                        <Grid item xs={5}>
-                                            <InputField
-                                                disabled
-                                                label="Description"
-                                                type="string"
-                                                propertyName="newArticleNumberDescription"
-                                                value={
-                                                    selectedSerialNumber.newArticleNumberDescription
-                                                }
-                                                fullWidth
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3} />
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                label="Comments"
-                                                type="string"
-                                                rows={2}
-                                                propertyName="comments"
-                                                value={selectedSerialNumber.comments}
-                                                onChange={handleFieldChange}
-                                                fullWidth
-                                            />
-                                        </Grid>
-                                        <Grid item xs={9} />
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                disabled
-                                                label="New Serial Number"
-                                                type="number"
-                                                propertyName="newSerialNumber"
-                                                value={selectedSerialNumber.newSerialNumber}
-                                                onChange={handleFieldChange}
-                                                fullWidth
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12}>
-                                            <SaveBackCancelButtons
-                                                saveDisabled={viewing()}
-                                                saveClick={handleSaveClick}
-                                                cancelClick={handleBackClick}
-                                                backClick={handleBackClick}
-                                            />
-                                        </Grid>
-                                    </Fragment>
-                                )}
+                            <Grid item xs={3} className={classes.marginTop}>
+                                <Dropdown
+                                    disabled={viewing() && !errorMessage}
+                                    value={selectedSernosGroup || ''}
+                                    label="Filter by Sernos Group"
+                                    fullWidth
+                                    items={sernosGroups.length ? sernosGroups : ['']}
+                                    onChange={handleFieldChange}
+                                    propertyName="selectedSernosGroup"
+                                />
                             </Grid>
+                            <Grid item xs={9} />
+                            {selectedSerialNumber && (
+                                <Fragment>
+                                    <SnackbarMessage
+                                        visible={snackbarVisible}
+                                        onClose={() => setSnackbarVisible(false)}
+                                        message="Successfully reissued serial number"
+                                    />
+                                    <Grid item xs={3}>
+                                        <InputField
+                                            disabled
+                                            label="Article Number"
+                                            type="string"
+                                            propertyName="articleNumber"
+                                            value={selectedSerialNumber.articleNumber}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                    <Grid item xs={1} />
+                                    <Grid item xs={5}>
+                                        <InputField
+                                            disabled
+                                            label="Description"
+                                            type="string"
+                                            propertyName="articleNumberDescription"
+                                            value={salesArticle ? salesArticle.description : ''}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3} />
+                                    <Grid item xs={3}>
+                                        <InputField
+                                            label="New Article Number"
+                                            disabled
+                                            type="string"
+                                            propertyName="newArticleNumber"
+                                            value={selectedSerialNumber.newArticleNumber}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                    <Grid item xs={1}>
+                                        <div className={classes.searchIcon}>
+                                            <TypeaheadDialog
+                                                disabled={viewing() && !errorMessage}
+                                                title="Sales Article Search"
+                                                onSelect={handleNewArticleNumberSelect}
+                                                searchItems={salesArticleSearchResults}
+                                                loading={salesArticlesSearchLoading}
+                                                fetchItems={searchSalesArticles}
+                                                clearSearch={() => clearSalesArticlesSearch}
+                                            />
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        <InputField
+                                            disabled
+                                            label="Description"
+                                            type="string"
+                                            propertyName="newArticleNumberDescription"
+                                            value={selectedSerialNumber.newArticleNumberDescription}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3} />
+                                    <Grid item xs={3}>
+                                        <InputField
+                                            disabled={viewing() && !errorMessage}
+                                            label="Comments"
+                                            type="string"
+                                            rows={2}
+                                            propertyName="comments"
+                                            value={selectedSerialNumber.comments}
+                                            onChange={handleFieldChange}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                    <Grid item xs={9} />
+                                    <Grid item xs={3}>
+                                        <InputField
+                                            disabled
+                                            label="New Serial Number"
+                                            type="number"
+                                            propertyName="newSerialNumber"
+                                            value={selectedSerialNumber.newSerialNumber}
+                                            onChange={handleFieldChange}
+                                            fullWidth
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <SaveBackCancelButtons
+                                            saveDisabled={viewing()}
+                                            saveClick={handleSaveClick}
+                                            cancelClick={handleBackClick}
+                                            backClick={handleBackClick}
+                                        />
+                                    </Grid>
+                                </Fragment>
+                            )}
                         </Fragment>
                     )
+                )}
+                {!loading && !serialNumbersLoading && searchTerm && !serialNumbers.length && (
+                    <Typography>{`Serial number ${searchTerm} not found`}</Typography>
                 )}
             </Grid>
         </Page>
@@ -277,7 +300,8 @@ SerialNumberReissue.propTypes = {
     salesArticleSearchResults: PropTypes.shape({}),
     salesArticlesSearchLoading: PropTypes.bool,
     clearSalesArticlesSearch: PropTypes.func.isRequired,
-    searchSalesArticles: PropTypes.func.isRequired
+    searchSalesArticles: PropTypes.func.isRequired,
+    reissuedSerialNumber: PropTypes.shape({})
 };
 
 SerialNumberReissue.defaultProps = {
@@ -288,7 +312,8 @@ SerialNumberReissue.defaultProps = {
     serialNumbersLoading: false,
     snackbarVisible: false,
     salesArticleSearchResults: null,
-    salesArticlesSearchLoading: false
+    salesArticlesSearchLoading: false,
+    reissuedSerialNumber: null
 };
 
 export default SerialNumberReissue;

@@ -22,7 +22,8 @@ const mapStateToProps = state => ({
     salesArticlesSearchLoading: salesArticlesSelectors.getSearchLoading(state),
     serialNumbers: serialNumberSelectors.getItems(state),
     serialNumbersLoading: serialNumberSelectors.getLoading(state),
-    snackbarVisible: serialNumberReissueSelectors.getSnackbarVisible(state)
+    snackbarVisible: serialNumberReissueSelectors.getSnackbarVisible(state),
+    reissuedSerialNumber: serialNumberReissueSelectors.getItem(state)
 });
 
 const mapDispatchToProps = {

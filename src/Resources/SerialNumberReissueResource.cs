@@ -14,7 +14,7 @@ namespace Linn.Production.Resources
 
         public string Comments { get; set; }
 
-        public int CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
 
         public string ArticleNumber { get; set; }
 

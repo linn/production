@@ -3,6 +3,8 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
 
+    using Extensions;
+
     using Domain.LinnApps.RemoteServices;
     using Domain.LinnApps.SerialNumberReissue;
     using Resources;
@@ -29,6 +31,8 @@
             {
                 return new BadRequestResult<SerialNumberReissue>("Must supply an employee number when Reissuing Serial Numbers");
             }
+
+            resource.CreatedBy = employee.Href.ParseId();
 
             var sernosRenumMessage = sernosRenumPack.ReissueSerialNumber(resource);
 
