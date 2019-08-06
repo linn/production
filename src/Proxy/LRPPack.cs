@@ -2,7 +2,7 @@
 {
     using System.Data;
 
-    using Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
 
     using Oracle.ManagedDataAccess.Client;
 
@@ -50,7 +50,7 @@
                 cmd.ExecuteNonQuery();
                 connection.Close();
                 return new decimal(double.Parse(result.Value.ToString()));
-            }  
+            }
         }
     }
 }

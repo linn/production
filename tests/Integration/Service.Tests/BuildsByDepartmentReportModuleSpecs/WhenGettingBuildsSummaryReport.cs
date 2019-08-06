@@ -23,7 +23,8 @@
         public void SetUp()
         {
             var results = new List<ResultsModel> { new ResultsModel { ReportTitle = new NameModel("t") } };
-            this.BuildsByDepartmentReportFacadeService.GetBuildsSummaryReports(DateTime.UnixEpoch, DateTime.UnixEpoch, false)
+            this.BuildsByDepartmentReportFacadeService
+                .GetBuildsSummaryReports(DateTime.UnixEpoch, DateTime.UnixEpoch, false)
                 .Returns(
                     new SuccessResult<IEnumerable<ResultsModel>>(results)
                         {

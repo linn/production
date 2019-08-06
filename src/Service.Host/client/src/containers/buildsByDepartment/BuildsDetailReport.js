@@ -2,20 +2,14 @@ import { connect } from 'react-redux';
 import { ReportSelectors } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import initialiseOnMount from '../initialiseOnMount';
-import BuildsSummaryReport from '../../components/buildsbyDepartment/BuildsSummaryReport';
-import actions from '../../actions/buildsSummaryReport';
+import BuildsDetailReport from '../../components/buildsbyDepartment/BuildsDetailReport';
+import actions from '../../actions/buildsDetailReportActions';
 import config from '../../config';
 
-const reportSelectors = new ReportSelectors('buildsSummaryReport');
+const reportSelectors = new ReportSelectors('buildsDetailReport');
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);
-    if (options.fromDate === 'undefined') {
-        options.fromDate = new Date().toISOString();
-    }
-    if (options.toDate === 'undefined') {
-        options.toDate = new Date().toISOString();
-    }
     return options;
 };
 
@@ -37,4 +31,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(initialiseOnMount(BuildsSummaryReport));
+)(initialiseOnMount(BuildsDetailReport));

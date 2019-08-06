@@ -2,7 +2,7 @@
 {
     using System;
     using Linn.Common.Facade;
-    using Linn.Production.Domain;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
 
     public class ProductionMeasuresResourceBuilder : IResourceBuilder<ProductionMeasures>
