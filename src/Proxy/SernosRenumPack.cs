@@ -1,11 +1,13 @@
-﻿using System;
-using System.Data;
-using Linn.Production.Resources;
-using Oracle.ManagedDataAccess.Client;
-
-namespace Linn.Production.Proxy
+﻿namespace Linn.Production.Proxy
 {
+    using System;
+    using System.Data;
+
     using Domain.LinnApps.RemoteServices;
+
+    using Linn.Production.Resources;
+
+    using Oracle.ManagedDataAccess.Client;
 
     public class SernosRenumPack : ISernosRenumPack
     {

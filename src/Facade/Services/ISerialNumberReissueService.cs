@@ -1,7 +1,9 @@
 ﻿namespace Linn.Production.Facade.Services
 {
-    using Linn.Common.Facade;
     using Domain.LinnApps.SerialNumberReissue;
+
+    using Linn.Common.Facade;
+
     using Resources;
 
     public interface ISerialNumberReissueService

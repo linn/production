@@ -1,12 +1,14 @@
-﻿using Linn.Common.Persistence;
-using Linn.Production.Domain.LinnApps.RemoteServices;
-using Linn.Production.Domain.LinnApps.SerialNumberReissue;
-
-namespace Linn.Production.Facade.Tests.SerialNumberReissueServiceSpecs
+﻿namespace Linn.Production.Facade.Tests.SerialNumberReissueServiceSpecs
 {
-    using Services;
+    using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+
     using NSubstitute;
+
     using NUnit.Framework;
+
+    using Services;
 
     public abstract class ContextBase
     {

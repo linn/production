@@ -1,15 +1,16 @@
 ﻿namespace Linn.Production.Facade.Services
 {
-    using Linn.Common.Facade;
-    using Linn.Common.Persistence;
-
-    using Extensions;
+    using System.Linq;
 
     using Domain.LinnApps.RemoteServices;
     using Domain.LinnApps.SerialNumberReissue;
-    using Resources;
 
-    using System.Linq;
+    using Extensions;
+
+    using Linn.Common.Facade;
+    using Linn.Common.Persistence;
+
+    using Resources;
 
     public class SerialNumberReissueService : ISerialNumberReissueService
     {
@@ -34,7 +35,7 @@
 
             resource.CreatedBy = employee.Href.ParseId();
 
-            var sernosRenumMessage = sernosRenumPack.ReissueSerialNumber(resource);
+            var sernosRenumMessage = this.sernosRenumPack.ReissueSerialNumber(resource);
 
             if (sernosRenumMessage != "SUCCESS")
             {

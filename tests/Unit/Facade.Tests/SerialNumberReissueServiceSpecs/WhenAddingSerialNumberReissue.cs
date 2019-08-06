@@ -1,16 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using Linn.Common.Resources;
-
-namespace Linn.Production.Facade.Tests.SerialNumberReissueServiceSpecs
+﻿namespace Linn.Production.Facade.Tests.SerialNumberReissueServiceSpecs
 {
-    using FluentAssertions;
-    using Linn.Common.Facade;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+
     using Domain.LinnApps.SerialNumberReissue;
-    using Resources;
+
+    using FluentAssertions;
+
+    using Linn.Common.Facade;
+    using Linn.Common.Resources;
+
     using NSubstitute;
+
     using NUnit.Framework;
+
+    using Resources;
 
     public class WhenAddingSerialNumberReissue : ContextBase
     {

@@ -2,16 +2,19 @@
 {
     using System.Linq;
 
-    using Facade.Services;
     using Extensions;
-    using Resources;
-    using Models;
+
+    using Facade.Services;
 
     using Linn.Common.Resources;
+
+    using Models;
 
     using Nancy;
     using Nancy.ModelBinding;
     using Nancy.Security;
+
+    using Resources;
 
     public sealed class SerialNumberReissueModule : NancyModule
     {
@@ -32,7 +35,7 @@
 
             var resource = this.Bind<SerialNumberReissueResource>();
 
-            resource.Links = new[] {new LinkResource("created-by", this.Context?.CurrentUser?.GetEmployeeUri())};
+            resource.Links = new[] { new LinkResource("created-by", this.Context?.CurrentUser?.GetEmployeeUri()) };
 
             var result = this.serialNumberReissueService.ReissueSerialNumber(resource);
             return this.Negotiate

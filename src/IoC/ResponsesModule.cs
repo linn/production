@@ -1,16 +1,18 @@
 ﻿namespace Linn.Production.IoC
 {
+    using System.Collections.Generic;
+
     using Autofac;
 
     using Common.Facade;
     using Common.Reporting.Models;
-    using Domain.LinnApps.ATE;
-    using Domain.LinnApps.SerialNumberReissue;
-    using Facade.ResourceBuilders;
-    
-    using System.Collections.Generic;
+
     using Domain.LinnApps;
+    using Domain.LinnApps.ATE;
     using Domain.LinnApps.Measures;
+    using Domain.LinnApps.SerialNumberReissue;
+
+    using Facade.ResourceBuilders;
 
     public class ResponsesModule : Module
     {

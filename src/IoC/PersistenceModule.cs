@@ -3,17 +3,19 @@
     using Autofac;
 
     using Domain.LinnApps;
-    using Domain.LinnApps.Repositories;
     using Domain.LinnApps.ATE;
+    using Domain.LinnApps.Measures;
+    using Domain.LinnApps.Repositories;
     using Domain.LinnApps.SerialNumberReissue;
-    using Persistence.LinnApps;
-    using Persistence.LinnApps.Repositories;
+    using Domain.LinnApps.ViewModels;
 
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
-    using Domain.LinnApps.Measures;
-    using Domain.LinnApps.ViewModels;
+
     using Microsoft.EntityFrameworkCore;
+
+    using Persistence.LinnApps;
+    using Persistence.LinnApps.Repositories;
 
     public class PersistenceModule : Module
     {
