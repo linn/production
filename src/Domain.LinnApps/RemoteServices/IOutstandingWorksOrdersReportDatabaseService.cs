@@ -2,7 +2,7 @@
 {
     using System.Data;
 
-    public interface IOutstandindWorksOrdersReportDatabaseService
+    public interface IOutstandingWorksOrdersReportDatabaseService
     {
         DataTable GetReport();
     }

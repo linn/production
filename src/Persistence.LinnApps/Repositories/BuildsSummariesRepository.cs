@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using Domain.LinnApps;
-    using Domain.LinnApps.RemoteServices;
-    using Domain.LinnApps.Repositories;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.Repositories;
 
     public class BuildsSummariesRepository : IBuildsSummariesRepository
     {

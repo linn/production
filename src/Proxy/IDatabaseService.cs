@@ -7,7 +7,7 @@
     public interface IDatabaseService
     {
         OracleConnection GetConnection();
-   
+
         int GetIdSequence(string sequenceName);
 
         DataSet ExecuteQuery(string sql);

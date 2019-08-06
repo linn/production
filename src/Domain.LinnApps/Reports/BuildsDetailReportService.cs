@@ -6,6 +6,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
 
     public class BuildsDetailReportService : IBuildsDetailReportService
     {
@@ -29,7 +30,7 @@
             bool monthly = false)
         {
             var table = this.databaseService.GetBuildsDetail(from, to, quantityOrValue, department, monthly);
-            var partGroups = table.Select().GroupBy(r => r[2]).ToList(); 
+            var partGroups = table.Select().GroupBy(r => r[2]).ToList();
             var weeks = partGroups.Select(g => ((DateTime)g.First().ItemArray[4]).ToShortDateString()).Distinct().ToList();
 
             var colHeaders = new List<string> { "Part Number" };
@@ -42,7 +43,7 @@
             var rowIndex = 0;
             foreach (var partGroup in partGroups)
             {
-                var partTotal =  new decimal();
+                var partTotal = new decimal();
                 results.AddRow(partGroup.Key.ToString());
                 results.SetGridTextValue(rowIndex, 0, partGroup.Key.ToString());
 

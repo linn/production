@@ -6,7 +6,7 @@
     using System.Linq;
 
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
 
     public class BuildsSummaryReportService : IBuildsSummaryReportService
     {

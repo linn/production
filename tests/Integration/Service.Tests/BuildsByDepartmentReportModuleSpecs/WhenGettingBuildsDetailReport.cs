@@ -1,23 +1,33 @@
-﻿using System;
-using System.Linq;
-using FluentAssertions;
-using Nancy;
-using Nancy.Testing;
-using NSubstitute;
-
-namespace Linn.Production.Service.Tests.BuildsByDepartmentReportModuleSpecs
+﻿namespace Linn.Production.Service.Tests.BuildsByDepartmentReportModuleSpecs
 {
+    using System;
+    using System.Linq;
+
+    using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Common.Reporting.Resources.ReportResultResources;
+
+    using Nancy;
+    using Nancy.Testing;
+
+    using NSubstitute;
+
     using NUnit.Framework;
+
     public class WhenGettingBuildsDetailReport : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.BuildsByDepartmentReportFacadeService.GetBuildsDetailReport(DateTime.UnixEpoch, DateTime.UnixEpoch, "001", "Value", false)
+            this.BuildsByDepartmentReportFacadeService.GetBuildsDetailReport(
+                    DateTime.UnixEpoch,
+                    DateTime.UnixEpoch,
+                    "001",
+                    "Value",
+                    false)
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
                 {
@@ -56,7 +66,7 @@ namespace Linn.Production.Service.Tests.BuildsByDepartmentReportModuleSpecs
                 DateTime.UnixEpoch,
                 "001",
                 "Value",
-                false); ;
+                false);
         }
 
         [Test]

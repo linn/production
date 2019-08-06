@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
 
-    using Domain.LinnApps.Services;
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Common.Reporting.Resources.Extensions;
