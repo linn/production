@@ -20,6 +20,9 @@ import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsS
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
 import BuildsDetailReportOptions from '../containers/buildsByDepartment/BuildsDetailReportOptions';
 import BuildsDetailReport from '../containers/buildsByDepartment/BuildsDetailReport';
+import ManufacturingSkills from '../containers/manufacturingSkills/ManufacturingSkills';
+import ManufacturingSkill from '../containers/manufacturingSkills/ManufacturingSkill';
+import CreateManufacturingSkill from '../containers/manufacturingSkills/CreateManufacturingSkill';
 
 const Root = ({ store }) => (
     <div>
@@ -100,6 +103,21 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/builds-detail"
                                         component={BuildsDetailReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-skills"
+                                        component={ManufacturingSkills}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-skills/create"
+                                        component={CreateManufacturingSkill}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-skills/:id"
+                                        component={ManufacturingSkill}
                                     />
                                 </Switch>
                             </div>

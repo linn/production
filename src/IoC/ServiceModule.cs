@@ -1,4 +1,6 @@
-﻿namespace Linn.Production.IoC
+﻿using Linn.Production.Domain.LinnApps;
+
+namespace Linn.Production.IoC
 {
 
     using System.Data;
@@ -41,6 +43,14 @@
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandingWorksOrdersReportDatabaseService>();
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
+            builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
+
+            // facade services
+            builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<ManufacturingSkillService>()
+                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>
+                >();
+            builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
