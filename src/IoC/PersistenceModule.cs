@@ -26,6 +26,7 @@
             builder.RegisterType<DepartmentsRepository>().As<IRepository<Department, string>>();
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
+            builder.RegisterType<ManufacturingSkillsRepository>().As<IRepository<ManufacturingSkill, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

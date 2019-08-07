@@ -13,6 +13,9 @@ function App() {
                 <ListItem component={Link} to="/production/quality/ate/fault-codes/" button>
                     <Typography color="primary">ATE Fault Codes</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/resources/manufacturing-skills/" button>
+                    <Typography color="primary">Manufacturing Routes Utility</Typography>
+                </ListItem>
             </List>
             <Typography variant="h6">Reports</Typography>
             <List>
