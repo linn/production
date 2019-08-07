@@ -1,12 +1,10 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
     using Linn.Common.Configuration;
-    using Linn.Production.Domain;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -27,6 +25,8 @@
 
         public DbQuery<WhoBuiltWhat> WhoBuiltWhat { get; set; }
 
+        public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -37,6 +37,7 @@
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
+            this.BuildManufacturingResources(builder);
 
             base.OnModelCreating(builder);
         }
@@ -113,7 +114,6 @@
             e.Property(c => c.SortOrder).HasColumnName("SORT_ORDER");
         }
 
-
         private void BuildProductionMeasures(ModelBuilder builder)
         {
             var e = builder.Entity<ProductionMeasures>();
@@ -154,6 +154,16 @@
             e.Property(d => d.Fours).HasColumnName("FOURS");
             e.Property(d => d.Fives).HasColumnName("FIVES");
             e.HasOne<Cit>(d => d.Cit).WithOne(c => c.Measures);
+        }
+
+        private void BuildManufacturingResources(ModelBuilder builder)
+        {
+            var e = builder.Entity<ManufacturingResource>();
+            e.ToTable("MFG_RESOURCES");
+            e.HasKey(c => c.ResourceCode);
+            e.Property(c => c.ResourceCode).HasColumnName("MFG_RESOURCE_CODE").HasMaxLength(50);
+            e.Property(c => c.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(c => c.Cost).HasColumnName("COST_POUNDS_PER_HOUR").HasMaxLength(2);
         }
     }
 }
