@@ -1,9 +1,8 @@
 ﻿namespace Linn.Production.IoC
 {
+
     using System.Data;
-
     using Autofac;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
@@ -13,7 +12,6 @@
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
-
     using Oracle.ManagedDataAccess.Client;
 
     public class ServiceModule : Module
@@ -33,6 +31,7 @@
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
             builder.RegisterType<WhoBuiltWhatReportFacadeService>().As<IWhoBuiltWhatReportFacadeService>();
+            builder.RegisterType<ManufacturingResourceFacadeService>().As<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
 
             // Oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
