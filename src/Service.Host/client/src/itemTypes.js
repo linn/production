@@ -11,4 +11,8 @@ export const ateFaultCodes = new ItemType(
     '/production/quality/ate/fault-codes'
 );
 
-export const departments = new ItemType('departments', 'DEPARTMENTS', '/production/departments');
+export const departments = new ItemType(
+    'departments',
+    'DEPARTMENTS',
+    '/production/resources/departments'
+);

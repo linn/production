@@ -17,7 +17,6 @@ export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.
 
 export const departmentsActionTypes = makeActionTypes(itemTypes.departments.actionType, false);
 
-
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );
