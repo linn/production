@@ -1,18 +1,18 @@
-﻿import React from 'react';
+﻿﻿import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Redirect, Switch } from 'react-router';
 import { OidcProvider } from 'redux-oidc';
 import { Router } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Navigation, linnTheme } from '@linn-it/linn-form-components-library';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import PropTypes from 'prop-types';
 import history from '../history';
 import App from './App';
 import Callback from '../containers/Callback';
 import userManager from '../helpers/userManager';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import MomentUtils from '@date-io/moment';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
 import 'typeface-roboto';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
@@ -22,6 +22,9 @@ import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsS
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
 import BuildsDetailReportOptions from '../containers/buildsByDepartment/BuildsDetailReportOptions';
 import BuildsDetailReport from '../containers/buildsByDepartment/BuildsDetailReport';
+import ManufacturingSkills from '../containers/manufacturingSkills/ManufacturingSkills';
+import ManufacturingSkill from '../containers/manufacturingSkills/ManufacturingSkill';
+import CreateManufacturingSkill from '../containers/manufacturingSkills/CreateManufacturingSkill';
 
 const Root = ({ store }) => (
     <div>
@@ -111,6 +114,21 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/builds-detail"
                                             component={BuildsDetailReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-skills"
+                                            component={ManufacturingSkills}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-skills/create"
+                                            component={CreateManufacturingSkill}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-skills/:id"
+                                            component={ManufacturingSkill}
                                         />
                                     </Switch>
                                 </div>
