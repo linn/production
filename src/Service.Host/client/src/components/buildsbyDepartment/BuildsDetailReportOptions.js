@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
-import { OnOffSwitch, Dropdown } from '@linn-it/linn-form-components-library';
-import { KeyboardDatePicker } from '@material-ui/pickers';
+import { OnOffSwitch, Dropdown, DatePicker } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Page from '../../containers/Page';
-import DatePicker from './DatePicker';
 
 function BuildsDetailReportOptions({ history, departments, options, prevOptions }) {
     const getFromDate = () => {
@@ -109,16 +107,15 @@ function BuildsDetailReportOptions({ history, departments, options, prevOptions 
                         onChange={handleQuantityOrValueChange}
                     />
                 </Grid>
-                <Grid item xs={3}>
-                    <KeyboardDatePicker
-                        allowKeyboardControl
-                        autoOk
-                        label="From Date"
+                <Grid item xs={6}>
+                    <DatePicker
                         value={fromDate}
+                        label="From Date"
+                        minDate={fromDate}
                         onChange={setFromDate}
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={6}>
                     <DatePicker
                         value={toDate}
                         label="To Date"
@@ -126,7 +123,8 @@ function BuildsDetailReportOptions({ history, departments, options, prevOptions 
                         onChange={setToDate}
                     />
                 </Grid>
-                <Grid item xs={3}>
+
+                <Grid item xs={12}>
                     <OnOffSwitch
                         label="Total by months"
                         value={monthly}
@@ -134,7 +132,7 @@ function BuildsDetailReportOptions({ history, departments, options, prevOptions 
                         propertyName="monthly"
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={12}>
                     <Button
                         color="primary"
                         variant="contained"

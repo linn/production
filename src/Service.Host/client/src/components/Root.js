@@ -11,6 +11,8 @@ import history from '../history';
 import App from './App';
 import Callback from '../containers/Callback';
 import userManager from '../helpers/userManager';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
 import 'typeface-roboto';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
@@ -27,83 +29,93 @@ const Root = ({ store }) => (
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
                     <ThemeProvider theme={linnTheme}>
-                        <Router history={history}>
-                            <div>
-                                <Navigation />
-                                <CssBaseline />
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <Router history={history}>
+                                <div>
+                                    <Navigation />
+                                    <CssBaseline />
 
-                                <Route
-                                    exact
-                                    path="/"
-                                    render={() => <Redirect to="/production/maintenance" />}
-                                />
-
-                                <Route
-                                    exact
-                                    path="/production"
-                                    render={() => <Redirect to="/production/maintenance" />}
-                                />
-
-                                <Switch>
-                                    <Route exact path="/production/maintenance" component={App} />
-                                    <Route exact path="/production/quality" component={App} />
-                                    <Route exact path="/production/quality/ate" component={App} />
                                     <Route
                                         exact
-                                        path="/production/maintenance/works-orders"
-                                        component={App}
+                                        path="/"
+                                        render={() => <Redirect to="/production/maintenance" />}
                                     />
 
                                     <Route
                                         exact
-                                        path="/production/maintenance/signin-oidc-client"
-                                        component={Callback}
+                                        path="/production"
+                                        render={() => <Redirect to="/production/maintenance" />}
                                     />
 
-                                    <Route
-                                        exact
-                                        path="/production/maintenance/works-orders/outstanding-works-orders-report"
-                                        component={OutstandingWorksOrdersReport}
-                                    />
+                                    <Switch>
+                                        <Route
+                                            exact
+                                            path="/production/maintenance"
+                                            component={App}
+                                        />
+                                        <Route exact path="/production/quality" component={App} />
+                                        <Route
+                                            exact
+                                            path="/production/quality/ate"
+                                            component={App}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/maintenance/works-orders"
+                                            component={App}
+                                        />
 
-                                    <Route
-                                        exact
-                                        path="/production/quality/ate/fault-codes/create"
-                                        component={CreateAteFaultCode}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/quality/ate/fault-codes/:id"
-                                        component={AteFaultCode}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/quality/ate/fault-codes"
-                                        component={AteFaultCodes}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/reports/builds-summary/options"
-                                        component={BuildsSummaryReportOptions}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/reports/builds-summary"
-                                        component={BuildsSummaryReport}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/reports/builds-detail/options"
-                                        component={BuildsDetailReportOptions}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/reports/builds-detail"
-                                        component={BuildsDetailReport}
-                                    />
-                                </Switch>
-                            </div>
-                        </Router>
+                                        <Route
+                                            exact
+                                            path="/production/maintenance/signin-oidc-client"
+                                            component={Callback}
+                                        />
+
+                                        <Route
+                                            exact
+                                            path="/production/maintenance/works-orders/outstanding-works-orders-report"
+                                            component={OutstandingWorksOrdersReport}
+                                        />
+
+                                        <Route
+                                            exact
+                                            path="/production/quality/ate/fault-codes/create"
+                                            component={CreateAteFaultCode}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/quality/ate/fault-codes/:id"
+                                            component={AteFaultCode}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/quality/ate/fault-codes"
+                                            component={AteFaultCodes}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/builds-summary/options"
+                                            component={BuildsSummaryReportOptions}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/builds-summary"
+                                            component={BuildsSummaryReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/builds-detail/options"
+                                            component={BuildsDetailReportOptions}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/builds-detail"
+                                            component={BuildsDetailReport}
+                                        />
+                                    </Switch>
+                                </div>
+                            </Router>
+                        </MuiPickersUtilsProvider>
                     </ThemeProvider>
                 </OidcProvider>
             </Provider>
