@@ -7,7 +7,6 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
@@ -22,11 +21,11 @@
             builder.RegisterType<TransactionManager>().As<ITransactionManager>();
 
             // linnapps repositories
-            builder.RegisterType<BuildsSummariesRepository>().As<IBuildsSummariesRepository>();
             builder.RegisterType<DepartmentsRepository>().As<IRepository<Department, string>>();
             builder.RegisterType<AteFaultCodeRepository>().As<IRepository<AteFaultCode, string>>();
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
             builder.RegisterType<ManufacturingSkillsRepository>().As<IRepository<ManufacturingSkill, string>>();
+            builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

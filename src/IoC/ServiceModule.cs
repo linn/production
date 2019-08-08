@@ -30,6 +30,8 @@ namespace Linn.Production.IoC
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<BoardFailTypesService>()
+                .As<IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource>>();
             builder.RegisterType<DepartmentService>().As<IFacadeService<Department, string, DepartmentResource, DepartmentResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();

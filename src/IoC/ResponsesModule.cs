@@ -30,6 +30,9 @@ namespace Linn.Production.IoC
             builder.RegisterType<ManufacturingSkillResourceBuilder>().As<IResourceBuilder<ManufacturingSkill>>();
             builder.RegisterType<ManufacturingSkillsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingSkill>>>();
+            builder.RegisterType<BoardFailTypeResourceBuilder>().As<IResourceBuilder<BoardFailType>>();
+            builder.RegisterType<BoardFailTypesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<BoardFailType>>>();
         }
     }
 }
