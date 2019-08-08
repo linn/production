@@ -72,3 +72,4 @@ config.env
 local-update.sh
 
 .vscode/
+/src/Facade/StyleCop.Cache
