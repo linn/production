@@ -7,12 +7,9 @@ import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
-<<<<<<< HEAD
 import productionMeasures from './productionMeasures';
-=======
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
->>>>>>> master
 
 const rootReducer = combineReducers({
     oidc,
@@ -21,16 +18,11 @@ const rootReducer = combineReducers({
     departments,
     buildsSummaryReport,
     outstandingWorksOrdersReport,
-<<<<<<< HEAD
     productionMeasures,
     buildsDetailReport,
-    ...sharedLibraryReducers
-=======
     manufacturingSkills,
     manufacturingSkill,
-    ...sharedLibraryReducers,
-    buildsDetailReport
->>>>>>> master
+    ...sharedLibraryReducers
 });
 
 export default rootReducer;
