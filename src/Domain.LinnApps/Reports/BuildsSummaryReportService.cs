@@ -82,7 +82,7 @@
             results.RowDrillDownTemplates.Add(
                 new DrillDownModel(
                     "department",
-                    $"/production/reports/builds-detail?fromDate={@from.Date}&toDate={@to.Date}" + "&department={rowId}"
+                    $"/production/reports/builds-detail/options?fromDate={from.Date.ToString("o", CultureInfo.InvariantCulture)}&toDate={to.Date.ToString("o", CultureInfo.InvariantCulture)}" + "&department={rowId}"
                                                                                                  + $"&quantityOrValue=Value&monthly={monthly}"));
             return results;
         }
