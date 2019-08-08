@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Domain;
+    using Domain.LinnApps.Measures;
 
     public static class ProductionMeasuresCsvExtensions
     {
