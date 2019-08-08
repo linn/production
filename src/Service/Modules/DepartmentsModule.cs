@@ -14,7 +14,7 @@
         public DepartmentsModule(IFacadeService<Department, string, DepartmentResource, DepartmentResource> departmentService)
         {
             this.departmentService = departmentService;
-            this.Get("/production/departments", _ => this.GetPersonnelDepartments());
+            this.Get("/production/resources/departments", _ => this.GetPersonnelDepartments());
         }
 
         private object GetPersonnelDepartments()
