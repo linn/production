@@ -67,6 +67,12 @@ module.exports = {
             }
         ]
     },
+    resolve: {
+        alias: {
+            '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers')
+        }
+        //modules: [path.resolve('node_modules'), 'node_modules'].concat(/* ... */)
+    },
     devtool: 'source-map' // enum
     // enhance debugging by adding meta info for the browser devtools
     // source-map most detailed at the expense of build speed.

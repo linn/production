@@ -11,12 +11,15 @@
         {
             this.Get("/", args => new RedirectResponse("/production/maintenance"));
             this.Get("/production", args => new RedirectResponse("/production/maintenance"));
+            this.Get("/production/reports", args => new RedirectResponse("/production/maintenance"));
             this.Get("/production/maintenance", _ => this.GetApp());
             this.Get("/production/reports/measures", _ => this.GetApp());
             this.Get("/production/(.*)/create", _ => this.GetApp());
 
             this.Get("/production/maintenance/signin-oidc-client", _ => this.GetApp());
             this.Get("/production/maintenance/signin-oidc-silent", _ => this.SilentRenew());
+
+            this.Get(@"^(.*)$", _ => this.GetApp()); /// just do for production
         }
 
         private object SilentRenew()

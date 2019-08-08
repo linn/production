@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
-import { OnOffSwitch } from '@linn-it/linn-form-components-library';
-import { DatePicker } from '@material-ui/pickers';
+import { OnOffSwitch, DatePicker } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
