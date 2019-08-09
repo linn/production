@@ -22,6 +22,7 @@ const rootReducer = combineReducers({
     buildsSummaryReport,
     departments,
     manufacturingSkill,
+    manufacturingSkills,
     outstandingWorksOrdersReport,
     salesArticle,
     serialNumbers,
