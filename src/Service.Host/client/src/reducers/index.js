@@ -9,6 +9,8 @@ import buildsDetailReport from './buildsDetailReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
+import manufacturingResources from './manufacturingResources/manufacturingResources';
+import manufacturingResource from './manufacturingResources/manufacturingResource';
 
 const rootReducer = combineReducers({
     oidc,
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
     outstandingWorksOrdersReport,
     manufacturingSkills,
     manufacturingSkill,
+    manufacturingResources,
+    manufacturingResource,
     ...sharedLibraryReducers,
     buildsDetailReport
 });

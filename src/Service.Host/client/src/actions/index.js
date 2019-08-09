@@ -17,12 +17,19 @@ export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.
 
 export const departmentsActionTypes = makeActionTypes(itemTypes.departments.actionType, false);
 
-
 export const manufacturingSkillActionTypes = makeActionTypes(
     itemTypes.manufacturingSkill.actionType
 );
 export const manufacturingSkillsActionTypes = makeActionTypes(
     itemTypes.manufacturingSkills.actionType,
+    false
+);
+
+export const manufacturingResourceActionTypes = makeActionTypes(
+    itemTypes.manufacturingResource.actionType
+);
+export const manufacturingResourcesActionTypes = makeActionTypes(
+    itemTypes.manufacturingResources.actionType,
     false
 );
 

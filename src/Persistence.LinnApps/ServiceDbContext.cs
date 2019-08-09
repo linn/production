@@ -174,9 +174,9 @@
             var e = builder.Entity<ManufacturingResource>();
             e.ToTable("MFG_RESOURCES");
             e.HasKey(c => c.ResourceCode);
-            e.Property(c => c.ResourceCode).HasColumnName("MFG_RESOURCE_CODE").HasMaxLength(50);
+            e.Property(c => c.ResourceCode).HasColumnName("MFG_RESOURCE_CODE").HasMaxLength(10);
             e.Property(c => c.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
-            e.Property(c => c.Cost).HasColumnName("COST_POUNDS_PER_HOUR").HasMaxLength(4);
+            e.Property(c => c.Cost).HasColumnName("COST_POUNDS_PER_HOUR").HasMaxLength(14);
         }
     }
 }

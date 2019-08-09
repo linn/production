@@ -16,6 +16,13 @@ function App() {
                 <ListItem component={Link} to="/production/resources/manufacturing-skills/" button>
                     <Typography color="primary">Manufacturing Routes Utility</Typography>
                 </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/resources/manufacturing-resources/"
+                    button
+                >
+                    <Typography color="primary">Manufacturing Resources Utility</Typography>
+                </ListItem>
             </List>
             <Typography variant="h6">Reports</Typography>
             <List>

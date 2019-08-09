@@ -21,3 +21,13 @@ export const manufacturingSkills = new ItemType(
     'MANUFACTURING_SKILLS',
     '/production/resources/manufacturing-skills'
 );
+export const manufacturingResource = new ItemType(
+    'manufacturingResource',
+    'MANUFACTURING_RESOURCE',
+    '/production/resources/manufacturing-resources'
+);
+export const manufacturingResources = new ItemType(
+    'manufacturingResources',
+    'MANUFACTURING_RESOURCES',
+    '/production/resources/manufacturing-resources'
+);
