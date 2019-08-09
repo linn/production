@@ -20,6 +20,7 @@ import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
 import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsSummaryReportOptions';
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
+import SerialNumberReissue from '../containers/serialNumberReissue/SerialNumberReissue';
 import BuildsDetailReportOptions from '../containers/buildsByDepartment/BuildsDetailReportOptions';
 import BuildsDetailReport from '../containers/buildsByDepartment/BuildsDetailReport';
 import ManufacturingSkills from '../containers/manufacturingSkills/ManufacturingSkills';
@@ -62,6 +63,7 @@ const Root = ({ store }) => (
                                         path="/production/reports"
                                         render={() => <Redirect to="/production/maintenance" />}
                                     />
+
                                     <Switch>
                                         <Route
                                             exact
@@ -90,6 +92,12 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/maintenance/works-orders/outstanding-works-orders-report"
                                             component={OutstandingWorksOrdersReport}
+                                        />
+
+                                        <Route
+                                            exact
+                                            path="/production/maintenance/serial-number-reissue"
+                                            component={SerialNumberReissue}
                                         />
 
                                         <Route
