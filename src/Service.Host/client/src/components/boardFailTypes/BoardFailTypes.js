@@ -54,11 +54,13 @@ const BoardFailTypes = ({ loading, errorMessage, history, items }) => {
             return 0;
         };
 
-        const rows = items.map(el => ({
-            type: `${el.failType}`,
-            description: el.description,
-            links: el.links
-        }));
+        const rows = items
+            ? items.map(el => ({
+                  type: `${el.failType}`,
+                  description: el.description,
+                  links: el.links
+              }))
+            : null;
 
         if (!rows || rows.length === 0) {
             setRowsToDisplay([]);
