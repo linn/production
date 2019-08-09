@@ -6,11 +6,13 @@ namespace Linn.Production.IoC
 
     using Autofac;
 
+    using Common.Reporting.Models;
+
+    using Domain.LinnApps;
+    using Domain.LinnApps.ATE;
+    using Domain.LinnApps.RemoteServices;
+
     using Linn.Common.Facade;
-    using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
@@ -36,13 +38,15 @@ namespace Linn.Production.IoC
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
             builder.RegisterType<WhoBuiltWhatReportFacadeService>().As<IWhoBuiltWhatReportFacadeService>();
 
-            // Oracle proxies
+            // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
             builder.RegisterType<LrpPack>().As<ILrpPack>();
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandingWorksOrdersReportDatabaseService>();
+            builder.RegisterType<SerialNumberReissueService>().As<ISerialNumberReissueService>();
+            builder.RegisterType<SernosRenumPack>().As<ISernosRenumPack>();
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
 

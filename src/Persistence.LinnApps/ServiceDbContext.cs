@@ -4,6 +4,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
     using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,8 @@
 
         public DbSet<AteFaultCode> AteFaultCodes { get; set; }
 
+        public DbSet<SerialNumberReissue> SerialNumberReissues { get; set; }
+
         public DbSet<Cit> Cits { get; set; }
 
         public DbSet<ProductionMeasures> ProductionMeasures { get; set; }
@@ -32,10 +35,9 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
-
+            this.BuildSerialNumberReissues(builder);
             this.BuildDepartments(builder);
             this.BuildBuilds(builder);
-
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
@@ -81,6 +83,20 @@
             base.OnConfiguring(optionsBuilder);
         }
 
+        private void BuildSerialNumberReissues(ModelBuilder builder)
+        {
+            builder.Entity<SerialNumberReissue>().ToTable("SERNOS_RENUM");
+            builder.Entity<SerialNumberReissue>().HasKey(s => s.Id);
+            builder.Entity<SerialNumberReissue>().Property(s => s.Id).HasColumnName("SNRENUM_ID");
+            builder.Entity<SerialNumberReissue>().Property(s => s.SernosGroup).HasColumnName("SERNOS_GROUP").HasMaxLength(10);
+            builder.Entity<SerialNumberReissue>().Property(s => s.SerialNumber).HasColumnName("SERNOS_NUMBER");
+            builder.Entity<SerialNumberReissue>().Property(s => s.NewSerialNumber).HasColumnName("NEW_SERNOS_NUMBER");
+            builder.Entity<SerialNumberReissue>().Property(s => s.Comments).HasColumnName("COMMENTS").HasMaxLength(200);
+            builder.Entity<SerialNumberReissue>().Property(s => s.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Entity<SerialNumberReissue>().Property(s => s.ArticleNumber).HasColumnName("ARTICLE_NUMBER").HasMaxLength(14);
+            builder.Entity<SerialNumberReissue>().Property(s => s.NewArticleNumber).HasColumnName("NEW_ARTICLE_NUMBER").HasMaxLength(14);
+        }
+
         private void BuildDepartments(ModelBuilder builder)
         {
             var e = builder.Entity<Department>();
@@ -115,7 +131,6 @@
             e.Property(c => c.BuildGroup).HasColumnName("BUILD_GROUP").HasMaxLength(2);
             e.Property(c => c.SortOrder).HasColumnName("SORT_ORDER");
         }
-
 
         private void BuildProductionMeasures(ModelBuilder builder)
         {
