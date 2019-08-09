@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Linn.Common.Facade;
-using Linn.Common.Resources;
-using Linn.Production.Domain.LinnApps;
-using Linn.Production.Resources;
-
-namespace Linn.Production.Facade.ResourceBuilders
+﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Linn.Common.Facade;
+    using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Resources;
+
     public class BoardFailTypeResourceBuilder : IResourceBuilder<BoardFailType>
     {
         public object Build(BoardFailType failType)
@@ -16,7 +17,7 @@ namespace Linn.Production.Facade.ResourceBuilders
             {
                 FailType = failType.Type,
                 Description = failType.Description,
-                Links = BuildLinks(failType).ToArray()
+                Links = this.BuildLinks(failType).ToArray()
             };
         }
 

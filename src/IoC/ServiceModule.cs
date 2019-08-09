@@ -42,8 +42,6 @@ namespace Linn.Production.IoC
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
-            builder.RegisterType<LrpPack>().As<ILrpPack>();
-            builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandingWorksOrdersReportDatabaseService>();

@@ -1,7 +1,7 @@
-﻿using Linn.Common.Resources;
-
-namespace Linn.Production.Resources
+﻿namespace Linn.Production.Resources
 {
+    using Linn.Common.Resources;
+
     public class BoardFailTypeResource : HypermediaResource
     {
         public int FailType { get; set; }

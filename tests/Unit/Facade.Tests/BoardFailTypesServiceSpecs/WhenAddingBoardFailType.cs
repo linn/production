@@ -1,10 +1,9 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.Facade.Tests.BoardFailTypeServiceSpecs
+﻿namespace Linn.Production.Facade.Tests.BoardFailTypesServiceSpecs
 {
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
     using NSubstitute;

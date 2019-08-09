@@ -1,12 +1,13 @@
-﻿using Linn.Common.Facade;
-using Linn.Production.Domain.LinnApps;
-using Linn.Production.Resources;
-using Linn.Production.Service.Models;
-using Nancy;
-using Nancy.ModelBinding;
-
-namespace Linn.Production.Service.Modules
+﻿namespace Linn.Production.Service.Modules
 {
+    using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Resources;
+    using Linn.Production.Service.Models;
+
+    using Nancy;
+    using Nancy.ModelBinding;
+
     public sealed class BoardFailTypesModule : NancyModule
     {
         private readonly IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource> facadeService;
