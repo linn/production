@@ -4,6 +4,7 @@
 
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Resources;
 
     public class OutstandingWorksOrdersReportService : IOutstandingWorksOrdersReportService
     {
@@ -14,9 +15,9 @@
             this.databaseService = databaseService;
         }
 
-        public ResultsModel GetOutstandingWorksOrders()
+        public ResultsModel GetOutstandingWorksOrders(OutstandingWorksOrdersRequestResource options)
         {
-            var table = this.databaseService.GetReport();
+            var table = this.databaseService.GetReport(options);
 
             var results =
                 new ResultsModel(
