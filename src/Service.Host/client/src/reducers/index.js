@@ -11,14 +11,17 @@ import salesArticle from './salesArticle';
 import serialNumbers from './serialNumbers';
 import serialNumberReissue from './serialNumberReissue';
 import salesArticles from './salesArticles';
+import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
+import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
 
 const rootReducer = combineReducers({
     oidc,
     ateFaultCode,
     ateFaultCodes,
-    departments,
     buildsDetailReport,
     buildsSummaryReport,
+    departments,
+    manufacturingSkill,
     outstandingWorksOrdersReport,
     salesArticle,
     serialNumbers,

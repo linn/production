@@ -27,6 +27,15 @@ export const serialNumberReissueActionTypes = makeActionTypes(
 
 export const departmentsActionTypes = makeActionTypes(itemTypes.departments.actionType, false);
 
+export const manufacturingSkillActionTypes = makeActionTypes(
+    itemTypes.manufacturingSkill.actionType
+);
+
+export const manufacturingSkillsActionTypes = makeActionTypes(
+    itemTypes.manufacturingSkills.actionType,
+    false
+);
+
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );

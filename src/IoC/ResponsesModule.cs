@@ -1,4 +1,6 @@
-﻿namespace Linn.Production.IoC
+﻿using Linn.Production.Domain.LinnApps;
+
+namespace Linn.Production.IoC
 {
     using System.Collections.Generic;
 
@@ -28,6 +30,9 @@
             builder.RegisterType<DepartmentsResourceBuilder>().As<IResourceBuilder<IEnumerable<Department>>>();
             builder.RegisterType<ProductionMeasuresResourceBuilder>().As<IResourceBuilder<ProductionMeasures>>();
             builder.RegisterType<ProductionMeasuresListResourceBuilder>().As<IResourceBuilder<IEnumerable<ProductionMeasures>>>();
+            builder.RegisterType<ManufacturingSkillResourceBuilder>().As<IResourceBuilder<ManufacturingSkill>>();
+            builder.RegisterType<ManufacturingSkillsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<ManufacturingSkill>>>();
         }
     }
 }

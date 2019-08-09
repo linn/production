@@ -36,4 +36,20 @@ export const serialNumberReissue = new ItemType(
     '/production/maintenance/serial-number-reissue'
 );
 
-export const departments = new ItemType('departments', 'DEPARTMENTS', '/production/departments');
+export const departments = new ItemType(
+    'departments',
+    'DEPARTMENTS',
+    '/production/resources/departments'
+);
+
+export const manufacturingSkill = new ItemType(
+    'manufacturingSkill',
+    'MANUFACTURING_SKILL',
+    '/production/resources/manufacturing-skills'
+);
+
+export const manufacturingSkills = new ItemType(
+    'manufacturingSkills',
+    'MANUFACTURING_SKILLS',
+    '/production/resources/manufacturing-skills'
+);
