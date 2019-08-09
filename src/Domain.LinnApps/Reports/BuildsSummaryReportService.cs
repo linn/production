@@ -32,7 +32,7 @@
                                                    })
                                   {
                                       ReportTitle = new NameModel(
-                                          week.Key.ToString("d", CultureInfo.CurrentCulture))
+                                          week.Key.Date.ToString("d", new CultureInfo("en-GB")))
                                   };
 
                 foreach (var summary in week.OrderBy(w => w.DepartmentDescription))
