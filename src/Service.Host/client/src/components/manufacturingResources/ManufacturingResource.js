@@ -130,7 +130,7 @@ function ManufacturingResource({
                                 value={manufacturingResource.cost}
                                 label="Cost"
                                 type="number"
-                                decimalPlaces="2"
+                                decimalPlaces={2}
                                 maxLength={14}
                                 fullWidth
                                 helperText={costInvalid() ? 'This field is required' : ''}
