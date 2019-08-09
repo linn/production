@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Linn.Common.Facade;
 using Linn.Common.Resources;
 using Linn.Production.Domain.LinnApps;
@@ -14,13 +15,14 @@ namespace Linn.Production.Facade.ResourceBuilders
             return new BoardFailTypeResource
             {
                 FailType = failType.Type,
-                Description = failType.Description
+                Description = failType.Description,
+                Links = BuildLinks(failType).ToArray()
             };
         }
 
         public string GetLocation(BoardFailType failType)
         {
-            return $"/production/quality/board-fail-types/{failType.Type}";
+            return $"/production/resources/board-fail-types/{failType.Type}";
         }
 
         object IResourceBuilder<BoardFailType>.Build(BoardFailType failType) => this.Build(failType);

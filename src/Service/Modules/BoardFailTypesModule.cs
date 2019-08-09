@@ -16,8 +16,8 @@ namespace Linn.Production.Service.Modules
         {
             this.facadeService = facadeService;
             this.Get("/production/resources/board-fail-types", _ => this.GetAll());
-            this.Get("/production/resources/board-fail-types/{type}", parameters => this.GetById(parameters.type));
-            this.Put("/production/resources/board-fail-types/{type}", parameters => this.Update(parameters.type));
+            this.Get("/production/resources/board-fail-types/{type*}", parameters => this.GetById(parameters.type));
+            this.Put("/production/resources/board-fail-types/{type*}", parameters => this.Update(parameters.type));
             this.Post("/production/resources/board-fail-types", parameters => this.Add());
         }
 

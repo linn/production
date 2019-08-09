@@ -20,10 +20,18 @@ export const departmentsActionTypes = makeActionTypes(itemTypes.departments.acti
 export const manufacturingSkillActionTypes = makeActionTypes(
     itemTypes.manufacturingSkill.actionType
 );
+
 export const manufacturingSkillsActionTypes = makeActionTypes(
     itemTypes.manufacturingSkills.actionType,
     false
 );
+
+export const boardFailTypesActionTypes = makeActionTypes(
+    itemTypes.boardFailTypes.actionType,
+    false
+);
+
+export const boardFailTypeActionTypes = makeActionTypes(itemTypes.boardFailType.actionType);
 
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType

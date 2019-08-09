@@ -25,6 +25,9 @@ import BuildsDetailReport from '../containers/buildsByDepartment/BuildsDetailRep
 import ManufacturingSkills from '../containers/manufacturingSkills/ManufacturingSkills';
 import ManufacturingSkill from '../containers/manufacturingSkills/ManufacturingSkill';
 import CreateManufacturingSkill from '../containers/manufacturingSkills/CreateManufacturingSkill';
+import BoardFailTypes from '../containers/boardFailTypes/BoardFailTypes';
+import BoardFailType from '../containers/boardFailTypes/BoardFailType';
+import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
 
 const Root = ({ store }) => (
     <div>
@@ -49,7 +52,16 @@ const Root = ({ store }) => (
                                         path="/production"
                                         render={() => <Redirect to="/production/maintenance" />}
                                     />
-
+                                    <Route
+                                        exact
+                                        path="/production/resources"
+                                        render={() => <Redirect to="/production/maintenance" />}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports"
+                                        render={() => <Redirect to="/production/maintenance" />}
+                                    />
                                     <Switch>
                                         <Route
                                             exact
@@ -97,7 +109,7 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-                                            path="/production/reports/builds-summary/options"
+                                            path="/production/reports/builds-summary-options"
                                             component={BuildsSummaryReportOptions}
                                         />
                                         <Route
@@ -107,7 +119,7 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-                                            path="/production/reports/builds-detail/options"
+                                            path="/production/reports/builds-detail-options"
                                             component={BuildsDetailReportOptions}
                                         />
                                         <Route
@@ -129,6 +141,21 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/resources/manufacturing-skills/:id"
                                             component={ManufacturingSkill}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/board-fail-types"
+                                            component={BoardFailTypes}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/board-fail-types/create"
+                                            component={CreateBoardFailType}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/board-fail-types/:id"
+                                            component={BoardFailType}
                                         />
                                     </Switch>
                                 </div>

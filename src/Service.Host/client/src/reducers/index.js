@@ -9,6 +9,8 @@ import buildsDetailReport from './buildsDetailReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
+import boardFailTypes from './boardFailTypes/boardFailTypes';
+import boardFailType from './boardFailTypes/boardFailType';
 
 const rootReducer = combineReducers({
     oidc,
@@ -20,7 +22,9 @@ const rootReducer = combineReducers({
     manufacturingSkills,
     manufacturingSkill,
     ...sharedLibraryReducers,
-    buildsDetailReport
+    buildsDetailReport,
+    boardFailType,
+    boardFailTypes
 });
 
 export default rootReducer;

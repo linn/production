@@ -12,6 +12,7 @@
             this.Get("/", args => new RedirectResponse("/production/maintenance"));
             this.Get("/production", args => new RedirectResponse("/production/maintenance"));
             this.Get("/production/reports", args => new RedirectResponse("/production/maintenance"));
+            this.Get("/production/resources", args => new RedirectResponse("/production/maintenance"));
             this.Get("/production/maintenance", _ => this.GetApp());
             this.Get("/production/(.*)/create", _ => this.GetApp());
 
