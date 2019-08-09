@@ -8,7 +8,6 @@
     using Linn.Production.Resources;
 
     using Nancy;
-    using Nancy.Testing;
 
     using NSubstitute;
 
@@ -21,8 +20,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.requestResource = new OutstandingWorksOrdersRequestResource { ReportType = string.Empty, SearchParameter = string.Empty };
-            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv(Arg.Any<OutstandingWorksOrdersRequestResource>())
+            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv(null, null)
                 .Returns(new SuccessResult<IEnumerable<IEnumerable<string>>>(new List<List<string>>()));
 
             this.Response = this.Browser.Get(
@@ -30,8 +28,8 @@
                 with =>
                     {
                         with.Header("Accept", "text/csv");
-                        with.Header("Content-Type", "application/json");
-                        with.JsonBody(this.requestResource);
+                        with.Query("reportType", string.Empty);
+                        with.Query("searchParameter", string.Empty);
                     }).Result;
         }
 
@@ -44,7 +42,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReportCsv(Arg.Is<OutstandingWorksOrdersRequestResource>(r => r.ReportType == string.Empty));
+            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReportCsv(null, null);
         }
     }
 }

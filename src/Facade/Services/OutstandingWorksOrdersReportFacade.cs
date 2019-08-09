@@ -17,15 +17,15 @@
             this.outstandingWorksOrdersReportService = outstandingWorksOrdersReportService;
         }
 
-        public IResult<ResultsModel> GetOutstandingWorksOrdersReport(OutstandingWorksOrdersRequestResource options)
+        public IResult<ResultsModel> GetOutstandingWorksOrdersReport(string reportType, string searchParameter)
         {
-            var results = this.outstandingWorksOrdersReportService.GetOutstandingWorksOrders(options);
+            var results = this.outstandingWorksOrdersReportService.GetOutstandingWorksOrders(reportType, searchParameter);
             return new SuccessResult<ResultsModel>(results);
         }
 
-        public IResult<IEnumerable<IEnumerable<string>>> GetOutstandingWorksOrdersReportCsv(OutstandingWorksOrdersRequestResource options)
+        public IResult<IEnumerable<IEnumerable<string>>> GetOutstandingWorksOrdersReportCsv(string reportType, string searchParameter)
         {
-            var results = this.outstandingWorksOrdersReportService.GetOutstandingWorksOrders(options).ConvertToCsvList();
+            var results = this.outstandingWorksOrdersReportService.GetOutstandingWorksOrders(reportType, searchParameter).ConvertToCsvList();
             return new SuccessResult<IEnumerable<IEnumerable<string>>>(results);
         }
     }

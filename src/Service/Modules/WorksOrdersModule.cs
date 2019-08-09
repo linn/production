@@ -24,7 +24,7 @@
             // TODO tests with options
             var resource = this.Bind<OutstandingWorksOrdersRequestResource>();
 
-            var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport(resource);
+            var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport(resource.ReportType, resource.SearchParameter);
 
             return this.Negotiate
                 .WithModel(result)
@@ -36,7 +36,7 @@
         {
             var resource = this.Bind<OutstandingWorksOrdersRequestResource>();
 
-            var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv(resource);
+            var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv(resource.ReportType, resource.SearchParameter);
 
             return this.Negotiate
                 .WithModel(result)

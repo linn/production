@@ -14,17 +14,17 @@
             this.databaseService = databaseService;
         }
 
-        public DataTable GetReport(OutstandingWorksOrdersRequestResource options)
+        public DataTable GetReport(string reportType, string searchParameter)
         {
             string optionsQuery;
 
-            switch (options.ReportType)
+            switch (reportType)
             {
                 case "part-number":
-                    optionsQuery = $@" and wo.part_number = '{options.SearchParameter}' ";
+                    optionsQuery = $@" and wo.part_number = '{searchParameter}' ";
                     break;
                 case "cit":
-                    optionsQuery = $@" and ptl.cit_code = '{options.SearchParameter}' ";
+                    optionsQuery = $@" and ptl.cit_code = '{searchParameter}' ";
                     break;
                 default:
                     optionsQuery = string.Empty;

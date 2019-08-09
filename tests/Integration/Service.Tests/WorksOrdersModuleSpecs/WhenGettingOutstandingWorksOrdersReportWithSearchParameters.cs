@@ -15,13 +15,13 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingOutstandingWorksOrdersReport : ContextBase
+    public class WhenGettingOutstandingWorksOrdersReportWithSearchParameters : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport(null, null).Returns(
+            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport("part-number", "MCP%201717/PP").Returns(
                 new SuccessResult<ResultsModel>(results)
                     {
                         Data = new ResultsModel
@@ -36,6 +36,8 @@
                 with =>
                     {
                         with.Header("Accept", "application/json");
+                        with.Query("reportType", "part-number");
+                        with.Query("searchParameter", "MCP%201717/PP");
                     }).Result;
         }
 
@@ -48,7 +50,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReport(null, null);
+            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReport("part-number", "MCP%201717/PP");
         }
 
         [Test]

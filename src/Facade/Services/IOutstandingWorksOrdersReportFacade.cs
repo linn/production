@@ -8,8 +8,8 @@
 
     public interface IOutstandingWorksOrdersReportFacade
     {
-        IResult<ResultsModel> GetOutstandingWorksOrdersReport(OutstandingWorksOrdersRequestResource options);
+        IResult<ResultsModel> GetOutstandingWorksOrdersReport(string reportType, string searchParameter);
 
-        IResult<IEnumerable<IEnumerable<string>>> GetOutstandingWorksOrdersReportCsv(OutstandingWorksOrdersRequestResource options);
+        IResult<IEnumerable<IEnumerable<string>>> GetOutstandingWorksOrdersReportCsv(string reportType, string searchParameter);
     }
 }

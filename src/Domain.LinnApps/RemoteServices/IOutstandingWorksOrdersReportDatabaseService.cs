@@ -6,6 +6,6 @@
 
     public interface IOutstandingWorksOrdersReportDatabaseService
     {
-        DataTable GetReport(OutstandingWorksOrdersRequestResource options);
+        DataTable GetReport(string reportType, string searchParameter);
     }
 }

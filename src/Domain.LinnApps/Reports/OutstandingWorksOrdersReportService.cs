@@ -15,9 +15,9 @@
             this.databaseService = databaseService;
         }
 
-        public ResultsModel GetOutstandingWorksOrders(OutstandingWorksOrdersRequestResource options)
+        public ResultsModel GetOutstandingWorksOrders(string reportType, string searchParameter)
         {
-            var table = this.databaseService.GetReport(options);
+            var table = this.databaseService.GetReport(reportType, searchParameter);
 
             var results =
                 new ResultsModel(

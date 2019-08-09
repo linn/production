@@ -5,6 +5,6 @@
 
     public interface IOutstandingWorksOrdersReportService
     {
-        ResultsModel GetOutstandingWorksOrders(OutstandingWorksOrdersRequestResource options);
+        ResultsModel GetOutstandingWorksOrders(string reportType, string searchParameter);
     }
 }
