@@ -5,7 +5,7 @@ export default () => next => action => {
     const result = next(action);
     if (
         action.type.startsWith('RECEIVE_NEW_') &&
-        !action.type === 'RECEIVE_NEW_SERIAL_NUMBER_REISSUE'
+        action.type !== 'RECEIVE_NEW_SERIAL_NUMBER_REISSUE'
     ) {
         history.push(getSelfHref(action.payload.data));
     }
