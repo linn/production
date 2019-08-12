@@ -32,7 +32,7 @@ describe('When Editing', () => {
             target: { value: '1234.123451' }
         });
 
-        expect(changeMock).toHaveBeenCalledWith('cost', '1234.12345');
+        expect(changeMock).toHaveBeenCalledWith('cost', 1234.12345);
     });
 
     test('should change input to 2 decimal places from 3', () => {
@@ -58,7 +58,7 @@ describe('When Editing', () => {
             target: { value: '1234.123' }
         });
 
-        expect(changeMock).toHaveBeenCalledWith('cost', '1234.12');
+        expect(changeMock).toHaveBeenCalledWith('cost', 1234.12);
     });
 
     test('should change input to 2 decimal places from 6', () => {
@@ -84,7 +84,7 @@ describe('When Editing', () => {
             target: { value: '1234567.123446' }
         });
 
-        expect(changeMock).toHaveBeenCalledWith('cost', '1234567.12');
+        expect(changeMock).toHaveBeenCalledWith('cost', 1234567.12);
     });
     test('should remain the same with no decimal places specified', () => {
         const { getAllByDisplayValue, getByDisplayValue } = render(

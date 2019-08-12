@@ -75,7 +75,7 @@ function InputField({
                 newValue.indexOf('.') < newValue.length - decimalPlaces &&
                 newValue.indexOf('.') !== -1
             ) {
-                val = val.toFixed(decimalPlaces);
+                val = parseFloat(val.toFixed(decimalPlaces));
             }
         }
 
