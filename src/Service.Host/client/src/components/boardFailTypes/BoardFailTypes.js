@@ -38,22 +38,6 @@ const BoardFailTypes = ({ loading, errorMessage, history, items }) => {
     const classes = useStyles();
 
     useEffect(() => {
-        const compare = (field, orderAscending) => (a, b) => {
-            if (!field) {
-                return 0;
-            }
-
-            if (a[field] < b[field]) {
-                return orderAscending ? -1 : 1;
-            }
-
-            if (a[field] > b[field]) {
-                return orderAscending ? 1 : -1;
-            }
-
-            return 0;
-        };
-
         const rows = items
             ? items.map(el => ({
                   type: `${el.failType}`,
@@ -67,7 +51,6 @@ const BoardFailTypes = ({ loading, errorMessage, history, items }) => {
         } else {
             setRowsToDisplay(
                 rows
-                    .sort(compare(pageOptions.orderBy, pageOptions.orderAscending))
                     .slice(
                         pageOptions.currentPage * pageOptions.rowsPerPage,
                         pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
