@@ -32,7 +32,7 @@
                                                    })
                                   {
                                       ReportTitle = new NameModel(
-                                          week.Key.ToString("d", CultureInfo.CurrentCulture))
+                                          week.Key.Date.ToString("d", new CultureInfo("en-GB")))
                                   };
 
                 foreach (var summary in week.OrderBy(w => w.DepartmentDescription))
@@ -82,7 +82,7 @@
             results.RowDrillDownTemplates.Add(
                 new DrillDownModel(
                     "department",
-                    $"/production/reports/builds-detail?fromDate={@from.Date}&toDate={@to.Date}" + "&department={rowId}"
+                    $"/production/reports/builds-detail/options?fromDate={from.Date.ToString("o", CultureInfo.InvariantCulture)}&toDate={to.Date.ToString("o", CultureInfo.InvariantCulture)}" + "&department={rowId}"
                                                                                                  + $"&quantityOrValue=Value&monthly={monthly}"));
             return results;
         }

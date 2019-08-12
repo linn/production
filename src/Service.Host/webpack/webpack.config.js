@@ -110,6 +110,8 @@ module.exports = {
             react: path.resolve('./node_modules/react'),
             'react-dom': path.resolve('./node_modules/react-dom'),
             'react-redux': path.resolve('./node_modules/react-redux'),
+            '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers'),
+
             notistack: path.resolve('./node_modules/notistack')
         }
         //modules: [path.resolve('node_modules'), 'node_modules'].concat(/* ... */)

@@ -4,6 +4,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -19,6 +20,8 @@
 
         public DbSet<AteFaultCode> AteFaultCodes { get; set; }
 
+        public DbSet<SerialNumberReissue> SerialNumberReissues { get; set; }
+
         public DbSet<Cit> Cits { get; set; }
 
         public DbSet<ProductionMeasures> ProductionMeasures { get; set; }
@@ -27,22 +30,23 @@
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
 
+        public DbSet<BoardFailType> BoardFailTypes { get; set; }
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
-
+            this.BuildSerialNumberReissues(builder);
             this.BuildDepartments(builder);
             this.BuildBuilds(builder);
-
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
             this.BuildManufacturingResources(builder);
 
             this.BuildManufacturingSkills(builder);
+            this.BuildBoardFailTypes(builder);
             base.OnModelCreating(builder);
         }
 
@@ -56,15 +60,6 @@
             builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
             builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
             builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
-        }
-
-        protected void BuildAte(ModelBuilder builder)
-        {
-            builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
-            builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
-            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
-            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
-            builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -83,6 +78,37 @@
             base.OnConfiguring(optionsBuilder);
         }
 
+        protected void BuildAte(ModelBuilder builder)
+        {
+            builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
+            builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
+            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
+            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
+            builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
+        }
+
+        protected void BuildBoardFailTypes(ModelBuilder builder)
+        {
+            builder.Entity<BoardFailType>().ToTable("BOARD_FAIL_TYPES");
+            builder.Entity<BoardFailType>().HasKey(t => t.Type);
+            builder.Entity<BoardFailType>().Property(t => t.Type).HasColumnName("FAIL_TYPE");
+            builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION");
+        }
+
+        private void BuildSerialNumberReissues(ModelBuilder builder)
+        {
+            builder.Entity<SerialNumberReissue>().ToTable("SERNOS_RENUM");
+            builder.Entity<SerialNumberReissue>().HasKey(s => s.Id);
+            builder.Entity<SerialNumberReissue>().Property(s => s.Id).HasColumnName("SNRENUM_ID");
+            builder.Entity<SerialNumberReissue>().Property(s => s.SernosGroup).HasColumnName("SERNOS_GROUP").HasMaxLength(10);
+            builder.Entity<SerialNumberReissue>().Property(s => s.SerialNumber).HasColumnName("SERNOS_NUMBER");
+            builder.Entity<SerialNumberReissue>().Property(s => s.NewSerialNumber).HasColumnName("NEW_SERNOS_NUMBER");
+            builder.Entity<SerialNumberReissue>().Property(s => s.Comments).HasColumnName("COMMENTS").HasMaxLength(200);
+            builder.Entity<SerialNumberReissue>().Property(s => s.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Entity<SerialNumberReissue>().Property(s => s.ArticleNumber).HasColumnName("ARTICLE_NUMBER").HasMaxLength(14);
+            builder.Entity<SerialNumberReissue>().Property(s => s.NewArticleNumber).HasColumnName("NEW_ARTICLE_NUMBER").HasMaxLength(14);
+        }
+
         private void BuildDepartments(ModelBuilder builder)
         {
             var e = builder.Entity<Department>();
@@ -95,7 +121,6 @@
 
         private void BuildBuilds(ModelBuilder builder)
         {
-            // readonly! 
             var e = builder.Query<Build>();
             e.ToView("V_BUILDS");
             e.Property(b => b.Tref).HasColumnName("TREF");
@@ -159,6 +184,7 @@
             e.Property(d => d.Fives).HasColumnName("FIVES");
             e.HasOne<Cit>(d => d.Cit).WithOne(c => c.Measures);
         }
+
         private void BuildManufacturingSkills(ModelBuilder builder)
         {
             var e = builder.Entity<ManufacturingSkill>();

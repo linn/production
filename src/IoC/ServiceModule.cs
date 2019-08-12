@@ -3,10 +3,6 @@
     using System.Data;
     using Autofac;
     using Linn.Common.Facade;
-    using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
@@ -25,19 +21,21 @@
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<BoardFailTypesService>()
+                .As<IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource>>();
             builder.RegisterType<DepartmentService>().As<IFacadeService<Department, string, DepartmentResource, DepartmentResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
             builder.RegisterType<WhoBuiltWhatReportFacadeService>().As<IWhoBuiltWhatReportFacadeService>();
 
-            // Oracle proxies
+            // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
-            builder.RegisterType<LrpPack>().As<ILrpPack>();
-            builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandingWorksOrdersReportDatabaseService>();
+            builder.RegisterType<SerialNumberReissueService>().As<ISerialNumberReissueService>();
+            builder.RegisterType<SernosRenumPack>().As<ISernosRenumPack>();
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
 

@@ -66,6 +66,15 @@ function Report({ reportData, loading }) {
             ) : (
                 <ErrorCard errorMessage="No Data for specified range." />
             )}
+            {reportData &&
+            reportData[index].reportResults[0].results.length > 0 &&
+            index === reportData.length - 1 ? (
+                <Typography variant="subtitle">
+                    Click a department code to view build details for that department
+                </Typography>
+            ) : (
+                <Fragment />
+            )}
         </Fragment>
     );
 
@@ -78,17 +87,7 @@ function Report({ reportData, loading }) {
                 {getSteps().map((label, index) => (
                     <Step key={label} onClick={handleStep(index)}>
                         <StepLabel>{label}</StepLabel>
-                        <StepContent>
-                            {getStepContent(index)}
-                            {reportData && index === reportData.length - 1 ? (
-                                <Typography variant="subtitle">
-                                    Click a department code to view build details for that
-                                    department
-                                </Typography>
-                            ) : (
-                                <Fragment />
-                            )}
-                        </StepContent>
+                        <StepContent>{getStepContent(index)}</StepContent>
                     </Step>
                 ))}
             </Stepper>
@@ -98,7 +97,7 @@ function Report({ reportData, loading }) {
 
 function BuildsSummaryReport({ reportData, loading, history, errorMessage }) {
     const handleBackClick = () => {
-        history.push('/production/reports/builds-summary/options');
+        history.push('/production/reports/builds-summary-options');
     };
     return (
         <Page>

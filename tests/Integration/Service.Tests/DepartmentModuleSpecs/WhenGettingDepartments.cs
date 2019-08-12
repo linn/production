@@ -26,7 +26,7 @@
                 .Returns(new SuccessResult<IEnumerable<Department>>(new List<Department> { dept1, dept2 }));
 
             this.Response = this.Browser.Get(
-                "/production/departments",
+                "/production/resources/departments",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 
