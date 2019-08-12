@@ -73,3 +73,5 @@ local-update.sh
 
 .vscode/
 /src/Facade/StyleCop.Cache
+/src/Service.Host/client/src/components/__tests__/InputField.DecimalsTests.js
+/src/Service.Host/client/src/components/InputFieldWithDecimal.js

@@ -6,9 +6,9 @@ import {
     Loading,
     Title,
     ErrorCard,
-    SnackbarMessage
+    SnackbarMessage,
+    InputField
 } from '@linn-it/linn-form-components-library';
-import InputField from '../InputField';
 import Page from '../../containers/Page';
 
 function ManufacturingResource({
