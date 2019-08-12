@@ -32,6 +32,8 @@ namespace Linn.Production.IoC
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<BoardFailTypesService>()
+                .As<IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource>>();
             builder.RegisterType<DepartmentService>().As<IFacadeService<Department, string, DepartmentResource, DepartmentResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
@@ -40,8 +42,6 @@ namespace Linn.Production.IoC
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
-            builder.RegisterType<LrpPack>().As<ILrpPack>();
-            builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<BuildsSummaryReportProxy>().As<IBuildsSummaryReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportProxy>()
                 .As<IOutstandingWorksOrdersReportDatabaseService>();

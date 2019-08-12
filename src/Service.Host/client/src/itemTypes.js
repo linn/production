@@ -53,3 +53,15 @@ export const manufacturingSkills = new ItemType(
     'MANUFACTURING_SKILLS',
     '/production/resources/manufacturing-skills'
 );
+
+export const boardFailType = new ItemType(
+    'boardFailType',
+    'BOARD_FAIL_TYPE',
+    '/production/resources/board-fail-types'
+);
+
+export const boardFailTypes = new ItemType(
+    'boardFailTypes',
+    'BOARD_FAIL_TYPES',
+    '/production/resources/board-fail-types'
+);

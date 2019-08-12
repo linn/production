@@ -31,6 +31,7 @@
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
 
+        public DbSet<BoardFailType> BoardFailTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -43,6 +44,7 @@
             this.QueryWhoBuildWhat(builder);
 
             this.BuildManufacturingSkills(builder);
+            this.BuildBoardFailTypes(builder);
             base.OnModelCreating(builder);
         }
 
@@ -56,15 +58,6 @@
             builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
             builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
             builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
-        }
-
-        protected void BuildAte(ModelBuilder builder)
-        {
-            builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
-            builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
-            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
-            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
-            builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -81,6 +74,23 @@
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
+        }
+
+        protected void BuildAte(ModelBuilder builder)
+        {
+            builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
+            builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
+            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
+            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
+            builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
+        }
+
+        protected void BuildBoardFailTypes(ModelBuilder builder)
+        {
+            builder.Entity<BoardFailType>().ToTable("BOARD_FAIL_TYPES");
+            builder.Entity<BoardFailType>().HasKey(t => t.Type);
+            builder.Entity<BoardFailType>().Property(t => t.Type).HasColumnName("FAIL_TYPE");
+            builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION");
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)
@@ -109,7 +119,6 @@
 
         private void BuildBuilds(ModelBuilder builder)
         {
-            // readonly! 
             var e = builder.Query<Build>();
             e.ToView("V_BUILDS");
             e.Property(b => b.Tref).HasColumnName("TREF");
@@ -173,6 +182,7 @@
             e.Property(d => d.Fives).HasColumnName("FIVES");
             e.HasOne<Cit>(d => d.Cit).WithOne(c => c.Measures);
         }
+
         private void BuildManufacturingSkills(ModelBuilder builder)
         {
             var e = builder.Entity<ManufacturingSkill>();

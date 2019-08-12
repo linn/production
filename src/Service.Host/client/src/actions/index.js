@@ -36,6 +36,13 @@ export const manufacturingSkillsActionTypes = makeActionTypes(
     false
 );
 
+export const boardFailTypesActionTypes = makeActionTypes(
+    itemTypes.boardFailTypes.actionType,
+    false
+);
+
+export const boardFailTypeActionTypes = makeActionTypes(itemTypes.boardFailType.actionType);
+
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );

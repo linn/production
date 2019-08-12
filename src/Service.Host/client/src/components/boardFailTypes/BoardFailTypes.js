@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
+const BoardFailTypes = ({ loading, errorMessage, history, items }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -38,39 +38,22 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
     const classes = useStyles();
 
     useEffect(() => {
-        const compare = (field, orderAscending) => (a, b) => {
-            if (!field) {
-                return 0;
-            }
-
-            if (a[field] < b[field]) {
-                return orderAscending ? -1 : 1;
-            }
-
-            if (a[field] > b[field]) {
-                return orderAscending ? 1 : -1;
-            }
-
-            return 0;
-        };
-
-        const rows = items.map(el => ({
-            skillCode: el.skillCode,
-            description: el.description,
-            hourlyRate: el.hourlyRate,
-            links: el.links
-        }));
+        const rows = items
+            ? items.map(el => ({
+                  type: `${el.failType}`,
+                  description: el.description,
+                  links: el.links
+              }))
+            : null;
 
         if (!rows || rows.length === 0) {
             setRowsToDisplay([]);
         } else {
             setRowsToDisplay(
-                rows
-                    .sort(compare(pageOptions.orderBy, pageOptions.orderAscending))
-                    .slice(
-                        pageOptions.currentPage * pageOptions.rowsPerPage,
-                        pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
-                    )
+                rows.slice(
+                    pageOptions.currentPage * pageOptions.rowsPerPage,
+                    pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
+                )
             );
         }
     }, [
@@ -84,25 +67,25 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
     const handleRowLinkClick = href => history.push(href);
 
     const columns = {
-        skillCode: 'Skill Code',
-        description: 'Description',
-        hourlyRate: 'Hourly Rate'
+        failType: 'Type',
+        description: 'Description'
     };
 
     return (
         <Page>
-            <Title text="Manufacturing skills" />
+            <Title text="Board Fail Types" />
             {errorMessage && <ErrorCard errorMessage={errorMessage} />}
             {loading ? (
                 <Loading />
             ) : (
                 <Fragment>
                     <Fragment className={classes.actionsContainer}>
-                        <CreateButton createUrl="/production/resources/manufacturing-skills/create" />
+                        <CreateButton createUrl="/production/resources/board-fail-types/create" />
                     </Fragment>
 
                     <PaginatedTable
                         columns={columns}
+                        sortable
                         handleRowLinkClick={handleRowLinkClick}
                         rows={rowsToDisplay}
                         pageOptions={pageOptions}
@@ -115,16 +98,16 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
     );
 };
 
-ViewManufacturingSkills.propTypes = {
+BoardFailTypes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     errorMessage: PropTypes.string
 };
 
-ViewManufacturingSkills.defaultProps = {
+BoardFailTypes.defaultProps = {
     errorMessage: '',
     items: []
 };
 
-export default ViewManufacturingSkills;
+export default BoardFailTypes;

@@ -1,11 +1,12 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using System;
+    using System.Linq.Expressions;
+
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
-    using System;
-    using System.Linq.Expressions;
 
     public class ManufacturingSkillService : FacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>
     {

@@ -23,13 +23,16 @@ function App() {
                 <ListItem component={Link} to="/production/resources/manufacturing-skills/" button>
                     <Typography color="primary">Manufacturing Routes Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/resources/board-fail-types/" button>
+                    <Typography color="primary">Board Fail Types</Typography>
+                </ListItem>
             </List>
             <Typography variant="h6">Reports</Typography>
             <List>
-                <ListItem component={Link} to="/production/reports/builds-summary/options" button>
+                <ListItem component={Link} to="/production/reports/builds-summary-options" button>
                     <Typography color="primary">Builds Sumary Report</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/reports/builds-detail/options" button>
+                <ListItem component={Link} to="/production/reports/builds-detail-options" button>
                     <Typography color="primary">Builds Detail Report</Typography>
                 </ListItem>
                 <ListItem
