@@ -10,7 +10,7 @@ const changeMock = jest.fn();
 
 describe('When Editing', () => {
     test('should change input to 5 decimal places from 6', () => {
-        const { getAllByDisplayValue, getByDisplayValue } = render(
+        const { getByDisplayValue } = render(
             <InputField
                 label="Cost"
                 type="number"
@@ -36,7 +36,7 @@ describe('When Editing', () => {
     });
 
     test('should change input to 2 decimal places from 3', () => {
-        const { getAllByDisplayValue, getByDisplayValue } = render(
+        const { getByDisplayValue } = render(
             <InputField
                 label="Cost"
                 type="number"
@@ -62,7 +62,7 @@ describe('When Editing', () => {
     });
 
     test('should change input to 2 decimal places from 6', () => {
-        const { getAllByDisplayValue, getByDisplayValue } = render(
+        const { getByDisplayValue } = render(
             <InputField
                 label="Cost"
                 type="number"
@@ -87,7 +87,7 @@ describe('When Editing', () => {
         expect(changeMock).toHaveBeenCalledWith('cost', 1234567.12);
     });
     test('should remain the same with no decimal places specified', () => {
-        const { getAllByDisplayValue, getByDisplayValue } = render(
+        const { getByDisplayValue } = render(
             <InputField
                 label="Cost"
                 type="number"
@@ -112,7 +112,7 @@ describe('When Editing', () => {
     });
 
     test('should should do nothing when number with no decimals entered', () => {
-        const { getAllByDisplayValue, getByDisplayValue } = render(
+        const { getByDisplayValue } = render(
             <InputField
                 label="Cost"
                 type="number"

@@ -39,7 +39,9 @@ describe('When Loading', () => {
 
 describe('When viewing', () => {
     it('should not display progress bar', () => {
-        const { queryByRole } = render(<ManufacturingResources {...defaultProps} loading={false} />);
+        const { queryByRole } = render(
+            <ManufacturingResources {...defaultProps} loading={false} />
+        );
         expect(queryByRole('progressbar')).toBeNull();
     });
 
