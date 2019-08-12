@@ -69,13 +69,18 @@ function InputField({
         if (type === 'number') {
             val = hasValue(newValue) ? parseFloat(newValue) : null;
 
+            console.log(
+                `${newValue} to decimalplaces(${decimalPlaces}) new value.indexOf('.') ${newValue.indexOf(
+                    '.'
+                )} < ${newValue.length - decimalPlaces} (newValue.length - decimalPlaces)`
+            );
             if (
                 val &&
                 decimalPlaces &&
                 newValue.indexOf('.') < newValue.length - decimalPlaces &&
                 newValue.indexOf('.') !== -1
             ) {
-                val = parseFloat(val.toFixed(decimalPlaces));
+                val = parseFloat(newValue.slice(0, newValue.indexOf('.') + decimalPlaces + 1));
             }
         }
 
@@ -127,9 +132,7 @@ function InputField({
                 }}
                 onInput={e => {
                     if (type === 'number' && maxLength) {
-                        e.target.value = Math.max(0, parseFloat(e.target.value, 10))
-                            .toString()
-                            .slice(0, maxLength);
+                        e.target.value = e.target.value.slice(0, maxLength);
                     }
                 }}
                 variant="outlined"
