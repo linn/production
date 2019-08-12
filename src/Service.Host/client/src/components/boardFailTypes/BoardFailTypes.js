@@ -50,11 +50,10 @@ const BoardFailTypes = ({ loading, errorMessage, history, items }) => {
             setRowsToDisplay([]);
         } else {
             setRowsToDisplay(
-                rows
-                    .slice(
-                        pageOptions.currentPage * pageOptions.rowsPerPage,
-                        pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
-                    )
+                rows.slice(
+                    pageOptions.currentPage * pageOptions.rowsPerPage,
+                    pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
+                )
             );
         }
     }, [
