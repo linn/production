@@ -24,6 +24,7 @@
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
             builder.RegisterType<ManufacturingSkillsRepository>().As<IRepository<ManufacturingSkill, string>>();
             builder.RegisterType<ManufacturingResourceRepository>().As<IRepository<ManufacturingResource, string>>();
+            builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
