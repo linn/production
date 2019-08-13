@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import { OnOffSwitch, Dropdown, DatePicker } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import moment from 'moment';
