@@ -69,13 +69,8 @@ module.exports = {
     },
     resolve: {
         alias: {
-            // react: path.resolve('./node_modules/react'),
-            // 'react-dom': path.resolve('./node_modules/react-dom'),
-            // 'react-redux': path.resolve('./node_modules/react-redux'),
             moment: path.resolve('./node_modules/moment'),
             '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers')
-            // '@material-ui/styles': path.resolve('./node_modules/@material-ui/styles'),
-            // notistack: path.resolve('./node_modules/notistack')
         }
         //modules: [path.resolve('node_modules'), 'node_modules'].concat(/* ... */)
     },
