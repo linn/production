@@ -1,8 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Loading, CreateButton, ErrorCard, Title } from '@linn-it/linn-form-components-library';
-import PaginatedTable from '@linn-it/linn-form-components-library/esm/PaginatedTable';
+import {
+    Loading,
+    CreateButton,
+    ErrorCard,
+    Title,
+    PaginatedTable
+} from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
 const useStyles = makeStyles(theme => ({
