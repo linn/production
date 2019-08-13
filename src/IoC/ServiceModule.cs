@@ -1,24 +1,17 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
-    using System.Data;
-
     using Autofac;
-
     using Common.Reporting.Models;
-
     using Domain.LinnApps;
     using Domain.LinnApps.ATE;
     using Domain.LinnApps.RemoteServices;
-
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
-
     using Oracle.ManagedDataAccess.Client;
+    using System.Data;
 
     public class ServiceModule : Module
     {
@@ -53,8 +46,11 @@ namespace Linn.Production.IoC
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             builder.RegisterType<ManufacturingSkillService>()
-                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>
-                >();
+                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
+            builder.RegisterType<ManufacturingRouteService>()
+                .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
+            builder.RegisterType<ManufacturingOperationsService>()
+                .As<IFacadeService<ManufacturingOperation, string, ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // services
