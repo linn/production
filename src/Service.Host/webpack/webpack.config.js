@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 
 module.exports = {
+    mode: 'development',
     entry: {
         app: [
             'babel-polyfill',
@@ -20,14 +21,7 @@ module.exports = {
     module: {
         rules: [
             {
-                exclude: [
-                    /\.html$/,
-                    /\.(js|jsx)$/,
-                    /\.css$/,
-                    /\.scss$/,
-                    /\.json$/,
-                    /\.svg$/
-                ],
+                exclude: [/\.html$/, /\.(js|jsx)$/, /\.css$/, /\.scss$/, /\.json$/, /\.svg$/],
                 use: {
                     loader: 'url-loader',
                     query: {
@@ -90,7 +84,7 @@ module.exports = {
                             importLoaders: 1
                         }
                     },
-                    'sass-loader',
+                    'fast-sass-loader',
                     'postcss-loader'
                 ]
             },
@@ -107,16 +101,16 @@ module.exports = {
     },
     resolve: {
         alias: {
-            react: path.resolve('./node_modules/react'),
-            'react-dom': path.resolve('./node_modules/react-dom'),
-            'react-redux': path.resolve('./node_modules/react-redux'),
-            '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers'),
+            // react: path.resolve('./node_modules/react'),
+            // 'react-dom': path.resolve('./node_modules/react-dom'),
+            // 'react-redux': path.resolve('./node_modules/react-redux'),
+            '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers')
 
-            notistack: path.resolve('./node_modules/notistack')
+            // notistack: path.resolve('./node_modules/notistack')
         }
         //modules: [path.resolve('node_modules'), 'node_modules'].concat(/* ... */)
     },
-    devtool: 'source-map',
+    devtool: 'cheap-module-eval-source-map',
     // From https://github.com/gaearon/react-hot-boilerplate/blob/next/webpack.config.js
     plugins: [
         new webpack.HotModuleReplacementPlugin(), // enable HMR globally
@@ -124,7 +118,8 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(), // do not emit compiled assets that include errors
         new webpack.DefinePlugin({
             'PROCESS.ENV': {
-                'appRoot': JSON.stringify('http://localhost:61798')
+                appRoot: JSON.stringify('http://localhost:61798')
             }
         })
-    ]};
+    ]
+};

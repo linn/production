@@ -1,4 +1,5 @@
 ﻿const path = require('path');
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -24,7 +25,6 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /(node_modules)/,
                 use: {
                     loader: 'babel-loader'
                 }
@@ -69,11 +69,22 @@ module.exports = {
     },
     resolve: {
         alias: {
+            // react: path.resolve('./node_modules/react'),
+            // 'react-dom': path.resolve('./node_modules/react-dom'),
+            // 'react-redux': path.resolve('./node_modules/react-redux'),
+            moment: path.resolve('./node_modules/moment'),
             '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers')
+            // '@material-ui/styles': path.resolve('./node_modules/@material-ui/styles'),
+            // notistack: path.resolve('./node_modules/notistack')
         }
         //modules: [path.resolve('node_modules'), 'node_modules'].concat(/* ... */)
     },
-    devtool: 'source-map' // enum
+    plugins: [
+        //new BundleAnalyzerPlugin(),
+        // To strip all locales except “en”
+        new MomentLocalesPlugin()
+    ],
+    devtool: 'cheap-module-eval-source-map'
     // enhance debugging by adding meta info for the browser devtools
     // source-map most detailed at the expense of build speed.
 };
