@@ -29,6 +29,7 @@ import CreateManufacturingSkill from '../containers/manufacturingSkills/CreateMa
 import BoardFailTypes from '../containers/boardFailTypes/BoardFailTypes';
 import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
+import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
 
 const Root = ({ store }) => (
     <div>
@@ -164,6 +165,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/resources/board-fail-types/:id"
                                             component={BoardFailType}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-waiting-list"
+                                            component={AssemblyFailsWaitingListReport}
                                         />
                                     </Switch>
                                 </div>

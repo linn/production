@@ -1,6 +1,7 @@
 ﻿import { makeActionTypes, makeReportActionTypes } from '@linn-it/linn-form-components-library';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
+import { makeRe } from 'minimatch';
 
 export const outstandingWorksOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.outstandingWorksOrdersReport.actionType
@@ -45,4 +46,8 @@ export const boardFailTypeActionTypes = makeActionTypes(itemTypes.boardFailType.
 
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
+);
+
+export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
+    reportTypes.assemblyFailsWaitingList.actionType
 );
