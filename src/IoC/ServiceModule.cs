@@ -29,6 +29,7 @@ namespace Linn.Production.IoC
             builder.RegisterType<WhoBuiltWhatReport>().As<IWhoBuiltWhatReport>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
+            builder.RegisterType<AssemblyFailsWaitingListReportService>().As<IAssemblyFailsWaitingListReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -39,6 +40,12 @@ namespace Linn.Production.IoC
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
             builder.RegisterType<WhoBuiltWhatReportFacadeService>().As<IWhoBuiltWhatReportFacadeService>();
+            builder.RegisterType<AssemblyFailsWaitingListReportFacadeService>()
+                .As<IAssemblyFailsWaitingListReportFacadeService>();
+            builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<ManufacturingSkillService>()
+                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
+            builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -49,13 +56,7 @@ namespace Linn.Production.IoC
             builder.RegisterType<SernosRenumPack>().As<ISernosRenumPack>();
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
-
-            // facade services
-            builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
-            builder.RegisterType<ManufacturingSkillService>()
-                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>
-                >();
-            builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
+            builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
