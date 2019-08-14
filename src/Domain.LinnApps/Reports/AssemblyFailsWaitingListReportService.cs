@@ -44,8 +44,9 @@
 
             foreach (AssemblyFail fail in assemblyFails.ToList())
             {
+                var x = this.weekPack.Wwsyy(fail.DateTimeFound);
                 var row = results.AddRow(fail.Id.ToString());
-
+                var week = this.weekPack.Wwsyy(fail.DateTimeFound);
                 results.SetGridTextValue(row.RowIndex, 0, fail.Id.ToString());
                 results.SetGridTextValue(row.RowIndex, 1, this.weekPack.Wwsyy(fail.DateTimeFound));
                 results.SetGridTextValue(row.RowIndex, 2, fail.DateTimeFound.ToString("d", new CultureInfo("en-GB")));
