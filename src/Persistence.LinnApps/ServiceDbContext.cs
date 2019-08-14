@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
+    using System.Net;
+
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
@@ -33,6 +35,10 @@
 
         public DbSet<BoardFailType> BoardFailTypes { get; set; }
 
+        public DbSet<AssemblyFail> AssemblyFails { get; set; }
+
+        public DbSet<WorksOrder> WorksOrders { get; set; } 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -42,9 +48,10 @@
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
-
             this.BuildManufacturingSkills(builder);
             this.BuildBoardFailTypes(builder);
+            this.BuildAssemblyFails(builder);
+            this.BuildWorkOrders(builder);
             base.OnModelCreating(builder);
         }
 
@@ -83,6 +90,29 @@
             builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
             builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
             builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
+        }
+
+        protected void BuildAssemblyFails(ModelBuilder builder)
+        {
+            var e = builder.Entity<AssemblyFail>().ToTable("ASSEMBLY_FAILS");
+            e.HasKey(f => f.Id);
+            e.Property(f => f.Id).HasColumnName("ASSEMBLY_FAIL_ID");
+            e.Property(f => f.WorksOrderNumber).HasColumnName("WORKS_ORDER_NUMBER");
+            e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.AssemblyFails).HasForeignKey(f => f.WorksOrderNumber);
+            e.Property(f => f.SerialNumber).HasColumnName("SERIAL_NUMBER");
+            e.Property(f => f.InSlot).HasColumnName("IN_SLOT");
+            e.Property(f => f.CompletedBy).HasColumnName("COMPLETED_BY");
+            e.Property(f => f.DateInvalid).HasColumnName("DATE_INVALID");
+            e.Property(f => f.DateTimeFound).HasColumnName("DATE_TIME_FOUND");
+            e.Property(f => f.ReportedFault).HasColumnName("REPORTED_FAULT");
+        }
+
+        protected void BuildWorkOrders(ModelBuilder builder)
+        {
+            var e = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
+            e.HasKey(o => o.OrderNumber);
+            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            e.Property(o => o.PartNumber).HasColumnName("PART_NUMBER");
         }
 
         protected void BuildBoardFailTypes(ModelBuilder builder)

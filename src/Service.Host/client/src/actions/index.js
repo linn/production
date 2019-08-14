@@ -46,3 +46,7 @@ export const boardFailTypeActionTypes = makeActionTypes(itemTypes.boardFailType.
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );
+
+export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
+    reportTypes.assemblyFailsWaitingList.actionType
+);
