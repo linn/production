@@ -43,7 +43,7 @@
 
                 cmd.ExecuteNonQuery();
                 connection.Close();
-                return result.value.ToString();
+                return result.Value.ToString();
             }
         }
     }
