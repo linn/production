@@ -5,7 +5,7 @@ import actions from '../../actions/AssemblyFailsWaitingListReport';
 import config from '../../config';
 import * as reportTypes from '../../reportTypes';
 
-const reportSelectors = new ReportSelectors(reportTypes.AssemblyFailsWaitingListReport.item);
+const reportSelectors = new ReportSelectors(reportTypes.assemblyFailsWaitingList.item);
 
 const mapStateToProps = state => ({
     reportData: reportSelectors.getReportData(state),

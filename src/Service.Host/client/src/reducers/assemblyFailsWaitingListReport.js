@@ -5,10 +5,10 @@ import * as reportTypes from '../reportTypes';
 
 const defaultState = { loading: false, data: null };
 
-export default combineReducers(
-    reportResultsFactory(
-        reportTypes.assemblyFailsWaitingListReport.actionType,
-        actionTypes,
-        defaultState
-    )
+const results = reportResultsFactory(
+    reportTypes.assemblyFailsWaitingList.actionType,
+    actionTypes,
+    defaultState
 );
+
+export default combineReducers({ results });
