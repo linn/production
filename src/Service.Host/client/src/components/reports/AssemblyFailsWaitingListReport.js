@@ -14,7 +14,7 @@ function AssemblyFailsWaitingListReport({ reportData, loading, errorMessage }) {
                     </Grid>
                 )}
                 <Grid item xs={8}>
-                    <Title text="Outstanding Works Orders" />
+                    <Title text="Assembly Fails Waiting List" />
                 </Grid>
                 <Grid item xs={12}>
                     {loading ? <Loading /> : ''}
