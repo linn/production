@@ -46,6 +46,8 @@ namespace Linn.Production.IoC
             builder.RegisterType<ManufacturingSkillService>()
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
+            builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
+
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

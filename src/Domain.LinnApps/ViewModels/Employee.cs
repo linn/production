@@ -9,5 +9,11 @@
         public string FullName { get; set; }
 
         public List<AssemblyFail> AssemblyFailsEntered { get; set; }
+
+        public List<AssemblyFail> AssemblyFailsReturned { get; set; }
+
+        public List<AssemblyFail> AssemblyFailsResponsibleFor { get; set; }
+
+        public List<AssemblyFail> AssemblyFailsCompleted { get; set; } 
     }
 }

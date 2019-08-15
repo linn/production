@@ -11,8 +11,6 @@
 
         public Employee EnteredBy { get; set; }
 
-        public int EnteredById { get; set; }
-
         public int NumberOfFails { get; set; }
 
         public string InSlot { get; set; }
@@ -20,7 +18,6 @@
         public DateTime DateTimeFound { get; set; }
 
         public string Machine { get; set; }
-
 
         public string BoardSerial { get; set; }
 
@@ -32,15 +29,13 @@
 
         public string CircuitPartRef { get; set; }
 
-        public Part CircuitPart { get; set; }
+        public string CircuitPart { get; set; }
 
         public Part BoardPart { get; set; }
 
-        public string BoardPartNumber { get; set; }
-
-        public string CitResponsibleCode { get; set; }
-
         public Cit CitResponsible { get; set; }
+
+        public string BoardPartNumber { get; set; }
 
         public Employee PersonResponsible { get; set; }
 
@@ -56,8 +51,6 @@
 
         public int? SerialNumber { get; set; }
 
-        public int WorksOrderNumber { get; set; }
-
         public WorksOrder WorksOrder { get; set; }
 
         public string ReportedFault { get; set; }
@@ -65,5 +58,11 @@
         public string OutSlot { get; set; }
 
         public string CorrectiveAction { get; set; }
+
+        public AssemblyFailFaultCode FaultCode { get; set; }
+
+        public string Analysis { get; set; }
+
+        public string EngineeringComments { get; set; }
     }
 }

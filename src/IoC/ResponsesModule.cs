@@ -36,6 +36,7 @@ namespace Linn.Production.IoC
             builder.RegisterType<BoardFailTypeResourceBuilder>().As<IResourceBuilder<BoardFailType>>();
             builder.RegisterType<BoardFailTypesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<BoardFailType>>>();
+            builder.RegisterType<AssemblyFailResourceBuilder>().As<IResourceBuilder<AssemblyFail>>();
         }
     }
 }

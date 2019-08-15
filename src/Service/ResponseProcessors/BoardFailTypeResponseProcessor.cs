@@ -1,9 +1,9 @@
-﻿using Linn.Common.Facade;
-using Linn.Common.Nancy.Facade;
-using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.Service.ResponseProcessors
+﻿namespace Linn.Production.Service.ResponseProcessors
 {
+    using Linn.Common.Facade;
+    using Linn.Common.Nancy.Facade;
+    using Linn.Production.Domain.LinnApps;
+
     public class BoardFailTypeResponseProcessor : JsonResponseProcessor<BoardFailType>
     {
         public BoardFailTypeResponseProcessor(IResourceBuilder<BoardFailType> resourceBuilder)
