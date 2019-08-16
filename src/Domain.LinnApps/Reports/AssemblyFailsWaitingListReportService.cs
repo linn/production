@@ -29,7 +29,6 @@
                 new ResultsModel(
                     new[]
                         {
-                            "Id",
                             "Week",
                             "When Found",
                             "Part Number",
@@ -47,15 +46,15 @@
                 var x = this.weekPack.Wwsyy(fail.DateTimeFound);
                 var row = results.AddRow(fail.Id.ToString());
                 var week = this.weekPack.Wwsyy(fail.DateTimeFound);
-                results.SetGridTextValue(row.RowIndex, 0, fail.Id.ToString());
-                results.SetGridTextValue(row.RowIndex, 1, this.weekPack.Wwsyy(fail.DateTimeFound));
-                results.SetGridTextValue(row.RowIndex, 2, fail.DateTimeFound.ToString("d", new CultureInfo("en-GB")));
-                results.SetGridTextValue(row.RowIndex, 3, fail.WorksOrder.PartNumber);
-                results.SetGridTextValue(row.RowIndex, 4, fail.SerialNumber.ToString());
-                results.SetGridTextValue(row.RowIndex, 5, fail.ReportedFault);
-                results.SetGridTextValue(row.RowIndex, 6, fail.InSlot);
+                results.SetGridTextValue(row.RowIndex, 0, this.weekPack.Wwsyy(fail.DateTimeFound));
+                results.SetGridTextValue(row.RowIndex, 1, fail.DateTimeFound.ToString("d", new CultureInfo("en-GB")));
+                results.SetGridTextValue(row.RowIndex, 2, fail.WorksOrder.PartNumber);
+                results.SetGridTextValue(row.RowIndex, 3, fail.SerialNumber.ToString());
+                results.SetGridTextValue(row.RowIndex, 4, fail.ReportedFault);
+                results.SetGridTextValue(row.RowIndex, 5, fail.InSlot);
             }
 
+            results.RowDrillDownTemplates.Add(new DrillDownModel("Id", "/production/quality/assembly-fails/{rowId}"));
             return results;
         }
     }

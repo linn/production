@@ -22,7 +22,7 @@
             using (var connection = this.db.GetConnection())
             {
                 connection.Open();
-                var cmd = new OracleCommand("LINN_WEEK_PACK.newthing", connection)
+                var cmd = new OracleCommand("LINN_WEEK_PACK.WWSYY", connection)
                               {
                                   CommandType = CommandType.StoredProcedure
                               };
@@ -30,7 +30,7 @@
                 var result = new OracleParameter(null, OracleDbType.Varchar2)
                                  {
                                      Direction = ParameterDirection.ReturnValue,
-                                     Size = 10
+                                     Size = 50
                                  };
                 cmd.Parameters.Add(result);
 
