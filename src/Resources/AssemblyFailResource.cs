@@ -75,5 +75,7 @@
         public string CaDate { get; set; }
 
         public string DateInvalid { get; set; }
+
+        public string AoiEscape { get; set; }
     }
 }

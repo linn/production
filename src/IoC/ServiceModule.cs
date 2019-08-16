@@ -12,7 +12,9 @@ namespace Linn.Production.IoC
     using Domain.LinnApps.ATE;
     using Domain.LinnApps.RemoteServices;
 
+    using Linn.Common.Configuration;
     using Linn.Common.Facade;
+    using Linn.Common.Proxy;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
@@ -59,6 +61,10 @@ namespace Linn.Production.IoC
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
+
+            // rest client proxies
+            builder.RegisterType<RestClient>().As<IRestClient>();
+            builder.RegisterType<SalesArticleProxy>().As<ISalesArticleService>().WithParameter("rootUri", "http://app.linn.co.uk"); // ConfigurationManager.Configuration["PROXY_ROOT"]);
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();

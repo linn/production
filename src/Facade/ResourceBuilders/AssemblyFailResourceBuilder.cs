@@ -6,10 +6,18 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     public class AssemblyFailResourceBuilder : IResourceBuilder<AssemblyFail>
     {
+        private readonly ISalesArticleService salesArticleService;
+
+        public AssemblyFailResourceBuilder(ISalesArticleService salesArticleService)
+        {
+            this.salesArticleService = salesArticleService;
+        }
+
         public AssemblyFailResource Build(AssemblyFail model)
         {
             return new AssemblyFailResource
@@ -19,7 +27,9 @@
                             EnteredByName = model.EnteredBy?.FullName,
                             WorksOrderNumber = model.WorksOrder.OrderNumber,
                             PartNumber = model.WorksOrder?.PartNumber,
-                            //PartDescription = ?
+                            PartDescription = model.WorksOrder?.PartNumber != null 
+                                                  ? this.salesArticleService.GetDescriptionFromPartNumber(model.WorksOrder.PartNumber) 
+                                                  : null,
                             NumberOfFails = model.NumberOfFails,
                             SerialNumber = model.SerialNumber,
                             DateTimeFound = model.DateTimeFound.ToString("o"),
@@ -49,7 +59,8 @@
                             ReturnedByName = model.ReturnedBy?.FullName,
                             CorrectiveAction = model.CorrectiveAction,
                             CaDate = model.CaDate?.ToString("o"),
-                            DateInvalid = model.DateInvalid?.ToString("o")
+                            DateInvalid = model.DateInvalid?.ToString("o"),
+                            AoiEscape = model.AoiEscape
                        };
         }
 
