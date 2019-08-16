@@ -1,12 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-import { makeStyles } from '@material-ui/core/styles';
+import DateTimePicker from '@linn-it/linn-form-components-library/cjs/DateTimePicker';
 import {
-    SaveBackCancelButtons,
     InputField,
     Loading,
     Title,
@@ -14,34 +10,20 @@ import {
     SnackbarMessage
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-import DateTimePicker from '@linn-it/linn-form-components-library/cjs/DateTimePicker';
-
-const useStyles = makeStyles(theme => ({
-    button: {
-        width: '100%',
-        marginTop: theme.spacing(3)
-    }
-}));
 
 function AssemblyFail({
     editStatus,
     errorMessage,
-    history,
-    itemId,
     item,
     loading,
     snackbarVisible,
-    addItem,
-    updateItem,
     setEditStatus,
     setSnackbarVisible
 }) {
     const [assemblyFail, setAssemblyFail] = useState({});
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
-    const styles = useStyles();
 
     const creating = () => editStatus === 'create';
-    const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
@@ -50,30 +32,6 @@ function AssemblyFail({
             setPrevAssemblyFail(item);
         }
     }, [item, prevAssemblyFail]);
-
-    const faultCodeInvalid = () => !assemblyFail.faultCode;
-    const descriptionInvalid = () => !assemblyFail.description;
-
-    const inputInvalid = () => faultCodeInvalid() || descriptionInvalid();
-
-    const handleSaveClick = () => {
-        if (editing()) {
-            updateItem(itemId, assemblyFail);
-            setEditStatus('view');
-        } else if (creating()) {
-            addItem(assemblyFail);
-            setEditStatus('view');
-        }
-    };
-
-    const handleCancelClick = () => {
-        setAssemblyFail(item);
-        setEditStatus('view');
-    };
-
-    const handleBackClick = () => {
-        history.push('/production/quality/ate/fault-codes/');
-    };
 
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
@@ -225,28 +183,6 @@ function AssemblyFail({
                                 propertyName="machine"
                             />
                         </Grid>
-                        <Grid item xs={3}>
-                            <Tooltip
-                                title={
-                                    assemblyFail.serialNumber && assemblyFail.partNumber
-                                        ? ''
-                                        : 'Serial and Part Numbers Required'
-                                }
-                            >
-                                <span>
-                                    <Button
-                                        className={styles.button}
-                                        variant="outlined"
-                                        color="primary"
-                                        disabled={
-                                            !assemblyFail.partNumber || !assemblyFail.serialNumber
-                                        }
-                                    >
-                                        SHOW PTEST
-                                    </Button>
-                                </span>
-                            </Tooltip>
-                        </Grid>
                         <Grid item xs={4}>
                             <InputField
                                 fullWidth
@@ -311,23 +247,6 @@ function AssemblyFail({
                             />
                         </Grid>
                         <Grid item xs={3}>
-                            <Tooltip
-                                title={assemblyFail.boardSerial ? '' : 'Board Serial Required'}
-                            >
-                                <span>
-                                    <Button
-                                        className={styles.button}
-                                        variant="outlined"
-                                        color="primary"
-                                        disabled={!assemblyFail.boardSerial}
-                                    >
-                                        TEST DETAILS
-                                    </Button>
-                                </span>
-                            </Tooltip>
-                        </Grid>
-
-                        <Grid item xs={3}>
                             <InputField
                                 fullWidth
                                 disabled
@@ -357,7 +276,7 @@ function AssemblyFail({
                                 propertyName="aoiEscape"
                             />
                         </Grid>
-                        <Grid item xs={3} />
+                        <Grid item xs={6} />
                         <Grid item xs={3}>
                             <InputField
                                 fullWidth
@@ -545,10 +464,7 @@ AssemblyFail.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
     errorMessage: PropTypes.string,
-    itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
-    updateItem: PropTypes.func,
-    addItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired
@@ -557,11 +473,8 @@ AssemblyFail.propTypes = {
 AssemblyFail.defaultProps = {
     item: {},
     snackbarVisible: false,
-    addItem: null,
-    updateItem: null,
     loading: null,
-    errorMessage: '',
-    itemId: null
+    errorMessage: ''
 };
 
 export default AssemblyFail;

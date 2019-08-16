@@ -64,7 +64,7 @@ namespace Linn.Production.IoC
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
-            builder.RegisterType<SalesArticleProxy>().As<ISalesArticleService>().WithParameter("rootUri", "http://app.linn.co.uk"); // ConfigurationManager.Configuration["PROXY_ROOT"]);
+            builder.RegisterType<SalesArticleProxy>().As<ISalesArticleService>().WithParameter("rootUri", ConfigurationManager.Configuration["PROXY_ROOT"]);
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
