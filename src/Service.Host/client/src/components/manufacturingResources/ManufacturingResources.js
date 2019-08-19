@@ -91,7 +91,7 @@ const ViewManufacturingResources = ({ loading, errorMessage, history, items }) =
 
     return (
         <Page>
-            <Title text="Manufacturing resources" />
+            <Title text="Manufacturing Resources" />
             {errorMessage && <ErrorCard errorMessage={errorMessage} />}
             {loading ? (
                 <Loading />
