@@ -43,6 +43,14 @@ export const boardFailTypesActionTypes = makeActionTypes(
     false
 );
 
+export const manufacturingResourceActionTypes = makeActionTypes(
+    itemTypes.manufacturingResource.actionType
+);
+export const manufacturingResourcesActionTypes = makeActionTypes(
+    itemTypes.manufacturingResources.actionType,
+    false
+);
+
 export const boardFailTypeActionTypes = makeActionTypes(itemTypes.boardFailType.actionType);
 
 export const buildsSummaryReportActionTypes = makeReportActionTypes(

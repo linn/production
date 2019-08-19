@@ -8,7 +8,6 @@
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.ViewModels;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -45,6 +44,8 @@
 
         public DbSet<Employee> Employees { get; set; }
 
+        public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -54,6 +55,8 @@
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
+            this.BuildManufacturingResources(builder);
+
             this.BuildManufacturingSkills(builder);
             this.BuildBoardFailTypes(builder);
             this.BuildAssemblyFails(builder);
@@ -255,6 +258,16 @@
             e.Property(s => s.SkillCode).HasColumnName("MFG_SKILL_CODE").HasMaxLength(10);
             e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
             e.Property(s => s.HourlyRate).HasColumnName("HOURLY_RATE");
+        }
+
+        private void BuildManufacturingResources(ModelBuilder builder)
+        {
+            var e = builder.Entity<ManufacturingResource>();
+            e.ToTable("MFG_RESOURCES");
+            e.HasKey(c => c.ResourceCode);
+            e.Property(c => c.ResourceCode).HasColumnName("MFG_RESOURCE_CODE").HasMaxLength(10);
+            e.Property(c => c.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(c => c.Cost).HasColumnName("COST_POUNDS_PER_HOUR").HasMaxLength(14);
         }
 
         private void BuildParts(ModelBuilder builder)

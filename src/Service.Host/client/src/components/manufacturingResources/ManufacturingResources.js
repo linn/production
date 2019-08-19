@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
+const ViewManufacturingResources = ({ loading, errorMessage, history, items }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -55,9 +55,9 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
         };
 
         const rows = items.map(el => ({
-            skillCode: el.skillCode,
+            resourceCode: el.resourceCode,
             description: el.description,
-            hourlyRate: el.hourlyRate,
+            cost: el.cost,
             links: el.links
         }));
 
@@ -84,25 +84,26 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
     const handleRowLinkClick = href => history.push(href);
 
     const columns = {
-        skillCode: 'Skill Code',
+        resourceCode: 'Resource Code',
         description: 'Description',
-        hourlyRate: 'Hourly Rate'
+        cost: 'Cost'
     };
 
     return (
         <Page>
-            <Title text="Manufacturing Skills" />
+            <Title text="Manufacturing Resources" />
             {errorMessage && <ErrorCard errorMessage={errorMessage} />}
             {loading ? (
                 <Loading />
             ) : (
                 <Fragment>
                     <Fragment className={classes.actionsContainer}>
-                        <CreateButton createUrl="/production/resources/manufacturing-skills/create" />
+                        <CreateButton createUrl="/production/resources/manufacturing-resources/create" />
                     </Fragment>
 
                     <PaginatedTable
                         columns={columns}
+                        sortable
                         handleRowLinkClick={handleRowLinkClick}
                         rows={rowsToDisplay}
                         pageOptions={pageOptions}
@@ -115,16 +116,16 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
     );
 };
 
-ViewManufacturingSkills.propTypes = {
+ViewManufacturingResources.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     errorMessage: PropTypes.string
 };
 
-ViewManufacturingSkills.defaultProps = {
+ViewManufacturingResources.defaultProps = {
     errorMessage: '',
     items: []
 };
 
-export default ViewManufacturingSkills;
+export default ViewManufacturingResources;

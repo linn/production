@@ -27,6 +27,9 @@ import BuildsDetailReport from '../containers/buildsByDepartment/BuildsDetailRep
 import ManufacturingSkills from '../containers/manufacturingSkills/ManufacturingSkills';
 import ManufacturingSkill from '../containers/manufacturingSkills/ManufacturingSkill';
 import CreateManufacturingSkill from '../containers/manufacturingSkills/CreateManufacturingSkill';
+import ManufacturingResources from '../containers/manufacturingResources/ManufacturingResources';
+import ManufacturingResource from '../containers/manufacturingResources/ManufacturingResource';
+import CreateManufacturingResource from '../containers/manufacturingResources/CreateManufacturingResource';
 import BoardFailTypes from '../containers/boardFailTypes/BoardFailTypes';
 import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
@@ -181,6 +184,21 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/quality/assembly-fails/:id"
                                             component={AssemblyFail}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-resources"
+                                            component={ManufacturingResources}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-resources/create"
+                                            component={CreateManufacturingResource}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-resources/:id"
+                                            component={ManufacturingResource}
                                         />
                                     </Switch>
                                 </div>

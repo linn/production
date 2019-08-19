@@ -1,9 +1,6 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using System.Data;
-
     using Autofac;
 
     using Common.Reporting.Models;
@@ -15,11 +12,14 @@ namespace Linn.Production.IoC
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
     using Linn.Common.Proxy;
+    using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
-
     using Oracle.ManagedDataAccess.Client;
 
     public class ServiceModule : Module
@@ -62,6 +62,13 @@ namespace Linn.Production.IoC
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
 
+            // facade services
+            builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<ManufacturingSkillService>()
+                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
+            builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
+            builder.RegisterType<ManufacturingResourceService>()
+                .As<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
             builder.RegisterType<SalesArticleProxy>().As<ISalesArticleService>().WithParameter("rootUri", ConfigurationManager.Configuration["PROXY_ROOT"]);
