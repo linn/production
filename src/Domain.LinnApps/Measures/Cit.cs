@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Measures
 {
+    using System.Collections.Generic;
+
     public class Cit
     {
         public string Code { get; set; }
@@ -11,5 +13,7 @@
         public int? SortOrder { get; set; }
 
         public ProductionMeasures Measures { get; set; }
+
+        public List<AssemblyFail> AssemblyFails { get; set; }
     }
 }

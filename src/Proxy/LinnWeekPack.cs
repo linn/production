@@ -3,7 +3,7 @@
     using System;
     using System.Data;
 
-    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Domain.LinnApps.RemoteServices;
 
     using Oracle.ManagedDataAccess.Client;
     using Oracle.ManagedDataAccess.Types;
@@ -17,32 +17,33 @@
             this.db = db;
         }
 
-        public DateTime GetLinnWeekEndDate(DateTime date)
+        public string Wwsyy(DateTime date)
         {
             using (var connection = this.db.GetConnection())
             {
                 connection.Open();
-                var cmd = new OracleCommand("LINN_WEEK_PACK.LINN_WEEK_END_DATE", connection)
+                var cmd = new OracleCommand("LINN_WEEK_PACK.WWSYY", connection)
                               {
                                   CommandType = CommandType.StoredProcedure
                               };
 
-                var result = new OracleParameter(null, OracleDbType.Date)
+                var result = new OracleParameter(null, OracleDbType.Varchar2)
                                  {
                                      Direction = ParameterDirection.ReturnValue,
+                                     Size = 50
                                  };
                 cmd.Parameters.Add(result);
 
-                var dateParameter = new OracleParameter("p_part_number", OracleDbType.Date)
-                                              {
-                                                  Direction = ParameterDirection.Input,
-                                                  Value = date
-                                              };
+                var dateParameter = new OracleParameter("p_date", OracleDbType.Date)
+                                        {
+                                            Direction = ParameterDirection.Input,
+                                            Value = date
+                                        };
                 cmd.Parameters.Add(dateParameter);
 
                 cmd.ExecuteNonQuery();
                 connection.Close();
-                return ((OracleDate)result.Value).Value;
+                return result.Value.ToString();
             }
         }
     }

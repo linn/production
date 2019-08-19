@@ -97,7 +97,7 @@ function Report({ reportData, loading }) {
 
 function BuildsSummaryReport({ reportData, loading, history, errorMessage }) {
     const handleBackClick = () => {
-        history.push('/production/reports/builds-summary/options');
+        history.push('/production/reports/builds-summary-options');
     };
     return (
         <Page>

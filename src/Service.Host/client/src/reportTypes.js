@@ -23,3 +23,9 @@ export const productionMeasuresCitsReport = new ItemType(
     'PRODUCTION_MEASURES',
     '/production/reports/measures/cits'
 );
+
+export const assemblyFailsWaitingList = new ItemType(
+    'assemblyFailsWaitingListReport',
+    'ASSEMBLY_FAILS_WAITING_LIST',
+    '/production/reports/assembly-fails-waiting-list'
+);

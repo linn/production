@@ -5,7 +5,6 @@
     using CsvExtensions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
-    using Linn.Production.Domain;
     using Linn.Production.Domain.LinnApps.Measures;
 
     public class ProductionMeasuresReportFacade : IProductionMeasuresReportFacade

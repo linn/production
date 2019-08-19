@@ -4,6 +4,6 @@
 
     public interface ILinnWeekPack
     {
-        DateTime GetLinnWeekEndDate(DateTime date);
+        string Wwsyy(DateTime date);
     }
 }

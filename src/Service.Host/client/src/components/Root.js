@@ -21,11 +21,17 @@ import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
 import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsSummaryReportOptions';
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
 import ProductionMeasures from '../containers/reports/measures/ProductionMeasures';
+import SerialNumberReissue from '../containers/serialNumberReissue/SerialNumberReissue';
 import BuildsDetailReportOptions from '../containers/buildsByDepartment/BuildsDetailReportOptions';
 import BuildsDetailReport from '../containers/buildsByDepartment/BuildsDetailReport';
 import ManufacturingSkills from '../containers/manufacturingSkills/ManufacturingSkills';
 import ManufacturingSkill from '../containers/manufacturingSkills/ManufacturingSkill';
 import CreateManufacturingSkill from '../containers/manufacturingSkills/CreateManufacturingSkill';
+import BoardFailTypes from '../containers/boardFailTypes/BoardFailTypes';
+import BoardFailType from '../containers/boardFailTypes/BoardFailType';
+import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
+import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
+import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
 
 const Root = ({ store }) => (
     <div>
@@ -48,6 +54,16 @@ const Root = ({ store }) => (
                                     <Route
                                         exact
                                         path="/production"
+                                        render={() => <Redirect to="/production/maintenance" />}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources"
+                                        render={() => <Redirect to="/production/maintenance" />}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports"
                                         render={() => <Redirect to="/production/maintenance" />}
                                     />
 
@@ -82,6 +98,12 @@ const Root = ({ store }) => (
 
                                         <Route
                                             exact
+                                            path="/production/maintenance/serial-number-reissue"
+                                            component={SerialNumberReissue}
+                                        />
+
+                                        <Route
+                                            exact
                                             path="/production/quality/ate/fault-codes/create"
                                             component={CreateAteFaultCode}
                                         />
@@ -97,7 +119,7 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-                                            path="/production/reports/builds-summary/options"
+                                            path="/production/reports/builds-summary-options"
                                             component={BuildsSummaryReportOptions}
                                         />
                                         <Route
@@ -107,7 +129,7 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-                                            path="/production/reports/builds-detail/options"
+                                            path="/production/reports/builds-detail-options"
                                             component={BuildsDetailReportOptions}
                                         />
                                         <Route
@@ -134,6 +156,31 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/measures"
                                             component={ProductionMeasures}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/board-fail-types"
+                                            component={BoardFailTypes}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/board-fail-types/create"
+                                            component={CreateBoardFailType}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/board-fail-types/:id"
+                                            component={BoardFailType}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-waiting-list"
+                                            component={AssemblyFailsWaitingListReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/quality/assembly-fails/:id"
+                                            component={AssemblyFail}
                                         />
                                     </Switch>
                                 </div>

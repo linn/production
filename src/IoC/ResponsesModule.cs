@@ -6,13 +6,15 @@ namespace Linn.Production.IoC
 
     using Autofac;
 
-    using Linn.Common.Facade;
-    using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
-    using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Facade.ResourceBuilders;
+    using Common.Facade;
+    using Common.Reporting.Models;
+
+    using Domain.LinnApps;
+    using Domain.LinnApps.ATE;
+    using Domain.LinnApps.Measures;
+    using Domain.LinnApps.SerialNumberReissue;
+
+    using Facade.ResourceBuilders;
 
     public class ResponsesModule : Module
     {
@@ -23,6 +25,7 @@ namespace Linn.Production.IoC
             builder.RegisterType<ResultsModelsResourceBuilder>().As<IResourceBuilder<IEnumerable<ResultsModel>>>();
             builder.RegisterType<AteFaultCodeResourceBuilder>().As<IResourceBuilder<AteFaultCode>>();
             builder.RegisterType<AteFaultCodesResourceBuilder>().As<IResourceBuilder<IEnumerable<AteFaultCode>>>();
+            builder.RegisterType<SerialNumberReissueResourceBuilder>().As<IResourceBuilder<SerialNumberReissue>>();
             builder.RegisterType<DepartmentResourceBuilder>().As<IResourceBuilder<Department>>();
             builder.RegisterType<DepartmentsResourceBuilder>().As<IResourceBuilder<IEnumerable<Department>>>();
             builder.RegisterType<ProductionMeasuresResourceBuilder>().As<IResourceBuilder<ProductionMeasures>>();
@@ -30,6 +33,10 @@ namespace Linn.Production.IoC
             builder.RegisterType<ManufacturingSkillResourceBuilder>().As<IResourceBuilder<ManufacturingSkill>>();
             builder.RegisterType<ManufacturingSkillsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingSkill>>>();
+            builder.RegisterType<BoardFailTypeResourceBuilder>().As<IResourceBuilder<BoardFailType>>();
+            builder.RegisterType<BoardFailTypesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<BoardFailType>>>();
+            builder.RegisterType<AssemblyFailResourceBuilder>().As<IResourceBuilder<AssemblyFail>>();
         }
     }
 }

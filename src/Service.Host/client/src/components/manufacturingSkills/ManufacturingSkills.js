@@ -103,7 +103,6 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
 
                     <PaginatedTable
                         columns={columns}
-                        sortable
                         handleRowLinkClick={handleRowLinkClick}
                         rows={rowsToDisplay}
                         pageOptions={pageOptions}
