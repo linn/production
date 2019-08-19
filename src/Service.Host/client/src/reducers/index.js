@@ -8,6 +8,7 @@ import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
+import productionMeasures from './productionMeasures';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
 import manufacturingResources from './manufacturingResources/manufacturingResources';
@@ -24,15 +25,17 @@ const rootReducer = combineReducers({
     departments,
     buildsSummaryReport,
     outstandingWorksOrdersReport,
+    productionMeasures,
+    buildsDetailReport,
     manufacturingSkills,
     manufacturingSkill,
     manufacturingResources,
     manufacturingResource,
-    ...sharedLibraryReducers,
     buildsDetailReport,
     boardFailType,
     boardFailTypes,
-    assemblyFailsWaitingListReport
+    assemblyFailsWaitingListReport,
+    ...sharedLibraryReducers
 });
 
 export default rootReducer;
