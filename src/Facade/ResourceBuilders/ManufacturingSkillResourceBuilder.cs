@@ -7,7 +7,6 @@
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
-    
 
     public class ManufacturingSkillResourceBuilder : IResourceBuilder<ManufacturingSkill>
     {

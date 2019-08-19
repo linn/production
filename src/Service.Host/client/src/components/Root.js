@@ -172,17 +172,17 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/resources/manufacturing-resources"
                                             component={ManufacturingResources}
-                                                />
-                                                <Route
+                                        />
+                                        <Route
                                             exact
                                             path="/production/resources/manufacturing-resources/create"
                                             component={CreateManufacturingResource}
-                                                />
-                                                <Route
+                                        />
+                                        <Route
                                             exact
                                             path="/production/resources/manufacturing-resources/:id"
                                             component={ManufacturingResource}
-                                                />
+                                        />
                                     </Switch>
                                 </div>
                             </Router>
