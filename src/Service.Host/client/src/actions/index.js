@@ -49,6 +49,10 @@ export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );
 
+export const productionMeasuresCitsActionTypes = makeReportActionTypes(
+    reportTypes.productionMeasuresCitsReport.actionType
+);
+
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );

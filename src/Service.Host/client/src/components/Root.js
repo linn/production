@@ -20,6 +20,7 @@ import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
 import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsSummaryReportOptions';
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
+import ProductionMeasures from '../containers/reports/measures/ProductionMeasures';
 import SerialNumberReissue from '../containers/serialNumberReissue/SerialNumberReissue';
 import BuildsDetailReportOptions from '../containers/buildsByDepartment/BuildsDetailReportOptions';
 import BuildsDetailReport from '../containers/buildsByDepartment/BuildsDetailReport';
@@ -83,7 +84,6 @@ const Root = ({ store }) => (
                                             path="/production/maintenance/works-orders"
                                             component={App}
                                         />
-
                                         <Route
                                             exact
                                             path="/production/maintenance/signin-oidc-client"
@@ -151,6 +151,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/resources/manufacturing-skills/:id"
                                             component={ManufacturingSkill}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/measures"
+                                            component={ProductionMeasures}
                                         />
                                         <Route
                                             exact

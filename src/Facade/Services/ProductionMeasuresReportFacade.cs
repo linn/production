@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using CsvExtensions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
@@ -19,6 +20,14 @@
         {
             var measures = this.productionMeasuresRepository.FindAll().ToList();
             return new SuccessResult<IEnumerable<ProductionMeasures>>(measures.Where(m => m.HasMeasures()));
+        }
+
+        public IResult<IEnumerable<IEnumerable<string>>> GetProductionMeasuresCsv()
+        {
+            var citMeasures = this.productionMeasuresRepository.FindAll().ToList();
+            var results = new List<List<string>>() { ProductionMeasuresCsvExtensions.CsvHeaderLine().ToList()};
+            results.AddRange(citMeasures.Where(m => m.HasMeasures()).Select(m => m.ToCsvLine().ToList()));
+            return new SuccessResult<IEnumerable<IEnumerable<string>>>(results);
         }
     }
 }
