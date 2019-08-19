@@ -65,3 +65,9 @@ export const boardFailTypes = new ItemType(
     'BOARD_FAIL_TYPES',
     '/production/resources/board-fail-types'
 );
+
+export const assemblyFail = new ItemType(
+    'assemblyFail',
+    'ASSEMBLY_FAIL',
+    '/production/quality/assembly-fails'
+);

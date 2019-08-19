@@ -39,6 +39,12 @@
 
         public DbSet<WorksOrder> WorksOrders { get; set; } 
 
+        public DbSet<Part> Parts { get; set; }
+
+        public DbSet<AssemblyFailFaultCode> AssemblyFailFaultCodes { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -52,6 +58,9 @@
             this.BuildBoardFailTypes(builder);
             this.BuildAssemblyFails(builder);
             this.BuildWorkOrders(builder);
+            this.BuildParts(builder);
+            this.BuildEmployees(builder);
+            this.BuildAssemblyFailFaultCodes(builder);
             base.OnModelCreating(builder);
         }
 
@@ -97,14 +106,39 @@
             var e = builder.Entity<AssemblyFail>().ToTable("ASSEMBLY_FAILS");
             e.HasKey(f => f.Id);
             e.Property(f => f.Id).HasColumnName("ASSEMBLY_FAIL_ID");
-            e.Property(f => f.WorksOrderNumber).HasColumnName("WORKS_ORDER_NUMBER");
-            e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.AssemblyFails).HasForeignKey(f => f.WorksOrderNumber);
+            e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.AssemblyFails).HasForeignKey("WORKS_ORDER_NUMBER");
+            e.HasOne<Employee>(f => f.EnteredBy).WithMany(m => m.AssemblyFailsEntered)
+                .HasForeignKey("ENTERED_BY");
+            e.HasOne<Employee>(f => f.ReturnedBy).WithMany(m => m.AssemblyFailsReturned)
+                .HasForeignKey("RETURNED_BY");
+            e.HasOne<Employee>(f => f.PersonResponsible).WithMany(m => m.AssemblyFailsResponsibleFor).HasForeignKey("PERSON_RESPONSIBLE");
+            e.Property(f => f.NumberOfFails).HasColumnName("NUMBER_OF_FAILS");
+            e.Property(f => f.InSlot).HasColumnName("IN_SLOT");
+            e.Property(f => f.DateTimeFound).HasColumnName("DATE_TIME_FOUND");
             e.Property(f => f.SerialNumber).HasColumnName("SERIAL_NUMBER");
             e.Property(f => f.InSlot).HasColumnName("IN_SLOT");
-            e.Property(f => f.CompletedBy).HasColumnName("COMPLETED_BY");
+            e.Property(f => f.Machine).HasColumnName("MACHINE");
+            e.HasOne<Employee>(f => f.CompletedBy).WithMany(m => m.AssemblyFailsCompleted).HasForeignKey("COMPLETED_BY");
             e.Property(f => f.DateInvalid).HasColumnName("DATE_INVALID");
             e.Property(f => f.DateTimeFound).HasColumnName("DATE_TIME_FOUND");
             e.Property(f => f.ReportedFault).HasColumnName("REPORTED_FAULT");
+            e.Property(f => f.BoardSerial).HasColumnName("BOARD_SERIAL_NUMBER");
+            e.HasOne<Cit>(f => f.CitResponsible).WithMany(c => c.AssemblyFails).HasForeignKey("CIT_RESPONSIBLE");
+            e.Property(f => f.Shift).HasColumnName("SHIFT");
+            e.Property(f => f.Batch).HasColumnName("BATCH");
+            e.Property(f => f.AoiEscape).HasColumnName("AOI_ESCAPE");
+            e.Property(f => f.CircuitPart).HasColumnName("CIRCUIT_PART_NUMBER");
+            e.Property(f => f.BoardPartNumber).HasColumnName("BOARD_PART_NUMBER");
+            e.HasOne<Part>(f => f.BoardPart).WithMany(f => f.AssemblyFails).HasForeignKey(f => f.BoardPartNumber);
+            e.Property(f => f.DateTimeComplete).HasColumnName("DATE_TIME_COMPLETE");
+            e.Property(f => f.CaDate).HasColumnName("CA_DATE");
+            e.Property(f => f.OutSlot).HasColumnName("OUT_SLOT");
+            e.Property(f => f.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION");
+            e.Property(f => f.CircuitPartRef).HasColumnName("CIRCUIT_REF");
+            e.HasOne<AssemblyFailFaultCode>(f => f.FaultCode).WithMany(c => c.AssemblyFails)
+                .HasForeignKey("FAULT_CODE");
+            e.Property(f => f.Analysis).HasColumnName("ANALYSIS");
+            e.Property(f => f.EngineeringComments).HasColumnName("ENGINEERING_COMMENTS");
         }
 
         protected void BuildWorkOrders(ModelBuilder builder)
@@ -221,6 +255,33 @@
             e.Property(s => s.SkillCode).HasColumnName("MFG_SKILL_CODE").HasMaxLength(10);
             e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
             e.Property(s => s.HourlyRate).HasColumnName("HOURLY_RATE");
+        }
+
+        private void BuildParts(ModelBuilder builder)
+        {
+            var e = builder.Entity<Part>();
+            e.ToTable("PARTS");
+            e.HasKey(p => p.PartNumber);
+            e.Property(p => p.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(p => p.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void BuildAssemblyFailFaultCodes(ModelBuilder builder)
+        {
+            var e = builder.Entity<AssemblyFailFaultCode>();
+            e.ToTable("ASSEMBLY_FAIL_FAULT_CODES");
+            e.HasKey(c => c.FaultCode);
+            e.Property(c => c.FaultCode).HasColumnName("FAULT_CODE");
+            e.Property(c => c.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void BuildEmployees(ModelBuilder builder)
+        {
+            var q = builder.Entity<Employee>();
+            q.HasKey(e => e.Id);
+            q.ToTable("AUTH_USER_NAME_VIEW");
+            q.Property(e => e.Id).HasColumnName("USER_NUMBER");
+            q.Property(e => e.FullName).HasColumnName("USER_NAME");
         }
     }
 }

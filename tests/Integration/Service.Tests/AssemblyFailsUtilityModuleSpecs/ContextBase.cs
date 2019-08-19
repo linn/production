@@ -1,22 +1,28 @@
-﻿namespace Linn.Production.Service.Tests.BoardFailTypesModuleSpecs
+﻿namespace Linn.Production.Service.Tests.AssemblyFailsUtilityModuleSpecs
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Security.Claims;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Proxy;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
-    using Nancy.Bootstrapper;
+
     using Nancy.Testing;
+
     using NSubstitute;
+
     using NUnit.Framework;
 
     public class ContextBase : NancyContextBase
     {
-        protected IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource> FacadeService
+        protected ISalesArticleService salesArticleService;
+
+        protected IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> FacadeService
         {
             get;
             private set;
@@ -26,18 +32,16 @@
         public void EstablishContext()
         {
             this.FacadeService = Substitute
-                .For<IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource>>();
-
+                .For<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
+            this.salesArticleService = Substitute.For<ISalesArticleService>();
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.FacadeService);
-                    with.Dependency<IResourceBuilder<BoardFailType>>(new BoardFailTypeResourceBuilder());
-                    with.Dependency<IResourceBuilder<IEnumerable<BoardFailType>>>(
-                        new BoardFailTypesResourceBuilder());
-                    with.Module<BoardFailTypesModule>();
-                    with.ResponseProcessor<BoardFailTypeResponseProcessor>();
-                    with.ResponseProcessor<BoardFailTypesResponseProcessor>();
+                    with.Dependency<IResourceBuilder<AssemblyFail>>(new AssemblyFailResourceBuilder(this.salesArticleService));
+                    
+                    with.Module<AssemblyFailsModule>();
+                    with.ResponseProcessor<AssemblyFailResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

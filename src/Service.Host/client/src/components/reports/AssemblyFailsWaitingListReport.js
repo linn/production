@@ -20,6 +20,7 @@ function AssemblyFailsWaitingListReport({ reportData, loading, errorMessage }) {
                     {loading ? <Loading /> : ''}
                     <ReportTable
                         reportData={reportData}
+                        showRowTitles
                         showTotals={false}
                         placeholderRows={10}
                         placeholderColumns={3}

@@ -30,6 +30,7 @@ import BoardFailTypes from '../containers/boardFailTypes/BoardFailTypes';
 import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
 import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
+import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
 
 const Root = ({ store }) => (
     <div>
@@ -170,6 +171,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/assembly-fails-waiting-list"
                                             component={AssemblyFailsWaitingListReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/quality/assembly-fails/:id"
+                                            component={AssemblyFail}
                                         />
                                     </Switch>
                                 </div>
