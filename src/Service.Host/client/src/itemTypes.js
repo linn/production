@@ -71,3 +71,9 @@ export const assemblyFail = new ItemType(
     'ASSEMBLY_FAIL',
     '/production/quality/assembly-fails'
 );
+
+export const worksOrders = new ItemType(
+    'worksOrders',
+    'WORKS_ORDERS',
+    '/production/maintenance/works-orders'
+);

@@ -13,6 +13,7 @@ import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
 import boardFailTypes from './boardFailTypes/boardFailTypes';
 import boardFailType from './boardFailTypes/boardFailType';
 import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
+import worksOrders from './worksOrders/worksOrders';
 
 const rootReducer = combineReducers({
     oidc,
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
     buildsDetailReport,
     boardFailType,
     boardFailTypes,
-    assemblyFailsWaitingListReport
+    assemblyFailsWaitingListReport,
+    worksOrders
 });
 
 export default rootReducer;

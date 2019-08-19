@@ -15,8 +15,8 @@ export const FETCH_ERROR = 'FETCH_ERROR';
 export const ateFaultCodeActionTypes = makeActionTypes(itemTypes.ateFaultCode.actionType);
 export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.actionType, false);
 
-export const assemblyFailActionTypes = makeActionTypes(itemTypes.assemblyFail.actionType, false);
-
+export const assemblyFailActionTypes = makeActionTypes(itemTypes.assemblyFail.actionType, true);
+export const worksOrdersActionTypes = makeActionTypes(itemTypes.worksOrders.actionType, true);
 export const salesArticleActionTypes = makeActionTypes(itemTypes.salesArticle.actionType);
 
 export const salesArticles = makeActionTypes(itemTypes.salesArticles.actionType);

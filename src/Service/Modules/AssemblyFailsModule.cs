@@ -14,7 +14,7 @@
         public AssemblyFailsModule(IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> assemblyFailService)
         {
             this.facadeService = assemblyFailService;
-            this.Get("/production/quality/assembly-fails/{id}", parameters => this.GetById(parameters.id));
+            this.Get("/production/quality/assembly-fails/{id*}", parameters => this.GetById(parameters.id));
         }
 
         private object GetById(int id)
