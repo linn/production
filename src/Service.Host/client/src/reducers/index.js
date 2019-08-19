@@ -1,6 +1,7 @@
 import { reducers as sharedLibraryReducers } from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
+import assemblyFail from './assemblyFails/assemblyFail';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
 import departments from './departments';
@@ -13,9 +14,11 @@ import manufacturingResources from './manufacturingResources/manufacturingResour
 import manufacturingResource from './manufacturingResources/manufacturingResource';
 import boardFailTypes from './boardFailTypes/boardFailTypes';
 import boardFailType from './boardFailTypes/boardFailType';
+import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
 
 const rootReducer = combineReducers({
     oidc,
+    assemblyFail,
     ateFaultCode,
     ateFaultCodes,
     departments,
@@ -28,7 +31,8 @@ const rootReducer = combineReducers({
     ...sharedLibraryReducers,
     buildsDetailReport,
     boardFailType,
-    boardFailTypes
+    boardFailTypes,
+    assemblyFailsWaitingListReport
 });
 
 export default rootReducer;

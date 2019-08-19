@@ -17,3 +17,9 @@ export const outstandingWorksOrdersReport = new ItemType(
     'OUTSTANDING_WORKS_ORDERS',
     '/production/maintenance/works-orders/outstanding-works-orders-report'
 );
+
+export const assemblyFailsWaitingList = new ItemType(
+    'assemblyFailsWaitingListReport',
+    'ASSEMBLY_FAILS_WAITING_LIST',
+    '/production/reports/assembly-fails-waiting-list'
+);

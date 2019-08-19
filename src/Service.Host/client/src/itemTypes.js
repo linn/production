@@ -75,3 +75,9 @@ export const manufacturingResources = new ItemType(
     'MANUFACTURING_RESOURCES',
     '/production/resources/manufacturing-resources'
 );
+
+export const assemblyFail = new ItemType(
+    'assemblyFail',
+    'ASSEMBLY_FAIL',
+    '/production/quality/assembly-fails'
+);
