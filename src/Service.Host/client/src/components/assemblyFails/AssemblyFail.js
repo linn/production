@@ -1,16 +1,23 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import DateTimePicker from '@linn-it/linn-form-components-library/cjs/DateTimePicker';
+import { makeStyles } from '@material-ui/styles';
 import {
     InputField,
     Loading,
     Title,
     ErrorCard,
-    SnackbarMessage
+    SnackbarMessage,
+    SearchInputField,
+    useSearch
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-import WorksOrdersSearch from '../../containers/WorksOrdersSearch';
+import { Button } from '@material-ui/core';
+// import WorksOrdersSearch from '../../containers/WorksOrdersSearch';
+
+const useStyles = makeStyles(theme => ({ button: { padding: theme.spacing(6) + '!important' } }));
 
 function AssemblyFail({
     editStatus,
@@ -20,15 +27,35 @@ function AssemblyFail({
     snackbarVisible,
     setEditStatus,
     setSnackbarVisible,
-    profile
+    profile,
+    fetchItems,
+    clearSearch,
+    worksOrders,
+    worksOrdersLoading
 }) {
+    const [searchTerm, setSearchTerm] = useState(null);
     const [assemblyFail, setAssemblyFail] = useState({});
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
 
     const [worksOrder, setWorksOrder] = useState(null);
 
+    const classes = useStyles();
+
+    useSearch(fetchItems, searchTerm, null, 'searchTerm');
+
+    const handleSearchTermChange = (...args) => {
+        setSearchTerm(args[1]);
+    };
+
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
+
+    const worksOrderSearchHelperText = () => {
+        if (!worksOrder) {
+            return 'Search for a Works Order to get started';
+        }
+        return 'Search for a different Works Order?';
+    };
 
     useEffect(() => {
         if (item !== prevAssemblyFail) {
@@ -37,6 +64,20 @@ function AssemblyFail({
         }
     }, [item, prevAssemblyFail]);
 
+    useEffect(() => {
+        // if (worksOrder && searchTerm === null) {
+        //     setSearchTerm(worksOrder.orderNumber);
+        // }
+        if (creating()) {
+            if (worksOrders.length === 1 && !worksOrdersLoading) {
+                setWorksOrder(worksOrders[0]);
+                setSearchTerm('');
+            } else {
+                setWorksOrder(null);
+            }
+        }
+    }, [worksOrders, worksOrdersLoading, worksOrder]);
+
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
@@ -44,20 +85,12 @@ function AssemblyFail({
         setAssemblyFail({ ...assemblyFail, [propertyName]: newValue });
     };
 
-    const handleWorksOrderChange = newValue => {
-        if (editStatus === 'view') {
-            setEditStatus('edit');
-        }
-
-        setWorksOrder(newValue);
-    };
-
     return (
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     {creating() ? (
-                        <Title text="Create Assembly Fail" />
+                        <Title text="Log An Assembly Fail" />
                     ) : (
                         <Title text="Assembly Fail Details" />
                     )}
@@ -94,87 +127,125 @@ function AssemblyFail({
                         ) : (
                             <Fragment />
                         )}
-                        <Grid item xs={2}>
-                            <InputField
-                                fullWidth
-                                disabled={!creating()}
-                                value={
-                                    creating()
-                                        ? worksOrder
-                                            ? worksOrder.orderNumber
-                                            : null
-                                        : assemblyFail.worksOrderNumber
-                                }
-                                type="number"
-                                label="Works Order"
-                                maxLength={10}
-                                onChange={handleFieldChange}
-                                propertyName="worksOrderNumber"
-                            />
-                            <WorksOrdersSearch
-                                onSelect={handleWorksOrderChange}
-                                title="Search for Works Order"
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <InputField
-                                fullWidth
-                                disabled
-                                value={assemblyFail.partNumber}
-                                label="Part Number"
-                                maxLength={10}
-                                onChange={handleFieldChange}
-                                propertyName="partNumber"
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <InputField
-                                fullWidth
-                                disabled
-                                value={assemblyFail.partDescription}
-                                label="Description"
-                                maxLength={10}
-                                onChange={handleFieldChange}
-                                propertyName="partDescription"
-                            />
-                        </Grid>
-                        {creating() && <Grid item xs={2} />}
 
-                        <Grid item xs={2}>
-                            <InputField
-                                fullWidth
-                                disabled
-                                value={
-                                    creating()
-                                        ? profile.employee.replace('/employees/', '')
-                                        : assemblyFail.enteredBy
-                                }
-                                label="Entered By"
-                                maxLength={10}
-                                onChange={handleFieldChange}
-                                propertyName="enteredBy"
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
-                            <InputField
-                                fullWidth
-                                disabled
-                                value={creating() ? profile.name : assemblyFail.enteredByName}
-                                label="Name"
-                                maxLength={10}
-                                onChange={handleFieldChange}
-                                propertyName="enteredByName"
-                            />
-                        </Grid>
-                        <Grid item xs={4} />
-                        {worksOrder ? (
+                        {creating() ? (
                             <Fragment>
+                                <Grid item xs={6}>
+                                    <SearchInputField
+                                        label={worksOrderSearchHelperText()}
+                                        fullWidth
+                                        placeholder="Order Number"
+                                        onChange={handleSearchTermChange}
+                                        propertyName="searchTerm"
+                                        type="number"
+                                        value={searchTerm}
+                                    />{' '}
+                                </Grid>
+                                {/* <Grid item xs={2}>
+                                    <Button
+                                        onClick={() => {
+                                            clearSearch();
+                                            setSearchTerm(null);
+                                            setWorksOrder(null);
+                                        }}
+                                    >
+                                        {' '}
+                                        CLEAR{' '}
+                                    </Button>
+                                </Grid> */}
+                                <Grid item xs={6} />
+                            </Fragment>
+                        ) : (
+                            <Fragment />
+                        )}
+
+                        {worksOrder || !creating() ? (
+                            <Fragment>
+                                <Grid item xs={2}>
+                                    <InputField
+                                        disabled
+                                        value={
+                                            creating()
+                                                ? worksOrder
+                                                    ? worksOrder.orderNumber
+                                                    : null
+                                                : assemblyFail.worksOrderNumber
+                                        }
+                                        type="number"
+                                        label="Works Order"
+                                        maxLength={8}
+                                        onChange={handleFieldChange}
+                                        propertyName="worksOrderNumber"
+                                    />{' '}
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <InputField
+                                        fullWidth
+                                        disabled
+                                        value={
+                                            creating()
+                                                ? worksOrder.partNumber
+                                                : assemblyFail.partNumber
+                                        }
+                                        label="Part Number"
+                                        maxLength={10}
+                                        onChange={handleFieldChange}
+                                        propertyName="partNumber"
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <InputField
+                                        fullWidth
+                                        disabled
+                                        rows={3}
+                                        value={
+                                            creating()
+                                                ? worksOrder.partDescription
+                                                : assemblyFail.partDescription
+                                        }
+                                        label="Description"
+                                        maxLength={10}
+                                        onChange={handleFieldChange}
+                                        propertyName="partDescription"
+                                    />
+                                </Grid>
+                                {creating() && <Grid item xs={2} />}
+
                                 <Grid item xs={2}>
                                     <InputField
                                         fullWidth
                                         disabled
+                                        value={
+                                            creating()
+                                                ? profile.employee.replace('/employees/', '')
+                                                : assemblyFail.enteredBy
+                                        }
+                                        label="Entered By"
+                                        maxLength={10}
+                                        onChange={handleFieldChange}
+                                        propertyName="enteredBy"
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <InputField
+                                        fullWidth
+                                        disabled
+                                        value={
+                                            creating() ? profile.name : assemblyFail.enteredByName
+                                        }
+                                        label="Name"
+                                        maxLength={10}
+                                        onChange={handleFieldChange}
+                                        propertyName="enteredByName"
+                                    />
+                                </Grid>
+                                <Grid item xs={6} />
+                                <Grid item xs={2}>
+                                    <InputField
+                                        fullWidth
                                         value={assemblyFail.serialNumber}
                                         label="Serial Number"
+                                        type="number"
                                         maxLength={10}
                                         onChange={handleFieldChange}
                                         propertyName="serialNumber"
@@ -183,10 +254,10 @@ function AssemblyFail({
                                 <Grid item xs={2}>
                                     <InputField
                                         fullWidth
-                                        disabled
                                         value={assemblyFail.numberOfFails}
                                         label="Num Fails"
                                         maxLength={10}
+                                        type="number"
                                         onChange={handleFieldChange}
                                         propertyName="numberOfFails"
                                     />
@@ -201,7 +272,6 @@ function AssemblyFail({
                                 <Grid item xs={2}>
                                     <InputField
                                         fullWidth
-                                        disabled
                                         value={assemblyFail.inSlot}
                                         label="In Slot"
                                         onChange={handleFieldChange}
@@ -211,7 +281,6 @@ function AssemblyFail({
                                 <Grid item xs={2}>
                                     <InputField
                                         fullWidth
-                                        disabled
                                         value={assemblyFail.machine}
                                         label="Machine"
                                         onChange={handleFieldChange}
@@ -221,7 +290,6 @@ function AssemblyFail({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        disabled
                                         rows={4}
                                         value={assemblyFail.reportedFault}
                                         label="Fault"
@@ -232,7 +300,6 @@ function AssemblyFail({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        disabled
                                         rows={4}
                                         value={assemblyFail.analysis}
                                         label="Analysis"
@@ -490,6 +557,22 @@ function AssemblyFail({
                         ) : (
                             <Fragment />
                         )}
+                        {worksOrdersLoading && (
+                            <Grid item xs={12}>
+                                <Loading />
+                            </Grid>
+                        )}
+                        {!worksOrdersLoading && worksOrders && worksOrders.length > 1 && (
+                            <Typography>
+                                Refine your search.. more than one Works Order returned.
+                            </Typography>
+                        )}
+                        {!worksOrdersLoading &&
+                            searchTerm &&
+                            worksOrders &&
+                            worksOrders.length === 0 && (
+                                <Typography>No results to match the search criteria.</Typography>
+                            )}
                     </Fragment>
                 )}
             </Grid>
@@ -505,6 +588,7 @@ AssemblyFail.propTypes = {
         dateClosed: PropTypes.string
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    profile: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
     errorMessage: PropTypes.string,
     snackbarVisible: PropTypes.bool,
@@ -517,7 +601,8 @@ AssemblyFail.defaultProps = {
     item: {},
     snackbarVisible: false,
     loading: null,
-    errorMessage: ''
+    errorMessage: '',
+    profile: { employee: '', name: '' }
 };
 
 export default AssemblyFail;

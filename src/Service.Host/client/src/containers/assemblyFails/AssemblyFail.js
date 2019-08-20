@@ -21,7 +21,7 @@ const mapDispatchToProps = {
     initialise,
     updateItem: assemblyFailActions.update,
     setEditStatus: assemblyFailActions.setEditStatus,
-    setSnackbarVisible: assemblyFailActions.setSnackbarVisible
+    setSnackbarVisible: assemblyFailActions.setSnackbarVisible,
 };
 
 export default connect(

@@ -145,8 +145,9 @@
         {
             var e = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
             e.HasKey(o => o.OrderNumber);
-            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
             e.Property(o => o.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            e.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
         protected void BuildBoardFailTypes(ModelBuilder builder)

@@ -9,5 +9,7 @@
         public string Description { get; set; }
 
         public List<AssemblyFail> AssemblyFails { get; set; }
+
+        public List<WorksOrder> WorksOrders { get; set; }
     }
 }

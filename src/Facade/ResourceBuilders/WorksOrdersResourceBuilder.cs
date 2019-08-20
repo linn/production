@@ -6,12 +6,17 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     public class WorksOrdersResourceBuilder : IResourceBuilder<IEnumerable<WorksOrder>>
     {
-        private readonly WorksOrderResourceBuilder resourceBuilder = new WorksOrderResourceBuilder();
+        private readonly WorksOrderResourceBuilder resourceBuilder;
+
+        public WorksOrdersResourceBuilder(ISalesArticleService salesArticleService)
+        {
+            this.resourceBuilder = new WorksOrderResourceBuilder();
+        }
 
         public IEnumerable<WorksOrderResource> Build(IEnumerable<WorksOrder> ateFaultCodes)
         {

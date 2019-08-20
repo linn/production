@@ -7,6 +7,8 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class WorksOrderRepository : IRepository<WorksOrder, int>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -23,7 +25,7 @@
 
         public IQueryable<WorksOrder> FindAll()
         {
-            return this.serviceDbContext.WorksOrders;
+            return this.serviceDbContext.WorksOrders.Include(w => w.Part);
         }
 
         public void Add(WorksOrder entity)
@@ -43,7 +45,7 @@
 
         public IQueryable<WorksOrder> FilterBy(Expression<Func<WorksOrder, bool>> expression)
         {
-            return this.serviceDbContext.WorksOrders.Where(expression);
+            return this.serviceDbContext.WorksOrders.AsNoTracking().Include(o => o.Part).Where(expression);
         }
     }
 }

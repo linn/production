@@ -1,9 +1,9 @@
-import { FetchApiActions } from '@linn-it/linn-form-components-library';
+import { UpdateApiActions } from '@linn-it/linn-form-components-library';
 import { worksOrdersActionTypes as actionTypes } from './index';
 import * as itemTypes from '../itemTypes';
 import config from '../config';
 
-export default new FetchApiActions(
+export default new UpdateApiActions(
     itemTypes.worksOrders.actionType,
     itemTypes.worksOrders.uri,
     actionTypes,

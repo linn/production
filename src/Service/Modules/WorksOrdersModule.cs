@@ -44,11 +44,11 @@
         {
             var resource = this.Bind<SearchRequestResource>();
 
-            var tariffs = string.IsNullOrEmpty(resource.SearchTerm)
+            var worksOrders = string.IsNullOrEmpty(resource.SearchTerm)
                               ? this.worksOrdersService.GetAll()
                               : this.worksOrdersService.Search(resource.SearchTerm);
 
-            return this.Negotiate.WithModel(tariffs).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
     }
