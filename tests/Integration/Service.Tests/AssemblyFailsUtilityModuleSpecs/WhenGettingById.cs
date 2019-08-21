@@ -22,12 +22,11 @@
             var a = new AssemblyFail
                         {
                             Id = 1,
-                            WorksOrder = new WorksOrder { OrderNumber = 1, PartNumber = "A" },
+                            WorksOrder = new WorksOrder { OrderNumber = 1, PartNumber = "A", Part = new Part { Description = "desc" } },
                             EnteredBy = new Employee { Id = 1, FullName = "name" }
                         };
 
             this.FacadeService.GetById(1).Returns(new SuccessResult<AssemblyFail>(a));
-            this.salesArticleService.GetDescriptionFromPartNumber("A").Returns("desc");
 
             this.Response = this.Browser.Get(
                 "/production/quality/assembly-fails/1",

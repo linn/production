@@ -11,13 +11,6 @@
 
     public class AssemblyFailResourceBuilder : IResourceBuilder<AssemblyFail>
     {
-        private readonly ISalesArticleService salesArticleService;
-
-        public AssemblyFailResourceBuilder(ISalesArticleService salesArticleService)
-        {
-            this.salesArticleService = salesArticleService;
-        }
-
         public AssemblyFailResource Build(AssemblyFail model)
         {
             return new AssemblyFailResource
@@ -27,9 +20,7 @@
                             EnteredByName = model.EnteredBy?.FullName,
                             WorksOrderNumber = model.WorksOrder.OrderNumber,
                             PartNumber = model.WorksOrder?.PartNumber,
-                            PartDescription = model.WorksOrder?.PartNumber != null 
-                                                  ? this.salesArticleService.GetDescriptionFromPartNumber(model.WorksOrder.PartNumber) 
-                                                  : null,
+                            PartDescription = model.WorksOrder?.Part.Description,
                             NumberOfFails = model.NumberOfFails,
                             SerialNumber = model.SerialNumber,
                             DateTimeFound = model.DateTimeFound.ToString("o"),

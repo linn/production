@@ -77,3 +77,9 @@ export const worksOrders = new ItemType(
     'WORKS_ORDERS',
     '/production/maintenance/works-orders'
 );
+
+export const productionTriggerLevels = new ItemType(
+    'productionTriggerLevels',
+    'PRODUCTION_TRIGGER_LEVELS',
+    '/production/maintenance/production-trigger-levels'
+);

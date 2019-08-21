@@ -11,13 +11,14 @@ import {
     ErrorCard,
     SnackbarMessage,
     SearchInputField,
-    useSearch
+    useSearch,
+    Dropdown
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-import { Button } from '@material-ui/core';
+import productionTriggerLevels from '../../reducers/productionTriggerLevels';
 // import WorksOrdersSearch from '../../containers/WorksOrdersSearch';
 
-const useStyles = makeStyles(theme => ({ button: { padding: theme.spacing(6) + '!important' } }));
+const useStyles = makeStyles(theme => ({}));
 
 function AssemblyFail({
     editStatus,
@@ -31,7 +32,9 @@ function AssemblyFail({
     fetchItems,
     clearSearch,
     worksOrders,
-    worksOrdersLoading
+    worksOrdersLoading,
+    boardParts,
+    boardPartsLoading
 }) {
     const [searchTerm, setSearchTerm] = useState(null);
     const [assemblyFail, setAssemblyFail] = useState({});
@@ -63,6 +66,16 @@ function AssemblyFail({
             setPrevAssemblyFail(item);
         }
     }, [item, prevAssemblyFail]);
+
+    useEffect(() => {
+        if (assemblyFail.boardPart) {
+            setAssemblyFail({
+                ...assemblyFail,
+                boardDescription: boardParts.find(p => p.partNumber === assemblyFail.boardPart)
+                    .description
+            });
+        }
+    });
 
     useEffect(() => {
         // if (worksOrder && searchTerm === null) {
@@ -310,7 +323,6 @@ function AssemblyFail({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        disabled
                                         rows={4}
                                         value={assemblyFail.engineeringComments}
                                         label="Engineering Comments"
@@ -319,14 +331,22 @@ function AssemblyFail({
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <InputField
+                                    <Dropdown
+                                        label="Board Part"
+                                        propertyName="boardPart"
+                                        items={[''].concat(boardParts.map(p => p.partNumber))}
+                                        fullWidth
+                                        value={assemblyFail.boardPart}
+                                        onChange={handleFieldChange}
+                                    />
+                                    {/* <InputField
                                         fullWidth
                                         disabled
                                         value={assemblyFail.boardPartNumber}
                                         label="Board Part"
                                         onChange={handleFieldChange}
                                         propertyName="boardPartNumber"
-                                    />
+                                    /> */}
                                 </Grid>
                                 <Grid item xs={3}>
                                     <InputField
@@ -594,7 +614,8 @@ AssemblyFail.propTypes = {
     snackbarVisible: PropTypes.bool,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
-    setSnackbarVisible: PropTypes.func.isRequired
+    setSnackbarVisible: PropTypes.func.isRequired,
+    boardParts: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 AssemblyFail.defaultProps = {
@@ -602,7 +623,8 @@ AssemblyFail.defaultProps = {
     snackbarVisible: false,
     loading: null,
     errorMessage: '',
-    profile: { employee: '', name: '' }
+    profile: { employee: '', name: '' },
+    boardParts: []
 };
 
 export default AssemblyFail;

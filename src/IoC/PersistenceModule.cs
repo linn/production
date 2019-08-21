@@ -32,6 +32,8 @@
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
             builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
+            builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
+            builder.RegisterType<ProductionTriggerLevelRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

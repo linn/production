@@ -45,6 +45,8 @@
 
         public DbSet<Employee> Employees { get; set; }
 
+        public DbSet<ProductionTriggerLevel> ProductionTriggerLevels { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -61,6 +63,7 @@
             this.BuildParts(builder);
             this.BuildEmployees(builder);
             this.BuildAssemblyFailFaultCodes(builder);
+            this.BuildProductionTriggerLevels(builder);
             base.OnModelCreating(builder);
         }
 
@@ -193,6 +196,15 @@
             e.Property(b => b.MaterialPrice).HasColumnName("MATERIAL_PRICE");
             e.Property(b => b.Quantity).HasColumnName("QUANTITY");
             e.Property(b => b.DepartmentCode).HasColumnName("CR_DEPT");
+        }
+
+        private void BuildProductionTriggerLevels(ModelBuilder builder)
+        {
+            var e = builder.Entity<ProductionTriggerLevel>();
+            e.ToTable("PRODUCTION_TRIGGER_LEVELS");
+            e.HasKey(l => l.PartNumber);
+            e.Property(l => l.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(l => l.Description).HasColumnName("DESCRIPTION");
         }
 
         private void BuildCits(ModelBuilder builder)

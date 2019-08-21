@@ -51,6 +51,10 @@ namespace Linn.Production.IoC
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
             builder.RegisterType<WorksOrdersService>()
                 .As<IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>>();
+            builder.RegisterType<PartsService>()
+                .As<IFacadeService<Part, string, PartResource, PartResource>>();
+            builder.RegisterType<ProductionTriggerLevelService>()
+                .As<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

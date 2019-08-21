@@ -38,7 +38,7 @@
                 with =>
                 {
                     with.Dependency(this.FacadeService);
-                    with.Dependency<IResourceBuilder<AssemblyFail>>(new AssemblyFailResourceBuilder(this.salesArticleService));
+                    with.Dependency<IResourceBuilder<AssemblyFail>>(new AssemblyFailResourceBuilder());
                     
                     with.Module<AssemblyFailsModule>();
                     with.ResponseProcessor<AssemblyFailResponseProcessor>();

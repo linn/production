@@ -6,6 +6,8 @@ import assemblyFailSelectors from '../../selectors/assemblyFailSelectors';
 import getProfile from '../../selectors/userSelectors';
 import worksOrdersSelectors from '../../selectors/worksOrdersSelectors';
 import worksOrdersActions from '../../actions/worksOrdersActions';
+import productionTriggerLevelsActions from '../../actions/productionTriggerLevelsActions';
+import productionTriggerLevelsSelectors from '../../selectors/productionTriggerLevelsSelectors';
 
 const mapStateToProps = state => ({
     item: {},
@@ -15,12 +17,15 @@ const mapStateToProps = state => ({
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
     profile: getProfile(state),
     worksOrders: worksOrdersSelectors.getItems(state),
-    worksOrdersLoading: worksOrdersSelectors.getLoading(state)
+    worksOrdersLoading: worksOrdersSelectors.getLoading(state),
+    boardParts: productionTriggerLevelsSelectors.getItems(state),
+    boardPartsLoading: productionTriggerLevelsSelectors.getLoading(state)
 });
 
 const initialise = () => dispatch => {
     dispatch(assemblyFailActions.setEditStatus('create'));
-    dispatch(assemblyFailActions.create());
+    dispatch(productionTriggerLevelsActions.fetchByQueryString('searchTerm', 'PCAS'));
+    //dispatch(assemblyFailActions.create()); TODO ?
 };
 
 const mapDispatchToProps = {
