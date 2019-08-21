@@ -22,6 +22,7 @@
         {
             return this.serviceDbContext.AssemblyFails
                 .Include(f => f.WorksOrder)
+                .Include(f => f.WorksOrder.Part)
                 .Include(f => f.CitResponsible)
                 .Include(f => f.CompletedBy)
                 .Include(f => f.FaultCode)
