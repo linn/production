@@ -57,3 +57,5 @@ export const productionTriggerLevels = makeActionTypes(
     itemTypes.productionTriggerLevels.actionType,
     false
 );
+
+export const pcasRevisionsActionTypes = makeActionTypes(itemTypes.pcasRevisions.actionType, false);

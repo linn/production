@@ -47,6 +47,8 @@
 
         public DbSet<ProductionTriggerLevel> ProductionTriggerLevels { get; set; }
 
+        public DbQuery<PcasRevision> PcasRevisions { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -64,9 +66,10 @@
             this.BuildEmployees(builder);
             this.BuildAssemblyFailFaultCodes(builder);
             this.BuildProductionTriggerLevels(builder);
+            this.QueryPcasRevisions(builder);
             base.OnModelCreating(builder);
         }
-
+        
         protected void QueryWhoBuildWhat(ModelBuilder builder)
         {
             builder.Query<WhoBuiltWhat>().ToView("V_WHO_BUILT_WHAT");
@@ -77,6 +80,14 @@
             builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
             builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
             builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
+        }
+
+        protected void QueryPcasRevisions(ModelBuilder builder)
+        {
+            builder.Query<PcasRevision>().ToView("PCAS_REVISION_COMP_VIEW");
+            builder.Query<PcasRevision>().Property(r => r.Cref).HasColumnName("CREF");
+            builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

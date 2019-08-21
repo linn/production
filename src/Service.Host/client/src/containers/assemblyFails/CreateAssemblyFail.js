@@ -8,6 +8,8 @@ import worksOrdersSelectors from '../../selectors/worksOrdersSelectors';
 import worksOrdersActions from '../../actions/worksOrdersActions';
 import productionTriggerLevelsActions from '../../actions/productionTriggerLevelsActions';
 import productionTriggerLevelsSelectors from '../../selectors/productionTriggerLevelsSelectors';
+import pcasRevisionsActions from '../../actions/pcasRevisionsActions';
+import pcasRevisionsSelectors from '../../selectors/pcasRevisionsSelectors';
 
 const mapStateToProps = state => ({
     item: {},
@@ -19,12 +21,16 @@ const mapStateToProps = state => ({
     worksOrders: worksOrdersSelectors.getItems(state),
     worksOrdersLoading: worksOrdersSelectors.getLoading(state),
     boardParts: productionTriggerLevelsSelectors.getItems(state),
-    boardPartsLoading: productionTriggerLevelsSelectors.getLoading(state)
+    boardPartsLoading: productionTriggerLevelsSelectors.getLoading(state),
+    pcasRevisions: pcasRevisionsSelectors.getItems(state),
+    pcasRevisionsLoading: pcasRevisionsSelectors.getLoading(state),
+    fetchPcasRevisionsForBoardPart: pcasRevisionsActions.fetchByQueryString
 });
 
 const initialise = () => dispatch => {
     dispatch(assemblyFailActions.setEditStatus('create'));
     dispatch(productionTriggerLevelsActions.fetchByQueryString('searchTerm', 'PCAS'));
+
     //dispatch(assemblyFailActions.create()); TODO ?
 };
 
@@ -34,6 +40,7 @@ const mapDispatchToProps = {
     setEditStatus: assemblyFailActions.setEditStatus,
     setSnackbarVisible: assemblyFailActions.setSnackbarVisible,
     fetchItems: worksOrdersActions.fetchByQueryString,
+    fetchPcasRevisionsForBoardPart: pcasRevisionsActions.fetchByQueryString,
     clearSearch: worksOrdersActions.reset
 };
 

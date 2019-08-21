@@ -15,6 +15,7 @@ import boardFailType from './boardFailTypes/boardFailType';
 import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
 import worksOrders from './worksOrders/worksOrders';
 import productionTriggerLevels from './productionTriggerLevels';
+import pcasRevisions from './pcasRevisions';
 
 const rootReducer = combineReducers({
     oidc,
@@ -32,7 +33,8 @@ const rootReducer = combineReducers({
     boardFailTypes,
     assemblyFailsWaitingListReport,
     worksOrders,
-    productionTriggerLevels
+    productionTriggerLevels,
+    pcasRevisions
 });
 
 export default rootReducer;

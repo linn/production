@@ -15,8 +15,6 @@ import {
     Dropdown
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-import productionTriggerLevels from '../../reducers/productionTriggerLevels';
-// import WorksOrdersSearch from '../../containers/WorksOrdersSearch';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -34,7 +32,9 @@ function AssemblyFail({
     worksOrders,
     worksOrdersLoading,
     boardParts,
-    boardPartsLoading
+    boardPartsLoading,
+    pcasRevisions,
+    fetchPcasRevisionsForBoardPart
 }) {
     const [searchTerm, setSearchTerm] = useState(null);
     const [assemblyFail, setAssemblyFail] = useState({ numberOfFails: 1 });
@@ -53,7 +53,7 @@ function AssemblyFail({
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
 
-    const completed = () => assemblyFail.dateTimeComplete !== null;
+    const notCompleted = () => !assemblyFail.dateTimeComplete || creating();
 
     const worksOrderSearchHelperText = () => {
         if (worksOrder || assemblyFail.worksOrderNumber) {
@@ -70,14 +70,26 @@ function AssemblyFail({
     }, [item, prevAssemblyFail, editStatus]);
 
     useEffect(() => {
-        if (assemblyFail && assemblyFail.boardPart) {
-            setAssemblyFail({
-                ...assemblyFail,
-                boardDescription: boardParts.find(p => p.partNumber === assemblyFail.boardPart)
-                    .description
-            });
+        fetchPcasRevisionsForBoardPart('searchTerm', assemblyFail.boardPart);
+    }, [assemblyFail.boardPart, fetchPcasRevisionsForBoardPart]);
+
+    useEffect(() => {
+        if (assemblyFail.boardPart) {
+            setAssemblyFail(a => ({
+                ...a,
+                boardDescription: boardParts.find(p => p.partNumber === a.boardPart).description
+            }));
         }
-    });
+    }, [assemblyFail.boardPart, boardParts]);
+
+    useEffect(() => {
+        if (pcasRevisions && assemblyFail.circuitRef) {
+            setAssemblyFail(a => ({
+                ...a,
+                circuitPartNumber: pcasRevisions.find(p => p.cref === a.circuitRef).partNumber
+            }));
+        }
+    }, [pcasRevisions, assemblyFail.circuitRef]);
 
     useEffect(() => {
         if (editStatus === 'create') {
@@ -106,6 +118,8 @@ function AssemblyFail({
         }
         return [''];
     };
+
+    const aoiEscapeValues = ['', 'Y', 'N'];
 
     return (
         <Page>
@@ -153,7 +167,7 @@ function AssemblyFail({
                             <Fragment />
                         )}
 
-                        {creating() || !completed() ? (
+                        {creating() || notCompleted() ? (
                             <Fragment>
                                 <Grid item xs={4}>
                                     <SearchInputField
@@ -256,7 +270,7 @@ function AssemblyFail({
                                 <Grid item xs={2}>
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.serialNumber}
                                         label="Serial Number"
                                         type="number"
@@ -268,7 +282,7 @@ function AssemblyFail({
                                 <Grid item xs={2}>
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.numberOfFails}
                                         label="Num Fails"
                                         maxLength={10}
@@ -288,7 +302,7 @@ function AssemblyFail({
                                     <InputField
                                         fullWidth
                                         value={assemblyFail.inSlot}
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         label="In Slot"
                                         onChange={handleFieldChange}
                                         propertyName="inSlot"
@@ -298,7 +312,7 @@ function AssemblyFail({
                                     <InputField
                                         fullWidth
                                         value={assemblyFail.machine}
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         label="Machine"
                                         onChange={handleFieldChange}
                                         propertyName="machine"
@@ -309,7 +323,7 @@ function AssemblyFail({
                                         fullWidth
                                         rows={4}
                                         value={assemblyFail.reportedFault}
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         label="Fault"
                                         onChange={handleFieldChange}
                                         propertyName="reportedFault"
@@ -318,7 +332,7 @@ function AssemblyFail({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         rows={4}
                                         value={assemblyFail.analysis}
                                         label="Analysis"
@@ -340,7 +354,7 @@ function AssemblyFail({
                                     <Dropdown
                                         label="Board Part"
                                         propertyName="boardPart"
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         items={getBoardPartItems()}
                                         fullWidth
                                         value={assemblyFail.boardPart}
@@ -360,7 +374,7 @@ function AssemblyFail({
                                 <Grid item xs={3}>
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.boardSerial}
                                         label="Board Serial"
                                         onChange={handleFieldChange}
@@ -370,7 +384,7 @@ function AssemblyFail({
                                 <Grid item xs={3}>
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.shift}
                                         label="Shift"
                                         onChange={handleFieldChange}
@@ -380,7 +394,7 @@ function AssemblyFail({
                                 <Grid item xs={3}>
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.batch}
                                         label="Batch"
                                         onChange={handleFieldChange}
@@ -388,24 +402,33 @@ function AssemblyFail({
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <InputField // TODO dropdown
-                                        fullWidth
-                                        disabled={completed()}
-                                        value={assemblyFail.aoiEscape}
+                                    <Dropdown
                                         label="AOI Escape"
-                                        onChange={handleFieldChange}
                                         propertyName="aoiEscape"
+                                        disabled={!notCompleted()}
+                                        items={aoiEscapeValues}
+                                        fullWidth
+                                        value={assemblyFail.boardPart}
+                                        onChange={handleFieldChange}
                                     />
                                 </Grid>
                                 <Grid item xs={6} />
                                 <Grid item xs={3}>
-                                    <InputField // todo - dropdown
-                                        fullWidth
-                                        disabled={completed()}
-                                        value={assemblyFail.circuitRef}
+                                    <Dropdown
                                         label="Circuit Ref"
-                                        onChange={handleFieldChange}
                                         propertyName="circuitRef"
+                                        disabled={
+                                            (pcasRevisions && pcasRevisions.length === 0) ||
+                                            !notCompleted()
+                                        }
+                                        items={
+                                            pcasRevisions
+                                                ? [''].concat(pcasRevisions.map(r => r.cref))
+                                                : ['']
+                                        }
+                                        fullWidth
+                                        value={assemblyFail.circuitRef}
+                                        onChange={handleFieldChange}
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
@@ -424,7 +447,7 @@ function AssemblyFail({
                                     {/*  // TODO - dropdown */}
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.citResponsible}
                                         label="CIT Responsible"
                                         onChange={handleFieldChange}
@@ -446,7 +469,7 @@ function AssemblyFail({
                                     {/*  // TODO - dropdown */}
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.personResponsible}
                                         label="Person Responsible"
                                         onChange={handleFieldChange}
@@ -468,7 +491,7 @@ function AssemblyFail({
                                     {/*  // TODO - dropdown */}
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.faultCode}
                                         label="Fault Code"
                                         onChange={handleFieldChange}
@@ -491,14 +514,14 @@ function AssemblyFail({
                                     <DateTimePicker
                                         value={assemblyFail.dateTimeComplete}
                                         label="Complete"
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                     />
                                 </Grid>
                                 <Grid item xs={2}>
                                     {/*  // TODO - dropdown */}
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.completedBy}
                                         label="Completed By"
                                         onChange={handleFieldChange}
@@ -520,7 +543,7 @@ function AssemblyFail({
                                     {/*  // TODO - dropdown */}
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.returnedBy}
                                         label="Returned By"
                                         onChange={handleFieldChange}
@@ -551,7 +574,7 @@ function AssemblyFail({
                                 <Grid item xs={1}>
                                     <InputField
                                         fullWidth
-                                        disabled={completed()}
+                                        disabled={!notCompleted()}
                                         value={assemblyFail.outSlot}
                                         label="Out Slot"
                                         onChange={handleFieldChange}

@@ -1,6 +1,4 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using System.Collections.Generic;
 
@@ -15,6 +13,8 @@ namespace Linn.Production.IoC
     using Domain.LinnApps.SerialNumberReissue;
 
     using Facade.ResourceBuilders;
+
+    using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class ResponsesModule : Module
     {
@@ -46,6 +46,10 @@ namespace Linn.Production.IoC
             builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ProductionTriggerLevel>>();
             builder.RegisterType<ProductionTriggerLevelsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>();
+            builder.RegisterType<PcasRevisionResourceBuilder>()
+                .As<IResourceBuilder<PcasRevision>>();
+            builder.RegisterType<PcasRevisionsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<PcasRevision>>>();
         }
     }
 }

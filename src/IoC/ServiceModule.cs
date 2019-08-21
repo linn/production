@@ -1,6 +1,4 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using System.Data;
 
@@ -16,6 +14,7 @@ namespace Linn.Production.IoC
     using Linn.Common.Facade;
     using Linn.Common.Proxy;
     using Linn.Production.Domain.LinnApps.Reports;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -55,6 +54,8 @@ namespace Linn.Production.IoC
                 .As<IFacadeService<Part, string, PartResource, PartResource>>();
             builder.RegisterType<ProductionTriggerLevelService>()
                 .As<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();
+            builder.RegisterType<PcasRevisionService>()
+                .As<IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

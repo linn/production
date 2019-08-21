@@ -34,6 +34,7 @@
             builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
             builder.RegisterType<ProductionTriggerLevelRepository>().As<IRepository<ProductionTriggerLevel, string>>();
+            builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
             
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

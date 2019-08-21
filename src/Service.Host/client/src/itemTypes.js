@@ -83,3 +83,9 @@ export const productionTriggerLevels = new ItemType(
     'PRODUCTION_TRIGGER_LEVELS',
     '/production/maintenance/production-trigger-levels'
 );
+
+export const pcasRevisions = new ItemType(
+    'pcasRevisions',
+    'PCAS_REVISIONS',
+    '/production/maintenance/pcas-revisions'
+);
