@@ -5,6 +5,7 @@
     using Domain.LinnApps.ATE;
     using Domain.LinnApps.Measures;
     using Domain.LinnApps.SerialNumberReissue;
+    using Domain.LinnApps.Triggers;
     using Domain.LinnApps.ViewModels;
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
@@ -28,7 +29,9 @@
             builder.RegisterType<ManufacturingResourceRepository>().As<IRepository<ManufacturingResource, string>>();
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
-            
+            builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
+            builder.RegisterType<OsrRunMasterRepository>().As<IMasterRepository<OsrRunMaster>>();
+
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
         }

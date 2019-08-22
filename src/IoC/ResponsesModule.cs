@@ -34,6 +34,7 @@
             builder.RegisterType<ManufacturingResourceResourceBuilder>().As<IResourceBuilder<ManufacturingResource>>();
             builder.RegisterType<ManufacturingResourcesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingResource>>>();
+            builder.RegisterType<OsrInfoResourceBuilder>().As<IResourceBuilder<OsrInfo>>();
         }
     }
 }

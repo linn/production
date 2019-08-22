@@ -1,4 +1,7 @@
-﻿namespace Linn.Production.Persistence.LinnApps
+﻿using System.Linq;
+using Linn.Production.Domain.LinnApps.Triggers;
+
+namespace Linn.Production.Persistence.LinnApps
 {
     using System.Net;
 
@@ -46,6 +49,14 @@
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
+        private DbSet<PtlMaster> PtlMasterSet { get; set; }
+
+        public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
+
+        private DbSet<OsrRunMaster> OsrRunMasterSet { get; set; }
+
+        public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -64,6 +75,9 @@
             this.BuildParts(builder);
             this.BuildEmployees(builder);
             this.BuildAssemblyFailFaultCodes(builder);
+            this.BuildAssemblyFailFaultCodes(builder);
+            this.BuildPtlMaster(builder);
+            this.BuildOsrRunMaster(builder);
             base.OnModelCreating(builder);
         }
 
@@ -295,6 +309,28 @@
             q.ToTable("AUTH_USER_NAME_VIEW");
             q.Property(e => e.Id).HasColumnName("USER_NUMBER");
             q.Property(e => e.FullName).HasColumnName("USER_NAME");
+        }
+
+        private void BuildPtlMaster(ModelBuilder builder)
+        {
+            var q = builder.Entity<PtlMaster>();
+            q.HasKey(e => e.LastFullRunJobref);
+            q.ToTable("PTL_MASTER");
+            q.Property(e => e.LastFullRunJobref).HasColumnName("LAST_FULL_RUN_JOBREF").HasMaxLength(6); 
+            q.Property(e => e.LastFullRunDateTime).HasColumnName("LAST_FULL_RUN_DATE");
+            q.Property(e => e.LastPtlShortageJobref).HasColumnName("LAST_PTL_SHORTAGE_JOBREF").HasMaxLength(6);
+            q.Property(e => e.LastDaysToLookAhead).HasColumnName("LAST_DAYS_TO_LOOK_AHEAD");
+            q.Property(e => e.Status).HasColumnName("STATUS").HasMaxLength(2000);
+        }
+
+        private void BuildOsrRunMaster(ModelBuilder builder)
+        {
+            var q = builder.Entity<OsrRunMaster>();
+            q.HasKey(e => e.RunDateTime);
+            q.ToTable("OSR_RUN_MASTER");
+            q.Property(e => e.LastTriggerJobref).HasColumnName("LAST_TRIGGER_JOBREF").HasMaxLength(6);
+            q.Property(e => e.LastTriggerRunDateTime).HasColumnName("LAST_TRIGGER_RUNDATE");
+            q.Property(e => e.RunDateTime).HasColumnName("RUN_DATETIME");
         }
     }
 }
