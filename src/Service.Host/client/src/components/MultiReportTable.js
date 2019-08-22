@@ -85,22 +85,26 @@ const MultiReportTable = ({
 }) => (
     <div>
         {formatHeading(title, showTitle, !reportData, reportData && reportData.error)}
-            {!reportData
-                ? <div> <Placeholder rows={placeholderRows} columns={placeholderColumns} /> <Placeholder rows={placeholderRows} columns={placeholderColumns} /> </div>
-                :
-                <Results reportData={reportData}
-                    showTotals={false}
-                    placeholderRows={10}
-                    placeholderColumns={3}
-                    showRowTitles={showRowTitles}
-                    showTotals={showTotals}
-                    containsSubtotals={containsSubtotals}
-                    pageBreaksAfter={pageBreaksAfter}
-                    fixColumnWidths={fixColumnWidths}
-                    showTitle={showTitle} />
-            }
-        </div>
-    );
+        {!reportData ? (
+            <div>
+                <Placeholder rows={placeholderRows} columns={placeholderColumns} />
+                <Placeholder rows={placeholderRows} columns={placeholderColumns} />
+            </div>
+        ) : (
+            <Results
+                reportData={reportData}
+                showTotals={showTotals}
+                placeholderRows={10}
+                placeholderColumns={3}
+                showRowTitles={showRowTitles}
+                containsSubtotals={containsSubtotals}
+                pageBreaksAfter={pageBreaksAfter}
+                fixColumnWidths={fixColumnWidths}
+                showTitle={showTitle}
+            />
+        )}
+    </div>
+);
 
 MultiReportTable.propTypes = {
     reportData: PropTypes.arrayOf(PropTypes.shape({})),
