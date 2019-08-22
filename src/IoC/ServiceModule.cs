@@ -13,6 +13,7 @@
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
     using Linn.Common.Proxy;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Facade.Services;
@@ -56,6 +57,11 @@
                 .As<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();
             builder.RegisterType<PcasRevisionService>()
                 .As<IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource>>();
+            builder.RegisterType<CitService>().As<IFacadeService<Cit, string, CitResource, CitResource>>();
+            builder.RegisterType<EmployeeService>()
+                .As<IFacadeService<Employee, int, EmployeeResource, EmployeeResource>>();
+            builder.RegisterType<AssemblyFailFaultCodesService>()
+                .As<IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

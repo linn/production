@@ -14,6 +14,8 @@ import citsActions from '../../actions/citsActions';
 import citsSelectors from '../../selectors/citsSelectors';
 import employeesActions from '../../actions/employeesActions';
 import employeesSelectors from '../../selectors/employeesSelectors';
+import assemblyFailFaultCodes from '../../actions/assemblyFailFaultCodesActions';
+import assemblyFailFaultCodesSelectors from '../../selectors/assemblyFailFaultCodesSelectors';
 
 const mapStateToProps = state => ({
     item: {},
@@ -29,7 +31,8 @@ const mapStateToProps = state => ({
     pcasRevisions: pcasRevisionsSelectors.getItems(state),
     pcasRevisionsLoading: pcasRevisionsSelectors.getLoading(state),
     employees: employeesSelectors.getItems(state),
-    cits: citsSelectors.getItems(state)
+    cits: citsSelectors.getItems(state),
+    faultCodes: assemblyFailFaultCodesSelectors.getItems(state)
 });
 
 const initialise = () => dispatch => {
@@ -37,7 +40,7 @@ const initialise = () => dispatch => {
     dispatch(productionTriggerLevelsActions.fetchByQueryString('searchTerm', 'PCAS'));
     dispatch(employeesActions.fetch());
     dispatch(citsActions.fetch());
-    //dispatch(assemblyFailActions.create()); TODO ?
+    dispatch(assemblyFailFaultCodes.fetch())
 };
 
 const mapDispatchToProps = {

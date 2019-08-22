@@ -63,3 +63,8 @@ export const pcasRevisionsActionTypes = makeActionTypes(itemTypes.pcasRevisions.
 export const citsActionsTypes = makeActionTypes(itemTypes.cits.actionType, false);
 
 export const employeesActionTypes = makeActionTypes(itemTypes.employees.actionType, false);
+
+export const assemblyFailFaultCodesActionTypes = makeActionTypes(
+    itemTypes.assemblyFailFaultCodes.actionType,
+    false
+);

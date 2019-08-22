@@ -50,6 +50,18 @@
                 .As<IResourceBuilder<PcasRevision>>();
             builder.RegisterType<PcasRevisionsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PcasRevision>>>();
+            builder.RegisterType<CitResourceBuilder>()
+                .As<IResourceBuilder<Cit>>();
+            builder.RegisterType<CitsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<Cit>>>();
+            builder.RegisterType<EmployeeResourceBuilder>()
+                .As<IResourceBuilder<Employee>>();
+            builder.RegisterType<EmployeesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<Employee>>>();
+            builder.RegisterType<AssemblyFailFaultCodeResourceBuilder>()
+                .As<IResourceBuilder<AssemblyFailFaultCode>>();
+            builder.RegisterType<AssemblyFailFaultCodesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<AssemblyFailFaultCode>>>();
         }
     }
 }

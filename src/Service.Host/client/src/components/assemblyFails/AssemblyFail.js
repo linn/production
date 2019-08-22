@@ -16,8 +16,6 @@ import {
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-const useStyles = makeStyles(theme => ({}));
-
 function AssemblyFail({
     editStatus,
     errorMessage,
@@ -34,7 +32,10 @@ function AssemblyFail({
     boardParts,
     boardPartsLoading,
     pcasRevisions,
-    fetchPcasRevisionsForBoardPart
+    fetchPcasRevisionsForBoardPart,
+    cits,
+    employees,
+    faultCodes
 }) {
     // state
     const [searchTerm, setSearchTerm] = useState(null);
@@ -85,6 +86,24 @@ function AssemblyFail({
             }));
         }
     }, [pcasRevisions, assemblyFail.circuitRef]);
+
+    useEffect(() => {
+        if (cits && assemblyFail.citResponsible) {
+            setAssemblyFail(a => ({
+                ...a,
+                citResponsibleName: cits.find(c => c.code === a.citResponsible).name
+            }));
+        }
+    }, [cits, assemblyFail.citResponsible]);
+
+    useEffect(() => {
+        if (faultCodes && assemblyFail.faultCode) {
+            setAssemblyFail(a => ({
+                ...a,
+                faultCodeDescription: faultCodes.find(c => c.faultCode === a.faultCode).description
+            }));
+        }
+    }, [faultCodes, assemblyFail.faultCode]);
 
     useEffect(() => {
         if (editStatus === 'create') {
@@ -445,18 +464,17 @@ function AssemblyFail({
                                 </Grid>
                                 <Grid item xs={3} />
                                 <Grid item xs={2}>
-                                    {/*  // TODO - dropdown */}
-                                    <InputField
-                                        fullWidth
-                                        disabled={!notCompleted()}
-                                        value={assemblyFail.citResponsible}
+                                    <Dropdown
                                         label="CIT Responsible"
-                                        onChange={handleFieldChange}
                                         propertyName="citResponsible"
+                                        disabled={!notCompleted()}
+                                        items={cits ? [''].concat(cits.map(c => c.code)) : ['']}
+                                        fullWidth
+                                        value={assemblyFail.citResponsible}
+                                        onChange={handleFieldChange}
                                     />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    {/*  // TODO - autoset */}
                                     <InputField
                                         fullWidth
                                         disabled
@@ -467,36 +485,48 @@ function AssemblyFail({
                                     />
                                 </Grid>
                                 <Grid item xs={2}>
-                                    {/*  // TODO - dropdown */}
+                                    {/*  // TODO - decide what to do with employee numb */}
                                     <InputField
                                         fullWidth
                                         disabled={!notCompleted()}
                                         value={assemblyFail.personResponsible}
-                                        label="Person Responsible"
+                                        label="User Number"
                                         onChange={handleFieldChange}
                                         propertyName="personResponsible"
                                     />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    {/*  // TODO - autoset */}
-                                    <InputField
-                                        fullWidth
-                                        disabled
-                                        value={assemblyFail.personResponsibleName}
-                                        label="Name"
-                                        onChange={handleFieldChange}
+                                    <Dropdown
+                                        label="Person Responsible"
                                         propertyName="personResponsibleName"
+                                        disabled={!notCompleted()}
+                                        items={
+                                            employees
+                                                ? [''].concat(
+                                                      employees
+                                                          .filter(e => e.fullName)
+                                                          .map(c => c.fullName)
+                                                  )
+                                                : ['']
+                                        }
+                                        fullWidth
+                                        value={assemblyFail.personResponsibleName}
+                                        onChange={handleFieldChange}
                                     />
                                 </Grid>
                                 <Grid item xs={2}>
-                                    {/*  // TODO - dropdown */}
-                                    <InputField
-                                        fullWidth
-                                        disabled={!notCompleted()}
-                                        value={assemblyFail.faultCode}
+                                    <Dropdown
                                         label="Fault Code"
-                                        onChange={handleFieldChange}
                                         propertyName="faultCode"
+                                        disabled={!notCompleted()}
+                                        items={
+                                            faultCodes
+                                                ? [''].concat(faultCodes.map(c => c.faultCode))
+                                                : ['']
+                                        }
+                                        fullWidth
+                                        value={assemblyFail.faultCode}
+                                        onChange={handleFieldChange}
                                     />
                                 </Grid>
                                 <Grid item xs={4}>

@@ -2,6 +2,7 @@ import { reducers as sharedLibraryReducers } from '@linn-it/linn-form-components
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import assemblyFail from './assemblyFails/assemblyFail';
+import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
 import departments from './departments';
@@ -22,6 +23,7 @@ import cits from './cits';
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
+    assemblyFailFaultCodes,
     ateFaultCode,
     ateFaultCodes,
     departments,

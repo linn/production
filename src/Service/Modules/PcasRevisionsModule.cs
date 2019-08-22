@@ -12,12 +12,12 @@
 
     public sealed class PcasRevisionsModule : NancyModule
     {
-        private readonly IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource> productionTriggerLevelsService;
+        private readonly IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource> pcasRevisionsService;
 
         public PcasRevisionsModule(
-            IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource> productionTriggerLevelsService)
+            IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource> pcasRevisionsService)
         {
-            this.productionTriggerLevelsService = productionTriggerLevelsService;
+            this.pcasRevisionsService = pcasRevisionsService;
 
             this.Get("production/maintenance/pcas-revisions", _ => this.GetPcasRevisions());
         }
@@ -27,8 +27,8 @@
             var resource = this.Bind<SearchRequestResource>();
 
             var parts = string.IsNullOrEmpty(resource.SearchTerm)
-                            ? this.productionTriggerLevelsService.GetAll()
-                            : this.productionTriggerLevelsService.Search(resource.SearchTerm);
+                            ? this.pcasRevisionsService.GetAll()
+                            : this.pcasRevisionsService.Search(resource.SearchTerm);
 
             return this.Negotiate.WithModel(parts).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");

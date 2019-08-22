@@ -35,7 +35,10 @@
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
             builder.RegisterType<ProductionTriggerLevelRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
-            
+            builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
+            builder.RegisterType<EmployeeRepository>().As<IRepository<Employee, int>>();
+            builder.RegisterType<AssemblyFailFaultCodeRepository>().As<IRepository<AssemblyFailFaultCode, string>>();
+
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
         }
