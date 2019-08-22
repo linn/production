@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import LinkTabCell from './LinkTabCell.js';
-import TabCell from './TabCell.js';
+import LinkTabCell from './LinkTabCell';
+import TabCell from './TabCell';
 
 function ProductionMeasuresCits({ citsData, config }) {
     const [tabValue, setValue] = React.useState(0);

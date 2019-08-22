@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using System.Net;
-
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
