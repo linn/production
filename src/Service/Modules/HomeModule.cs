@@ -20,7 +20,6 @@
             this.Get("/production/maintenance/signin-oidc-silent", _ => this.SilentRenew());
 
             this.Get(@"^(.*)$", _ => this.GetApp());
-
         }
 
         private object SilentRenew()

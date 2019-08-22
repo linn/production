@@ -50,3 +50,7 @@ export const buildsSummaryReportActionTypes = makeReportActionTypes(
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );
+
+export const whoBuiltWhatReportActionTypes = makeReportActionTypes(
+    reportTypes.whoBuiltWhat.actionType
+);

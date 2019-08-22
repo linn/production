@@ -30,6 +30,8 @@ import BoardFailTypes from '../containers/boardFailTypes/BoardFailTypes';
 import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
 import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
+import WhoBuiltWhatReportOptions from '../containers/reports/WhoBuiltWhatReportOptions';
+import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
 
 const Root = ({ store }) => (
     <div>
@@ -170,6 +172,16 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/assembly-fails-waiting-list"
                                             component={AssemblyFailsWaitingListReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/who-built-what/report"
+                                            component={WhoBuiltWhatReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/who-built-what"
+                                            component={WhoBuiltWhatReportOptions}
                                         />
                                     </Switch>
                                 </div>

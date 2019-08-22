@@ -13,7 +13,7 @@ export default function(itemRoot, actionTypes, defaultState = { loading: false, 
                 return {
                     ...state,
                     loading: false,
-                    data: action.payload.data
+                    data: action.payload.data.reportResults
                 };
 
             default:

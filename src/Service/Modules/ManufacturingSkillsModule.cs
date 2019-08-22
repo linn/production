@@ -1,10 +1,7 @@
-﻿using Linn.Production.Domain.LinnApps;
-using Linn.Production.Facade.Services;
-
-namespace Linn.Production.Service.Modules
+﻿namespace Linn.Production.Service.Modules
 {
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
@@ -52,6 +49,7 @@ namespace Linn.Production.Service.Modules
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
+
         private object AddManufacturingSkill()
         {
             var resource = this.Bind<ManufacturingSkillResource>();

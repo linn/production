@@ -1,11 +1,13 @@
-﻿using Linn.Common.Persistence;
-using Linn.Production.Domain.LinnApps;
-using Linn.Production.Facade.Services;
-using NSubstitute;
-using NUnit.Framework;
-
-namespace Linn.Production.Facade.Tests.BoardFailTypesServiceSpecs
+﻿namespace Linn.Production.Facade.Tests.BoardFailTypesServiceSpecs
 {
+    using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Facade.Services;
+
+    using NSubstitute;
+
+    using NUnit.Framework;
+
     public abstract class ContextBase
     {
         protected BoardFailTypesService Sut { get; set; }
