@@ -1,10 +1,26 @@
-import React from 'react';
-import { Loading, Title } from '@linn-it/linn-form-components-library';
+import React, { Fragment } from 'react';
+import { Loading, Title, MultiReportTable } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Page from '../../containers/Page';
-import MultiReportTable from '../MultiReportTable';
+
+const Results = ({ reportData }) => (
+    <Fragment>
+        {reportData.length === 0 ? (
+            <div>No results returned for selected parameters</div>
+        ) : (
+            <MultiReportTable
+                reportData={reportData}
+                showTotals={false}
+                placeholderRows={10}
+                placeholderColumns={3}
+                showRowTitles
+                showTitle
+            />
+        )}
+    </Fragment>
+);
 
 const WhoBuiltWhat = ({ reportData, loading, options }) => (
     <Page>
@@ -17,34 +33,29 @@ const WhoBuiltWhat = ({ reportData, loading, options }) => (
                 />
             </Grid>
             <Grid item xs={6}>
-                {loading || !reportData ? (
-                    <Loading />
-                ) : (
-                    <div>
-                        <MultiReportTable
-                            reportData={reportData}
-                            showTotals={false}
-                            placeholderRows={10}
-                            placeholderColumns={3}
-                            showRowTitles
-                            showTitle
-                        />
-                    </div>
-                )}
+                {loading || !reportData ? <Loading /> : <Results reportData={reportData} />}
             </Grid>
             <Grid item xs={6} />
         </Grid>
     </Page>
 );
 
+Results.propTypes = {
+    reportData: PropTypes.arrayOf(PropTypes.shape({}))
+};
+
+Results.defaultProps = {
+    reportData: []
+};
+
 WhoBuiltWhat.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.arrayOf(PropTypes.shape({})),
     loading: PropTypes.bool,
     options: PropTypes.shape({})
 };
 
 WhoBuiltWhat.defaultProps = {
-    reportData: null,
+    reportData: [],
     options: {},
     loading: false
 };

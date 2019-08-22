@@ -10,8 +10,6 @@
 
     public class ResultsModelsResourceBuilder : IResourceBuilder<IEnumerable<ResultsModel>>
     {
-        private readonly ResultsModelResourceBuilder resultModelResourceBuilder = new ResultsModelResourceBuilder();
-
         public ReportReturnResource Build(IEnumerable<ResultsModel> resultsModels)
         {
             var returnResource = new ReportReturnResource();
