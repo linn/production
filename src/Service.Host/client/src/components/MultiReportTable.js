@@ -24,44 +24,64 @@ const Placeholder = ({ rows, columns }) => (
 
 const Results = ({
     reportData,
-    title,
-    showTitle = true,
-    showTotals = true,
-    placeholderRows = 5,
-    placeholderColumns = 6,
-    pageBreaksAfter = [],
-    fixColumnWidths = false,
-    containsSubtotals = false,
-    showRowTitles = true
-}) => (<div>
-        {reportData.error ? displayError(reportData.message) :
-        <div> {reportData
-            .sort((a, b) => { return (a.displaySequence > b.displaySequence) ? 1 : ((b.displaySequence > a.displaySequence) ? -1 : 0); })
-            .map((data, i) =>
-                (
-                    <div key={i} className={setPageBreaks(i, pageBreaksAfter)}>
+    showTotals,
+    placeholderRows,
+    placeholderColumns,
+    pageBreaksAfter,
+    fixColumnWidths,
+    containsSubtotals,
+    showRowTitles
+}) => (
+    <div>
+        {reportData.error ? (
+            displayError(reportData.message)
+        ) : (
+            <div>
+                {reportData
+                    .sort((a, b) => {
+                        if (a.displaySequence > b.displaySequence) {
+                            return 1;
+                        }
+
+                        if (b.displaySequence > a.displaySequence) {
+                            return -1;
+                        }
+
+                        return 0;
+                    })
+                    .map((data, i) => (
+                        <div key={i} className={setPageBreaks(i, pageBreaksAfter)}>
                             <div>
                                 <h3>{data.title.displayString}</h3>
-                                <ReportTable reportData={data} containsSubtotals={containsSubtotals} showTitle={false} showTotals={showTotals} fixColumnWidths={fixColumnWidths} placeholderRows={placeholderRows} placeholderColumns={placeholderColumns} showRowTitles={showRowTitles} />
+                                <ReportTable
+                                    reportData={data}
+                                    containsSubtotals={containsSubtotals}
+                                    showTitle={false}
+                                    showTotals={showTotals}
+                                    fixColumnWidths={fixColumnWidths}
+                                    placeholderRows={placeholderRows}
+                                    placeholderColumns={placeholderColumns}
+                                    showRowTitles={showRowTitles}
+                                />
                             </div>
                         </div>
-                ))}
+                    ))}
             </div>
-    }
-</div>
+        )}
+    </div>
 );
 
 const MultiReportTable = ({
     reportData,
     title,
-    showTitle = true,
-    showTotals = true,
-    placeholderRows = 5,
-    placeholderColumns = 6,
-    pageBreaksAfter = [],
-    fixColumnWidths = false,
-    containsSubtotals = false,
-    showRowTitles = true
+    showTitle,
+    showTotals,
+    placeholderRows,
+    placeholderColumns,
+    pageBreaksAfter,
+    fixColumnWidths,
+    containsSubtotals,
+    showRowTitles
 }) => (
     <div>
         {formatHeading(title, showTitle, !reportData, reportData && reportData.error)}
@@ -99,6 +119,28 @@ MultiReportTable.defaultProps = {
     reportData: [],
     title: '',
     showTitle: true,
+    showTotals: true,
+    showRowTitles: true,
+    placeholderRows: 4,
+    placeholderColumns: 4,
+    pageBreaksAfter: [],
+    fixColumnWidths: false,
+    containsSubtotals: false
+};
+
+Results.propTypes = {
+    reportData: PropTypes.arrayOf(PropTypes.shape({})),
+    showTotals: PropTypes.bool,
+    showRowTitles: PropTypes.bool,
+    placeholderRows: PropTypes.number,
+    placeholderColumns: PropTypes.number,
+    pageBreaksAfter: PropTypes.arrayOf(PropTypes.number),
+    fixColumnWidths: PropTypes.bool,
+    containsSubtotals: PropTypes.bool
+};
+
+Results.defaultProps = {
+    reportData: [],
     showTotals: true,
     showRowTitles: true,
     placeholderRows: 4,
