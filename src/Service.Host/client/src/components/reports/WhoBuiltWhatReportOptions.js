@@ -19,6 +19,10 @@ function WhoBuiltWhatReportOptions({ history }) {
             search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&citCode=${citCode}`
         });
 
+    const handleCitChange = newValue => {
+        setCitCode(newValue);
+    };
+
     return (
         <Page>
             <Title text="Who Built What Report" />
@@ -37,6 +41,20 @@ function WhoBuiltWhatReportOptions({ history }) {
                         value={toDate}
                         minDate={fromDate}
                         onChange={setToDate}
+                    />
+                </Grid>
+                <Grid item xs={6} />
+                <Grid item xs={6}>
+                    <Dropdown
+                        label="Cit"
+                        propertyName="citCode"
+                        items={[
+                            { id: 'S', displayText: 'Final Assembly' },
+                            { id: 'W', displayText: 'FA Modules' },
+                            { id: 'UP', displayText: 'FA Upgrades' }
+                        ]}
+                        value={citCode}
+                        onChange={handleCitChange}
                     />
                 </Grid>
                 <Grid item xs={6} />
