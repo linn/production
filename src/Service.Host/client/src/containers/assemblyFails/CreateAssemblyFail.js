@@ -10,6 +10,10 @@ import productionTriggerLevelsActions from '../../actions/productionTriggerLevel
 import productionTriggerLevelsSelectors from '../../selectors/productionTriggerLevelsSelectors';
 import pcasRevisionsActions from '../../actions/pcasRevisionsActions';
 import pcasRevisionsSelectors from '../../selectors/pcasRevisionsSelectors';
+import citsActions from '../../actions/citsActions';
+import citsSelectors from '../../selectors/citsSelectors';
+import employeesActions from '../../actions/employeesActions';
+import employeesSelectors from '../../selectors/employeesSelectors';
 
 const mapStateToProps = state => ({
     item: {},
@@ -24,13 +28,15 @@ const mapStateToProps = state => ({
     boardPartsLoading: productionTriggerLevelsSelectors.getLoading(state),
     pcasRevisions: pcasRevisionsSelectors.getItems(state),
     pcasRevisionsLoading: pcasRevisionsSelectors.getLoading(state),
-    fetchPcasRevisionsForBoardPart: pcasRevisionsActions.fetchByQueryString
+    employees: employeesSelectors.getItems(state),
+    cits: citsSelectors.getItems(state)
 });
 
 const initialise = () => dispatch => {
     dispatch(assemblyFailActions.setEditStatus('create'));
     dispatch(productionTriggerLevelsActions.fetchByQueryString('searchTerm', 'PCAS'));
-
+    dispatch(employeesActions.fetch());
+    dispatch(citsActions.fetch());
     //dispatch(assemblyFailActions.create()); TODO ?
 };
 

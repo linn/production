@@ -16,6 +16,8 @@ import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
 import worksOrders from './worksOrders/worksOrders';
 import productionTriggerLevels from './productionTriggerLevels';
 import pcasRevisions from './pcasRevisions';
+import employees from './employees';
+import cits from './cits';
 
 const rootReducer = combineReducers({
     oidc,
@@ -34,7 +36,9 @@ const rootReducer = combineReducers({
     assemblyFailsWaitingListReport,
     worksOrders,
     productionTriggerLevels,
-    pcasRevisions
+    pcasRevisions,
+    employees,
+    cits
 });
 
 export default rootReducer;

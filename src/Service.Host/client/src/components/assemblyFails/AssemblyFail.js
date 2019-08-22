@@ -36,23 +36,17 @@ function AssemblyFail({
     pcasRevisions,
     fetchPcasRevisionsForBoardPart
 }) {
+    // state
     const [searchTerm, setSearchTerm] = useState(null);
     const [assemblyFail, setAssemblyFail] = useState({ numberOfFails: 1 });
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
-
     const [worksOrder, setWorksOrder] = useState(null);
-
-    const classes = useStyles();
 
     useSearch(fetchItems, searchTerm, null, 'searchTerm');
 
-    const handleSearchTermChange = (...args) => {
-        setSearchTerm(args[1]);
-    };
-
+    // render constants
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
-
     const notCompleted = () => !assemblyFail.dateTimeComplete || creating();
 
     const worksOrderSearchHelperText = () => {
@@ -62,6 +56,7 @@ function AssemblyFail({
         return 'Search for a Works Order to get started';
     };
 
+    //  effects
     useEffect(() => {
         if (editStatus !== 'create' && item !== prevAssemblyFail) {
             setAssemblyFail(item);
@@ -97,11 +92,12 @@ function AssemblyFail({
                 setWorksOrder(worksOrders[0]);
             } else {
                 setWorksOrder(null);
-                setAssemblyFail({ ...assemblyFail, boardPart: null });
+                setAssemblyFail(a => ({ ...a, boardPart: null }));
             }
         }
-    }, [worksOrders, worksOrdersLoading, worksOrder, assemblyFail, editStatus]);
+    }, [worksOrders, worksOrdersLoading, worksOrder, editStatus]);
 
+    // form field change handler
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
@@ -109,6 +105,12 @@ function AssemblyFail({
         setAssemblyFail({ ...assemblyFail, [propertyName]: newValue });
     };
 
+    // works orders search field change hanlder
+    const handleSearchTermChange = (...args) => {
+        setSearchTerm(args[1]);
+    };
+
+    // Dropdown item lists
     const getBoardPartItems = () => {
         if (creating()) {
             return [''].concat(boardParts.map(p => p.partNumber));
@@ -432,7 +434,6 @@ function AssemblyFail({
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
-                                    {/*  // TODO - autoset when ref is set */}
                                     <InputField
                                         fullWidth
                                         disabled

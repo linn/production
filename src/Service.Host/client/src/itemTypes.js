@@ -89,3 +89,11 @@ export const pcasRevisions = new ItemType(
     'PCAS_REVISIONS',
     '/production/maintenance/pcas-revisions'
 );
+
+export const employees = new ItemType(
+    'employees',
+    'EMPLOYEES',
+    '/production/maintenance/employees'
+);
+
+export const cits = new ItemType('cits', 'CITS', '/production/maintenance/cits');
