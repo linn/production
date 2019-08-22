@@ -7,5 +7,7 @@
     public interface IProductionMeasuresReportFacade
     {
         IResult<IEnumerable<ProductionMeasures>> GetProductionMeasuresForCits();
+
+        IResult<IEnumerable<IEnumerable<string>>> GetProductionMeasuresCsv();
     }
 }

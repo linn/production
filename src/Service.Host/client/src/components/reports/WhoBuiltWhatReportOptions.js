@@ -39,7 +39,7 @@ function WhoBuiltWhatReportOptions({ history }) {
                         onChange={setToDate}
                     />
                 </Grid>
-                <Grid item xs={6}></Grid>
+                <Grid item xs={6} />
                 <Grid item xs={12}>
                     <Button
                         color="primary"

@@ -1,19 +1,15 @@
 ﻿namespace Linn.Production.IoC
 {
     using Autofac;
-
     using Domain.LinnApps;
     using Domain.LinnApps.ATE;
     using Domain.LinnApps.Measures;
     using Domain.LinnApps.SerialNumberReissue;
     using Domain.LinnApps.ViewModels;
-
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
-
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
-
     using Microsoft.EntityFrameworkCore;
 
     public class PersistenceModule : Module
@@ -29,6 +25,7 @@
             builder.RegisterType<SerialNumberReissueRepository>().As<IRepository<SerialNumberReissue, int>>();
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
             builder.RegisterType<ManufacturingSkillsRepository>().As<IRepository<ManufacturingSkill, string>>();
+            builder.RegisterType<ManufacturingResourceRepository>().As<IRepository<ManufacturingResource, string>>();
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
             

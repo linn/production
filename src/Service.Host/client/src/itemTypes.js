@@ -65,3 +65,19 @@ export const boardFailTypes = new ItemType(
     'BOARD_FAIL_TYPES',
     '/production/resources/board-fail-types'
 );
+export const manufacturingResource = new ItemType(
+    'manufacturingResource',
+    'MANUFACTURING_RESOURCE',
+    '/production/resources/manufacturing-resources'
+);
+export const manufacturingResources = new ItemType(
+    'manufacturingResources',
+    'MANUFACTURING_RESOURCES',
+    '/production/resources/manufacturing-resources'
+);
+
+export const assemblyFail = new ItemType(
+    'assemblyFail',
+    'ASSEMBLY_FAIL',
+    '/production/quality/assembly-fails'
+);

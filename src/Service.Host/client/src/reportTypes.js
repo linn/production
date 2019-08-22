@@ -18,6 +18,12 @@ export const outstandingWorksOrdersReport = new ItemType(
     '/production/maintenance/works-orders/outstanding-works-orders-report'
 );
 
+export const productionMeasuresCitsReport = new ItemType(
+    'productionMeasures',
+    'PRODUCTION_MEASURES',
+    '/production/reports/measures/cits'
+);
+
 export const assemblyFailsWaitingList = new ItemType(
     'assemblyFailsWaitingListReport',
     'ASSEMBLY_FAILS_WAITING_LIST',
