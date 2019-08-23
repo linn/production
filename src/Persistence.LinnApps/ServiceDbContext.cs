@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using Linn.Production.Domain.LinnApps.Triggers;
-
-namespace Linn.Production.Persistence.LinnApps
+﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using System.Net;
+    using System.Linq;
+    using Linn.Production.Domain.LinnApps.Triggers;
 
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
