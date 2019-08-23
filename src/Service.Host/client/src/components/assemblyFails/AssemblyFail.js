@@ -530,7 +530,6 @@ function AssemblyFail({
                                     />
                                 </Grid>
                                 <Grid item xs={4}>
-                                    {/*  // TODO - autoset */}
                                     <InputField
                                         fullWidth
                                         disabled

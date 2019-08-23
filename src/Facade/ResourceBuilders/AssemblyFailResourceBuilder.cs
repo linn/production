@@ -5,8 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
 
     public class AssemblyFailResourceBuilder : IResourceBuilder<AssemblyFail>
@@ -19,7 +18,7 @@
                             EnteredBy = model.EnteredBy.Id,
                             EnteredByName = model.EnteredBy?.FullName,
                             WorksOrderNumber = model.WorksOrder.OrderNumber,
-                            PartNumber = model.WorksOrder?.PartNumber,
+                            PartNumber = model.WorksOrder.PartNumber,
                             PartDescription = model.WorksOrder?.Part.Description,
                             NumberOfFails = model.NumberOfFails,
                             SerialNumber = model.SerialNumber,

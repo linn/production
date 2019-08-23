@@ -5,6 +5,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
     public class AssemblyFailsWaitingListReportService : IAssemblyFailsWaitingListReportService

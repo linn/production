@@ -6,7 +6,6 @@
     using Domain.LinnApps.RemoteServices;
 
     using Oracle.ManagedDataAccess.Client;
-    using Oracle.ManagedDataAccess.Types;
 
     public class LinnWeekPack : ILinnWeekPack
     {

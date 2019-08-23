@@ -18,7 +18,7 @@
 
         public Part FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Parts.Where(p => p.PartNumber == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<Part> FindAll()

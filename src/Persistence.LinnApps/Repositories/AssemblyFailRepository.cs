@@ -5,7 +5,7 @@
     using System.Linq.Expressions;
 
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -40,7 +40,7 @@
 
         public void Add(AssemblyFail entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.AssemblyFails.Add(entity);
         }
 
         public void Remove(AssemblyFail entity)

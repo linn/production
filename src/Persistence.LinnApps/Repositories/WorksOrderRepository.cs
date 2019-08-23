@@ -20,7 +20,7 @@
 
         public WorksOrder FindById(int key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.WorksOrders.Where(o => o.OrderNumber == key).Include(w => w.Part).ToList().FirstOrDefault();
         }
 
         public IQueryable<WorksOrder> FindAll()

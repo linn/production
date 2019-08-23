@@ -18,7 +18,7 @@
 
         public Employee FindById(int key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Employees.Where(e => e.Id == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<Employee> FindAll()

@@ -18,7 +18,7 @@
 
         public Cit FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Cits.Where(c => c.Code == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<Cit> FindAll()

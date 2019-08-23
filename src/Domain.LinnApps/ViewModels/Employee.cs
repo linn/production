@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
 
+    using Linn.Production.Domain.LinnApps.Measures;
+
     public class Employee
     {
         public int Id { get; set; }
