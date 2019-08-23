@@ -4,6 +4,7 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Resources;
 
@@ -27,7 +28,7 @@
                         };
 
             this.FacadeService.GetById(1).Returns(new SuccessResult<AssemblyFail>(a));
-            this.salesArticleService.GetDescriptionFromPartNumber("A").Returns("desc");
+            this.SalesArticleService.GetDescriptionFromPartNumber("A").Returns("desc");
 
             this.Response = this.Browser.Get(
                 "/production/quality/assembly-fails/1",

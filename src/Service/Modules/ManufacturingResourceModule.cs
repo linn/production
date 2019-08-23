@@ -9,11 +9,13 @@
 
     public sealed class ManufacturingResourceModule : NancyModule
     {
-        private readonly IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource> ManufacturingResourceService;
+        private readonly
+            IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource> manufacturingResourceService;
 
-        public ManufacturingResourceModule(IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource> ManufacturingResourceService)
+        public ManufacturingResourceModule(
+            IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource> manufacturingResourceService)
         {
-            this.ManufacturingResourceService = ManufacturingResourceService;
+            this.manufacturingResourceService = manufacturingResourceService;
             this.Get("/production/resources/manufacturing-resources/{resourceCode*}", parameters => this.GetManufacturingResourceById(parameters.resourceCode));
             this.Get("/production/resources/manufacturing-resources", _ => this.GetAllManufacturingResources());
             this.Put("/production/resources/manufacturing-resources/{resourceCode*}", parameters => this.UpdateManufacturingResource(parameters.resourceCode));
@@ -22,7 +24,7 @@
 
         private object GetAllManufacturingResources()
         {
-            var result = this.ManufacturingResourceService.GetAll();
+            var result = this.manufacturingResourceService.GetAll();
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -31,7 +33,7 @@
 
         private object GetManufacturingResourceById(string faultCode)
         {
-            var result = this.ManufacturingResourceService.GetById(faultCode);
+            var result = this.manufacturingResourceService.GetById(faultCode);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -42,7 +44,7 @@
         {
             var resource = this.Bind<ManufacturingResourceResource>();
 
-            var result = this.ManufacturingResourceService.Add(resource);
+            var result = this.manufacturingResourceService.Add(resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -53,7 +55,7 @@
         {
             var resource = this.Bind<ManufacturingResourceResource>();
 
-            var result = this.ManufacturingResourceService.Update(resourceCode, resource);
+            var result = this.manufacturingResourceService.Update(resourceCode, resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

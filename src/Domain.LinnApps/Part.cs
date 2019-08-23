@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
 
+    using Linn.Production.Domain.LinnApps.Measures;
+
     public class Part
     {
         public string PartNumber { get; set; }

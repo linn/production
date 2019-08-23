@@ -1,11 +1,10 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
