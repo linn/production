@@ -1,8 +1,7 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Domain.LinnApps.Measures
 {
     using System;
 
-    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class AssemblyFail

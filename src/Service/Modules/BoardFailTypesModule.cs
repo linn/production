@@ -1,7 +1,7 @@
 ﻿namespace Linn.Production.Service.Modules
 {
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
@@ -50,6 +50,7 @@
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
+
         private object Add()
         {
             var resource = this.Bind<BoardFailTypeResource>();

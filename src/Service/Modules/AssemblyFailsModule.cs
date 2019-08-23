@@ -1,13 +1,13 @@
 ﻿namespace Linn.Production.Service.Modules
 {
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
     using Nancy;
 
-    public class AssemblyFailsModule : NancyModule
+    public sealed class AssemblyFailsModule : NancyModule
     {
          private readonly IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> facadeService;
 

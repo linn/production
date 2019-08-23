@@ -1,12 +1,10 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.Service.Tests.ManufacturingSkillsModuleSpecs
+﻿namespace Linn.Production.Service.Tests.ManufacturingSkillsModuleSpecs
 {
     using System.Collections.Generic;
     using System.Security.Claims;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
