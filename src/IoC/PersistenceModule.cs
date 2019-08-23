@@ -1,13 +1,15 @@
 ﻿namespace Linn.Production.IoC
 {
     using Autofac;
-    using Domain.LinnApps;
-    using Domain.LinnApps.ATE;
-    using Domain.LinnApps.Measures;
-    using Domain.LinnApps.SerialNumberReissue;
-    using Domain.LinnApps.ViewModels;
+
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Domain.LinnApps.Triggers;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
     using Microsoft.EntityFrameworkCore;
@@ -28,7 +30,9 @@
             builder.RegisterType<ManufacturingResourceRepository>().As<IRepository<ManufacturingResource, string>>();
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
-            
+            builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
+            builder.RegisterType<OsrRunMasterRepository>().As<IMasterRepository<OsrRunMaster>>();
+
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
         }

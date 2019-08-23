@@ -12,6 +12,7 @@
             this.productionMeasuresReportFacade = productionMeasuresReportFacade;
 
             this.Get("/production/reports/measures/cits", _ => this.GetProductionMeasuresForCits());
+            this.Get("/production/reports/measures/info", _ => this.GetProductionMeasuresInfo());
             this.Get("/production/reports/measures/export", _ => this.GetProductionMeasuresExport());
         }
 
@@ -26,6 +27,11 @@
                 .WithModel(this.productionMeasuresReportFacade.GetProductionMeasuresCsv())
                 .WithAllowedMediaRange("text/csv")
                 .WithView("Index");
+        }
+
+        private object GetProductionMeasuresInfo()
+        {
+            return this.Negotiate.WithModel(this.productionMeasuresReportFacade.GetOsrInfo());
         }
     }
 }

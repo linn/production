@@ -335,6 +335,7 @@ function ProductionMeasuresCits({ citsData, config }) {
                                 href={`${fflagStockBaseHref}?citCode=${m.citCode}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
+                                align="right"
                             >
                                 {m.fFlaggedQty}
                             </LinkTabCell>
