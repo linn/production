@@ -1,12 +1,15 @@
-﻿using FluentAssertions;
-using Linn.Common.Facade;
-using Linn.Production.Domain.LinnApps;
-using Linn.Production.Resources;
-using NSubstitute;
-using NUnit.Framework;
-
-namespace Linn.Production.Facade.Tests.BoardFailTypesServiceSpecs
+﻿namespace Linn.Production.Facade.Tests.BoardFailTypesServiceSpecs
 {
+    using FluentAssertions;
+
+    using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Resources;
+
+    using NSubstitute;
+
+    using NUnit.Framework;
+
     public class WhenUpdatingBoardFailType : ContextBase
     {
         private BoardFailTypeResource resource;
@@ -16,7 +19,6 @@ namespace Linn.Production.Facade.Tests.BoardFailTypesServiceSpecs
         [SetUp]
         public void SetUp()
         {
-
             this.resource = new BoardFailTypeResource
                                 {
                                     FailType = 1,

@@ -1,46 +1,48 @@
-﻿namespace Linn.Production.Facade.Tests.ManufacturingSkillServiceSpecs
+﻿namespace Linn.Production.Facade.Tests.ManufacturingSkillsServiceSpecs
 {
     using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Facade.Tests.ManufacturingSkillsServiceSpecs;
     using Linn.Production.Resources;
+
     using NSubstitute;
+
     using NUnit.Framework;
 
     public class WhenUpdatingManufacturingSkill : ContextBase
     {
+        private const string NewDesc = "new description";
+
+        private const int NewHourlyRate = 118;
+
         private ManufacturingSkillResource resource;
 
         private IResult<ManufacturingSkill> result;
 
-        private ManufacturingSkill ManufacturingSkill;
-
-        private string newDesc = "new description";
-
-        private int newHourlyRate = 118;
+        private ManufacturingSkill manufacturingSkill;
 
         [SetUp]
         public void SetUp()
         {
-            this.ManufacturingSkill = new ManufacturingSkill("skill1", "Descr", 15);
+            this.manufacturingSkill = new ManufacturingSkill("skill1", "Descr", 15);
 
             this.resource = new ManufacturingSkillResource
             {
-                SkillCode = this.ManufacturingSkill.SkillCode,
-                Description = this.newDesc,
-                HourlyRate = this.newHourlyRate,
+                SkillCode = this.manufacturingSkill.SkillCode,
+                Description = NewDesc,
+                HourlyRate = NewHourlyRate,
             };
 
-            this.ManufacturingSkillRepository.FindById(this.ManufacturingSkill.SkillCode)
-                .Returns(this.ManufacturingSkill);
-            this.result = this.Sut.Update(this.ManufacturingSkill.SkillCode, this.resource);
+            this.ManufacturingSkillRepository.FindById(this.manufacturingSkill.SkillCode)
+                .Returns(this.manufacturingSkill);
+            this.result = this.Sut.Update(this.manufacturingSkill.SkillCode, this.resource);
         }
 
         [Test]
         public void ShouldGetManufacturingSkill()
         {
-            this.ManufacturingSkillRepository.Received().FindById(this.ManufacturingSkill.SkillCode);
+            this.ManufacturingSkillRepository.Received().FindById(this.manufacturingSkill.SkillCode);
         }
 
         [Test]
@@ -48,9 +50,9 @@
         {
             this.result.Should().BeOfType<SuccessResult<ManufacturingSkill>>();
             var dataResult = ((SuccessResult<ManufacturingSkill>)this.result).Data;
-            dataResult.SkillCode.Should().Be(this.ManufacturingSkill.SkillCode);
-            dataResult.Description.Should().Be(this.newDesc);
-            dataResult.HourlyRate.Should().Be(this.newHourlyRate);
+            dataResult.SkillCode.Should().Be(this.manufacturingSkill.SkillCode);
+            dataResult.Description.Should().Be(NewDesc);
+            dataResult.HourlyRate.Should().Be(NewHourlyRate);
         }
     }
 }

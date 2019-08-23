@@ -1,15 +1,14 @@
 ﻿namespace Linn.Production.Service.Tests.BoardFailTypesModuleSpecs
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Security.Claims;
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
-    using Nancy.Bootstrapper;
+
     using Nancy.Testing;
     using NSubstitute;
     using NUnit.Framework;

@@ -2,19 +2,15 @@
 {
     using System.Linq;
 
-    using Extensions;
-
-    using Facade.Services;
-
     using Linn.Common.Resources;
-
-    using Models;
+    using Linn.Production.Facade.Services;
+    using Linn.Production.Resources;
+    using Linn.Production.Service.Extensions;
+    using Linn.Production.Service.Models;
 
     using Nancy;
     using Nancy.ModelBinding;
     using Nancy.Security;
-
-    using Resources;
 
     public sealed class SerialNumberReissueModule : NancyModule
     {

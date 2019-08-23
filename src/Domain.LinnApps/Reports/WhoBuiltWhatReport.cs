@@ -28,12 +28,15 @@
                 .FilterBy(a => a.CitCode == citCode && a.SernosDate >= from && a.SernosDate <= to).ToList();
 
             var returnResults = new List<ResultsModel>();
+            var displaySequence = 0;
             foreach (var user in results.GroupBy(a => new { a.CreatedBy, a.UserName }).OrderBy(b => b.Key.UserName))
             {
                 var model = new ResultsModel();
 
                 model.AddColumn("qty", "Qty Built");
                 model.ReportTitle = new NameModel(user.Key.UserName);
+                model.RowHeader = "Part Number Built";
+                model.DisplaySequence = displaySequence++;
                 var values = results
                     .Where(a => a.CreatedBy == user.Key.CreatedBy)
                     .Select(whoBuiltWhat => new CalculationValueModel

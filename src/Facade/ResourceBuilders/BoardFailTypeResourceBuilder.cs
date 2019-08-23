@@ -1,12 +1,11 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
 
     public class BoardFailTypeResourceBuilder : IResourceBuilder<BoardFailType>

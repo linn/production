@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using Linn.Production.Domain.LinnApps.Triggers;
-
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
