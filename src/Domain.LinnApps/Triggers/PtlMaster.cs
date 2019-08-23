@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Linn.Production.Domain.LinnApps.Triggers
+﻿namespace Linn.Production.Domain.LinnApps.Triggers
 {
+    using System;
+
     public class PtlMaster
     {
         public string LastFullRunJobref { get; set; }
