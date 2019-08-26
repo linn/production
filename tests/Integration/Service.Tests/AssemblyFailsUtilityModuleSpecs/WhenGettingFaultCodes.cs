@@ -34,7 +34,7 @@
                         };
 
 
-            this.faultCodeService.GetAll()
+            this.FaultCodeService.GetAll()
                 .Returns(new SuccessResult<IEnumerable<AssemblyFailFaultCode>>(new List<AssemblyFailFaultCode> { a, b }));
 
 
@@ -52,7 +52,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.faultCodeService.Received().GetAll();
+            this.FaultCodeService.Received().GetAll();
         }
 
         [Test]

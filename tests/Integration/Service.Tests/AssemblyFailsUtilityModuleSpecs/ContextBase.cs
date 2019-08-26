@@ -4,11 +4,8 @@
     using System.Security.Claims;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.ResourceBuilders;
-    using Linn.Production.Proxy;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
@@ -22,7 +19,10 @@
     public class ContextBase : NancyContextBase
     {
         protected IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource,
-            AssemblyFailFaultCodeResource> faultCodeService;
+            AssemblyFailFaultCodeResource> FaultCodeService
+        {
+            get; private set;
+        }
 
         protected IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> FacadeService
         {
@@ -35,13 +35,13 @@
         {
             this.FacadeService = Substitute
                 .For<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
-            this.faultCodeService = Substitute
+            this.FaultCodeService = Substitute
                 .For<IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>>();
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.FacadeService);
-                    with.Dependency(this.faultCodeService);
+                    with.Dependency(this.FaultCodeService);
                     with.Dependency<IResourceBuilder<AssemblyFail>>(new AssemblyFailResourceBuilder());
                     with.Dependency<IResourceBuilder<AssemblyFailFaultCode>>(
                         new AssemblyFailFaultCodeResourceBuilder());
