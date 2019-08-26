@@ -15,7 +15,7 @@
 
     using NUnit.Framework;
 
-    public class WhenSearching : ContextBase
+    public class WhenGettingAll : ContextBase
     {
         [SetUp]
         public void SetUp()

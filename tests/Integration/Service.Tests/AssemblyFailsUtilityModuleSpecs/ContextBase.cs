@@ -21,7 +21,7 @@
 
     public class ContextBase : NancyContextBase
     {
-        private IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource,
+        protected IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource,
             AssemblyFailFaultCodeResource> faultCodeService;
 
         protected IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> FacadeService
