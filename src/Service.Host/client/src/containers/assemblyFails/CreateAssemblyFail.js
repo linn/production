@@ -36,7 +36,6 @@ const mapStateToProps = state => ({
 });
 
 const initialise = () => dispatch => {
-    dispatch(assemblyFailActions.setEditStatus('create'));
     dispatch(productionTriggerLevelsActions.fetchByQueryString('searchTerm', 'PCAS'));
     dispatch(employeesActions.fetch());
     dispatch(citsActions.fetch());
@@ -46,7 +45,6 @@ const initialise = () => dispatch => {
 const mapDispatchToProps = {
     initialise,
     addItem: assemblyFailActions.add,
-    updateItem: assemblyFailActions.update,
     setEditStatus: assemblyFailActions.setEditStatus,
     setSnackbarVisible: assemblyFailActions.setSnackbarVisible,
     fetchItems: worksOrdersActions.fetchByQueryString,
