@@ -68,3 +68,6 @@ export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
 export const whoBuiltWhatReportActionTypes = makeReportActionTypes(
     reportTypes.whoBuiltWhat.actionType
 );
+export const whoBuiltWhatDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.whoBuiltWhatDetails.actionType
+);
