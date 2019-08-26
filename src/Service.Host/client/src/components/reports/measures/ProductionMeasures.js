@@ -1,17 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Loading, Title, ExportButton } from '@linn-it/linn-form-components-library';
+import { Loading, ExportButton, Title } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
+import ProductionMeasuresInfo from './ProductionMeasuresInfo';
 import ProductionMeasuresCits from './ProductionMeasuresCitTable';
 import Page from '../../../containers/Page';
 
 function ProductionMeasures({ loading, citsData, infoData, config }) {
     const href = `${config.appRoot}/production/reports/measures/export`;
-    const [tabValue, setValue] = React.useState(0);
-
-    function handleChange(event, newValue) {
-        setValue(newValue);
-    }
 
     return (
         <Page>
@@ -21,6 +17,7 @@ function ProductionMeasures({ loading, citsData, infoData, config }) {
                 </Grid>
                 <Grid item xs={4}>
                     <ExportButton href={href} />
+                    <ProductionMeasuresInfo infoData={infoData} loading={loading} />
                 </Grid>
                 <Grid item xs={12}>
                     {loading ? <Loading /> : ''}
@@ -42,12 +39,14 @@ function ProductionMeasures({ loading, citsData, infoData, config }) {
 ProductionMeasures.propTypes = {
     citsData: PropTypes.shape({}),
     infoData: PropTypes.shape({}),
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    config: PropTypes.shape({})
 };
 
 ProductionMeasures.defaultProps = {
     citsData: null,
     infoData: null,
+    config: null,
     loading: false
 };
 
