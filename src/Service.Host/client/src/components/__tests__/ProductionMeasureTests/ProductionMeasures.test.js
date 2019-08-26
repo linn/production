@@ -10,6 +10,7 @@ describe('<ProductionMeasures />', () => {
     const defaultProps = {
         loading: false,
         citsData: null,
+        infoData: null,
         config: {
             approot: 'app.linn.co.uk'
         }
@@ -39,8 +40,9 @@ describe('<ProductionMeasures />', () => {
     describe('When citsData', () => {
         it('should display table', () => {
             const cits = [{ citName: 'A' }];
+            const info = { lastPtlJobref: 'AAAAAA' };
             const { getAllByRole } = render(
-                <ProductionMeasures {...defaultProps} citsData={cits} />
+                <ProductionMeasures {...defaultProps} citsData={cits} infoData={info}/>
             );
             expect(getAllByRole('table').length).toBeGreaterThan(0);
         });

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ProductionMeasuresCits from './ProductionMeasuresCitTable';
 import Page from '../../../containers/Page';
 
-function ProductionMeasures({ loading, citsData, config }) {
+function ProductionMeasures({ loading, citsData, infoData, config }) {
     const href = `${config.appRoot}/production/reports/measures/export`;
     const [tabValue, setValue] = React.useState(0);
 
@@ -25,7 +25,15 @@ function ProductionMeasures({ loading, citsData, config }) {
                 <Grid item xs={12}>
                     {loading ? <Loading /> : ''}
                 </Grid>
-                {citsData ? <ProductionMeasuresCits citsData={citsData} config={config} /> : 'No'}
+                {citsData && infoData ? (
+                    <ProductionMeasuresCits
+                        citsData={citsData}
+                        infoData={infoData}
+                        config={config}
+                    />
+                ) : (
+                    <Loading />
+                )}
             </Grid>
         </Page>
     );
@@ -33,11 +41,13 @@ function ProductionMeasures({ loading, citsData, config }) {
 
 ProductionMeasures.propTypes = {
     citsData: PropTypes.shape({}),
+    infoData: PropTypes.shape({}),
     loading: PropTypes.bool
 };
 
 ProductionMeasures.defaultProps = {
     citsData: null,
+    infoData: null,
     loading: false
 };
 
