@@ -4,7 +4,7 @@
     using System.Linq;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
 
     public class BoardFailTypesResourceBuilder : IResourceBuilder<IEnumerable<BoardFailType>>
     {

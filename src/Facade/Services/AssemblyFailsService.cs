@@ -8,8 +8,8 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
-    using Linn.Production.Persistence.LinnApps.Repositories;
     using Linn.Production.Proxy;
+
     using Linn.Production.Resources;
 
     public class AssemblyFailsService : FacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>

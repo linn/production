@@ -9,8 +9,11 @@ import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
+import productionMeasures from './productionMeasures';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
+import manufacturingResources from './manufacturingResources/manufacturingResources';
+import manufacturingResource from './manufacturingResources/manufacturingResource';
 import boardFailTypes from './boardFailTypes/boardFailTypes';
 import boardFailType from './boardFailTypes/boardFailType';
 import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
@@ -19,6 +22,8 @@ import productionTriggerLevels from './productionTriggerLevels';
 import pcasRevisions from './pcasRevisions';
 import employees from './employees';
 import cits from './cits';
+import whoBuiltWhat from './whoBuiltWhat';
+import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 
 const rootReducer = combineReducers({
     oidc,
@@ -29,10 +34,12 @@ const rootReducer = combineReducers({
     departments,
     buildsSummaryReport,
     outstandingWorksOrdersReport,
+    productionMeasures,
+    buildsDetailReport,
     manufacturingSkills,
     manufacturingSkill,
-    ...sharedLibraryReducers,
-    buildsDetailReport,
+    manufacturingResources,
+    manufacturingResource,
     boardFailType,
     boardFailTypes,
     assemblyFailsWaitingListReport,
@@ -40,7 +47,10 @@ const rootReducer = combineReducers({
     productionTriggerLevels,
     pcasRevisions,
     employees,
-    cits
+    cits,
+    whoBuiltWhat,
+    whoBuiltWhatDetails,
+    ...sharedLibraryReducers
 });
 
 export default rootReducer;

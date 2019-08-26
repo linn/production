@@ -22,7 +22,9 @@ const defaultProps = {
     editStatus: 'view',
     addItem: addAteFaultCodeMock,
     updateItem: updateAteFaultCodeMock,
-    setEditStatus: setEditStatusMock
+    setEditStatus: setEditStatusMock,
+    history: { push: jest.fn() },
+    setSnackbarVisible: jest.fn()
 };
 
 describe('When Loading', () => {

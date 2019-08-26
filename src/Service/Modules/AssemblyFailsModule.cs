@@ -3,7 +3,6 @@
     using System;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;

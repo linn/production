@@ -43,10 +43,22 @@ export const boardFailTypesActionTypes = makeActionTypes(
     false
 );
 
+export const manufacturingResourceActionTypes = makeActionTypes(
+    itemTypes.manufacturingResource.actionType
+);
+export const manufacturingResourcesActionTypes = makeActionTypes(
+    itemTypes.manufacturingResources.actionType,
+    false
+);
+
 export const boardFailTypeActionTypes = makeActionTypes(itemTypes.boardFailType.actionType);
 
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
+);
+
+export const productionMeasuresCitsActionTypes = makeReportActionTypes(
+    reportTypes.productionMeasuresCitsReport.actionType
 );
 
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
@@ -67,4 +79,11 @@ export const employeesActionTypes = makeActionTypes(itemTypes.employees.actionTy
 export const assemblyFailFaultCodesActionTypes = makeActionTypes(
     itemTypes.assemblyFailFaultCodes.actionType,
     false
+);
+
+export const whoBuiltWhatReportActionTypes = makeReportActionTypes(
+    reportTypes.whoBuiltWhat.actionType
+);
+export const whoBuiltWhatDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.whoBuiltWhatDetails.actionType
 );

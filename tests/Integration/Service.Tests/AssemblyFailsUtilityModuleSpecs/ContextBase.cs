@@ -5,6 +5,8 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
+
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
@@ -24,6 +26,7 @@
             get; private set;
         }
 
+
         protected IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> FacadeService
         {
             get;
@@ -35,8 +38,10 @@
         {
             this.FacadeService = Substitute
                 .For<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
+
             this.FaultCodeService = Substitute
                 .For<IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>>();
+
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {

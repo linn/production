@@ -16,6 +16,6 @@
 
         public List<AssemblyFail> AssemblyFailsResponsibleFor { get; set; }
 
-        public List<AssemblyFail> AssemblyFailsCompleted { get; set; } 
+        public List<AssemblyFail> AssemblyFailsCompleted { get; set; }
     }
 }

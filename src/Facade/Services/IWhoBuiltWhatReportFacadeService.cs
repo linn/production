@@ -8,5 +8,7 @@
     public interface IWhoBuiltWhatReportFacadeService
     {
         IResult<IEnumerable<ResultsModel>> WhoBuiltWhat(string fromDate, string toDate, string citCode);
+
+        IResult<ResultsModel> WhoBuiltWhatDetails(string fromDate, string toDate, int userNumber);
     }
 }

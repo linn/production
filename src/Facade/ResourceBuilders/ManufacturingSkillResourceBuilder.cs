@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
@@ -11,14 +10,14 @@
 
     public class ManufacturingSkillResourceBuilder : IResourceBuilder<ManufacturingSkill>
     {
-        public ManufacturingSkillResource Build(ManufacturingSkill manufacturingSkill)
+        public ManufacturingSkillResource Build(ManufacturingSkill ManufacturingSkill)
         {
             return new ManufacturingSkillResource
             {
-                SkillCode = manufacturingSkill.SkillCode,
-                Description = manufacturingSkill.Description,
-                HourlyRate = manufacturingSkill.HourlyRate,
-                Links = this.BuildLinks(manufacturingSkill).ToArray()
+                SkillCode = ManufacturingSkill.SkillCode,
+                Description = ManufacturingSkill.Description,
+                HourlyRate = ManufacturingSkill.HourlyRate,
+                Links = this.BuildLinks(ManufacturingSkill).ToArray()
             };
         }
 

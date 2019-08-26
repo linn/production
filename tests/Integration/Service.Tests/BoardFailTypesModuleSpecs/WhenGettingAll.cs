@@ -4,7 +4,7 @@
     using System.Linq;
     using FluentAssertions;
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
     using Nancy;
     using Nancy.Testing;
@@ -16,7 +16,7 @@
         [SetUp]
         public void SetUp()
         {
-            var a = new BoardFailType { Type = 1};
+            var a = new BoardFailType { Type = 1 };
             var b = new BoardFailType { Type = 2 };
             this.FacadeService.GetAll()
                 .Returns(new SuccessResult<IEnumerable<BoardFailType>>(new List<BoardFailType> { a, b }));
