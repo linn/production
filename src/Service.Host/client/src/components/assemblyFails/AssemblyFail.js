@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import DateTimePicker from '@linn-it/linn-form-components-library/cjs/DateTimePicker';
-import { makeStyles } from '@material-ui/styles';
 import {
     InputField,
     Loading,
@@ -12,7 +11,9 @@ import {
     SnackbarMessage,
     SearchInputField,
     useSearch,
-    Dropdown
+    Dropdown,
+    SaveBackCancelButtons,
+    DatePicker
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -35,35 +36,105 @@ function AssemblyFail({
     fetchPcasRevisionsForBoardPart,
     cits,
     employees,
-    faultCodes
+    faultCodes,
+    addItem,
+    updateItem,
+    itemId,
+    history
 }) {
-    // state
-    const [searchTerm, setSearchTerm] = useState(null);
-    const [assemblyFail, setAssemblyFail] = useState({ numberOfFails: 1 });
-    const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
-    const [worksOrder, setWorksOrder] = useState(null);
-
-    useSearch(fetchItems, searchTerm, null, 'searchTerm');
-
     // render constants
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
+    const editing = () => editStatus === 'edit';
+    const getInitialState = () => {
+        if (creating()) {
+            return {
+                numberOfFails: 1,
+                dateTimeFound: new Date().toISOString(),
+                dateTimeComplete: null,
+                dateInvalid: null,
+                caDate: null
+            };
+        }
+        return item;
+    };
+
+    // state
+    const [searchTerm, setSearchTerm] = useState(null);
+    const [assemblyFail, setAssemblyFail] = useState(getInitialState());
+    const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
+    const [dateTimeComplete, setDateTimeComplete] = useState(null);
+    const [caDate, setCaDate] = useState(null);
+    const [dateInvalid, setDateInvalid] = useState(null);
+
+    useSearch(fetchItems, searchTerm, null, 'searchTerm');
+
+    const inputInvalid = () => !assemblyFail.worksOrderNumber;
     const notCompleted = () => !assemblyFail.dateTimeComplete || creating();
 
     const worksOrderSearchHelperText = () => {
-        if (worksOrder || assemblyFail.worksOrderNumber) {
+        if (assemblyFail.worksOrderNumber) {
             return 'Change works order?';
         }
         return 'Search for a Works Order to get started';
     };
 
+    const handleSaveClick = () => {
+        if (editing()) {
+            updateItem(itemId, assemblyFail);
+            setEditStatus('view');
+        } else if (creating()) {
+            addItem(assemblyFail);
+            setEditStatus('view');
+        }
+    };
+
+    const handleCancelClick = () => {
+        if (creating()) {
+            setAssemblyFail({
+                enteredBy: profile.employee.replace('/employees/', ''),
+                enteredByName: profile.name
+            });
+        } else {
+            setAssemblyFail(item);
+        }
+        setEditStatus('view');
+        setSearchTerm('');
+    };
+
+    const handleBackClick = () => {
+        history.push('/production/quality/ate/fault-codes/');
+    };
+
     //  effects
+    useEffect(() => {
+        setAssemblyFail(a => ({ ...a, dateTimeComplete }));
+    }, [dateTimeComplete, setDateTimeComplete]);
+
+    useEffect(() => {
+        setAssemblyFail(a => ({ ...a, dateInvalid }));
+    }, [dateInvalid, setDateInvalid]);
+
+    useEffect(() => {
+        setAssemblyFail(a => ({ ...a, caDate }));
+    }, [caDate, setCaDate]);
+
     useEffect(() => {
         if (editStatus !== 'create' && item !== prevAssemblyFail) {
             setAssemblyFail(item);
             setPrevAssemblyFail(item);
         }
     }, [item, prevAssemblyFail, editStatus]);
+
+    useEffect(() => {
+        if (editStatus === 'create' && profile) {
+            setAssemblyFail(a => ({
+                ...a,
+                enteredBy: profile.employee.replace('/employees/', ''),
+                enteredByName: profile.name
+            }));
+        }
+    }, [profile, editStatus]);
 
     useEffect(() => {
         fetchPcasRevisionsForBoardPart('searchTerm', assemblyFail.boardPart);
@@ -97,6 +168,37 @@ function AssemblyFail({
     }, [cits, assemblyFail.citResponsible]);
 
     useEffect(() => {
+        if (employees && assemblyFail.personResponsible) {
+            setAssemblyFail(a => ({
+                ...a,
+                personResponsibleName: employees.find(
+                    e => Number(e.id) === Number(a.personResponsible).fullName
+                )
+            }));
+        }
+    }, [employees, assemblyFail.personResponsible]);
+
+    useEffect(() => {
+        if (employees && assemblyFail.returnedBy) {
+            setAssemblyFail(a => ({
+                ...a,
+                returnedByName: employees.find(e => Number(e.id) === Number(a.returnedBy).fullName)
+            }));
+        }
+    }, [employees, assemblyFail.returnedBy]);
+
+    useEffect(() => {
+        if (employees && assemblyFail.completedBy) {
+            setAssemblyFail(a => ({
+                ...a,
+                completedByName: employees.find(
+                    e => Number(e.id) === Number(a.completedBy).fullName
+                )
+            }));
+        }
+    }, [employees, assemblyFail.completedBy]);
+
+    useEffect(() => {
         if (faultCodes && assemblyFail.faultCode) {
             setAssemblyFail(a => ({
                 ...a,
@@ -108,13 +210,23 @@ function AssemblyFail({
     useEffect(() => {
         if (editStatus === 'create') {
             if (worksOrders.length === 1 && !worksOrdersLoading) {
-                setWorksOrder(worksOrders[0]);
+                setAssemblyFail(a => ({
+                    ...a,
+                    worksOrderNumber: worksOrders[0].orderNumber,
+                    partNumber: worksOrders[0].partNumber,
+                    partDescription: worksOrders[0].partDescription
+                }));
             } else {
-                setWorksOrder(null);
-                setAssemblyFail(a => ({ ...a, boardPart: null }));
+                setAssemblyFail(a => ({
+                    ...a,
+                    boardPart: null,
+                    worksOrderNumber: null,
+                    partNumber: null,
+                    partDescription: null
+                }));
             }
         }
-    }, [worksOrders, worksOrdersLoading, worksOrder, editStatus]);
+    }, [worksOrders, worksOrdersLoading, editStatus]);
 
     // form field change handler
     const handleFieldChange = (propertyName, newValue) => {
@@ -206,18 +318,12 @@ function AssemblyFail({
                             <Fragment />
                         )}
 
-                        {worksOrder || !creating() ? (
+                        {assemblyFail.worksOrderNumber || !creating() ? (
                             <Fragment>
                                 <Grid item xs={2}>
                                     <InputField
                                         disabled
-                                        value={
-                                            creating()
-                                                ? worksOrder
-                                                    ? worksOrder.orderNumber
-                                                    : null
-                                                : assemblyFail.worksOrderNumber
-                                        }
+                                        value={assemblyFail.worksOrderNumber}
                                         type="number"
                                         label="Works Order"
                                         maxLength={8}
@@ -230,11 +336,7 @@ function AssemblyFail({
                                     <InputField
                                         fullWidth
                                         disabled
-                                        value={
-                                            creating()
-                                                ? worksOrder.partNumber
-                                                : assemblyFail.partNumber
-                                        }
+                                        value={assemblyFail.partNumber}
                                         label="Part Number"
                                         maxLength={10}
                                         onChange={handleFieldChange}
@@ -246,11 +348,7 @@ function AssemblyFail({
                                         fullWidth
                                         disabled
                                         rows={3}
-                                        value={
-                                            creating()
-                                                ? worksOrder.partDescription
-                                                : assemblyFail.partDescription
-                                        }
+                                        value={assemblyFail.partDescription}
                                         label="Description"
                                         maxLength={10}
                                         onChange={handleFieldChange}
@@ -259,7 +357,7 @@ function AssemblyFail({
                                 </Grid>
                                 {creating() && <Grid item xs={2} />}
 
-                                <Grid item xs={2}>
+                                {/* <Grid item xs={2}>
                                     <InputField
                                         fullWidth
                                         disabled
@@ -273,15 +371,13 @@ function AssemblyFail({
                                         onChange={handleFieldChange}
                                         propertyName="enteredBy"
                                     />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
                                         disabled
-                                        value={
-                                            creating() ? profile.name : assemblyFail.enteredByName
-                                        }
-                                        label="Name"
+                                        value={assemblyFail.enteredByName}
+                                        label="Entered By"
                                         maxLength={10}
                                         onChange={handleFieldChange}
                                         propertyName="enteredByName"
@@ -429,7 +525,7 @@ function AssemblyFail({
                                         disabled={!notCompleted()}
                                         items={aoiEscapeValues}
                                         fullWidth
-                                        value={assemblyFail.boardPart}
+                                        value={assemblyFail.aoiEscape}
                                         onChange={handleFieldChange}
                                     />
                                 </Grid>
@@ -444,7 +540,12 @@ function AssemblyFail({
                                         }
                                         items={
                                             pcasRevisions
-                                                ? [''].concat(pcasRevisions.map(r => r.cref))
+                                                ? [''].concat(
+                                                      pcasRevisions.map(r => ({
+                                                          id: r.cref,
+                                                          displayText: `${r.cref}  -  ${r.partNumber}`
+                                                      }))
+                                                  )
                                                 : ['']
                                         }
                                         fullWidth
@@ -452,7 +553,7 @@ function AssemblyFail({
                                         onChange={handleFieldChange}
                                     />
                                 </Grid>
-                                <Grid item xs={6}>
+                                {/* <Grid item xs={6}>
                                     <InputField
                                         fullWidth
                                         disabled
@@ -461,135 +562,128 @@ function AssemblyFail({
                                         onChange={handleFieldChange}
                                         propertyName="circuitPartNumber"
                                     />
-                                </Grid>
+                                </Grid> */}
                                 <Grid item xs={3} />
                                 <Grid item xs={2}>
-                                    <Dropdown
+                                    {/* <Dropdown
                                         label="CIT Responsible"
                                         propertyName="citResponsible"
                                         disabled={!notCompleted()}
-                                        items={cits ? [''].concat(cits.map(c => c.code)) : ['']}
-                                        fullWidth
-                                        value={assemblyFail.citResponsible}
-                                        onChange={handleFieldChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <InputField
-                                        fullWidth
-                                        disabled
-                                        value={assemblyFail.citResponsibleName}
-                                        label="Name"
-                                        onChange={handleFieldChange}
-                                        propertyName="citResponsibleName"
-                                    />
-                                </Grid>
-                                <Grid item xs={2}>
-                                    {/*  // TODO - decide what to do with employee numb */}
-                                    <InputField
-                                        fullWidth
-                                        disabled={!notCompleted()}
-                                        value={assemblyFail.personResponsible}
-                                        label="User Number"
-                                        onChange={handleFieldChange}
-                                        propertyName="personResponsible"
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Dropdown
-                                        label="Person Responsible"
-                                        propertyName="personResponsibleName"
-                                        disabled={!notCompleted()}
                                         items={
-                                            employees
+                                            cits
                                                 ? [''].concat(
-                                                      employees
-                                                          .filter(e => e.fullName)
-                                                          .map(c => c.fullName)
+                                                      Array.from(
+                                                          new Set(
+                                                              cits.map(c => ({
+                                                                  id: c.code,
+                                                                  displayText: `${c.code} - ${c.name}`
+                                                              }))
+                                                          )
+                                                      )
                                                   )
                                                 : ['']
                                         }
                                         fullWidth
-                                        value={assemblyFail.personResponsibleName}
+                                        value={assemblyFail.citResponsible}
                                         onChange={handleFieldChange}
-                                    />
+                                    /> */}
+                                </Grid>
+                                <Grid item xs={4}>
+                                    {/* <Dropdown
+                                        label="Person Responsible"
+                                        type="number"
+                                        propertyName="personResponsible"
+                                        disabled={!notCompleted()}
+                                        items={
+                                            employees
+                                                ? [''].concat(
+                                                      Array.from(
+                                                          new Set(
+                                                              employees.map(c => ({
+                                                                  id: c.id,
+                                                                  displayText: c.fullName
+                                                              }))
+                                                          )
+                                                      )
+                                                  )
+                                                : ['']
+                                        }
+                                        fullWidth
+                                        value={assemblyFail.personResponsible}
+                                        onChange={handleFieldChange}
+                                    /> */}
                                 </Grid>
                                 <Grid item xs={2}>
-                                    <Dropdown
+                                    {/* <Dropdown
                                         label="Fault Code"
                                         propertyName="faultCode"
                                         disabled={!notCompleted()}
                                         items={
                                             faultCodes
-                                                ? [''].concat(faultCodes.map(c => c.faultCode))
+                                                ? [''].concat(
+                                                      faultCodes.map(c => ({
+                                                          id: c.faultCode,
+                                                          displayText: `${c.faultCode} - ${c.description}`
+                                                      }))
+                                                  )
                                                 : ['']
                                         }
                                         fullWidth
                                         value={assemblyFail.faultCode}
                                         onChange={handleFieldChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <InputField
-                                        fullWidth
-                                        disabled
-                                        value={assemblyFail.faultCodeDescription}
-                                        label="Description"
-                                        onChange={handleFieldChange}
-                                        propertyName="faultCodeDescription"
-                                    />
+                                    /> */}
                                 </Grid>
                                 <Grid item xs={6} />
                                 <Grid item xs={4}>
                                     <DateTimePicker
-                                        value={assemblyFail.dateTimeComplete}
+                                        value={dateTimeComplete}
                                         label="Complete"
                                         disabled={!notCompleted()}
+                                        onChange={setDateTimeComplete}
                                     />
                                 </Grid>
                                 <Grid item xs={2}>
-                                    {/*  // TODO - dropdown */}
-                                    <InputField
-                                        fullWidth
-                                        disabled={!notCompleted()}
-                                        value={assemblyFail.completedBy}
+                                    {/* <Dropdown
                                         label="Completed By"
-                                        onChange={handleFieldChange}
                                         propertyName="completedBy"
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
-                                    {/*  // TODO - autoset */}
-                                    <InputField
-                                        fullWidth
-                                        disabled
-                                        value={assemblyFail.completedByName}
-                                        label="Name"
-                                        onChange={handleFieldChange}
-                                        propertyName="completedByName"
-                                    />
-                                </Grid>
-                                <Grid item xs={2}>
-                                    {/*  // TODO - dropdown */}
-                                    <InputField
-                                        fullWidth
+                                        type="number"
                                         disabled={!notCompleted()}
-                                        value={assemblyFail.returnedBy}
-                                        label="Returned By"
-                                        onChange={handleFieldChange}
-                                        propertyName="returnedBy"
-                                    />
-                                </Grid>
-                                <Grid item xs={2}>
-                                    {/*  // TODO - autocomplete */}
-                                    <InputField
+                                        items={
+                                            employees
+                                                ? [''].concat(
+                                                      employees.map(c => ({
+                                                          id: c.id,
+                                                          displayText: c.fullName
+                                                      }))
+                                                  )
+                                                : ['']
+                                        }
                                         fullWidth
-                                        disabled
-                                        value={assemblyFail.returnedByName}
-                                        label="Name"
+                                        value={assemblyFail.completedBy}
                                         onChange={handleFieldChange}
-                                        propertyName="returnedByName"
-                                    />
+                                    /> */}
+                                </Grid>
+
+                                <Grid item xs={2}>
+                                    {/* <Dropdown
+                                        label="Returned By"
+                                        type="number"
+                                        propertyName="returnedBy"
+                                        disabled={!notCompleted()}
+                                        items={
+                                            employees
+                                                ? [''].concat(
+                                                      employees.map(c => ({
+                                                          id: c.id,
+                                                          displayText: c.fullName
+                                                      }))
+                                                  )
+                                                : ['']
+                                        }
+                                        fullWidth
+                                        value={assemblyFail.returnedBy}
+                                        onChange={handleFieldChange}
+                                    /> */}
                                 </Grid>
                                 <Grid item xs={4}>
                                     <InputField
@@ -612,11 +706,16 @@ function AssemblyFail({
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <DateTimePicker value={assemblyFail.caDate} label="CA Date" />
+                                    <DatePicker
+                                        value={assemblyFail.caDate}
+                                        label="CA Date"
+                                        onChange={setCaDate}
+                                    />
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <DateTimePicker
+                                    <DatePicker
                                         value={assemblyFail.dateInvalid}
+                                        onChange={setDateInvalid}
                                         label="Date Invalid"
                                     />
                                 </Grid>
@@ -642,18 +741,20 @@ function AssemblyFail({
                             )}
                     </Fragment>
                 )}
+                <Grid item xs={12}>
+                    <SaveBackCancelButtons
+                        saveDisabled={inputInvalid() || viewing()}
+                        saveClick={handleSaveClick}
+                        cancelClick={handleCancelClick}
+                        backClick={handleBackClick}
+                    />
+                </Grid>
             </Grid>
         </Page>
     );
 }
 
 AssemblyFail.propTypes = {
-    item: PropTypes.shape({
-        assemblyFail: PropTypes.string,
-        description: PropTypes.string,
-        nextSerialNumber: PropTypes.number,
-        dateClosed: PropTypes.string
-    }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     profile: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
@@ -666,7 +767,6 @@ AssemblyFail.propTypes = {
 };
 
 AssemblyFail.defaultProps = {
-    item: {},
     snackbarVisible: false,
     loading: null,
     errorMessage: '',

@@ -40,9 +40,6 @@
             builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
             builder.RegisterType<WorksOrdersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<WorksOrder>>>();
-            builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<Part>>();
-            builder.RegisterType<PartsResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<Part>>>();
             builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ProductionTriggerLevel>>();
             builder.RegisterType<ProductionTriggerLevelsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>();

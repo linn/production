@@ -40,12 +40,13 @@ const initialise = () => dispatch => {
     dispatch(productionTriggerLevelsActions.fetchByQueryString('searchTerm', 'PCAS'));
     dispatch(employeesActions.fetch());
     dispatch(citsActions.fetch());
-    dispatch(assemblyFailFaultCodes.fetch())
+    dispatch(assemblyFailFaultCodes.fetch());
 };
 
 const mapDispatchToProps = {
     initialise,
     addItem: assemblyFailActions.add,
+    updateItem: assemblyFailActions.update,
     setEditStatus: assemblyFailActions.setEditStatus,
     setSnackbarVisible: assemblyFailActions.setSnackbarVisible,
     fetchItems: worksOrdersActions.fetchByQueryString,

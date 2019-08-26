@@ -43,9 +43,12 @@
                     with.Dependency(this.FacadeService);
                     with.Dependency(this.faultCodeService);
                     with.Dependency<IResourceBuilder<AssemblyFail>>(new AssemblyFailResourceBuilder());
-                    
+                    with.Dependency<IResourceBuilder<AssemblyFailFaultCode>>(
+                        new AssemblyFailFaultCodeResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<AssemblyFailFaultCode>>>(new AssemblyFailFaultCodesResourceBuilder());
                     with.Module<AssemblyFailsModule>();
                     with.ResponseProcessor<AssemblyFailResponseProcessor>();
+                    with.ResponseProcessor<AssemblyFailFaultCodesResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

@@ -6,14 +6,13 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     public class WorksOrdersResourceBuilder : IResourceBuilder<IEnumerable<WorksOrder>>
     {
         private readonly WorksOrderResourceBuilder resourceBuilder;
 
-        public WorksOrdersResourceBuilder(ISalesArticleService salesArticleService)
+        public WorksOrdersResourceBuilder()
         {
             this.resourceBuilder = new WorksOrderResourceBuilder();
         }

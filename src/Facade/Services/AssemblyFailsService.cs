@@ -73,7 +73,7 @@
                                              ? this.employeeRepository.FindById((int)resource.ReturnedBy)
                                              : null,
                            DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null,
-                           CaDate = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null,
+                           CaDate = resource.CaDate != null ? DateTime.Parse(resource.CaDate) : (DateTime?)null,
                            SerialNumber = resource.SerialNumber,
                            WorksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber),
                            ReportedFault = resource.ReportedFault,

@@ -29,8 +29,6 @@
             set;
         }
 
-        private ISalesArticleService SalesArticleService { get; set; }
-
         [SetUp]
         public void EstablishContext()
         {
@@ -47,6 +45,12 @@
                         with.Module<WorksOrdersModule>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                         with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
+                        with.Dependency<IResourceBuilder<WorksOrder>>(
+                            new WorksOrderResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(
+                            new WorksOrdersResourceBuilder());
+                        with.ResponseProcessor<WorksOrderResponseProcessor>();
+                        with.ResponseProcessor<WorksOrdersResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>
