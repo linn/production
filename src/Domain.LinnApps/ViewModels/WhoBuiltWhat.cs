@@ -10,12 +10,16 @@
 
         public string ArticleNumber { get; set; }
 
-        public DateTime SernosDate { get; set; }
+        public DateTime? SernosDate { get; set; }
 
         public int CreatedBy { get; set; }
 
         public string UserName { get; set; }
 
         public int QtyBuilt { get; set; }
+
+        public int? SernosNumber { get; set; }
+
+        public int? DocumentNumber { get; set; }
     }
 }

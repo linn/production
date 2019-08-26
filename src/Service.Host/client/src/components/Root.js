@@ -37,6 +37,7 @@ import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsW
 import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
 import WhoBuiltWhatReportOptions from '../containers/reports/WhoBuiltWhatReportOptions';
 import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
+import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetailsReport';
 
 const Root = ({ store }) => (
     <div>
@@ -191,6 +192,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/who-built-what"
                                             component={WhoBuiltWhatReportOptions}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/who-built-what-details"
+                                            component={WhoBuiltWhatDetailsReport}
                                         />
                                         <Route
                                             exact

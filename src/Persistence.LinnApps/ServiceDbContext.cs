@@ -75,6 +75,8 @@
             builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
             builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
             builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
+            builder.Query<WhoBuiltWhat>().Property(t => t.SernosNumber).HasColumnName("SERNOS_NUMBER");
+            builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -97,8 +99,8 @@
         {
             builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
             builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
-            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
-            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION");
+            builder.Entity<AteFaultCode>().Property(t => t.FaultCode).HasColumnName("FAULT_CODE").HasMaxLength(10);
+            builder.Entity<AteFaultCode>().Property(t => t.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
             builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 

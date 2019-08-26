@@ -35,3 +35,9 @@ export const whoBuiltWhat = new ItemType(
     'WHO_BUILT_WHAT',
     '/production/reports/who-built-what'
 );
+
+export const whoBuiltWhatDetails = new ItemType(
+    'whoBuiltWhatDetails',
+    'WHO_BUILT_WHAT_DETAILS',
+    '/production/reports/who-built-what-details'
+);
