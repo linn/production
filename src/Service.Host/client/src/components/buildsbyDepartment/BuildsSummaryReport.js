@@ -33,8 +33,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Report({ reportData, loading }) {
-    const getSteps = () =>
-        reportData ? reportData.map(r => r.reportResults[0].title.displayString) : [];
+    const getSteps = () => (reportData ? reportData.map(r => r.title.displayString) : []);
 
     const classes = useStyles();
     const [activeStep, setActiveStep] = useState(false);
@@ -53,21 +52,19 @@ function Report({ reportData, loading }) {
 
     const getStepContent = index => (
         <Fragment>
-            {reportData && reportData[index].reportResults[0].results.length > 0 ? (
+            {reportData && reportData[index].results.length > 0 ? (
                 <ReportTable
                     showRowTitles={index === reportData.length - 1}
-                    reportData={reportData[index].reportResults[0]}
+                    reportData={reportData[index]}
                     showTotals
-                    title={
-                        reportData ? reportData[index].reportResults[0].title.displayString : null
-                    }
+                    title={reportData ? reportData[index].title.displayString : null}
                     showTitle={false}
                 />
             ) : (
                 <ErrorCard errorMessage="No Data for specified range." />
             )}
             {reportData &&
-            reportData[index].reportResults[0].results.length > 0 &&
+            reportData[index].results.length > 0 &&
             index === reportData.length - 1 ? (
                 <Typography variant="subtitle">
                     Click a department code to view build details for that department
@@ -97,7 +94,7 @@ function Report({ reportData, loading }) {
 
 function BuildsSummaryReport({ reportData, loading, history, errorMessage }) {
     const handleBackClick = () => {
-        history.push('/production/reports/builds-summary/options');
+        history.push('/production/reports/builds-summary-options');
     };
     return (
         <Page>

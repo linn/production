@@ -1,20 +1,17 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using System.Collections.Generic;
 
     using Autofac;
 
-    using Common.Facade;
-    using Common.Reporting.Models;
-
-    using Domain.LinnApps;
-    using Domain.LinnApps.ATE;
-    using Domain.LinnApps.Measures;
     using Domain.LinnApps.SerialNumberReissue;
 
-    using Facade.ResourceBuilders;
+    using Linn.Common.Facade;
+    using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Facade.ResourceBuilders;
 
     public class ResponsesModule : Module
     {
@@ -35,6 +32,14 @@ namespace Linn.Production.IoC
                 .As<IResourceBuilder<IEnumerable<ManufacturingSkill>>>();
             builder.RegisterType<CitResourceBuilder>().As<IResourceBuilder<Cit>>();
             builder.RegisterType<CitsResourceBuilder>().As<IResourceBuilder<IEnumerable<Cit>>>();
+            builder.RegisterType<BoardFailTypeResourceBuilder>().As<IResourceBuilder<BoardFailType>>();
+            builder.RegisterType<BoardFailTypesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<BoardFailType>>>();
+            builder.RegisterType<AssemblyFailResourceBuilder>().As<IResourceBuilder<AssemblyFail>>();
+            builder.RegisterType<ManufacturingResourceResourceBuilder>().As<IResourceBuilder<ManufacturingResource>>();
+            builder.RegisterType<ManufacturingResourcesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<ManufacturingResource>>>();
+            builder.RegisterType<OsrInfoResourceBuilder>().As<IResourceBuilder<OsrInfo>>();
         }
     }
 }

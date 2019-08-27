@@ -8,6 +8,7 @@
             this.Description = description;
             this.HourlyRate = hourlyRate;
         }
+
         public string SkillCode { get; set; }
 
         public string Description { get; set; }

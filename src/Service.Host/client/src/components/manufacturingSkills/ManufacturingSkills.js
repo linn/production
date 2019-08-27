@@ -91,7 +91,7 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
 
     return (
         <Page>
-            <Title text="Manufacturing skills" />
+            <Title text="Manufacturing Skills" />
             {errorMessage && <ErrorCard errorMessage={errorMessage} />}
             {loading ? (
                 <Loading />
@@ -103,7 +103,6 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
 
                     <PaginatedTable
                         columns={columns}
-                        sortable
                         handleRowLinkClick={handleRowLinkClick}
                         rows={rowsToDisplay}
                         pageOptions={pageOptions}

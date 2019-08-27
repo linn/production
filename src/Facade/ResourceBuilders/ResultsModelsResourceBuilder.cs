@@ -2,19 +2,23 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
+    using Linn.Common.Reporting.Resources.Extensions;
     using Linn.Common.Reporting.Resources.ReportResultResources;
 
     public class ResultsModelsResourceBuilder : IResourceBuilder<IEnumerable<ResultsModel>>
     {
-        private readonly ResultsModelResourceBuilder resultModelResourceBuilder = new ResultsModelResourceBuilder();
-
-        public IEnumerable<ReportReturnResource> Build(IEnumerable<ResultsModel> resultsModels)
+        public ReportReturnResource Build(IEnumerable<ResultsModel> resultsModels)
         {
-            return resultsModels.Select(m => this.resultModelResourceBuilder.Build(m));
+            var returnResource = new ReportReturnResource();
+            foreach (var resultsModel in resultsModels)
+            {
+                returnResource.ReportResults.Add(resultsModel.ConvertFinalModelToResource());
+            }
+
+            return returnResource;
         }
 
         public string GetLocation(IEnumerable<ResultsModel> model)

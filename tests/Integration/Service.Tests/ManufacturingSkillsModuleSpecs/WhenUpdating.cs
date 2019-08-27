@@ -3,7 +3,6 @@
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Resources;
     using Nancy;
     using Nancy.Testing;
@@ -17,7 +16,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.requestResource = new ManufacturingSkillResource() { SkillCode = "MYTEST", Description = "Desc1", HourlyRate = 150 };
+            this.requestResource = new ManufacturingSkillResource { SkillCode = "MYTEST", Description = "Desc1", HourlyRate = 150 };
             var skill = new ManufacturingSkill("MYTEST", "Desc1", 150);
             this.ManufacturingSkillService.Update("MYTEST", Arg.Any<ManufacturingSkillResource>())
                 .Returns(new SuccessResult<ManufacturingSkill>(skill));

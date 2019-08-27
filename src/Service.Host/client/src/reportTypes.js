@@ -17,3 +17,27 @@ export const outstandingWorksOrdersReport = new ItemType(
     'OUTSTANDING_WORKS_ORDERS',
     '/production/maintenance/works-orders/outstanding-works-orders-report'
 );
+
+export const productionMeasuresCitsReport = new ItemType(
+    'productionMeasures',
+    'PRODUCTION_MEASURES',
+    '/production/reports/measures/cits'
+);
+
+export const assemblyFailsWaitingList = new ItemType(
+    'assemblyFailsWaitingListReport',
+    'ASSEMBLY_FAILS_WAITING_LIST',
+    '/production/reports/assembly-fails-waiting-list'
+);
+
+export const whoBuiltWhat = new ItemType(
+    'whoBuiltWhat',
+    'WHO_BUILT_WHAT',
+    '/production/reports/who-built-what'
+);
+
+export const whoBuiltWhatDetails = new ItemType(
+    'whoBuiltWhatDetails',
+    'WHO_BUILT_WHAT_DETAILS',
+    '/production/reports/who-built-what-details'
+);

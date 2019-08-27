@@ -1,10 +1,10 @@
-﻿using Linn.Common.Resources;
-
-namespace Linn.Production.Resources
+﻿namespace Linn.Production.Resources
 {
+    using Linn.Common.Resources;
+
     public class ManufacturingSkillResource : HypermediaResource
     {
-        public string SkillCode { get; set; }   
+        public string SkillCode { get; set; }
 
         public string Description { get; set; }
 

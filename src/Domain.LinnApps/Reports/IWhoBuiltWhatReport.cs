@@ -7,5 +7,7 @@
     public interface IWhoBuiltWhatReport
     {
         IEnumerable<ResultsModel> WhoBuiltWhat(string fromDate, string toDate, string citCode);
+
+        ResultsModel WhoBuiltWhatDetails(string fromDate, string toDate, int userNumber);
     }
 }
