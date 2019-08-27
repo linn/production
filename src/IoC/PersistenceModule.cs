@@ -31,6 +31,7 @@
             builder.RegisterType<SerialNumberReissueRepository>().As<IRepository<SerialNumberReissue, int>>();
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
             builder.RegisterType<ManufacturingSkillsRepository>().As<IRepository<ManufacturingSkill, string>>();
+            builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

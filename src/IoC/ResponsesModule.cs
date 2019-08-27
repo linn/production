@@ -33,6 +33,8 @@ namespace Linn.Production.IoC
             builder.RegisterType<ManufacturingSkillResourceBuilder>().As<IResourceBuilder<ManufacturingSkill>>();
             builder.RegisterType<ManufacturingSkillsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingSkill>>>();
+            builder.RegisterType<CitResourceBuilder>().As<IResourceBuilder<Cit>>();
+            builder.RegisterType<CitsResourceBuilder>().As<IResourceBuilder<IEnumerable<Cit>>>();
         }
     }
 }

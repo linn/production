@@ -39,3 +39,5 @@ export const manufacturingSkillsActionTypes = makeActionTypes(
 export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );
+
+export const citsActionTypes = makeActionTypes(itemTypes.cits.actionType);

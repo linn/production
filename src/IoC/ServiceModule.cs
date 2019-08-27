@@ -1,6 +1,4 @@
-﻿using Linn.Production.Domain.LinnApps;
-
-namespace Linn.Production.IoC
+﻿namespace Linn.Production.IoC
 {
     using System.Data;
 
@@ -13,6 +11,7 @@ namespace Linn.Production.IoC
     using Domain.LinnApps.RemoteServices;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
@@ -37,6 +36,7 @@ namespace Linn.Production.IoC
             builder.RegisterType<ProductionMeasuresReportFacade>().As<IProductionMeasuresReportFacade>();
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
             builder.RegisterType<WhoBuiltWhatReportFacadeService>().As<IWhoBuiltWhatReportFacadeService>();
+            builder.RegisterType<CitService>().As<IFacadeService<Cit, string, CitResource, CitResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -53,8 +53,7 @@ namespace Linn.Production.IoC
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             builder.RegisterType<ManufacturingSkillService>()
-                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>
-                >();
+                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
 
             // services

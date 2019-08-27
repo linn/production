@@ -21,6 +21,7 @@ const mapDispatchToProps = {
     initialise
 };
 
+// TODO have an options container and take off initialise on mount
 export default connect(
     mapStateToProps,
     mapDispatchToProps

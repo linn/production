@@ -5,7 +5,6 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
-    using Linn.Production.Resources;
 
     using Nancy;
 
@@ -15,8 +14,6 @@
 
     public class WhenGettingOutstandingWorksOrdersReportCsv : ContextBase
     {
-        private OutstandingWorksOrdersRequestResource requestResource;
-
         [SetUp]
         public void SetUp()
         {
