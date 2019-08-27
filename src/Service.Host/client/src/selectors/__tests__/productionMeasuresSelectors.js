@@ -20,7 +20,7 @@ describe('when getting loading', () => {
             }
         };
 
-        expect(getLoading(state)).toEqual(true);
+        expect(getLoading(state)).toEqual(false);
     });
 });
 
