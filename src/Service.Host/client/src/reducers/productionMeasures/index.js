@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
-import results from './results';
+import cits from './cits';
+import info from './info';
 
-export default combineReducers({ results });
+export default combineReducers({ cits, info });

@@ -18,9 +18,15 @@ export const outstandingWorksOrdersReport = new ItemType(
     '/production/maintenance/works-orders/outstanding-works-orders-report'
 );
 
+export const productionMeasuresInfoReport = new ItemType(
+    'productionMeasuresInfo',
+    'PRODUCTION_MEASURES_INFO',
+    '/production/reports/measures/info'
+);
+
 export const productionMeasuresCitsReport = new ItemType(
-    'productionMeasures',
-    'PRODUCTION_MEASURES',
+    'productionMeasuresCits',
+    'PRODUCTION_MEASURES_CITS',
     '/production/reports/measures/cits'
 );
 
