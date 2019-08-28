@@ -14,7 +14,6 @@
             this.databaseService = databaseService;
         }
 
-        // TODO test this
         public ResultsModel GetOutstandingWorksOrders()
         {
             var table = this.databaseService.GetReport();
