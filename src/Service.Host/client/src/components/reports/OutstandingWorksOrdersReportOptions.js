@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import {
     ReportTable,
     Loading,
@@ -17,45 +17,65 @@ import Page from '../../containers/Page';
 
 function OutstandingWorksOrdersReportOptions({ cits, citsLoading }) {
     const [options, setOptions] = useState({ reportType: 'All', partNumber: '', cit: '' });
+    const [citOptions, setCitOptions] = useState([]);
+
+    useEffect(() => {
+        if (cits !== null) {
+            const citsFormatted = cits.map(cit => ({
+                id: cit.code,
+                displayText: cit.name
+            }));
+
+            setCitOptions([{ id: '', displayText: '' }, ...citsFormatted]);
+        }
+    }, [cits]);
 
     const filterOptions = ['All', 'Part Number', 'CIT'];
 
     const handleFieldChange = (propertyName, newValue) =>
         setOptions(o => ({ ...o, [propertyName]: newValue }));
 
-    console.log(cits);
-
     return (
         <Page>
             <Title text="Outstanding Works Orders Report" />
-            <Grid container spacing={3}>
-                <Grid item xs={4}>
-                    <Dropdown
-                        items={filterOptions}
-                        label="Report Type"
-                        propertyName="reportType"
-                        onChange={handleFieldChange}
-                        value={options.reportType}
-                    />
+            {citsLoading ? (
+                <Loading />
+            ) : (
+                <Grid container spacing={3}>
+                    <Grid item xs={4}>
+                        <Dropdown
+                            items={filterOptions}
+                            label="Report Type"
+                            propertyName="reportType"
+                            onChange={handleFieldChange}
+                            value={options.reportType}
+                        />
+                    </Grid>
+                    <Grid item xs={8} />
+                    {options.reportType === 'Part Number' && (
+                        <Fragment>
+                            <Grid item xs={4}>
+                                <InputField disabled value="FETCH" label="Partz" />
+                            </Grid>
+                            <Grid item xs={8} />
+                        </Fragment>
+                    )}
+                    {options.reportType === 'CIT' && (
+                        <Fragment>
+                            <Grid item xs={4}>
+                                <Dropdown
+                                    label="CITs"
+                                    propertyName="cit"
+                                    items={citOptions}
+                                    value={options.cit || ''}
+                                    onChange={handleFieldChange}
+                                />
+                            </Grid>
+                            <Grid item xs={8} />
+                        </Fragment>
+                    )}
                 </Grid>
-                <Grid item xs={8} />
-                {options.reportType === 'Part Number' && (
-                    <Fragment>
-                        <Grid item xs={4}>
-                            <InputField disabled value="FETCH" label="Partz" />
-                        </Grid>
-                        <Grid item xs={8} />
-                    </Fragment>
-                )}
-                {options.reportType === 'CIT' && (
-                    <Fragment>
-                        <Grid item xs={4}>
-                            <InputField disabled value="FETCH" label="CIT" />
-                        </Grid>
-                        <Grid item xs={8} />
-                    </Fragment>
-                )}
-            </Grid>
+            )}
         </Page>
     );
 }

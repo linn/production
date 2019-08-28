@@ -14,8 +14,7 @@ const mapStateToProps = state => ({
 });
 
 const initialise = () => dispatch => {
-    console.log('wallo');
-    dispatch(citsActions.fetch);
+    dispatch(citsActions.fetch());
 };
 
 const mapDispatchToProps = {
