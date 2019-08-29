@@ -12,7 +12,7 @@
     {
         public CitResource Build(Cit cit)
         {
-            return new CitResource()
+            return new CitResource
                        {
                            BuildGroup = cit.BuildGroup,
                            Code = cit.Code,
