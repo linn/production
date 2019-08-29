@@ -5,13 +5,13 @@
         public ManufacturingOperation(
             string routeCode,
             int manufacturingId,
-            int operationNumber, 
+            int operationNumber,
             string description,
-            string skillCode, 
-            string resourceCode, 
-            int setAndCleanTime, 
-            int cycleTime, 
-            int labourPercentage, 
+            string skillCode,
+            string resourceCode,
+            int setAndCleanTime,
+            int cycleTime,
+            int labourPercentage,
             string citCode)
         {
             this.RouteCode = routeCode;

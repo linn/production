@@ -36,6 +36,9 @@ namespace Linn.Production.IoC
             builder.RegisterType<ManufacturingRouteResourceBuilder>().As<IResourceBuilder<ManufacturingRoute>>();
             builder.RegisterType<ManufacturingRoutesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingRoute>>>();
+            builder.RegisterType<ManufacturingOperationResourceBuilder>().As<IResourceBuilder<ManufacturingOperation>>();
+            builder.RegisterType<ManufacturingOperationsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<ManufacturingOperation>>>();
             builder.RegisterType<BoardFailTypeResourceBuilder>().As<IResourceBuilder<BoardFailType>>();
             builder.RegisterType<BoardFailTypesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<BoardFailType>>>();
