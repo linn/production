@@ -4,7 +4,7 @@
 
     public class ManufacturingSkillResource : HypermediaResource
     {
-        public string SkillCode { get; set; }   
+        public string SkillCode { get; set; }
 
         public string Description { get; set; }
 

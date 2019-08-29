@@ -20,15 +20,24 @@ import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
 import BuildsSummaryReportOptions from '../containers/buildsByDepartment/BuildsSummaryReportOptions';
 import BuildsSummaryReport from '../containers/buildsByDepartment/BuildsSummaryReport';
+import ProductionMeasures from '../containers/reports/measures/ProductionMeasures';
 import SerialNumberReissue from '../containers/serialNumberReissue/SerialNumberReissue';
 import BuildsDetailReportOptions from '../containers/buildsByDepartment/BuildsDetailReportOptions';
 import BuildsDetailReport from '../containers/buildsByDepartment/BuildsDetailReport';
 import ManufacturingSkills from '../containers/manufacturingSkills/ManufacturingSkills';
 import ManufacturingSkill from '../containers/manufacturingSkills/ManufacturingSkill';
 import CreateManufacturingSkill from '../containers/manufacturingSkills/CreateManufacturingSkill';
+import ManufacturingResources from '../containers/manufacturingResources/ManufacturingResources';
+import ManufacturingResource from '../containers/manufacturingResources/ManufacturingResource';
+import CreateManufacturingResource from '../containers/manufacturingResources/CreateManufacturingResource';
 import BoardFailTypes from '../containers/boardFailTypes/BoardFailTypes';
 import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
+import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
+import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
+import WhoBuiltWhatReportOptions from '../containers/reports/WhoBuiltWhatReportOptions';
+import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
+import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetailsReport';
 
 const Root = ({ store }) => (
     <div>
@@ -81,7 +90,6 @@ const Root = ({ store }) => (
                                             path="/production/maintenance/works-orders"
                                             component={App}
                                         />
-
                                         <Route
                                             exact
                                             path="/production/maintenance/signin-oidc-client"
@@ -152,6 +160,11 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
+                                            path="/production/reports/measures"
+                                            component={ProductionMeasures}
+                                        />
+                                        <Route
+                                            exact
                                             path="/production/resources/board-fail-types"
                                             component={BoardFailTypes}
                                         />
@@ -164,6 +177,46 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/resources/board-fail-types/:id"
                                             component={BoardFailType}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-waiting-list"
+                                            component={AssemblyFailsWaitingListReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/who-built-what/report"
+                                            component={WhoBuiltWhatReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/who-built-what"
+                                            component={WhoBuiltWhatReportOptions}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/who-built-what-details"
+                                            component={WhoBuiltWhatDetailsReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/quality/assembly-fails/:id"
+                                            component={AssemblyFail}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-resources"
+                                            component={ManufacturingResources}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-resources/create"
+                                            component={CreateManufacturingResource}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-resources/:id"
+                                            component={ManufacturingResource}
                                         />
                                     </Switch>
                                 </div>

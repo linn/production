@@ -1,12 +1,8 @@
 ﻿namespace Linn.Production.Service.Tests.ManufacturingSkillsModuleSpecs
 {
-    using System.Collections;
-    using System.Collections.Generic;
-
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Resources;
     using Nancy;
     using Nancy.Testing;

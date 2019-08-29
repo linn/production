@@ -60,8 +60,8 @@
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<IEnumerable<ReportReturnResource>>();
-            resource.First().ReportResults.First().title.displayString.Should().Be("t");
+            var resource = this.Response.Body.DeserializeJson<ReportReturnResource>();
+            resource.ReportResults.First().title.displayString.Should().Be("t");
         }
     }
 }

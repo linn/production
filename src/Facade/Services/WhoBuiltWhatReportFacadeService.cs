@@ -19,5 +19,10 @@
         {
             return new SuccessResult<IEnumerable<ResultsModel>>(this.whoBuiltWhatReport.WhoBuiltWhat(fromDate, toDate, citCode));
         }
+
+        public IResult<ResultsModel> WhoBuiltWhatDetails(string fromDate, string toDate, int userNumber)
+        {
+            return new SuccessResult<ResultsModel>(this.whoBuiltWhatReport.WhoBuiltWhatDetails(fromDate, toDate, userNumber));
+        }
     }
 }

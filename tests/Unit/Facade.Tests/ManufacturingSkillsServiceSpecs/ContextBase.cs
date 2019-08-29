@@ -2,7 +2,6 @@
 {
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Facade.Services;
 
     using NSubstitute;

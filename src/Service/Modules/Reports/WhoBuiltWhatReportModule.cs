@@ -15,12 +15,23 @@
         {
             this.reportService = reportService;
             this.Get("/production/reports/who-built-what", _ => this.WhoBuiltWhat());
+            this.Get("/production/reports/who-built-what-details", _ => this.WhoBuiltWhatDetails());
         }
 
         private object WhoBuiltWhat()
         {
             var resource = this.Bind<WhoBuiltWhatRequestResource>();
             var results = this.reportService.WhoBuiltWhat(resource.FromDate, resource.ToDate, resource.CitCode);
+            return this.Negotiate
+                .WithModel(results)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object WhoBuiltWhatDetails()
+        {
+            var resource = this.Bind<WhoBuiltWhatRequestResource>();
+            var results = this.reportService.WhoBuiltWhatDetails(resource.FromDate, resource.ToDate, resource.userNumber);
             return this.Negotiate
                 .WithModel(results)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

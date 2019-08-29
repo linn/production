@@ -3,7 +3,6 @@
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Resources;
     using Nancy;
     using Nancy.Testing;

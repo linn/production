@@ -24,18 +24,24 @@ function OutstandingWorksOrdersReport({ reportData, loading, config, errorMessag
                 <Grid item xs={8}>
                     <Title text="Outstanding Works Orders" />
                 </Grid>
-                <Grid item xs={4}>
-                    <ExportButton href={href} />
-                </Grid>
+                {!loading && !errorMessage && (
+                    <Grid item xs={4}>
+                        <ExportButton href={href} />
+                    </Grid>
+                )}
                 <Grid item xs={12}>
-                    {loading ? <Loading /> : ''}
-                    <ReportTable
-                        reportData={reportData}
-                        showTotals={false}
-                        placeholderRows={10}
-                        placeholderColumns={3}
-                        showTitle={false}
-                    />
+                    {loading ? (
+                        <Loading />
+                    ) : (
+                        <ReportTable
+                            reportData={reportData}
+                            showTotals={false}
+                            placeholderRows={10}
+                            placeholderColumns={3}
+                            showTitle={false}
+                            showRowTitles
+                        />
+                    )}
                 </Grid>
             </Grid>
         </Page>

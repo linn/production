@@ -1,12 +1,8 @@
 ﻿namespace Linn.Production.Service.Tests.BoardFailTypesModuleSpecs
 {
-    using System.Collections;
-    using System.Collections.Generic;
-
     using FluentAssertions;
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
     using Nancy;
     using Nancy.Testing;
