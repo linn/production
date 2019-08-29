@@ -1,17 +1,14 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Resources
 {
-    using System;
-    using System.Collections.Generic;
+    using Linn.Common.Resources;
 
-    using Linn.Production.Domain.LinnApps.Measures;
-
-    public class WorksOrder
+    public class WorksOrderResource : HypermediaResource
     {
         public int CancelledBy { get; set; }
 
-        public DateTime DateCancelled { get; set; }
+        public string DateCancelled { get; set; }
 
-        public DateTime DateRaised { get; set; }
+        public string DateRaised { get; set; }
 
         public int? LabelsPrinted { get; set; }
 
@@ -32,7 +29,5 @@
         public string Type { get; set; }
 
         public string WorkStationCode { get; set; }
-
-        public List<AssemblyFail> AssemblyFails { get; set; }
     }
 }

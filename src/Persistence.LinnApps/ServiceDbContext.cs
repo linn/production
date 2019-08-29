@@ -164,7 +164,7 @@
             q.Property(e => e.CancelledBy).HasColumnName("CANCELLED_BY");
             q.Property(e => e.DateCancelled).HasColumnName("DATE_CANCELLED");
             q.Property(e => e.DateRaised).HasColumnName("DATE_RAISED");
-            q.Property(e => e.Labelsprinted).HasColumnName("LABELS_PRINTED");
+            q.Property(e => e.LabelsPrinted).HasColumnName("LABELS_PRINTED");
             q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
             q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER");
             q.Property(e => e.QuantityOutstanding).HasColumnName("QTY_OUTSTANDING");
