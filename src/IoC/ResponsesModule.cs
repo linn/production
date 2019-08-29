@@ -1,7 +1,11 @@
 ﻿namespace Linn.Production.IoC
 {
     using System.Collections.Generic;
+
     using Autofac;
+
+    using Domain.LinnApps.SerialNumberReissue;
+
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
@@ -28,6 +32,8 @@
             builder.RegisterType<ManufacturingSkillResourceBuilder>().As<IResourceBuilder<ManufacturingSkill>>();
             builder.RegisterType<ManufacturingSkillsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingSkill>>>();
+            builder.RegisterType<CitResourceBuilder>().As<IResourceBuilder<Cit>>();
+            builder.RegisterType<CitsResourceBuilder>().As<IResourceBuilder<IEnumerable<Cit>>>();
             builder.RegisterType<BoardFailTypeResourceBuilder>().As<IResourceBuilder<BoardFailType>>();
             builder.RegisterType<BoardFailTypesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<BoardFailType>>>();

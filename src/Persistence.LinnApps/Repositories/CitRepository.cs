@@ -22,7 +22,7 @@
 
         public IQueryable<Cit> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Cits;
         }
 
         public void Add(Cit entity)
