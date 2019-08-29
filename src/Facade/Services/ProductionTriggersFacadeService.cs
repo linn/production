@@ -34,13 +34,6 @@
                 return new BadRequestResult<ProductionTriggersReport>("You must supply a citCode");
             }
 
-            var cit = this.citRepository.FindById(citCode);
-
-            if (cit == null)
-            {
-                return new NotFoundResult<ProductionTriggersReport>($"cit {citCode} not found");
-            }
-
             ProductionTriggerReportType triggerReportType;
 
             switch (reportType)
@@ -52,14 +45,21 @@
                     triggerReportType = ProductionTriggerReportType.Full;
                     break;
                 default:
-                    return new BadRequestResult<ProductionTriggersReport>("Invalid format");
+                    return new BadRequestResult<ProductionTriggersReport>("Invalid report type");
+            }
+
+            var cit = this.citRepository.FindById(citCode);
+
+            if (cit == null)
+            {
+                return new NotFoundResult<ProductionTriggersReport>($"cit {citCode} not found");
             }
 
             var ptlMaster = masterRepository.GetMasterRecord();
 
             var triggers = (triggerReportType == ProductionTriggerReportType.Full)
                 ? repository.FilterBy(t => t.Jobref == jobref && t.Citcode == citCode)
-                : repository.FilterBy(t => t.Jobref == jobref && t.Citcode == citCode);
+                : repository.FilterBy(t => t.Jobref == jobref && t.Citcode == citCode && t.ReportType == "BRIEF");
 
             triggers = triggers.OrderBy(t => t.SortOrder).ThenBy(t => t.EarliestRequestedDate);
 

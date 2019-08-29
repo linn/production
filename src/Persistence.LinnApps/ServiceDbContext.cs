@@ -382,6 +382,7 @@
             q.Property(e => e.SASnbo).HasColumnName("SA_SNBO");
             q.Property(e => e.MWPriority).HasColumnName("MW_PRIORITY");
             q.Property(e => e.CanBuildExSubAssemblies).HasColumnName("CAN_BUILD_EX_SUB_ASSEMBLIES");
+            q.Property(e => e.ReportType).HasColumnName("REPORT_TYPE").HasMaxLength(5);
         }
     }
 }

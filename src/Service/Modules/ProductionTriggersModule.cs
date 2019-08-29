@@ -19,6 +19,7 @@
         private object GetProductionTriggers()
         {
             var resource = this.Bind<ProductionTriggersRequestResource>();
+
             var results =
                 this.productionTriggersFacadeService.GetProductionTriggerReport(resource.Jobref, resource.CitCode,
                     resource.ReportType);

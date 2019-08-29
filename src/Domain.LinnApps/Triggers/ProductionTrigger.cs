@@ -94,6 +94,8 @@
         public int? MWPriority { get; set; }
 
         public int? CanBuildExSubAssemblies { get; set; }
+
+        public string ReportType { get; set; }
     }
 }
 
