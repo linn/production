@@ -22,7 +22,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.requestResource = new SerialNumberReissueResource { ArticleNumber = "art", SernosGroup = "group" } ;
+            this.requestResource = new SerialNumberReissueResource { ArticleNumber = "art", SernosGroup = "group" };
             var serialNumberReissue = new SerialNumberReissue("group", "art");
             this.SerialNumberReissueService.ReissueSerialNumber(Arg.Any<SerialNumberReissueResource>())
                 .Returns(new CreatedResult<SerialNumberReissue>(serialNumberReissue));
@@ -32,9 +32,9 @@
                 with =>
                     {
                         with.Header("Accept", "application/json");
-                    with.Header("Content-Type", "application/json");
-                    with.JsonBody(this.requestResource);
-                }).Result;
+                        with.Header("Content-Type", "application/json");
+                        with.JsonBody(this.requestResource);
+                    }).Result;
         }
 
         [Test]

@@ -1,9 +1,11 @@
 ﻿namespace Linn.Production.Service.Modules
 {
     using Linn.Production.Facade.Services;
+    using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
     using Nancy;
+    using Nancy.ModelBinding;
 
     public sealed class WorksOrdersModule : NancyModule
     {
@@ -19,14 +21,24 @@
 
         private object GetOutstandingWorksOrdersReport()
         {
-            return this.Negotiate.WithModel(this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport())
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            var resource = this.Bind<OutstandingWorksOrdersRequestResource>();
+
+            var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport(resource.ReportType, resource.SearchParameter);
+
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetOutstandingWorksOrdersReportExport()
         {
+            var resource = this.Bind<OutstandingWorksOrdersRequestResource>();
+
+            var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv(resource.ReportType, resource.SearchParameter);
+
             return this.Negotiate
-                .WithModel(this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv())
+                .WithModel(result)
                 .WithAllowedMediaRange("text/csv")
                 .WithView("Index");
         }
