@@ -13,13 +13,13 @@
 
         public DateTime DateRaised { get; set; }
 
-        public string Description { get; set; }
+        public int? Labelsprinted { get; set; }
 
         public int OrderNumber { get; set; }
 
         public string PartNumber { get; set; }
 
-        public int Quantity { get; set; }
+        public int QuantityOutstanding { get; set; }
 
         public int QuantityBuilt { get; set; }
 
@@ -31,7 +31,7 @@
 
         public string Type { get; set; }
 
-        public string WorkStation { get; set; }
+        public string WorkStationCode { get; set; }
 
         public List<AssemblyFail> AssemblyFails { get; set; }
     }

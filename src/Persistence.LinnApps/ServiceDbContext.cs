@@ -159,10 +159,21 @@
 
         protected void BuildWorkOrders(ModelBuilder builder)
         {
-            var e = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
-            e.HasKey(o => o.OrderNumber);
-            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
-            e.Property(o => o.PartNumber).HasColumnName("PART_NUMBER");
+            var q = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
+            q.HasKey(e => e.OrderNumber);
+            q.Property(e => e.CancelledBy).HasColumnName("CANCELLED_BY");
+            q.Property(e => e.DateCancelled).HasColumnName("DATE_CANCELLED");
+            q.Property(e => e.DateRaised).HasColumnName("DATE_RAISED");
+            q.Property(e => e.Labelsprinted).HasColumnName("LABELS_PRINTED");
+            q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER");
+            q.Property(e => e.QuantityOutstanding).HasColumnName("QTY_OUTSTANDING");
+            q.Property(e => e.QuantityBuilt).HasColumnName("QTY_BUILT");
+            q.Property(e => e.RaisedBy).HasColumnName("RAISED_BY");
+            q.Property(e => e.RaisedByDepartment).HasColumnName("RAISED_BY_DEPT").HasMaxLength(10);
+            q.Property(e => e.ReasonCancelled).HasColumnName("REASON_CANCELLED").HasMaxLength(200);
+            q.Property(e => e.Type).HasColumnName("DOC_TYPE").HasMaxLength(6);
+            q.Property(e => e.WorkStationCode).HasColumnName("WORK_STATION_CODE").HasMaxLength(16);
         }
 
         protected void BuildBoardFailTypes(ModelBuilder builder)
