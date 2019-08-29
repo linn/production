@@ -12,11 +12,8 @@ import { Button, Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-// Report type option - ALL, Part Number, Cit
-// on select that show and hide the dropdowns for those two
-
-function OutstandingWorksOrdersReportOptions({ cits, citsLoading }) {
-    const [options, setOptions] = useState({ reportType: 'All', partNumber: '', cit: '' });
+function OutstandingWorksOrdersReportOptions({ cits, citsLoading, history }) {
+    const [options, setOptions] = useState({ reportType: 'All', cit: '' });
     const [citOptions, setCitOptions] = useState([]);
 
     useEffect(() => {
@@ -30,7 +27,19 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading }) {
         }
     }, [cits]);
 
-    const filterOptions = ['All', 'Part Number', 'CIT'];
+    const filterOptions = ['All', 'CIT'];
+
+    const handleClick = () => {
+        const queryString =
+            options.reportType === 'All'
+                ? ''
+                : `?reportType=${options.reportType}&searchParameter=${options.cit}`;
+
+        history.push({
+            pathname: '/production/maintenance/works-orders/outstanding-works-orders-report/report',
+            search: queryString
+        });
+    };
 
     const handleFieldChange = (propertyName, newValue) =>
         setOptions(o => ({ ...o, [propertyName]: newValue }));
@@ -52,14 +61,6 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading }) {
                         />
                     </Grid>
                     <Grid item xs={8} />
-                    {options.reportType === 'Part Number' && (
-                        <Fragment>
-                            <Grid item xs={4}>
-                                <InputField disabled value="FETCH" label="Partz" />
-                            </Grid>
-                            <Grid item xs={8} />
-                        </Fragment>
-                    )}
                     {options.reportType === 'CIT' && (
                         <Fragment>
                             <Grid item xs={4}>
@@ -72,6 +73,11 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading }) {
                                 />
                             </Grid>
                             <Grid item xs={8} />
+                            <Grid item xs={12}>
+                                <Button color="primary" variant="contained" onClick={handleClick}>
+                                    Run Report
+                                </Button>
+                            </Grid>
                         </Fragment>
                     )}
                 </Grid>
