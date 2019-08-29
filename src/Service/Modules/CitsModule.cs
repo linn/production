@@ -6,11 +6,11 @@
 
     using Nancy;
 
-    public class CitModule : NancyModule
+    public class CitsModule : NancyModule
     {
         private readonly IFacadeService<Cit, string, CitResource, CitResource> citService;
 
-        public CitModule(IFacadeService<Cit, string, CitResource, CitResource> citService)
+        public CitsModule(IFacadeService<Cit, string, CitResource, CitResource> citService)
         {
             this.citService = citService;
 
