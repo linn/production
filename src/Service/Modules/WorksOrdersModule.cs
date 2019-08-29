@@ -21,7 +21,6 @@
 
         private object GetOutstandingWorksOrdersReport()
         {
-            // TODO tests with options
             var resource = this.Bind<OutstandingWorksOrdersRequestResource>();
 
             var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport(resource.ReportType, resource.SearchParameter);
