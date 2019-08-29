@@ -26,6 +26,11 @@
             this.CITCode = citCode;
         }
 
+        public ManufacturingOperation()
+        {
+                
+        }
+
         public string RouteCode { get; set; }
 
         public int ManufacturingId { get; set; }
