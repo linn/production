@@ -1,14 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import {
-    ReportTable,
-    Loading,
-    Title,
-    ExportButton,
-    ErrorCard,
-    Dropdown,
-    InputField
-} from '@linn-it/linn-form-components-library';
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Loading, Title, Dropdown } from '@linn-it/linn-form-components-library';
+import { Button, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
@@ -31,9 +23,7 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading, history }) {
 
     const handleClick = () => {
         const queryString =
-            options.reportType === 'All'
-                ? ''
-                : `?reportType=${options.reportType}&searchParameter=${options.cit}`;
+            options.reportType === 'All' ? '' : `?reportType=cit&searchParameter=${options.cit}`;
 
         history.push({
             pathname: '/production/maintenance/works-orders/outstanding-works-orders-report/report',
@@ -73,17 +63,28 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading, history }) {
                                 />
                             </Grid>
                             <Grid item xs={8} />
-                            <Grid item xs={12}>
-                                <Button color="primary" variant="contained" onClick={handleClick}>
-                                    Run Report
-                                </Button>
-                            </Grid>
                         </Fragment>
                     )}
+                    <Grid item xs={12}>
+                        <Button color="primary" variant="contained" onClick={handleClick}>
+                            Run Report
+                        </Button>
+                    </Grid>
                 </Grid>
             )}
         </Page>
     );
 }
+
+OutstandingWorksOrdersReportOptions.propTypes = {
+    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    cits: PropTypes.arrayOf(PropTypes.shape({})),
+    citsLoading: PropTypes.bool
+};
+
+OutstandingWorksOrdersReportOptions.defaultProps = {
+    cits: [],
+    citsLoading: false
+};
 
 export default OutstandingWorksOrdersReportOptions;
