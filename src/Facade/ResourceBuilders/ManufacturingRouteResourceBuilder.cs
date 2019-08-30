@@ -18,6 +18,7 @@
                        {
                            RouteCode = manufacturingRoute.RouteCode,
                            Description = manufacturingRoute.Description,
+                           Notes = manufacturingRoute.Notes,
                            Links = this.BuildLinks(manufacturingRoute).ToArray(),
                            Operations = this.BuildOperations(manufacturingRoute.Operations)
                        };

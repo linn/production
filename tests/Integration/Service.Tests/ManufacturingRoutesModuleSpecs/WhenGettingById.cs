@@ -1,5 +1,7 @@
-﻿namespace Linn.Production.Service.Tests.ManufacturingSkillsModuleSpecs
+﻿namespace Linn.Production.Service.Tests.ManufacturingRoutesModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -9,17 +11,18 @@
     using NSubstitute;
     using NUnit.Framework;
 
-    public class WhenGettingManufacturingSkill : ContextBase
+    public class WhenGettingManufacturingRoute : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
-            var skill = new ManufacturingSkill( "TESTCODE", "desc", 155);
-            this.ManufacturingSkillService.GetById("TESTCODE")
-                .Returns(new SuccessResult<ManufacturingSkill>(skill));
+            var route = new ManufacturingRoute("TESTCODE", "desc", "a note");
+            route.Operations = new List<ManufacturingOperation>();
+            this.ManufacturingRouteService.GetById("TESTCODE")
+                .Returns(new SuccessResult<ManufacturingRoute>(route));
 
             this.Response = this.Browser.Get(
-                "/production/resources/manufacturing-skills/TESTCODE",
+                "/production/resources/manufacturing-routes/TESTCODE",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 
@@ -32,16 +35,16 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingSkillService.Received().GetById("TESTCODE");
+            this.ManufacturingRouteService.Received().GetById("TESTCODE");
         }
 
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<ManufacturingSkillResource>();
-            resource.SkillCode.Should().Be("TESTCODE");
+            var resource = this.Response.Body.DeserializeJson<ManufacturingRouteResource>();
+            resource.RouteCode.Should().Be("TESTCODE");
             resource.Description.Should().Be("desc");
-            resource.HourlyRate.Should().Be(155);
+            resource.Notes.Should().Be("a note");
         }
     }
 }
