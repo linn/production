@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Service.Tests.ManufacturingRoutesModuleSpecs
 {
     using System.Collections.Generic;
-
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
