@@ -11,13 +11,15 @@
 
     public class ManufacturingRouteResourceBuilder : IResourceBuilder<ManufacturingRoute>
     {
+        private readonly ManufacturingOperationsResourceBuilder manufacturingOperationsResourceBuilder = new ManufacturingOperationsResourceBuilder();
         public ManufacturingRouteResource Build(ManufacturingRoute manufacturingRoute)
         {
             return new ManufacturingRouteResource
                        {
                            RouteCode = manufacturingRoute.RouteCode,
                            Description = manufacturingRoute.Description,
-                           Links = this.BuildLinks(manufacturingRoute).ToArray()
+                           Links = this.BuildLinks(manufacturingRoute).ToArray(),
+                           Operations = this.BuildOperations(manufacturingRoute.Operations)
                        };
         }
 
@@ -31,6 +33,11 @@
         private IEnumerable<LinkResource> BuildLinks(ManufacturingRoute manufacturingRoute)
         {
             yield return new LinkResource { Rel = "self", Href = this.GetLocation(manufacturingRoute) };
+        }
+
+        private IEnumerable<ManufacturingOperationResource> BuildOperations(IEnumerable<ManufacturingOperation> operations)
+        {
+            return this.manufacturingOperationsResourceBuilder.Build(operations);
         }
     }
 }

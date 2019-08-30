@@ -50,5 +50,6 @@
         public int LabourPercentage { get; set; }
 
         public string CITCode { get; set; }
+        public ManufacturingRoute ManufacturingRoute { get; set; }
     }
 }

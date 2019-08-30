@@ -347,8 +347,7 @@
             e.Property(s => s.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(10);
             e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
             e.Property(s => s.Notes).HasColumnName("NOTES");
-            builder.Entity<ManufacturingRoute>().HasMany(t => t.Operations);
-
+            builder.Entity<ManufacturingRoute>().HasMany(t => t.Operations).WithOne(x => x.ManufacturingRoute);
         }
 
         private void BuildManufacturingOperations(ModelBuilder builder)
@@ -367,6 +366,8 @@
             e.Property(s => s.CycleTime).HasColumnName("CYCLE_TIME_MINS").HasMaxLength(7);
             e.Property(s => s.LabourPercentage).HasColumnName("LABOUR_PERCENTAGE").HasMaxLength(38);
             e.Property(s => s.CITCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            e.HasOne<ManufacturingRoute>(s => s.ManufacturingRoute).WithMany(g => g.Operations)
+                .HasForeignKey(s => s.RouteCode);
         }
     }
 }

@@ -6,6 +6,8 @@
     using System.Linq;
     using System.Linq.Expressions;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class ManufacturingRoutesRepository : IRepository<ManufacturingRoute, string>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -17,12 +19,12 @@
 
         public ManufacturingRoute FindById(string key)
         {
-            return this.serviceDbContext.ManufacturingRoutes.Where(f => f.RouteCode == key).ToList().FirstOrDefault();
+            return this.serviceDbContext.ManufacturingRoutes.Include(x => x.Operations).Where(f => f.RouteCode == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<ManufacturingRoute> FindAll()
         {
-            return this.serviceDbContext.ManufacturingRoutes;
+            return this.serviceDbContext.ManufacturingRoutes.Include(x => x.Operations);
         }
 
         public void Add(ManufacturingRoute entity)

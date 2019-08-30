@@ -18,20 +18,9 @@
         {
             var a = new ManufacturingRoute("code1", "desc1", "a note");
             var b = new ManufacturingRoute("code2", "desc2", "second note");
-            a.Operations = new List<ManufacturingOperation>()
-                               {
-                                   new ManufacturingOperation(
-                                                                    "code1",
-                                                                    14,
-                                                                    2,
-                                                                    "descrip1",
-                                                                    "skillcode1",
-                                                                    "rsrccd1",
-                                                                    5,
-                                                                    3,
-                                                                    50,
-                                                                    "citcode1")
-                               };
+            a.Operations = new List<ManufacturingOperation>();
+            b.Operations = new List<ManufacturingOperation>();
+
             this.ManufacturingRouteService.GetAll()
                 .Returns(new SuccessResult<IEnumerable<ManufacturingRoute>>(new List<ManufacturingRoute> { a, b }));
 
@@ -59,7 +48,6 @@
             resources.Should().HaveCount(2);
             resources.Should().Contain(a => a.RouteCode == "code1");
             resources.Should().Contain(a => a.RouteCode == "code2");
-            //resources.Find(x => x.RouteCode == "code1").
         }
     }
 }
