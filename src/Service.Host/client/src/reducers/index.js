@@ -1,4 +1,4 @@
-import { reducers as sharedLibraryReducers } from '@linn-it/linn-form-components-library';
+﻿import { reducers as sharedLibraryReducers } from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import assemblyFail from './assemblyFails/assemblyFail';
@@ -11,6 +11,7 @@ import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
+import cits from './cits';
 import manufacturingResources from './manufacturingResources/manufacturingResources';
 import manufacturingResource from './manufacturingResources/manufacturingResource';
 import boardFailTypes from './boardFailTypes/boardFailTypes';
@@ -22,20 +23,21 @@ import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
+    assemblyFailsWaitingListReport,
     ateFaultCode,
     ateFaultCodes,
-    departments,
-    buildsSummaryReport,
-    outstandingWorksOrdersReport,
-    productionMeasures,
     buildsDetailReport,
+    buildsSummaryReport,
+    boardFailType,
+    boardFailTypes,
+    cits,
+    departments,
     manufacturingSkills,
     manufacturingSkill,
     manufacturingResources,
     manufacturingResource,
-    boardFailType,
-    boardFailTypes,
-    assemblyFailsWaitingListReport,
+    outstandingWorksOrdersReport,
+    productionMeasures,
     whoBuiltWhat,
     whoBuiltWhatDetails,
     ...sharedLibraryReducers

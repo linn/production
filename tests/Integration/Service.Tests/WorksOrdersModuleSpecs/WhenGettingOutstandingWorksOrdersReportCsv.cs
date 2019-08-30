@@ -17,12 +17,17 @@
         [SetUp]
         public void SetUp()
         {
-            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv()
+            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv(null, null)
                 .Returns(new SuccessResult<IEnumerable<IEnumerable<string>>>(new List<List<string>>()));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/works-orders/outstanding-works-orders-report/export",
-                with => { with.Header("Accept", "text/csv"); }).Result;
+                with =>
+                    {
+                        with.Header("Accept", "text/csv");
+                        with.Query("reportType", string.Empty);
+                        with.Query("searchParameter", string.Empty);
+                    }).Result;
         }
 
         [Test]
@@ -34,7 +39,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReportCsv();
+            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReportCsv(null, null);
         }
     }
 }
