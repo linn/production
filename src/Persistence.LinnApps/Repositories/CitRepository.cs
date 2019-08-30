@@ -3,7 +3,6 @@
     using System;
     using System.Linq;
     using System.Linq.Expressions;
-
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
 
@@ -18,7 +17,7 @@
 
         public Cit FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Cits.Where(c => c.Code == key).ToList().SingleOrDefault();
         }
 
         public IQueryable<Cit> FindAll()

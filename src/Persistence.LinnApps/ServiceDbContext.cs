@@ -46,13 +46,15 @@
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
-        private DbSet<PtlMaster> PtlMasterSet { get; set; }
+        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
 
-        private DbSet<OsrRunMaster> OsrRunMasterSet { get; set; }
+        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
+
+        public DbQuery<ProductionTrigger> ProductionTriggers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -73,8 +75,9 @@
             this.BuildEmployees(builder);
             this.BuildAssemblyFailFaultCodes(builder);
             this.BuildAssemblyFailFaultCodes(builder);
-            this.BuildPtlMaster(builder);
-            this.BuildOsrRunMaster(builder);
+            this.QueryPtlMaster(builder);
+            this.QueryOsrRunMaster(builder);
+            this.QueryProductionTriggers(builder);
             base.OnModelCreating(builder);
         }
 
@@ -310,11 +313,10 @@
             q.Property(e => e.FullName).HasColumnName("USER_NAME");
         }
 
-        private void BuildPtlMaster(ModelBuilder builder)
+        private void QueryPtlMaster(ModelBuilder builder)
         {
-            var q = builder.Entity<PtlMaster>();
-            q.HasKey(e => e.LastFullRunJobref);
-            q.ToTable("PTL_MASTER");
+            var q = builder.Query<PtlMaster>();
+            q.ToView("PTL_MASTER");
             q.Property(e => e.LastFullRunJobref).HasColumnName("LAST_FULL_RUN_JOBREF").HasMaxLength(6); 
             q.Property(e => e.LastFullRunDateTime).HasColumnName("LAST_FULL_RUN_DATE");
             q.Property(e => e.LastPtlShortageJobref).HasColumnName("LAST_PTL_SHORTAGE_JOBREF").HasMaxLength(6);
@@ -322,14 +324,65 @@
             q.Property(e => e.Status).HasColumnName("STATUS").HasMaxLength(2000);
         }
 
-        private void BuildOsrRunMaster(ModelBuilder builder)
+        private void QueryOsrRunMaster(ModelBuilder builder)
         {
-            var q = builder.Entity<OsrRunMaster>();
-            q.HasKey(e => e.RunDateTime);
-            q.ToTable("OSR_RUN_MASTER");
+            var q = builder.Query<OsrRunMaster>();
+            q.ToView("OSR_RUN_MASTER");
             q.Property(e => e.LastTriggerJobref).HasColumnName("LAST_TRIGGER_JOBREF").HasMaxLength(6);
             q.Property(e => e.LastTriggerRunDateTime).HasColumnName("LAST_TRIGGER_RUNDATE");
             q.Property(e => e.RunDateTime).HasColumnName("RUN_DATETIME");
+        }
+
+        private void QueryProductionTriggers(ModelBuilder builder)
+        {
+            var q = builder.Query<ProductionTrigger>();
+            q.ToView("V_PRODUCTION_TRIGGERS_EF");
+            q.Property(e => e.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION").HasMaxLength(100);
+            q.Property(e => e.Citcode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(e => e.CitName).HasColumnName("CIT_NAME").HasMaxLength(50);
+            q.Property(e => e.TriggerLevel).HasColumnName("TRIGGER_LEVEL");
+            q.Property(e => e.KanbanSize).HasColumnName("KANBAN_SIZE");
+            q.Property(e => e.EffectiveKanbanSize).HasColumnName("EFFECTIVE_KANBAN_SIZE");
+            q.Property(e => e.MaximumKanbans).HasColumnName("MAXIMUM_KANBANS");
+            q.Property(e => e.MfgRouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(20);
+            q.Property(e => e.DaysToBuildKanban).HasColumnName("DAYS_TO_BUILD_KANBAN");
+            q.Property(e => e.NettSalesOrders).HasColumnName("NETT_SALES_ORDERS");
+            q.Property(e => e.QtyFree).HasColumnName("QTY_FREE");
+            q.Property(e => e.RemainingBuild).HasColumnName("REMAINING_BUILD");
+            q.Property(e => e.QtyBeingBuilt).HasColumnName("QTY_BEING_BUILT");
+            q.Property(e => e.ReqtForSalesOrdersBE).HasColumnName("ReqtForSalesOrdersBE");
+            q.Property(e => e.ReqtForInternalCustomersBI).HasColumnName("ReqtForInternalCustomersBI");
+            q.Property(e => e.ReqtForInternalAndTriggerLevelBT).HasColumnName("ReqtForInternalAndTriggerLevelBT");
+            q.Property(e => e.ReqtForSalesOrdersGBE).HasColumnName("ReqtForSalesOrdersGBE");
+            q.Property(e => e.ReqtForInternalCustomersGBI).HasColumnName("ReqtForInternalCustomersGBI");
+            q.Property(e => e.FixedBuild).HasColumnName("FIXED_BUILD");
+            q.Property(e => e.Priority).HasColumnName("PRIORITY").HasMaxLength(1);
+            q.Property(e => e.ReqtFromFixedBuild).HasColumnName("REQT_FROM_FIXED_BUILD").HasMaxLength(1);
+            q.Property(e => e.DaysTriggerLasts).HasColumnName("LDAYS");
+            q.Property(e => e.Story).HasColumnName("STORY").HasMaxLength(200);
+            q.Property(e => e.OnHold).HasColumnName("ON_HOLD").HasMaxLength(9);
+            q.Property(e => e.ReasonStarted).HasColumnName("REASON_STARTED").HasMaxLength(2000);
+            q.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
+            q.Property(e => e.ShortNowBackOrdered).HasColumnName("SNBO");
+            q.Property(e => e.ShortNowMonthEnd).HasColumnName("SNME");
+            q.Property(e => e.QtyBeingBuiltDays).HasColumnName("QTY_BEING_BUILT_DAYS");
+            q.Property(e => e.ReqtForSalesOrdersBEDays).HasColumnName("BE_DAYS");
+            q.Property(e => e.ReqtForInternalCustomersBIDays).HasColumnName("BI_DAYS");
+            q.Property(e => e.ReqtForInternalTriggerBTDays).HasColumnName("BT_DAYS");
+            q.Property(e => e.FixedBuildDays).HasColumnName("FIXED_BUILD_DAYS");
+            q.Property(e => e.QtyNFlagged).HasColumnName("QTY_N_FLAGGED");
+            q.Property(e => e.QtyFFlagged).HasColumnName("QTY_F_FLAGGED");
+            q.Property(e => e.QtyYFlagged).HasColumnName("QTY_Y_FLAGGED");
+            q.Property(e => e.EarliestRequestedDate).HasColumnName("EARLIEST_REQUESTED_DATE");
+            q.Property(e => e.StockReqtPercNt).HasColumnName("STOCK_REQT_PCNT");
+            q.Property(e => e.CanBuild).HasColumnName("CAN_BUILD");
+            q.Property(e => e.QtyManualWo).HasColumnName("QTY_MANUAL_WO");
+            q.Property(e => e.StockAvailableShortNowBackOrdered).HasColumnName("SA_SNBO");
+            q.Property(e => e.MWPriority).HasColumnName("MW_PRIORITY");
+            q.Property(e => e.CanBuildExSubAssemblies).HasColumnName("CAN_BUILD_EX_SUB_ASSEMBLIES");
+            q.Property(e => e.ReportType).HasColumnName("REPORT_TYPE").HasMaxLength(5);
         }
     }
 }

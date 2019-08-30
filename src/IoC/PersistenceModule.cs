@@ -7,6 +7,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -34,9 +35,11 @@
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
             builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
             builder.RegisterType<OsrRunMasterRepository>().As<IMasterRepository<OsrRunMaster>>();
+            builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
+            builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
         }
     }
 }

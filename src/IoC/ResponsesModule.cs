@@ -11,6 +11,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.ResourceBuilders;
 
     public class ResponsesModule : Module
@@ -40,6 +41,7 @@
             builder.RegisterType<ManufacturingResourcesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingResource>>>();
             builder.RegisterType<OsrInfoResourceBuilder>().As<IResourceBuilder<OsrInfo>>();
+            builder.RegisterType<ProductionTriggersReportResourceBuilder>().As<IResourceBuilder<ProductionTriggersReport>>();
         }
     }
 }

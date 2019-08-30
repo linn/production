@@ -49,6 +49,12 @@
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
+            builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            builder.RegisterType<ManufacturingSkillService>()
+                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
+            builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
+            builder.RegisterType<ManufacturingResourceService>()
+                .As<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -60,15 +66,8 @@
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
+            builder.RegisterType<ProductionTriggersFacadeService>().As<IProductionTriggersFacadeService>();
 
-            // facade services
-            builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
-            builder.RegisterType<ManufacturingSkillService>()
-                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
-            builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
-            builder.RegisterType<ManufacturingResourceService>()
-                .As<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
-            
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
             builder.RegisterType<SalesArticleProxy>().As<ISalesArticleService>().WithParameter("rootUri", ConfigurationManager.Configuration["PROXY_ROOT"]);
