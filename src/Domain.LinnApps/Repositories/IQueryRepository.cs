@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Persistence.LinnApps.Repositories
+﻿namespace Linn.Production.Domain.LinnApps.Repositories
 {
     using System;
     using System.Linq;

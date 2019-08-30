@@ -11,7 +11,6 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.ResourceBuilders;
 

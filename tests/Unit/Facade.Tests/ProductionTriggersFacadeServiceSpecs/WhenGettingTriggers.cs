@@ -13,7 +13,6 @@
 
     public class WhenGettingTriggers : ContextBase
     {
-
         private IResult<ProductionTriggersReport> result;
 
         [SetUp]

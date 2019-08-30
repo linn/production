@@ -7,7 +7,6 @@
 
     public class WhenGettingTriggersWithNonexistentCitCode : ContextBase
     {
-
         private IResult<ProductionTriggersReport> result;
 
         [SetUp]

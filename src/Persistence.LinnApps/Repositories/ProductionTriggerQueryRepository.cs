@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Linq.Expressions;
+    using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.Triggers;
 
     public class ProductionTriggerQueryRepository : IQueryRepository<ProductionTrigger>

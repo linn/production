@@ -9,7 +9,6 @@
 
     public class WhenGettingTriggersWithNoCit : ContextBase
     {
-
         private IResult<ProductionTriggersReport> result;
 
         [SetUp]

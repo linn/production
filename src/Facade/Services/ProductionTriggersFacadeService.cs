@@ -9,13 +9,13 @@
 
     public class ProductionTriggersFacadeService : IProductionTriggersFacadeService
     {
-        private readonly IQueryRepository<ProductionTrigger> repository;
+        private readonly Domain.LinnApps.Repositories.IQueryRepository<ProductionTrigger> repository;
 
         private readonly IMasterRepository<PtlMaster> masterRepository;
 
         private readonly IRepository<Cit, string> citRepository;
 
-        public ProductionTriggersFacadeService(IQueryRepository<ProductionTrigger> repository, IRepository<Cit, string> citRepository, IMasterRepository<PtlMaster> masterRepository)
+        public ProductionTriggersFacadeService(Domain.LinnApps.Repositories.IQueryRepository<ProductionTrigger> repository, IRepository<Cit, string> citRepository, IMasterRepository<PtlMaster> masterRepository)
         {
             this.repository = repository;
             this.citRepository = citRepository;
@@ -57,19 +57,7 @@
 
             var ptlMaster = masterRepository.GetMasterRecord();
 
-            var triggers = (triggerReportType == ProductionTriggerReportType.Full)
-                ? repository.FilterBy(t => t.Jobref == jobref && t.Citcode == citCode)
-                : repository.FilterBy(t => t.Jobref == jobref && t.Citcode == citCode && t.ReportType == "BRIEF");
-
-            triggers = triggers.OrderBy(t => t.SortOrder).ThenBy(t => t.EarliestRequestedDate);
-
-            var report = new ProductionTriggersReport()
-            {
-                ReportType = triggerReportType,
-                PtlMaster = ptlMaster.LastFullRunJobref == jobref ? ptlMaster : null,
-                Cit = cit,
-                Triggers = triggers
-            };
+            var report = new ProductionTriggersReport(jobref, ptlMaster, cit, triggerReportType, repository);
 
             return new SuccessResult<ProductionTriggersReport>(report);
         }

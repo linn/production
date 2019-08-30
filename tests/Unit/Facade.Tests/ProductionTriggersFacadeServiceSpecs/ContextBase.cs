@@ -12,7 +12,7 @@
     {
         protected ProductionTriggersFacadeService Sut { get; set; }
 
-        protected IQueryRepository<ProductionTrigger> ProductionTriggerQueryRepository { get; private set; }
+        protected Domain.LinnApps.Repositories.IQueryRepository<ProductionTrigger> ProductionTriggerQueryRepository { get; private set; }
 
         protected IMasterRepository<PtlMaster> PtlMasterRepository { get; private set; }
 
@@ -21,7 +21,7 @@
         [SetUp]
         public void SetUpContext()
         {
-            this.ProductionTriggerQueryRepository = Substitute.For<IQueryRepository<ProductionTrigger>>();
+            this.ProductionTriggerQueryRepository = Substitute.For<Domain.LinnApps.Repositories.IQueryRepository<ProductionTrigger>>();
             this.PtlMasterRepository = Substitute.For<IMasterRepository<PtlMaster>>();
             this.CitRepository = Substitute.For<IRepository<Cit, string>> ();
             this.Sut = new ProductionTriggersFacadeService(this.ProductionTriggerQueryRepository, this.CitRepository, this.PtlMasterRepository);

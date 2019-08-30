@@ -7,7 +7,6 @@
 
     public class WhenGettingTriggersWithNoJobRef : ContextBase
     {
-
         private IResult<ProductionTriggersReport> result;
 
         [SetUp]
