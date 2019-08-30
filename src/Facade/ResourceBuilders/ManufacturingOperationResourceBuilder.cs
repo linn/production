@@ -2,8 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
@@ -14,7 +12,7 @@
         public ManufacturingOperationResource Build(ManufacturingOperation manufacturingOperation)
         {
             return new ManufacturingOperationResource
-                       {
+            {
                 RouteCode = manufacturingOperation.RouteCode,
                 ManufacturingId = manufacturingOperation.ManufacturingId,
                 OperationNumber = manufacturingOperation.OperationNumber,
@@ -25,7 +23,7 @@
                 CycleTime = manufacturingOperation.CycleTime,
                 LabourPercentage = manufacturingOperation.LabourPercentage,
                 CITCode = manufacturingOperation.CITCode
-        };
+            };
         }
 
         public string GetLocation(ManufacturingOperation manufacturingOperation)

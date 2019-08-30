@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
@@ -12,16 +11,17 @@
     public class ManufacturingRouteResourceBuilder : IResourceBuilder<ManufacturingRoute>
     {
         private readonly ManufacturingOperationsResourceBuilder manufacturingOperationsResourceBuilder = new ManufacturingOperationsResourceBuilder();
+
         public ManufacturingRouteResource Build(ManufacturingRoute manufacturingRoute)
         {
             return new ManufacturingRouteResource
-                       {
-                           RouteCode = manufacturingRoute.RouteCode,
-                           Description = manufacturingRoute.Description,
-                           Notes = manufacturingRoute.Notes,
-                           Links = this.BuildLinks(manufacturingRoute).ToArray(),
-                           Operations = this.BuildOperations(manufacturingRoute.Operations)
-                       };
+            {
+                RouteCode = manufacturingRoute.RouteCode,
+                Description = manufacturingRoute.Description,
+                Notes = manufacturingRoute.Notes,
+                Links = this.BuildLinks(manufacturingRoute).ToArray(),
+                Operations = this.BuildOperations(manufacturingRoute.Operations)
+            };
         }
 
         public string GetLocation(ManufacturingRoute manufacturingRoute)

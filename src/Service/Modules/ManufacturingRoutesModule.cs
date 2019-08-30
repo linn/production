@@ -5,7 +5,6 @@
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
     using Nancy;
-    using Nancy.ModelBinding;
 
     public sealed class ManufacturingRoutesModule : NancyModule
     {
