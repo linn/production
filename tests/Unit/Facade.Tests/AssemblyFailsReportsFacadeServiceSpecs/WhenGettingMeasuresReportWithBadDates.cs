@@ -7,7 +7,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps.Reports;
+    using Linn.Production.Domain.LinnApps.Reports.OptionTypes;
 
     using NSubstitute;
 
@@ -29,7 +29,7 @@
             this.ReportService.DidNotReceive().GetAssemblyFailsMeasuresReport(
                 Arg.Any<DateTime>(),
                 Arg.Any<DateTime>(),
-                AssemblyFailGroupBy.partNumber);
+                AssemblyFailGroupBy.boardPartNumber);
         }
 
         [Test]

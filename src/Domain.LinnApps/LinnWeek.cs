@@ -16,6 +16,6 @@
 
         public string WeekEndingDDMON { get; set; }
 
-        public int LinnMonthEndWeekNumber { get; set; }
+        public int? LinnMonthEndWeekNumber { get; set; }
     }
 }

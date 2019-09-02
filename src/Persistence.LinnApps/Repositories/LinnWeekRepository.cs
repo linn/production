@@ -51,13 +51,14 @@
         public IEnumerable<LinnWeek> GetWeeks(DateTime startDate, DateTime endDate)
         {
             return this.serviceDbContext.LinnWeeks
-                .Where(f => f.StartDate <= startDate && f.EndDate >= endDate).ToList();
+                .Where(f => f.StartDate >= startDate && f.EndDate <= endDate && f.LinnWeekNumber > 0).ToList();
         }
 
         public LinnWeek GetWeek(DateTime date)
         {
             return this.serviceDbContext.LinnWeeks
-                .Where(f => f.StartDate <= date && f.EndDate >= date).ToList().FirstOrDefault();
+                .Where(f => f.StartDate >= date && f.EndDate <= date && f.LinnWeekNumber > 0)
+                .ToList().FirstOrDefault();
         }
     }
 }

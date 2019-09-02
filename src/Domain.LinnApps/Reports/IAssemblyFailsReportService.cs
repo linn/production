@@ -3,6 +3,7 @@
     using System;
 
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Reports.OptionTypes;
 
     public interface IAssemblyFailsReportService
     {

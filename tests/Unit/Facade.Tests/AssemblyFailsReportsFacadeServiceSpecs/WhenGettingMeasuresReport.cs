@@ -5,7 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps.Reports;
+    using Linn.Production.Domain.LinnApps.Reports.OptionTypes;
 
     using NSubstitute;
 
@@ -18,7 +18,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.ReportService.GetAssemblyFailsMeasuresReport(1.May(2020), 1.July(2020), AssemblyFailGroupBy.partNumber)
+            this.ReportService.GetAssemblyFailsMeasuresReport(1.May(2020), 1.July(2020), AssemblyFailGroupBy.boardPartNumber)
                 .Returns(new ResultsModel { ReportTitle = new NameModel("name") });
             this.result = this.Sut.GetAssemblyFailsMeasuresReport(1.May(2020).ToString("O"), 1.July(2020).ToString("O"));
         }
@@ -26,7 +26,7 @@
         [Test]
         public void ShouldGetReport()
         {
-            this.ReportService.Received().GetAssemblyFailsMeasuresReport(1.May(2020), 1.July(2020), AssemblyFailGroupBy.partNumber);
+            this.ReportService.Received().GetAssemblyFailsMeasuresReport(1.May(2020), 1.July(2020), AssemblyFailGroupBy.boardPartNumber);
         }
 
         [Test]

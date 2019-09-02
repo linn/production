@@ -5,6 +5,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Reports;
+    using Linn.Production.Domain.LinnApps.Reports.OptionTypes;
 
     public class AssemblyFailsReportsFacadeService : IAssemblyFailsReportsFacadeService
     {
@@ -22,6 +23,16 @@
 
         public IResult<ResultsModel> GetAssemblyFailsMeasuresReport(string fromDate, string toDate)
         {
+            if (string.IsNullOrEmpty(toDate))
+            {
+                toDate = DateTime.UtcNow.Date.ToString("O");
+            }
+
+            if (string.IsNullOrEmpty(fromDate))
+            {
+                fromDate = DateTime.Parse(toDate).AddMonths(-4).ToString("O");
+            }
+
             DateTime from;
             DateTime to;
             try
@@ -34,7 +45,7 @@
                 return new BadRequestResult<ResultsModel>("Invalid dates supplied to assembly fails measures report");
             }
 
-            return new SuccessResult<ResultsModel>(this.reportService.GetAssemblyFailsMeasuresReport(from, to, AssemblyFailGroupBy.partNumber));
+            return new SuccessResult<ResultsModel>(this.reportService.GetAssemblyFailsMeasuresReport(from, to, AssemblyFailGroupBy.boardPartNumber));
         }
     }
 }

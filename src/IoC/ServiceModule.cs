@@ -15,6 +15,7 @@
     using Linn.Common.Proxy;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
+    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -31,6 +32,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
             builder.RegisterType<AssemblyFailsReportService>().As<IAssemblyFailsReportService>();
+            builder.RegisterType<LinnWeekService>().As<ILinnWeekService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();

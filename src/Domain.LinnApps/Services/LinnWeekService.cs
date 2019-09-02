@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Production.Domain.LinnApps.Repositories;
 
@@ -17,6 +18,11 @@
         public IEnumerable<LinnWeek> GetWeeks(DateTime startDate, DateTime endDate)
         {
             return this.linnWeekRepository.GetWeeks(startDate, endDate);
+        }
+
+        public LinnWeek GetWeek(DateTime date, IEnumerable<LinnWeek> weeks)
+        {
+            return weeks.FirstOrDefault(w => w.StartDate <= date.Date && w.EndDate >= date.Date);
         }
 
         public LinnWeek GetWeek(DateTime date)
