@@ -30,7 +30,7 @@
 
         private object GetById(string routeCode, string manufacturingId)
         {
-            var result = this.manufacturingOperationsService.GetById(routeCode, manufacturingId);
+            var result = this.manufacturingOperationsService.GetById(routeCode, int.Parse(manufacturingId));
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -41,7 +41,7 @@
         {
             var resource = this.Bind<ManufacturingOperationResource>();
 
-            var result = this.manufacturingOperationsService.Update(routeCode, manufacturingId, resource);
+            var result = this.manufacturingOperationsService.Update(routeCode, int.Parse(manufacturingId), resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

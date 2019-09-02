@@ -16,7 +16,7 @@
             this.manufacturingOperationRepository = repository;
         }
 
-        public IResult<ManufacturingOperation> Update(string routeCode, string manufacturingId, ManufacturingOperationResource resource)
+        public IResult<ManufacturingOperation> Update(string routeCode, int manufacturingId, ManufacturingOperationResource resource)
         {
             var result = this.GetById(routeCode, manufacturingId);
 
@@ -33,10 +33,10 @@
             return new SuccessResult<ManufacturingOperation>(operation);
         }
 
-        public IResult<ManufacturingOperation> GetById(string routeCode, string manufacturingId)
+        public IResult<ManufacturingOperation> GetById(string routeCode, int manufacturingId)
         {
             var operation = this.manufacturingOperationRepository.FindBy(
-                x => x.RouteCode == routeCode && x.ManufacturingId == int.Parse(manufacturingId));
+                x => x.RouteCode == routeCode && x.ManufacturingId == manufacturingId);
 
             if (operation == null)
             {

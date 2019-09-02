@@ -8,9 +8,9 @@
     {
         IResult<ManufacturingOperation> Update(
             string routeCode,
-            string manufacturingId,
+            int manufacturingId,
             ManufacturingOperationResource resource);
 
-        IResult<ManufacturingOperation> GetById(string routeCode, string manufacturingId);
+        IResult<ManufacturingOperation> GetById(string routeCode, int manufacturingId);
     }
 }
