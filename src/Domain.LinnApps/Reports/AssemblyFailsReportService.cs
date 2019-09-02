@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
+    using System;
     using System.Globalization;
     using System.Linq;
 
@@ -8,13 +9,13 @@
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
-    public class AssemblyFailsWaitingListReportService : IAssemblyFailsWaitingListReportService
+    public class AssemblyFailsReportService : IAssemblyFailsReportService
     {
         private readonly IRepository<AssemblyFail, int> assemblyFailsRepository;
 
         private readonly ILinnWeekPack weekPack;
 
-        public AssemblyFailsWaitingListReportService(ILinnWeekPack weekPack, IRepository<AssemblyFail, int> assemblyFailRepository)
+        public AssemblyFailsReportService(ILinnWeekPack weekPack, IRepository<AssemblyFail, int> assemblyFailRepository)
         {
             this.assemblyFailsRepository = assemblyFailRepository;
             this.weekPack = weekPack;
@@ -57,6 +58,11 @@
 
             results.RowDrillDownTemplates.Add(new DrillDownModel("Id", "/production/quality/assembly-fails/{rowId}"));
             return results;
+        }
+
+        public ResultsModel GetAssemblyFailsMeasuresReport(DateTime fromDate, DateTime toDate, AssemblyFailGroupBy groupBy)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -30,7 +30,7 @@
             builder.RegisterType<WhoBuiltWhatReport>().As<IWhoBuiltWhatReport>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
-            builder.RegisterType<AssemblyFailsWaitingListReportService>().As<IAssemblyFailsWaitingListReportService>();
+            builder.RegisterType<AssemblyFailsReportService>().As<IAssemblyFailsReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -42,8 +42,8 @@
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
             builder.RegisterType<WhoBuiltWhatReportFacadeService>().As<IWhoBuiltWhatReportFacadeService>();
             builder.RegisterType<CitService>().As<IFacadeService<Cit, string, CitResource, CitResource>>();
-            builder.RegisterType<AssemblyFailsWaitingListReportFacadeService>()
-                .As<IAssemblyFailsWaitingListReportFacadeService>();
+            builder.RegisterType<AssemblyFailsReportsFacadeService>()
+                .As<IAssemblyFailsReportsFacadeService>();
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             builder.RegisterType<ManufacturingSkillService>()
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();

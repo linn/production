@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.AssemblyFailsWaitingListReportModuleSpecs
+﻿namespace Linn.Production.Service.Tests.AssemblyFailsReportsModuleSpecs
 {
     using System.Linq;
 
@@ -21,7 +21,7 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.AssemblyFailsWaitingListReportFacade.GetAssemblyFailsWaitingListReport().Returns(
+            this.AssemblyFailsReportsFacade.GetAssemblyFailsWaitingListReport().Returns(
                 new SuccessResult<ResultsModel>(results)
                     {
                         Data = new ResultsModel
@@ -48,7 +48,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.AssemblyFailsWaitingListReportFacade.Received().GetAssemblyFailsWaitingListReport();
+            this.AssemblyFailsReportsFacade.Received().GetAssemblyFailsWaitingListReport();
         }
 
         [Test]

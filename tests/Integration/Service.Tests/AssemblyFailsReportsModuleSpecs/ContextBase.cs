@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.AssemblyFailsWaitingListReportModuleSpecs
+﻿namespace Linn.Production.Service.Tests.AssemblyFailsReportsModuleSpecs
 {
     using System.Collections.Generic;
     using System.Security.Claims;
@@ -18,19 +18,19 @@
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IAssemblyFailsWaitingListReportFacadeService AssemblyFailsWaitingListReportFacade { get; set; }
+        protected IAssemblyFailsReportsFacadeService AssemblyFailsReportsFacade { get; set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.AssemblyFailsWaitingListReportFacade = Substitute.For<IAssemblyFailsWaitingListReportFacadeService>();
+            this.AssemblyFailsReportsFacade = Substitute.For<IAssemblyFailsReportsFacadeService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
-                    with.Dependency(this.AssemblyFailsWaitingListReportFacade);
+                    with.Dependency(this.AssemblyFailsReportsFacade);
                     with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
-                    with.Module<AssemblyFailsWaitingListReportModule>();
+                    with.Module<AssemblyFailsReportsModule>();
                     with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                     with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
 
