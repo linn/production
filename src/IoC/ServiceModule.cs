@@ -62,8 +62,6 @@
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<ManufacturingRouteService>()
                 .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
-            builder.RegisterType<ManufacturingOperationsService>()
-                .As<IFacadeService<ManufacturingOperation, string, ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ManufacturingResourceService>()
                 .As<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
@@ -74,6 +72,8 @@
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
+
+            builder.RegisterType<ManufacturingOperationsService>().As<IManufacturingOperationsFacade>();
 
             // Oracle connection
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter(

@@ -26,9 +26,8 @@
             this.CITCode = citCode;
         }
 
-        public ManufacturingOperation()
+        private ManufacturingOperation()
         {
-                
         }
 
         public string RouteCode { get; set; }
@@ -50,6 +49,7 @@
         public int LabourPercentage { get; set; }
 
         public string CITCode { get; set; }
+
         public ManufacturingRoute ManufacturingRoute { get; set; }
     }
 }
