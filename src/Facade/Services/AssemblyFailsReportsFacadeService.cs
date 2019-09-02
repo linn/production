@@ -30,7 +30,7 @@
 
             if (string.IsNullOrEmpty(fromDate))
             {
-                fromDate = DateTime.Parse(toDate).AddMonths(-4).ToString("O");
+                fromDate = DateTime.Parse(toDate).AddMonths(-4).Date.ToString("O");
             }
 
             DateTime from;
