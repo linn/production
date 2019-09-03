@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -18,9 +19,9 @@
 
         object IResourceBuilder<IEnumerable<Cit>>.Build(IEnumerable<Cit> cits) => this.Build(cits);
 
-        public string GetLocation(IEnumerable<Cit> model)
+        public string GetLocation(IEnumerable<Cit> cits)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

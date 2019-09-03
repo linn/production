@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -14,9 +15,9 @@
         {
             return new CitResource
                        {
-                           BuildGroup = cit.BuildGroup,
                            Code = cit.Code,
                            Name = cit.Name,
+                           BuildGroup = cit.BuildGroup,
                            SortOrder = cit.SortOrder,
                            Links = this.BuildLinks(cit).ToArray()
                        };

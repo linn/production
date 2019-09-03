@@ -18,12 +18,12 @@
 
         public Cit FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Cits.Where(c => c.Code == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<Cit> FindAll()
         {
-            return this.serviceDbContext.Cits;
+            return this.serviceDbContext.Cits.OrderBy(c => c.SortOrder);
         }
 
         public void Add(Cit entity)
@@ -47,3 +47,4 @@
         }
     }
 }
+
