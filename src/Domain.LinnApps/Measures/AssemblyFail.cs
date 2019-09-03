@@ -22,7 +22,7 @@
 
         public string Shift { get; set; }
 
-        public string Batch { get; set; } 
+        public string Batch { get; set; }
 
         public string AoiEscape { get; set; }
 

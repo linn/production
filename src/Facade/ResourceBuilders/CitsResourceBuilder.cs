@@ -14,7 +14,7 @@
 
         public IEnumerable<CitResource> Build(IEnumerable<Cit> cits)
         {
-            return cits.Select(a => this.citResourceBuilder.Build(a));
+            return cits.Select(c => this.citResourceBuilder.Build(c));
         }
 
         object IResourceBuilder<IEnumerable<Cit>>.Build(IEnumerable<Cit> cits) => this.Build(cits);

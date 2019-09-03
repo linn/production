@@ -12,7 +12,7 @@ import Tab from '@material-ui/core/Tab';
 import LinkTabCell from './LinkTabCell';
 import TabCell from './TabCell';
 
-function ProductionMeasuresCits({ citsData, config }) {
+function ProductionMeasuresCits({ citsData, infoData, config }) {
     const [tabValue, setValue] = React.useState(0);
     const [hoverHref, setHoverHref] = React.useState(null);
 
@@ -172,7 +172,7 @@ function ProductionMeasuresCits({ citsData, config }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -181,7 +181,7 @@ function ProductionMeasuresCits({ citsData, config }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -190,7 +190,7 @@ function ProductionMeasuresCits({ citsData, config }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -354,11 +354,13 @@ function ProductionMeasuresCits({ citsData, config }) {
 }
 
 ProductionMeasuresCits.propTypes = {
-    citsData: PropTypes.shape({})
+    citsData: PropTypes.shape({}),
+    infoData: PropTypes.shape({})
 };
 
 ProductionMeasuresCits.defaultProps = {
-    citsData: null
+    citsData: null,
+    infoData: null
 };
 
 export default ProductionMeasuresCits;

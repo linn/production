@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.AssemblyFailsWaitingListReportModuleSpecs
+﻿namespace Linn.Production.Service.Tests.WorksOrdersModuleSpecs
 {
     using System.Linq;
 
@@ -15,13 +15,13 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingAssemblyFailsWaitingListReport : ContextBase
+    public class WhenGettingOutstandingWorksOrdersReportWithSearchParameters : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.AssemblyFailsWaitingListReportFacade.GetAssemblyFailsWaitingListReport().Returns(
+            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport("part-number", "MCP%201717/PP").Returns(
                 new SuccessResult<ResultsModel>(results)
                     {
                         Data = new ResultsModel
@@ -32,10 +32,12 @@
                     });
 
             this.Response = this.Browser.Get(
-                "/production/reports/assembly-fails-waiting-list",
+                "/production/maintenance/works-orders/outstanding-works-orders-report",
                 with =>
                     {
                         with.Header("Accept", "application/json");
+                        with.Query("reportType", "part-number");
+                        with.Query("searchParameter", "MCP%201717/PP");
                     }).Result;
         }
 
@@ -48,7 +50,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.AssemblyFailsWaitingListReportFacade.Received().GetAssemblyFailsWaitingListReport();
+            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReport("part-number", "MCP%201717/PP");
         }
 
         [Test]

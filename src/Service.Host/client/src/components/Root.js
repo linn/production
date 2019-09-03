@@ -14,6 +14,7 @@ import App from './App';
 import Callback from '../containers/Callback';
 import userManager from '../helpers/userManager';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
+import OutstandingWorksOrdersReportOptions from '../containers/reports/OutstandingWorksOrdersReportOptions';
 import 'typeface-roboto';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
@@ -77,15 +78,24 @@ const Root = ({ store }) => (
                                     <Switch>
                                         <Route
                                             exact
+                                            path="/production/maintenance/signin-oidc-client"
+                                            component={Callback}
+                                        />
+
+                                        <Route
+                                            exact
                                             path="/production/maintenance"
                                             component={App}
                                         />
+
                                         <Route exact path="/production/quality" component={App} />
+
                                         <Route
                                             exact
                                             path="/production/quality/ate"
                                             component={App}
                                         />
+
                                         <Route
                                             exact
                                             path="/production/maintenance/works-orders"
@@ -93,13 +103,12 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-                                            path="/production/maintenance/signin-oidc-client"
-                                            component={Callback}
+                                            path="/production/maintenance/works-orders/outstanding-works-orders-report"
+                                            component={OutstandingWorksOrdersReportOptions}
                                         />
-
                                         <Route
                                             exact
-                                            path="/production/maintenance/works-orders/outstanding-works-orders-report"
+                                            path="/production/maintenance/works-orders/outstanding-works-orders-report/report"
                                             component={OutstandingWorksOrdersReport}
                                         />
 

@@ -12,6 +12,8 @@ export const ateFaultCodes = new ItemType(
     '/production/quality/ate/fault-codes'
 );
 
+export const cits = new ItemType('cits', 'CITS', '/production/maintenance/cits');
+
 export const salesArticle = new ItemType(
     'salesArticle',
     'SALES_ARTICLE',

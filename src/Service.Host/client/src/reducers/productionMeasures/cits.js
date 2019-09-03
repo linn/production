@@ -1,13 +1,13 @@
-function productionMeasures(state = { loading: false, data: null }, action) {
+function productionMeasuresCits(state = { loading: false, data: null }, action) {
     switch (action.type) {
-        case 'REQUEST_PRODUCTION_MEASURES_REPORT':
+        case 'REQUEST_PRODUCTION_MEASURES_CITS_REPORT':
             return {
                 ...state,
                 loading: true,
                 data: null
             };
 
-        case 'RECEIVE_PRODUCTION_MEASURES_REPORT':
+        case 'RECEIVE_PRODUCTION_MEASURES_CITS_REPORT':
             return {
                 ...state,
                 loading: false,
@@ -19,4 +19,4 @@ function productionMeasures(state = { loading: false, data: null }, action) {
     }
 }
 
-export default productionMeasures;
+export default productionMeasuresCits;

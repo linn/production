@@ -28,27 +28,27 @@
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
-                {
-                    with.Dependency(this.CitService);
-                    with.Dependency<IResourceBuilder<Cit>>(new CitResourceBuilder());
-                    with.Dependency<IResourceBuilder<IEnumerable<Cit>>>(
-                        new CitsResourceBuilder());
-                    with.Module<CitsModule>();
-                    with.ResponseProcessor<CitsResponseProcessor>();
-                    with.RequestStartup(
-                        (container, pipelines, context) =>
-                        {
-                            var claims = new List<Claim>
-                                                 {
+                    {
+                        with.Dependency(this.CitService);
+                        with.Dependency<IResourceBuilder<Cit>>(new CitResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<Cit>>>(new CitsResourceBuilder());
+                        with.Module<CitsModule>();
+                        with.ResponseProcessor<CitsResponseProcessor>();
+                        with.RequestStartup(
+                            (container, pipelines, context) =>
+                                {
+                                    var claims = new List<Claim>
+                                                     {
                                                          new Claim(ClaimTypes.Role, "employee"),
                                                          new Claim(ClaimTypes.NameIdentifier, "test-user")
-                                                 };
+                                                     };
 
-                            var user = new ClaimsIdentity(claims, "jwt");
+                                    var user = new ClaimsIdentity(claims, "jwt");
 
-                            context.CurrentUser = new ClaimsPrincipal(user);
-                        });
-                });
+                                    context.CurrentUser = new ClaimsPrincipal(user);
+                                });
+                    });
+
 
             this.Browser = new Browser(bootstrapper);
         }

@@ -57,6 +57,12 @@ export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );
 
+export const citsActionTypes = makeActionTypes(itemTypes.cits.actionType);
+
+export const productionMeasuresInfoActionTypes = makeReportActionTypes(
+    reportTypes.productionMeasuresInfoReport.actionType
+);
+
 export const productionMeasuresCitsActionTypes = makeReportActionTypes(
     reportTypes.productionMeasuresCitsReport.actionType
 );

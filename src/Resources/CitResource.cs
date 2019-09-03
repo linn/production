@@ -1,9 +1,16 @@
 ﻿namespace Linn.Production.Resources
 {
-    public class CitResource
+    using Linn.Common.Resources;
+
+    public class CitResource : HypermediaResource
     {
         public string Code { get; set; }
 
         public string Name { get; set; }
+
+        public string BuildGroup { get; set; }
+
+        public int? SortOrder { get; set; }
     }
 }
+

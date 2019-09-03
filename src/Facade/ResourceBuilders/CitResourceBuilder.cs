@@ -16,20 +16,23 @@
             return new CitResource
                        {
                            Code = cit.Code,
-                           Name = cit.Name
+                           Name = cit.Name,
+                           BuildGroup = cit.BuildGroup,
+                           SortOrder = cit.SortOrder,
+                           Links = this.BuildLinks(cit).ToArray()
                        };
         }
 
         public string GetLocation(Cit cit)
         {
-            throw new NotImplementedException();
+            return $"/production/maintenance/cits/{cit.Code}";
         }
 
         object IResourceBuilder<Cit>.Build(Cit cit) => this.Build(cit);
 
         private IEnumerable<LinkResource> BuildLinks(Cit cit)
         {
-            throw new NotImplementedException();
+            yield return new LinkResource { Rel = "self", Href = this.GetLocation(cit) };
         }
     }
 }
