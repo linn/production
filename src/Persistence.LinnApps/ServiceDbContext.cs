@@ -46,6 +46,10 @@
 
         public DbSet<Employee> Employees { get; set; }
 
+        public DbSet<ProductionTriggerLevel> ProductionTriggerLevels { get; set; }
+
+        public DbQuery<PcasRevision> PcasRevisions { get; set; }
+
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
@@ -78,6 +82,8 @@
             this.BuildParts(builder);
             this.BuildEmployees(builder);
             this.BuildAssemblyFailFaultCodes(builder);
+            this.BuildProductionTriggerLevels(builder);
+            this.QueryPcasRevisions(builder);
             this.BuildAssemblyFailFaultCodes(builder);
             this.QueryPtlMaster(builder);
             this.QueryOsrRunMaster(builder);
@@ -85,6 +91,15 @@
             this.BuildLinnWeeks(builder);
             base.OnModelCreating(builder);
         }
+
+        protected void QueryPcasRevisions(ModelBuilder builder)
+        {
+            builder.Query<PcasRevision>().ToView("PCAS_REVISION_COMP_VIEW");
+            builder.Query<PcasRevision>().Property(r => r.Cref).HasColumnName("CREF");
+            builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
+        }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -155,8 +170,9 @@
         {
             var e = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
             e.HasKey(o => o.OrderNumber);
-            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
             e.Property(o => o.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            e.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
         private void BuildBoardFailTypes(ModelBuilder builder)
@@ -229,6 +245,15 @@
             e.Property(b => b.MaterialPrice).HasColumnName("MATERIAL_PRICE");
             e.Property(b => b.Quantity).HasColumnName("QUANTITY");
             e.Property(b => b.DepartmentCode).HasColumnName("CR_DEPT");
+        }
+
+        private void BuildProductionTriggerLevels(ModelBuilder builder)
+        {
+            var e = builder.Entity<ProductionTriggerLevel>();
+            e.ToTable("PRODUCTION_TRIGGER_LEVELS");
+            e.HasKey(l => l.PartNumber);
+            e.Property(l => l.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(l => l.Description).HasColumnName("DESCRIPTION");
         }
 
         private void BuildCits(ModelBuilder builder)

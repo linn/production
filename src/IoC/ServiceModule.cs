@@ -16,6 +16,7 @@
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -51,6 +52,17 @@
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
+            builder.RegisterType<WorksOrdersService>()
+                .As<IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>>();
+            builder.RegisterType<ProductionTriggerLevelService>()
+                .As<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();
+            builder.RegisterType<PcasRevisionService>()
+                .As<IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource>>();
+            builder.RegisterType<EmployeeService>()
+                .As<IFacadeService<Employee, int, EmployeeResource, EmployeeResource>>();
+            builder.RegisterType<AssemblyFailFaultCodesService>()
+                .As<IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>>();
+
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             builder.RegisterType<ManufacturingSkillService>()
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
