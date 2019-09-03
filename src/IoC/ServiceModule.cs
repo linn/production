@@ -50,6 +50,9 @@
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
+            builder.RegisterType<WorksOrderService>()
+                .As<IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>>();
+            builder.RegisterType<PartsService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
 
 
             // oracle proxies
@@ -62,6 +65,9 @@
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
+            builder.RegisterType<GetNextBatchProxy>().As<IGetNextBatchService>();
+            builder.RegisterType<CanRaiseWorksOrderProxy>().As<ICanRaiseWorksOrderService>();
+            builder.RegisterType<GetDepartmentProxy>().As<IGetDepartmentService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();

@@ -1,13 +1,15 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
     using System.Linq;
-    using Linn.Production.Domain.LinnApps.Triggers;
+
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
+
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -161,18 +163,21 @@
         {
             var q = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
             q.HasKey(e => e.OrderNumber);
+            q.Property(e => e.BatchNumber).HasColumnName("BATCH_NUMBER");
             q.Property(e => e.CancelledBy).HasColumnName("CANCELLED_BY");
             q.Property(e => e.DateCancelled).HasColumnName("DATE_CANCELLED");
             q.Property(e => e.DateRaised).HasColumnName("DATE_RAISED");
+            q.Property(e => e.KittedShort).HasColumnName("KITTED_SHORT").HasMaxLength(1);
             q.Property(e => e.LabelsPrinted).HasColumnName("LABELS_PRINTED");
             q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
-            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER");
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             q.Property(e => e.QuantityOutstanding).HasColumnName("QTY_OUTSTANDING");
             q.Property(e => e.QuantityBuilt).HasColumnName("QTY_BUILT");
             q.Property(e => e.RaisedBy).HasColumnName("RAISED_BY");
             q.Property(e => e.RaisedByDepartment).HasColumnName("RAISED_BY_DEPT").HasMaxLength(10);
             q.Property(e => e.ReasonCancelled).HasColumnName("REASON_CANCELLED").HasMaxLength(200);
-            q.Property(e => e.Type).HasColumnName("DOC_TYPE").HasMaxLength(6);
+            q.Property(e => e.StartedByShift).HasColumnName("STARTED_BY_SHIFT").HasMaxLength(1);
+            q.Property(e => e.DocType).HasColumnName("DOC_TYPE").HasMaxLength(6);
             q.Property(e => e.WorkStationCode).HasColumnName("WORK_STATION_CODE").HasMaxLength(16);
         }
 
@@ -301,6 +306,9 @@
             e.HasKey(p => p.PartNumber);
             e.Property(p => p.PartNumber).HasColumnName("PART_NUMBER");
             e.Property(p => p.Description).HasColumnName("DESCRIPTION");
+            e.Property(p => p.BomType).HasColumnName("BOM_TYPE").HasMaxLength(1);
+            e.Property(p => p.SernosSequence).HasColumnName("SERNOS_SEQUENCE").HasMaxLength(10);
+            e.Property(p => p.AccountingCompany).HasColumnName("ACCOUNTING_COMPANY").HasMaxLength(10);
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)

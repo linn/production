@@ -28,7 +28,7 @@
 
         public void Add(WorksOrder entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.WorksOrders.Add(entity);
         }
 
         public void Remove(WorksOrder entity)

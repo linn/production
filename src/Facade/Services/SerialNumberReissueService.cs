@@ -47,7 +47,7 @@
                      && r.ArticleNumber == resource.ArticleNumber 
                      && r.SernosGroup == resource.SernosGroup);
 
-            var serialNumberReissue =  new SerialNumberReissue(sernos.SernosGroup, sernos.ArticleNumber)
+            var serialNumberReissue = new SerialNumberReissue(sernos.SernosGroup, sernos.ArticleNumber)
                                             {
                                                 SerialNumber = sernos.SerialNumber,
                                                 NewSerialNumber = sernos.NewSerialNumber,

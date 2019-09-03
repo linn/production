@@ -14,18 +14,22 @@
         {
             return new WorksOrderResource
                        {
+                           BatchNumber = worksOrder.BatchNumber,
                            CancelledBy = worksOrder.CancelledBy,
-                           DateCancelled = worksOrder.DateCancelled.ToString("o"),
+                           DateCancelled = worksOrder.DateCancelled?.ToString("o"),
                            DateRaised = worksOrder.DateRaised.ToString("o"),
+                           KittedShort = worksOrder.KittedShort,
                            LabelsPrinted = worksOrder.LabelsPrinted,
                            OrderNumber = worksOrder.OrderNumber,
+                           Outstanding = worksOrder.Outstanding,
                            PartNumber = worksOrder.PartNumber,
                            QuantityBuilt = worksOrder.QuantityBuilt,
                            QuantityOutstanding = worksOrder.QuantityOutstanding,
                            RaisedBy = worksOrder.RaisedBy,
                            RaisedByDepartment = worksOrder.RaisedByDepartment,
                            ReasonCancelled = worksOrder.ReasonCancelled,
-                           Type = worksOrder.Type,
+                           StartedByShift = worksOrder.StartedByShift,
+                           DocType = worksOrder.DocType,
                            WorkStationCode = worksOrder.WorkStationCode,
                            Links = this.BuildLinks(worksOrder).ToArray()
                        };
