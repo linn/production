@@ -77,3 +77,7 @@ export const whoBuiltWhatReportActionTypes = makeReportActionTypes(
 export const whoBuiltWhatDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.whoBuiltWhatDetails.actionType
 );
+
+export const manufacturingRouteActionTypes = makeActionTypes(
+    itemTypes.manufacturingRoute.actionType
+);

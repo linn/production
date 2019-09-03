@@ -83,3 +83,8 @@ export const assemblyFail = new ItemType(
     'ASSEMBLY_FAIL',
     '/production/quality/assembly-fails'
 );
+export const manufacturingRoute = new ItemType(
+    'manufacturingRoute',
+    'MANUFACTURING_ROUTE',
+    '/production/resources/manufacturing-routes'
+);

@@ -1,11 +1,11 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
-    using System.Collections.Generic;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
+    using System;
+    using System.Collections.Generic;
 
     public class ManufacturingOperationResourceBuilder : IResourceBuilder<ManufacturingOperation>
     {
@@ -35,7 +35,10 @@
 
         private IEnumerable<LinkResource> BuildLinks(ManufacturingOperation manufacturingOperation)
         {
-            yield return new LinkResource { Rel = "self", Href = this.GetLocation(manufacturingOperation) };
+            return new List<LinkResource>() {
+                new LinkResource { Rel = "self", Href = this.GetLocation(manufacturingOperation) },
+            new LinkResource { Rel = "cit", Href = $"/production/maintenance/cits/{manufacturingOperation.CITCode}" }
+            };
         }
     }
 }
