@@ -24,6 +24,7 @@ import pcasRevisions from './pcasRevisions';
 import employees from './employees';
 import whoBuiltWhat from './whoBuiltWhat';
 import whoBuiltWhatDetails from './whoBuiltWhatDetails';
+import assemblyFailsMeasures from './assemblyFailsMeasures';
 
 const rootReducer = combineReducers({
     oidc,
@@ -50,6 +51,7 @@ const rootReducer = combineReducers({
     productionMeasures,
     whoBuiltWhat,
     whoBuiltWhatDetails,
+    assemblyFailsMeasures,
     ...sharedLibraryReducers
 });
 

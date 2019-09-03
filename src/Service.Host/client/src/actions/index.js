@@ -93,3 +93,7 @@ export const whoBuiltWhatReportActionTypes = makeReportActionTypes(
 export const whoBuiltWhatDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.whoBuiltWhatDetails.actionType
 );
+
+export const assemblyFailsMeasuresActionTypes = makeReportActionTypes(
+    reportTypes.assemblyFailsMeasures.actionType
+);
