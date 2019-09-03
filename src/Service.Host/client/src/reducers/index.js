@@ -22,7 +22,6 @@ import worksOrders from './worksOrders/worksOrders';
 import productionTriggerLevels from './productionTriggerLevels';
 import pcasRevisions from './pcasRevisions';
 import employees from './employees';
-import cits from './cits';
 import whoBuiltWhat from './whoBuiltWhat';
 import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 
