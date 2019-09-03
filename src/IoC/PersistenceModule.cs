@@ -7,6 +7,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -34,11 +35,21 @@
             builder.RegisterType<ManufacturingResourceRepository>().As<IRepository<ManufacturingResource, string>>();
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
-            builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
+            builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
+            builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
+            builder.RegisterType<ProductionTriggerLevelRepository>().As<IRepository<ProductionTriggerLevel, string>>();
+            builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
+            builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
+            builder.RegisterType<EmployeeRepository>().As<IRepository<Employee, int>>();
+            builder.RegisterType<AssemblyFailFaultCodeRepository>().As<IRepository<AssemblyFailFaultCode, string>>();
+              builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
             builder.RegisterType<OsrRunMasterRepository>().As<IMasterRepository<OsrRunMaster>>();
+            builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
+            builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
+            builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
         }
     }
 }
