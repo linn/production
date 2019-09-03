@@ -1,13 +1,15 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
     using System.Linq;
-    using Linn.Production.Domain.LinnApps.Triggers;
+
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
+
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -36,7 +38,7 @@
 
         public DbSet<AssemblyFail> AssemblyFails { get; set; }
 
-        public DbSet<WorksOrder> WorksOrders { get; set; } 
+        public DbSet<WorksOrder> WorksOrders { get; set; }
 
         public DbSet<Part> Parts { get; set; }
 
@@ -46,15 +48,17 @@
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
-
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
-
-        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
 
         public DbQuery<ProductionTrigger> ProductionTriggers { get; set; }
+
+        public DbSet<LinnWeek> LinnWeeks { get; set; }
+
+        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
+
+        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -78,21 +82,8 @@
             this.QueryPtlMaster(builder);
             this.QueryOsrRunMaster(builder);
             this.QueryProductionTriggers(builder);
+            this.BuildLinnWeeks(builder);
             base.OnModelCreating(builder);
-        }
-
-        protected void QueryWhoBuildWhat(ModelBuilder builder)
-        {
-            builder.Query<WhoBuiltWhat>().ToView("V_WHO_BUILT_WHAT");
-            builder.Query<WhoBuiltWhat>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
-            builder.Query<WhoBuiltWhat>().Property(t => t.CitName).HasColumnName("CIT_NAME");
-            builder.Query<WhoBuiltWhat>().Property(t => t.SernosDate).HasColumnName("SERNOS_DATE");
-            builder.Query<WhoBuiltWhat>().Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
-            builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
-            builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
-            builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
-            builder.Query<WhoBuiltWhat>().Property(t => t.SernosNumber).HasColumnName("SERNOS_NUMBER");
-            builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -111,7 +102,7 @@
             base.OnConfiguring(optionsBuilder);
         }
 
-        protected void BuildAte(ModelBuilder builder)
+        private void BuildAte(ModelBuilder builder)
         {
             builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
             builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
@@ -120,7 +111,7 @@
             builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
-        protected void BuildAssemblyFails(ModelBuilder builder)
+        private void BuildAssemblyFails(ModelBuilder builder)
         {
             var e = builder.Entity<AssemblyFail>().ToTable("ASSEMBLY_FAILS");
             e.HasKey(f => f.Id);
@@ -160,7 +151,7 @@
             e.Property(f => f.EngineeringComments).HasColumnName("ENGINEERING_COMMENTS");
         }
 
-        protected void BuildWorkOrders(ModelBuilder builder)
+        private void BuildWorkOrders(ModelBuilder builder)
         {
             var e = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
             e.HasKey(o => o.OrderNumber);
@@ -168,12 +159,39 @@
             e.Property(o => o.PartNumber).HasColumnName("PART_NUMBER");
         }
 
-        protected void BuildBoardFailTypes(ModelBuilder builder)
+        private void BuildBoardFailTypes(ModelBuilder builder)
         {
             builder.Entity<BoardFailType>().ToTable("BOARD_FAIL_TYPES");
             builder.Entity<BoardFailType>().HasKey(t => t.Type);
             builder.Entity<BoardFailType>().Property(t => t.Type).HasColumnName("FAIL_TYPE");
             builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION");
+        }
+
+        private void BuildLinnWeeks(ModelBuilder builder)
+        {
+            builder.Entity<LinnWeek>().ToTable("LINN_WEEKS");
+            builder.Entity<LinnWeek>().HasKey(t => t.LinnWeekNumber);
+            builder.Entity<LinnWeek>().Property(t => t.LinnWeekNumber).HasColumnName("LINN_WEEK_NUMBER");
+            builder.Entity<LinnWeek>().Property(t => t.StartDate).HasColumnName("LINN_WEEK_START_DATE");
+            builder.Entity<LinnWeek>().Property(t => t.EndDate).HasColumnName("LINN_WEEK_END_DATE");
+            builder.Entity<LinnWeek>().Property(t => t.WWYYYY).HasColumnName("WWYYYY").HasMaxLength(8);
+            builder.Entity<LinnWeek>().Property(t => t.WWSYY).HasColumnName("WWSYY").HasMaxLength(5);
+            builder.Entity<LinnWeek>().Property(t => t.WeekEndingDDMON).HasColumnName("WEEK_ENDING_DDMON").HasMaxLength(5);
+            builder.Entity<LinnWeek>().Property(t => t.LinnMonthEndWeekNumber).HasColumnName("LINN_MONTH_END_WEEK_NUMBER");
+        }
+
+        private void QueryWhoBuildWhat(ModelBuilder builder)
+        {
+            builder.Query<WhoBuiltWhat>().ToView("V_WHO_BUILT_WHAT");
+            builder.Query<WhoBuiltWhat>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<WhoBuiltWhat>().Property(t => t.CitName).HasColumnName("CIT_NAME");
+            builder.Query<WhoBuiltWhat>().Property(t => t.SernosDate).HasColumnName("SERNOS_DATE");
+            builder.Query<WhoBuiltWhat>().Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
+            builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
+            builder.Query<WhoBuiltWhat>().Property(t => t.SernosNumber).HasColumnName("SERNOS_NUMBER");
+            builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)

@@ -36,6 +36,7 @@
             builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
             builder.RegisterType<OsrRunMasterRepository>().As<IMasterRepository<OsrRunMaster>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
+            builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

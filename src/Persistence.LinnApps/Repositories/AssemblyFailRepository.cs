@@ -54,7 +54,7 @@
 
         public IQueryable<AssemblyFail> FilterBy(Expression<Func<AssemblyFail, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.AssemblyFails.Where(expression);
         }
     }
 }

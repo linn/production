@@ -15,6 +15,7 @@
     using Linn.Common.Proxy;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
+    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -30,7 +31,8 @@
             builder.RegisterType<WhoBuiltWhatReport>().As<IWhoBuiltWhatReport>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
-            builder.RegisterType<AssemblyFailsWaitingListReportService>().As<IAssemblyFailsWaitingListReportService>();
+            builder.RegisterType<AssemblyFailsReportService>().As<IAssemblyFailsReportService>();
+            builder.RegisterType<LinnWeekService>().As<ILinnWeekService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -42,8 +44,8 @@
             builder.RegisterType<BuildsByDepartmentReportFacadeService>().As<IBuildsByDepartmentReportFacadeService>();
             builder.RegisterType<WhoBuiltWhatReportFacadeService>().As<IWhoBuiltWhatReportFacadeService>();
             builder.RegisterType<CitService>().As<IFacadeService<Cit, string, CitResource, CitResource>>();
-            builder.RegisterType<AssemblyFailsWaitingListReportFacadeService>()
-                .As<IAssemblyFailsWaitingListReportFacadeService>();
+            builder.RegisterType<AssemblyFailsReportsFacadeService>()
+                .As<IAssemblyFailsReportsFacadeService>();
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             builder.RegisterType<ManufacturingSkillService>()
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
