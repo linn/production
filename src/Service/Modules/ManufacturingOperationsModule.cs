@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Modules
 {
+    using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
@@ -8,14 +10,14 @@
 
     public sealed class ManufacturingOperationsModule : NancyModule
     {
-        private readonly IManufacturingOperationsFacade manufacturingOperationsService;
+        private readonly IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationsService;
 
-        public ManufacturingOperationsModule(IManufacturingOperationsFacade manufacturingOperationsService)
+        public ManufacturingOperationsModule(IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationsService)
         {
             this.manufacturingOperationsService = manufacturingOperationsService;
             this.Get("/production/resources/manufacturing-operations", _ => this.GetAll());
-            this.Get("/production/resources/manufacturing-operations/{routeCode*}/{manufacturingId*}", parameters => this.GetById(parameters.routeCode, parameters.manufacturingId));
-            this.Put("/production/resources/manufacturing-operations/{routeCode*}/{manufacturingId*}", parameters => this.UpdateManufacturingOperation(parameters.routeCode, parameters.manufacturingId));
+            this.Get("/production/resources/manufacturing-operations/{manufacturingId*}", parameters => this.GetById(parameters.manufacturingId));
+            this.Put("/production/resources/manufacturing-operations/{manufacturingId*}", parameters => this.UpdateManufacturingOperation(parameters.manufacturingId));
             this.Post("/production/resources/manufacturing-operations", parameters => this.AddManufacturingOperation());
         }
 
@@ -28,20 +30,20 @@
                 .WithView("Index");
         }
 
-        private object GetById(string routeCode, string manufacturingId)
+        private object GetById(int manufacturingId)
         {
-            var result = this.manufacturingOperationsService.GetById(routeCode, int.Parse(manufacturingId));
+            var result = this.manufacturingOperationsService.GetById(manufacturingId);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
 
-        private object UpdateManufacturingOperation(string routeCode, string manufacturingId)
+        private object UpdateManufacturingOperation(int manufacturingId)
         {
             var resource = this.Bind<ManufacturingOperationResource>();
 
-            var result = this.manufacturingOperationsService.Update(routeCode, int.Parse(manufacturingId), resource);
+            var result = this.manufacturingOperationsService.Update(manufacturingId, resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

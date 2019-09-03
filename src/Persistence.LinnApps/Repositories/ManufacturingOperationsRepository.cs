@@ -6,7 +6,7 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
 
-    public class ManufacturingOperationsRepository : IRepository<ManufacturingOperation, string>
+    public class ManufacturingOperationsRepository : IRepository<ManufacturingOperation, int>
     {
         private readonly ServiceDbContext serviceDbContext;
 
@@ -15,14 +15,15 @@
             this.serviceDbContext = serviceDbContext;
         }
 
-        public ManufacturingOperation FindById(string key)
+        public ManufacturingOperation FindById(int key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.ManufacturingOperations
+                .Where(f => f.ManufacturingId == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<ManufacturingOperation> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.ManufacturingOperations;
         }
 
         public void Add(ManufacturingOperation entity)

@@ -40,16 +40,16 @@
             };
 
             this.ManufacturingOperationRepository
-                .FindBy(Arg.Any<Expression<Func<ManufacturingOperation, bool>>>())
+                .FindById(this.manufacturingOperation.ManufacturingId)
                 .Returns(this.manufacturingOperation);
 
-            this.result = this.Sut.Update(this.manufacturingOperation.RouteCode, this.manufacturingOperation.ManufacturingId, this.resource);
+            this.result = this.Sut.Update(this.manufacturingOperation.ManufacturingId, this.resource);
         }
 
         [Test]
         public void ShouldGetManufacturingOperation()
         {
-            this.ManufacturingOperationRepository.Received().FindBy(Arg.Any<Expression<Func<ManufacturingOperation, bool>>>());
+            this.ManufacturingOperationRepository.Received().FindById(this.manufacturingOperation.ManufacturingId);
         }
 
         [Test]

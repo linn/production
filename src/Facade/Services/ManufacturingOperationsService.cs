@@ -1,49 +1,19 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using System;
+    using System.Linq.Expressions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
-    using System;
-    using System.Linq.Expressions;
 
-    public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, string, ManufacturingOperationResource, ManufacturingOperationResource>, IManufacturingOperationsFacade
+    public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>
     {
-        private readonly IRepository<ManufacturingOperation, string> manufacturingOperationRepository;
+        private readonly IRepository<ManufacturingOperation, int> manufacturingOperationRepository;
 
-        public ManufacturingOperationsService(IRepository<ManufacturingOperation, string> repository, ITransactionManager transactionManager) : base(repository, transactionManager)
+        public ManufacturingOperationsService(IRepository<ManufacturingOperation, int> repository, ITransactionManager transactionManager) : base(repository, transactionManager)
         {
             this.manufacturingOperationRepository = repository;
-        }
-
-        public IResult<ManufacturingOperation> Update(string routeCode, int manufacturingId, ManufacturingOperationResource resource)
-        {
-            var result = this.GetById(routeCode, manufacturingId);
-
-            if (!(result is SuccessResult<ManufacturingOperation>))
-            {
-                return result;
-            }
-
-            var successfulResult = (SuccessResult<ManufacturingOperation>)result;
-            var operation = successfulResult.Data;
-
-            this.UpdateFromResource(operation, resource);
-
-            return new SuccessResult<ManufacturingOperation>(operation);
-        }
-
-        public IResult<ManufacturingOperation> GetById(string routeCode, int manufacturingId)
-        {
-            var operation = this.manufacturingOperationRepository.FindBy(
-                x => x.RouteCode == routeCode && x.ManufacturingId == manufacturingId);
-
-            if (operation == null)
-            {
-                return new BadRequestResult<ManufacturingOperation>("cannot find operation - wrong route code or manufacturing Id");
-            }
-
-            return new SuccessResult<ManufacturingOperation>(operation);
         }
 
         protected override ManufacturingOperation CreateFromResource(ManufacturingOperationResource resource)
@@ -71,3 +41,4 @@
         }
     }
 }
+

@@ -65,6 +65,9 @@
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ManufacturingResourceService>()
                 .As<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
+            builder.RegisterType<ManufacturingOperationsService>()
+                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
+
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
@@ -72,9 +75,7 @@
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
-
-            builder.RegisterType<ManufacturingOperationsService>().As<IManufacturingOperationsFacade>();
-
+           
             // Oracle connection
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter(
                 "connectionString",

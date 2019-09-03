@@ -19,11 +19,11 @@
 
             this.manufacturingOperation = new ManufacturingOperation("routecode1", 77, 15, "descrip of op", "codeOfOperation", "res Code", 27, 54, 5, "cit code test");
 
-            this.ManufacturingOperationService.GetById("routecode1", 77)
+            this.ManufacturingOperationService.GetById(77)
                 .Returns(new SuccessResult<ManufacturingOperation>(this.manufacturingOperation));
 
             this.Response = this.Browser.Get(
-                "/production/resources/manufacturing-operations/routecode1/77",
+                "/production/resources/manufacturing-operations/77",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 
@@ -36,7 +36,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingOperationService.Received().GetById(this.manufacturingOperation.RouteCode, this.manufacturingOperation.ManufacturingId);
+            this.ManufacturingOperationService.Received().GetById(this.manufacturingOperation.ManufacturingId);
         }
 
         [Test]

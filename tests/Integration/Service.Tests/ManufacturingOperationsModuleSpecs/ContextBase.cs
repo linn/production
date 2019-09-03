@@ -20,12 +20,12 @@
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IManufacturingOperationsFacade ManufacturingOperationService { get; private set; }
+        protected IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> ManufacturingOperationService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.ManufacturingOperationService = Substitute.For<IManufacturingOperationsFacade>();
+            this.ManufacturingOperationService = Substitute.For<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>

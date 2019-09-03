@@ -34,11 +34,11 @@
                                     CITCode = "cit code test"
                                 };
 
-            this.ManufacturingOperationService.Update("MYTEST", Arg.Any<ManufacturingOperationResource>())
+            this.ManufacturingOperationService.Update(77, Arg.Any<ManufacturingOperationResource>())
                 .Returns(new SuccessResult<ManufacturingOperation>(this.manufacturingOperation));
 
             this.Response = this.Browser.Put(
-                "/production/resources/manufacturing-operations/routecode 1/77",
+                "/production/resources/manufacturing-operations/77",
                 with =>
                 {
                     with.Header("Accept", "application/json");
@@ -57,7 +57,7 @@
         public void ShouldCallService()
         {
             this.ManufacturingOperationService.Received()
-                .Update(this.manufacturingOperation.RouteCode, this.manufacturingOperation.ManufacturingId, Arg.Is<ManufacturingOperationResource>(r => r.ResourceCode == this.requestResource.ResourceCode && r.ManufacturingId == this.manufacturingOperation.ManufacturingId));
+                .Update(this.manufacturingOperation.ManufacturingId, Arg.Is<ManufacturingOperationResource>(r => r.ManufacturingId == this.manufacturingOperation.ManufacturingId));
         }
 
         [Test]
