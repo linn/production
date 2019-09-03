@@ -412,7 +412,8 @@
             e.Property(s => s.CITCode).HasColumnName("CIT_CODE").HasMaxLength(10);
             e.HasOne<ManufacturingRoute>(s => s.ManufacturingRoute).WithMany(g => g.Operations)
                 .HasForeignKey(s => s.RouteCode);
-                
+        }
+
         private void QueryProductionTriggers(ModelBuilder builder)
         {
             var q = builder.Query<ProductionTrigger>();
