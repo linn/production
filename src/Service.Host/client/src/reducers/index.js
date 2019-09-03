@@ -19,6 +19,7 @@ import boardFailType from './boardFailTypes/boardFailType';
 import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
 import whoBuiltWhat from './whoBuiltWhat';
 import whoBuiltWhatDetails from './whoBuiltWhatDetails';
+import assemblyFailsMeasures from './assemblyFailsMeasures';
 
 const rootReducer = combineReducers({
     oidc,
@@ -40,6 +41,7 @@ const rootReducer = combineReducers({
     productionMeasures,
     whoBuiltWhat,
     whoBuiltWhatDetails,
+    assemblyFailsMeasures,
     ...sharedLibraryReducers
 });
 
