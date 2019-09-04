@@ -25,6 +25,7 @@ import employees from './employees';
 import whoBuiltWhat from './whoBuiltWhat';
 import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
+import assemblyFailsMeasures from './assemblyFailsMeasures';
 
 const rootReducer = combineReducers({
     oidc,
@@ -52,6 +53,7 @@ const rootReducer = combineReducers({
     whoBuiltWhat,
     whoBuiltWhatDetails,
     manufacturingRoute,
+    assemblyFailsMeasures,
     ...sharedLibraryReducers
 });
 
