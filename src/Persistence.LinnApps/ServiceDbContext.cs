@@ -34,6 +34,10 @@
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
 
+        public DbSet<ManufacturingRoute> ManufacturingRoutes { get; set; }
+
+        public DbSet<ManufacturingOperation> ManufacturingOperations { get; set; }
+
         public DbSet<BoardFailType> BoardFailTypes { get; set; }
 
         public DbSet<AssemblyFail> AssemblyFails { get; set; }
@@ -76,6 +80,9 @@
             this.BuildManufacturingResources(builder);
 
             this.BuildManufacturingSkills(builder);
+            this.BuildManufacturingRoutes(builder);
+            this.BuildManufacturingOperations(builder);
+
             this.BuildBoardFailTypes(builder);
             this.BuildAssemblyFails(builder);
             this.BuildWorkOrders(builder);
@@ -374,6 +381,37 @@
             q.Property(e => e.LastTriggerJobref).HasColumnName("LAST_TRIGGER_JOBREF").HasMaxLength(6);
             q.Property(e => e.LastTriggerRunDateTime).HasColumnName("LAST_TRIGGER_RUNDATE");
             q.Property(e => e.RunDateTime).HasColumnName("RUN_DATETIME");
+        }
+
+        private void BuildManufacturingRoutes(ModelBuilder builder)
+        {
+            var e = builder.Entity<ManufacturingRoute>();
+            e.ToTable("MFG_ROUTES");
+            e.HasKey(s => s.RouteCode);
+            e.Property(s => s.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(10);
+            e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(s => s.Notes).HasColumnName("NOTES");
+            builder.Entity<ManufacturingRoute>().HasMany(t => t.Operations).WithOne(x => x.ManufacturingRoute);
+        }
+
+        private void BuildManufacturingOperations(ModelBuilder builder)
+        {
+            var e = builder.Entity<ManufacturingOperation>();
+            e.ToTable("MFG_OPERATIONS");
+            e.HasKey(s => s.RouteCode);
+            e.HasKey(s => s.ManufacturingId);
+            e.Property(s => s.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(20);
+            e.Property(s => s.ManufacturingId).HasColumnName("MFG_ID").HasMaxLength(8);
+            e.Property(s => s.OperationNumber).HasColumnName("OPERATION_NUMBER").HasMaxLength(38);
+            e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(s => s.SkillCode).HasColumnName("MFG_SKILL_CODE").HasMaxLength(10);
+            e.Property(s => s.ResourceCode).HasColumnName("MFG_RESOURCE_CODE").HasMaxLength(10);
+            e.Property(s => s.SetAndCleanTime).HasColumnName("SET_AND_CLEAN_TIME_MINS").HasMaxLength(7);
+            e.Property(s => s.CycleTime).HasColumnName("CYCLE_TIME_MINS").HasMaxLength(7);
+            e.Property(s => s.LabourPercentage).HasColumnName("LABOUR_PERCENTAGE").HasMaxLength(38);
+            e.Property(s => s.CITCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            e.HasOne<ManufacturingRoute>(s => s.ManufacturingRoute).WithMany(g => g.Operations)
+                .HasForeignKey(s => s.RouteCode);
         }
 
         private void QueryProductionTriggers(ModelBuilder builder)

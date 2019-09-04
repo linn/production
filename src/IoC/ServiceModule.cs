@@ -1,15 +1,11 @@
 ﻿namespace Linn.Production.IoC
 {
     using System.Data;
-
     using Autofac;
-
     using Common.Reporting.Models;
-
     using Domain.LinnApps;
     using Domain.LinnApps.ATE;
     using Domain.LinnApps.RemoteServices;
-
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
     using Linn.Common.Proxy;
@@ -20,7 +16,6 @@
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
-
     using Oracle.ManagedDataAccess.Client;
 
     public class ServiceModule : Module
@@ -69,6 +64,10 @@
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ManufacturingResourceService>()
                 .As<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
+            builder.RegisterType<ManufacturingRouteService>()
+                .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
+            builder.RegisterType<ManufacturingOperationsService>()
+                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -88,7 +87,7 @@
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
-
+           
             // Oracle connection
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter(
                 "connectionString",

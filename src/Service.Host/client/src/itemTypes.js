@@ -113,3 +113,8 @@ export const assemblyFailFaultCodes = new ItemType(
     'ASSEMBLY_FAIL_FAULT_CODES',
     '/production/quality/assembly-fail-fault-codes'
 );
+export const manufacturingRoute = new ItemType(
+    'manufacturingRoute',
+    'MANUFACTURING_ROUTE',
+    '/production/resources/manufacturing-routes'
+);

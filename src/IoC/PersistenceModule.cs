@@ -29,6 +29,8 @@
             builder.RegisterType<SerialNumberReissueRepository>().As<IRepository<SerialNumberReissue, int>>();
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
             builder.RegisterType<ManufacturingSkillsRepository>().As<IRepository<ManufacturingSkill, string>>();
+            builder.RegisterType<ManufacturingRoutesRepository>().As<IRepository<ManufacturingRoute, string>>();
+            builder.RegisterType<ManufacturingOperationsRepository>().As<IRepository<ManufacturingOperation, int>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
             builder.RegisterType<ManufacturingResourceRepository>().As<IRepository<ManufacturingResource, string>>();
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();

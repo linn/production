@@ -94,6 +94,10 @@ export const whoBuiltWhatDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.whoBuiltWhatDetails.actionType
 );
 
+export const manufacturingRouteActionTypes = makeActionTypes(
+    itemTypes.manufacturingRoute.actionType
+);
+
 export const assemblyFailsMeasuresActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsMeasures.actionType
 );

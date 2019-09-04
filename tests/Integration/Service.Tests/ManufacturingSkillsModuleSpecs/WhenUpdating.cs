@@ -24,11 +24,11 @@
             this.Response = this.Browser.Put(
                 "/production/resources/manufacturing-skills/MYTEST",
                 with =>
-                    {
-                        with.Header("Accept", "application/json");
-                        with.Header("Content-Type", "application/json");
-                        with.JsonBody(this.requestResource);
-                    }).Result;
+                {
+                    with.Header("Accept", "application/json");
+                    with.Header("Content-Type", "application/json");
+                    with.JsonBody(this.requestResource);
+                }).Result;
         }
 
         [Test]

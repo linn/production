@@ -24,6 +24,7 @@ import pcasRevisions from './pcasRevisions';
 import employees from './employees';
 import whoBuiltWhat from './whoBuiltWhat';
 import whoBuiltWhatDetails from './whoBuiltWhatDetails';
+import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 
 const rootReducer = combineReducers({
@@ -51,6 +52,7 @@ const rootReducer = combineReducers({
     productionMeasures,
     whoBuiltWhat,
     whoBuiltWhatDetails,
+    manufacturingRoute,
     assemblyFailsMeasures,
     ...sharedLibraryReducers
 });
