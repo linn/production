@@ -12,17 +12,17 @@ import Tab from '@material-ui/core/Tab';
 import LinkTabCell from './LinkTabCell';
 import TabCell from './TabCell';
 
-function ProductionMeasuresCits({ citsData, infoData, config }) {
+function ProductionMeasuresCits({ citsData, infoData }) {
     const [tabValue, setValue] = React.useState(0);
     const [hoverHref, setHoverHref] = React.useState(null);
 
     // TODO write these drill downs and check they are all still required
-    const triggerBaseHref = `${config.appRoot}/production/reports/triggers`;
-    const daysRequiredBaseHref = `${config.appRoot}/production/reports/measures/days-required`;
-    const shortagesBaseHref = `${config.appRoot}/production/reports/measures/shortages`;
-    const backOrdersBaseHref = `${config.appRoot}/production/reports/measures/back-orders`;
-    const builtThisWeekBaseHref = `${config.appRoot}/production/reports/measures/built-this-week`;
-    const fflagStockBaseHref = `${config.appRoot}/production/reports/stock/f-flag`; // may already exist in linnapps
+    const triggerBaseHref = '../reports/triggers';
+    const daysRequiredBaseHref = 'days-required';
+    const shortagesBaseHref = 'shortages';
+    const backOrdersBaseHref = 'back-orders';
+    const builtThisWeekBaseHref = 'built-this-week';
+    const fflagStockBaseHref = '../stock/f-flag'; // may already exist in linnapps
 
     function handleChange(event, newValue) {
         setValue(newValue);
@@ -172,7 +172,7 @@ function ProductionMeasuresCits({ citsData, infoData, config }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}&reportType=Brief`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -181,7 +181,7 @@ function ProductionMeasuresCits({ citsData, infoData, config }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}&reportType=Brief`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -190,7 +190,7 @@ function ProductionMeasuresCits({ citsData, infoData, config }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}&reportType=Brief`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >

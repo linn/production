@@ -39,6 +39,7 @@ import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
 import WhoBuiltWhatReportOptions from '../containers/reports/WhoBuiltWhatReportOptions';
 import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
 import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetailsReport';
+import ProductionTriggersReport from '../containers/reports/triggers/ProductionTriggersReport';
 
 const Root = ({ store }) => (
     <div>
@@ -136,6 +137,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/builds-summary-options"
                                             component={BuildsSummaryReportOptions}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/triggers"
+                                            component={ProductionTriggersReport}
                                         />
                                         <Route
                                             exact

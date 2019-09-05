@@ -9,6 +9,7 @@ import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
+import productionTriggersReport from './productionTriggersReport';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
 import cits from './cits';
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
     manufacturingResource,
     outstandingWorksOrdersReport,
     productionMeasures,
+    productionTriggersReport,
     whoBuiltWhat,
     whoBuiltWhatDetails,
     ...sharedLibraryReducers

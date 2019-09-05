@@ -31,5 +31,9 @@
         public string EarliestRequestedDate { get; set; }
 
         public int? CanBuild { get; set; }
+
+        public int? ReqtForInternalAndTriggerLevelBT { get; set; }
+
+        public string Story { get; set; }
     }
 }
