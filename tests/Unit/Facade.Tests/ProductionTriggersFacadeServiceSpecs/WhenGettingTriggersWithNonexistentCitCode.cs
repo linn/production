@@ -12,7 +12,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.result = this.Sut.GetProductionTriggerReport("CJCAIH", "A", "Full");
+            this.result = this.Sut.GetProductionTriggerReport("CJCAIH", "A");
         }
 
         [Test]

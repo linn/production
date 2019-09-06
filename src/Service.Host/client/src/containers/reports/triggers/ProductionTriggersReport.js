@@ -4,6 +4,8 @@ import queryString from 'query-string';
 import initialiseOnMount from '../../initialiseOnMount';
 import ProductionTriggers from '../../../components/reports/triggers/ProductionTriggers';
 import actions from '../../../actions/productionTriggersReport';
+import citsActions from '../../../actions/citsActions';
+import citsSelectors from '../../../selectors/citsSelectors';
 import * as reportTypes from '../../../reportTypes';
 
 import config from '../../../config';
@@ -17,18 +19,20 @@ const getOptions = ownProps => {
 
 const mapStateToProps = (state, ownProps) => ({
     reportData: reportSelectors.getReportData(state),
-    loading: reportSelectors.getReportLoading(state),
+    loading: reportSelectors.getReportLoading(state) || citsSelectors.getLoading(state),
     options: getOptions(ownProps),
+    cits: citsSelectors.getItems(state),
     config
 });
 
 const initialise = props => dispatch => {
-    console.log(reportTypes.productionTriggersReport.item);
     dispatch(actions.fetchReport(props.options));
+    dispatch(citsActions.fetch());
 };
 
 const mapDispatchToProps = {
-    initialise
+    initialise,
+    fetchCits: actions.fetchReport
 };
 
 export default connect(

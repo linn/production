@@ -13,17 +13,12 @@
             // for testing        
         }
 
-        public ProductionTriggersReport(string jobref, PtlMaster ptlMaster, Cit cit, ProductionTriggerReportType reportType, IQueryRepository<ProductionTrigger> repository)
+        public ProductionTriggersReport(string jobref, PtlMaster ptlMaster, Cit cit, IQueryRepository<ProductionTrigger> repository)
         {
             this.PtlMaster = ptlMaster.LastFullRunJobref == jobref ? ptlMaster : null;
             this.Cit = cit;
-            this.ReportType = reportType;
 
-            var triggers = (reportType == ProductionTriggerReportType.Full)
-                ? repository.FilterBy(t => t.Jobref == jobref && t.Citcode == cit.Code)
-                : repository.FilterBy(t => t.Jobref == jobref && t.Citcode == cit.Code && t.ReportType == "BRIEF");
-
-            this.Triggers = triggers.OrderBy(t => t.SortOrder).ThenBy(t => t.EarliestRequestedDate);
+            this.Triggers = repository.FilterBy(t => t.Jobref == jobref && t.Citcode == cit.Code).OrderBy(t => t.SortOrder).ThenBy(t => t.EarliestRequestedDate);
         }
 
         public PtlMaster PtlMaster { get; set; }

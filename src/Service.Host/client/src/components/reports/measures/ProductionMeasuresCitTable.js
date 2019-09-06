@@ -172,7 +172,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}&reportType=Brief`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -181,7 +181,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}&reportType=Brief`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -190,7 +190,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={0}
                                 value={tabValue}
-                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}&reportType=Brief`}
+                                href={`${triggerBaseHref}?citCode=${m.citCode}&jobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >

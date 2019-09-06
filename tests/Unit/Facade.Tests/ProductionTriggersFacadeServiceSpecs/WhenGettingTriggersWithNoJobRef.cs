@@ -12,7 +12,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.result = this.Sut.GetProductionTriggerReport(string.Empty, "S", "Full");
+            this.result = this.Sut.GetProductionTriggerReport(string.Empty, "S");
         }
 
         [Test]

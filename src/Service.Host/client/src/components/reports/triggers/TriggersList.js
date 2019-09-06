@@ -10,11 +10,9 @@ import PropTypes from 'prop-types';
 import ContextMenu from './ContextMenu';
 import NotesPopover from './NotesPopover';
 
-function TriggersList({ triggers, jobref }) {
-    // TODO write these drill downs and check they are all still required
-
-    function round(num) {
-        return num ? num.toFixed() : null;
+function TriggersList({ triggers, jobref, reportFormat }) {
+    function showInReport(trigger) {
+        return reportFormat === 'FULL' || reportFormat === trigger.reportFormat;
     }
 
     return (
@@ -33,7 +31,7 @@ function TriggersList({ triggers, jobref }) {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {triggers.map(m => (
+                {triggers.filter(showInReport).map(m => (
                     <TableRow>
                         <TableCell>{m.partNumber}</TableCell>
                         <TableCell>{m.description}</TableCell>
@@ -78,6 +76,7 @@ function TriggersList({ triggers, jobref }) {
 
 TriggersList.propTypes = {
     triggers: PropTypes.shape({}),
+    reportFormat: PropTypes.string.isRequired,
     jobref: PropTypes.string.isRequired
 };
 

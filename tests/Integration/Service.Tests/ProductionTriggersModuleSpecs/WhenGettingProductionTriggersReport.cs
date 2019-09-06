@@ -26,11 +26,10 @@
                     new ProductionTrigger { PartNumber = "A", Description = "A product", Priority = "1" },
                     new ProductionTrigger { PartNumber = "B", Description = "B nice", Priority = "2" },
                     new ProductionTrigger { PartNumber = "C", Description = "C", Priority = "3" }
-                },
-                ReportType = ProductionTriggerReportType.Full
+                }
             };
 
-            this.ProductionTriggersFacadeService.GetProductionTriggerReport("CJCAIH", "A", "Full")
+            this.ProductionTriggersFacadeService.GetProductionTriggerReport("CJCAIH", "A")
                 .Returns(new SuccessResult<ProductionTriggersReport>(report));
 
             this.Response = this.Browser.Get(
@@ -55,7 +54,7 @@
         public void SholdCallService()
         {
             this.ProductionTriggersFacadeService.Received()
-                .GetProductionTriggerReport("CJCAIH", "A", "Full");
+                .GetProductionTriggerReport("CJCAIH", "A");
         }
 
         [Test]

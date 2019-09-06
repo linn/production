@@ -22,7 +22,7 @@
             this.masterRepository = masterRepository;
         }
 
-        public IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode, string reportType)
+        public IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode)
         {
             if (string.IsNullOrEmpty(jobref))
             {
@@ -36,18 +36,6 @@
 
             ProductionTriggerReportType triggerReportType;
 
-            switch (reportType)
-            {
-                case "Brief":
-                    triggerReportType = ProductionTriggerReportType.Brief;
-                    break;
-                case "Full":
-                    triggerReportType = ProductionTriggerReportType.Full;
-                    break;
-                default:
-                    return new BadRequestResult<ProductionTriggersReport>("Invalid report type");
-            }
-
             var cit = this.citRepository.FindById(citCode);
 
             if (cit == null)
@@ -57,7 +45,7 @@
 
             var ptlMaster = masterRepository.GetMasterRecord();
 
-            var report = new ProductionTriggersReport(jobref, ptlMaster, cit, triggerReportType, repository);
+            var report = new ProductionTriggersReport(jobref, ptlMaster, cit, repository);
 
             return new SuccessResult<ProductionTriggersReport>(report);
         }

@@ -14,7 +14,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.result = this.Sut.GetProductionTriggerReport("CJCAIH", string.Empty, "Full");
+            this.result = this.Sut.GetProductionTriggerReport("CJCAIH", string.Empty);
         }
 
         [Test]

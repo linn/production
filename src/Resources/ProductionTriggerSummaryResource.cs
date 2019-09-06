@@ -35,5 +35,7 @@
         public int? ReqtForInternalAndTriggerLevelBT { get; set; }
 
         public string Story { get; set; }
+
+        public string ReportFormat { get; set; }
     }
 }

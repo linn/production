@@ -30,7 +30,8 @@
                 MaximumKanbans = trigger.MaximumKanbans,
                 ReqtForInternalAndTriggerLevelBT = trigger.ReqtForInternalAndTriggerLevelBT,
                 Story = trigger.Story,
-                SortOrder = trigger.SortOrder
+                SortOrder = trigger.SortOrder,
+                ReportFormat = trigger.ReportType
             };
         }
 
