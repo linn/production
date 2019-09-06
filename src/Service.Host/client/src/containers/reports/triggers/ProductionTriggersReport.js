@@ -32,7 +32,7 @@ const initialise = props => dispatch => {
 
 const mapDispatchToProps = {
     initialise,
-    fetchCits: actions.fetchReport
+    fetchTriggers: actions.fetchReport
 };
 
 export default connect(

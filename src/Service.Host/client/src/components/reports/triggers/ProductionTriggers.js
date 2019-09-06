@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Page from '../../../containers/Page';
 import TriggersList from './TriggersList';
 
-function ProductionTriggers({ reportData, loading, cits, options }) {
+function ProductionTriggers({ reportData, loading, cits, options, fetchTriggers, history }) {
     const [reportFormat, setReportFormat] = useState('BRIEF');
     const [citOptions, setCitOptions] = useState([]);
     useEffect(() => {
@@ -26,7 +26,11 @@ function ProductionTriggers({ reportData, loading, cits, options }) {
     };
 
     const handleCitChange = (propertyName, newValue) => {
-        options.citCode = newValue;
+        history.push(
+            `/production/reports/triggers?citCode=${newValue}&jobref=${reportData.ptlJobref}`
+        );
+        const newOptions = { citCode: newValue, jobref: reportData.ptlJobref };
+        fetchTriggers(newOptions);
     };
 
     return (
