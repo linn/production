@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { Dropdown } from '@linn-it/linn-form-components-library';
-import { Loading, Title } from '@linn-it/linn-form-components-library';
+import { Loading, Title, Dropdown, InputField } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Page from '../../../containers/Page';
 import TriggersList from './TriggersList';
 
 function ProductionTriggers({ reportData, loading, cits, options, fetchTriggers, history }) {
     const [reportFormat, setReportFormat] = useState('BRIEF');
     const [citOptions, setCitOptions] = useState([]);
+    const [jobref, setJobref] = useState('');
+
     useEffect(() => {
         if (cits !== null) {
             const citsFormatted = cits.map(cit => ({
@@ -23,6 +24,17 @@ function ProductionTriggers({ reportData, loading, cits, options, fetchTriggers,
 
     const handleLengthChange = (propertyName, newValue) => {
         setReportFormat(newValue);
+    };
+
+    const handleJobrefChange = (propertyName, newValue) => {
+        setJobref(newValue);
+        if (jobref.length === 6) {
+            history.push(
+                `/production/reports/triggers?citCode=${reportData.citCode}&jobref=${jobref}`
+            );
+            const newOptions = { citCode: reportData.citCode, jobref: jobref };
+            fetchTriggers(newOptions);
+        }
     };
 
     const handleCitChange = (propertyName, newValue) => {
@@ -48,7 +60,7 @@ function ProductionTriggers({ reportData, loading, cits, options, fetchTriggers,
                                     label="CIT"
                                     propertyName="cit"
                                     items={citOptions}
-                                    value={options.citCode || ''}
+                                    value={reportData.citCode || ''}
                                     onChange={handleCitChange}
                                 />
                             </Grid>
@@ -62,6 +74,23 @@ function ProductionTriggers({ reportData, loading, cits, options, fetchTriggers,
                                     ]}
                                     value={reportFormat}
                                     onChange={handleLengthChange}
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={jobref}
+                                    placeholder={reportData.ptlJobref}
+                                    label="Jobref"
+                                    maxLength={6}
+                                    onChange={handleJobrefChange}
+                                    helperText={
+                                        reportData.ptlRunDateTime
+                                            ? `Last run ${moment(reportData.ptlRunDateTime).format(
+                                                  'DD-MMM HH:mm'
+                                              )}`
+                                            : ''
+                                    }
                                 />
                             </Grid>
                         </Grid>

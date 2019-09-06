@@ -6,6 +6,7 @@
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Persistence.LinnApps.Repositories;
+    using Remotion.Linq.Parsing.ExpressionVisitors.Transformation.PredefinedTransformations;
 
     public class ProductionTriggersFacadeService : IProductionTriggersFacadeService
     {
@@ -24,28 +25,25 @@
 
         public IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode)
         {
-            if (string.IsNullOrEmpty(jobref))
+            var ptlMaster = this.masterRepository.GetMasterRecord();
+            if (ptlMaster == null)
             {
-                return new BadRequestResult<ProductionTriggersReport>("You must supply a jobref");
+                return new ServerFailureResult<ProductionTriggersReport>("Could not find PTL Master record");
             }
 
-            if (string.IsNullOrEmpty(citCode))
-            {
-                return new BadRequestResult<ProductionTriggersReport>("You must supply a citCode");
-            }
+            var reportJobref = string.IsNullOrEmpty(jobref) ? ptlMaster.LastFullRunJobref : jobref;
 
             ProductionTriggerReportType triggerReportType;
-
-            var cit = this.citRepository.FindById(citCode);
+            
+            // if no cit then just pick the first production one you can find
+            var cit = (string.IsNullOrEmpty(citCode)) ? this.citRepository.FilterBy(c => c.BuildGroup == "PP").ToList().OrderBy(c => c.SortOrder).FirstOrDefault() : this.citRepository.FindById(citCode);
 
             if (cit == null)
             {
                 return new NotFoundResult<ProductionTriggersReport>($"cit {citCode} not found");
             }
 
-            var ptlMaster = masterRepository.GetMasterRecord();
-
-            var report = new ProductionTriggersReport(jobref, ptlMaster, cit, repository);
+            var report = new ProductionTriggersReport(reportJobref, ptlMaster, cit, repository);
 
             return new SuccessResult<ProductionTriggersReport>(report);
         }
