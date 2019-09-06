@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;

@@ -1,11 +1,9 @@
 ﻿namespace Linn.Production.Facade.Tests.WorksOrderServiceSpecs
 {
-    using Linn.Common.Facade;
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Services;
-    using Linn.Production.Resources;
 
     using NSubstitute;
 
@@ -19,27 +17,23 @@
 
         protected ITransactionManager TransactionManager { get; private set; }
 
-        protected IFacadeService<Part, string, PartResource, PartResource> PartsService { get; private set; }
+        protected IWorksOrderFactory WorksOrderFactory { get; private set; }
 
-        protected IGetNextBatchService GetNextBatchService { get; private set; }
-
-        protected ICanRaiseWorksOrderService CanRaiseWorksOrderService { get; private set; }
+        protected IWorksOrderProxyService WorksOrderProxyService { get; private set; }
 
         [SetUp]
         public void SetUpContext()
         {
             this.WorksOrderRepository = Substitute.For<IRepository<WorksOrder, int>>();
             this.TransactionManager = Substitute.For<ITransactionManager>();
-            this.PartsService = Substitute.For<IFacadeService<Part, string, PartResource, PartResource>>();
-            this.GetNextBatchService = Substitute.For<IGetNextBatchService>();
-            this.CanRaiseWorksOrderService = Substitute.For<ICanRaiseWorksOrderService>();
+            this.WorksOrderFactory = Substitute.For<IWorksOrderFactory>();
+            this.WorksOrderProxyService = Substitute.For<IWorksOrderProxyService>();
 
             this.Sut = new WorksOrderService(
                 this.WorksOrderRepository,
                 this.TransactionManager,
-                this.PartsService,
-                this.GetNextBatchService,
-                this.CanRaiseWorksOrderService);
+                this.WorksOrderFactory,
+                this.WorksOrderProxyService);
         }
     }
 }

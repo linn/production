@@ -12,12 +12,9 @@
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
     using Linn.Common.Proxy;
-    using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -33,6 +30,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
             builder.RegisterType<AssemblyFailsWaitingListReportService>().As<IAssemblyFailsWaitingListReportService>();
+            builder.RegisterType<WorksOrderFactory>().As<IWorksOrderFactory>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -50,9 +48,8 @@
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
-            builder.RegisterType<WorksOrderService>()
-                .As<IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>>();
             builder.RegisterType<PartsService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
+            builder.RegisterType<WorksOrderService>().As<IWorksOrderService>();
 
 
             // oracle proxies
@@ -65,9 +62,8 @@
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
-            builder.RegisterType<GetNextBatchProxy>().As<IGetNextBatchService>();
-            builder.RegisterType<CanRaiseWorksOrderProxy>().As<ICanRaiseWorksOrderService>();
-            builder.RegisterType<GetDepartmentProxy>().As<IGetDepartmentService>();
+            builder.RegisterType<WorksOrderProxy>().As<IWorksOrderProxyService>();
+            builder.RegisterType<SernosPack>().As<ISernosPack>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();

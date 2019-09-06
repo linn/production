@@ -3,6 +3,7 @@
     using System;
 
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
 
     public class AssemblyFail
     {

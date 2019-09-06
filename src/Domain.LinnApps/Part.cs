@@ -17,5 +17,10 @@
         public string SernosSequence { get; set; }
 
         public List<AssemblyFail> AssemblyFails { get; set; }
+
+        public bool IsPhantomPart()
+        {
+            return this.BomType == "P";
+        }
     }
 }
