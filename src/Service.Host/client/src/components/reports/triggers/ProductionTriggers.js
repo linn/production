@@ -11,9 +11,13 @@ function ProductionTriggers({ reportData, loading, cits, options, fetchTriggers,
     const [citOptions, setCitOptions] = useState([]);
     const [jobref, setJobref] = useState('');
 
+    function excludeInvalidCits(cit) {
+        return !cit.dateInvalid;
+    }
+
     useEffect(() => {
         if (cits !== null) {
-            const citsFormatted = cits.map(cit => ({
+            const citsFormatted = cits.filter(excludeInvalidCits).map(cit => ({
                 id: cit.code,
                 displayText: cit.name
             }));

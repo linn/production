@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Measures
 {
+    using System;
     using System.Collections.Generic;
 
     public class Cit
@@ -11,6 +12,8 @@
         public string BuildGroup { get; set; }
 
         public int? SortOrder { get; set; }
+
+        public DateTime? DateInvalid { get; set; }
 
         public ProductionMeasures Measures { get; set; }
 

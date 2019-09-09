@@ -221,6 +221,7 @@
             e.Property(c => c.Code).HasColumnName("CODE").HasMaxLength(10);
             e.Property(c => c.Name).HasColumnName("NAME").HasMaxLength(50);
             e.Property(c => c.BuildGroup).HasColumnName("BUILD_GROUP").HasMaxLength(2);
+            e.Property(c => c.DateInvalid).HasColumnName("DATE_INVALID");
             e.Property(c => c.SortOrder).HasColumnName("SORT_ORDER");
         }
 

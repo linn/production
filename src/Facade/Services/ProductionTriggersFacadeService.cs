@@ -36,7 +36,7 @@
             ProductionTriggerReportType triggerReportType;
             
             // if no cit then just pick the first production one you can find
-            var cit = (string.IsNullOrEmpty(citCode)) ? this.citRepository.FilterBy(c => c.BuildGroup == "PP").ToList().OrderBy(c => c.SortOrder).FirstOrDefault() : this.citRepository.FindById(citCode);
+            var cit = (string.IsNullOrEmpty(citCode)) ? this.citRepository.FilterBy(c => c.BuildGroup == "PP" && c.DateInvalid == null).ToList().OrderBy(c => c.SortOrder).FirstOrDefault() : this.citRepository.FindById(citCode);
 
             if (cit == null)
             {

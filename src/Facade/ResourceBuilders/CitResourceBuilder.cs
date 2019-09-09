@@ -13,13 +13,14 @@
         public CitResource Build(Cit cit)
         {
             return new CitResource
-                       {
-                           BuildGroup = cit.BuildGroup,
-                           Code = cit.Code,
-                           Name = cit.Name,
-                           SortOrder = cit.SortOrder,
-                           Links = this.BuildLinks(cit).ToArray()
-                       };
+                {
+                    BuildGroup = cit.BuildGroup,
+                    Code = cit.Code,
+                    Name = cit.Name,
+                    SortOrder = cit.SortOrder,
+                    DateInvalid = cit.DateInvalid?.ToString(),
+                    Links = this.BuildLinks(cit).ToArray()
+                };
         }
 
         public string GetLocation(Cit cit)
