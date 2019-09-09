@@ -22,7 +22,10 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.AssemblyFailsReportsFacade.GetAssemblyFailsMeasuresReport(1.May(2020).ToString("O"), 1.July(2020).ToString("O"))
+            this.AssemblyFailsReportsFacade.GetAssemblyFailsMeasuresReport(
+                    1.May(2020).ToString("O"),
+                    1.July(2020).ToString("O"),
+                    "part-number")
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
                         {
@@ -40,6 +43,7 @@
                         with.Header("Accept", "application/json");
                         with.Query("fromDate", 1.May(2020).ToString("O"));
                         with.Query("toDate", 1.July(2020).ToString("O"));
+                        with.Query("groupBy", "part-number");
                     }).Result;
         }
 
@@ -54,7 +58,8 @@
         {
             this.AssemblyFailsReportsFacade.Received().GetAssemblyFailsMeasuresReport(
                 1.May(2020).ToString("O"),
-                1.July(2020).ToString("O"));
+                1.July(2020).ToString("O"),
+                "part-number");
         }
 
         [Test]

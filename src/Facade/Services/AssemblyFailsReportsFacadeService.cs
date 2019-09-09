@@ -5,7 +5,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Reports;
-    using Linn.Production.Domain.LinnApps.Reports.OptionTypes;
+    using Linn.Production.Facade.Extensions;
 
     public class AssemblyFailsReportsFacadeService : IAssemblyFailsReportsFacadeService
     {
@@ -21,7 +21,7 @@
             return new SuccessResult<ResultsModel>(this.reportService.GetAssemblyFailsWaitingListReport());
         }
 
-        public IResult<ResultsModel> GetAssemblyFailsMeasuresReport(string fromDate, string toDate)
+        public IResult<ResultsModel> GetAssemblyFailsMeasuresReport(string fromDate, string toDate, string groupBy)
         {
             if (string.IsNullOrEmpty(toDate))
             {
@@ -45,7 +45,7 @@
                 return new BadRequestResult<ResultsModel>("Invalid dates supplied to assembly fails measures report");
             }
 
-            return new SuccessResult<ResultsModel>(this.reportService.GetAssemblyFailsMeasuresReport(from, to, AssemblyFailGroupBy.boardPartNumber));
+            return new SuccessResult<ResultsModel>(this.reportService.GetAssemblyFailsMeasuresReport(from, to, groupBy.ParseOption()));
         }
     }
 }

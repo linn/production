@@ -1,8 +1,10 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
@@ -75,7 +77,7 @@
 
         public ResultsModel GetAssemblyFailsMeasuresReport(DateTime fromDate, DateTime toDate, AssemblyFailGroupBy groupBy)
         {
-            var reportLayout = new ValuesByWeekLayout(this.reportingHelper, "Assembly Fails Measures");
+            var reportLayout = new ValuesByWeekLayout(this.reportingHelper, this.GenerateReportTitle(groupBy));
             var weeks = this.linnWeekService.GetWeeks(fromDate, toDate).ToList();
             reportLayout.AddWeeks(
                 weeks.Select(
@@ -85,19 +87,70 @@
                              }));
             var fails = this.assemblyFailsRepository.FilterBy(a => a.DateTimeFound >= fromDate && a.DateTimeFound <= toDate);
 
-            var calculatedValues = fails.Select(
-                f => new CalculationValueModel
-                         {
-                             RowId = f.BoardPartNumber,
-                             ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
-                             Quantity = f.NumberOfFails
-                         });
+            var calculatedValues = this.CalculatedValues(fails, groupBy, weeks);
             reportLayout.AddData(calculatedValues);
 
             var model = reportLayout.GetResultsModel();
             this.reportingHelper.SortRowsByColumnValue(model, model.ColumnIndex("Total"), true);
 
             return model;
+        }
+
+        private string GenerateReportTitle(AssemblyFailGroupBy groupBy)
+        {
+            return $"Assembly Fails Measures Grouped By {Regex.Replace(groupBy.ToString(), "(\\B[A-Z])", " $1")}";
+        }
+
+        private IEnumerable<CalculationValueModel> CalculatedValues(
+            IEnumerable<AssemblyFail> fails,
+            AssemblyFailGroupBy groupBy,
+            IReadOnlyCollection<LinnWeek> weeks)
+        {
+            switch (groupBy)
+            {
+                case AssemblyFailGroupBy.BoardPartNumber:
+                    return fails.Select(
+                        f => new CalculationValueModel
+                                 {
+                                     RowId = f.BoardPartNumber,
+                                     ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
+                                     Quantity = f.NumberOfFails
+                                 });
+                case AssemblyFailGroupBy.Fault:
+                    return fails.Select(
+                        f => new CalculationValueModel
+                                 {
+                                     RowId = f.FaultCode?.FaultCode ?? string.Empty,
+                                     RowTitle = f.FaultCode?.Description,
+                                     ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
+                                     Quantity = f.NumberOfFails
+                                 });
+                case AssemblyFailGroupBy.Board:
+                    break;
+                case AssemblyFailGroupBy.Cit:
+                    return fails.Select(
+                        f => new CalculationValueModel
+                                 {
+                                     RowId = f.CitResponsible?.Code,
+                                     RowTitle = f.CitResponsible?.Name,
+                                     ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
+                                     Quantity = f.NumberOfFails
+                                 });
+                case AssemblyFailGroupBy.CircuitPartNumber:
+                    return fails.Select(
+                        f => new CalculationValueModel
+                                 {
+                                     RowId = f.CircuitPart ?? string.Empty,
+                                     ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
+                                     Quantity = f.NumberOfFails
+                                 });
+                case AssemblyFailGroupBy.Person:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(groupBy), groupBy, null);
+            }
+
+            return null;
         }
     }
 }

@@ -7,6 +7,6 @@
     {
         IResult<ResultsModel> GetAssemblyFailsWaitingListReport();
 
-        IResult<ResultsModel> GetAssemblyFailsMeasuresReport(string fromDate, string toDate);
+        IResult<ResultsModel> GetAssemblyFailsMeasuresReport(string fromDate, string toDate, string groupBy);
     }
 }

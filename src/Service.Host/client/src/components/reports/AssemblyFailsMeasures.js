@@ -30,14 +30,14 @@ const AssemblyFailsMeasures = ({ reportData, loading, options }) => (
 );
 
 AssemblyFailsMeasures.propTypes = {
-    reportData: PropTypes.arrayOf(PropTypes.shape({})),
+    reportData: PropTypes.shape({}),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
     options: PropTypes.shape({})
 };
 
 AssemblyFailsMeasures.defaultProps = {
-    reportData: [],
+    reportData: {},
     options: {},
     loading: false
 };

@@ -23,7 +23,6 @@
         private object GetCits()
         {
             var cits = this.citService.GetAll();
-                         
 
             return this.Negotiate.WithModel(cits).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");

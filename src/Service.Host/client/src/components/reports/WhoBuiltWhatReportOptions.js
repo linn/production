@@ -19,7 +19,7 @@ function WhoBuiltWhatReportOptions({ history }) {
             search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&citCode=${citCode}`
         });
 
-    const handleCitChange = newValue => {
+    const handleCitChange = (_field, newValue) => {
         setCitCode(newValue);
     };
 

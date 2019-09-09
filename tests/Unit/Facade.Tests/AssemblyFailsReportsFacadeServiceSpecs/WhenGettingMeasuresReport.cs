@@ -18,15 +18,24 @@
         [SetUp]
         public void SetUp()
         {
-            this.ReportService.GetAssemblyFailsMeasuresReport(1.May(2020), 1.July(2020), AssemblyFailGroupBy.boardPartNumber)
+            this.ReportService.GetAssemblyFailsMeasuresReport(
+                    1.May(2020),
+                    1.July(2020),
+                    AssemblyFailGroupBy.Fault)
                 .Returns(new ResultsModel { ReportTitle = new NameModel("name") });
-            this.result = this.Sut.GetAssemblyFailsMeasuresReport(1.May(2020).ToString("O"), 1.July(2020).ToString("O"));
+            this.result = this.Sut.GetAssemblyFailsMeasuresReport(
+                1.May(2020).ToString("O"),
+                1.July(2020).ToString("O"),
+                "fault");
         }
 
         [Test]
         public void ShouldGetReport()
         {
-            this.ReportService.Received().GetAssemblyFailsMeasuresReport(1.May(2020), 1.July(2020), AssemblyFailGroupBy.boardPartNumber);
+            this.ReportService.Received().GetAssemblyFailsMeasuresReport(
+                1.May(2020),
+                1.July(2020),
+                AssemblyFailGroupBy.Fault);
         }
 
         [Test]
