@@ -37,10 +37,8 @@
                 with =>
                 {
                     with.Header("Accept", "application/json");
-                    with.Header("Content-Type", "application/json");
                     with.Query("jobref", "CJCAIH");
                     with.Query("citCode", "A");
-                    with.Query("reportType", "Full");
                 }).Result;
         }
 
