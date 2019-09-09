@@ -53,3 +53,9 @@ export const whoBuiltWhatDetails = new ItemType(
     'WHO_BUILT_WHAT_DETAILS',
     '/production/reports/who-built-what-details'
 );
+
+export const assemblyFailsMeasures = new ItemType(
+    'assemblyFailsMeasures',
+    'ASSEMBLY_FAILS_MEASURES',
+    '/production/reports/assembly-fails-measures'
+);

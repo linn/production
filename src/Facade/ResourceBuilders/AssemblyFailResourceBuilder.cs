@@ -5,18 +5,10 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     public class AssemblyFailResourceBuilder : IResourceBuilder<AssemblyFail>
     {
-        private readonly ISalesArticleService salesArticleService;
-
-        public AssemblyFailResourceBuilder(ISalesArticleService salesArticleService)
-        {
-            this.salesArticleService = salesArticleService;
-        }
-
         public AssemblyFailResource Build(AssemblyFail model)
         {
             return new AssemblyFailResource
@@ -25,10 +17,8 @@
                             EnteredBy = model.EnteredBy.Id,
                             EnteredByName = model.EnteredBy?.FullName,
                             WorksOrderNumber = model.WorksOrder.OrderNumber,
-                            PartNumber = model.WorksOrder?.PartNumber,
-                            PartDescription = model.WorksOrder?.PartNumber != null 
-                                                  ? this.salesArticleService.GetDescriptionFromPartNumber(model.WorksOrder.PartNumber) 
-                                                  : null,
+                            PartNumber = model.WorksOrder.PartNumber,
+                            PartDescription = model.WorksOrder?.Part.Description,
                             NumberOfFails = model.NumberOfFails,
                             SerialNumber = model.SerialNumber,
                             DateTimeFound = model.DateTimeFound.ToString("o"),

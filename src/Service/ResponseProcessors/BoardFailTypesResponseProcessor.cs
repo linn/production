@@ -6,6 +6,7 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
 
+
     public class BoardFailTypesResponseProcessor : JsonResponseProcessor<IEnumerable<BoardFailType>>
     {
         public BoardFailTypesResponseProcessor(IResourceBuilder<IEnumerable<BoardFailType>> resourceBuilder)

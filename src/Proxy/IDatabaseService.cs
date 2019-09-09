@@ -10,6 +10,8 @@
 
         int GetIdSequence(string sequenceName);
 
+        int GetNextVal(string sequenceName);
+
         DataSet ExecuteQuery(string sql);
     }
 }

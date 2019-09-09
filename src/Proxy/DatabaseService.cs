@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Proxy
 {
+    using System.Configuration;
     using System.Data;
 
     using Oracle.ManagedDataAccess.Client;
@@ -9,6 +10,44 @@
         public OracleConnection GetConnection()
         {
             return new OracleConnection(ConnectionStrings.ManagedConnectionString());
+        }
+
+        public int GetNextVal(string sequenceName)
+        {
+            using (var connection = this.GetConnection())
+            {
+                connection.Open();
+                var cmd = new OracleCommand("cg_code_controls_next_val", connection)
+                              {
+                                  CommandType = CommandType.StoredProcedure
+                              };
+
+                var result = new OracleParameter(null, OracleDbType.Int32)
+                                 {
+                                     Direction = ParameterDirection.ReturnValue,
+                                     Size = 50
+                                 };
+                cmd.Parameters.Add(result);
+
+                var parameter = new OracleParameter("p_cc_domain", OracleDbType.Varchar2)
+                                        {
+                                            Direction = ParameterDirection.Input,
+                                            Value = sequenceName
+                                        };
+                cmd.Parameters.Add(parameter);
+
+                var num = new OracleParameter("p_increment", OracleDbType.Int32)
+                                    {
+                                        Direction = ParameterDirection.Input,
+                                        Value = 1
+                                    };
+                cmd.Parameters.Add(num);
+
+                cmd.ExecuteNonQuery();
+                connection.Close();
+                var res = result.Value.ToString();
+                return int.Parse(res);
+            }
         }
 
         public DataSet ExecuteQuery(string sql)

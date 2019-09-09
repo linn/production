@@ -22,6 +22,7 @@
         {
             return this.serviceDbContext.AssemblyFails
                 .Include(f => f.WorksOrder)
+                .Include(f => f.WorksOrder.Part)
                 .Include(f => f.CitResponsible)
                 .Include(f => f.CompletedBy)
                 .Include(f => f.FaultCode)
@@ -39,7 +40,7 @@
 
         public void Add(AssemblyFail entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.AssemblyFails.Add(entity);
         }
 
         public void Remove(AssemblyFail entity)
@@ -54,7 +55,7 @@
 
         public IQueryable<AssemblyFail> FilterBy(Expression<Func<AssemblyFail, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.AssemblyFails.Where(expression);
         }
     }
 }

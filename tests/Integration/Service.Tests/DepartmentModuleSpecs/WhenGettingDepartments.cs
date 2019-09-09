@@ -15,7 +15,7 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingDepartments : ContextBase
+    public class WhenSearching : ContextBase
     {
         [SetUp]
         public void SetUp()

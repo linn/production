@@ -36,10 +36,13 @@ import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
 import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
 import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
+import CreateAssemblyFail from '../containers/assemblyFails/CreateAssemblyFail';
 import WhoBuiltWhatReportOptions from '../containers/reports/WhoBuiltWhatReportOptions';
 import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
 import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetailsReport';
 import ProductionTriggersReport from '../containers/reports/triggers/ProductionTriggersReport';
+import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
+import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 
 const Root = ({ store }) => (
     <div>
@@ -220,8 +223,8 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-                                            path="/production/resources/manufacturing-resources"
-                                            component={ManufacturingResources}
+                                            path="/production/quality/create-assembly-fail"
+                                            component={CreateAssemblyFail}
                                         />
                                         <Route
                                             exact
@@ -230,8 +233,23 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
+                                            path="/production/resources/manufacturing-resources"
+                                            component={ManufacturingResources}
+                                        />
+                                        <Route
+                                            exact
                                             path="/production/resources/manufacturing-resources/:id"
                                             component={ManufacturingResource}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-measures/report"
+                                            component={AssemblyFailsMeasures}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-measures"
+                                            component={AssemblyFailsMeasuresOptions}
                                         />
                                     </Switch>
                                 </div>

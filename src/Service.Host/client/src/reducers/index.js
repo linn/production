@@ -2,6 +2,7 @@
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import assemblyFail from './assemblyFails/assemblyFail';
+import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
 import departments from './departments';
@@ -18,12 +19,19 @@ import manufacturingResource from './manufacturingResources/manufacturingResourc
 import boardFailTypes from './boardFailTypes/boardFailTypes';
 import boardFailType from './boardFailTypes/boardFailType';
 import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
+import worksOrders from './worksOrders/worksOrders';
+import productionTriggerLevels from './productionTriggerLevels';
+import pcasRevisions from './pcasRevisions';
+import employees from './employees';
 import whoBuiltWhat from './whoBuiltWhat';
 import whoBuiltWhatDetails from './whoBuiltWhatDetails';
+import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
+import assemblyFailsMeasures from './assemblyFailsMeasures';
 
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
+    assemblyFailFaultCodes,
     assemblyFailsWaitingListReport,
     ateFaultCode,
     ateFaultCodes,
@@ -37,11 +45,17 @@ const rootReducer = combineReducers({
     manufacturingSkill,
     manufacturingResources,
     manufacturingResource,
+    worksOrders,
+    productionTriggerLevels,
+    pcasRevisions,
+    employees,
     outstandingWorksOrdersReport,
     productionMeasures,
     productionTriggersReport,
     whoBuiltWhat,
     whoBuiltWhatDetails,
+    manufacturingRoute,
+    assemblyFailsMeasures,
     ...sharedLibraryReducers
 });
 

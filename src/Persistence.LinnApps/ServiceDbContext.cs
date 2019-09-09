@@ -1,13 +1,15 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
     using System.Linq;
-    using Linn.Production.Domain.LinnApps.Triggers;
+
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
+
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -32,11 +34,15 @@
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
 
+        public DbSet<ManufacturingRoute> ManufacturingRoutes { get; set; }
+
+        public DbSet<ManufacturingOperation> ManufacturingOperations { get; set; }
+
         public DbSet<BoardFailType> BoardFailTypes { get; set; }
 
         public DbSet<AssemblyFail> AssemblyFails { get; set; }
 
-        public DbSet<WorksOrder> WorksOrders { get; set; } 
+        public DbSet<WorksOrder> WorksOrders { get; set; }
 
         public DbSet<Part> Parts { get; set; }
 
@@ -44,17 +50,23 @@
 
         public DbSet<Employee> Employees { get; set; }
 
+        public DbSet<ProductionTriggerLevel> ProductionTriggerLevels { get; set; }
+
+        public DbQuery<PcasRevision> PcasRevisions { get; set; }
+
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
-
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
-
-        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
 
         public DbQuery<ProductionTrigger> ProductionTriggers { get; set; }
+
+        public DbSet<LinnWeek> LinnWeeks { get; set; }
+
+        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
+
+        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -68,32 +80,33 @@
             this.BuildManufacturingResources(builder);
 
             this.BuildManufacturingSkills(builder);
+            this.BuildManufacturingRoutes(builder);
+            this.BuildManufacturingOperations(builder);
+
             this.BuildBoardFailTypes(builder);
             this.BuildAssemblyFails(builder);
             this.BuildWorkOrders(builder);
             this.BuildParts(builder);
             this.BuildEmployees(builder);
             this.BuildAssemblyFailFaultCodes(builder);
+            this.BuildProductionTriggerLevels(builder);
+            this.QueryPcasRevisions(builder);
             this.BuildAssemblyFailFaultCodes(builder);
             this.QueryPtlMaster(builder);
             this.QueryOsrRunMaster(builder);
             this.QueryProductionTriggers(builder);
+            this.BuildLinnWeeks(builder);
             base.OnModelCreating(builder);
         }
 
-        protected void QueryWhoBuildWhat(ModelBuilder builder)
+        protected void QueryPcasRevisions(ModelBuilder builder)
         {
-            builder.Query<WhoBuiltWhat>().ToView("V_WHO_BUILT_WHAT");
-            builder.Query<WhoBuiltWhat>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
-            builder.Query<WhoBuiltWhat>().Property(t => t.CitName).HasColumnName("CIT_NAME");
-            builder.Query<WhoBuiltWhat>().Property(t => t.SernosDate).HasColumnName("SERNOS_DATE");
-            builder.Query<WhoBuiltWhat>().Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
-            builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
-            builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
-            builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
-            builder.Query<WhoBuiltWhat>().Property(t => t.SernosNumber).HasColumnName("SERNOS_NUMBER");
-            builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+            builder.Query<PcasRevision>().ToView("PCAS_REVISION_COMP_VIEW");
+            builder.Query<PcasRevision>().Property(r => r.Cref).HasColumnName("CREF");
+            builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
         }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -111,7 +124,7 @@
             base.OnConfiguring(optionsBuilder);
         }
 
-        protected void BuildAte(ModelBuilder builder)
+        private void BuildAte(ModelBuilder builder)
         {
             builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
             builder.Entity<AteFaultCode>().HasKey(t => t.FaultCode);
@@ -120,7 +133,7 @@
             builder.Entity<AteFaultCode>().Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
-        protected void BuildAssemblyFails(ModelBuilder builder)
+        private void BuildAssemblyFails(ModelBuilder builder)
         {
             var e = builder.Entity<AssemblyFail>().ToTable("ASSEMBLY_FAILS");
             e.HasKey(f => f.Id);
@@ -160,20 +173,48 @@
             e.Property(f => f.EngineeringComments).HasColumnName("ENGINEERING_COMMENTS");
         }
 
-        protected void BuildWorkOrders(ModelBuilder builder)
+        private void BuildWorkOrders(ModelBuilder builder)
         {
             var e = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
             e.HasKey(o => o.OrderNumber);
-            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
             e.Property(o => o.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            e.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
-        protected void BuildBoardFailTypes(ModelBuilder builder)
+        private void BuildBoardFailTypes(ModelBuilder builder)
         {
             builder.Entity<BoardFailType>().ToTable("BOARD_FAIL_TYPES");
             builder.Entity<BoardFailType>().HasKey(t => t.Type);
             builder.Entity<BoardFailType>().Property(t => t.Type).HasColumnName("FAIL_TYPE");
             builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION");
+        }
+
+        private void BuildLinnWeeks(ModelBuilder builder)
+        {
+            builder.Entity<LinnWeek>().ToTable("LINN_WEEKS");
+            builder.Entity<LinnWeek>().HasKey(t => t.LinnWeekNumber);
+            builder.Entity<LinnWeek>().Property(t => t.LinnWeekNumber).HasColumnName("LINN_WEEK_NUMBER");
+            builder.Entity<LinnWeek>().Property(t => t.StartDate).HasColumnName("LINN_WEEK_START_DATE");
+            builder.Entity<LinnWeek>().Property(t => t.EndDate).HasColumnName("LINN_WEEK_END_DATE");
+            builder.Entity<LinnWeek>().Property(t => t.WWYYYY).HasColumnName("WWYYYY").HasMaxLength(8);
+            builder.Entity<LinnWeek>().Property(t => t.WWSYY).HasColumnName("WWSYY").HasMaxLength(5);
+            builder.Entity<LinnWeek>().Property(t => t.WeekEndingDDMON).HasColumnName("WEEK_ENDING_DDMON").HasMaxLength(5);
+            builder.Entity<LinnWeek>().Property(t => t.LinnMonthEndWeekNumber).HasColumnName("LINN_MONTH_END_WEEK_NUMBER");
+        }
+
+        private void QueryWhoBuildWhat(ModelBuilder builder)
+        {
+            builder.Query<WhoBuiltWhat>().ToView("V_WHO_BUILT_WHAT");
+            builder.Query<WhoBuiltWhat>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<WhoBuiltWhat>().Property(t => t.CitName).HasColumnName("CIT_NAME");
+            builder.Query<WhoBuiltWhat>().Property(t => t.SernosDate).HasColumnName("SERNOS_DATE");
+            builder.Query<WhoBuiltWhat>().Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            builder.Query<WhoBuiltWhat>().Property(t => t.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Query<WhoBuiltWhat>().Property(t => t.UserName).HasColumnName("USER_NAME");
+            builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
+            builder.Query<WhoBuiltWhat>().Property(t => t.SernosNumber).HasColumnName("SERNOS_NUMBER");
+            builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)
@@ -211,6 +252,15 @@
             e.Property(b => b.MaterialPrice).HasColumnName("MATERIAL_PRICE");
             e.Property(b => b.Quantity).HasColumnName("QUANTITY");
             e.Property(b => b.DepartmentCode).HasColumnName("CR_DEPT");
+        }
+
+        private void BuildProductionTriggerLevels(ModelBuilder builder)
+        {
+            var e = builder.Entity<ProductionTriggerLevel>();
+            e.ToTable("PRODUCTION_TRIGGER_LEVELS");
+            e.HasKey(l => l.PartNumber);
+            e.Property(l => l.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(l => l.Description).HasColumnName("DESCRIPTION");
         }
 
         private void BuildCits(ModelBuilder builder)
@@ -332,6 +382,37 @@
             q.Property(e => e.LastTriggerJobref).HasColumnName("LAST_TRIGGER_JOBREF").HasMaxLength(6);
             q.Property(e => e.LastTriggerRunDateTime).HasColumnName("LAST_TRIGGER_RUNDATE");
             q.Property(e => e.RunDateTime).HasColumnName("RUN_DATETIME");
+        }
+
+        private void BuildManufacturingRoutes(ModelBuilder builder)
+        {
+            var e = builder.Entity<ManufacturingRoute>();
+            e.ToTable("MFG_ROUTES");
+            e.HasKey(s => s.RouteCode);
+            e.Property(s => s.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(10);
+            e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(s => s.Notes).HasColumnName("NOTES");
+            builder.Entity<ManufacturingRoute>().HasMany(t => t.Operations).WithOne(x => x.ManufacturingRoute);
+        }
+
+        private void BuildManufacturingOperations(ModelBuilder builder)
+        {
+            var e = builder.Entity<ManufacturingOperation>();
+            e.ToTable("MFG_OPERATIONS");
+            e.HasKey(s => s.RouteCode);
+            e.HasKey(s => s.ManufacturingId);
+            e.Property(s => s.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(20);
+            e.Property(s => s.ManufacturingId).HasColumnName("MFG_ID").HasMaxLength(8);
+            e.Property(s => s.OperationNumber).HasColumnName("OPERATION_NUMBER").HasMaxLength(38);
+            e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(s => s.SkillCode).HasColumnName("MFG_SKILL_CODE").HasMaxLength(10);
+            e.Property(s => s.ResourceCode).HasColumnName("MFG_RESOURCE_CODE").HasMaxLength(10);
+            e.Property(s => s.SetAndCleanTime).HasColumnName("SET_AND_CLEAN_TIME_MINS").HasMaxLength(7);
+            e.Property(s => s.CycleTime).HasColumnName("CYCLE_TIME_MINS").HasMaxLength(7);
+            e.Property(s => s.LabourPercentage).HasColumnName("LABOUR_PERCENTAGE").HasMaxLength(38);
+            e.Property(s => s.CITCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            e.HasOne<ManufacturingRoute>(s => s.ManufacturingRoute).WithMany(g => g.Operations)
+                .HasForeignKey(s => s.RouteCode);
         }
 
         private void QueryProductionTriggers(ModelBuilder builder)

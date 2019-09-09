@@ -29,13 +29,23 @@
             builder.RegisterType<SerialNumberReissueRepository>().As<IRepository<SerialNumberReissue, int>>();
             builder.RegisterType<ProductionMeasuresRepository>().As<IRepository<ProductionMeasures, string>>();
             builder.RegisterType<ManufacturingSkillsRepository>().As<IRepository<ManufacturingSkill, string>>();
+            builder.RegisterType<ManufacturingRoutesRepository>().As<IRepository<ManufacturingRoute, string>>();
+            builder.RegisterType<ManufacturingOperationsRepository>().As<IRepository<ManufacturingOperation, int>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
             builder.RegisterType<ManufacturingResourceRepository>().As<IRepository<ManufacturingResource, string>>();
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
-            builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
+            builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
+            builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
+            builder.RegisterType<ProductionTriggerLevelRepository>().As<IRepository<ProductionTriggerLevel, string>>();
+            builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
+            builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
+            builder.RegisterType<EmployeeRepository>().As<IRepository<Employee, int>>();
+            builder.RegisterType<AssemblyFailFaultCodeRepository>().As<IRepository<AssemblyFailFaultCode, string>>();
+              builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
             builder.RegisterType<OsrRunMasterRepository>().As<IMasterRepository<OsrRunMaster>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
+            builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

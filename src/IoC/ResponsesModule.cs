@@ -14,6 +14,8 @@
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.ResourceBuilders;
 
+    using Linn.Production.Domain.LinnApps.ViewModels;
+
     public class ResponsesModule : Module
     {
         protected override void Load(ContainerBuilder builder)
@@ -31,12 +33,40 @@
             builder.RegisterType<ManufacturingSkillResourceBuilder>().As<IResourceBuilder<ManufacturingSkill>>();
             builder.RegisterType<ManufacturingSkillsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingSkill>>>();
+            builder.RegisterType<ManufacturingRouteResourceBuilder>().As<IResourceBuilder<ManufacturingRoute>>();
+            builder.RegisterType<ManufacturingRoutesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<ManufacturingRoute>>>();
+            builder.RegisterType<ManufacturingOperationResourceBuilder>().As<IResourceBuilder<ManufacturingOperation>>();
+            builder.RegisterType<ManufacturingOperationsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<ManufacturingOperation>>>();
             builder.RegisterType<CitResourceBuilder>().As<IResourceBuilder<Cit>>();
             builder.RegisterType<CitsResourceBuilder>().As<IResourceBuilder<IEnumerable<Cit>>>();
             builder.RegisterType<BoardFailTypeResourceBuilder>().As<IResourceBuilder<BoardFailType>>();
             builder.RegisterType<BoardFailTypesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<BoardFailType>>>();
             builder.RegisterType<AssemblyFailResourceBuilder>().As<IResourceBuilder<AssemblyFail>>();
+            builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
+            builder.RegisterType<WorksOrdersResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<WorksOrder>>>();
+            builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ProductionTriggerLevel>>();
+            builder.RegisterType<ProductionTriggerLevelsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>();
+            builder.RegisterType<PcasRevisionResourceBuilder>()
+                .As<IResourceBuilder<PcasRevision>>();
+            builder.RegisterType<PcasRevisionsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<PcasRevision>>>();
+            builder.RegisterType<CitResourceBuilder>()
+                .As<IResourceBuilder<Cit>>();
+            builder.RegisterType<CitsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<Cit>>>();
+            builder.RegisterType<EmployeeResourceBuilder>()
+                .As<IResourceBuilder<Employee>>();
+            builder.RegisterType<EmployeesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<Employee>>>();
+            builder.RegisterType<AssemblyFailFaultCodeResourceBuilder>()
+                .As<IResourceBuilder<AssemblyFailFaultCode>>();
+            builder.RegisterType<AssemblyFailFaultCodesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<AssemblyFailFaultCode>>>();
             builder.RegisterType<ManufacturingResourceResourceBuilder>().As<IResourceBuilder<ManufacturingResource>>();
             builder.RegisterType<ManufacturingResourcesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingResource>>>();
