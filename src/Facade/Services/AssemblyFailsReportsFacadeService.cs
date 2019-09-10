@@ -6,6 +6,7 @@
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Extensions;
+    using Linn.Production.Resources.RequestResources;
 
     public class AssemblyFailsReportsFacadeService : IAssemblyFailsReportsFacadeService
     {
@@ -46,6 +47,30 @@
             }
 
             return new SuccessResult<ResultsModel>(this.reportService.GetAssemblyFailsMeasuresReport(from, to, groupBy.ParseOption()));
+        }
+
+        public IResult<ResultsModel> GetAssemblyFailsDetailsReport(AssemblyFailsDetailsReportRequestResource resource)
+        {
+            DateTime from;
+            DateTime to;
+            try
+            {
+                from = DateTime.Parse(resource.FromDate);
+                to = DateTime.Parse(resource.ToDate);
+            }
+            catch (Exception)
+            {
+                return new BadRequestResult<ResultsModel>("Invalid dates supplied to assembly fails details report");
+            }
+
+            return new SuccessResult<ResultsModel>(
+                this.reportService.GetAssemblyFailsDetailsReport(
+                    from,
+                    to,
+                    resource.BoardPartNumber,
+                    resource.CircuitPartNumber,
+                    resource.FaultCode,
+                    resource.CitCode));
         }
     }
 }

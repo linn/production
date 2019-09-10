@@ -16,6 +16,18 @@
             this.reportService = reportService;
             this.Get("/production/reports/assembly-fails-waiting-list", _ => this.GetWaitingListReport());
             this.Get("/production/reports/assembly-fails-measures", _ => this.GetMeasuresReport());
+            this.Get("/production/reports/assembly-fails-details", _ => this.GetDetailsReport());
+        }
+
+        private object GetDetailsReport()
+        {
+            var resource = this.Bind<AssemblyFailsDetailsReportRequestResource>();
+
+            var results = this.reportService.GetAssemblyFailsDetailsReport(resource);
+            return this.Negotiate
+                .WithModel(results)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetMeasuresReport()

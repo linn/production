@@ -57,7 +57,10 @@
                                                 NumberOfFails = 1,
                                                 FaultCode = new AssemblyFailFaultCode { FaultCode = "F1", Description = "Fault 1" },
                                                 CitResponsible = new Cit { Code = "C", Name = "Cit 1" },
-                                                CircuitPart = "Circuit Part 1"
+                                                CircuitPart = "Circuit Part 1",
+                                                WorksOrder = new WorksOrder { OrderNumber = 24, PartNumber = "W O Part" },
+                                                ReportedFault = "report",
+                                                Analysis = "analysis"
                                             },
                                         new AssemblyFail
                                             {
@@ -77,14 +80,15 @@
                                                 NumberOfFails = 2,
                                                 FaultCode = new AssemblyFailFaultCode { FaultCode = "F1", Description = "Fault 1" },
                                                 CitResponsible = new Cit { Code = "C", Name = "Cit 1" },
-                                                CircuitPart = "Circuit Part 1"
+                                                CircuitPart = "Circuit Part 1",
+                                                WorksOrder = new WorksOrder { OrderNumber = 45, PartNumber = "W O Part" }
                                             }
                                     };
             this.Weeks = new List<LinnWeek>
                              {
-                                 new LinnWeek { LinnWeekNumber = 20, StartDate = 1.June(2020), EndDate = 6.June(2020) },
-                                 new LinnWeek { LinnWeekNumber = 21, StartDate = 7.June(2020), EndDate = 13.June(2020) },
-                                 new LinnWeek { LinnWeekNumber = 22, StartDate = 14.June(2020), EndDate = 20.June(2020) }
+                                 new LinnWeek { LinnWeekNumber = 20, StartDate = 1.June(2020), EndDate = 6.June(2020), WWSYY = "25/20" },
+                                 new LinnWeek { LinnWeekNumber = 21, StartDate = 7.June(2020), EndDate = 13.June(2020), WWSYY = "26/20" },
+                                 new LinnWeek { LinnWeekNumber = 22, StartDate = 14.June(2020), EndDate = 20.June(2020), WWSYY = "27/20" }
                              };
 
             this.LinnWeekService.GetWeeks(1.June(2020), 30.June(2020)).Returns(this.Weeks.AsQueryable());

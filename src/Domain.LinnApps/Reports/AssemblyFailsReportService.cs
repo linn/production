@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
+    using Linn.Common.Reporting.Layouts;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Layouts;
     using Linn.Production.Domain.LinnApps.Measures;
@@ -92,8 +94,220 @@
 
             var model = reportLayout.GetResultsModel();
             this.reportingHelper.SortRowsByColumnValue(model, model.ColumnIndex("Total"), true);
-
+            model.ValueDrillDownTemplates.Add(
+                new DrillDownModel(
+                    "Details",
+                    this.GenerateValueDrillDown(groupBy, fromDate, toDate),
+                    null,
+                    model.ColumnIndex("Total")));
             return model;
+        }
+
+        public ResultsModel GetAssemblyFailsDetailsReport(
+            DateTime fromDate,
+            DateTime toDate,
+            string boardPartNumber,
+            string circuitPartNumber,
+            string faultCode,
+            string citCode)
+        {
+            var weeks = this.linnWeekService.GetWeeks(fromDate, toDate).ToList();
+
+            var reportLayout = new SimpleGridLayout(
+                this.reportingHelper,
+                CalculationValueModelType.TextValue,
+                null,
+                this.GenerateDetailsReportTitle(boardPartNumber, fromDate, toDate, circuitPartNumber, faultCode, citCode));
+
+            reportLayout.AddColumnComponent(
+                null,
+                new List<AxisDetailsModel>
+                    {
+                        new AxisDetailsModel("Week"),
+                        new AxisDetailsModel("PartNumber", "Part Number"),
+                        new AxisDetailsModel("BoardPartNumber", "Board Part Number"),
+                        new AxisDetailsModel("Fails"),
+                        new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number"),
+                        new AxisDetailsModel("FaultCode", "Fault Code"),
+                        new AxisDetailsModel("ReportedFault", "Reported Fault"),
+                        new AxisDetailsModel("Analysis"),
+                        new AxisDetailsModel("Cit")
+                    });
+
+            var filterQueries = this.GetAssemblyFailDataQueries(
+                fromDate,
+                toDate,
+                boardPartNumber,
+                circuitPartNumber,
+                faultCode,
+                citCode);
+            var fails = this.GetFails(filterQueries);
+
+            var values = new List<CalculationValueModel>();
+            foreach (var assemblyFail in fails)
+            {
+                this.ExtractDetails(values, assemblyFail, weeks);
+            }
+
+            reportLayout.SetGridData(values);
+            var model = reportLayout.GetResultsModel();
+            return model;
+        }
+
+        private IEnumerable<Expression<Func<AssemblyFail, bool>>> GetAssemblyFailDataQueries(
+            DateTime fromDate,
+            DateTime toDate,
+            string boardPartNumber,
+            string circuitPartNumber,
+            string faultCode,
+            string citCode)
+        {
+            var expressions =
+                new List<Expression<Func<AssemblyFail, bool>>>
+                    {
+                        f => f.DateTimeFound >= fromDate && f.DateTimeFound <= toDate
+                    };
+
+            if (!string.IsNullOrEmpty(boardPartNumber))
+            {
+                expressions.Add(f => f.BoardPartNumber == boardPartNumber);
+            }
+
+            if (!string.IsNullOrEmpty(circuitPartNumber))
+            {
+                expressions.Add(f => f.CircuitPart == circuitPartNumber);
+            }
+
+            if (!string.IsNullOrEmpty(faultCode))
+            {
+                expressions.Add(f => f.FaultCode != null && f.FaultCode.FaultCode == faultCode);
+            }
+
+            if (!string.IsNullOrEmpty(citCode))
+            {
+                expressions.Add(f => f.CitResponsible != null && f.CitResponsible.Code == citCode);
+            }
+
+            return expressions;
+        }
+
+        private IEnumerable<AssemblyFail> GetFails(IEnumerable<Expression<Func<AssemblyFail, bool>>> expressions)
+        {
+            IQueryable<AssemblyFail> assemblyFails = null;
+            foreach (var func in expressions)
+            {
+                assemblyFails = assemblyFails?.Where(func) ?? this.assemblyFailsRepository.FilterBy(func);
+            }
+
+            return assemblyFails?.ToList() ?? new List<AssemblyFail>();
+        }
+
+        private void ExtractDetails(
+            ICollection<CalculationValueModel> values,
+            AssemblyFail assemblyFail,
+            IEnumerable<LinnWeek> weeks)
+        {
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "Week",
+                        TextDisplay = this.linnWeekService.GetWeek(assemblyFail.DateTimeFound, weeks).WWSYY
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "PartNumber",
+                        TextDisplay = assemblyFail.WorksOrder?.PartNumber
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "BoardPartNumber",
+                        TextDisplay = assemblyFail.BoardPartNumber
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "Fails",
+                        TextDisplay = assemblyFail.NumberOfFails.ToString()
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "FaultCode",
+                        TextDisplay = assemblyFail.FaultCode?.FaultCode
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "CircuitPartNumber",
+                        TextDisplay = assemblyFail.CircuitPart
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "ReportedFault",
+                        TextDisplay = assemblyFail.ReportedFault
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "Analysis",
+                        TextDisplay = assemblyFail.Analysis
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "Cit",
+                        TextDisplay = assemblyFail.CitResponsible?.Name
+                    });
+        }
+
+        private string GenerateDetailsReportTitle(
+            string boardPartNumber,
+            DateTime fromDate,
+            DateTime toDate,
+            string circuitPartNumber,
+            string faultCode,
+            string citCode)
+        {
+            var title = $"Assembly fails between {fromDate:dd-MMM-yyyy} and {toDate:dd-MMM-yyyy} ";
+            if (!string.IsNullOrEmpty(boardPartNumber))
+            {
+                title += $"Board part number is {boardPartNumber} ";
+            }
+
+
+            if (!string.IsNullOrEmpty(circuitPartNumber))
+            {
+                title += $"Circuit part number is {circuitPartNumber} ";
+            }
+
+            if (!string.IsNullOrEmpty(faultCode))
+            {
+                title += $"Fault code is {faultCode} ";
+            }
+
+            if (!string.IsNullOrEmpty(citCode))
+            {
+                title += $"Cit code is {citCode} ";
+            }
+
+            return title;
+        }
+
+        private string GenerateValueDrillDown(AssemblyFailGroupBy groupBy, DateTime fromDate, DateTime toDate)
+        {
+            return $"/production/reports/assembly-fails-details?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&fromDate={fromDate:O}&toDate={toDate:O}";
         }
 
         private string GenerateReportTitle(AssemblyFailGroupBy groupBy)
