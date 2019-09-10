@@ -6,11 +6,13 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
-    public interface IWorksOrderService
+    public interface IWorksOrdersService
     {
         IResult<WorksOrder> GetWorksOrder(int orderNumber);
 
         IResult<WorksOrder> AddWorksOrder(WorksOrderResource resource);
+
+        IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource);
 
         IResult<WorksOrder> CancelWorksOrder(WorksOrderResource resource);
 

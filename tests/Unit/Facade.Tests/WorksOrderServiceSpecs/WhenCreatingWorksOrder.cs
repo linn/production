@@ -27,13 +27,20 @@
                                     RaisedByDepartment = "DEPT",
                                     DocType = "DOC",
                                     RaisedBy = 33067,
-                                    QuantityOutstanding = 3,
+                                    Quantity = 3,
                                     KittedShort = "KIT"
                                 };
 
-            this.worksOrder = new WorksOrder { PartNumber = "MAJIK", RaisedByDepartment = "DEPT", RaisedBy = 33067 };
+            this.worksOrder = new WorksOrder
+                                  {
+                                      PartNumber = this.resource.PartNumber,
+                                      RaisedByDepartment = this.resource.RaisedByDepartment,
+                                      DocType = this.resource.DocType,
+                                      RaisedBy = this.resource.RaisedBy,
+                                      Quantity = this.resource.Quantity
+                                  };
 
-            this.WorksOrderFactory.RaiseWorksOrder(this.resource.PartNumber, this.resource.RaisedByDepartment, this.resource.RaisedBy)
+            this.WorksOrderFactory.RaiseWorksOrder(Arg.Any<WorksOrder>())
                 .Returns(this.worksOrder);
 
             this.result = this.Sut.AddWorksOrder(this.resource);
@@ -42,10 +49,7 @@
         [Test]
         public void ShouldRaiseWorksOrder()
         {
-            this.WorksOrderFactory.Received().RaiseWorksOrder(
-                this.resource.PartNumber,
-                this.resource.RaisedByDepartment,
-                this.resource.RaisedBy);
+            this.WorksOrderFactory.Received().RaiseWorksOrder(Arg.Any<WorksOrder>());
         }
 
         [Test]
@@ -62,7 +66,7 @@
                 this.resource.OrderNumber,
                 this.resource.DocType,
                 this.resource.RaisedBy,
-                this.resource.QuantityOutstanding);
+                this.resource.Quantity);
         }
 
         [Test]

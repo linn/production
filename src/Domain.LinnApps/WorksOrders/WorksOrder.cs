@@ -25,9 +25,11 @@
 
         public string PartNumber { get; set; }
 
-        public int QuantityOutstanding { get; set; }
+        public int Quantity { get; set; }
 
-        public int QuantityBuilt { get; set; }
+        public int? QuantityOutstanding { get; set; }
+
+        public int? QuantityBuilt { get; set; }
 
         public int RaisedBy { get; set; }
 
@@ -50,32 +52,11 @@
             this.DateCancelled = dateCancelled;
         }
 
-        public void UpdateWorksOrder(
-            int? batchNumber,
-            int? cancelledBy,
-            DateTime? dateCancelled,
-            string kittedShort,
-            int? labelsPrinted,
-            string outstanding,
-            int quantityOutstanding,
-            int quantityBuilt,
-            string reasonCancelled,
-            string startedByShift,
-            string docType,
-            string workStationCode)
+        public void UpdateWorksOrder(string partNumber, int quantity, int raisedBy)
         {
-            this.BatchNumber = batchNumber;
-            this.CancelledBy = cancelledBy;
-            this.DateCancelled = dateCancelled;
-            this.KittedShort = kittedShort;
-            this.LabelsPrinted = labelsPrinted;
-            this.Outstanding = outstanding;
-            this.QuantityOutstanding = quantityOutstanding;
-            this.QuantityBuilt = quantityBuilt;
-            this.ReasonCancelled = reasonCancelled;
-            this.StartedByShift = startedByShift;
-            this.DocType = docType;
-            this.WorkStationCode = workStationCode;
+            this.PartNumber = partNumber;
+            this.Quantity = quantity;
+            this.RaisedBy = raisedBy;
         }
     }
 }

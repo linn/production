@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
@@ -11,7 +10,7 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
-    public class WorksOrderService : IWorksOrderService
+    public class WorksOrdersService : IWorksOrdersService
     {
         private readonly IRepository<WorksOrder, int> worksOrderRepository;
 
@@ -21,7 +20,7 @@
 
         private readonly IWorksOrderProxyService worksOrderProxyService;
 
-        public WorksOrderService(
+        public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
             IWorksOrderFactory worksOrderFactory,
@@ -47,28 +46,25 @@
 
         public IResult<WorksOrder> AddWorksOrder(WorksOrderResource resource)
         {
-            WorksOrder worksOrder;
+            var worksOrder = this.CreateFromResource(resource);
 
             try
             {
-                worksOrder = this.worksOrderFactory.RaiseWorksOrder(resource.PartNumber, resource.RaisedByDepartment, resource.RaisedBy);
+                worksOrder = this.worksOrderFactory.RaiseWorksOrder(worksOrder);
             }
             catch (DomainException exception)
             {
                 return new BadRequestResult<WorksOrder>(exception.Message);
             }
 
-            // TODO orderNumber...
             this.worksOrderRepository.Add(worksOrder);
-
-            this.UpdateFromResource(resource, worksOrder);
 
             this.worksOrderFactory.IssueSerialNumber(
                 worksOrder.PartNumber,
                 worksOrder.OrderNumber,
                 worksOrder.DocType,
                 worksOrder.RaisedBy,
-                worksOrder.QuantityOutstanding);
+                worksOrder.Quantity);
 
             this.transactionManager.Commit();
 
@@ -97,6 +93,27 @@
         }
 
         // TODO test these
+        public IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource)
+        {
+            var worksOrder = this.worksOrderRepository.FindById(resource.OrderNumber);
+
+            if (worksOrder == null)
+            {
+                return new NotFoundResult<WorksOrder>();
+            }
+
+            try
+            {
+                this.UpdateFromResource(resource, worksOrder);
+            }
+            catch (DomainException exception)
+            {
+                return new BadRequestResult<WorksOrder>(exception.Message);
+            }
+
+            return new SuccessResult<WorksOrder>(worksOrder);
+        }
+
         public IResult<IEnumerable<WorksOrder>> SearchWorksOrders(string searchTerm)
         {
             return new SuccessResult<IEnumerable<WorksOrder>>(this.worksOrderRepository.FilterBy(w => w.PartNumber == searchTerm));
@@ -107,21 +124,36 @@
             return new SuccessResult<string>(this.worksOrderProxyService.GetAuditDisclaimer());
         }
 
+        private WorksOrder CreateFromResource(WorksOrderResource resource)
+        {
+            return new WorksOrder
+                       {
+                           PartNumber = resource.PartNumber,
+                           OrderNumber = resource.OrderNumber,
+                           CancelledBy = resource.CancelledBy,
+                           ReasonCancelled = resource.ReasonCancelled,
+                           RaisedBy = resource.RaisedBy,
+                           RaisedByDepartment = resource.RaisedByDepartment,
+                           DateCancelled = string.IsNullOrEmpty(resource.DateCancelled) ? (DateTime?)null : DateTime.Parse(resource.DateCancelled),
+                           QuantityOutstanding = resource.QuantityOutstanding,
+                           DocType = resource.DocType,
+                           BatchNumber = resource.BatchNumber,
+                           QuantityBuilt = resource.QuantityBuilt,
+                           KittedShort = resource.KittedShort,
+                           Outstanding = resource.Outstanding,
+                           LabelsPrinted = resource.LabelsPrinted,
+                           StartedByShift = resource.StartedByShift,
+                           WorkStationCode = resource.WorkStationCode,
+                           Quantity = resource.Quantity
+                       };
+        }
+
         private void UpdateFromResource(WorksOrderResource resource, WorksOrder worksOrder)
         {
             worksOrder.UpdateWorksOrder(
-                resource.BatchNumber,
-                resource.CancelledBy,
-                string.IsNullOrEmpty(resource.DateCancelled) ? (DateTime?)null : DateTime.Parse(resource.DateCancelled),
-                resource.KittedShort,
-                resource.LabelsPrinted,
-                resource.Outstanding,
-                resource.QuantityOutstanding,
-                resource.QuantityBuilt,
-                resource.ReasonCancelled,
-                resource.StartedByShift,
-                resource.DocType,
-                resource.WorkStationCode);
+                resource.PartNumber,
+                resource.Quantity,
+                resource.RaisedBy);
         }
     }
 }

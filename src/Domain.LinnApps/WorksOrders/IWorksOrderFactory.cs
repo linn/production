@@ -2,7 +2,7 @@
 {
     public interface IWorksOrderFactory
     {
-        WorksOrder RaiseWorksOrder(string partNumber, string raisedByDepartment, int raisedBy);
+        WorksOrder RaiseWorksOrder(WorksOrder worksOrder);
 
         void IssueSerialNumber(string partNumber, int orderNumber, string docType, int createdBy, int quantity);
 

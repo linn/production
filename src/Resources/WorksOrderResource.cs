@@ -22,9 +22,11 @@
 
         public string PartNumber { get; set; }
 
-        public int QuantityOutstanding { get; set; }
+        public int Quantity { get; set; }
 
-        public int QuantityBuilt { get; set; }
+        public int? QuantityOutstanding { get; set; }
+
+        public int? QuantityBuilt { get; set; }
 
         public int RaisedBy { get; set; }
 

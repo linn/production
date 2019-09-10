@@ -7,6 +7,7 @@
 
     using Linn.Common.Domain.Exceptions;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using NSubstitute;
 
@@ -35,7 +36,12 @@
 
             this.WorksOrderService.GetDepartment(this.partNumber, this.department).Returns("Error");
 
-            this.action = () => this.Sut.RaiseWorksOrder(this.partNumber, this.department, this.raisedBy);
+            this.action = () => this.Sut.RaiseWorksOrder(new WorksOrder
+                                                             {
+                                                                 PartNumber = this.partNumber,
+                                                                 RaisedByDepartment = this.department,
+                                                                 RaisedBy = this.raisedBy
+                                                             });
         }
 
         [Test]

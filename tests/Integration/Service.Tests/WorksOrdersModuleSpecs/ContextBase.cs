@@ -5,6 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Service.Modules;
@@ -18,21 +19,29 @@
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IOutstandingWorksOrdersReportFacade OutstandingWorksOrdersReportFacade { get; set; }
+        protected IOutstandingWorksOrdersReportFacade OutstandingWorksOrdersReportFacade { get; private set; }
+
+        protected IWorksOrdersService WorksOrdersService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
             this.OutstandingWorksOrdersReportFacade = Substitute.For<IOutstandingWorksOrdersReportFacade>();
+            this.WorksOrdersService = Substitute.For<IWorksOrdersService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                     {
                         with.Dependency(this.OutstandingWorksOrdersReportFacade);
+                        with.Dependency(this.WorksOrdersService);
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
+                        with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(new WorksOrdersResourceBuilder());
                         with.Module<WorksOrdersModule>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                         with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
+                        with.ResponseProcessor<WorksOrderResponseProcessor>();
+                        with.ResponseProcessor<WorksOrdersResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>

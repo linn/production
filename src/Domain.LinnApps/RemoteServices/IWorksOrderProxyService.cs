@@ -11,5 +11,7 @@
         bool ProductIdOnChip(string partNumber);
 
         string GetAuditDisclaimer();
+
+        string CanBuildAtWorkStation(string workStationCode);
     }
 }

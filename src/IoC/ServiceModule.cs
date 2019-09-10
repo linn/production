@@ -49,7 +49,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
             builder.RegisterType<PartsService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
-            builder.RegisterType<WorksOrderService>().As<IWorksOrderService>();
+            builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
 
 
             // oracle proxies

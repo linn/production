@@ -172,6 +172,7 @@
             q.Property(e => e.LabelsPrinted).HasColumnName("LABELS_PRINTED");
             q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
             q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(e => e.Quantity).HasColumnName("QTY");
             q.Property(e => e.QuantityOutstanding).HasColumnName("QTY_OUTSTANDING");
             q.Property(e => e.QuantityBuilt).HasColumnName("QTY_BUILT");
             q.Property(e => e.RaisedBy).HasColumnName("RAISED_BY");

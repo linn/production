@@ -132,6 +132,46 @@
             return result.Value.ToString();
         }
 
+        // TODO MAKE THIS IN ORACLE - add message parameters
+        public string CanBuildAtWorkStation(string workStationCode)
+        {
+            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+
+            var cmd = new OracleCommand("can_build_works_order_at_work_station", connection)
+                          {
+                              CommandType = CommandType.StoredProcedure
+                          };
+
+            var result = new OracleParameter(null, OracleDbType.Int32)
+                             {
+                                 Direction = ParameterDirection.ReturnValue
+                             };
+            cmd.Parameters.Add(result);
+
+            var workStationCodeParameter = new OracleParameter("p_part_number", OracleDbType.Varchar2)
+                                          {
+                                              Direction = ParameterDirection.Input,
+                                              Size = 16,
+                                              Value = workStationCode
+            };
+            cmd.Parameters.Add(workStationCodeParameter);
+
+            var messageParameter = new OracleParameter("p_message", OracleDbType.Varchar2)
+                                       {
+                                           Direction = ParameterDirection.Output,
+                                           Size = 2000
+                                       };
+            cmd.Parameters.Add(messageParameter);
+
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+
+            var success = int.Parse(result.Value.ToString());
+
+            return success == 1 ? "SUCCESS" : messageParameter.Value.ToString();
+        }
+
         public bool ProductIdOnChip(string partNumber)
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());

@@ -30,8 +30,13 @@
             this.sernosPack = sernosPack;
         }
 
-        public WorksOrder RaiseWorksOrder(string partNumber, string raisedByDepartment, int raisedBy)
+        public WorksOrder RaiseWorksOrder(WorksOrder worksOrder)
         {
+            var partNumber = worksOrder.PartNumber;
+            var raisedByDepartment = worksOrder.RaisedByDepartment;
+
+            worksOrder.DateRaised = DateTime.UtcNow;
+
             var part = this.partsRepository.FindBy(p => p.PartNumber == partNumber);
 
             if (part?.BomType == null)
@@ -68,10 +73,16 @@
                     throw new InvalidWorksOrderException(department);
                 }
 
-                return new WorksOrder { PartNumber = partNumber, RaisedBy = raisedBy, RaisedByDepartment = raisedByDepartment, DateRaised = DateTime.UtcNow};
+                // TODO works station code in here - either use the proxy or ask what the prior stuff is doing
+
+                worksOrder.RaisedByDepartment = raisedByDepartment;
+                
+                return worksOrder;
             }
 
-            return new WorksOrder { PartNumber = partNumber, RaisedBy = raisedBy, RaisedByDepartment = "PIK ASSY", DateRaised = DateTime.UtcNow };
+            worksOrder.RaisedByDepartment = "PIK ASSY";
+
+            return worksOrder;
         }
 
         public WorksOrder CancelWorksOrder(WorksOrder worksOrder, int? cancelledBy, string reasonCancelled)

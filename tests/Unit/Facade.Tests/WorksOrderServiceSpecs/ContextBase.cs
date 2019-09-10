@@ -11,7 +11,7 @@
 
     public abstract class ContextBase
     {
-        protected WorksOrderService Sut { get; set; }
+        protected WorksOrdersService Sut { get; set; }
 
         protected IRepository<WorksOrder, int> WorksOrderRepository { get; private set; }
 
@@ -29,7 +29,7 @@
             this.WorksOrderFactory = Substitute.For<IWorksOrderFactory>();
             this.WorksOrderProxyService = Substitute.For<IWorksOrderProxyService>();
 
-            this.Sut = new WorksOrderService(
+            this.Sut = new WorksOrdersService(
                 this.WorksOrderRepository,
                 this.TransactionManager,
                 this.WorksOrderFactory,

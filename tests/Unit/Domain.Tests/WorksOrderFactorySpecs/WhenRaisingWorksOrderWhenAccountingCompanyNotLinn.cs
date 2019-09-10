@@ -35,7 +35,12 @@
 
             this.WorksOrderService.GetDepartment(this.partNumber, this.department).Returns("SUCCESS");
 
-            this.result = this.Sut.RaiseWorksOrder(this.partNumber, this.department, this.raisedBy);
+            this.result = this.Sut.RaiseWorksOrder(new WorksOrder
+                                                       {
+                                                           PartNumber = this.partNumber,
+                                                           RaisedByDepartment = this.department,
+                                                           RaisedBy = this.raisedBy
+                                                       });
         }
 
         [Test]
