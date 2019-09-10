@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Loading, Title, Dropdown, InputField } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
@@ -58,55 +58,53 @@ function ProductionTriggers({ reportData, loading, cits, options, fetchTriggers,
                 </Grid>
                 <Grid item xs={12}>
                     {reportData ? (
-                        <Grid container>
-                            <Grid item xs={4}>
-                                <Dropdown
-                                    label="CIT"
-                                    propertyName="cit"
-                                    items={citOptions}
-                                    value={reportData.citCode || ''}
-                                    onChange={handleCitChange}
-                                />
+                        <Fragment>
+                            <Grid container>
+                                <Grid item xs={4}>
+                                    <Dropdown
+                                        label="CIT"
+                                        propertyName="cit"
+                                        items={citOptions}
+                                        value={reportData.citCode || ''}
+                                        onChange={handleCitChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <Dropdown
+                                        label="Length"
+                                        propertyName="reportFormat"
+                                        items={[
+                                            { id: 'BRIEF', displayText: 'Brief' },
+                                            { id: 'FULL', displayText: 'Full' }
+                                        ]}
+                                        value={reportFormat}
+                                        onChange={handleLengthChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <InputField
+                                        fullWidth
+                                        value={jobref}
+                                        placeholder={reportData.ptlJobref}
+                                        label="Jobref"
+                                        maxLength={6}
+                                        onChange={handleJobrefChange}
+                                        helperText={
+                                            reportData.ptlRunDateTime
+                                                ? `Last run ${moment(
+                                                      reportData.ptlRunDateTime
+                                                  ).format('DD-MMM HH:mm')}`
+                                                : ''
+                                        }
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item xs={2}>
-                                <Dropdown
-                                    label="Length"
-                                    propertyName="reportFormat"
-                                    items={[
-                                        { id: 'BRIEF', displayText: 'Brief' },
-                                        { id: 'FULL', displayText: 'Full' }
-                                    ]}
-                                    value={reportFormat}
-                                    onChange={handleLengthChange}
-                                />
-                            </Grid>
-                            <Grid item xs={2}>
-                                <InputField
-                                    fullWidth
-                                    value={jobref}
-                                    placeholder={reportData.ptlJobref}
-                                    label="Jobref"
-                                    maxLength={6}
-                                    onChange={handleJobrefChange}
-                                    helperText={
-                                        reportData.ptlRunDateTime
-                                            ? `Last run ${moment(reportData.ptlRunDateTime).format(
-                                                  'DD-MMM HH:mm'
-                                              )}`
-                                            : ''
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
-                    ) : (
-                        ''
-                    )}
-                    {reportData ? (
-                        <TriggersList
-                            triggers={reportData.triggers}
-                            jobref={reportData.ptlJobref}
-                            reportFormat={reportFormat}
-                        />
+                            <TriggersList
+                                triggers={reportData.triggers}
+                                jobref={reportData.ptlJobref}
+                                reportFormat={reportFormat}
+                            />
+                        </Fragment>
                     ) : (
                         ''
                     )}

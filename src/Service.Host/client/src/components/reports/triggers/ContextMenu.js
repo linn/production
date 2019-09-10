@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-function ContextMenu(props) {
-    const { children, id } = props;
+function ContextMenu({ children, id }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     function handleClick(event) {
@@ -16,7 +15,7 @@ function ContextMenu(props) {
     }
 
     return (
-        <div>
+        <Fragment>
             <IconButton
                 aria-label="more"
                 aria-controls={id}
@@ -34,7 +33,7 @@ function ContextMenu(props) {
             >
                 {children}
             </Menu>
-        </div>
+        </Fragment>
     );
 }
 

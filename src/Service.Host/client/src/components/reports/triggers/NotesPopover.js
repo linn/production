@@ -10,9 +10,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function NotesPopover(props) {
-    const { id, children } = props;
-
+function NotesPopover({ id, children }) {
     const classes = useStyles();
 
     const [anchorEl, setAnchorEl] = React.useState(null);

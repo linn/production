@@ -6,7 +6,6 @@
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Persistence.LinnApps.Repositories;
-    using Remotion.Linq.Parsing.ExpressionVisitors.Transformation.PredefinedTransformations;
 
     public class ProductionTriggersFacadeService : IProductionTriggersFacadeService
     {

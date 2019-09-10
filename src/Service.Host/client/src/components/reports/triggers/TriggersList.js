@@ -42,7 +42,7 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                         </TableCell>
                         <TableCell>{m.priority}</TableCell>
                         <TableCell>
-                            <a href={`../wwd?part-number=${m.partNumber}`}>{m.canBuild}</a>
+                            <Link to={`../wwd?part-number=${m.partNumber}`}>{m.canBuild}</Link>
                         </TableCell>
                         <TableCell>{m.kanbanSize}</TableCell>
                         <TableCell>{m.qtyBeingBuilt}</TableCell>
