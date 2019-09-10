@@ -23,22 +23,28 @@
 
         private int raisedBy;
 
+        private string workStationCode;
+
         [SetUp]
         public void SetUp()
         {
             this.partNumber = "MAJIK";
             this.department = "DEPT";
             this.raisedBy = 33067;
+            this.workStationCode = "STATION";
 
             this.PartsRepository.FindBy(Arg.Any<Expression<Func<Part, bool>>>()).Returns(new Part { BomType = "A", AccountingCompany = "LINN" });
 
             this.WorksOrderService.CanRaiseWorksOrder(this.partNumber).Returns("Error");
 
+            this.WorkStationRepository.FindById(this.workStationCode).Returns(new WorkStation { WorkStationCode = this.workStationCode });
+
             this.action = () => this.Sut.RaiseWorksOrder(new WorksOrder
                                                              {
                                                                  PartNumber = this.partNumber,
                                                                  RaisedByDepartment = this.department,
-                                                                 RaisedBy = this.raisedBy
+                                                                 RaisedBy = this.raisedBy,
+                                                                 WorkStationCode = this.workStationCode
                                                              });
         }
 

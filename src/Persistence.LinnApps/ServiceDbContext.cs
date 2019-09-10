@@ -51,6 +51,8 @@
 
         public DbSet<WorkStation> WorkStations { get; set; }
 
+        public DbSet<ProductionTriggerLevel> ProductionTriggerLevels { get; set; }
+
         private DbSet<PtlMaster> PtlMasterSet { get; set; }
 
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
@@ -78,6 +80,7 @@
             this.BuildEmployees(builder);
             this.BuildAssemblyFailFaultCodes(builder);
             this.BuildWorkStations(builder);
+            this.BuildProductionTriggerLevels(builder);
 
             this.BuildPtlMaster(builder);
             this.BuildOsrRunMaster(builder);
@@ -205,6 +208,23 @@
             e.Property(w => w.VaxWorkStation).HasColumnName("VAX_WORK_STATION").HasMaxLength(8);
             e.Property(w => w.AlternativeWorkStationCode).HasColumnName("ALTERNATIVE_WORK_STATION_CODE").HasMaxLength(16);
             e.Property(w => w.ZoneType).HasColumnName("ZONE_TYPE").HasMaxLength(20);
+        }
+
+        private void BuildProductionTriggerLevels(ModelBuilder builder)
+        {
+            // TODO check this doesnt need a composite key
+            var e = builder.Entity<ProductionTriggerLevel>();
+            e.ToTable("PRODUCTION_TRIGGER_LEVELS");
+            e.HasKey(p => p.PartNumber);
+            e.Property(p => p.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            e.Property(p => p.Description).HasColumnName("DESCRIPTION").HasMaxLength(100);
+            e.Property(p => p.TriggerLevel).HasColumnName("TRIGGER_LEVEL");
+            e.Property(p => p.KanbanSize).HasColumnName("KANBAN_SIZE");
+            e.Property(p => p.MaximumKanbans).HasColumnName("MAXIMUM_KANBANS");
+            e.Property(p => p.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            e.Property(p => p.BomLevel).HasColumnName("BOM_LEVEL");
+            e.Property(p => p.WsName).HasColumnName("WS_NAME").HasMaxLength(16);
+            e.Property(p => p.FaZoneType).HasColumnName("FA_ZONE_TYPE").HasMaxLength(20);
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)

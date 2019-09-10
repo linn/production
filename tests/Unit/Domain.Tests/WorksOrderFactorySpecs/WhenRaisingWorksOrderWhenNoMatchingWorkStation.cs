@@ -13,7 +13,7 @@
 
     using NUnit.Framework;
 
-    public class WhenRaisingWorksOrderWhenNoDepartment : ContextBase
+    public class WhenRaisingWorksOrderWhenNoMatchingWorkStation : ContextBase
     {
         private Action action;
 
@@ -42,7 +42,7 @@
             this.WorkStationRepository.FindById(this.workStationCode).Returns(new WorkStation { WorkStationCode = this.workStationCode });
 
             this.ProductionTriggerLevelsRepository.FindById(this.partNumber).Returns(
-                new ProductionTriggerLevel { PartNumber = this.partNumber, WsName = this.workStationCode });
+                new ProductionTriggerLevel { PartNumber = this.partNumber, WsName = "OTHER" });
 
             this.action = () => this.Sut.RaiseWorksOrder(new WorksOrder
                                                              {
@@ -56,7 +56,7 @@
         [Test]
         public void ShouldThrowException()
         {
-            this.action.Should().Throw<DomainException>().WithMessage($"Error");
+            this.action.Should().Throw<DomainException>().WithMessage($"{this.workStationCode} is not a possible work station for {this.partNumber}");
         }
     }
 }

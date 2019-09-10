@@ -19,6 +19,10 @@
 
         protected IRepository<Part, int> PartsRepository { get; private set; }
 
+        protected IRepository<WorkStation, string> WorkStationRepository { get; private set; }
+
+        protected IRepository<ProductionTriggerLevel, string> ProductionTriggerLevelsRepository { get; private set; }
+
         protected ISernosPack SernosPack { get; private set; }
 
         [SetUp]
@@ -27,12 +31,16 @@
             this.WorksOrderService = Substitute.For<IWorksOrderProxyService>();
             this.WorksOrderRepository = Substitute.For<IRepository<WorksOrder, int>>();
             this.PartsRepository = Substitute.For<IRepository<Part, int>>();
+            this.WorkStationRepository = Substitute.For<IRepository<WorkStation, string>>();
+            this.ProductionTriggerLevelsRepository = Substitute.For<IRepository<ProductionTriggerLevel, string>>();
             this.SernosPack = Substitute.For<ISernosPack>();
 
             this.Sut = new WorksOrderFactory(
                 this.WorksOrderService,
                 this.WorksOrderRepository,
                 this.PartsRepository,
+                this.WorkStationRepository,
+                this.ProductionTriggerLevelsRepository,
                 this.SernosPack);
         }
     }

@@ -6,7 +6,6 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Proxy;
 
     public class WorkStationsRepository : IRepository<WorkStation, string>
     {
@@ -24,7 +23,7 @@
 
         public IQueryable<WorkStation> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.WorkStations;
         }
 
         public void Add(WorkStation entity)

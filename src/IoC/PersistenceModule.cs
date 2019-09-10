@@ -35,6 +35,7 @@
             builder.RegisterType<OsrRunMasterRepository>().As<IMasterRepository<OsrRunMaster>>();
             builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
+            builder.RegisterType<WorkStationsRepository>().As<IRepository<WorkStation, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

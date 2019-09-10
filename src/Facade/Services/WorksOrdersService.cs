@@ -20,16 +20,20 @@
 
         private readonly IWorksOrderProxyService worksOrderProxyService;
 
+        private readonly IProductAuditPack productAuditPack;
+
         public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
             IWorksOrderFactory worksOrderFactory,
-            IWorksOrderProxyService worksOrderProxyService)
+            IWorksOrderProxyService worksOrderProxyService,
+            IProductAuditPack productAuditPack)
         {
             this.worksOrderRepository = worksOrderRepository;
             this.transactionManager = transactionManager;
             this.worksOrderFactory = worksOrderFactory;
             this.worksOrderProxyService = worksOrderProxyService;
+            this.productAuditPack = productAuditPack;
         }
 
         public IResult<WorksOrder> GetWorksOrder(int orderNumber)
@@ -65,6 +69,15 @@
                 worksOrder.DocType,
                 worksOrder.RaisedBy,
                 worksOrder.Quantity);
+
+            try
+            {
+                this.productAuditPack.GenerateProductAudits(worksOrder.OrderNumber);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestResult<WorksOrder>(e.Message);
+            }
 
             this.transactionManager.Commit();
 

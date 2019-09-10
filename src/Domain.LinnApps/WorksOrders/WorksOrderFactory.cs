@@ -16,17 +16,25 @@
 
         private IRepository<Part, int> partsRepository;
 
+        private IRepository<WorkStation, string> workStationRepository;
+
+        private IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository;
+
         private ISernosPack sernosPack;
 
         public WorksOrderFactory(
             IWorksOrderProxyService worksOrderProxyService,
             IRepository<WorksOrder, int> worksOrderRepository,
             IRepository<Part, int> partsRepository,
+            IRepository<WorkStation, string> workStationRepository,
+            IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository,
             ISernosPack sernosPack)
         {
             this.worksOrderProxyService = worksOrderProxyService;
             this.worksOrderRepository = worksOrderRepository;
             this.partsRepository = partsRepository;
+            this.workStationRepository = workStationRepository;
+            this.productionTriggerLevelsRepository = productionTriggerLevelsRepository;
             this.sernosPack = sernosPack;
         }
 
@@ -66,14 +74,19 @@
                     throw new InvalidWorksOrderException(canRaiseWorksOrder);
                 }
 
+                var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
+
+                if (productionTriggerLevel.WsName != worksOrder.WorkStationCode)
+                {
+                    throw new InvalidWorksOrderException($"{worksOrder.WorkStationCode} is not a possible work station for {partNumber}");
+                }
+
                 var department = this.worksOrderProxyService.GetDepartment(partNumber, raisedByDepartment);
 
                 if (department != "SUCCESS")
                 {
                     throw new InvalidWorksOrderException(department);
                 }
-
-                // TODO works station code in here - either use the proxy or ask what the prior stuff is doing
 
                 worksOrder.RaisedByDepartment = raisedByDepartment;
                 
