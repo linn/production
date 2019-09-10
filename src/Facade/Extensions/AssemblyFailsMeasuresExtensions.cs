@@ -10,6 +10,7 @@
             switch (option)
             {
                 case "board-part-number": return AssemblyFailGroupBy.BoardPartNumber;
+                case "board": return AssemblyFailGroupBy.Board;
                 case "circuit-part-number": return AssemblyFailGroupBy.CircuitPartNumber;
                 case "cit": return AssemblyFailGroupBy.CitCode;
                 case "fault": return AssemblyFailGroupBy.FaultCode;

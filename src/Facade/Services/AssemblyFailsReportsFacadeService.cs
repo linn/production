@@ -70,7 +70,9 @@
                     resource.BoardPartNumber,
                     resource.CircuitPartNumber,
                     resource.FaultCode,
-                    resource.CitCode));
+                    resource.CitCode,
+                    resource.Board,
+                    resource.Person));
         }
     }
 }

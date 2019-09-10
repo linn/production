@@ -50,9 +50,11 @@ function AssemblyFailsMeasuresOptions({ history }) {
                         propertyName="groupBy"
                         items={[
                             { id: 'board-part-number', displayText: 'Board Part Number' },
+                            { id: 'board', displayText: 'Board' },
                             { id: 'fault', displayText: 'Fault' },
                             { id: 'circuit-part-number', displayText: 'Circuit Part Number' },
-                            { id: 'cit', displayText: 'Cit' }
+                            { id: 'cit', displayText: 'Cit' },
+                            { id: 'person', displayText: 'Person Responsible' }
                         ]}
                         value={groupBy}
                         onChange={handleGroupByChange}

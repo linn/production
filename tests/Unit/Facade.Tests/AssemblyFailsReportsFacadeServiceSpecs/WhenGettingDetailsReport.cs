@@ -25,7 +25,9 @@
                                    BoardPartNumber = "BP2",
                                    CircuitPartNumber = "CP",
                                    FaultCode = "F",
-                                   CitCode = "CIT"
+                                   CitCode = "CIT",
+                                   Board = "BP2",
+                                   Person = 1
                                };
             this.ReportService.GetAssemblyFailsDetailsReport(
                     1.May(2020),
@@ -33,7 +35,9 @@
                     "BP2",
                     "CP",
                     "F",
-                    "CIT")
+                    "CIT",
+                    "BP2",
+                    1)
                 .Returns(new ResultsModel { ReportTitle = new NameModel("name") });
             this.result = this.Sut.GetAssemblyFailsDetailsReport(resource);
         }
@@ -47,7 +51,9 @@
                 "BP2",
                 "CP",
                 "F",
-                "CIT");
+                "CIT",
+                "BP2",
+                1);
         }
 
         [Test]

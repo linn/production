@@ -14,6 +14,7 @@
                 case AssemblyFailGroupBy.CitCode: return "cit";
                 case AssemblyFailGroupBy.FaultCode: return "fault";
                 case AssemblyFailGroupBy.Person: return "person";
+                case AssemblyFailGroupBy.Board: return "board";
                 default: throw new DomainException($"{option} is not a valid option");
             }
         }

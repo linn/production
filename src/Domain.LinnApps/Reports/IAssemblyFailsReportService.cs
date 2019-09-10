@@ -17,6 +17,8 @@
             string boardPartNumber,
             string circuitPartNumber,
             string faultCode,
-            string citCode);
+            string citCode,
+            string board,
+            int? person);
     }
 }

@@ -15,6 +15,7 @@
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.ViewModels;
 
     using NSubstitute;
 
@@ -53,14 +54,15 @@
                                             {
                                                 Id = 1,
                                                 DateTimeFound = 1.June(2020),
-                                                BoardPartNumber = "Board 1",
+                                                BoardPartNumber = "Board 1/1",
                                                 NumberOfFails = 1,
                                                 FaultCode = new AssemblyFailFaultCode { FaultCode = "F1", Description = "Fault 1" },
                                                 CitResponsible = new Cit { Code = "C", Name = "Cit 1" },
                                                 CircuitPart = "Circuit Part 1",
                                                 WorksOrder = new WorksOrder { OrderNumber = 24, PartNumber = "W O Part" },
                                                 ReportedFault = "report",
-                                                Analysis = "analysis"
+                                                Analysis = "analysis",
+                                                PersonResponsible = new Employee { Id = 1, FullName = "Name" }
                                             },
                                         new AssemblyFail
                                             {
@@ -70,18 +72,20 @@
                                                 NumberOfFails = 2,
                                                 FaultCode = new AssemblyFailFaultCode { FaultCode = "F2", Description = "Fault 2" },
                                                 CitResponsible = new Cit { Code = "D", Name = "Cit 3" },
-                                                CircuitPart = "Circuit Part 2"
+                                                CircuitPart = "Circuit Part 2",
+                                                PersonResponsible = new Employee { Id = 2, FullName = "Another Name" }
                                             },
                                         new AssemblyFail
                                             {
                                                 Id = 3,
                                                 DateTimeFound = 2.June(2020),
-                                                BoardPartNumber = "Board 1",
+                                                BoardPartNumber = "Board 1/1",
                                                 NumberOfFails = 2,
                                                 FaultCode = new AssemblyFailFaultCode { FaultCode = "F1", Description = "Fault 1" },
                                                 CitResponsible = new Cit { Code = "C", Name = "Cit 1" },
                                                 CircuitPart = "Circuit Part 1",
-                                                WorksOrder = new WorksOrder { OrderNumber = 45, PartNumber = "W O Part" }
+                                                WorksOrder = new WorksOrder { OrderNumber = 45, PartNumber = "W O Part" },
+                                                PersonResponsible = new Employee { Id = 1, FullName = "Name" }
                                             }
                                     };
             this.Weeks = new List<LinnWeek>

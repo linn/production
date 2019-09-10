@@ -6,7 +6,6 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Net;
-    using System.Net.Http;
     using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
@@ -118,7 +117,9 @@
             string boardPartNumber,
             string circuitPartNumber,
             string faultCode,
-            string citCode)
+            string citCode,
+            string board,
+            int? person)
         {
             var weeks = this.linnWeekService.GetWeeks(fromDate, toDate).ToList();
 
@@ -126,7 +127,7 @@
                 this.reportingHelper,
                 CalculationValueModelType.TextValue,
                 null,
-                this.GenerateDetailsReportTitle(boardPartNumber, fromDate, toDate, circuitPartNumber, faultCode, citCode));
+                this.GenerateDetailsReportTitle(boardPartNumber, fromDate, toDate, circuitPartNumber, faultCode, citCode, board));
 
             reportLayout.AddColumnComponent(
                 null,
@@ -149,7 +150,9 @@
                 boardPartNumber,
                 circuitPartNumber,
                 faultCode,
-                citCode);
+                citCode,
+                board,
+                person);
             var fails = this.GetFails(filterQueries);
 
             var values = new List<CalculationValueModel>();
@@ -160,6 +163,11 @@
 
             reportLayout.SetGridData(values);
             var model = reportLayout.GetResultsModel();
+            foreach (var modelColumn in model.Columns)
+            {
+                model.SetColumnType(modelColumn.ColumnIndex, GridDisplayType.TextValue);
+            }
+
             return model;
         }
 
@@ -169,7 +177,9 @@
             string boardPartNumber,
             string circuitPartNumber,
             string faultCode,
-            string citCode)
+            string citCode,
+            string board,
+            int? person)
         {
             var expressions =
                 new List<Expression<Func<AssemblyFail, bool>>>
@@ -197,6 +207,16 @@
                 expressions.Add(f => f.CitResponsible != null && f.CitResponsible.Code == citCode);
             }
 
+            if (!string.IsNullOrEmpty(board))
+            {
+                expressions.Add(f => f.BoardPartNumber == board || (f.BoardPartNumber.IndexOf('/') >= 0 && f.BoardPartNumber.Substring(0, f.BoardPartNumber.IndexOf('/')) == board));
+            }
+
+            if (person.HasValue)
+            {
+                expressions.Add(f => f.PersonResponsible.Id == person);
+            }
+
             return expressions;
         }
 
@@ -208,7 +228,7 @@
                 assemblyFails = assemblyFails?.Where(func) ?? this.assemblyFailsRepository.FilterBy(func);
             }
 
-            return assemblyFails?.ToList() ?? new List<AssemblyFail>();
+            return assemblyFails?.OrderBy(a => a.Id).ToList() ?? new List<AssemblyFail>();
         }
 
         private void ExtractDetails(
@@ -287,7 +307,8 @@
             DateTime toDate,
             string circuitPartNumber,
             string faultCode,
-            string citCode)
+            string citCode,
+            string board)
         {
             var title = $"Assembly fails between {fromDate:dd-MMM-yyyy} and {toDate:dd-MMM-yyyy}. ";
             if (!string.IsNullOrEmpty(boardPartNumber))
@@ -309,6 +330,11 @@
             if (!string.IsNullOrEmpty(citCode))
             {
                 title += $"Cit code is {citCode} ";
+            }
+
+            if (!string.IsNullOrEmpty(board))
+            {
+                title += $"Board is {board} ";
             }
 
             return title;
@@ -354,7 +380,13 @@
                                      Quantity = f.NumberOfFails
                                  });
                 case AssemblyFailGroupBy.Board:
-                    break;
+                    return fails.Select(
+                        f => new CalculationValueModel
+                                 {
+                                     RowId = string.IsNullOrEmpty(f.BoardPartNumber) ? string.Empty : f.BoardPartNumber.IndexOf('/') >= 0 ? f.BoardPartNumber.Substring(0, f.BoardPartNumber.IndexOf('/')) : f.BoardPartNumber,
+                                     ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
+                                     Quantity = f.NumberOfFails
+                                 });
                 case AssemblyFailGroupBy.CitCode:
                     return fails.Select(
                         f => new CalculationValueModel
@@ -373,7 +405,14 @@
                                      Quantity = f.NumberOfFails
                                  });
                 case AssemblyFailGroupBy.Person:
-                    break;
+                    return fails.Select(
+                        f => new CalculationValueModel
+                                 {
+                                     RowId = f.PersonResponsible?.Id.ToString() ?? string.Empty,
+                                     RowTitle = f.PersonResponsible?.FullName ?? string.Empty,
+                                     ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
+                                     Quantity = f.NumberOfFails
+                                 });
                 default:
                     throw new ArgumentOutOfRangeException(nameof(groupBy), groupBy, null);
             }
