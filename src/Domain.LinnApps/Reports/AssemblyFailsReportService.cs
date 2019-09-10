@@ -12,6 +12,7 @@
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Layouts;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Extensions;
     using Linn.Production.Domain.LinnApps.Layouts;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
@@ -100,6 +101,12 @@
                 new DrillDownModel(
                     "Details",
                     this.GenerateValueDrillDown(groupBy, fromDate, toDate),
+                    null,
+                    model.ColumnIndex("Total")));
+            model.ColumnDrillDownTemplates.Add(
+                new DrillDownModel(
+                    "Details",
+                    this.GenerateColumnDrillDown(groupBy, fromDate, toDate),
                     null,
                     model.ColumnIndex("Total")));
             return model;
@@ -309,7 +316,12 @@
 
         private string GenerateValueDrillDown(AssemblyFailGroupBy groupBy, DateTime fromDate, DateTime toDate)
         {
-            return $"/production/reports/assembly-fails-details?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
+            return $"/production/reports/assembly-fails-details?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
+        }
+
+        private string GenerateColumnDrillDown(AssemblyFailGroupBy groupBy, DateTime fromDate, DateTime toDate)
+        {
+            return $"/production/reports/assembly-fails-details?parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
         }
 
         private string GenerateReportTitle(AssemblyFailGroupBy groupBy)
@@ -347,7 +359,7 @@
                     return fails.Select(
                         f => new CalculationValueModel
                                  {
-                                     RowId = f.CitResponsible?.Code,
+                                     RowId = f.CitResponsible?.Code ?? string.Empty,
                                      RowTitle = f.CitResponsible?.Name,
                                      ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
                                      Quantity = f.NumberOfFails
