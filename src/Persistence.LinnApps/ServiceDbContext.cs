@@ -49,6 +49,8 @@
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
+        public DbSet<WorkStation> WorkStations { get; set; }
+
         private DbSet<PtlMaster> PtlMasterSet { get; set; }
 
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
@@ -75,7 +77,8 @@
             this.BuildParts(builder);
             this.BuildEmployees(builder);
             this.BuildAssemblyFailFaultCodes(builder);
-            this.BuildAssemblyFailFaultCodes(builder);
+            this.BuildWorkStations(builder);
+
             this.BuildPtlMaster(builder);
             this.BuildOsrRunMaster(builder);
             base.OnModelCreating(builder);
@@ -189,6 +192,19 @@
             builder.Entity<BoardFailType>().HasKey(t => t.Type);
             builder.Entity<BoardFailType>().Property(t => t.Type).HasColumnName("FAIL_TYPE");
             builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION");
+        }
+
+        private void BuildWorkStations(ModelBuilder builder)
+        {
+            var e = builder.Entity<WorkStation>();
+            e.ToTable("WORK_STATIONS");
+            e.HasKey(w => w.WorkStationCode);
+            e.Property(w => w.WorkStationCode).HasColumnName("WORK_STATION_CODE").HasMaxLength(16);
+            e.Property(w => w.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(w => w.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            e.Property(w => w.VaxWorkStation).HasColumnName("VAX_WORK_STATION").HasMaxLength(8);
+            e.Property(w => w.AlternativeWorkStationCode).HasColumnName("ALTERNATIVE_WORK_STATION_CODE").HasMaxLength(16);
+            e.Property(w => w.ZoneType).HasColumnName("ZONE_TYPE").HasMaxLength(20);
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)
