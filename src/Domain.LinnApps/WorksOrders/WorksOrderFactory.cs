@@ -14,7 +14,7 @@
         // TODO remove this
         private IRepository<WorksOrder, int> worksOrderRepository;
 
-        private IRepository<Part, int> partsRepository;
+        private IRepository<Part, string> partsRepository;
 
         private IRepository<WorkStation, string> workStationRepository;
 
@@ -25,7 +25,7 @@
         public WorksOrderFactory(
             IWorksOrderProxyService worksOrderProxyService,
             IRepository<WorksOrder, int> worksOrderRepository,
-            IRepository<Part, int> partsRepository,
+            IRepository<Part, string> partsRepository,
             IRepository<WorkStation, string> workStationRepository,
             IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository,
             ISernosPack sernosPack)

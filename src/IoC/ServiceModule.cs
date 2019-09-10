@@ -64,6 +64,7 @@
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<WorksOrderProxy>().As<IWorksOrderProxyService>();
             builder.RegisterType<SernosPack>().As<ISernosPack>();
+            builder.RegisterType<ProductAuditPack>().As<IProductAuditPack>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();

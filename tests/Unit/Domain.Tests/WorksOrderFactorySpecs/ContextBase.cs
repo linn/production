@@ -17,7 +17,7 @@
 
         protected IRepository<WorksOrder, int> WorksOrderRepository { get; private set; }
 
-        protected IRepository<Part, int> PartsRepository { get; private set; }
+        protected IRepository<Part, string> PartsRepository { get; private set; }
 
         protected IRepository<WorkStation, string> WorkStationRepository { get; private set; }
 
@@ -30,7 +30,7 @@
         {
             this.WorksOrderService = Substitute.For<IWorksOrderProxyService>();
             this.WorksOrderRepository = Substitute.For<IRepository<WorksOrder, int>>();
-            this.PartsRepository = Substitute.For<IRepository<Part, int>>();
+            this.PartsRepository = Substitute.For<IRepository<Part, string>>();
             this.WorkStationRepository = Substitute.For<IRepository<WorkStation, string>>();
             this.ProductionTriggerLevelsRepository = Substitute.For<IRepository<ProductionTriggerLevel, string>>();
             this.SernosPack = Substitute.For<ISernosPack>();
