@@ -132,7 +132,7 @@
             return result.Value.ToString();
         }
 
-        // TODO MAKE THIS IN ORACLE - add message parameters
+        // TODO done remove
         public string CanBuildAtWorkStation(string workStationCode)
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());

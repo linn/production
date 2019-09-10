@@ -6,6 +6,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -53,6 +54,10 @@
 
         public DbSet<ProductionTriggerLevel> ProductionTriggerLevels { get; set; }
 
+        public DbSet<PcasBoardForAudit> PcasBoardsForAudit { get; set; }
+
+        public DbSet<PcasRevision> PcasRevisions { get; set; }
+
         private DbSet<PtlMaster> PtlMasterSet { get; set; }
 
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
@@ -81,6 +86,8 @@
             this.BuildAssemblyFailFaultCodes(builder);
             this.BuildWorkStations(builder);
             this.BuildProductionTriggerLevels(builder);
+            this.BuildPcasBoardsForAudit(builder);
+            this.BuildPcasRevisions(builder);
 
             this.BuildPtlMaster(builder);
             this.BuildOsrRunMaster(builder);
@@ -225,6 +232,26 @@
             e.Property(p => p.BomLevel).HasColumnName("BOM_LEVEL");
             e.Property(p => p.WsName).HasColumnName("WS_NAME").HasMaxLength(16);
             e.Property(p => p.FaZoneType).HasColumnName("FA_ZONE_TYPE").HasMaxLength(20);
+        }
+
+        private void BuildPcasBoardsForAudit(ModelBuilder builder)
+        {
+            var e = builder.Entity<PcasBoardForAudit>();
+            e.ToTable("PCAS_BOARDS_FOR_AUDIT");
+            e.HasKey(p => p.BoardCode);
+            e.Property(p => p.BoardCode).HasColumnName("BOARD_CODE").HasMaxLength(6);
+            e.Property(p => p.DateAdded).HasColumnName("DATE_ADDED");
+            e.Property(p => p.ForAudit).HasColumnName("FOR_AUDIT").HasMaxLength(1);
+            e.Property(p => p.CutClinch).HasColumnName("CUT_CLINCH").HasMaxLength(1);
+        }
+
+        private void BuildPcasRevisions(ModelBuilder builder)
+        {
+            var e = builder.Entity<PcasRevision>();
+            e.ToTable("PCAS_REVISIONS");
+            e.HasKey(p => p.BoardCode);
+            e.Property(p => p.BoardCode).HasColumnName("BOARD_CODE").HasMaxLength(6);
+            e.Property(p => p.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER").HasMaxLength(14);
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)

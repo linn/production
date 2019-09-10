@@ -7,6 +7,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -36,6 +37,8 @@
             builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
             builder.RegisterType<WorkStationsRepository>().As<IRepository<WorkStation, string>>();
+            builder.RegisterType<PcasBoardForAuditRepository>().As<IRepository<PcasBoardForAudit, string>>();
+            builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
