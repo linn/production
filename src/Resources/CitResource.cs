@@ -10,6 +10,8 @@
 
         public string BuildGroup { get; set; }
 
+        public string DateInvalid { get; set; }
+
         public int? SortOrder { get; set; }
     }
 }

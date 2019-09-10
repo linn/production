@@ -33,7 +33,7 @@
             this.ProductionTriggerQueryRepository.FilterBy(Arg.Any<Expression<Func<ProductionTrigger, bool>>>())
                 .Returns(triggers.AsQueryable());
 
-            this.result = this.Sut.GetProductionTriggerReport("CJCAIH", "A", "Full");
+            this.result = this.Sut.GetProductionTriggerReport("CJCAIH", "A");
         }
 
         [Test]
@@ -49,7 +49,6 @@
             var report = this.result.As<SuccessResult<ProductionTriggersReport>>().Data;
             report.PtlMaster.LastFullRunJobref.Should().Be("CJCAIH");
             report.Cit.Code.Should().Be("A");
-            report.ReportType.Should().Be(ProductionTriggerReportType.Full);
 
             var triggers = report.Triggers;
             triggers.Count().Should().Be(3);
