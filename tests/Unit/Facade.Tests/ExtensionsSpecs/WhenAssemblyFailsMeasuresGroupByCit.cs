@@ -20,7 +20,7 @@
         [Test]
         public void ShouldGetCorrectOption()
         {
-            this.result.Should().Be(AssemblyFailGroupBy.Cit);
+            this.result.Should().Be(AssemblyFailGroupBy.CitCode);
         }
     }
 }

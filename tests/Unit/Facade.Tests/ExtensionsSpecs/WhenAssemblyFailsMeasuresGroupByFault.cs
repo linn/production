@@ -20,7 +20,7 @@
         [Test]
         public void ShouldGetCorrectOption()
         {
-            this.result.Should().Be(AssemblyFailGroupBy.Fault);
+            this.result.Should().Be(AssemblyFailGroupBy.FaultCode);
         }
     }
 }

@@ -5,6 +5,8 @@
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Net;
+    using System.Net.Http;
     using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
@@ -280,7 +282,7 @@
             string faultCode,
             string citCode)
         {
-            var title = $"Assembly fails between {fromDate:dd-MMM-yyyy} and {toDate:dd-MMM-yyyy} ";
+            var title = $"Assembly fails between {fromDate:dd-MMM-yyyy} and {toDate:dd-MMM-yyyy}. ";
             if (!string.IsNullOrEmpty(boardPartNumber))
             {
                 title += $"Board part number is {boardPartNumber} ";
@@ -307,7 +309,7 @@
 
         private string GenerateValueDrillDown(AssemblyFailGroupBy groupBy, DateTime fromDate, DateTime toDate)
         {
-            return $"/production/reports/assembly-fails-details?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&fromDate={fromDate:O}&toDate={toDate:O}";
+            return $"/production/reports/assembly-fails-details?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
         }
 
         private string GenerateReportTitle(AssemblyFailGroupBy groupBy)
@@ -330,7 +332,7 @@
                                      ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
                                      Quantity = f.NumberOfFails
                                  });
-                case AssemblyFailGroupBy.Fault:
+                case AssemblyFailGroupBy.FaultCode:
                     return fails.Select(
                         f => new CalculationValueModel
                                  {
@@ -341,7 +343,7 @@
                                  });
                 case AssemblyFailGroupBy.Board:
                     break;
-                case AssemblyFailGroupBy.Cit:
+                case AssemblyFailGroupBy.CitCode:
                     return fails.Select(
                         f => new CalculationValueModel
                                  {

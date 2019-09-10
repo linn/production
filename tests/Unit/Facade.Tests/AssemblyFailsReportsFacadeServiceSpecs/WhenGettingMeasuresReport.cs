@@ -21,7 +21,7 @@
             this.ReportService.GetAssemblyFailsMeasuresReport(
                     1.May(2020),
                     1.July(2020),
-                    AssemblyFailGroupBy.Fault)
+                    AssemblyFailGroupBy.FaultCode)
                 .Returns(new ResultsModel { ReportTitle = new NameModel("name") });
             this.result = this.Sut.GetAssemblyFailsMeasuresReport(
                 1.May(2020).ToString("O"),
@@ -35,7 +35,7 @@
             this.ReportService.Received().GetAssemblyFailsMeasuresReport(
                 1.May(2020),
                 1.July(2020),
-                AssemblyFailGroupBy.Fault);
+                AssemblyFailGroupBy.FaultCode);
         }
 
         [Test]

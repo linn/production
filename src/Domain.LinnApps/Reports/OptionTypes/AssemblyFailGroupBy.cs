@@ -3,9 +3,9 @@
     public enum AssemblyFailGroupBy
     {
         BoardPartNumber,
-        Fault,
+        FaultCode,
         Board,
-        Cit,
+        CitCode,
         CircuitPartNumber,
         Person
     }

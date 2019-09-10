@@ -26,7 +26,7 @@
         [Test]
         public void ShouldSetReportTitle()
         {
-            this.result.ReportTitle.DisplayValue.Should().Be("Assembly fails between 01-Jun-2020 and 30-Jun-2020 Board part number is Board 1 Circuit part number is Circuit Part 1 Fault code is F1 Cit code is C ");
+            this.result.ReportTitle.DisplayValue.Should().Be("Assembly fails between 01-Jun-2020 and 30-Jun-2020. Board part number is Board 1 Circuit part number is Circuit Part 1 Fault code is F1 Cit code is C ");
             this.result.Rows.Should().HaveCount(2);
             this.result.GetGridTextValue(this.result.RowIndex("1"), this.result.ColumnIndex("Week")).Should().Be("25/20");
             this.result.GetGridTextValue(this.result.RowIndex("1"), this.result.ColumnIndex("PartNumber")).Should().Be("W O Part");

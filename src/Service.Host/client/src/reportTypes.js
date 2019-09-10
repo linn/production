@@ -53,3 +53,9 @@ export const assemblyFailsMeasures = new ItemType(
     'ASSEMBLY_FAILS_MEASURES',
     '/production/reports/assembly-fails-measures'
 );
+
+export const assemblyFailsDetails = new ItemType(
+    'assemblyFailsDetails',
+    'ASSEMBLY_FAILS_DETAILS',
+    '/production/reports/assembly-fails-details'
+);

@@ -11,8 +11,8 @@
             {
                 case "board-part-number": return AssemblyFailGroupBy.BoardPartNumber;
                 case "circuit-part-number": return AssemblyFailGroupBy.CircuitPartNumber;
-                case "cit": return AssemblyFailGroupBy.Cit;
-                case "fault": return AssemblyFailGroupBy.Fault;
+                case "cit": return AssemblyFailGroupBy.CitCode;
+                case "fault": return AssemblyFailGroupBy.FaultCode;
                 case "person": return AssemblyFailGroupBy.Person;
                 default: throw new InvalidOptionException($"{option} is not a valid group by option");
             }

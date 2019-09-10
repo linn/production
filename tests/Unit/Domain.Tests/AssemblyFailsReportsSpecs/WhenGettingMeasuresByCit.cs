@@ -18,13 +18,13 @@
             this.result = this.Sut.GetAssemblyFailsMeasuresReport(
                 1.June(2020),
                 30.June(2020),
-                AssemblyFailGroupBy.Cit);
+                AssemblyFailGroupBy.CitCode);
         }
 
         [Test]
         public void ShouldSetReportTitle()
         {
-            this.result.ReportTitle.DisplayValue.Should().Be("Assembly Fails Measures Grouped By Cit");
+            this.result.ReportTitle.DisplayValue.Should().Be("Assembly Fails Measures Grouped By Cit Code");
             this.result.Rows.Should().HaveCount(2);
             this.result.Columns.Should().HaveCount(4);
             this.result.GetZeroPaddedGridValue(this.result.RowIndex("C"), this.result.ColumnIndex("20")).Should().Be(3);
