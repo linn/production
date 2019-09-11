@@ -45,7 +45,7 @@ export const assemblyFailsWaitingList = new ItemType(
 export const whoBuiltWhat = new ItemType(
     'whoBuiltWhat',
     'WHO_BUILT_WHAT',
-    '/production/reports/who-built-what'
+    '/production/reports/who-built-what/report'
 );
 
 export const whoBuiltWhatDetails = new ItemType(

@@ -14,8 +14,14 @@
         public WhoBuiltWhatReportModule(IWhoBuiltWhatReportFacadeService reportService)
         {
             this.reportService = reportService;
-            this.Get("/production/reports/who-built-what", _ => this.WhoBuiltWhat());
+            this.Get("/production/reports/who-built-what/report", _ => this.WhoBuiltWhat());
+            this.Get("/production/reports/who-built-what", _ => this.WhoBuiltWhatOptions());
             this.Get("/production/reports/who-built-what-details", _ => this.WhoBuiltWhatDetails());
+        }
+
+        private object WhoBuiltWhatOptions()
+        {
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
 
         private object WhoBuiltWhat()
