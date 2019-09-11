@@ -1,11 +1,13 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
-    using System;
-    using System.Collections.Generic;
 
     public class ManufacturingOperationResourceBuilder : IResourceBuilder<ManufacturingOperation>
     {
@@ -22,7 +24,8 @@
                 SetAndCleanTime = manufacturingOperation.SetAndCleanTime,
                 CycleTime = manufacturingOperation.CycleTime,
                 LabourPercentage = manufacturingOperation.LabourPercentage,
-                CITCode = manufacturingOperation.CITCode
+                CITCode = manufacturingOperation.CITCode,
+                Links = this.BuildLinks(manufacturingOperation).ToArray()
             };
         }
 
@@ -35,10 +38,11 @@
 
         private IEnumerable<LinkResource> BuildLinks(ManufacturingOperation manufacturingOperation)
         {
-            return new List<LinkResource>() {
-                new LinkResource { Rel = "self", Href = this.GetLocation(manufacturingOperation) },
-            new LinkResource { Rel = "cit", Href = $"/production/maintenance/cits/{manufacturingOperation.CITCode}" }
-            };
+            return new List<LinkResource>
+                       {
+                           new LinkResource { Rel = "self", Href = this.GetLocation(manufacturingOperation) },
+                           new LinkResource { Rel = "cit", Href = $"/production/maintenance/cits/{manufacturingOperation.CITCode}" }
+                       };
         }
     }
 }

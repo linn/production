@@ -105,3 +105,7 @@ export const manufacturingRouteActionTypes = makeActionTypes(
 export const assemblyFailsMeasuresActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsMeasures.actionType
 );
+
+export const assemblyFailsDetailsActionTypes = makeReportActionTypes(
+    reportTypes.assemblyFailsDetails.actionType
+);

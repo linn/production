@@ -6,7 +6,6 @@
     using Linn.Common.Reporting.Models;
     using Linn.Common.Reporting.Resources.Extensions;
     using Linn.Production.Domain.LinnApps.Reports;
-    using Linn.Production.Resources;
 
     public class OutstandingWorksOrdersReportFacade : IOutstandingWorksOrdersReportFacade
     {

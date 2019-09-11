@@ -11,7 +11,6 @@ const mapStateToProps = state => ({
 });
 
 const initialise = () => dispatch => {
-    console.info(manufacturingResourcesActions);
     dispatch(manufacturingResourcesActions.fetch());
 };
 

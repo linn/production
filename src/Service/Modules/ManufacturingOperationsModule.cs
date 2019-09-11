@@ -2,7 +2,6 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
     using Nancy;
@@ -10,9 +9,11 @@
 
     public sealed class ManufacturingOperationsModule : NancyModule
     {
-        private readonly IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationsService;
+        private readonly
+            IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationsService;
 
-        public ManufacturingOperationsModule(IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationsService)
+        public ManufacturingOperationsModule(
+            IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationsService)
         {
             this.manufacturingOperationsService = manufacturingOperationsService;
             this.Get("/production/resources/manufacturing-operations", _ => this.GetAll());

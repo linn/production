@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Service.Modules
 {
-    using System;
-
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;

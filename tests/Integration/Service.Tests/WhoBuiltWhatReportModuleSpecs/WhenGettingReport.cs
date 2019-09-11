@@ -26,7 +26,7 @@
             this.WhoBuiltWhatReportFacadeService.WhoBuiltWhat(Arg.Any<string>(), Arg.Any<string>(), "S")
                 .Returns(new SuccessResult<IEnumerable<ResultsModel>>(results));
             this.Response = this.Browser.Get(
-                "/production/reports/who-built-what",
+                "/production/reports/who-built-what/report",
                 with =>
                     {
                         with.Header("Accept", "application/json");

@@ -55,7 +55,16 @@
 
         public IQueryable<AssemblyFail> FilterBy(Expression<Func<AssemblyFail, bool>> expression)
         {
-            return this.serviceDbContext.AssemblyFails.Where(expression);
+            return this.serviceDbContext.AssemblyFails.Where(expression)
+                .Include(f => f.WorksOrder)
+                .Include(f => f.WorksOrder.Part)
+                .Include(f => f.CitResponsible)
+                .Include(f => f.CompletedBy)
+                .Include(f => f.FaultCode)
+                .Include(f => f.EnteredBy)
+                .Include(f => f.PersonResponsible)
+                .Include(f => f.ReturnedBy)
+                .Include(f => f.BoardPart);
         }
     }
 }

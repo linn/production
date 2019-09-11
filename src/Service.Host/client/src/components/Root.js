@@ -43,6 +43,7 @@ import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetails
 import ProductionTriggersReport from '../containers/reports/triggers/ProductionTriggersReport';
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
+import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
 
 const Root = ({ store }) => (
     <div>
@@ -250,6 +251,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/assembly-fails-measures"
                                             component={AssemblyFailsMeasuresOptions}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-details"
+                                            component={AssemblyFailsDetails}
                                         />
                                     </Switch>
                                 </div>

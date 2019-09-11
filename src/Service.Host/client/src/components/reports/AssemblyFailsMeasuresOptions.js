@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { DatePicker, Title } from '@linn-it/linn-form-components-library';
+import { DatePicker, Title, Dropdown } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
@@ -11,12 +11,17 @@ function AssemblyFailsMeasuresOptions({ history }) {
     defaultStartDate.setDate(defaultStartDate.getDate() - 90);
     const [fromDate, setFromDate] = useState(defaultStartDate);
     const [toDate, setToDate] = useState(new Date());
+    const [groupBy, setGroupBy] = useState('board-part-number');
 
     const handleClick = () =>
         history.push({
             pathname: `/production/reports/assembly-fails-measures/report`,
-            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}`
+            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&groupBy=${groupBy}`
         });
+
+    const handleGroupByChange = (_field, value) => {
+        setGroupBy(value);
+    };
 
     return (
         <Page>
@@ -39,6 +44,23 @@ function AssemblyFailsMeasuresOptions({ history }) {
                     />
                 </Grid>
                 <Grid item xs={6} />
+                <Grid item xs={3}>
+                    <Dropdown
+                        label="Group By"
+                        propertyName="groupBy"
+                        items={[
+                            { id: 'board-part-number', displayText: 'Board Part Number' },
+                            { id: 'board', displayText: 'Board' },
+                            { id: 'fault', displayText: 'Fault' },
+                            { id: 'circuit-part-number', displayText: 'Circuit Part Number' },
+                            { id: 'cit', displayText: 'Cit' },
+                            { id: 'person', displayText: 'Person Responsible' }
+                        ]}
+                        value={groupBy}
+                        onChange={handleGroupByChange}
+                    />
+                </Grid>
+                <Grid item xs={9} />
                 <Grid item xs={12}>
                     <Button
                         color="primary"

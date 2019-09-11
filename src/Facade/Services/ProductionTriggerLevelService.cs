@@ -8,8 +8,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class ProductionTriggerLevelService : FacadeService<
-        ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>
+    public class ProductionTriggerLevelService : FacadeService<ProductionTriggerLevel, string,ProductionTriggerLevelResource, ProductionTriggerLevelResource>
     {
         public ProductionTriggerLevelService(IRepository<ProductionTriggerLevel, string> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)

@@ -20,7 +20,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.result = this.Sut.GetAssemblyFailsMeasuresReport(1.May(2020).ToString("O"), "Not a date");
+            this.result = this.Sut.GetAssemblyFailsMeasuresReport(1.May(2020).ToString("O"), "Not a date", "part-number");
         }
 
         [Test]
@@ -29,7 +29,7 @@
             this.ReportService.DidNotReceive().GetAssemblyFailsMeasuresReport(
                 Arg.Any<DateTime>(),
                 Arg.Any<DateTime>(),
-                AssemblyFailGroupBy.boardPartNumber);
+                AssemblyFailGroupBy.BoardPartNumber);
         }
 
         [Test]
