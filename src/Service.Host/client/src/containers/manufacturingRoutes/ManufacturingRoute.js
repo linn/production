@@ -1,30 +1,30 @@
 ﻿import { connect } from 'react-redux';
 import { fetchErrorSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
-import ManufacturingSkill from '../../components/manufacturingSkills/ManufacturingSkill';
-import manufacturingSkillActions from '../../actions/manufacturingSkillActions';
-import manufacturingSkillSelectors from '../../selectors/manufacturingSkillSelectors';
+import ManufacturingRoute from '../../components/manufacturingRoutes/ManufacturingRoute';
+import manufacturingRouteActions from '../../actions/manufacturingRouteActions';
+import manufacturingRouteSelectors from '../../selectors/manufacturingRouteSelectors';
 
 const mapStateToProps = (state, { match }) => ({
-    item: manufacturingSkillSelectors.getItem(state),
+    item: manufacturingRouteSelectors.getItem(state),
     itemId: match.params.id,
-    editStatus: manufacturingSkillSelectors.getEditStatus(state),
-    loading: manufacturingSkillSelectors.getLoading(state),
-    snackbarVisible: manufacturingSkillSelectors.getSnackbarVisible(state),
+    editStatus: manufacturingRouteSelectors.getEditStatus(state),
+    loading: manufacturingRouteSelectors.getLoading(state),
+    snackbarVisible: manufacturingRouteSelectors.getSnackbarVisible(state),
     errorMessage: fetchErrorSelectors(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {
-    dispatch(manufacturingSkillActions.fetch(itemId));
+    dispatch(manufacturingRouteActions.fetch(itemId));
 };
 
 const mapDispatchToProps = {
     initialise,
-    updateItem: manufacturingSkillActions.update,
-    setEditStatus: manufacturingSkillActions.setEditStatus,
-    setSnackbarVisible: manufacturingSkillActions.setSnackbarVisible
+    updateItem: manufacturingRouteActions.update,
+    setEditStatus: manufacturingRouteActions.setEditStatus,
+    setSnackbarVisible: manufacturingRouteActions.setSnackbarVisible
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(initialiseOnMount(ManufacturingSkill));
+)(initialiseOnMount(ManufacturingRoute));

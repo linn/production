@@ -1,24 +1,24 @@
-import { connect } from 'react-redux';
-import { fetchErrorSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
-import ViewManufacturingSkills from '../../components/manufacturingSkills/ManufacturingSkills';
-import manufacturingSkillsActions from '../../actions/manufacturingSkillsActions';
-import manufacturingSkillsSelectors from '../../selectors/manufacturingSkillsSelectors';
+// import { connect } from 'react-redux';
+// import { fetchErrorSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+// import ViewManufacturingRoutes from '../../components/manufacturingRoutes/ManufacturingRoutes';
+// import manufacturingRoutesActions from '../../actions/manufacturingRoutesActions';
+// import manufacturingRoutesSelectors from '../../selectors/manufacturingRoutesSelectors';
 
-const mapStateToProps = state => ({
-    items: manufacturingSkillsSelectors.getItems(state),
-    loading: manufacturingSkillsSelectors.getLoading(state),
-    errorMessage: fetchErrorSelectors(state)
-});
+// const mapStateToProps = state => ({
+//     items: manufacturingRoutesSelectors.getItems(state),
+//     loading: manufacturingRoutesSelectors.getLoading(state),
+//     errorMessage: fetchErrorSelectors(state)
+// });
 
-const initialise = () => dispatch => {
-    dispatch(manufacturingSkillsActions.fetch());
-};
+// const initialise = () => dispatch => {
+//     dispatch(manufacturingRoutesActions.fetch());
+// };
 
-const mapDispatchToProps = {
-    initialise
-};
+// const mapDispatchToProps = {
+//     initialise
+// };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(ViewManufacturingSkills));
+// export default connect(
+//     mapStateToProps,
+//     mapDispatchToProps
+// )(initialiseOnMount(ViewManufacturingRoutes));
