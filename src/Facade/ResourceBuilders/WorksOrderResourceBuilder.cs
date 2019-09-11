@@ -6,12 +6,10 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     public class WorksOrderResourceBuilder : IResourceBuilder<WorksOrder>
     {
-        
         public WorksOrderResource Build(WorksOrder wo)
         {
             return new WorksOrderResource

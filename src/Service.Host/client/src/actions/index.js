@@ -67,6 +67,10 @@ export const productionMeasuresCitsActionTypes = makeReportActionTypes(
     reportTypes.productionMeasuresCitsReport.actionType
 );
 
+export const productionTriggersReportTypes = makeReportActionTypes(
+    reportTypes.productionTriggersReport.actionType
+);
+
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );

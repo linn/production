@@ -61,9 +61,9 @@
                            AoiEscape = resource.AoiEscape,
                            CircuitPartRef = resource.CircuitRef,
                            BoardPart = resource.BoardPartNumber != null ? this.partRepository.FindById(resource.BoardPartNumber) : null,
-                           CitResponsible = resource.CitResponsible != null ? this.citRepository.FindById(resource.CitResponsible) : null, 
+                           CitResponsible = resource.CitResponsible != null ? this.citRepository.FindById(resource.CitResponsible) : null,
                            BoardPartNumber = resource.BoardPartNumber,
-                           PersonResponsible = resource.PersonResponsible != null 
+                           PersonResponsible = resource.PersonResponsible != null
                                                    ? this.employeeRepository.FindById((int)resource.PersonResponsible)
                                                    : null,
                            CompletedBy = resource.CompletedBy != null 

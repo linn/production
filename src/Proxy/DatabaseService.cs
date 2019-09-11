@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Proxy
 {
-    using System.Configuration;
     using System.Data;
 
     using Oracle.ManagedDataAccess.Client;
@@ -52,7 +51,7 @@
 
         public DataSet ExecuteQuery(string sql)
         {
-            using (OracleConnection connection = new OracleConnection(ConnectionStrings.ManagedConnectionString()))
+            using (var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString()))
             {
                 var dataAdapter = new OracleDataAdapter(
                     new OracleCommand(sql, connection) { CommandType = CommandType.Text });

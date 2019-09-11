@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -19,6 +18,7 @@
                            Name = cit.Name,
                            BuildGroup = cit.BuildGroup,
                            SortOrder = cit.SortOrder,
+                           DateInvalid = cit.DateInvalid?.ToString(),
                            Links = this.BuildLinks(cit).ToArray()
                        };
         }

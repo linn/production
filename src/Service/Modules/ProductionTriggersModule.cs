@@ -20,10 +20,8 @@
         {
             var resource = this.Bind<ProductionTriggersRequestResource>();
 
-            var results = this.productionTriggersFacadeService.GetProductionTriggerReport(
-                resource.Jobref,
-                resource.CitCode,
-                resource.ReportType);
+            var results =
+                this.productionTriggersFacadeService.GetProductionTriggerReport(resource.Jobref, resource.CitCode);
             return this.Negotiate
                 .WithModel(results)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

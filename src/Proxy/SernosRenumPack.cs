@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Proxy
 {
-    using System;
     using System.Data;
 
     using Domain.LinnApps.RemoteServices;
@@ -83,7 +82,7 @@
             connection.Open();
             cmd.ExecuteNonQuery();
             connection.Close();
-            
+
             return result.Value.ToString();
         }
     }

@@ -30,6 +30,12 @@ export const productionMeasuresCitsReport = new ItemType(
     '/production/reports/measures/cits'
 );
 
+export const productionTriggersReport = new ItemType(
+    'productionTriggersReport',
+    'PRODUCTION_TRIGGERS_REPORT',
+    '/production/reports/triggers'
+);
+
 export const assemblyFailsWaitingList = new ItemType(
     'assemblyFailsWaitingListReport',
     'ASSEMBLY_FAILS_WAITING_LIST',
