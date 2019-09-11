@@ -22,7 +22,7 @@
 
         public LinnWeek GetWeek(DateTime date, IEnumerable<LinnWeek> weeks)
         {
-            return weeks.FirstOrDefault(w => w.StartDate <= date.Date && w.EndDate >= date.Date);
+            return weeks.FirstOrDefault(w => w.StartDate.Date <= date.Date && w.EndDate.Date >= date.Date);
         }
 
         public LinnWeek GetWeek(DateTime date)
