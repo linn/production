@@ -28,7 +28,10 @@
                 ReasonStarted = trigger.ReasonStarted,
                 RemainingBuild = trigger.RemainingBuild,
                 MaximumKanbans = trigger.MaximumKanbans,
-                SortOrder = trigger.SortOrder
+                ReqtForInternalAndTriggerLevelBT = trigger.ReqtForInternalAndTriggerLevelBT,
+                Story = trigger.Story,
+                SortOrder = trigger.SortOrder,
+                ReportFormat = trigger.ReportType
             };
         }
 

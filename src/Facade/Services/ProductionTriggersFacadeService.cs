@@ -22,42 +22,27 @@
             this.masterRepository = masterRepository;
         }
 
-        public IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode, string reportType)
+        public IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode)
         {
-            if (string.IsNullOrEmpty(jobref))
+            var ptlMaster = this.masterRepository.GetMasterRecord();
+            if (ptlMaster == null)
             {
-                return new BadRequestResult<ProductionTriggersReport>("You must supply a jobref");
+                return new ServerFailureResult<ProductionTriggersReport>("Could not find PTL Master record");
             }
 
-            if (string.IsNullOrEmpty(citCode))
-            {
-                return new BadRequestResult<ProductionTriggersReport>("You must supply a citCode");
-            }
+            var reportJobref = string.IsNullOrEmpty(jobref) ? ptlMaster.LastFullRunJobref : jobref;
 
             ProductionTriggerReportType triggerReportType;
-
-            switch (reportType)
-            {
-                case "Brief":
-                    triggerReportType = ProductionTriggerReportType.Brief;
-                    break;
-                case "Full":
-                    triggerReportType = ProductionTriggerReportType.Full;
-                    break;
-                default:
-                    return new BadRequestResult<ProductionTriggersReport>("Invalid report type");
-            }
-
-            var cit = this.citRepository.FindById(citCode);
+            
+            // if no cit then just pick the first production one you can find
+            var cit = (string.IsNullOrEmpty(citCode)) ? this.citRepository.FilterBy(c => c.BuildGroup == "PP" && c.DateInvalid == null).ToList().OrderBy(c => c.SortOrder).FirstOrDefault() : this.citRepository.FindById(citCode);
 
             if (cit == null)
             {
                 return new NotFoundResult<ProductionTriggersReport>($"cit {citCode} not found");
             }
 
-            var ptlMaster = masterRepository.GetMasterRecord();
-
-            var report = new ProductionTriggersReport(jobref, ptlMaster, cit, triggerReportType, repository);
+            var report = new ProductionTriggersReport(reportJobref, ptlMaster, cit, repository);
 
             return new SuccessResult<ProductionTriggersReport>(report);
         }

@@ -8,6 +8,6 @@
 
     public interface IProductionTriggersFacadeService
     {
-        IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode, string reportType);
+        IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode);
     }
 }

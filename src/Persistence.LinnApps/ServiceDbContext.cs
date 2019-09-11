@@ -271,6 +271,7 @@
             e.Property(c => c.Code).HasColumnName("CODE").HasMaxLength(10);
             e.Property(c => c.Name).HasColumnName("NAME").HasMaxLength(50);
             e.Property(c => c.BuildGroup).HasColumnName("BUILD_GROUP").HasMaxLength(2);
+            e.Property(c => c.DateInvalid).HasColumnName("DATE_INVALID");
             e.Property(c => c.SortOrder).HasColumnName("SORT_ORDER");
         }
 
@@ -433,11 +434,11 @@
             q.Property(e => e.QtyFree).HasColumnName("QTY_FREE");
             q.Property(e => e.RemainingBuild).HasColumnName("REMAINING_BUILD");
             q.Property(e => e.QtyBeingBuilt).HasColumnName("QTY_BEING_BUILT");
-            q.Property(e => e.ReqtForSalesOrdersBE).HasColumnName("ReqtForSalesOrdersBE");
-            q.Property(e => e.ReqtForInternalCustomersBI).HasColumnName("ReqtForInternalCustomersBI");
-            q.Property(e => e.ReqtForInternalAndTriggerLevelBT).HasColumnName("ReqtForInternalAndTriggerLevelBT");
-            q.Property(e => e.ReqtForSalesOrdersGBE).HasColumnName("ReqtForSalesOrdersGBE");
-            q.Property(e => e.ReqtForInternalCustomersGBI).HasColumnName("ReqtForInternalCustomersGBI");
+            q.Property(e => e.ReqtForSalesOrdersBE).HasColumnName("BE");
+            q.Property(e => e.ReqtForInternalCustomersBI).HasColumnName("BI");
+            q.Property(e => e.ReqtForInternalAndTriggerLevelBT).HasColumnName("BT");
+            q.Property(e => e.ReqtForSalesOrdersGBE).HasColumnName("GBE");
+            q.Property(e => e.ReqtForInternalCustomersGBI).HasColumnName("GBI");
             q.Property(e => e.FixedBuild).HasColumnName("FIXED_BUILD");
             q.Property(e => e.Priority).HasColumnName("PRIORITY").HasMaxLength(1);
             q.Property(e => e.ReqtFromFixedBuild).HasColumnName("REQT_FROM_FIXED_BUILD").HasMaxLength(1);

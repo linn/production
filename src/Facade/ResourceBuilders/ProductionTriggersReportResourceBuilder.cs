@@ -19,7 +19,6 @@
                     CitName = report.Cit?.Name,
                     PtlJobref = report.PtlMaster?.LastFullRunJobref,
                     PtlRunDateTime = report.PtlMaster?.LastFullRunDateTime.ToString("o"),
-                    ReportFormat = report.ReportType.ToString(),
                     Triggers = report.Triggers.Select(t => summaryResourceBuilder.BuildSummary(t))
                 }
             };

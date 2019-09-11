@@ -5,7 +5,5 @@
         public string Jobref { get; set; }
 
         public string CitCode { get; set; }
-
-        public string ReportType { get; set; }
     }
 }
