@@ -5,7 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     public class WorksOrderResourceBuilder : IResourceBuilder<WorksOrder>
@@ -27,7 +27,7 @@
 
         object IResourceBuilder<WorksOrder>.Build(WorksOrder w) => this.Build(w);
 
-        private IEnumerable<LinkResource> BuildLinks(WorksOrder ateFaultCode)
+        private IEnumerable<LinkResource> BuildLinks(WorksOrder worksOrder)
         {
             throw new NotImplementedException();
         }

@@ -15,7 +15,7 @@
         {
             this.reportService = reportService;
             this.Get("/production/reports/assembly-fails-waiting-list", _ => this.GetWaitingListReport());
-            this.Get("/production/reports/assembly-fails-measures", _ => this.GetMeasuresReport());
+            this.Get("/production/reports/assembly-fails-measures/report", _ => this.GetMeasuresReport());
             this.Get("/production/reports/assembly-fails-details", _ => this.GetDetailsReport());
         }
 

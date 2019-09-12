@@ -5,8 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
@@ -23,11 +22,7 @@
     {
         protected IOutstandingWorksOrdersReportFacade OutstandingWorksOrdersReportFacade { get; set; }
 
-        protected IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource> WorksOrderService
-        {
-            get;
-            set;
-        }
+        protected IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource> WorksOrderService { get; set; }
 
         [SetUp]
         public void EstablishContext()

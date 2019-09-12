@@ -366,7 +366,7 @@
                     return fails.Select(
                         f => new CalculationValueModel
                                  {
-                                     RowId = f.BoardPartNumber,
+                                     RowId = f.BoardPartNumber ?? string.Empty,
                                      ColumnId = this.linnWeekService.GetWeek(f.DateTimeFound, weeks).LinnWeekNumber.ToString(),
                                      Quantity = f.NumberOfFails
                                  });
