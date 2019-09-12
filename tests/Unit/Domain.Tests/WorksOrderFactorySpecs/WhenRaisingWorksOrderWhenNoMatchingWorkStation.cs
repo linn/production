@@ -37,10 +37,6 @@
 
             this.WorksOrderService.CanRaiseWorksOrder(this.partNumber).Returns("SUCCESS");
 
-            this.WorksOrderService.GetDepartment(this.partNumber, this.department).Returns("Error");
-
-            this.WorkStationRepository.FindById(this.workStationCode).Returns(new WorkStation { WorkStationCode = this.workStationCode });
-
             this.ProductionTriggerLevelsRepository.FindById(this.partNumber).Returns(
                 new ProductionTriggerLevel { PartNumber = this.partNumber, WsName = "OTHER" });
 

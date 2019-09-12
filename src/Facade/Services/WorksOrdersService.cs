@@ -84,28 +84,6 @@
             return new CreatedResult<WorksOrder>(worksOrder);
         }
 
-        public IResult<WorksOrder> CancelWorksOrder(WorksOrderResource resource)
-        {
-            var worksOrder = this.worksOrderRepository.FindById(resource.OrderNumber);
-
-            if (worksOrder == null)
-            {
-                return new NotFoundResult<WorksOrder>();
-            }
-
-            try
-            {
-                this.worksOrderFactory.CancelWorksOrder(worksOrder, resource.CancelledBy, resource.ReasonCancelled);
-            }
-            catch (DomainException exception)
-            {
-                return new BadRequestResult<WorksOrder>(exception.Message);
-            }
-
-            return new SuccessResult<WorksOrder>(worksOrder);
-        }
-
-        // TODO test these
         public IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource)
         {
             var worksOrder = this.worksOrderRepository.FindById(resource.OrderNumber);
@@ -115,14 +93,21 @@
                 return new NotFoundResult<WorksOrder>();
             }
 
-            try
+            if (resource.ReasonCancelled != null)
             {
-                this.UpdateFromResource(resource, worksOrder);
+                try
+                {
+                    this.worksOrderFactory.CancelWorksOrder(worksOrder, resource.CancelledBy, resource.ReasonCancelled);
+                }
+                catch (DomainException exception)
+                {
+                    return new BadRequestResult<WorksOrder>(exception.Message);
+                }
+
+                return new SuccessResult<WorksOrder>(worksOrder);
             }
-            catch (DomainException exception)
-            {
-                return new BadRequestResult<WorksOrder>(exception.Message);
-            }
+
+            this.UpdateFromResource(resource, worksOrder);
 
             return new SuccessResult<WorksOrder>(worksOrder);
         }
@@ -132,9 +117,20 @@
             return new SuccessResult<IEnumerable<WorksOrder>>(this.worksOrderRepository.FilterBy(w => w.PartNumber == searchTerm));
         }
 
-        public IResult<string> GetAuditDisclaimer(string partNumber)
+        public IResult<WorksOrderDetails> GetWorksOrderDetails(string partNumber)
         {
-            return new SuccessResult<string>(this.worksOrderProxyService.GetAuditDisclaimer());
+            WorksOrderDetails worksOrderDetails;
+
+            try
+            {
+                worksOrderDetails = this.worksOrderFactory.GetWorksOrderDetails(partNumber);
+            }
+            catch (DomainException exception)
+            {
+                return new BadRequestResult<WorksOrderDetails>(exception.Message);
+            }
+
+            return new SuccessResult<WorksOrderDetails>(worksOrderDetails);
         }
 
         private WorksOrder CreateFromResource(WorksOrderResource resource)
@@ -163,10 +159,7 @@
 
         private void UpdateFromResource(WorksOrderResource resource, WorksOrder worksOrder)
         {
-            worksOrder.UpdateWorksOrder(
-                resource.PartNumber,
-                resource.Quantity,
-                resource.RaisedBy);
+            worksOrder.UpdateWorksOrder(resource.Quantity);
         }
     }
 }

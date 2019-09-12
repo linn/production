@@ -52,11 +52,9 @@
             this.DateCancelled = dateCancelled;
         }
 
-        public void UpdateWorksOrder(string partNumber, int quantity, int raisedBy)
+        public void UpdateWorksOrder(int quantity)
         {
-            this.PartNumber = partNumber;
             this.Quantity = quantity;
-            this.RaisedBy = raisedBy;
         }
     }
 }

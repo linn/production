@@ -15,7 +15,6 @@
         {
         }
 
-        // TODO method to get audit disclaimer
         protected override Part CreateFromResource(PartResource resource)
         {
             throw new NotImplementedException();

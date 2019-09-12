@@ -14,10 +14,8 @@
 
         IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource);
 
-        IResult<WorksOrder> CancelWorksOrder(WorksOrderResource resource);
-
         IResult<IEnumerable<WorksOrder>> SearchWorksOrders(string searchTerm);
 
-        IResult<string> GetAuditDisclaimer(string partNumber);
+        IResult<WorksOrderDetails> GetWorksOrderDetails(string partNumber);
     }
 }

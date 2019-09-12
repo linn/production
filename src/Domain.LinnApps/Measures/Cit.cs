@@ -12,6 +12,8 @@
 
         public int? SortOrder { get; set; }
 
+        public string DepartmentCode { get; set; }
+
         public ProductionMeasures Measures { get; set; }
 
         public List<AssemblyFail> AssemblyFails { get; set; }

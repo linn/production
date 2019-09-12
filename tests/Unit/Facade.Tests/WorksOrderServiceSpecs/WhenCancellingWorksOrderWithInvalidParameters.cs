@@ -25,7 +25,9 @@
         {
             this.resource = new WorksOrderResource
                                 {
-                                    OrderNumber = 1234
+                                    OrderNumber = 1234,
+                                    CancelledBy = 33067,
+                                    ReasonCancelled = "REASON"
                                 };
 
             this.worksOrder = new WorksOrder
@@ -41,7 +43,7 @@
                 .CancelWorksOrder(this.worksOrder, this.resource.CancelledBy, this.resource.ReasonCancelled)
                 .Throws(new InvalidWorksOrderException("Message"));
 
-            this.result = this.Sut.CancelWorksOrder(this.resource);
+            this.result = this.Sut.UpdateWorksOrder(this.resource);
         }
 
         [Test]

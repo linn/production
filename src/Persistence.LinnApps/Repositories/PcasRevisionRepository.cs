@@ -38,12 +38,12 @@
 
         public PcasRevision FindBy(Expression<Func<PcasRevision, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PcasRevisions.Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<PcasRevision> FilterBy(Expression<Func<PcasRevision, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PcasRevisions.Where(expression);
         }
     }
 }

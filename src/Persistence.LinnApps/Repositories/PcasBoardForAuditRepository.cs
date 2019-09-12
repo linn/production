@@ -23,7 +23,7 @@
 
         public IQueryable<PcasBoardForAudit> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PcasBoardsForAudit;
         }
 
         public void Add(PcasBoardForAudit entity)
@@ -38,12 +38,12 @@
 
         public PcasBoardForAudit FindBy(Expression<Func<PcasBoardForAudit, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PcasBoardsForAudit.Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<PcasBoardForAudit> FilterBy(Expression<Func<PcasBoardForAudit, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PcasBoardsForAudit.Where(expression);
         }
     }
 }

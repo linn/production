@@ -219,7 +219,6 @@
 
         private void BuildProductionTriggerLevels(ModelBuilder builder)
         {
-            // TODO check this doesnt need a composite key
             var e = builder.Entity<ProductionTriggerLevel>();
             e.ToTable("PRODUCTION_TRIGGER_LEVELS");
             e.HasKey(p => p.PartNumber);
@@ -300,6 +299,7 @@
             e.Property(c => c.Name).HasColumnName("NAME").HasMaxLength(50);
             e.Property(c => c.BuildGroup).HasColumnName("BUILD_GROUP").HasMaxLength(2);
             e.Property(c => c.SortOrder).HasColumnName("SORT_ORDER");
+            e.Property(c => c.DepartmentCode).HasColumnName("DEPARTMENT_CODE").HasMaxLength(10);
         }
 
         private void BuildProductionMeasures(ModelBuilder builder)

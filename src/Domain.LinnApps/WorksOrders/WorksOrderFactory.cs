@@ -3,38 +3,48 @@
     using System;
     using System.Linq;
 
+    using Linn.Common.Domain.Exceptions;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Exceptions;
+    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
     public class WorksOrderFactory : IWorksOrderFactory
     {
-        private IWorksOrderProxyService worksOrderProxyService;
+        private readonly IWorksOrderProxyService worksOrderProxyService;
 
-        // TODO remove this
-        private IRepository<WorksOrder, int> worksOrderRepository;
+        private readonly IRepository<Part, string> partsRepository;
 
-        private IRepository<Part, string> partsRepository;
+        private readonly IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository;
 
-        private IRepository<WorkStation, string> workStationRepository;
+        private readonly IRepository<PcasBoardForAudit, string> pcasBoardsForAuditRepository;
 
-        private IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository;
+        private readonly IRepository<PcasRevision, string> pcasRevisionsRepository;
+
+        private readonly IRepository<Department, string> departmentRepository;
+
+        private readonly IRepository<Cit, string> citRepository;
 
         private ISernosPack sernosPack;
 
         public WorksOrderFactory(
             IWorksOrderProxyService worksOrderProxyService,
-            IRepository<WorksOrder, int> worksOrderRepository,
             IRepository<Part, string> partsRepository,
-            IRepository<WorkStation, string> workStationRepository,
             IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository,
+            IRepository<PcasBoardForAudit, string> pcasBoardsForAuditRepository,
+            IRepository<PcasRevision, string> pcasRevisionsRepository,
+            IRepository<Department, string> departmentRepository,
+            IRepository<Cit, string> citRepository,
             ISernosPack sernosPack)
         {
             this.worksOrderProxyService = worksOrderProxyService;
-            this.worksOrderRepository = worksOrderRepository;
             this.partsRepository = partsRepository;
-            this.workStationRepository = workStationRepository;
             this.productionTriggerLevelsRepository = productionTriggerLevelsRepository;
+            this.pcasBoardsForAuditRepository = pcasBoardsForAuditRepository;
+            this.pcasRevisionsRepository = pcasRevisionsRepository;
+            this.departmentRepository = departmentRepository;
+            this.citRepository = citRepository;
             this.sernosPack = sernosPack;
         }
 
@@ -57,9 +67,6 @@
                 throw new InvalidWorksOrderException($"Cannot raise a works order for phantom part {partNumber}");
             }
 
-            // TODO still don't know where in the code this is used...
-            var batchNumber2 = this.worksOrderProxyService.GetNextBatch(partNumber);
-
             if (this.RebuildPart(partNumber))
             {
                 throw new InvalidWorksOrderException($"Use Works Order Rebuild Utility for this part {partNumber}");
@@ -81,12 +88,7 @@
                     throw new InvalidWorksOrderException($"{worksOrder.WorkStationCode} is not a possible work station for {partNumber}");
                 }
 
-                var department = this.worksOrderProxyService.GetDepartment(partNumber, raisedByDepartment);
-
-                if (department != "SUCCESS")
-                {
-                    throw new InvalidWorksOrderException(department);
-                }
+                this.GetDepartment(partNumber);
 
                 worksOrder.RaisedByDepartment = raisedByDepartment;
                 
@@ -110,6 +112,28 @@
             return worksOrder;
         }
 
+        public WorksOrderDetails GetWorksOrderDetails(string partNumber)
+        {
+            var part = this.partsRepository.FindById(partNumber);
+
+            if (part == null)
+            {
+                throw new DomainException($"No part found for part number {partNumber}");
+            }
+
+            var auditDisclaimer = this.GetAuditDisclaimer(partNumber);
+
+            var workStationCode = this.GetWorkStationCode(partNumber);
+
+            return new WorksOrderDetails
+                       {
+                            PartNumber = partNumber,
+                            PartDescription = part.Description,
+                            WorkStationCode = workStationCode,
+                            AuditDisclaimer = auditDisclaimer
+                       };
+        }
+
         public void IssueSerialNumber(
             string partNumber,
             int orderNumber,
@@ -126,11 +150,57 @@
             }
         }
 
+        private void GetDepartment(string partNumber)
+        {
+            var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
+
+            var cit = this.citRepository.FindById(productionTriggerLevel.CitCode);
+
+            var department = this.departmentRepository.FindById(cit.DepartmentCode);
+
+            if (department == null)
+            {
+                throw new InvalidWorksOrderException($"Department code not found for CIT {cit.Code}");
+            }
+        }
+
         private bool RebuildPart(string partNumber)
         {
             var partNumbers = new string[] { "ASAKA/R", "TROIKA/R", "ARKIV/R", "KARMA/R", "KLYDE/R", "NEW ARKIV/R" };
 
             return partNumbers.Contains(partNumber);
+        }
+
+        private string GetAuditDisclaimer(string partNumber)
+        {
+            var pcasRevision = this.pcasRevisionsRepository.FindBy(p => p.PcasPartNumber == partNumber);
+
+            if (pcasRevision == null)
+            {
+                return null;
+            }
+
+            var pcasBoardForAudit =
+                this.pcasBoardsForAuditRepository.FindBy(p => p.BoardCode == pcasRevision.BoardCode);
+
+            if (pcasBoardForAudit == null || pcasBoardForAudit.ForAudit != "Y")
+            {
+                return null;
+            }
+
+            if (pcasBoardForAudit.CutClinch == "Y")
+            {
+                return "Board requires audit. Use cut and clinch tool";
+            }
+
+            return "Board requires audit";
+        }
+
+        private string GetWorkStationCode(string partNumber)
+        {
+            var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
+
+            return productionTriggerLevel?.WsName;
         }
     }
 }

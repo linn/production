@@ -10,7 +10,7 @@
 
     using NUnit.Framework;
 
-    public class WhenCancellingAndWorksOrderNotFound : ContextBase
+    public class WhenUpdatingAndWorksOrderNotFound : ContextBase
     {
         private IResult<WorksOrder> result;
 
@@ -27,7 +27,7 @@
             this.WorksOrderRepository.FindById(this.resource.OrderNumber)
                 .Returns((WorksOrder)null);
 
-            this.result = this.Sut.CancelWorksOrder(this.resource);
+            this.result = this.Sut.UpdateWorksOrder(this.resource);
         }
 
         [Test]

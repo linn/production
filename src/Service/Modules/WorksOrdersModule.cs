@@ -20,24 +20,26 @@
 
             this.Get("/production/maintenance/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
             this.Get("/production/maintenance/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
+
             this.Get("/production/maintenance/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
             this.Post("/production/maintenance/works-orders", _ => this.AddWorksOrder());
-            // TODO should I unify this and update???
-            this.Put("/production/maintenance/works-orders/{orderNumber}/cancel", _ => this.CancelWorksOrder());
-            // this.Get("/production/maintenance/works-orders/{orderNumber}/audit", parameters => this.GetWorksOrderAuditDisclaimer(parameters.orderNumber));
+            this.Put("/production/maintenance/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
+            this.Get(
+                "/production/maintenance/works-orders/details/{partNumber}",
+                parameters => this.GetWorksOrderDetails(parameters.partNumber));
         }
 
-        private object GetWorksOrderAuditDisclaimer(int orderNumber)
+        private object GetWorksOrderDetails(string partNumber)
         {
-            // return this.Negotiate.WithModel(this.worksOrdersService.GetAuditDisclaimer(orderNumber))
-            throw new System.NotImplementedException();
+            return this.Negotiate.WithModel(this.worksOrdersService.GetWorksOrderDetails(partNumber))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
-        private object CancelWorksOrder()
+        private object UpdateWorksOrder()
         {
             var resource = this.Bind<WorksOrderResource>();
 
-            return this.Negotiate.WithModel(this.worksOrdersService.CancelWorksOrder(resource))
+            return this.Negotiate.WithModel(this.worksOrdersService.UpdateWorksOrder(resource))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 

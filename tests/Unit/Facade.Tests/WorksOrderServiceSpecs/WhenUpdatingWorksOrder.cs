@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Facade.Tests.WorksOrderServiceSpecs
 {
-    using System;
-
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -12,7 +10,7 @@
 
     using NUnit.Framework;
 
-    public class WhenCancellingWorksOrder : ContextBase
+    public class WhenUpdatingWorksOrder : ContextBase
     {
         private IResult<WorksOrder> result;
 
@@ -26,8 +24,7 @@
             this.resource = new WorksOrderResource
                                 {
                                     OrderNumber = 1234,
-                                    CancelledBy = 33067,
-                                    ReasonCancelled = "Reason"
+                                    Quantity = 6
                                 };
 
             this.worksOrder = new WorksOrder
@@ -39,37 +36,17 @@
             this.WorksOrderRepository.FindById(this.resource.OrderNumber)
                 .Returns(this.worksOrder);
 
-            this.WorksOrderFactory
-                .CancelWorksOrder(this.worksOrder, this.resource.CancelledBy, this.resource.ReasonCancelled)
-                .Returns(new WorksOrder
-                             {
-                                 OrderNumber = 1234,
-                                 PartNumber = "MAJIK",
-                                 CancelledBy = this.resource.CancelledBy,
-                                 ReasonCancelled = this.resource.ReasonCancelled,
-                                 DateCancelled = new DateTime?()
-                             });
-
             this.result = this.Sut.UpdateWorksOrder(this.resource);
         }
 
         [Test]
-        public void ShouldGetWorksOrder()
+        public void ShouldCallRepository()
         {
             this.WorksOrderRepository.Received().FindById(this.resource.OrderNumber);
         }
 
         [Test]
-        public void ShouldCallFactory()
-        {
-            this.WorksOrderFactory.Received().CancelWorksOrder(
-                this.worksOrder,
-                this.resource.CancelledBy,
-                this.resource.ReasonCancelled);
-        }
-
-        [Test]
-        public void ShouldReturnSuccess()
+        public void ShouldReturnNotFound()
         {
             this.result.Should().BeOfType<SuccessResult<WorksOrder>>();
         }

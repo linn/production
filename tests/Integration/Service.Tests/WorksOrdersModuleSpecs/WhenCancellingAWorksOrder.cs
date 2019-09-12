@@ -34,11 +34,11 @@
                                      ReasonCancelled = "REASON"
                                  };
 
-            this.WorksOrdersService.CancelWorksOrder(Arg.Any<WorksOrderResource>())
+            this.WorksOrdersService.UpdateWorksOrder(Arg.Any<WorksOrderResource>())
                 .Returns(new SuccessResult<WorksOrder>(worksOrder));
 
             this.Response = this.Browser.Put(
-                "/production/maintenance/works-orders/12345/cancel",
+                "/production/maintenance/works-orders/12345",
                 with =>
                     {
                         with.Header("Accept", "application/json");
@@ -57,7 +57,7 @@
         public void ShouldCallService()
         {
             this.WorksOrdersService.Received()
-                .CancelWorksOrder(Arg.Is<WorksOrderResource>(r => r.OrderNumber == 12345));
+                .UpdateWorksOrder(Arg.Is<WorksOrderResource>(r => r.OrderNumber == 12345));
         }
 
         [Test]

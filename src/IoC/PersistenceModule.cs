@@ -40,6 +40,7 @@
             builder.RegisterType<PcasBoardForAuditRepository>().As<IRepository<PcasBoardForAudit, string>>();
             builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
             builder.RegisterType<ProductionTriggerLevelsRepository>().As<IRepository<ProductionTriggerLevel, string>>();
+            builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

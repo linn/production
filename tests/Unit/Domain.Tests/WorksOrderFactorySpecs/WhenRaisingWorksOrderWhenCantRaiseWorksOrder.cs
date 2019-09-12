@@ -37,8 +37,6 @@
 
             this.WorksOrderService.CanRaiseWorksOrder(this.partNumber).Returns("Error");
 
-            this.WorkStationRepository.FindById(this.workStationCode).Returns(new WorkStation { WorkStationCode = this.workStationCode });
-
             this.action = () => this.Sut.RaiseWorksOrder(new WorksOrder
                                                              {
                                                                  PartNumber = this.partNumber,

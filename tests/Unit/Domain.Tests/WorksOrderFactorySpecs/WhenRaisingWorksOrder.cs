@@ -6,6 +6,7 @@
     using FluentAssertions;
 
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using NSubstitute;
@@ -24,6 +25,10 @@
 
         private int raisedBy;
 
+        private string citCode;
+
+        private string citDepartment;
+
         [SetUp]
         public void SetUp()
         {
@@ -31,17 +36,21 @@
             this.department = "DEPT";
             this.raisedBy = 33067;
             this.workStationCode = "STATION";
+            this.citCode = "AB";
+            this.citDepartment = "DEPT2";
 
             this.PartsRepository.FindBy(Arg.Any<Expression<Func<Part, bool>>>()).Returns(new Part { BomType = "A", AccountingCompany = "LINN" });
 
-            this.WorkStationRepository.FindById(this.workStationCode).Returns(new WorkStation { WorkStationCode = this.workStationCode });
-
             this.WorksOrderService.CanRaiseWorksOrder(this.partNumber).Returns("SUCCESS");
 
-            this.WorksOrderService.GetDepartment(this.partNumber, this.department).Returns("SUCCESS");
-
             this.ProductionTriggerLevelsRepository.FindById(this.partNumber).Returns(
-                new ProductionTriggerLevel { PartNumber = this.partNumber, WsName = this.workStationCode });
+                new ProductionTriggerLevel { PartNumber = this.partNumber, WsName = this.workStationCode, CitCode = this.citCode });
+
+            this.CitRepository.FindById(this.citCode)
+                .Returns(new Cit { Code = this.citCode, DepartmentCode = this.citDepartment });
+
+            this.DepartmentRepository.FindById(this.citDepartment)
+                .Returns(new Department { DepartmentCode = this.citDepartment });
 
             this.result = this.Sut.RaiseWorksOrder(new WorksOrder
                                                        {

@@ -37,11 +37,13 @@
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(new WorksOrdersResourceBuilder());
+                        with.Dependency<IResourceBuilder<WorksOrderDetails>>(new WorksOrderDetailsResourceBuilder());
                         with.Module<WorksOrdersModule>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                         with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
                         with.ResponseProcessor<WorksOrderResponseProcessor>();
                         with.ResponseProcessor<WorksOrdersResponseProcessor>();
+                        with.ResponseProcessor<WorksOrderDetailsResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>

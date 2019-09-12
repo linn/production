@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Domain.Tests.WorksOrderFactorySpecs
 {
-    using System;
-
     using FluentAssertions;
 
     using Linn.Production.Domain.LinnApps.WorksOrders;
