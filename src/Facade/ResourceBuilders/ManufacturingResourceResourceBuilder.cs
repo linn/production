@@ -10,14 +10,14 @@
 
     public class ManufacturingResourceResourceBuilder : IResourceBuilder<ManufacturingResource>
     {
-        public ManufacturingResourceResource Build(ManufacturingResource ManufacturingResource)
+        public ManufacturingResourceResource Build(ManufacturingResource manufacturingResource)
         {
             return new ManufacturingResourceResource
             {
-                ResourceCode = ManufacturingResource.ResourceCode,
-                Description = ManufacturingResource.Description,
-                Cost = ManufacturingResource.Cost,
-                Links = this.BuildLinks(ManufacturingResource).ToArray()
+                ResourceCode = manufacturingResource.ResourceCode,
+                Description = manufacturingResource.Description,
+                Cost = manufacturingResource.Cost,
+                Links = this.BuildLinks(manufacturingResource).ToArray()
             };
         }
 

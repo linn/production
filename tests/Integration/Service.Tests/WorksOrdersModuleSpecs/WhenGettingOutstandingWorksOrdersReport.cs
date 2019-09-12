@@ -21,7 +21,7 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport().Returns(
+            this.OutstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport(null, null).Returns(
                 new SuccessResult<ResultsModel>(results)
                     {
                         Data = new ResultsModel
@@ -48,7 +48,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReport();
+            this.OutstandingWorksOrdersReportFacade.Received().GetOutstandingWorksOrdersReport(null, null);
         }
 
         [Test]

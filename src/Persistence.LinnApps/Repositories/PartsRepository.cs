@@ -18,7 +18,7 @@
 
         public Part FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Parts.Where(p => p.PartNumber == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<Part> FindAll()
@@ -43,7 +43,7 @@
 
         public IQueryable<Part> FilterBy(Expression<Func<Part, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Parts.Where(expression);
         }
     }
 }

@@ -8,6 +8,7 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
+    using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
 
@@ -23,6 +24,8 @@
 
         protected IWorksOrdersService WorksOrdersService { get; private set; }
 
+        protected IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource> WorksOrderService { get; set; }
+
         [SetUp]
         public void EstablishContext()
         {
@@ -36,6 +39,8 @@
                         with.Dependency(this.WorksOrdersService);
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(
+                            new WorksOrdersResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(new WorksOrdersResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrderDetails>>(new WorksOrderDetailsResourceBuilder());
                         with.Module<WorksOrdersModule>();

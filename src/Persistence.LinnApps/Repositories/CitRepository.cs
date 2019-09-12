@@ -23,7 +23,7 @@
 
         public IQueryable<Cit> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Cits.OrderBy(c => c.SortOrder);
         }
 
         public void Add(Cit entity)
@@ -43,7 +43,8 @@
 
         public IQueryable<Cit> FilterBy(Expression<Func<Cit, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Cits.Where(expression);
         }
     }
 }
+

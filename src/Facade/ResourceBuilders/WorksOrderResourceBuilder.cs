@@ -23,6 +23,7 @@
                            OrderNumber = worksOrder.OrderNumber,
                            Outstanding = worksOrder.Outstanding,
                            PartNumber = worksOrder.PartNumber,
+                           PartDescription = worksOrder.Part.Description,
                            Quantity = worksOrder.Quantity,
                            QuantityBuilt = worksOrder.QuantityBuilt,
                            QuantityOutstanding = worksOrder.QuantityOutstanding,

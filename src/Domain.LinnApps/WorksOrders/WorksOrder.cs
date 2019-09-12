@@ -23,6 +23,8 @@
 
         public int OrderNumber { get; set; }
 
+        public Part Part { get; set; }
+
         public string PartNumber { get; set; }
 
         public int Quantity { get; set; }
@@ -42,6 +44,8 @@
         public string DocType { get; set; }
 
         public string WorkStationCode { get; set; }
+
+        public string ZoneName { get; set; }
 
         public List<AssemblyFail> AssemblyFails { get; set; }
 

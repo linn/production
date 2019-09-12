@@ -10,6 +10,8 @@
     {
         IResult<WorksOrder> GetWorksOrder(int orderNumber);
 
+        IResult<IEnumerable<WorksOrder>> GetAll();
+
         IResult<WorksOrder> AddWorksOrder(WorksOrderResource resource);
 
         IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource);

@@ -15,8 +15,8 @@ export const FETCH_ERROR = 'FETCH_ERROR';
 export const ateFaultCodeActionTypes = makeActionTypes(itemTypes.ateFaultCode.actionType);
 export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.actionType, false);
 
-export const assemblyFailActionTypes = makeActionTypes(itemTypes.assemblyFail.actionType, false);
-
+export const assemblyFailActionTypes = makeActionTypes(itemTypes.assemblyFail.actionType, true);
+export const worksOrdersActionTypes = makeActionTypes(itemTypes.worksOrders.actionType, true);
 export const salesArticleActionTypes = makeActionTypes(itemTypes.salesArticle.actionType);
 
 export const salesArticles = makeActionTypes(itemTypes.salesArticles.actionType);
@@ -57,6 +57,8 @@ export const buildsSummaryReportActionTypes = makeReportActionTypes(
     reportTypes.buildsSummaryReport.actionType
 );
 
+export const citsActionTypes = makeActionTypes(itemTypes.cits.actionType);
+
 export const productionMeasuresInfoActionTypes = makeReportActionTypes(
     reportTypes.productionMeasuresInfoReport.actionType
 );
@@ -65,8 +67,28 @@ export const productionMeasuresCitsActionTypes = makeReportActionTypes(
     reportTypes.productionMeasuresCitsReport.actionType
 );
 
+export const productionTriggersReportTypes = makeReportActionTypes(
+    reportTypes.productionTriggersReport.actionType
+);
+
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
+);
+
+export const productionTriggerLevels = makeActionTypes(
+    itemTypes.productionTriggerLevels.actionType,
+    false
+);
+
+export const pcasRevisionsActionTypes = makeActionTypes(itemTypes.pcasRevisions.actionType, false);
+
+export const citsActionsTypes = makeActionTypes(itemTypes.cits.actionType, false);
+
+export const employeesActionTypes = makeActionTypes(itemTypes.employees.actionType, false);
+
+export const assemblyFailFaultCodesActionTypes = makeActionTypes(
+    itemTypes.assemblyFailFaultCodes.actionType,
+    false
 );
 
 export const whoBuiltWhatReportActionTypes = makeReportActionTypes(
@@ -74,4 +96,16 @@ export const whoBuiltWhatReportActionTypes = makeReportActionTypes(
 );
 export const whoBuiltWhatDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.whoBuiltWhatDetails.actionType
+);
+
+export const manufacturingRouteActionTypes = makeActionTypes(
+    itemTypes.manufacturingRoute.actionType
+);
+
+export const assemblyFailsMeasuresActionTypes = makeReportActionTypes(
+    reportTypes.assemblyFailsMeasures.actionType
+);
+
+export const assemblyFailsDetailsActionTypes = makeReportActionTypes(
+    reportTypes.assemblyFailsDetails.actionType
 );

@@ -82,7 +82,7 @@
             connection.Open();
             cmd.ExecuteNonQuery();
             connection.Close();
-            
+
             return result.Value.ToString();
         }
     }

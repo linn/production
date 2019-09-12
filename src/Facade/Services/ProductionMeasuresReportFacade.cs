@@ -17,7 +17,10 @@
 
         private readonly IMasterRepository<OsrRunMaster> osrRunMasterRepository;
 
-        public ProductionMeasuresReportFacade(IRepository<ProductionMeasures, string> productionMeasuresRepository, IMasterRepository<PtlMaster> ptlMasterRepository, IMasterRepository<OsrRunMaster> osrRunMasterRepository)
+        public ProductionMeasuresReportFacade(
+            IRepository<ProductionMeasures, string> productionMeasuresRepository,
+            IMasterRepository<PtlMaster> ptlMasterRepository,
+            IMasterRepository<OsrRunMaster> osrRunMasterRepository)
         {
             this.productionMeasuresRepository = productionMeasuresRepository;
             this.ptlMasterRepository = ptlMasterRepository;
@@ -33,7 +36,7 @@
         public IResult<IEnumerable<IEnumerable<string>>> GetProductionMeasuresCsv()
         {
             var citMeasures = this.productionMeasuresRepository.FindAll().ToList();
-            var results = new List<List<string>>() { ProductionMeasuresCsvExtensions.CsvHeaderLine().ToList()};
+            var results = new List<List<string>> { ProductionMeasuresCsvExtensions.CsvHeaderLine().ToList() };
             results.AddRange(citMeasures.Where(m => m.HasMeasures()).Select(m => m.ToCsvLine().ToList()));
             return new SuccessResult<IEnumerable<IEnumerable<string>>>(results);
         }
@@ -42,8 +45,8 @@
         {
             var info = new OsrInfo
             {
-               RunMaster = osrRunMasterRepository.GetMasterRecord(),
-               PtlMaster = ptlMasterRepository.GetMasterRecord()
+               RunMaster = this.osrRunMasterRepository.GetMasterRecord(),
+               PtlMaster = this.ptlMasterRepository.GetMasterRecord()
             };
 
             return new SuccessResult<OsrInfo>(info);

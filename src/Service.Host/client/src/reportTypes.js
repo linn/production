@@ -30,6 +30,12 @@ export const productionMeasuresCitsReport = new ItemType(
     '/production/reports/measures/cits'
 );
 
+export const productionTriggersReport = new ItemType(
+    'productionTriggersReport',
+    'PRODUCTION_TRIGGERS_REPORT',
+    '/production/reports/triggers'
+);
+
 export const assemblyFailsWaitingList = new ItemType(
     'assemblyFailsWaitingListReport',
     'ASSEMBLY_FAILS_WAITING_LIST',
@@ -39,11 +45,23 @@ export const assemblyFailsWaitingList = new ItemType(
 export const whoBuiltWhat = new ItemType(
     'whoBuiltWhat',
     'WHO_BUILT_WHAT',
-    '/production/reports/who-built-what'
+    '/production/reports/who-built-what/report'
 );
 
 export const whoBuiltWhatDetails = new ItemType(
     'whoBuiltWhatDetails',
     'WHO_BUILT_WHAT_DETAILS',
     '/production/reports/who-built-what-details'
+);
+
+export const assemblyFailsMeasures = new ItemType(
+    'assemblyFailsMeasures',
+    'ASSEMBLY_FAILS_MEASURES',
+    '/production/reports/assembly-fails-measures/report'
+);
+
+export const assemblyFailsDetails = new ItemType(
+    'assemblyFailsDetails',
+    'ASSEMBLY_FAILS_DETAILS',
+    '/production/reports/assembly-fails-details'
 );

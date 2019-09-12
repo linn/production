@@ -10,14 +10,14 @@
 
     public class ManufacturingSkillResourceBuilder : IResourceBuilder<ManufacturingSkill>
     {
-        public ManufacturingSkillResource Build(ManufacturingSkill ManufacturingSkill)
+        public ManufacturingSkillResource Build(ManufacturingSkill manufacturingSkill)
         {
             return new ManufacturingSkillResource
             {
-                SkillCode = ManufacturingSkill.SkillCode,
-                Description = ManufacturingSkill.Description,
-                HourlyRate = ManufacturingSkill.HourlyRate,
-                Links = this.BuildLinks(ManufacturingSkill).ToArray()
+                SkillCode = manufacturingSkill.SkillCode,
+                Description = manufacturingSkill.Description,
+                HourlyRate = manufacturingSkill.HourlyRate,
+                Links = this.BuildLinks(manufacturingSkill).ToArray()
             };
         }
 

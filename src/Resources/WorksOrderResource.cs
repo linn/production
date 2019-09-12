@@ -22,6 +22,8 @@
 
         public string PartNumber { get; set; }
 
+        public string PartDescription { get; set; }
+
         public int Quantity { get; set; }
 
         public int? QuantityOutstanding { get; set; }

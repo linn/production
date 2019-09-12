@@ -48,6 +48,13 @@
             return new SuccessResult<WorksOrder>(worksOrder);
         }
 
+        public IResult<IEnumerable<WorksOrder>> GetAll()
+        {
+            var worksOrders = this.worksOrderRepository.FindAll();
+
+            return new SuccessResult<IEnumerable<WorksOrder>>(worksOrders);
+        }
+
         public IResult<WorksOrder> AddWorksOrder(WorksOrderResource resource)
         {
             var worksOrder = this.CreateFromResource(resource);
@@ -112,6 +119,7 @@
             return new SuccessResult<WorksOrder>(worksOrder);
         }
 
+        //TODO see what search expression is in lewiss pr
         public IResult<IEnumerable<WorksOrder>> SearchWorksOrders(string searchTerm)
         {
             return new SuccessResult<IEnumerable<WorksOrder>>(this.worksOrderRepository.FilterBy(w => w.PartNumber == searchTerm));

@@ -7,8 +7,8 @@
 
     public interface IOutstandingWorksOrdersReportFacade
     {
-        IResult<ResultsModel> GetOutstandingWorksOrdersReport();
+        IResult<ResultsModel> GetOutstandingWorksOrdersReport(string reportType, string searchParameter);
 
-        IResult<IEnumerable<IEnumerable<string>>> GetOutstandingWorksOrdersReportCsv();
+        IResult<IEnumerable<IEnumerable<string>>> GetOutstandingWorksOrdersReportCsv(string reportType, string searchParameter);
     }
 }

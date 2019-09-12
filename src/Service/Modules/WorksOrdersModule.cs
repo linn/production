@@ -15,18 +15,20 @@
 
         public WorksOrdersModule(IOutstandingWorksOrdersReportFacade outstandingWorksOrdersReportFacade, IWorksOrdersService worksOrdersService)
         {
+            this.worksOrdersService = worksOrdersService;
             this.outstandingWorksOrdersReportFacade = outstandingWorksOrdersReportFacade;
             this.worksOrdersService = worksOrdersService;
 
-            this.Get("/production/maintenance/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
-            this.Get("/production/maintenance/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
-
+            this.Get("production/maintenance/works-orders", _ => this.GetWorksOrders());
             this.Get("/production/maintenance/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
             this.Post("/production/maintenance/works-orders", _ => this.AddWorksOrder());
             this.Put("/production/maintenance/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
             this.Get(
                 "/production/maintenance/works-orders/details/{partNumber}",
                 parameters => this.GetWorksOrderDetails(parameters.partNumber));
+
+            this.Get("/production/maintenance/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
+            this.Get("/production/maintenance/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
         }
 
         private object GetWorksOrderDetails(string partNumber)
@@ -59,15 +61,37 @@
 
         private object GetOutstandingWorksOrdersReport()
         {
-            return this.Negotiate.WithModel(this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport())
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            var resource = this.Bind<OutstandingWorksOrdersRequestResource>();
+
+            var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReport(resource.ReportType, resource.SearchParameter);
+
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetOutstandingWorksOrdersReportExport()
         {
+            var resource = this.Bind<OutstandingWorksOrdersRequestResource>();
+
+            var result = this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv(resource.ReportType, resource.SearchParameter);
+
             return this.Negotiate
-                .WithModel(this.outstandingWorksOrdersReportFacade.GetOutstandingWorksOrdersReportCsv())
+                .WithModel(result)
                 .WithAllowedMediaRange("text/csv")
+                .WithView("Index");
+        }
+
+        private object GetWorksOrders()
+        {
+            var resource = this.Bind<SearchRequestResource>();
+
+            var worksOrders = string.IsNullOrEmpty(resource.SearchTerm)
+                              ? this.worksOrdersService.GetAll()
+                              : this.worksOrdersService.SearchWorksOrders(resource.SearchTerm);
+
+            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
     }

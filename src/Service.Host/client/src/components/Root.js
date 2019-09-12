@@ -14,6 +14,7 @@ import App from './App';
 import Callback from '../containers/Callback';
 import userManager from '../helpers/userManager';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
+import OutstandingWorksOrdersReportOptions from '../containers/reports/OutstandingWorksOrdersReportOptions';
 import 'typeface-roboto';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
@@ -35,9 +36,14 @@ import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
 import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
 import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
+import CreateAssemblyFail from '../containers/assemblyFails/CreateAssemblyFail';
 import WhoBuiltWhatReportOptions from '../containers/reports/WhoBuiltWhatReportOptions';
 import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
 import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetailsReport';
+import ProductionTriggersReport from '../containers/reports/triggers/ProductionTriggersReport';
+import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
+import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
+import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
 
 const Root = ({ store }) => (
     <div>
@@ -76,15 +82,24 @@ const Root = ({ store }) => (
                                     <Switch>
                                         <Route
                                             exact
+                                            path="/production/maintenance/signin-oidc-client"
+                                            component={Callback}
+                                        />
+
+                                        <Route
+                                            exact
                                             path="/production/maintenance"
                                             component={App}
                                         />
+
                                         <Route exact path="/production/quality" component={App} />
+
                                         <Route
                                             exact
                                             path="/production/quality/ate"
                                             component={App}
                                         />
+
                                         <Route
                                             exact
                                             path="/production/maintenance/works-orders"
@@ -92,13 +107,12 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-                                            path="/production/maintenance/signin-oidc-client"
-                                            component={Callback}
+                                            path="/production/maintenance/works-orders/outstanding-works-orders-report"
+                                            component={OutstandingWorksOrdersReportOptions}
                                         />
-
                                         <Route
                                             exact
-                                            path="/production/maintenance/works-orders/outstanding-works-orders-report"
+                                            path="/production/maintenance/works-orders/outstanding-works-orders-report/report"
                                             component={OutstandingWorksOrdersReport}
                                         />
 
@@ -127,6 +141,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/builds-summary-options"
                                             component={BuildsSummaryReportOptions}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/triggers"
+                                            component={ProductionTriggersReport}
                                         />
                                         <Route
                                             exact
@@ -205,8 +224,8 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-                                            path="/production/resources/manufacturing-resources"
-                                            component={ManufacturingResources}
+                                            path="/production/quality/create-assembly-fail"
+                                            component={CreateAssemblyFail}
                                         />
                                         <Route
                                             exact
@@ -215,8 +234,28 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
+                                            path="/production/resources/manufacturing-resources"
+                                            component={ManufacturingResources}
+                                        />
+                                        <Route
+                                            exact
                                             path="/production/resources/manufacturing-resources/:id"
                                             component={ManufacturingResource}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-measures/report"
+                                            component={AssemblyFailsMeasures}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-measures"
+                                            component={AssemblyFailsMeasuresOptions}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/assembly-fails-details"
+                                            component={AssemblyFailsDetails}
                                         />
                                     </Switch>
                                 </div>

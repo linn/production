@@ -55,6 +55,12 @@ function App() {
                 <ListItem component={Link} to="/production/reports/who-built-what" button>
                     <Typography color="primary">Who Built What Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/reports/assembly-fails-measures" button>
+                    <Typography color="primary">Assembly Fails Measures</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/triggers" button>
+                    <Typography color="primary">Production Triggers Report</Typography>
+                </ListItem>
             </List>
         </Page>
     );

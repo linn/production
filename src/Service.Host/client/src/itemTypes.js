@@ -81,3 +81,40 @@ export const assemblyFail = new ItemType(
     'ASSEMBLY_FAIL',
     '/production/quality/assembly-fails'
 );
+
+export const worksOrders = new ItemType(
+    'worksOrders',
+    'WORKS_ORDERS',
+    '/production/maintenance/works-orders'
+);
+
+export const productionTriggerLevels = new ItemType(
+    'productionTriggerLevels',
+    'PRODUCTION_TRIGGER_LEVELS',
+    '/production/maintenance/production-trigger-levels'
+);
+
+export const pcasRevisions = new ItemType(
+    'pcasRevisions',
+    'PCAS_REVISIONS',
+    '/production/maintenance/pcas-revisions'
+);
+
+export const employees = new ItemType(
+    'employees',
+    'EMPLOYEES',
+    '/production/maintenance/employees'
+);
+
+export const cits = new ItemType('cits', 'CITS', '/production/maintenance/cits');
+
+export const assemblyFailFaultCodes = new ItemType(
+    'assemblyFailFaultCodes',
+    'ASSEMBLY_FAIL_FAULT_CODES',
+    '/production/quality/assembly-fail-fault-codes'
+);
+export const manufacturingRoute = new ItemType(
+    'manufacturingRoute',
+    'MANUFACTURING_ROUTE',
+    '/production/resources/manufacturing-routes'
+);

@@ -2,15 +2,12 @@
 {
     using System.Linq;
 
-    using Domain.LinnApps.RemoteServices;
-    using Domain.LinnApps.SerialNumberReissue;
-
-    using Extensions;
-
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
-
-    using Resources;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Facade.Extensions;
+    using Linn.Production.Resources;
 
     public class SerialNumberReissueService : ISerialNumberReissueService
     {
@@ -43,8 +40,8 @@
             }
 
             var sernos = this.serialNumberReissueRepository.FindBy(
-                r => r.SerialNumber == resource.SerialNumber 
-                     && r.ArticleNumber == resource.ArticleNumber 
+                r => r.SerialNumber == resource.SerialNumber
+                     && r.ArticleNumber == resource.ArticleNumber
                      && r.SernosGroup == resource.SernosGroup);
 
             var serialNumberReissue = new SerialNumberReissue(sernos.SernosGroup, sernos.ArticleNumber)

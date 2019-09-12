@@ -44,15 +44,15 @@
 
             resultTable.Rows.Add(newRow);
 
-            this.DatabaseService.GetReport().Returns(resultTable);
+            this.DatabaseService.GetReport(null, null).Returns(resultTable);
 
-            this.results = this.Sut.GetOutstandingWorksOrders();
+            this.results = this.Sut.GetOutstandingWorksOrders(null, null);
         }
 
         [Test]
         public void ShouldGetData()
         {
-            this.DatabaseService.Received().GetReport();
+            this.DatabaseService.Received().GetReport(null, null);
         }
 
         [Test]

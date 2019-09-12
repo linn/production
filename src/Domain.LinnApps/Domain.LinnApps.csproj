@@ -9,12 +9,11 @@
   <ItemGroup>
     <PackageReference Include="Linn.Common.Domain" Version="1.0.0" />
     <PackageReference Include="Linn.Common.Persistence" Version="2.0.1" />
-    <PackageReference Include="Linn.Common.Reporting" Version="1.0.0" />
+    <PackageReference Include="Linn.Common.Reporting" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Resources\Resources.csproj" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
