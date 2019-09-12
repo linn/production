@@ -50,7 +50,6 @@
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
             builder.RegisterType<WorkStationsRepository>().As<IRepository<WorkStation, string>>();
             builder.RegisterType<PcasBoardForAuditRepository>().As<IRepository<PcasBoardForAudit, string>>();
-            builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
             builder.RegisterType<ProductionTriggerLevelsRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();

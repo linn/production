@@ -3,6 +3,7 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
@@ -31,7 +32,8 @@
                                      PartNumber = "MAJIK",
                                      OrderNumber = 12345,
                                      CancelledBy = 33067,
-                                     ReasonCancelled = "REASON"
+                                     ReasonCancelled = "REASON",
+                                     Part = new Part { Description = "DESC" }
                                  };
 
             this.WorksOrdersService.UpdateWorksOrder(Arg.Any<WorksOrderResource>())

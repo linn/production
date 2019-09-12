@@ -17,9 +17,8 @@
         {
             this.worksOrdersService = worksOrdersService;
             this.outstandingWorksOrdersReportFacade = outstandingWorksOrdersReportFacade;
-            this.worksOrdersService = worksOrdersService;
 
-            this.Get("production/maintenance/works-orders", _ => this.GetWorksOrders());
+            this.Get("/production/maintenance/works-orders", _ => this.GetWorksOrders());
             this.Get("/production/maintenance/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
             this.Post("/production/maintenance/works-orders", _ => this.AddWorksOrder());
             this.Put("/production/maintenance/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
@@ -47,7 +46,10 @@
 
         private object AddWorksOrder()
         {
+            // TODO get auth user
             var resource = this.Bind<WorksOrderResource>();
+
+            var test = this.worksOrdersService.AddWorksOrder(resource);
 
             return this.Negotiate.WithModel(this.worksOrdersService.AddWorksOrder(resource))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");

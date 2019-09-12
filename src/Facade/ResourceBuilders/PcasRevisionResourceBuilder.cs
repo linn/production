@@ -12,6 +12,7 @@
     {
         public PcasRevisionResource Build(PcasRevision pcasRevision)
         {
+            // TODO more params here
             return new PcasRevisionResource
                        {
                            PartNumber = pcasRevision.PartNumber,

@@ -58,15 +58,9 @@
 
         public DbSet<WorkStation> WorkStations { get; set; }
 
-        public DbSet<ProductionTriggerLevel> ProductionTriggerLevels { get; set; }
-
         public DbSet<PcasBoardForAudit> PcasBoardsForAudit { get; set; }
 
-        public DbSet<PcasRevision> PcasRevisions { get; set; }
-
-        private DbSet<PtlMaster> PtlMasterSet { get; set; }
-
-        public DbQuery<PcasRevision> PcasRevisionsCompView { get; set; }
+        public DbQuery<PcasRevision> PcasRevisions { get; set; }
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
@@ -106,9 +100,6 @@
             this.BuildWorkStations(builder);
             this.BuildProductionTriggerLevels(builder);
             this.BuildPcasBoardsForAudit(builder);
-            this.BuildPcasRevisions(builder);
-            this.BuildPtlMaster(builder);
-            this.BuildOsrRunMaster(builder);
             this.QueryPcasRevisions(builder);
             this.QueryPtlMaster(builder);
             this.QueryOsrRunMaster(builder);
@@ -228,29 +219,6 @@
             e.Property(f => f.EngineeringComments).HasColumnName("ENGINEERING_COMMENTS");
         }
 
-        protected void BuildWorkOrders(ModelBuilder builder)
-        {
-            var q = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
-            q.HasKey(e => e.OrderNumber);
-            q.Property(e => e.BatchNumber).HasColumnName("BATCH_NUMBER");
-            q.Property(e => e.CancelledBy).HasColumnName("CANCELLED_BY");
-            q.Property(e => e.DateCancelled).HasColumnName("DATE_CANCELLED");
-            q.Property(e => e.DateRaised).HasColumnName("DATE_RAISED");
-            q.Property(e => e.KittedShort).HasColumnName("KITTED_SHORT").HasMaxLength(1);
-            q.Property(e => e.LabelsPrinted).HasColumnName("LABELS_PRINTED");
-            q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
-            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
-            q.Property(e => e.Quantity).HasColumnName("QTY");
-            q.Property(e => e.QuantityOutstanding).HasColumnName("QTY_OUTSTANDING");
-            q.Property(e => e.QuantityBuilt).HasColumnName("QTY_BUILT");
-            q.Property(e => e.RaisedBy).HasColumnName("RAISED_BY");
-            q.Property(e => e.RaisedByDepartment).HasColumnName("RAISED_BY_DEPT").HasMaxLength(10);
-            q.Property(e => e.ReasonCancelled).HasColumnName("REASON_CANCELLED").HasMaxLength(200);
-            q.Property(e => e.StartedByShift).HasColumnName("STARTED_BY_SHIFT").HasMaxLength(1);
-            q.Property(e => e.DocType).HasColumnName("DOC_TYPE").HasMaxLength(6);
-            q.Property(e => e.WorkStationCode).HasColumnName("WORK_STATION_CODE").HasMaxLength(16);
-        }
-
         private void BuildBoardFailTypes(ModelBuilder builder)
         {
             builder.Entity<BoardFailType>().ToTable("BOARD_FAIL_TYPES");
@@ -297,15 +265,6 @@
             e.Property(p => p.DateAdded).HasColumnName("DATE_ADDED");
             e.Property(p => p.ForAudit).HasColumnName("FOR_AUDIT").HasMaxLength(1);
             e.Property(p => p.CutClinch).HasColumnName("CUT_CLINCH").HasMaxLength(1);
-        }
-
-        private void BuildPcasRevisions(ModelBuilder builder)
-        {
-            var e = builder.Entity<PcasRevision>();
-            e.ToTable("PCAS_REVISIONS");
-            e.HasKey(p => p.BoardCode);
-            e.Property(p => p.BoardCode).HasColumnName("BOARD_CODE").HasMaxLength(6);
-            e.Property(p => p.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER").HasMaxLength(14);
         }
         
         private void BuildLinnWeeks(ModelBuilder builder)
@@ -370,15 +329,6 @@
             e.Property(b => b.MaterialPrice).HasColumnName("MATERIAL_PRICE");
             e.Property(b => b.Quantity).HasColumnName("QUANTITY");
             e.Property(b => b.DepartmentCode).HasColumnName("CR_DEPT");
-        }
-
-        private void BuildProductionTriggerLevels(ModelBuilder builder)
-        {
-            var e = builder.Entity<ProductionTriggerLevel>();
-            e.ToTable("PRODUCTION_TRIGGER_LEVELS");
-            e.HasKey(l => l.PartNumber);
-            e.Property(l => l.PartNumber).HasColumnName("PART_NUMBER");
-            e.Property(l => l.Description).HasColumnName("DESCRIPTION");
         }
 
         private void BuildCits(ModelBuilder builder)

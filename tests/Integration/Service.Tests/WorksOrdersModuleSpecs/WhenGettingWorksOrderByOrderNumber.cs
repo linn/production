@@ -3,6 +3,7 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
@@ -18,7 +19,7 @@
         [SetUp]
         public void SetUp()
         {
-            var worksOrder = new WorksOrder { OrderNumber = 1234 };
+            var worksOrder = new WorksOrder { OrderNumber = 1234, Part = new Part { Description = "DESC" } };
 
             this.WorksOrdersService.GetWorksOrder(1234).Returns(new SuccessResult<WorksOrder>(worksOrder));
 

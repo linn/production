@@ -1,8 +1,11 @@
 ﻿namespace Linn.Production.Service.Tests.WorksOrdersModuleSpecs
 {
+    using System;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
@@ -18,15 +21,11 @@
         [SetUp]
         public void SetUp()
         {
-            var requestResource = new WorksOrderResource
-                                      {
-                                          PartNumber = "MAJIK",
-                                          OrderNumber = 12345
-                                      };
+            var requestResource = new WorksOrderResource { PartNumber = "MAJIK", OrderNumber = 12345, };
+
             var worksOrder = new WorksOrder
                                  {
-                                     PartNumber = "MAJIK",
-                                     OrderNumber = 12345
+                                     PartNumber = "MAJIK", OrderNumber = 12345, Part = new Part { Description = "DESC" }
                                  };
 
             this.WorksOrdersService.AddWorksOrder(Arg.Any<WorksOrderResource>())

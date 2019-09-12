@@ -6,7 +6,7 @@
     using FluentAssertions;
 
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.PCAS;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using NSubstitute;

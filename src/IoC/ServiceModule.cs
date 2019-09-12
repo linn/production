@@ -29,7 +29,6 @@
             builder.RegisterType<WhoBuiltWhatReport>().As<IWhoBuiltWhatReport>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
-            builder.RegisterType<AssemblyFailsWaitingListReportService>().As<IAssemblyFailsWaitingListReportService>();
             builder.RegisterType<WorksOrderFactory>().As<IWorksOrderFactory>();
             builder.RegisterType<AssemblyFailsReportService>().As<IAssemblyFailsReportService>();
             builder.RegisterType<LinnWeekService>().As<ILinnWeekService>();

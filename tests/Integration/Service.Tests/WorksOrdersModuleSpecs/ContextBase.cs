@@ -24,8 +24,6 @@
 
         protected IWorksOrdersService WorksOrdersService { get; private set; }
 
-        protected IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource> WorksOrderService { get; set; }
-
         [SetUp]
         public void EstablishContext()
         {

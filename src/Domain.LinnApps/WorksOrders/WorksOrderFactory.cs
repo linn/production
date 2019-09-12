@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class WorksOrderFactory : IWorksOrderFactory
     {
