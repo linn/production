@@ -31,7 +31,6 @@
         public void Add(WhoBuiltWhat entity)
         {
             throw new NotImplementedException();
-
         }
 
         public void Remove(WhoBuiltWhat entity)

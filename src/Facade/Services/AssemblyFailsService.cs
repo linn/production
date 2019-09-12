@@ -8,6 +8,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Proxy;
 
     using Linn.Production.Resources;
@@ -33,7 +34,7 @@
             IRepository<WorksOrder, int> worksOrderRepository,
             IRepository<Cit, string> citRepository,
             IRepository<Part, string> partRepository,
-        ITransactionManager transactionManager, 
+            ITransactionManager transactionManager,
             IDatabaseService databaseService)
             : base(assemblyFailRepository, transactionManager)
         {

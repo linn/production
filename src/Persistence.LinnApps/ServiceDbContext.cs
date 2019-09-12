@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -31,6 +32,8 @@
         public DbSet<ProductionMeasures> ProductionMeasures { get; set; }
 
         public DbQuery<WhoBuiltWhat> WhoBuiltWhat { get; set; }
+
+        public DbQuery<BomDetailExplodedPhantomPartView> BomDetailExplodedPhantomPartView { get; set; }
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
 
@@ -96,17 +99,9 @@
             this.QueryOsrRunMaster(builder);
             this.QueryProductionTriggers(builder);
             this.BuildLinnWeeks(builder);
+            this.BuildBomDetailPhantomView(builder);
             base.OnModelCreating(builder);
         }
-
-        protected void QueryPcasRevisions(ModelBuilder builder)
-        {
-            builder.Query<PcasRevision>().ToView("PCAS_REVISION_COMP_VIEW");
-            builder.Query<PcasRevision>().Property(r => r.Cref).HasColumnName("CREF");
-            builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
-            builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
-        }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -122,6 +117,51 @@
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
+        }
+
+        private void BuildBomDetailPhantomView(ModelBuilder builder)
+        {
+            builder.Query<BomDetailExplodedPhantomPartView>().ToView("BOM_DET_EXP_PHANTOM_PART_VIEW");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.BomName).HasColumnName("BOM_NAME");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.Quantity).HasColumnName("QTY");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.BomId).HasColumnName("BOM_ID");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.BomType).HasColumnName("BOM_TYPE");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.DecrementRule).HasColumnName("DECREMENT_RULE");
+        }
+
+        private void QueryPcasRevisions(ModelBuilder builder)
+        {
+            builder.Query<PcasRevision>().ToView("PCAS_REVISION_COMP_VIEW");
+            builder.Query<PcasRevision>().Property(r => r.Cref).HasColumnName("CREF");
+            builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
+        }
+
+        private void BuildWorkOrders(ModelBuilder builder)
+        {
+            var q = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
+            q.HasKey(e => e.OrderNumber);
+            q.Property(e => e.BatchNumber).HasColumnName("BATCH_NUMBER");
+            q.Property(e => e.CancelledBy).HasColumnName("CANCELLED_BY");
+            q.Property(e => e.DateCancelled).HasColumnName("DATE_CANCELLED");
+            q.Property(e => e.DateRaised).HasColumnName("DATE_RAISED");
+            q.Property(e => e.KittedShort).HasColumnName("KITTED_SHORT").HasMaxLength(1);
+            q.Property(e => e.LabelsPrinted).HasColumnName("LABELS_PRINTED");
+            q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(e => e.Quantity).HasColumnName("QTY");
+            q.Property(e => e.QuantityOutstanding).HasColumnName("QTY_OUTSTANDING");
+            q.Property(e => e.QuantityBuilt).HasColumnName("QTY_BUILT");
+            q.Property(e => e.RaisedBy).HasColumnName("RAISED_BY");
+            q.Property(e => e.RaisedByDepartment).HasColumnName("RAISED_BY_DEPT").HasMaxLength(10);
+            q.Property(e => e.ReasonCancelled).HasColumnName("REASON_CANCELLED").HasMaxLength(200);
+            q.Property(e => e.StartedByShift).HasColumnName("STARTED_BY_SHIFT").HasMaxLength(1);
+            q.Property(e => e.DocType).HasColumnName("DOC_TYPE").HasMaxLength(6);
+            q.Property(e => e.WorkStationCode).HasColumnName("WORK_STATION_CODE").HasMaxLength(16);
+            q.Property(e => e.Outstanding).HasColumnName("OUTSTANDING").HasMaxLength(1);
+            q.Property(e => e.ZoneName).HasColumnName("ZONE_NAME").HasMaxLength(20);
+            q.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
         private void BuildAte(ModelBuilder builder)
@@ -171,15 +211,6 @@
                 .HasForeignKey("FAULT_CODE");
             e.Property(f => f.Analysis).HasColumnName("ANALYSIS");
             e.Property(f => f.EngineeringComments).HasColumnName("ENGINEERING_COMMENTS");
-        }
-
-        private void BuildWorkOrders(ModelBuilder builder)
-        {
-            var e = builder.Entity<WorksOrder>().ToTable("WORKS_ORDERS");
-            e.HasKey(o => o.OrderNumber);
-            e.Property(o => o.PartNumber).HasColumnName("PART_NUMBER");
-            e.Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
-            e.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
         private void BuildBoardFailTypes(ModelBuilder builder)
@@ -342,8 +373,11 @@
             var e = builder.Entity<Part>();
             e.ToTable("PARTS");
             e.HasKey(p => p.PartNumber);
-            e.Property(p => p.PartNumber).HasColumnName("PART_NUMBER");
-            e.Property(p => p.Description).HasColumnName("DESCRIPTION");
+            e.Property(p => p.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            e.Property(p => p.Description).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            e.Property(p => p.DecrementRule).HasColumnName("DECREMENT_RULE").HasMaxLength(10);
+            e.Property(p => p.BomType).HasColumnName("BOM_TYPE").HasMaxLength(1);
+            e.Property(p => p.BomId).HasColumnName("BOM_ID");
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)
