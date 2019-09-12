@@ -18,21 +18,17 @@
 
         private readonly IWorksOrderFactory worksOrderFactory;
 
-        private readonly IWorksOrderProxyService worksOrderProxyService;
-
         private readonly IProductAuditPack productAuditPack;
 
         public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
             IWorksOrderFactory worksOrderFactory,
-            IWorksOrderProxyService worksOrderProxyService,
             IProductAuditPack productAuditPack)
         {
             this.worksOrderRepository = worksOrderRepository;
             this.transactionManager = transactionManager;
             this.worksOrderFactory = worksOrderFactory;
-            this.worksOrderProxyService = worksOrderProxyService;
             this.productAuditPack = productAuditPack;
         }
 
@@ -119,10 +115,15 @@
             return new SuccessResult<WorksOrder>(worksOrder);
         }
 
-        //TODO see what search expression is in lewiss pr
-        public IResult<IEnumerable<WorksOrder>> SearchWorksOrders(string searchTerm)
+        public IResult<IEnumerable<WorksOrder>> FilterByPartNumber(string searchTerm)
         {
             return new SuccessResult<IEnumerable<WorksOrder>>(this.worksOrderRepository.FilterBy(w => w.PartNumber == searchTerm));
+        }
+
+        public IResult<IEnumerable<WorksOrder>> SearchByOrderNumber(string searchTerm)
+        {
+            return new SuccessResult<IEnumerable<WorksOrder>>(
+                this.worksOrderRepository.FilterBy(w => w.OrderNumber.ToString().Contains(searchTerm)));
         }
 
         public IResult<WorksOrderDetails> GetWorksOrderDetails(string partNumber)

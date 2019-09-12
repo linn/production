@@ -16,7 +16,9 @@
 
         IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource);
 
-        IResult<IEnumerable<WorksOrder>> SearchWorksOrders(string searchTerm);
+        IResult<IEnumerable<WorksOrder>> FilterByPartNumber(string searchTerm);
+
+        IResult<IEnumerable<WorksOrder>> SearchByOrderNumber(string searchTerm);
 
         IResult<WorksOrderDetails> GetWorksOrderDetails(string partNumber);
     }

@@ -36,7 +36,6 @@
                 this.WorksOrderRepository,
                 this.TransactionManager,
                 this.WorksOrderFactory,
-                this.WorksOrderProxyService,
                 this.ProductAuditPack);
         }
     }

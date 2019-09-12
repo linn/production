@@ -91,7 +91,7 @@
 
             var worksOrders = string.IsNullOrEmpty(resource.SearchTerm)
                               ? this.worksOrdersService.GetAll()
-                              : this.worksOrdersService.SearchWorksOrders(resource.SearchTerm);
+                              : this.worksOrdersService.SearchByOrderNumber(resource.SearchTerm);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
