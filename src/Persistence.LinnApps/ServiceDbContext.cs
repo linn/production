@@ -33,6 +33,8 @@
 
         public DbQuery<WhoBuiltWhat> WhoBuiltWhat { get; set; }
 
+        public DbQuery<BomDetailExplodedPhantomPartView> BomDetailExplodedPhantomPartView { get; set; }
+
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
 
         public DbSet<ManufacturingRoute> ManufacturingRoutes { get; set; }
@@ -97,6 +99,7 @@
             this.QueryOsrRunMaster(builder);
             this.QueryProductionTriggers(builder);
             this.BuildLinnWeeks(builder);
+            this.BuildBomDetailPhantomView(builder);
             base.OnModelCreating(builder);
         }
 
@@ -114,6 +117,17 @@
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
+        }
+
+        private void BuildBomDetailPhantomView(ModelBuilder builder)
+        {
+            builder.Query<BomDetailExplodedPhantomPartView>().ToView("BOM_DET_EXP_PHANTOM_PART_VIEW");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.BomName).HasColumnName("BOM_NAME");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.Quantity).HasColumnName("QTY");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.BomId).HasColumnName("BOM_ID");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.BomType).HasColumnName("BOM_TYPE");
+            builder.Query<BomDetailExplodedPhantomPartView>().Property(r => r.DecrementRule).HasColumnName("DECREMENT_RULE");
         }
 
         private void QueryPcasRevisions(ModelBuilder builder)
