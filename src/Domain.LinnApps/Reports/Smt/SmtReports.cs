@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports.Smt
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
@@ -39,11 +40,22 @@
                                   new AxisDetailsModel("Line") { SortOrder = 6, GridDisplayType = GridDisplayType.TextValue }
                               };
             var workOrders = this.worksOrdersRepository.FilterBy(w => w.Outstanding == "Y" && w.WorkStationCode.StartsWith("SMT"));
+
+            if (!string.IsNullOrEmpty(smtLine) && smtLine.ToLower() != "all")
+            {
+                workOrders = workOrders.Where(a => a.WorkStationCode == smtLine);
+            }
+
             var rowId = 0;
             var values = new List<CalculationValueModel>();
             foreach (var worksOrder in workOrders)
             {
                 var bomParts = this.bomDetailRepository.FilterBy(a => a.BomName == worksOrder.PartNumber && a.BomType != "P" && a.DecrementRule != "NO");
+                if (parts.Length > 0)
+                {
+                    bomParts = bomParts.Where(b => parts.Contains(b.PartNumber));
+                }
+
                 foreach (var bomPart in bomParts)
                 {
                     var newRowId = rowId++;

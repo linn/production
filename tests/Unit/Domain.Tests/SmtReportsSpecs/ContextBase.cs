@@ -38,8 +38,8 @@
 
             this.WorksOrders = new List<WorksOrder>
                                    {
-                                       new WorksOrder { Outstanding = "Y", QuantityOutstanding = 4 },
-                                       new WorksOrder { Outstanding = "Y", QuantityOutstanding = 10 }
+                                       new WorksOrder { Outstanding = "Y", QuantityOutstanding = 4, WorkStationCode = "SMT1" },
+                                       new WorksOrder { Outstanding = "Y", QuantityOutstanding = 10, WorkStationCode = "SMT2" }
                                    };
             this.BomDetails = new List<BomDetailExplodedPhantomPartView>
                                   {
