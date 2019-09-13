@@ -33,6 +33,7 @@
             builder.RegisterType<AssemblyFailsReportService>().As<IAssemblyFailsReportService>();
             builder.RegisterType<LinnWeekService>().As<ILinnWeekService>();
             builder.RegisterType<SmtReports>().As<ISmtReports>();
+            builder.RegisterType<WorksOrderUtilities>().As<IWorksOrderUtilities>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();

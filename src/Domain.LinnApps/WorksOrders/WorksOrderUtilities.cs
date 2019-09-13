@@ -18,7 +18,7 @@
 
         private readonly IWorksOrderProxyService worksOrderProxyService;
 
-        private ISernosPack sernosPack;
+        private readonly ISernosPack sernosPack;
 
         public WorksOrderUtilities(
             IRepository<Part, string> partsRepository,
