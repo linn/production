@@ -51,7 +51,7 @@
             foreach (var worksOrder in workOrders)
             {
                 var bomParts = this.bomDetailRepository.FilterBy(a => a.BomName == worksOrder.PartNumber && a.BomType != "P" && a.DecrementRule != "NO");
-                if (parts.Length > 0)
+                if (parts != null && parts.Length > 0)
                 {
                     bomParts = bomParts.Where(b => parts.Contains(b.PartNumber));
                 }

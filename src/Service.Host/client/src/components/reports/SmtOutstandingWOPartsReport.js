@@ -4,12 +4,11 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-const handleBackClick = (history, options) => {
-    let uri = '';
-    history.push(uri);
+const handleBackClick = (history) => {
+    history.push('/production/reports/smt/outstanding-works-order-parts');
 };
 
-const SmtOutstandingWOPartsReport = ({ reportData, loading, history, options }) => (
+const SmtOutstandingWOPartsReport = ({ reportData, loading, history }) => (
     <Page>
         <Grid container spacing={3} justify="center">
             <Grid item xs={12}>
@@ -28,7 +27,7 @@ const SmtOutstandingWOPartsReport = ({ reportData, loading, history, options }) 
                 )}
             </Grid>
             <Grid item xs={12}>
-                <BackButton backClick={() => handleBackClick(history, options)} />
+                <BackButton backClick={() => handleBackClick(history)} />
             </Grid>
         </Grid>
     </Page>
