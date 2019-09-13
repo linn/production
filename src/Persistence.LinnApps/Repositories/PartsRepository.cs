@@ -38,7 +38,7 @@
 
         public Part FindBy(Expression<Func<Part, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Parts.Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<Part> FilterBy(Expression<Func<Part, bool>> expression)
