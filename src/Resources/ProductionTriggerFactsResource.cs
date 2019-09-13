@@ -1,9 +1,8 @@
-﻿namespace Linn.Production.Domain.LinnApps.Triggers
+﻿namespace Linn.Production.Resources
 {
-    using System;
-    using System.Collections;
+    using System.Collections.Generic;
 
-    public class ProductionTrigger
+    public class ProductionTriggerFactsResource
     {
         public string Jobref { get; set; }
 
@@ -60,13 +59,10 @@
 
         public string ReasonStarted { get; set; }
 
-        public int? SortOrder { get; set; }
-
         public int? ShortNowBackOrdered { get; set; }
 
         public int? ShortNowMonthEnd { get; set; }
-
-        // weird EF Core/Oracle bug doesn't allow these Days fields to be cast to decimal?
+        
         public double? QtyBeingBuiltDays { get; set; }
 
         public double? ReqtForSalesOrdersBEDays { get; set; }
@@ -80,11 +76,10 @@
         public int? QtyNFlagged { get; set; }
 
         public int? QtyFFlagged { get; set; }
-
-        // qty_free-qty_n_flagged qty_y_flagged
+        
         public int? QtyYFlagged { get; set; }
 
-        public DateTime? EarliestRequestedDate { get; set; }
+        public string EarliestRequestedDate { get; set; }
 
         // appears to be perc of reqt for internal customers is actually available in stock
         // v_pw.stock_reqt_pcnt := (v_pw.qty_free-v_pw.qty_n_flagged)/v_pw.gbi*100;
@@ -100,7 +95,6 @@
 
         public int? CanBuildExSubAssemblies { get; set; }
 
-        public string ReportType { get; set; }
+        public IEnumerable<WorksOrderResource> OutstandingWorksOrders { get; set; }
     }
 }
-
