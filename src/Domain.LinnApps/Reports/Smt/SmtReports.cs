@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports.Smt
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
@@ -60,104 +59,18 @@
 
             model.AddSortedColumns(columns);
             this.reportingHelper.AddResultsToModel(model, values, CalculationValueModelType.Quantity, true);
-            this.SortRowsByTextColumnValues(
+            this.reportingHelper.SortRowsByTextColumnValues(
                 model,
                 model.ColumnIndex("Component"),
                 model.ColumnIndex("Board"),
                 model.ColumnIndex("WO"));
-            this.SubtotalRowsByTextColumnValue(
+            this.reportingHelper.SubtotalRowsByTextColumnValue(
                 model,
                 model.ColumnIndex("Component"),
                 new[] { model.ColumnIndex("Qty Required") },
                 true,
                 true);
             return model;
-        }
-
-        private void SubtotalRowsByTextColumnValue(
-            ResultsModel model,
-            int groupByColumnIndex,
-            int[] subTotalColumns,
-            bool subTotalTop = false,
-            bool removedRepeatedValues = false,
-            bool preSorted = true)
-        {
-            var groups = model.Rows.GroupBy(a => model.GetGridTextValue(a.RowIndex, groupByColumnIndex));
-
-            if (!preSorted)
-            {
-                this.SortRowsByTextColumnValues(model, groupByColumnIndex);
-            }
-
-            foreach (var modelRow in model.Rows)
-            {
-                modelRow.SortOrder *= 10;
-            }
-
-            foreach (var groupedSet in groups)
-            {
-                var newRowSortOrder = subTotalTop
-                                    ? (groupedSet.OrderBy(a => a.SortOrder).First(
-                                        a => model.GetGridTextValue(a.RowIndex, groupByColumnIndex) == groupedSet.Key).SortOrder ?? 0) - 1
-                                    : (groupedSet.OrderBy(a => a.SortOrder).Last(
-                                        a => model.GetGridTextValue(a.RowIndex, groupByColumnIndex) == groupedSet.Key).SortOrder ?? 0) + 1;
-
-                var newRow = model.AddRow(
-                    $"subtotal{groupedSet.Key}",
-                    groupedSet.Key,
-                    newRowSortOrder);
-                model.SetGridTextValue(newRow.RowIndex, groupByColumnIndex, groupedSet.Key);
-                model.SetRowType(newRow.RowIndex, GridDisplayType.Subtotal);
-
-                foreach (var subTotalColumnIndex in subTotalColumns)
-                {
-                    model.SetGridValue(
-                        newRow.RowIndex,
-                        subTotalColumnIndex,
-                        groupedSet.Sum(a => model.GetZeroPaddedGridValue(a.RowIndex, subTotalColumnIndex)));
-                }
-
-                if (removedRepeatedValues)
-                {
-                    foreach (var rowModel in groupedSet)
-                    {
-                        model.SetGridTextValue(rowModel.RowIndex, groupByColumnIndex, string.Empty);
-                    }
-                }
-            }
-        }
-
-        private void SortRowsByTextColumnValues(
-            ResultsModel model,
-            int columnIndex,
-            int? column2Index = null,
-            int? column3Index = null,
-            bool sortDescending = false)
-        {
-            var sortOrder = 0;
-
-            if (sortDescending)
-            {
-                foreach (var modelRow in model.Rows
-                    .OrderByDescending(a => model.GetGridTextValue(a.RowIndex, columnIndex))
-                    .ThenByDescending(t => column2Index.HasValue ? model.GetGridTextValue(t.RowIndex, column2Index.Value) : string.Empty)
-                    .ThenByDescending(t => column3Index.HasValue ? model.GetGridTextValue(t.RowIndex, column3Index.Value) : string.Empty)
-                    .ThenBy(a => a.RowTitle))
-                {
-                    modelRow.SortOrder = sortOrder++;
-                }
-            }
-            else
-            {
-                foreach (var modelRow in model.Rows
-                    .OrderBy(a => model.GetGridTextValue(a.RowIndex, columnIndex))
-                    .ThenBy(a => column2Index.HasValue ? model.GetGridTextValue(a.RowIndex, column2Index.Value) : string.Empty)
-                    .ThenBy(a => column3Index.HasValue ? model.GetGridTextValue(a.RowIndex, column3Index.Value) : string.Empty)
-                    .ThenBy(a => a.RowTitle))
-                {
-                    modelRow.SortOrder = sortOrder++;
-                }
-            }
         }
     }
 }
