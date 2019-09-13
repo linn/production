@@ -32,7 +32,7 @@
                     });
 
             this.Response = this.Browser.Get(
-                "/production/maintenance/works-orders/outstanding-works-orders-report",
+                "/production/works-orders/outstanding-works-orders-report",
                 with =>
                     {
                         with.Header("Accept", "application/json");

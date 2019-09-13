@@ -24,7 +24,7 @@
             this.WorksOrdersService.GetById(1234).Returns(new SuccessResult<WorksOrder>(worksOrder));
 
             this.Response = this.Browser.Get(
-                "/production/maintenance/works-orders/1234",
+                "/production/works-orders/1234",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 

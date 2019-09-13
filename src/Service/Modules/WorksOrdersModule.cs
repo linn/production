@@ -18,16 +18,16 @@
             this.worksOrdersService = worksOrdersService;
             this.outstandingWorksOrdersReportFacade = outstandingWorksOrdersReportFacade;
 
-            this.Get("/production/maintenance/works-orders", _ => this.GetWorksOrders());
-            this.Get("/production/maintenance/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
-            this.Post("/production/maintenance/works-orders", _ => this.AddWorksOrder());
-            this.Put("/production/maintenance/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
+            this.Get("/production/works-orders", _ => this.GetWorksOrders());
+            this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
+            this.Post("/production/works-orders", _ => this.AddWorksOrder());
+            this.Put("/production/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
             this.Get(
-                "/production/maintenance/works-orders/details/{partNumber}",
+                "/production/works-orders/details/{partNumber}",
                 parameters => this.GetWorksOrderDetails(parameters.partNumber));
 
-            this.Get("/production/maintenance/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
-            this.Get("/production/maintenance/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
+            this.Get("/production/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
+            this.Get("/production/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
         }
 
         private object GetWorksOrderDetails(string partNumber)

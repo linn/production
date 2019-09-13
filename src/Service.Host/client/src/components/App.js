@@ -44,7 +44,7 @@ function App() {
                 </ListItem>
                 <ListItem
                     component={Link}
-                    to="/production/maintenance/works-orders/outstanding-works-orders-report"
+                    to="/production/works-orders/outstanding-works-orders-report"
                     button
                 >
                     <Typography color="primary">Outstanding Works Orders Report</Typography>

@@ -102,17 +102,17 @@ const Root = ({ store }) => (
 
                                         <Route
                                             exact
-                                            path="/production/maintenance/works-orders"
+                                            path="/production/works-orders"
                                             component={App}
                                         />
                                         <Route
                                             exact
-                                            path="/production/maintenance/works-orders/outstanding-works-orders-report"
+                                            path="/production/works-orders/outstanding-works-orders-report"
                                             component={OutstandingWorksOrdersReportOptions}
                                         />
                                         <Route
                                             exact
-                                            path="/production/maintenance/works-orders/outstanding-works-orders-report/report"
+                                            path="/production/works-orders/outstanding-works-orders-report/report"
                                             component={OutstandingWorksOrdersReport}
                                         />
 
