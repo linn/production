@@ -20,14 +20,14 @@
             this.ProductionTriggerQueryRepository.FindBy(Arg.Any<Expression<Func<ProductionTrigger, bool>>>())
                 .Returns((ProductionTrigger)null);
 
-            this.result = this.Sut.GetProductionTriggerFacts(string.Empty, "SERIES K");
+            this.result = this.Sut.GetProductionTriggerFacts("AAAAAA", "SERIES K");
         }
 
         [Test]
         public void ShouldReturnNotFoundResult()
         {
             this.result.Should().BeOfType<NotFoundResult<ProductionTriggerFacts>>();
-            this.result.As<NotFoundResult<ProductionTriggerFacts>>().Message.Should().Be("Not facts found for that jobref and part number");
+            this.result.As<NotFoundResult<ProductionTriggerFacts>>().Message.Should().Be("No facts found for that jobref and part number");
         }
     }
 }

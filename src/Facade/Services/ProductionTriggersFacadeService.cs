@@ -65,6 +65,12 @@
             }
 
             var trigger = this.repository.FindBy(f => f.Jobref == jobref && f.PartNumber == partNumber);
+
+            if (trigger == null)
+            {
+                return new NotFoundResult<ProductionTriggerFacts>("No facts found for that jobref and part number");
+            }
+
             var facts = new ProductionTriggerFacts(trigger);
             facts.OutstandingWorksOrders = trigger.QtyBeingBuilt > 0
                 ? this.worksOrderRepository.FilterBy(w =>
