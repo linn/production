@@ -6,19 +6,11 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
-    public interface IWorksOrdersService
+    public interface IWorksOrdersService : IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>
     {
-        IResult<WorksOrder> GetWorksOrder(int orderNumber);
-
-        IResult<IEnumerable<WorksOrder>> GetAll();
-
         IResult<WorksOrder> AddWorksOrder(WorksOrderResource resource);
 
         IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource);
-
-        IResult<IEnumerable<WorksOrder>> FilterByPartNumber(string searchTerm);
-
-        IResult<IEnumerable<WorksOrder>> SearchByOrderNumber(string searchTerm);
 
         IResult<WorksOrderDetails> GetWorksOrderDetails(string partNumber);
     }

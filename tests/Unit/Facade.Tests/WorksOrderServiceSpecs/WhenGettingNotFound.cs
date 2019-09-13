@@ -21,7 +21,7 @@
             this.orderNumber = 123;
             this.WorksOrderRepository.FindById(this.orderNumber)
                 .Returns((WorksOrder)null);
-            this.result = this.Sut.GetWorksOrder(this.orderNumber);
+            this.result = this.Sut.GetById(this.orderNumber);
         }
 
         [Test]

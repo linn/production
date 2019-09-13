@@ -61,7 +61,7 @@
         [Test]
         public void ShouldIssueSernos()
         {
-            this.WorksOrderFactory.Received().IssueSerialNumber(
+            this.WorksOrderUtilities.Received().IssueSerialNumber(
                 this.resource.PartNumber,
                 this.resource.OrderNumber,
                 this.resource.DocType,

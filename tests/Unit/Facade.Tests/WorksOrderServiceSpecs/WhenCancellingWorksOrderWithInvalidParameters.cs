@@ -27,7 +27,7 @@
                                 {
                                     OrderNumber = 1234,
                                     CancelledBy = 33067,
-                                    ReasonCancelled = "REASON"
+                                    ReasonCancelled = string.Empty
                                 };
 
             this.worksOrder = new WorksOrder
@@ -39,10 +39,6 @@
             this.WorksOrderRepository.FindById(this.resource.OrderNumber)
                 .Returns(this.worksOrder);
 
-            this.WorksOrderFactory
-                .CancelWorksOrder(this.worksOrder, this.resource.CancelledBy, this.resource.ReasonCancelled)
-                .Throws(new InvalidWorksOrderException("Message"));
-
             this.result = this.Sut.UpdateWorksOrder(this.resource);
         }
 
@@ -50,15 +46,6 @@
         public void ShouldGetWorksOrder()
         {
             this.WorksOrderRepository.Received().FindById(this.resource.OrderNumber);
-        }
-
-        [Test]
-        public void ShouldCallFactory()
-        {
-            this.WorksOrderFactory.Received().CancelWorksOrder(
-                this.worksOrder,
-                this.resource.CancelledBy,
-                this.resource.ReasonCancelled);
         }
 
         [Test]

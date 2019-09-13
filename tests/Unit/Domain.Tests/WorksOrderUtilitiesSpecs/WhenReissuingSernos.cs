@@ -1,12 +1,11 @@
-﻿namespace Linn.Production.Domain.Tests.WorksOrderFactorySpecs
+﻿namespace Linn.Production.Domain.Tests.WorksOrderUtilitiesSpecs
 {
     using NSubstitute;
 
     using NUnit.Framework;
 
-    public class WhenReissuingSernosWhenSernosNotRequired : ContextBase
+    public class WhenReissuingSernos : ContextBase
     {
-
         private string partNumber;
 
         private int orderNumber;
@@ -28,7 +27,7 @@
 
             this.WorksOrderService.ProductIdOnChip(this.partNumber).Returns(false);
 
-            this.SernosPack.SerialNumbersRequired(this.partNumber).Returns(false);
+            this.SernosPack.SerialNumbersRequired(this.partNumber).Returns(true);
 
             this.Sut.IssueSerialNumber(this.partNumber, this.orderNumber, this.docType, this.createdBy, this.quantity);
         }
@@ -40,9 +39,9 @@
         }
 
         [Test]
-        public void ShouldNotIssueSerialNumber()
+        public void ShouldIssueSerialNumber()
         {
-            this.SernosPack.DidNotReceive().IssueSernos(
+            this.SernosPack.Received().IssueSernos(
                 this.orderNumber,
                 this.docType,
                 0,

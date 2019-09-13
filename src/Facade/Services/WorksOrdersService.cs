@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq.Expressions;
 
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
@@ -10,7 +11,7 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
-    public class WorksOrdersService : IWorksOrdersService
+    public class WorksOrdersService : FacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>, IWorksOrdersService
     {
         private readonly IRepository<WorksOrder, int> worksOrderRepository;
 
@@ -20,35 +21,21 @@
 
         private readonly IProductAuditPack productAuditPack;
 
+        private readonly IWorksOrderUtilities worksOrderUtilities;
+
         public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
             IWorksOrderFactory worksOrderFactory,
-            IProductAuditPack productAuditPack)
+            IProductAuditPack productAuditPack,
+            IWorksOrderUtilities worksOrderUtilities)
+            : base(worksOrderRepository, transactionManager)
         {
             this.worksOrderRepository = worksOrderRepository;
             this.transactionManager = transactionManager;
             this.worksOrderFactory = worksOrderFactory;
             this.productAuditPack = productAuditPack;
-        }
-
-        public IResult<WorksOrder> GetWorksOrder(int orderNumber)
-        {
-            var worksOrder = this.worksOrderRepository.FindById(orderNumber);
-
-            if (worksOrder == null)
-            {
-                return new NotFoundResult<WorksOrder>();
-            }
-
-            return new SuccessResult<WorksOrder>(worksOrder);
-        }
-
-        public IResult<IEnumerable<WorksOrder>> GetAll()
-        {
-            var worksOrders = this.worksOrderRepository.FindAll();
-
-            return new SuccessResult<IEnumerable<WorksOrder>>(worksOrders);
+            this.worksOrderUtilities = worksOrderUtilities;
         }
 
         public IResult<WorksOrder> AddWorksOrder(WorksOrderResource resource)
@@ -66,7 +53,7 @@
 
             this.worksOrderRepository.Add(worksOrder);
 
-            this.worksOrderFactory.IssueSerialNumber(
+            this.worksOrderUtilities.IssueSerialNumber(
                 worksOrder.PartNumber,
                 worksOrder.OrderNumber,
                 worksOrder.DocType,
@@ -100,7 +87,7 @@
             {
                 try
                 {
-                    this.worksOrderFactory.CancelWorksOrder(worksOrder, resource.CancelledBy, resource.ReasonCancelled);
+                    worksOrder.CancelWorksOrder(resource.CancelledBy, resource.ReasonCancelled);
                 }
                 catch (DomainException exception)
                 {
@@ -110,20 +97,9 @@
                 return new SuccessResult<WorksOrder>(worksOrder);
             }
 
-            this.UpdateFromResource(resource, worksOrder);
+            this.UpdateFromResource(worksOrder, resource);
 
             return new SuccessResult<WorksOrder>(worksOrder);
-        }
-
-        public IResult<IEnumerable<WorksOrder>> FilterByPartNumber(string searchTerm)
-        {
-            return new SuccessResult<IEnumerable<WorksOrder>>(this.worksOrderRepository.FilterBy(w => w.PartNumber == searchTerm));
-        }
-
-        public IResult<IEnumerable<WorksOrder>> SearchByOrderNumber(string searchTerm)
-        {
-            return new SuccessResult<IEnumerable<WorksOrder>>(
-                this.worksOrderRepository.FilterBy(w => w.OrderNumber.ToString().Contains(searchTerm)));
         }
 
         public IResult<WorksOrderDetails> GetWorksOrderDetails(string partNumber)
@@ -132,7 +108,7 @@
 
             try
             {
-                worksOrderDetails = this.worksOrderFactory.GetWorksOrderDetails(partNumber);
+                worksOrderDetails = this.worksOrderUtilities.GetWorksOrderDetails(partNumber);
             }
             catch (DomainException exception)
             {
@@ -142,7 +118,7 @@
             return new SuccessResult<WorksOrderDetails>(worksOrderDetails);
         }
 
-        private WorksOrder CreateFromResource(WorksOrderResource resource)
+        protected override WorksOrder CreateFromResource(WorksOrderResource resource)
         {
             return new WorksOrder
                        {
@@ -166,9 +142,14 @@
                        };
         }
 
-        private void UpdateFromResource(WorksOrderResource resource, WorksOrder worksOrder)
+        protected override void UpdateFromResource(WorksOrder worksOrder, WorksOrderResource updateResource)
         {
-            worksOrder.UpdateWorksOrder(resource.Quantity);
+            worksOrder.UpdateWorksOrder(updateResource.Quantity);
+        }
+
+        protected override Expression<Func<WorksOrder, bool>> SearchExpression(string searchTerm)
+        {
+            return w => w.OrderNumber.ToString().Contains(searchTerm);
         }
     }
 }

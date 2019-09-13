@@ -23,6 +23,8 @@
 
         protected IProductAuditPack ProductAuditPack { get; private set;  }
 
+        protected IWorksOrderUtilities WorksOrderUtilities { get; private set; }
+
         [SetUp]
         public void SetUpContext()
         {
@@ -31,12 +33,14 @@
             this.WorksOrderFactory = Substitute.For<IWorksOrderFactory>();
             this.WorksOrderProxyService = Substitute.For<IWorksOrderProxyService>();
             this.ProductAuditPack = Substitute.For<IProductAuditPack>();
+            this.WorksOrderUtilities = Substitute.For<IWorksOrderUtilities>();
 
             this.Sut = new WorksOrdersService(
                 this.WorksOrderRepository,
                 this.TransactionManager,
                 this.WorksOrderFactory,
-                this.ProductAuditPack);
+                this.ProductAuditPack,
+                this.WorksOrderUtilities);
         }
     }
 }

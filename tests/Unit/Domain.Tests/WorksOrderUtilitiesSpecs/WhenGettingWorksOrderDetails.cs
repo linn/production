@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Domain.Tests.WorksOrderFactorySpecs
+﻿namespace Linn.Production.Domain.Tests.WorksOrderUtilitiesSpecs
 {
     using System;
     using System.Linq.Expressions;
@@ -14,13 +14,15 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingWoDetailsWhenBoardForAuditAndForCutClinch : ContextBase
+    public class WhenGettingWorksOrderDetails : ContextBase
     {
         private string partNumber;
 
         private string partDescription;
 
         private string boardCode;
+
+        private string workStationCode;
 
         private WorksOrderDetails result;
 
@@ -30,15 +32,19 @@
             this.partNumber = "PCAS 123";
             this.partDescription = "DESCRIPTION";
             this.boardCode = "123AB";
+            this.workStationCode = "STATION";
 
             this.PartsRepository.FindById(this.partNumber)
                 .Returns(new Part { PartNumber = this.partNumber, Description = this.partDescription });
+
+            this.ProductionTriggerLevelsRepository.FindById(this.partNumber).Returns(
+                new ProductionTriggerLevel() { PartNumber = this.partNumber, WsName = this.workStationCode });
 
             this.PcasRevisionsRepository.FindBy(Arg.Any<Expression<Func<PcasRevision, bool>>>()).Returns(
                 new PcasRevision { BoardCode = this.boardCode, PcasPartNumber = this.partNumber });
 
             this.PcasBoardsForAuditRepository.FindBy(Arg.Any<Expression<Func<PcasBoardForAudit, bool>>>()).Returns(
-                new PcasBoardForAudit { BoardCode = this.boardCode, CutClinch = "Y", ForAudit = "Y" });
+                new PcasBoardForAudit { BoardCode = this.boardCode, CutClinch = "N", ForAudit = "Y" });
 
             this.result = this.Sut.GetWorksOrderDetails(this.partNumber);
         }
@@ -62,12 +68,19 @@
         }
 
         [Test]
+        public void ShouldProductionTriggerLevelRepository()
+        {
+            this.ProductionTriggerLevelsRepository.Received().FindById(this.partNumber);
+        }
+
+        [Test]
         public void ShouldReturnNull()
         {
-            this.result.AuditDisclaimer.Should().Be("Board requires audit. Use cut and clinch tool");
+            this.result.AuditDisclaimer.Should().Be("Board requires audit");
             this.result.PartNumber.Should().Be(this.partNumber);
             this.result.PartDescription.Should().Be(this.partDescription);
             this.result.PartNumber.Should().Be(this.partNumber);
+            this.result.WorkStationCode.Should().Be(this.workStationCode);
         }
     }
 }

@@ -62,7 +62,7 @@
         [Test]
         public void ShouldNotIssueSernos()
         {
-            this.WorksOrderFactory.DidNotReceive().IssueSerialNumber(
+            this.WorksOrderUtilities.DidNotReceive().IssueSerialNumber(
                 this.resource.PartNumber,
                 this.resource.OrderNumber,
                 this.resource.DocType,

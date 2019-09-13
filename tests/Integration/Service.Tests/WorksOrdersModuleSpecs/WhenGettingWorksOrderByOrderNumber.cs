@@ -21,7 +21,7 @@
         {
             var worksOrder = new WorksOrder { OrderNumber = 1234, Part = new Part { Description = "DESC" } };
 
-            this.WorksOrdersService.GetWorksOrder(1234).Returns(new SuccessResult<WorksOrder>(worksOrder));
+            this.WorksOrdersService.GetById(1234).Returns(new SuccessResult<WorksOrder>(worksOrder));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/works-orders/1234",
@@ -37,7 +37,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.WorksOrdersService.Received().GetWorksOrder(1234);
+            this.WorksOrdersService.Received().GetById(1234);
         }
 
         [Test]

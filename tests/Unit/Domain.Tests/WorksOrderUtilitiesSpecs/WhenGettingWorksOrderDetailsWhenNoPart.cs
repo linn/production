@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Domain.Tests.WorksOrderFactorySpecs
+﻿namespace Linn.Production.Domain.Tests.WorksOrderUtilitiesSpecs
 {
     using System;
 

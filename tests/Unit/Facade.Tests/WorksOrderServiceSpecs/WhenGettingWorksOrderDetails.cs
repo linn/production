@@ -32,7 +32,7 @@
                                              WorkStationCode = "Code"
                                          };
 
-            this.WorksOrderFactory.GetWorksOrderDetails(this.partNumber).Returns(this.worksOrderDetails);
+            this.WorksOrderUtilities.GetWorksOrderDetails(this.partNumber).Returns(this.worksOrderDetails);
 
             this.result = this.Sut.GetWorksOrderDetails(this.partNumber);
         }
@@ -40,7 +40,7 @@
         [Test]
         public void ShouldCallWorksOrderFactory()
         {
-            this.WorksOrderFactory.Received().GetWorksOrderDetails(this.partNumber);
+            this.WorksOrderUtilities.Received().GetWorksOrderDetails(this.partNumber);
         }
 
         [Test]
@@ -74,7 +74,7 @@
                                              WorkStationCode = "Code"
                                          };
 
-            this.WorksOrderFactory.GetWorksOrderDetails(this.partNumber).Throws(new DomainException("Exception"));
+            this.WorksOrderUtilities.GetWorksOrderDetails(this.partNumber).Throws(new DomainException("Exception"));
 
             this.result = this.Sut.GetWorksOrderDetails(this.partNumber);
         }
@@ -82,7 +82,7 @@
         [Test]
         public void ShouldCallWorksOrderFactory()
         {
-            this.WorksOrderFactory.Received().GetWorksOrderDetails(this.partNumber);
+            this.WorksOrderUtilities.Received().GetWorksOrderDetails(this.partNumber);
         }
 
         [Test]

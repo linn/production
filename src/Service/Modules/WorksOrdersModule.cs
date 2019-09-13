@@ -57,7 +57,7 @@
 
         private object GetWorksOrder(int orderNumber)
         {
-            return this.Negotiate.WithModel(this.worksOrdersService.GetWorksOrder(orderNumber))
+            return this.Negotiate.WithModel(this.worksOrdersService.GetById(orderNumber))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
@@ -91,7 +91,7 @@
 
             var worksOrders = string.IsNullOrEmpty(resource.SearchTerm)
                               ? this.worksOrdersService.GetAll()
-                              : this.worksOrdersService.SearchByOrderNumber(resource.SearchTerm);
+                              : this.worksOrdersService.Search(resource.SearchTerm);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
