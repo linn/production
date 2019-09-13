@@ -44,6 +44,8 @@ import ProductionTriggersReport from '../containers/reports/triggers/ProductionT
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
+import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
+import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 
 const Root = ({ store }) => (
     <div>
@@ -256,6 +258,16 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/assembly-fails-details"
                                             component={AssemblyFailsDetails}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/smt/outstanding-works-order-parts/report"
+                                            component={SmtOutstandingWOPartsReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/smt/outstanding-works-order-parts"
+                                            component={SmtOutstandingWOPartsReportOptions}
                                         />
                                     </Switch>
                                 </div>

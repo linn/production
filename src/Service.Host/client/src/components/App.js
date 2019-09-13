@@ -61,6 +61,13 @@ function App() {
                 <ListItem component={Link} to="/production/reports/triggers" button>
                     <Typography color="primary">Production Triggers Report</Typography>
                 </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/reports/smt/outstanding-works-order-parts"
+                    button
+                >
+                    <Typography color="primary">SMT Outstanding Works Order Parts</Typography>
+                </ListItem>
             </List>
         </Page>
     );
