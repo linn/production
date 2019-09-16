@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
     SaveBackCancelButtons,
@@ -9,11 +9,13 @@ import {
     ErrorCard,
     SnackbarMessage
 } from '@linn-it/linn-form-components-library';
+import { useSnackbar } from 'notistack';
 import Page from '../../containers/Page';
 
 function BoardFailType({
     editStatus,
-    errorMessage,
+    itemErrorMessage,
+    requestErrors,
     history,
     itemId,
     item,
@@ -26,6 +28,7 @@ function BoardFailType({
 }) {
     const [boardFailType, setBoardFailType] = useState({});
     const [prevBoardFailType, setPrevBoardFailType] = useState({});
+    const { enqueueSnackbar } = useSnackbar();
 
     const creating = () => editStatus === 'create';
     const editing = () => editStatus === 'edit';
@@ -37,6 +40,17 @@ function BoardFailType({
             setPrevBoardFailType(item);
         }
     }, [item, prevBoardFailType]);
+
+    useEffect(() => {
+        if (requestErrors) {
+            Object.keys(requestErrors).forEach(t => {
+                enqueueSnackbar(`${requestErrors[t].message} - ${t}`, {
+                    variant: 'error',
+                    preventDuplicate: true
+                });
+            });
+        }
+    }, [requestErrors, enqueueSnackbar]);
 
     const failTypeInvalid = () => !boardFailType.failType;
     const descriptionInvalid = () => !boardFailType.description;
@@ -68,7 +82,15 @@ function BoardFailType({
         }
         setBoardFailType({ ...boardFailType, [propertyName]: newValue });
     };
-
+    if (loading) {
+        return (
+            <Page>
+                <Grid item xs={12}>
+                    <Loading />
+                </Grid>
+            </Page>
+        );
+    }
     return (
         <Page>
             <Grid container spacing={3}>
@@ -79,61 +101,60 @@ function BoardFailType({
                         <Title text="Board Fail Type" />
                     )}
                 </Grid>
-                {errorMessage && (
+                {itemErrorMessage ? (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
-                    </Grid>
-                )}
-                {loading || !boardFailType ? (
-                    <Grid item xs={12}>
-                        <Loading />
+                        <ErrorCard errorMessage={itemErrorMessage} />
                     </Grid>
                 ) : (
-                    <Fragment>
-                        <SnackbarMessage
-                            visible={snackbarVisible}
-                            onClose={() => setSnackbarVisible(false)}
-                            message="Save Successful"
-                        />
-                        <Grid item xs={8}>
-                            <InputField
-                                fullWidth
-                                disabled={!creating()}
-                                value={boardFailType.failType}
-                                label="Skill Code"
-                                maxLength={10}
-                                helperText={
-                                    !creating()
-                                        ? 'This field cannot be changed'
-                                        : `${failTypeInvalid() ? 'This field is required' : ''}`
-                                }
-                                required={creating()}
-                                onChange={handleFieldChange}
-                                propertyName="failType"
+                    boardFailType && (
+                        <Fragment>
+                            <SnackbarMessage
+                                visible={snackbarVisible}
+                                onClose={() => setSnackbarVisible(false)}
+                                message="Save Successful"
                             />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={boardFailType.description}
-                                label="Description"
-                                maxLength={50}
-                                fullWidth
-                                helperText={descriptionInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="description"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <SaveBackCancelButtons
-                                saveDisabled={viewing() || inputInvalid()}
-                                saveClick={handleSaveClick}
-                                cancelClick={handleCancelClick}
-                                backClick={handleBackClick}
-                            />
-                        </Grid>
-                    </Fragment>
+                            <Grid item xs={8}>
+                                <InputField
+                                    fullWidth
+                                    disabled={!creating()}
+                                    value={boardFailType.failType}
+                                    label="Skill Code"
+                                    maxLength={10}
+                                    helperText={
+                                        !creating()
+                                            ? 'This field cannot be changed'
+                                            : `${failTypeInvalid() ? 'This field is required' : ''}`
+                                    }
+                                    required={creating()}
+                                    onChange={handleFieldChange}
+                                    propertyName="failType"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={boardFailType.description}
+                                    label="Description"
+                                    maxLength={50}
+                                    fullWidth
+                                    helperText={
+                                        descriptionInvalid() ? 'This field is required' : ''
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="description"
+                                />
+                            </Grid>
+                        </Fragment>
+                    )
                 )}
+                <Grid item xs={12}>
+                    <SaveBackCancelButtons
+                        saveDisabled={viewing() || inputInvalid()}
+                        saveClick={handleSaveClick}
+                        cancelClick={handleCancelClick}
+                        backClick={handleBackClick}
+                    />
+                </Grid>
             </Grid>
         </Page>
     );

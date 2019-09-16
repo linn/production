@@ -1,8 +1,13 @@
 import { connect } from 'react-redux';
-import { fetchErrorSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import {
+    getItemErrorMessage,
+    getRequestErrors,
+    initialiseOnMount
+} from '@linn-it/linn-form-components-library';
 import BoardFailType from '../../components/boardFailTypes/BoardFailType';
 import boardFailTypeActions from '../../actions/boardFailTypeActions';
 import boardFailTypeSelectors from '../../selectors/boardFailTypeSelectors';
+import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = (state, { match }) => ({
     item: boardFailTypeSelectors.getItem(state),
@@ -10,7 +15,8 @@ const mapStateToProps = (state, { match }) => ({
     editStatus: boardFailTypeSelectors.getEditStatus(state),
     loading: boardFailTypeSelectors.getLoading(state),
     snackbarVisible: boardFailTypeSelectors.getSnackbarVisible(state),
-    errorMessage: fetchErrorSelectors(state)
+    itemErrorMessage: getItemErrorMessage(state, itemTypes.boardFailType.item),
+    requestErrors: getRequestErrors(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {

@@ -1,4 +1,7 @@
-﻿import { reducers as sharedLibraryReducers } from '@linn-it/linn-form-components-library';
+﻿import {
+    reducers as sharedLibraryReducers, // todo combine 
+    fetchErrorReducer
+} from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import assemblyFail from './assemblyFails/assemblyFail';
@@ -29,6 +32,8 @@ import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 
+const errors = fetchErrorReducer;
+
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
@@ -58,6 +63,7 @@ const rootReducer = combineReducers({
     manufacturingRoute,
     assemblyFailsMeasures,
     assemblyFailsDetails,
+    errors,
     ...sharedLibraryReducers
 });
 
