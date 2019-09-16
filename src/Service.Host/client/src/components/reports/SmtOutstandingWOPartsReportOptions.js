@@ -45,6 +45,10 @@ function SmtOutstandingWOPartsReportOptions({ history }) {
         setPartField(newValue);
     };
 
+    const removePart = part => {
+        setParts(parts.filter(p => p !== part));
+    };
+
     return (
         <Page>
             <Title text="Parts needed for outstanding SMT works orders" />
@@ -95,7 +99,11 @@ function SmtOutstandingWOPartsReportOptions({ history }) {
                             <ListItem>
                                 <ListItemText primary={p} />
                                 <ListItemSecondaryAction>
-                                    <IconButton edge="end" aria-label="delete">
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="delete"
+                                        onClick={() => removePart(p)}
+                                    >
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItemSecondaryAction>
