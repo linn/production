@@ -2,6 +2,8 @@
 {
     public class PcasRevision
     {
+        public string BoardCode { get; set; }
+
         public string Cref { get; set; }
 
         public string PartNumber { get; set; }

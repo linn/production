@@ -71,7 +71,11 @@
             builder.RegisterType<ManufacturingResourcesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingResource>>>();
             builder.RegisterType<OsrInfoResourceBuilder>().As<IResourceBuilder<OsrInfo>>();
+            builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
+            builder.RegisterType<WorksOrdersResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrder>>>();
+            builder.RegisterType<WorksOrderDetailsResourceBuilder>().As<IResourceBuilder<WorksOrderDetails>>();
             builder.RegisterType<ProductionTriggersReportResourceBuilder>().As<IResourceBuilder<ProductionTriggersReport>>();
+            builder.RegisterType<ProductionTriggersFactsResourceBuilder>().As<IResourceBuilder<ProductionTriggerFacts>>();
             builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<Part>>();
             builder.RegisterType<PartsResourceBuilder>().As<IResourceBuilder<IEnumerable<Part>>>();
         }

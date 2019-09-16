@@ -13,5 +13,7 @@
         public string BomType { get; set; }
 
         public string DecrementRule { get; set; }
+
+        public string SernosSequence { get; set; }
     }
 }

@@ -45,14 +45,14 @@
                      && r.SernosGroup == resource.SernosGroup);
 
             var serialNumberReissue = new SerialNumberReissue(sernos.SernosGroup, sernos.ArticleNumber)
-                                          {
-                                              SerialNumber = sernos.SerialNumber,
-                                              NewSerialNumber = sernos.NewSerialNumber,
-                                              NewArticleNumber = sernos.NewArticleNumber,
-                                              CreatedBy = sernos.CreatedBy,
-                                              Id = sernos.Id,
-                                              Comments = sernos.Comments
-                                          };
+                                            {
+                                                SerialNumber = sernos.SerialNumber,
+                                                NewSerialNumber = sernos.NewSerialNumber,
+                                                NewArticleNumber = sernos.NewArticleNumber,
+                                                CreatedBy = sernos.CreatedBy,
+                                                Id = sernos.Id,
+                                                Comments = sernos.Comments
+                                            };
 
             return new CreatedResult<SerialNumberReissue>(serialNumberReissue);
         }
