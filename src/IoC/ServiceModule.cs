@@ -52,7 +52,6 @@
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
-            builder.RegisterType<PartsService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
             builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
             builder.RegisterType<ProductionTriggerLevelService>()
                 .As<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();

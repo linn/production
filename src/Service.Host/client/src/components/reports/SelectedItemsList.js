@@ -21,7 +21,7 @@ function SelectedItemsList({ items, removeItem, title }) {
                                 <IconButton
                                     edge="end"
                                     aria-label="delete"
-                                    onClick={() => removeItem(item.Id ? item.Id : item)}
+                                    onClick={() => removeItem(item.id ? item.id : item)}
                                 >
                                     <DeleteIcon />
                                 </IconButton>
