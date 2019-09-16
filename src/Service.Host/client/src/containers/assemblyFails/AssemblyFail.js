@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchErrorSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import { fetchErrorSelectors, initialiseOnMount, getItemErrorMessage } from '@linn-it/linn-form-components-library';
 import AssemblyFail from '../../components/assemblyFails/AssemblyFail';
 import assemblyFailActions from '../../actions/assemblyFailActions';
 import assemblyFailSelectors from '../../selectors/assemblyFailSelectors';
@@ -16,6 +16,7 @@ import employeesSelectors from '../../selectors/employeesSelectors';
 import assemblyFailFaultCodes from '../../actions/assemblyFailFaultCodesActions';
 import assemblyFailFaultCodesSelectors from '../../selectors/assemblyFailFaultCodesSelectors';
 import getProfile from '../../selectors/userSelectors';
+import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = (state, { match }) => ({
     item: assemblyFailSelectors.getItem(state),
@@ -23,7 +24,7 @@ const mapStateToProps = (state, { match }) => ({
     editStatus: assemblyFailSelectors.getEditStatus(state),
     loading: assemblyFailSelectors.getLoading(state),
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
-    errorMessage: fetchErrorSelectors(state),
+    assemblyFailError: getItemErrorMessage(state, itemTypes.assemblyFail.item),
     profile: getProfile(state),
     worksOrders: worksOrdersSelectors.getItems(state),
     worksOrdersLoading: worksOrdersSelectors.getLoading(state),
