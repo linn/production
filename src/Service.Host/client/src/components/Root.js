@@ -44,6 +44,7 @@ import ProductionTriggersReport from '../containers/reports/triggers/ProductionT
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
+import NotFound from './NotFound';
 
 const Root = ({ store }) => (
     <div>
@@ -257,6 +258,8 @@ const Root = ({ store }) => (
                                             path="/production/reports/assembly-fails-details"
                                             component={AssemblyFailsDetails}
                                         />
+
+                                        <Route component={NotFound} />
                                     </Switch>
                                 </div>
                             </Router>
