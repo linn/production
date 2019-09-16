@@ -8,17 +8,13 @@ import {
     TypeaheadDialog
 } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
 import Tooltip from '@material-ui/core/Tooltip';
-import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import Page from '../../containers/Page';
+import SelectedItemsList from './SelectedItemsList';
 
 function SmtOutstandingWOPartsReportOptions({
     history,
@@ -132,23 +128,11 @@ function SmtOutstandingWOPartsReportOptions({
                 </Grid>
                 <Grid xs={1} />
                 <Grid xs={2}>
-                    <Typography variant="body1">Components selected</Typography>
-                    <List dense>
-                        {parts.map(p => (
-                            <ListItem>
-                                <ListItemText primary={p} />
-                                <ListItemSecondaryAction>
-                                    <IconButton
-                                        edge="end"
-                                        aria-label="delete"
-                                        onClick={() => removePart(p)}
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </ListItemSecondaryAction>
-                            </ListItem>
-                        ))}
-                    </List>
+                    <SelectedItemsList
+                        title="Components selected"
+                        items={parts}
+                        removeItem={removePart}
+                    />
                 </Grid>
                 <Grid xs={4} />
                 <Grid item xs={12}>
