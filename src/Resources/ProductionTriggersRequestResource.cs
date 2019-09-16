@@ -5,5 +5,7 @@
         public string Jobref { get; set; }
 
         public string CitCode { get; set; }
+
+        public string PartNumber { get; set; }
     }
 }

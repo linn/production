@@ -75,6 +75,7 @@
             builder.RegisterType<WorksOrdersResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrder>>>();
             builder.RegisterType<WorksOrderDetailsResourceBuilder>().As<IResourceBuilder<WorksOrderDetails>>();
             builder.RegisterType<ProductionTriggersReportResourceBuilder>().As<IResourceBuilder<ProductionTriggersReport>>();
+            builder.RegisterType<ProductionTriggersFactsResourceBuilder>().As<IResourceBuilder<ProductionTriggerFacts>>();
         }
     }
 }
