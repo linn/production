@@ -1,19 +1,32 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { Dropdown, Title, InputField } from '@linn-it/linn-form-components-library';
+import {
+    Dropdown,
+    Title,
+    InputField,
+    TypeaheadDialog
+} from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
+import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import Page from '../../containers/Page';
 
-function SmtOutstandingWOPartsReportOptions({ history }) {
+function SmtOutstandingWOPartsReportOptions({
+    history,
+    partsSearchResults,
+    partsSearchLoading,
+    searchParts,
+    clearPartsSearch
+}) {
     const [smtLine, setSmtLine] = useState('All');
     const [partField, setPartField] = useState('');
     const [parts, setParts] = useState([]);
@@ -41,6 +54,11 @@ function SmtOutstandingWOPartsReportOptions({ history }) {
         setPartField('');
     };
 
+    const addTypeAheadPart = newValue => {
+        setParts([...parts, newValue.partNumber]);
+        clearPartsSearch();
+    };
+
     const handleFieldChange = (_, newValue) => {
         setPartField(newValue);
     };
@@ -49,10 +67,17 @@ function SmtOutstandingWOPartsReportOptions({ history }) {
         setParts(parts.filter(p => p !== part));
     };
 
+    const useStyles = makeStyles(theme => ({
+        marginTop: {
+            marginTop: theme.spacing(3)
+        }
+    }));
+    const classes = useStyles();
+
     return (
         <Page>
             <Title text="Parts needed for outstanding SMT works orders" />
-            <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
+            <Grid className={classes.marginTop} container spacing={3} justify="center">
                 <Grid item xs={6}>
                     <Dropdown
                         label="SMT Line"
@@ -83,17 +108,31 @@ function SmtOutstandingWOPartsReportOptions({ history }) {
                     />
                 </Grid>
                 <Grid xs={1}>
-                    <IconButton
-                        style={{ marginTop: 30 }}
-                        aria-label="select"
-                        onClick={() => addPart(partField)}
-                    >
-                        <ArrowForward fontSize="inherit" />
-                    </IconButton>
+                    <div className={classes.marginTop}>
+                        <TypeaheadDialog
+                            title="Search For Part"
+                            onSelect={addTypeAheadPart}
+                            searchItems={partsSearchResults}
+                            loading={partsSearchLoading}
+                            fetchItems={searchParts}
+                            clearSearch={() => clearPartsSearch}
+                        />
+                    </div>
                 </Grid>
-                <Grid xs={2} />
-                <Grid xs={4}>
-                    <Typography variant="subtitle2">Components selected</Typography>
+                <Grid xs={1}>
+                    <Tooltip title="Add part from input field">
+                        <IconButton
+                            className={classes.marginTop}
+                            aria-label="select"
+                            onClick={() => addPart(partField)}
+                        >
+                            <ArrowForward fontSize="inherit" />
+                        </IconButton>
+                    </Tooltip>
+                </Grid>
+                <Grid xs={1} />
+                <Grid xs={2}>
+                    <Typography variant="body1">Components selected</Typography>
                     <List dense>
                         {parts.map(p => (
                             <ListItem>
@@ -111,7 +150,7 @@ function SmtOutstandingWOPartsReportOptions({ history }) {
                         ))}
                     </List>
                 </Grid>
-                <Grid xs={2} />
+                <Grid xs={4} />
                 <Grid item xs={12}>
                     <Button color="primary" variant="contained" onClick={handleClick}>
                         Run Report
@@ -127,7 +166,16 @@ SmtOutstandingWOPartsReportOptions.propTypes = {
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
         toDate: PropTypes.string
-    }).isRequired
+    }).isRequired,
+    partsSearchLoading: PropTypes.bool,
+    partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    searchParts: PropTypes.func.isRequired,
+    clearPartsSearch: PropTypes.func.isRequired
+};
+
+SmtOutstandingWOPartsReportOptions.defaultProps = {
+    partsSearchResults: [],
+    partsSearchLoading: false
 };
 
 export default SmtOutstandingWOPartsReportOptions;
