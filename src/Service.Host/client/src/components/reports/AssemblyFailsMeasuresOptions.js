@@ -6,12 +6,18 @@ import { DatePicker, Title, Dropdown } from '@linn-it/linn-form-components-libra
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function AssemblyFailsMeasuresOptions({ history }) {
+function AssemblyFailsMeasuresOptions({ history, prevOptions }) {
     const defaultStartDate = new Date();
     defaultStartDate.setDate(defaultStartDate.getDate() - 90);
-    const [fromDate, setFromDate] = useState(defaultStartDate);
-    const [toDate, setToDate] = useState(new Date());
-    const [groupBy, setGroupBy] = useState('board-part-number');
+    const [fromDate, setFromDate] = useState(
+        prevOptions.fromDate ? new Date(prevOptions.fromDate) : defaultStartDate
+    );
+    const [toDate, setToDate] = useState(
+        prevOptions.toDate ? new Date(prevOptions.toDate) : new Date()
+    );
+    const [groupBy, setGroupBy] = useState(
+        prevOptions.groupBy ? prevOptions.groupBy : 'board-part-number'
+    );
 
     const handleClick = () =>
         history.push({

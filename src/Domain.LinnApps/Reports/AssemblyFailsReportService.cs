@@ -92,6 +92,7 @@
             var fails = this.assemblyFailsRepository.FilterBy(a => a.DateTimeFound >= fromDate && a.DateTimeFound <= toDate);
 
             var calculatedValues = this.CalculatedValues(fails, groupBy, weeks);
+            calculatedValues = calculatedValues.Where(v => !string.IsNullOrWhiteSpace(v.RowId));
             reportLayout.AddData(calculatedValues);
 
             var model = reportLayout.GetResultsModel();
@@ -416,8 +417,6 @@
                 default:
                     throw new ArgumentOutOfRangeException(nameof(groupBy), groupBy, null);
             }
-
-            return null;
         }
     }
 }
