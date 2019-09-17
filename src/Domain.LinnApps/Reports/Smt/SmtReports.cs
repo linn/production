@@ -62,9 +62,9 @@
                     values.Add(new CalculationValueModel { RowId = newRowId.ToString(), TextDisplay = bomPart.PartNumber, ColumnId = "Component" });
                     values.Add(new CalculationValueModel { RowId = newRowId.ToString(), TextDisplay = bomPart.BomName, ColumnId = "Board" });
                     values.Add(new CalculationValueModel { RowId = newRowId.ToString(), TextDisplay = worksOrder.OrderNumber.ToString(), ColumnId = "WO" });
-                    values.Add(new CalculationValueModel { RowId = newRowId.ToString(), Quantity = worksOrder.QuantityOutstanding ?? 0, ColumnId = "WO Qty" });
+                    values.Add(new CalculationValueModel { RowId = newRowId.ToString(), Quantity = worksOrder.Quantity - (worksOrder.QuantityBuilt ?? 0), ColumnId = "WO Qty" });
                     values.Add(new CalculationValueModel { RowId = newRowId.ToString(), Quantity = bomPart.Quantity, ColumnId = "Qty On Board" });
-                    values.Add(new CalculationValueModel { RowId = newRowId.ToString(), Quantity = bomPart.Quantity * worksOrder.QuantityOutstanding ?? 0, ColumnId = "Qty Required" });
+                    values.Add(new CalculationValueModel { RowId = newRowId.ToString(), Quantity = bomPart.Quantity * (worksOrder.Quantity - (worksOrder.QuantityBuilt ?? 0)), ColumnId = "Qty Required" });
                     values.Add(new CalculationValueModel { RowId = newRowId.ToString(), TextDisplay = worksOrder.WorkStationCode, ColumnId = "Line" });
                 }
             }
