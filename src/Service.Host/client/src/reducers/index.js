@@ -31,6 +31,8 @@ import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
+import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
+import parts from './parts';
 
 const errors = fetchErrorReducer;
 
@@ -64,6 +66,8 @@ const rootReducer = combineReducers({
     assemblyFailsMeasures,
     assemblyFailsDetails,
     errors,
+    smtOutstandingWorkOrderParts,
+    parts,
     ...sharedLibraryReducers
 });
 
