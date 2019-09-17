@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Service.Modules
 {
-    using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
@@ -13,17 +11,54 @@
     {
         private readonly IOutstandingWorksOrdersReportFacade outstandingWorksOrdersReportFacade;
 
-        private readonly IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource> worksOrdersService;
+        private readonly IWorksOrdersService worksOrdersService;
 
-        public WorksOrdersModule(
-            IOutstandingWorksOrdersReportFacade outstandingWorksOrdersReportFacade,
-            IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource> worksOrdersService)
+        public WorksOrdersModule(IOutstandingWorksOrdersReportFacade outstandingWorksOrdersReportFacade, IWorksOrdersService worksOrdersService)
         {
             this.worksOrdersService = worksOrdersService;
             this.outstandingWorksOrdersReportFacade = outstandingWorksOrdersReportFacade;
-            this.Get("production/maintenance/works-orders", _ => this.GetWorksOrders());
+
+            this.Get("/production/maintenance/works-orders", _ => this.GetWorksOrders());
+            this.Get("/production/maintenance/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
+            this.Post("/production/maintenance/works-orders", _ => this.AddWorksOrder());
+            this.Put("/production/maintenance/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
+            this.Get(
+                "/production/maintenance/works-orders/details/{partNumber}",
+                parameters => this.GetWorksOrderDetails(parameters.partNumber));
+
             this.Get("/production/maintenance/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
             this.Get("/production/maintenance/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
+        }
+
+        private object GetWorksOrderDetails(string partNumber)
+        {
+            return this.Negotiate.WithModel(this.worksOrdersService.GetWorksOrderDetails(partNumber))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+        }
+
+        private object UpdateWorksOrder()
+        {
+            var resource = this.Bind<WorksOrderResource>();
+
+            return this.Negotiate.WithModel(this.worksOrdersService.UpdateWorksOrder(resource))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+        }
+
+        private object AddWorksOrder()
+        {
+            // TODO get auth user
+            var resource = this.Bind<WorksOrderResource>();
+
+            var test = this.worksOrdersService.AddWorksOrder(resource);
+
+            return this.Negotiate.WithModel(this.worksOrdersService.AddWorksOrder(resource))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+        }
+
+        private object GetWorksOrder(int orderNumber)
+        {
+            return this.Negotiate.WithModel(this.worksOrdersService.GetById(orderNumber))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
         private object GetOutstandingWorksOrdersReport()

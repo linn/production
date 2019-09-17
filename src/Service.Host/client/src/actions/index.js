@@ -109,3 +109,9 @@ export const assemblyFailsMeasuresActionTypes = makeReportActionTypes(
 export const assemblyFailsDetailsActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsDetails.actionType
 );
+
+export const smtOutstandingWorkOrderPartsActionTypes = makeReportActionTypes(
+    reportTypes.smtOutstandingWorkOrderParts.actionType
+);
+
+export const partsActionsTypes = makeActionTypes(itemTypes.parts.actionType, false);

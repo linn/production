@@ -7,6 +7,7 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     using Nancy;
@@ -24,7 +25,7 @@
             var worksOrder1 = new WorksOrder { OrderNumber = 1, Part = new Part { PartNumber = "part1" } };
             var worksOrder2 = new WorksOrder { OrderNumber = 2, Part = new Part { PartNumber = "part1" } };
 
-            this.WorksOrderService.GetAll()
+            this.WorksOrdersService.GetAll()
                 .Returns(new SuccessResult<IEnumerable<WorksOrder>>(new List<WorksOrder> { worksOrder1, worksOrder2 }));
 
             this.Response = this.Browser.Get(
@@ -41,7 +42,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.WorksOrderService.Received().GetAll();
+            this.WorksOrdersService.Received().GetAll();
         }
 
         [Test]

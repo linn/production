@@ -57,11 +57,17 @@ export const whoBuiltWhatDetails = new ItemType(
 export const assemblyFailsMeasures = new ItemType(
     'assemblyFailsMeasures',
     'ASSEMBLY_FAILS_MEASURES',
-    '/production/reports/assembly-fails-measures'
+    '/production/reports/assembly-fails-measures/report'
 );
 
 export const assemblyFailsDetails = new ItemType(
     'assemblyFailsDetails',
     'ASSEMBLY_FAILS_DETAILS',
     '/production/reports/assembly-fails-details'
+);
+
+export const smtOutstandingWorkOrderParts = new ItemType(
+    'smtOutstandingWorkOrderParts',
+    'SMT_OUTSTANDING_WO_PARTS',
+    '/production/reports/smt/outstanding-works-order-parts/report'
 );
