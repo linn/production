@@ -14,7 +14,8 @@ function ProductionMeasuresInfo(props) {
                 <Typography>
                     Last snapshot {moment(infoData.lastOSRRunDateTime).format('DD-MMM HH:mm')}
                     <br />
-                    Trigger run {infoData.lastPtlJobref} {moment(infoData.lastPtlRunDateTime).format('DD-MMM HH:mm')}
+                    Trigger run {infoData.lastPtlJobref}{' '}
+                    {moment(infoData.lastPtlRunDateTime).format('DD-MMM HH:mm')}
                     <br />
                     Last Days to lookahead {infoData.lastDaysToLookAhead}
                 </Typography>

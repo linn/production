@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-const handleBackClick = (history) => {
+const handleBackClick = history => {
     history.push('/production/reports/smt/outstanding-works-order-parts');
 };
 

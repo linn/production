@@ -5,7 +5,8 @@ import {
     Dropdown,
     Title,
     InputField,
-    TypeaheadDialog
+    TypeaheadDialog,
+    SelectedItemsList
 } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
@@ -14,7 +15,6 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import Page from '../../containers/Page';
-import SelectedItemsList from './SelectedItemsList';
 
 function SmtOutstandingWOPartsReportOptions({
     history,
