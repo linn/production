@@ -18,7 +18,8 @@
 
         public AssemblyFailFaultCode FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.AssemblyFailFaultCodes.Where(a => a.FaultCode == key).ToList()
+                .FirstOrDefault();
         }
 
         public IQueryable<AssemblyFailFaultCode> FindAll()

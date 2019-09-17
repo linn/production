@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
     SaveBackCancelButtons,
@@ -9,13 +9,11 @@ import {
     ErrorCard,
     SnackbarMessage
 } from '@linn-it/linn-form-components-library';
-import { useSnackbar } from 'notistack';
 import Page from '../../containers/Page';
 
 function BoardFailType({
     editStatus,
     itemErrorMessage,
-    requestErrors,
     history,
     itemId,
     item,
@@ -28,7 +26,6 @@ function BoardFailType({
 }) {
     const [boardFailType, setBoardFailType] = useState({});
     const [prevBoardFailType, setPrevBoardFailType] = useState({});
-    const { enqueueSnackbar } = useSnackbar();
 
     const creating = () => editStatus === 'create';
     const editing = () => editStatus === 'edit';
@@ -40,17 +37,6 @@ function BoardFailType({
             setPrevBoardFailType(item);
         }
     }, [item, prevBoardFailType]);
-
-    useEffect(() => {
-        if (requestErrors) {
-            Object.keys(requestErrors).forEach(t => {
-                enqueueSnackbar(`${requestErrors[t].message} - ${t}`, {
-                    variant: 'error',
-                    preventDuplicate: true
-                });
-            });
-        }
-    }, [requestErrors, enqueueSnackbar]);
 
     const failTypeInvalid = () => !boardFailType.failType;
     const descriptionInvalid = () => !boardFailType.description;
@@ -84,7 +70,7 @@ function BoardFailType({
     };
     if (loading) {
         return (
-            <Page>
+            <Page showRequestErrors>
                 <Grid item xs={12}>
                     <Loading />
                 </Grid>
@@ -92,7 +78,7 @@ function BoardFailType({
         );
     }
     return (
-        <Page>
+        <Page showRequestErrors>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     {creating() ? (
@@ -168,7 +154,6 @@ BoardFailType.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -184,7 +169,6 @@ BoardFailType.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    errorMessage: '',
     itemId: null
 };
 

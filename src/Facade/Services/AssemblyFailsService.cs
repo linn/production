@@ -60,6 +60,7 @@
                            Batch = resource.Batch,
                            AoiEscape = resource.AoiEscape,
                            CircuitPartRef = resource.CircuitRef,
+                           CircuitPart = resource.CircuitPartNumber,
                            BoardPart = resource.BoardPartNumber != null ? this.partRepository.FindById(resource.BoardPartNumber) : null,
                            CitResponsible = resource.CitResponsible != null ? this.citRepository.FindById(resource.CitResponsible) : null,
                            BoardPartNumber = resource.BoardPartNumber,
@@ -87,9 +88,39 @@
                        };
         }
 
-        protected override void UpdateFromResource(AssemblyFail entity, AssemblyFailResource updateResource)
+        protected override void UpdateFromResource(AssemblyFail assemblyFail, AssemblyFailResource resource)
         {
-            throw new NotImplementedException();
+            assemblyFail.BoardPartNumber = resource.BoardPartNumber;
+            assemblyFail.SerialNumber = resource.SerialNumber;
+            assemblyFail.InSlot = resource.InSlot;
+            assemblyFail.Machine = resource.Machine;
+            assemblyFail.NumberOfFails = resource.NumberOfFails;
+            assemblyFail.ReportedFault = resource.ReportedFault;
+            assemblyFail.Analysis = resource.Analysis;
+            assemblyFail.EngineeringComments = resource.EngineeringComments;
+            assemblyFail.Shift = resource.Shift;
+            assemblyFail.Batch = resource.Batch;
+            assemblyFail.AoiEscape = resource.AoiEscape;
+            assemblyFail.BoardPart = resource.BoardPartNumber != null
+                                         ? this.partRepository.FindById(resource.BoardPartNumber)
+                                         : null;
+            assemblyFail.CircuitPart = resource.CircuitPartNumber;
+            assemblyFail.CircuitPartRef = resource.CircuitRef;
+            assemblyFail.CitResponsible = this.citRepository.FindById(resource.CitResponsible);
+            assemblyFail.PersonResponsible = resource.PersonResponsible != null
+                                                 ? this.employeeRepository.FindById((int)resource.PersonResponsible)
+                                                 : null;
+            assemblyFail.FaultCode = resource.FaultCode != null
+                                        ? this.faultCodeRepository.FindById(resource.FaultCode)
+                                        : null;
+            assemblyFail.DateTimeComplete = resource.DateTimeComplete != null ? DateTime.Parse(resource.DateTimeComplete) : (DateTime?)null;
+            assemblyFail.CompletedBy = resource.CompletedBy != null
+                                           ? this.employeeRepository.FindById((int)resource.CompletedBy)
+                                           : null;
+            assemblyFail.CorrectiveAction = resource.CorrectiveAction;
+            assemblyFail.OutSlot = resource.OutSlot;
+            assemblyFail.CaDate = resource.CaDate != null ? DateTime.Parse(resource.CaDate) : (DateTime?)null;
+            assemblyFail.DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null;
         }
 
         protected override Expression<Func<AssemblyFail, bool>> SearchExpression(string searchTerm)
