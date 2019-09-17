@@ -160,6 +160,7 @@ BoardFailType.propTypes = {
     addItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
+    itemErrorMessage: PropTypes.string,
     setSnackbarVisible: PropTypes.func.isRequired
 };
 
@@ -169,7 +170,8 @@ BoardFailType.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    itemId: null
+    itemId: null,
+    itemErrorMessage: ''
 };
 
 export default BoardFailType;

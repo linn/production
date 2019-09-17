@@ -35,6 +35,7 @@ function AssemblyFail({
     pcasRevisions,
     fetchPcasRevisionsForBoardPart,
     cits,
+    smtShifts,
     employees,
     faultCodes,
     addItem,
@@ -243,11 +244,6 @@ function AssemblyFail({
         setSearchTerm(args[1]);
     };
 
-    // Dropdown item lists
-    const getBoardPartItems = () => {
-        return [''].concat(boardParts.map(p => p.partNumber));
-    };
-
     const aoiEscapeValues = ['', 'Y', 'N'];
 
     return (
@@ -448,13 +444,23 @@ function AssemblyFail({
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <InputField
-                                            fullWidth
-                                            disabled={!notCompleted()}
-                                            value={assemblyFail.shift}
+                                        <Dropdown
                                             label="Shift"
-                                            onChange={handleFieldChange}
                                             propertyName="shift"
+                                            disabled={smtShifts?.length === 0 || !notCompleted()}
+                                            items={
+                                                smtShifts
+                                                    ? [''].concat(
+                                                          smtShifts.map(s => ({
+                                                              id: s.shift,
+                                                              displayText: `${s.shift}  -  ${s.description}`
+                                                          }))
+                                                      )
+                                                    : ['']
+                                            }
+                                            fullWidth
+                                            value={assemblyFail.shift}
+                                            onChange={handleFieldChange}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
@@ -745,7 +751,6 @@ AssemblyFail.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     profile: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,

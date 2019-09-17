@@ -15,7 +15,7 @@
         {
             this.citService = citService;
 
-            this.Get("production/maintenance/shifts", _ => this.GetSmtShifts());
+            this.Get("production/maintenance/smt-shifts", _ => this.GetSmtShifts());
         }
 
 
