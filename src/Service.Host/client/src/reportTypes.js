@@ -65,3 +65,9 @@ export const assemblyFailsDetails = new ItemType(
     'ASSEMBLY_FAILS_DETAILS',
     '/production/reports/assembly-fails-details'
 );
+
+export const smtOutstandingWorkOrderParts = new ItemType(
+    'smtOutstandingWorkOrderParts',
+    'SMT_OUTSTANDING_WO_PARTS',
+    '/production/reports/smt/outstanding-works-order-parts/report'
+);

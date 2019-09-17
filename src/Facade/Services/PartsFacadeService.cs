@@ -8,9 +8,9 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class PartsService : FacadeService<Part, string, PartResource, PartResource>
+    public class PartsFacadeService : FacadeService<Part, string, PartResource, PartResource>
     {
-        public PartsService(IRepository<Part, string> repository, ITransactionManager transactionManager)
+        public PartsFacadeService(IRepository<Part, string> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
         }
@@ -27,7 +27,8 @@
 
         protected override Expression<Func<Part, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return p => p.PartNumber.Contains(searchTerm.ToUpper())
+                        || p.Description.ToUpper().Contains(searchTerm.ToUpper());
         }
     }
 }
