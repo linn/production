@@ -8,6 +8,7 @@
     using Domain.LinnApps.RemoteServices;
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
+    using Linn.Common.Persistence;
     using Linn.Common.Proxy;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
@@ -73,6 +74,8 @@
                 .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
             builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
+            builder.RegisterType<SmtShiftsService>()
+                .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

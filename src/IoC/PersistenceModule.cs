@@ -53,6 +53,7 @@
             builder.RegisterType<ProductionTriggerLevelsRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
+            builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

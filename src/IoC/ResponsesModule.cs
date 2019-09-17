@@ -78,6 +78,8 @@
             builder.RegisterType<ProductionTriggersFactsResourceBuilder>().As<IResourceBuilder<ProductionTriggerFacts>>();
             builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<Part>>();
             builder.RegisterType<PartsResourceBuilder>().As<IResourceBuilder<IEnumerable<Part>>>();
+            builder.RegisterType<SmtShiftResourceBuilder>().As<IResourceBuilder<SmtShift>>();
+            builder.RegisterType<SmtShiftsResourceBuilder>().As<IResourceBuilder<IEnumerable<SmtShift>>>();
         }
     }
 }

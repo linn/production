@@ -64,6 +64,8 @@
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
+        public DbQuery<SmtShift> SmtShifts { get; set; }
+
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
 
         public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
@@ -106,6 +108,7 @@
             this.QueryProductionTriggers(builder);
             this.BuildLinnWeeks(builder);
             this.BuildBomDetailPhantomView(builder);
+            this.QuerySmtShifts(builder);
             base.OnModelCreating(builder);
         }
 
@@ -539,6 +542,14 @@
             q.Property(e => e.MWPriority).HasColumnName("MW_PRIORITY");
             q.Property(e => e.CanBuildExSubAssemblies).HasColumnName("CAN_BUILD_EX_SUB_ASSEMBLIES");
             q.Property(e => e.ReportType).HasColumnName("REPORT_TYPE").HasMaxLength(5);
+        }
+
+        private void QuerySmtShifts(ModelBuilder builder)
+        {
+            var q = builder.Query<SmtShift>();
+            q.ToView("SMT_SHIFTS");
+            q.Property(e => e.Shift).HasColumnName("SHIFT");
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION");
         }
     }
 }
