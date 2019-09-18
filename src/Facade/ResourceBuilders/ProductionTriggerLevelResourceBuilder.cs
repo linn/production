@@ -1,7 +1,7 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
@@ -15,13 +15,23 @@
             return new ProductionTriggerLevelResource
                        {
                            PartNumber = productionTriggerLevel.PartNumber,
-                           Description = productionTriggerLevel.Description
+                           Description = productionTriggerLevel.Description,
+                           CitCode = productionTriggerLevel.CitCode,
+                           BomLevel = productionTriggerLevel.BomLevel,
+                           FaZoneType = productionTriggerLevel.FaZoneType,
+                           KanbanSize = productionTriggerLevel.KanbanSize,
+                           MaximumKanbans = productionTriggerLevel.MaximumKanbans,
+                           OverrideTriggerLevel = productionTriggerLevel.OverrideTriggerLevel,
+                           TriggerLevel = productionTriggerLevel.TriggerLevel,
+                           VariableTriggerLevel = productionTriggerLevel.VariableTriggerLevel,
+                           WsName = productionTriggerLevel.WsName,
+                           Links = this.BuildLinks(productionTriggerLevel).ToArray()
                        };
         }
 
         public string GetLocation(ProductionTriggerLevel productionTriggerLevel)
         {
-            throw new NotImplementedException();
+            return $"production/maintenance/production-trigger-levels/{productionTriggerLevel.PartNumber}";
         }
 
         object IResourceBuilder<ProductionTriggerLevel>.Build(ProductionTriggerLevel productionTriggerLevel) => this.Build(productionTriggerLevel);

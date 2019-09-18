@@ -15,14 +15,14 @@
 
     using NUnit.Framework;
 
-    public class WhenSearching : ContextBase
+    public class WhenGettingAll : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
             var ptl1 = new ProductionTriggerLevel { PartNumber = "pcas1", Description = "d1" };
             var ptl2 = new ProductionTriggerLevel { PartNumber = "pcas2", Description = "d2" };
-            this.ProductionTriggerLevelService.Search("pcas")
+            this.ProductionTriggerLevelService.GetAll()
                 .Returns(new SuccessResult<IEnumerable<ProductionTriggerLevel>>(new List<ProductionTriggerLevel> { ptl1, ptl2 }));
 
             this.Response = this.Browser.Get(
@@ -30,7 +30,6 @@
                 with =>
                     {
                         with.Header("Accept", "application/json");
-                        with.Query("searchTerm", "pcas");
                     }).Result;
         }
 
@@ -43,7 +42,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ProductionTriggerLevelService.Received().Search("pcas");
+            this.ProductionTriggerLevelService.Received().GetAll();
         }
 
         [Test]
