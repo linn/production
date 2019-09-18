@@ -36,6 +36,7 @@ import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
 import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
 import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
+import AssemblyFails from '../containers/assemblyFails/AssemblyFails';
 import CreateAssemblyFail from '../containers/assemblyFails/CreateAssemblyFail';
 import WhoBuiltWhatReportOptions from '../containers/reports/WhoBuiltWhatReportOptions';
 import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
@@ -223,6 +224,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/quality/assembly-fails/:id"
                                             component={AssemblyFail}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/quality/assembly-fails"
+                                            component={AssemblyFails}
                                         />
                                         <Route
                                             exact

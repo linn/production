@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { initialiseOnMount, getItemErrorMessage } from '@linn-it/linn-form-components-library';
+import { initialiseOnMount, getItemError } from '@linn-it/linn-form-components-library';
 import AssemblyFail from '../../components/assemblyFails/AssemblyFail';
 import assemblyFailActions from '../../actions/assemblyFailActions';
 import assemblyFailSelectors from '../../selectors/assemblyFailSelectors';
@@ -26,7 +26,7 @@ const mapStateToProps = (state, { match }) => ({
     editStatus: assemblyFailSelectors.getEditStatus(state),
     loading: assemblyFailSelectors.getLoading(state),
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
-    assemblyFailError: getItemErrorMessage(state, itemTypes.assemblyFail.item),
+    assemblyFailError: getItemError(state, itemTypes.assemblyFail.item),
     profile: getProfile(state),
     worksOrders: worksOrdersSelectors.getItems(state),
     worksOrdersLoading: worksOrdersSelectors.getLoading(state),

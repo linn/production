@@ -82,6 +82,12 @@ export const assemblyFail = new ItemType(
     '/production/quality/assembly-fails'
 );
 
+export const assemblyFails = new ItemType(
+    'assemblyFails',
+    'ASSEMBLY_FAILS',
+    '/production/quality/assembly-fails'
+);
+
 export const worksOrders = new ItemType(
     'worksOrders',
     'WORKS_ORDERS',

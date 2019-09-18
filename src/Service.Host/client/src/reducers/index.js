@@ -5,6 +5,7 @@
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import assemblyFail from './assemblyFails/assemblyFail';
+import assemblyFails from './assemblyFails/assemblyFails';
 import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
@@ -40,6 +41,7 @@ const errors = fetchErrorReducer;
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
+    assemblyFails,
     assemblyFailFaultCodes,
     assemblyFailsWaitingListReport,
     ateFaultCode,

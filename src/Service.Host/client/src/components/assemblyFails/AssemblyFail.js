@@ -43,12 +43,7 @@ function AssemblyFail({
     itemId,
     history
 }) {
-    // render constants
-    const creating = () => editStatus === 'create';
-    const viewing = () => editStatus === 'view';
-    const editing = () => editStatus === 'edit';
-
-    // state
+    // hooks
     const [searchTerm, setSearchTerm] = useState(null);
     const [assemblyFail, setAssemblyFail] = useState({
         numberOfFails: 1,
@@ -58,42 +53,18 @@ function AssemblyFail({
         caDate: null,
         boardPartNumber: ''
     });
-
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
-
     useSearch(fetchItems, searchTerm, null, 'searchTerm');
 
+    // render constants
+    const creating = () => editStatus === 'create';
+    const viewing = () => editStatus === 'view';
+    const editing = () => editStatus === 'edit';
+    const aoiEscapeValues = ['', 'Y', 'N'];
     const inputInvalid = () => !assemblyFail.worksOrderNumber;
     const completed = () => !!item?.dateTimeComplete;
 
-    const handleSaveClick = () => {
-        if (editing()) {
-            updateItem(itemId, assemblyFail);
-            setEditStatus('view');
-        } else if (creating()) {
-            addItem(assemblyFail);
-            setEditStatus('view');
-        }
-    };
-
-    const handleCancelClick = () => {
-        if (creating()) {
-            setAssemblyFail({
-                enteredBy: profile.employee.replace('/employees/', ''),
-                enteredByName: profile.name
-            });
-        } else {
-            setAssemblyFail(item);
-        }
-        setEditStatus('view');
-        setSearchTerm('');
-    };
-
-    const handleBackClick = () => {
-        history.push('/production/quality/ate/fault-codes/');
-    };
-
-    //  effects
+    // initialisation
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevAssemblyFail) {
             setAssemblyFail(item);
@@ -101,11 +72,12 @@ function AssemblyFail({
         }
     }, [item, prevAssemblyFail, editStatus]);
 
+    // effects that populate fields based on criteria
     useEffect(() => {
         if (editStatus === 'create' && profile) {
             setAssemblyFail(a => ({
                 ...a,
-                enteredBy: profile.employee.replace('/employees/', ''),
+                enteredBy: profile.employee.replace('/employees/', ''), // the current user
                 enteredByName: profile.name
             }));
         }
@@ -127,7 +99,8 @@ function AssemblyFail({
         if (assemblyFail.boardPartNumber) {
             setAssemblyFail(a => ({
                 ...a,
-                boardDescription: boardParts.find(p => p.partNumber === a.boardPartNumber)?.description
+                boardDescription: boardParts.find(p => p.partNumber === a.boardPartNumber)
+                    ?.description
             }));
         }
     }, [assemblyFail.boardPartNumber, boardParts]);
@@ -211,7 +184,7 @@ function AssemblyFail({
         }
     }, [worksOrders, worksOrdersLoading, editStatus]);
 
-    // form field change handler
+    // event handlers
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
@@ -219,12 +192,36 @@ function AssemblyFail({
         setAssemblyFail({ ...assemblyFail, [propertyName]: newValue });
     };
 
-    // works orders search field change hanlder
     const handleSearchTermChange = (...args) => {
         setSearchTerm(args[1]);
     };
 
-    const aoiEscapeValues = ['', 'Y', 'N'];
+    const handleSaveClick = () => {
+        if (editing()) {
+            updateItem(itemId, assemblyFail);
+            setEditStatus('view');
+        } else if (creating()) {
+            addItem(assemblyFail);
+            setEditStatus('view');
+        }
+    };
+
+    const handleCancelClick = () => {
+        if (creating()) {
+            setAssemblyFail({
+                enteredBy: profile.employee.replace('/employees/', ''),
+                enteredByName: profile.name
+            });
+        } else {
+            setAssemblyFail(item);
+        }
+        setEditStatus('view');
+        setSearchTerm('');
+    };
+
+    const handleBackClick = () => {
+        history.push('/production/quality/assembly-fails');
+    };
 
     return (
         <Page showRequestErrors>
@@ -238,7 +235,7 @@ function AssemblyFail({
                 </Grid>
                 {assemblyFailError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={assemblyFailError} />
+                        <ErrorCard errorMessage={assemblyFailError.statusText} />
                     </Grid>
                 )}
                 {loading ? (
@@ -246,7 +243,7 @@ function AssemblyFail({
                         <Loading />
                     </Grid>
                 ) : (
-                    !assemblyFailError && (
+                    !(assemblyFailError?.status === 404) && ( // don't render the form if assemblyFail not found
                         <Fragment>
                             <SnackbarMessage
                                 visible={snackbarVisible}
@@ -288,27 +285,27 @@ function AssemblyFail({
                             ) : (
                                 <Fragment />
                             )}
-                            <Grid item xs={3}>
-                                <InputField
-                                    fullWidth
-                                    disabled
-                                    value={assemblyFail.enteredByName}
-                                    label="Entered By"
-                                    maxLength={10}
-                                    onChange={handleFieldChange}
-                                    propertyName="enteredByName"
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <DateTimePicker
-                                    value={assemblyFail.dateTimeFound}
-                                    label="Found"
-                                    disabled
-                                />
-                            </Grid>
-                            {<Grid item xs={creating() ? 4 : 2} />}
                             {assemblyFail.worksOrderNumber || !creating() ? (
                                 <Fragment>
+                                    <Grid item xs={3}>
+                                        <InputField
+                                            fullWidth
+                                            disabled
+                                            value={assemblyFail.enteredByName}
+                                            label="Entered By"
+                                            maxLength={10}
+                                            onChange={handleFieldChange}
+                                            propertyName="enteredByName"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <DateTimePicker
+                                            value={assemblyFail.dateTimeFound}
+                                            label="Found"
+                                            disabled
+                                        />
+                                    </Grid>
+                                    {<Grid item xs={creating() ? 4 : 2} />}
                                     <Grid item xs={2}>
                                         <InputField
                                             disabled
@@ -663,7 +660,6 @@ function AssemblyFail({
                                             propertyName="correctiveAction"
                                         />
                                     </Grid>
-                                   
                                     <Grid item xs={3}>
                                         <DatePicker
                                             value={assemblyFail.caDate}

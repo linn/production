@@ -431,6 +431,7 @@
             e.HasKey(c => c.FaultCode);
             e.Property(c => c.FaultCode).HasColumnName("FAULT_CODE");
             e.Property(c => c.Description).HasColumnName("DESCRIPTION");
+            e.Property(c => c.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void BuildEmployees(ModelBuilder builder)
@@ -440,6 +441,7 @@
             q.ToTable("AUTH_USER_NAME_VIEW");
             q.Property(e => e.Id).HasColumnName("USER_NUMBER");
             q.Property(e => e.FullName).HasColumnName("USER_NAME");
+            q.Property(e => e.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void QueryPtlMaster(ModelBuilder builder)

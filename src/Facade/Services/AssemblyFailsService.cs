@@ -126,7 +126,7 @@
 
         protected override Expression<Func<AssemblyFail, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return w => w.Id.ToString().Contains(searchTerm);
         }
     }
 }

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getItemErrorMessage, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import AssemblyFail from '../../components/assemblyFails/AssemblyFail';
 import assemblyFailActions from '../../actions/assemblyFailActions';
 import assemblyFailSelectors from '../../selectors/assemblyFailSelectors';
@@ -23,7 +23,7 @@ import smtShiftsActions from '../../actions/smtShiftsActions';
 const mapStateToProps = state => ({
     item: {},
     editStatus: 'create',
-    assemblyFailError: getItemErrorMessage(state, itemTypes.assemblyFail.item),
+    assemblyFailError: getItemError(state, itemTypes.assemblyFail.item),
     loading: assemblyFailSelectors.getLoading(state),
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
     profile: getProfile(state),
