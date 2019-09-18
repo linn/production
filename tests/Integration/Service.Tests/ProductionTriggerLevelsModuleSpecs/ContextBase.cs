@@ -34,6 +34,7 @@
                     with.Dependency<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>(
                         new ProductionTriggerLevelsResourceBuilder());
                     with.Module<ProductionTriggerLevelsModule>();
+                    with.ResponseProcessor<ProductionTriggerLevelResponseProcessor>();
                     with.ResponseProcessor<ProductionTriggerLevelsResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
