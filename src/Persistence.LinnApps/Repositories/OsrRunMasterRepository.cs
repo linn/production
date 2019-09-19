@@ -15,5 +15,10 @@
         {
             return this.serviceDbContext.OsrRunMaster;
         }
+
+        public void UpdateRecord(OsrRunMaster newValues)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

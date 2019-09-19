@@ -1,22 +1,24 @@
 ﻿namespace Linn.Production.Persistence.LinnApps.Repositories
 {
+    using System.Linq;
+
     using Linn.Production.Domain.LinnApps.Triggers;
 
-    public class PtlMasterRepository : IMasterRepository<PtlMaster>
+    public class PtlSettingsRepository : IMasterRepository<PtlSettings>
     {
         private readonly ServiceDbContext serviceDbContext;
 
-        public PtlMasterRepository(ServiceDbContext serviceDbContext)
+        public PtlSettingsRepository(ServiceDbContext serviceDbContext)
         {
             this.serviceDbContext = serviceDbContext;
         }
 
-        public PtlMaster GetMasterRecord()
+        public PtlSettings GetMasterRecord()
         {
-            return this.serviceDbContext.PtlMaster;
+            return this.serviceDbContext.PtlSettings.ToList().FirstOrDefault();
         }
 
-        public void UpdateRecord(PtlMaster newValues)
+        public void UpdateRecord(PtlSettings newValues)
         {
             throw new System.NotImplementedException();
         }
