@@ -142,6 +142,7 @@
             builder.Query<PcasRevision>().Property(r => r.Cref).HasColumnName("CREF");
             builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
             builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
+            builder.Query<PcasRevision>().Property(r => r.BoardCode).HasColumnName("BOARD_CODE");
         }
 
         private void BuildWorkOrders(ModelBuilder builder)
