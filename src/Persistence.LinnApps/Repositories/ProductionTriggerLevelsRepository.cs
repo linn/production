@@ -24,7 +24,7 @@
 
         public IQueryable<ProductionTriggerLevel> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.ProductionTriggerLevels;
         }
 
         public void Add(ProductionTriggerLevel entity)

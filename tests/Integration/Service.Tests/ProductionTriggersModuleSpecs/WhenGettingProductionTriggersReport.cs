@@ -17,7 +17,7 @@
         [SetUp]
         public void SetUp()
         {
-            var report = new ProductionTriggersReport()
+            var report = new ProductionTriggersReport
             {
                 Cit = new Cit { Code = "A", Name = "Army of the Undead" },
                 PtlMaster = new PtlMaster { LastFullRunJobref = "CJCAIH", LastFullRunDateTime = new DateTime(2019, 1, 1) },

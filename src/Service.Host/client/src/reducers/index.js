@@ -30,6 +30,8 @@ import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 import worksOrderDetails from './worksOrders/worksOrderDetails';
+import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
+import parts from './parts';
 
 const rootReducer = combineReducers({
     oidc,
@@ -53,10 +55,12 @@ const rootReducer = combineReducers({
     manufacturingResource,
     manufacturingRoute,
     outstandingWorksOrdersReport,
+    parts,
     pcasRevisions,
     productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,
+    smtOutstandingWorkOrderParts,
     whoBuiltWhat,
     whoBuiltWhatDetails,
     worksOrder,

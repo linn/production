@@ -17,7 +17,15 @@
         {
             this.productionTriggerLevelsService = productionTriggerLevelsService;
 
+            this.Get("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.GetProductionTriggerLevel(parameters.partNumber));
             this.Get("production/maintenance/production-trigger-levels", _ => this.GetProductionTriggerLevels());
+        }
+
+        private object GetProductionTriggerLevel(string partNumber)
+        {
+            return this.Negotiate.WithModel(this.productionTriggerLevelsService.GetById(partNumber))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetProductionTriggerLevels()

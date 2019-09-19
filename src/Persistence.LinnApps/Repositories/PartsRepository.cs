@@ -23,7 +23,7 @@
 
         public IQueryable<Part> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Parts;
         }
 
         public void Add(Part entity)

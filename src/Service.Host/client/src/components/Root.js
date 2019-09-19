@@ -47,6 +47,8 @@ import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
 import WorksOrder from '../containers/worksOrders/WorksOrder';
 import CreateWorksOrder from '../containers/worksOrders/CreateWorksOrder';
 import NotFound from './NotFound';
+import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
+import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 
 const Root = ({ store }) => (
     <div>
@@ -272,6 +274,17 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/assembly-fails-details"
                                             component={AssemblyFailsDetails}
+                                        />
+
+                                        <Route
+                                            exact
+                                            path="/production/reports/smt/outstanding-works-order-parts/report"
+                                            component={SmtOutstandingWOPartsReport}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/reports/smt/outstanding-works-order-parts"
+                                            component={SmtOutstandingWOPartsReportOptions}
                                         />
 
                                         <Route component={NotFound} />
