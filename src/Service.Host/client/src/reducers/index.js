@@ -19,6 +19,7 @@ import manufacturingResource from './manufacturingResources/manufacturingResourc
 import boardFailTypes from './boardFailTypes/boardFailTypes';
 import boardFailType from './boardFailTypes/boardFailType';
 import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
+import worksOrder from './worksOrders/worksOrder';
 import worksOrders from './worksOrders/worksOrders';
 import productionTriggerLevels from './productionTriggerLevels';
 import pcasRevisions from './pcasRevisions';
@@ -28,36 +29,39 @@ import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
+import worksOrderDetails from './worksOrders/worksOrderDetails';
 
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
+    assemblyFailsDetails,
     assemblyFailFaultCodes,
+    assemblyFailsMeasures,
     assemblyFailsWaitingListReport,
     ateFaultCode,
     ateFaultCodes,
-    buildsDetailReport,
-    buildsSummaryReport,
     boardFailType,
     boardFailTypes,
+    buildsDetailReport,
+    buildsSummaryReport,
     cits,
     departments,
+    employees,
     manufacturingSkills,
     manufacturingSkill,
     manufacturingResources,
     manufacturingResource,
-    worksOrders,
-    productionTriggerLevels,
-    pcasRevisions,
-    employees,
+    manufacturingRoute,
     outstandingWorksOrdersReport,
+    pcasRevisions,
+    productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,
     whoBuiltWhat,
     whoBuiltWhatDetails,
-    manufacturingRoute,
-    assemblyFailsMeasures,
-    assemblyFailsDetails,
+    worksOrder,
+    worksOrders,
+    worksOrderDetails,
     ...sharedLibraryReducers
 });
 

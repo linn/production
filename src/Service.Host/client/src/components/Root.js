@@ -44,6 +44,9 @@ import ProductionTriggersReport from '../containers/reports/triggers/ProductionT
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
+import WorksOrder from '../containers/worksOrders/WorksOrder';
+import CreateWorksOrder from '../containers/worksOrders/CreateWorksOrder';
+import NotFound from './NotFound';
 
 const Root = ({ store }) => (
     <div>
@@ -102,11 +105,6 @@ const Root = ({ store }) => (
 
                                         <Route
                                             exact
-                                            path="/production/works-orders"
-                                            component={App}
-                                        />
-                                        <Route
-                                            exact
                                             path="/production/works-orders/outstanding-works-orders-report"
                                             component={OutstandingWorksOrdersReportOptions}
                                         />
@@ -114,6 +112,24 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/works-orders/outstanding-works-orders-report/report"
                                             component={OutstandingWorksOrdersReport}
+                                        />
+
+                                        <Route
+                                            exact
+                                            path="/production/works-orders"
+                                            component={WorksOrder}
+                                        />
+
+                                        <Route
+                                            exact
+                                            path="/production/works-orders/create"
+                                            component={CreateWorksOrder}
+                                        />
+
+                                        <Route
+                                            exact
+                                            path="/production/works-orders/:id"
+                                            component={WorksOrder}
                                         />
 
                                         <Route
@@ -257,6 +273,8 @@ const Root = ({ store }) => (
                                             path="/production/reports/assembly-fails-details"
                                             component={AssemblyFailsDetails}
                                         />
+
+                                        <Route component={NotFound} />
                                     </Switch>
                                 </div>
                             </Router>

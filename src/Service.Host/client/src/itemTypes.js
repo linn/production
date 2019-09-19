@@ -82,7 +82,15 @@ export const assemblyFail = new ItemType(
     '/production/quality/assembly-fails'
 );
 
+export const worksOrder = new ItemType('worksOrder', 'WORKS_ORDER', '/production/works-orders');
+
 export const worksOrders = new ItemType('worksOrders', 'WORKS_ORDERS', '/production/works-orders');
+
+export const worksOrderDetails = new ItemType(
+    'worksOrderDetails',
+    'WORKS_ORDER_DETAILS',
+    '/production/works-orders/details'
+);
 
 export const productionTriggerLevels = new ItemType(
     'productionTriggerLevels',
