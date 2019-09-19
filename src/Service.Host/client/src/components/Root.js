@@ -44,6 +44,7 @@ import ProductionTriggersReport from '../containers/reports/triggers/ProductionT
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
+import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
 
 const Root = ({ store }) => (
     <div>
@@ -256,6 +257,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/resources/manufacturing-routes/:id"
                                             component={ManufacturingRoute}
+                                        />
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-routes"
+                                            component={ManufacturingRoutes}
                                         />
                                     </Switch>
                                 </div>

@@ -102,6 +102,11 @@ export const manufacturingRouteActionTypes = makeActionTypes(
     itemTypes.manufacturingRoute.actionType
 );
 
+export const manufacturingRoutesActionTypes = makeActionTypes(
+    itemTypes.manufacturingRoutes.actionType,
+    false
+);
+
 export const assemblyFailsMeasuresActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsMeasures.actionType
 );

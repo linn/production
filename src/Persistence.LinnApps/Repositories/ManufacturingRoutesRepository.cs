@@ -44,7 +44,7 @@
 
         public IQueryable<ManufacturingRoute> FilterBy(Expression<Func<ManufacturingRoute, bool>> expression)
         {
-            throw new NotImplementedException();
+          return this.serviceDbContext.ManufacturingRoutes.Where(expression);
         }
     }
 }

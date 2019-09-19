@@ -9,9 +9,11 @@ import {
     ErrorCard,
     SnackbarMessage
 } from '@linn-it/linn-form-components-library';
+import { Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 import Page from '../../containers/Page';
+import Operation from './Operation';
 
-function ManufacturingSkill({
+function ManufacturingRoute({
     editStatus,
     errorMessage,
     history,
@@ -24,50 +26,50 @@ function ManufacturingSkill({
     setEditStatus,
     setSnackbarVisible
 }) {
-    const [manufacturingSkill, setManufacturingSkill] = useState({});
-    const [prevManufacturingSkill, setPrevManufacturingSkill] = useState({});
+    const [manufacturingRoute, setManufacturingRoute] = useState({});
+    const [prevManufacturingRoute, setPrevManufacturingRoute] = useState({});
 
     const creating = () => editStatus === 'create';
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
-        if (item !== prevManufacturingSkill) {
-            setManufacturingSkill(item);
-            setPrevManufacturingSkill(item);
+        if (item !== prevManufacturingRoute) {
+            setManufacturingRoute(item);
+            setPrevManufacturingRoute(item);
         }
-    }, [item, prevManufacturingSkill]);
+    }, [item, prevManufacturingRoute]);
 
-    const skillCodeInvalid = () => !manufacturingSkill.skillCode;
-    const descriptionInvalid = () => !manufacturingSkill.description;
-    const hourlyRateInvalid = () => !manufacturingSkill.hourlyRate;
+    const RouteCodeInvalid = () => !manufacturingRoute.RouteCode;
+    const descriptionInvalid = () => !manufacturingRoute.description;
+    const notesInvalid = () => !manufacturingRoute.notes;
 
-    const inputInvalid = () => skillCodeInvalid() || descriptionInvalid() || hourlyRateInvalid();
+    const inputInvalid = () => RouteCodeInvalid() || descriptionInvalid() || notesInvalid();
 
     const handleSaveClick = () => {
         if (editing()) {
-            updateItem(itemId, manufacturingSkill);
+            updateItem(itemId, manufacturingRoute);
             setEditStatus('view');
         } else if (creating()) {
-            addItem(manufacturingSkill);
+            addItem(manufacturingRoute);
             setEditStatus('view');
         }
     };
 
     const handleCancelClick = () => {
-        setManufacturingSkill(item);
+        setManufacturingRoute(item);
         setEditStatus('view');
     };
 
     const handleBackClick = () => {
-        history.push('/production/resources/manufacturing-skills/');
+        history.push('/production/resources/manufacturing-Routes/');
     };
 
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
         }
-        setManufacturingSkill({ ...manufacturingSkill, [propertyName]: newValue });
+        setManufacturingRoute({ ...manufacturingRoute, [propertyName]: newValue });
     };
 
     return (
@@ -75,9 +77,9 @@ function ManufacturingSkill({
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     {creating() ? (
-                        <Title text="Create Manufacturing Skill" />
+                        <Title text="Create Manufacturing Route" />
                     ) : (
-                        <Title text="Manufacturing Skill" />
+                        <Title text="Manufacturing Route" />
                     )}
                 </Grid>
                 {errorMessage && (
@@ -85,7 +87,7 @@ function ManufacturingSkill({
                         <ErrorCard errorMessage={errorMessage} />
                     </Grid>
                 )}
-                {loading || !manufacturingSkill ? (
+                {loading || !manufacturingRoute ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
@@ -100,22 +102,22 @@ function ManufacturingSkill({
                             <InputField
                                 fullWidth
                                 disabled={!creating()}
-                                value={manufacturingSkill.skillCode}
-                                label="Skill Code"
+                                value={manufacturingRoute.routeCode}
+                                label="Route Code"
                                 maxLength={10}
                                 helperText={
                                     !creating()
                                         ? 'This field cannot be changed'
-                                        : `${skillCodeInvalid() ? 'This field is required' : ''}`
+                                        : `${RouteCodeInvalid() ? 'This field is required' : ''}`
                                 }
                                 required
                                 onChange={handleFieldChange}
-                                propertyName="skillCode"
+                                propertyName="RouteCode"
                             />
                         </Grid>
                         <Grid item xs={8}>
                             <InputField
-                                value={manufacturingSkill.description}
+                                value={manufacturingRoute.description}
                                 label="Description"
                                 maxLength={50}
                                 fullWidth
@@ -127,17 +129,59 @@ function ManufacturingSkill({
                         </Grid>
                         <Grid item xs={8}>
                             <InputField
-                                value={manufacturingSkill.hourlyRate}
-                                label="Hourly Rate"
-                                type="number"
-                                maxLength={3}
+                                value={manufacturingRoute.notes}
+                                label="Notes"
+                                type="multiline"
+                                maxLength={300}
                                 fullWidth
-                                helperText={hourlyRateInvalid() ? 'This field is required' : ''}
+                                helperText={notesInvalid() ? 'This field is required' : ''}
                                 required
                                 onChange={handleFieldChange}
-                                propertyName="hourlyRate"
+                                propertyName="notes"
                             />
                         </Grid>
+
+                        <Fragment>
+                            {console.info(manufacturingRoute.operations)}
+
+                            {manufacturingRoute.operations ? (
+                                <Table>
+                                    <TableHead key="headers">
+                                        <TableRow>
+                                            <TableCell>Operation Number</TableCell>
+                                            <TableCell>Description</TableCell>
+                                            <TableCell>CIT Code</TableCell>
+                                            <TableCell>Skill Code</TableCell>
+                                            <TableCell>Set & Clean Time mins</TableCell>
+                                            <TableCell>Resource Code</TableCell>
+                                            <TableCell>Cycle Time mins </TableCell>
+                                            <TableCell>Labour Percentage</TableCell>
+                                            <TableCell>Links</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    {manufacturingRoute.operations.map((
+                                        el //<p>{el.routeCode}</p>
+                                    ) => (
+                                        <Operation
+                                            routeCode={el.routeCode}
+                                            manufacturingId={el.manufacturingId}
+                                            operationNumber={el.operationNumber}
+                                            description={el.description}
+                                            skillCode={el.skillCode}
+                                            resourceCode={el.resourceCode}
+                                            setAndCleanTime={el.setAndCleanTime}
+                                            cycleTime={el.cycleTime}
+                                            labourPercentage={el.labourPercentage}
+                                            citCode={el.citCode}
+                                            links={el.links}
+                                            editStatus={editStatus}
+                                        />
+                                    ))}
+                                </Table>
+                            ) : (
+                                <p>test</p>
+                            )}
+                        </Fragment>
                         <Grid item xs={12}>
                             <SaveBackCancelButtons
                                 saveDisabled={viewing() || inputInvalid()}
@@ -153,11 +197,11 @@ function ManufacturingSkill({
     );
 }
 
-ManufacturingSkill.propTypes = {
+ManufacturingRoute.propTypes = {
     item: PropTypes.shape({
-        skillCode: PropTypes.string,
+        RouteCode: PropTypes.string,
         description: PropTypes.string,
-        hourlyRate: PropTypes.number
+        notes: PropTypes.number
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
@@ -171,7 +215,7 @@ ManufacturingSkill.propTypes = {
     setSnackbarVisible: PropTypes.func.isRequired
 };
 
-ManufacturingSkill.defaultProps = {
+ManufacturingRoute.defaultProps = {
     item: {},
     snackbarVisible: false,
     addItem: null,
@@ -181,4 +225,4 @@ ManufacturingSkill.defaultProps = {
     itemId: null
 };
 
-export default ManufacturingSkill;
+export default ManufacturingRoute;
