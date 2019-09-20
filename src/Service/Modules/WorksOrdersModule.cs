@@ -26,7 +26,7 @@
             this.Post("/production/works-orders", _ => this.AddWorksOrder());
             this.Put("/production/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
             this.Get(
-                "/production/works-orders/details/{partNumber}",
+                "/production/works-orders/get-part-details/{partNumber}",
                 parameters => this.GetWorksOrderDetails(parameters.partNumber));
 
             this.Get("/production/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());

@@ -22,13 +22,13 @@
         {
             this.partNumber = "pcas";
 
-            var worksOrderDetails = new WorksOrderDetails { PartNumber = this.partNumber };
+            var worksOrderDetails = new WorksOrderPartDetails { PartNumber = this.partNumber };
 
             this.WorksOrdersService.GetWorksOrderDetails(this.partNumber)
-                .Returns(new SuccessResult<WorksOrderDetails>(worksOrderDetails));
+                .Returns(new SuccessResult<WorksOrderPartDetails>(worksOrderDetails));
 
             this.Response = this.Browser.Get(
-                "/production/works-orders/details/pcas",
+                "/production/works-orders/get-part-details/pcas",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 
@@ -47,7 +47,7 @@
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<WorksOrderDetailsResource>();
+            var resource = this.Response.Body.DeserializeJson<WorksOrderPartsDetailsResource>();
             resource.PartNumber.Should().Be(this.partNumber);
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.WorksOrders
 {
-    public class WorksOrderDetails
+    public class WorksOrderPartDetails
     {
         public string AuditDisclaimer { get; set; }
 

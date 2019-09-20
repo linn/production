@@ -2,7 +2,7 @@
 {
     using Linn.Common.Resources;
 
-    public class WorksOrderDetailsResource : HypermediaResource
+    public class WorksOrderPartsDetailsResource : HypermediaResource
     {
         public string AuditDisclaimer { get; set; }
 

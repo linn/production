@@ -122,20 +122,20 @@
             return new SuccessResult<WorksOrder>(worksOrder);
         }
 
-        public IResult<WorksOrderDetails> GetWorksOrderDetails(string partNumber)
+        public IResult<WorksOrderPartDetails> GetWorksOrderDetails(string partNumber)
         {
-            WorksOrderDetails worksOrderDetails;
+            WorksOrderPartDetails worksOrderPartDetails;
 
             try
             {
-                worksOrderDetails = this.worksOrderUtilities.GetWorksOrderDetails(partNumber);
+                worksOrderPartDetails = this.worksOrderUtilities.GetWorksOrderDetails(partNumber);
             }
             catch (DomainException exception)
             {
-                return new BadRequestResult<WorksOrderDetails>(exception.Message);
+                return new BadRequestResult<WorksOrderPartDetails>(exception.Message);
             }
 
-            return new SuccessResult<WorksOrderDetails>(worksOrderDetails);
+            return new SuccessResult<WorksOrderPartDetails>(worksOrderPartDetails);
         }
 
         protected override WorksOrder CreateFromResource(WorksOrderResource resource)

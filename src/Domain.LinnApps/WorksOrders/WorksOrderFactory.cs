@@ -5,7 +5,6 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Exceptions;
-    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
     public class WorksOrderFactory : IWorksOrderFactory
@@ -16,22 +15,18 @@
 
         private readonly IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository;
 
-        private readonly IRepository<Department, string> departmentRepository;
-
-        private readonly IRepository<Cit, string> citRepository;
+        private readonly IWorksOrderUtilities worksOrderUtilities;
 
         public WorksOrderFactory(
             IWorksOrderProxyService worksOrderProxyService,
             IRepository<Part, string> partsRepository,
             IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository,
-            IRepository<Department, string> departmentRepository,
-            IRepository<Cit, string> citRepository)
+            IWorksOrderUtilities worksOrderUtilities)
         {
             this.worksOrderProxyService = worksOrderProxyService;
             this.partsRepository = partsRepository;
             this.productionTriggerLevelsRepository = productionTriggerLevelsRepository;
-            this.departmentRepository = departmentRepository;
-            this.citRepository = citRepository;
+            this.worksOrderUtilities = worksOrderUtilities;
         }
 
         public WorksOrder RaiseWorksOrder(WorksOrder worksOrderToBeRaised)
@@ -74,7 +69,7 @@
                     throw new InvalidWorksOrderException($"{worksOrderToBeRaised.WorkStationCode} is not a possible work station for {partNumber}");
                 }
 
-                this.GetDepartment(partNumber);
+                this.worksOrderUtilities.GetDepartment(partNumber);
 
                 worksOrderToBeRaised.RaisedByDepartment = raisedByDepartment;
                 
@@ -84,20 +79,6 @@
             worksOrderToBeRaised.RaisedByDepartment = "PIK ASSY";
 
             return worksOrderToBeRaised;
-        }
-
-        private void GetDepartment(string partNumber)
-        {
-            var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
-
-            var cit = this.citRepository.FindById(productionTriggerLevel.CitCode);
-
-            var department = this.departmentRepository.FindById(cit.DepartmentCode);
-
-            if (department == null)
-            {
-                throw new InvalidWorksOrderException($"Department code not found for CIT {cit.Code}");
-            }
         }
 
         private bool RebuildPart(string partNumber)

@@ -2,6 +2,8 @@
 {
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps.Exceptions;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -18,6 +20,10 @@
 
         private readonly IWorksOrderProxyService worksOrderProxyService;
 
+        private readonly IRepository<Department, string> departmentRepository;
+
+        private readonly IRepository<Cit, string> citRepository;
+
         private readonly ISernosPack sernosPack;
 
         public WorksOrderUtilities(
@@ -26,7 +32,9 @@
             IRepository<PcasRevision, string> pcasRevisionsRepository,
             IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository,
             IWorksOrderProxyService worksOrderProxyService,
-            ISernosPack sernosPack)
+            ISernosPack sernosPack,
+            IRepository<Cit, string> citRepository,
+            IRepository<Department, string> departmentRepository)
         {
             this.partsRepository = partsRepository;
             this.pcasBoardsForAuditRepository = pcasBoardsForAuditRepository;
@@ -34,6 +42,8 @@
             this.productionTriggerLevelsRepository = productionTriggerLevelsRepository;
             this.worksOrderProxyService = worksOrderProxyService;
             this.sernosPack = sernosPack;
+            this.citRepository = citRepository;
+            this.departmentRepository = departmentRepository;
         }
 
         public void IssueSerialNumber(
@@ -52,7 +62,7 @@
             }
         }
 
-        public WorksOrderDetails GetWorksOrderDetails(string partNumber)
+        public WorksOrderPartDetails GetWorksOrderDetails(string partNumber)
         {
             var part = this.partsRepository.FindById(partNumber);
 
@@ -65,13 +75,31 @@
 
             var workStationCode = this.GetWorkStationCode(partNumber);
 
-            return new WorksOrderDetails
+            this.GetDepartment(partNumber);
+
+            return new WorksOrderPartDetails
                        {
                            PartNumber = partNumber,
                            PartDescription = part.Description,
                            WorkStationCode = workStationCode,
                            AuditDisclaimer = auditDisclaimer
                        };
+        }
+
+        public Department GetDepartment(string partNumber)
+        {
+            var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
+
+            var cit = this.citRepository.FindById(productionTriggerLevel.CitCode);
+
+            var department = this.departmentRepository.FindById(cit.DepartmentCode);
+
+            if (department == null)
+            {
+                throw new InvalidWorksOrderException($"Department code not found for CIT {cit.Code}");
+            }
+
+            return department;
         }
 
         private string GetAuditDisclaimer(string partNumber)
