@@ -30,6 +30,18 @@
             this.Get("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.GetProductionTriggerLevel(parameters.partNumber));
             this.Get("production/maintenance/production-trigger-levels", _ => this.GetProductionTriggerLevels());
             this.Get("production/maintenance/production-trigger-levels-settings", _ => this.GetProductionTriggerLevelsSettings());
+            this.Put("production/maintenance/production-trigger-levels-settings", _ => this.UpdateProductionTriggerLevelsSettings());
+        }
+
+        private object UpdateProductionTriggerLevelsSettings()
+        {
+            var resource = this.Bind<PtlSettingsResource>();
+            this.RequiresAuthentication();
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            return this.Negotiate.WithModel(this.ptlSettingsFacadeService.Update(resource, privileges))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetProductionTriggerLevelsSettings()

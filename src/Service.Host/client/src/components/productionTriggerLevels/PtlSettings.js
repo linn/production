@@ -55,11 +55,12 @@ function PtlSettings({
         history.push('/production/maintenance');
     };
 
-    const handleFieldChange = (propertyName, newValue) => {
+    const handleNumberFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
         }
-        setPtlSettings({ ...ptlSettings, [propertyName]: newValue });
+
+        setPtlSettings({ ...ptlSettings, [propertyName]: Number(newValue) });
     };
 
     return (
@@ -90,7 +91,8 @@ function PtlSettings({
                                 value={ptlSettings.buildToMonthEndFromDays}
                                 label="Build To Month End From Days"
                                 required
-                                onChange={handleFieldChange}
+                                type="number"
+                                onChange={handleNumberFieldChange}
                                 propertyName="buildToMonthEndFromDays"
                             />
                         </Grid>
@@ -100,8 +102,9 @@ function PtlSettings({
                                 disabled={!editingAllowed}
                                 value={ptlSettings.finalAssemblyDaysToLookAhead}
                                 label="Final Assembly Days To Look Ahead"
+                                type="number"
                                 required
-                                onChange={handleFieldChange}
+                                onChange={handleNumberFieldChange}
                                 propertyName="finalAssemblyDaysToLookAhead"
                             />
                         </Grid>
@@ -111,8 +114,9 @@ function PtlSettings({
                                 disabled={!editingAllowed}
                                 value={ptlSettings.subAssemblyDaysToLookAhead}
                                 label="Sub-assembly Days To Look Ahead"
+                                type="number"
                                 required
-                                onChange={handleFieldChange}
+                                onChange={handleNumberFieldChange}
                                 propertyName="subAssemblyDaysToLookAhead"
                             />
                         </Grid>
