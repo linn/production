@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { ErrorCard, Typeahead } from '@linn-it/linn-form-components-library';
+import { Typeahead, CreateButton } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
@@ -8,24 +8,22 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
     const forecastItems = items.map(item => ({
         ...item,
         name: item.id,
-        description: item.description
+        description: item.reportedFault
     }));
 
     return (
         <Page>
             <Grid container spacing={3}>
-                {/* {error.statusText && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
-                    </Grid>
-                )} */}
                 <Grid item xs={12}>
+                <Fragment>
+                        <CreateButton createUrl="/production/quality/create-assembly-fail" />
+                </Fragment>
                     <Typeahead
                         items={forecastItems}
                         fetchItems={fetchItems}
                         clearSearch={clearSearch}
                         loading={loading}
-                        title="Search"
+                        title="Search For Assembly Fail"
                         history={history}
                     />
                 </Grid>
@@ -46,13 +44,11 @@ AssemblyFails.propTypes = {
     loading: PropTypes.bool,
     fetchItems: PropTypes.func.isRequired,
     clearSearch: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
     history: PropTypes.shape({}).isRequired
 };
 
 AssemblyFails.defaultProps = {
     loading: false,
-    errorMessage: ''
 };
 
 export default AssemblyFails;
