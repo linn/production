@@ -27,8 +27,10 @@
                 {
                     with.Dependency(this.ProductionTriggersFacadeService);
                     with.Dependency<IResourceBuilder<ProductionTriggersReport>>(new ProductionTriggersReportResourceBuilder());
+                    with.Dependency<IResourceBuilder<ProductionTriggerFacts>>(new ProductionTriggersFactsResourceBuilder());
                     with.Module<ProductionTriggersModule>();
                     with.ResponseProcessor<ProductionTriggersReportResponseProcessor>();
+                    with.ResponseProcessor<ProductionTriggerFactstResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

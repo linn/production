@@ -2,7 +2,7 @@
 {
     using Linn.Production.Domain.LinnApps.Triggers;
 
-    public class PtlMasterRepository : IMasterRepository<PtlMaster> 
+    public class PtlMasterRepository : IMasterRepository<PtlMaster>
     {
         private readonly ServiceDbContext serviceDbContext;
 
@@ -14,6 +14,11 @@
         public PtlMaster GetMasterRecord()
         {
             return this.serviceDbContext.PtlMaster;
+        }
+
+        public void UpdateRecord(PtlMaster newValues)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
