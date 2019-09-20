@@ -14,7 +14,7 @@ import Page from '../../containers/Page';
 
 function AteFaultCode({
     editStatus,
-    errorMessage,
+    itemError,
     history,
     itemId,
     item,
@@ -80,74 +80,81 @@ function AteFaultCode({
                         <Title text="ATE Fault Code" />
                     )}
                 </Grid>
-                {errorMessage && (
+                {itemError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 )}
-                {loading || !ateFaultCode ? (
+                {loading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
                 ) : (
-                    <Fragment>
-                        <SnackbarMessage
-                            visible={snackbarVisible}
-                            onClose={() => setSnackbarVisible(false)}
-                            message="Save Successful"
-                        />
-                        <Grid item xs={8}>
-                            <InputField
-                                fullWidth
-                                disabled={!creating()}
-                                value={ateFaultCode.faultCode}
-                                label="Sequence Name"
-                                maxLength={10}
-                                helperText={
-                                    !creating()
-                                        ? 'This field cannot be changed'
-                                        : `${faultCodeInvalid() ? 'This field is required' : ''}`
-                                }
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="faultCode"
+                    ateFaultCode &&
+                    itemError?.faultCode !== 404 && (
+                        <Fragment>
+                            <SnackbarMessage
+                                visible={snackbarVisible}
+                                onClose={() => setSnackbarVisible(false)}
+                                message="Save Successful"
                             />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={ateFaultCode.description}
-                                label="Description"
-                                maxLength={50}
-                                fullWidth
-                                helperText={descriptionInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="description"
-                            />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={
-                                    ateFaultCode.dateInvalid
-                                        ? moment(ateFaultCode.dateInvalid).format('YYYY-MM-DD')
-                                        : ''
-                                }
-                                label="Date Invalid"
-                                fullWidth
-                                onChange={handleFieldChange}
-                                propertyName="dateInvalid"
-                                type="date"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <SaveBackCancelButtons
-                                saveDisabled={viewing() || inputInvalid()}
-                                saveClick={handleSaveClick}
-                                cancelClick={handleCancelClick}
-                                backClick={handleBackClick}
-                            />
-                        </Grid>
-                    </Fragment>
+                            <Grid item xs={8}>
+                                <InputField
+                                    fullWidth
+                                    disabled={!creating()}
+                                    value={ateFaultCode.faultCode}
+                                    label="Sequence Name"
+                                    maxLength={10}
+                                    helperText={
+                                        !creating()
+                                            ? 'This field cannot be changed'
+                                            : `${
+                                                  faultCodeInvalid() ? 'This field is required' : ''
+                                              }`
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="faultCode"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={ateFaultCode.description}
+                                    label="Description"
+                                    maxLength={50}
+                                    fullWidth
+                                    helperText={
+                                        descriptionInvalid() ? 'This field is required' : ''
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="description"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={
+                                        ateFaultCode.dateInvalid
+                                            ? moment(ateFaultCode.dateInvalid).format('YYYY-MM-DD')
+                                            : ''
+                                    }
+                                    label="Date Invalid"
+                                    fullWidth
+                                    onChange={handleFieldChange}
+                                    propertyName="dateInvalid"
+                                    type="date"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <SaveBackCancelButtons
+                                    saveDisabled={viewing() || inputInvalid()}
+                                    saveClick={handleSaveClick}
+                                    cancelClick={handleCancelClick}
+                                    backClick={handleBackClick}
+                                />
+                            </Grid>
+                        </Fragment>
+                    )
                 )}
             </Grid>
         </Page>
@@ -163,7 +170,12 @@ AteFaultCode.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
+    itemError: PropTypes.shape({
+        status: PropTypes.number,
+        statusText: PropTypes.string,
+        details: PropTypes.shape({}),
+        item: PropTypes.string
+    }),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -179,7 +191,7 @@ AteFaultCode.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    errorMessage: '',
+    itemError: null,
     itemId: null
 };
 

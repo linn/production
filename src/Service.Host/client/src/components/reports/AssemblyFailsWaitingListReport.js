@@ -1,18 +1,13 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { ReportTable, Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
+import { ReportTable, Loading, Title } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function AssemblyFailsWaitingListReport({ reportData, loading, errorMessage }) {
+function AssemblyFailsWaitingListReport({ reportData, loading }) {
     return (
         <Page>
             <Grid container spacing={3} justify="center">
-                {errorMessage && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
-                    </Grid>
-                )}
                 <Grid item xs={8}>
                     <Title text="Assembly Fails Waiting List" />
                 </Grid>
@@ -35,15 +30,13 @@ function AssemblyFailsWaitingListReport({ reportData, loading, errorMessage }) {
 AssemblyFailsWaitingListReport.propTypes = {
     reportData: PropTypes.shape({}),
     config: PropTypes.shape({}),
-    loading: PropTypes.bool,
-    errorMessage: PropTypes.string
+    loading: PropTypes.bool
 };
 
 AssemblyFailsWaitingListReport.defaultProps = {
     reportData: null,
     config: {},
-    loading: false,
-    errorMessage: ''
+    loading: false
 };
 
 export default AssemblyFailsWaitingListReport;

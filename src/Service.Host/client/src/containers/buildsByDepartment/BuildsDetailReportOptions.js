@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchErrorSelectors, ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import actions from '../../actions/departmentActions';
 import initialiseOnMount from '../initialiseOnMount';
@@ -16,7 +16,6 @@ const getOptions = ownProps => {
 const mapStateToProps = (state, ownProps) => ({
     departments: departmentsSelectors.getItems(state),
     departmentsLoading: departmentsSelectors.getLoading(state),
-    errorMessage: fetchErrorSelectors(state),
     prevOptions: reportSelectors.getReportOptions(state),
     options: getOptions(ownProps)
 });

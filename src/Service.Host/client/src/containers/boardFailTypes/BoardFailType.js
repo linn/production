@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import {
-    getItemErrorMessage,
+    getItemError,
     getRequestErrors,
     initialiseOnMount
 } from '@linn-it/linn-form-components-library';
@@ -15,7 +15,7 @@ const mapStateToProps = (state, { match }) => ({
     editStatus: boardFailTypeSelectors.getEditStatus(state),
     loading: boardFailTypeSelectors.getLoading(state),
     snackbarVisible: boardFailTypeSelectors.getSnackbarVisible(state),
-    itemErrorMessage: getItemErrorMessage(state, itemTypes.boardFailType.item),
+    itemError: getItemError(state, itemTypes.boardFailType.item),
     requestErrors: getRequestErrors(state)
 });
 

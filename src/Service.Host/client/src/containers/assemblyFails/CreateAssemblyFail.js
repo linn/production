@@ -23,7 +23,7 @@ import smtShiftsActions from '../../actions/smtShiftsActions';
 const mapStateToProps = state => ({
     item: {},
     editStatus: 'create',
-    assemblyFailError: getItemError(state, itemTypes.assemblyFail.item),
+    itemError: getItemError(state, itemTypes.assemblyFail.item),
     loading: assemblyFailSelectors.getLoading(state),
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
     profile: getProfile(state),

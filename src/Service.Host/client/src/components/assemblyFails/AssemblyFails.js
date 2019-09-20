@@ -15,9 +15,9 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                <Fragment>
+                    <Fragment>
                         <CreateButton createUrl="/production/quality/create-assembly-fail" />
-                </Fragment>
+                    </Fragment>
                     <Typeahead
                         items={forecastItems}
                         fetchItems={fetchItems}
@@ -48,7 +48,7 @@ AssemblyFails.propTypes = {
 };
 
 AssemblyFails.defaultProps = {
-    loading: false,
+    loading: false
 };
 
 export default AssemblyFails;

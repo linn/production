@@ -13,7 +13,7 @@ import Page from '../../containers/Page';
 
 function BoardFailType({
     editStatus,
-    itemErrorMessage,
+    itemError,
     history,
     itemId,
     item,
@@ -87,9 +87,9 @@ function BoardFailType({
                         <Title text="Board Fail Type" />
                     )}
                 </Grid>
-                {itemErrorMessage ? (
+                {itemError ? (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemErrorMessage} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 ) : (
                     boardFailType && (
@@ -160,7 +160,7 @@ BoardFailType.propTypes = {
     addItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
-    itemErrorMessage: PropTypes.string,
+    itemError: PropTypes.shape({}),
     setSnackbarVisible: PropTypes.func.isRequired
 };
 
@@ -171,7 +171,7 @@ BoardFailType.defaultProps = {
     updateItem: null,
     loading: null,
     itemId: null,
-    itemErrorMessage: ''
+    itemError: null
 };
 
 export default BoardFailType;

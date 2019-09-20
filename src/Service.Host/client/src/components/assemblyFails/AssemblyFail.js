@@ -19,7 +19,7 @@ import Page from '../../containers/Page';
 
 function AssemblyFail({
     editStatus,
-    assemblyFailError,
+    itemErrors,
     item,
     loading,
     snackbarVisible,
@@ -233,17 +233,20 @@ function AssemblyFail({
                         <Title text="Assembly Fail Details" />
                     )}
                 </Grid>
-                {assemblyFailError && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={assemblyFailError.statusText} />
-                    </Grid>
-                )}
+                {itemErrors &&
+                    !loading &&
+                    itemErrors?.map(itemError => (
+                        <Grid item xs={12}>
+                            <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
+                        </Grid>
+                    ))}
                 {loading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
                 ) : (
-                    !(assemblyFailError?.status === 404) && ( // don't render the form if assemblyFail not found
+                    assemblyFail.id !== '' &&
+                    !itemErrors?.some(e => e.status === 404) && ( // don't render this form if things 404
                         <Fragment>
                             <SnackbarMessage
                                 visible={snackbarVisible}
@@ -618,7 +621,7 @@ function AssemblyFail({
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={1}>
+                                    <Grid item xs={2}>
                                         <InputField
                                             fullWidth
                                             disabled={completed()}
@@ -628,7 +631,7 @@ function AssemblyFail({
                                             propertyName="outSlot"
                                         />
                                     </Grid>
-                                    <Grid item xs={5} />
+                                    <Grid item xs={4} />
                                     <Grid item xs={2}>
                                         <Dropdown
                                             label="Returned By"
@@ -733,7 +736,13 @@ AssemblyFail.propTypes = {
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
     boardParts: PropTypes.arrayOf(PropTypes.shape({})),
-    item: PropTypes.shape({})
+    item: PropTypes.shape({}),
+    itemError: PropTypes.shape({
+        status: PropTypes.number,
+        statusText: PropTypes.string,
+        details: PropTypes.shape({}),
+        item: PropTypes.string
+    })
 };
 
 AssemblyFail.defaultProps = {
@@ -741,9 +750,8 @@ AssemblyFail.defaultProps = {
     loading: null,
     profile: { employee: '', name: '' },
     boardParts: [],
-    item: {
-        boardPartNumber: ''
-    }
+    item: null,
+    itemError: null
 };
 
 export default AssemblyFail;
