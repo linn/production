@@ -72,6 +72,8 @@
 
         public DbSet<LinnWeek> LinnWeeks { get; set; }
 
+        public DbSet<PtlSettings> PtlSettings { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -106,6 +108,7 @@
             this.QueryProductionTriggers(builder);
             this.BuildLinnWeeks(builder);
             this.BuildBomDetailPhantomView(builder);
+            this.BuildPtlSettings(builder);
             base.OnModelCreating(builder);
         }
 
@@ -123,6 +126,19 @@
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
+        }
+
+        private void BuildPtlSettings(ModelBuilder builder)
+        {
+            var q = builder.Entity<PtlSettings>().ToTable("PTL_SETTINGS");
+            q.HasKey(e => e.Key);
+            q.Property(e => e.Key).HasColumnName("PRIMARY_KEY").HasMaxLength(10);
+            q.Property(e => e.DaysToLookAhead).HasColumnName("DAYS_TO_LOOK_AHEAD");
+            q.Property(e => e.BuildToMonthEndFromDays).HasColumnName("BUILD_TO_MONTH_END_FROM_DAYS");
+            q.Property(e => e.FinalAssemblyDaysToLookAhead).HasColumnName("FA_DAYS_TO_LOOK_AHEAD");
+            q.Property(e => e.SubAssemblyDaysToLookAhead).HasColumnName("SUBASSY_DAYS_TO_LOOK_AHEAD");
+            q.Property(e => e.PriorityCutOffDays).HasColumnName("PRIORITY_CUT_OFF_DAYS");
+            q.Property(e => e.PriorityStrategy).HasColumnName("PRIORITY_STRATEGY");
         }
 
         private void BuildBomDetailPhantomView(ModelBuilder builder)
