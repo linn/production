@@ -40,6 +40,7 @@
                 {
                     with.Dependency(this.ProductionTriggerLevelService);
                     with.Dependency(this.PtlSettingsFacadeService);
+                    with.Dependency(this.AuthorisationService);
                     with.Dependency<IResourceBuilder<ProductionTriggerLevel>>(new ProductionTriggerLevelResourceBuilder());
                     with.Dependency<IResourceBuilder<ResponseModel<PtlSettings>>>(new PtlSettingsResourceBuilder(this.AuthorisationService));
                     with.Dependency<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>(

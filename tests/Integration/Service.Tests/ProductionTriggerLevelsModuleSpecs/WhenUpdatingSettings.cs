@@ -5,6 +5,7 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Resources;
 
@@ -22,6 +23,8 @@
         {
             var resource = new PtlSettingsResource { FinalAssemblyDaysToLookAhead = 5 };
             var responseModel = new ResponseModel<PtlSettings>(new PtlSettings { FinalAssemblyDaysToLookAhead = 5 }, new List<string>());
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.PtlSettingsUpdate, Arg.Any<List<string>>())
+                .Returns(true);
             this.PtlSettingsFacadeService.Update(
                     Arg.Is<PtlSettingsResource>(r => r.FinalAssemblyDaysToLookAhead == 5),
                     Arg.Any<List<string>>())

@@ -51,7 +51,7 @@
 
             if (this.authorisationService.HasPermissionFor(AuthorisedAction.StartTriggerRun, model.Privileges))
             {
-                yield return new LinkResource { Rel = "start-trigger-run", Href = this.GetLocation(model) };
+                yield return new LinkResource { Rel = "start-trigger-run", Href = $"{this.GetLocation(model)}/start-trigger-run" };
             }
         }
     }
