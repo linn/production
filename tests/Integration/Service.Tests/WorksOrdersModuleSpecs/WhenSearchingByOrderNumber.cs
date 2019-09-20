@@ -33,7 +33,7 @@
                 .Returns(new SuccessResult<IEnumerable<WorksOrder>>(new List<WorksOrder> { worksOrder1, worksOrder2 }));
 
             this.Response = this.Browser.Get(
-                "/production/maintenance/works-orders",
+                "/production/works-orders",
                 with =>
                     {
                         with.Header("Accept", "application/json");

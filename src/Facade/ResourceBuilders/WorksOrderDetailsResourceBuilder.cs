@@ -24,7 +24,7 @@
 
         public string GetLocation(WorksOrderDetails worksOrderDetails)
         {
-            return $"/production/maintenance/works-orders/details/{worksOrderDetails.PartNumber}";
+            return $"/production/works-orders/details/{worksOrderDetails.PartNumber}";
         }
 
         object IResourceBuilder<WorksOrderDetails>.Build(WorksOrderDetails worksOrderDetails) =>
