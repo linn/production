@@ -75,14 +75,16 @@
 
             var workStationCode = this.GetWorkStationCode(partNumber);
 
-            this.GetDepartment(partNumber);
+            var department = this.GetDepartment(partNumber);
 
             return new WorksOrderPartDetails
                        {
                            PartNumber = partNumber,
                            PartDescription = part.Description,
                            WorkStationCode = workStationCode,
-                           AuditDisclaimer = auditDisclaimer
+                           AuditDisclaimer = auditDisclaimer,
+                           DepartmentCode = department.DepartmentCode,
+                           DepartmentDescription = department.Description
                        };
         }
 

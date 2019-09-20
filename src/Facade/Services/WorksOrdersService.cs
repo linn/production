@@ -122,7 +122,7 @@
             return new SuccessResult<WorksOrder>(worksOrder);
         }
 
-        public IResult<WorksOrderPartDetails> GetWorksOrderDetails(string partNumber)
+        public IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber)
         {
             WorksOrderPartDetails worksOrderPartDetails;
 

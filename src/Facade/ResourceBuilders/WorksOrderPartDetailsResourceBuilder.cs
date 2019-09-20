@@ -8,16 +8,18 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
-    public class WorksOrderPartsDetailsResourceBuilder : IResourceBuilder<WorksOrderPartDetails>
+    public class WorksOrderPartDetailsResourceBuilder : IResourceBuilder<WorksOrderPartDetails>
     {
-        public WorksOrderPartsDetailsResource Build(WorksOrderPartDetails worksOrderPartDetails)
+        public WorksOrderPartDetailsResource Build(WorksOrderPartDetails worksOrderPartDetails)
         {
-            return new WorksOrderPartsDetailsResource
+            return new WorksOrderPartDetailsResource
                        {
                            PartNumber = worksOrderPartDetails.PartNumber,
                            WorkStationCode = worksOrderPartDetails.WorkStationCode,
                            AuditDisclaimer = worksOrderPartDetails.AuditDisclaimer,
                            PartDescription = worksOrderPartDetails.PartDescription,
+                           DepartmentCode = worksOrderPartDetails.DepartmentCode,
+                           DepartmentDescription = worksOrderPartDetails.DepartmentDescription,
                            Links = this.BuildLinks(worksOrderPartDetails).ToArray()
                        };
         }

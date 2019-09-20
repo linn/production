@@ -9,5 +9,9 @@
         public string PartDescription { get; set; }
 
         public string WorkStationCode { get; set; }
+
+        public string DepartmentCode { get; set; }
+
+        public string DepartmentDescription { get; set; }
     }
 }

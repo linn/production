@@ -34,7 +34,7 @@
 
             this.WorksOrderUtilities.GetWorksOrderDetails(this.partNumber).Returns(this.worksOrderPartDetails);
 
-            this.result = this.Sut.GetWorksOrderDetails(this.partNumber);
+            this.result = this.Sut.GetWorksOrderPartDetails(this.partNumber);
         }
 
         [Test]
@@ -76,7 +76,7 @@
 
             this.WorksOrderUtilities.GetWorksOrderDetails(this.partNumber).Throws(new DomainException("Exception"));
 
-            this.result = this.Sut.GetWorksOrderDetails(this.partNumber);
+            this.result = this.Sut.GetWorksOrderPartDetails(this.partNumber);
         }
 
         [Test]

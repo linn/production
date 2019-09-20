@@ -27,7 +27,7 @@
             this.Put("/production/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
             this.Get(
                 "/production/works-orders/get-part-details/{partNumber}",
-                parameters => this.GetWorksOrderDetails(parameters.partNumber));
+                parameters => this.GetWorksOrderPartDetails(parameters.partNumber));
 
             this.Get("/production/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
             this.Get("/production/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
@@ -75,9 +75,9 @@
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
-        private object GetWorksOrderDetails(string partNumber)
+        private object GetWorksOrderPartDetails(string partNumber)
         {
-            return this.Negotiate.WithModel(this.worksOrdersService.GetWorksOrderDetails(partNumber))
+            return this.Negotiate.WithModel(this.worksOrdersService.GetWorksOrderPartDetails(partNumber))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 

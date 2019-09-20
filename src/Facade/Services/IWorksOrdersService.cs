@@ -10,6 +10,6 @@
 
         IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource);
 
-        IResult<WorksOrderPartDetails> GetWorksOrderDetails(string partNumber);
+        IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber);
     }
 }

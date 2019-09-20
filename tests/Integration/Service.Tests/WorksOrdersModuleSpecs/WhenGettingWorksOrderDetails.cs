@@ -24,7 +24,7 @@
 
             var worksOrderDetails = new WorksOrderPartDetails { PartNumber = this.partNumber };
 
-            this.WorksOrdersService.GetWorksOrderDetails(this.partNumber)
+            this.WorksOrdersService.GetWorksOrderPartDetails(this.partNumber)
                 .Returns(new SuccessResult<WorksOrderPartDetails>(worksOrderDetails));
 
             this.Response = this.Browser.Get(
@@ -41,13 +41,13 @@
         [Test]
         public void ShouldCallService()
         {
-            this.WorksOrdersService.Received().GetWorksOrderDetails(this.partNumber);
+            this.WorksOrdersService.Received().GetWorksOrderPartDetails(this.partNumber);
         }
 
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<WorksOrderPartsDetailsResource>();
+            var resource = this.Response.Body.DeserializeJson<WorksOrderPartDetailsResource>();
             resource.PartNumber.Should().Be(this.partNumber);
         }
     }

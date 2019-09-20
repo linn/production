@@ -4,9 +4,9 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
-    public class WorksOrderPartsDetailsResponseProcessor : JsonResponseProcessor<WorksOrderPartDetails>
+    public class WorksOrderPartDetailsResponseProcessor : JsonResponseProcessor<WorksOrderPartDetails>
     {
-        public WorksOrderPartsDetailsResponseProcessor(IResourceBuilder<WorksOrderPartDetails> resourceBuilder)
+        public WorksOrderPartDetailsResponseProcessor(IResourceBuilder<WorksOrderPartDetails> resourceBuilder)
             : base(resourceBuilder, "works-order-parts-details", 1)
         {
         }
