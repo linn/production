@@ -15,7 +15,7 @@ export const buildsDetailReport = new ItemType(
 export const outstandingWorksOrdersReport = new ItemType(
     'outstandingWorksOrdersReport',
     'OUTSTANDING_WORKS_ORDERS',
-    '/production/maintenance/works-orders/outstanding-works-orders-report'
+    '/production/works-orders/outstanding-works-orders-report'
 );
 
 export const productionMeasuresInfoReport = new ItemType(

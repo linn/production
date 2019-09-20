@@ -32,7 +32,7 @@
                 .Returns(new CreatedResult<WorksOrder>(worksOrder));
 
             this.Response = this.Browser.Post(
-                "/production/maintenance/works-orders",
+                "/production/works-orders",
                 with =>
                     {
                         with.Header("Accept", "application/json");

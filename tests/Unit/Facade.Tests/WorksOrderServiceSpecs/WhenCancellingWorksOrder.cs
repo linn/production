@@ -1,10 +1,9 @@
 ﻿namespace Linn.Production.Facade.Tests.WorksOrderServiceSpecs
 {
-    using System;
-
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
@@ -20,15 +19,19 @@
 
         private WorksOrder worksOrder;
 
+        private int updatedBy;
+
         [SetUp]
         public void SetUp()
         {
+            this.updatedBy = 33067;
+
             this.resource = new WorksOrderResource
                                 {
                                     OrderNumber = 1234,
-                                    CancelledBy = 33067,
-                                    ReasonCancelled = "Reason"
-                                };
+                                    ReasonCancelled = "Reason",
+                                    Links = new[] { new LinkResource("updated-by", $"/employees/{this.updatedBy}") }
+            };
 
             this.worksOrder = new WorksOrder
                                   {
@@ -38,17 +41,6 @@
 
             this.WorksOrderRepository.FindById(this.resource.OrderNumber)
                 .Returns(this.worksOrder);
-
-            // this.WorksOrderFactory
-            //     .CancelWorksOrder(this.worksOrder, this.resource.CancelledBy, this.resource.ReasonCancelled)
-            //     .Returns(new WorksOrder
-            //                  {
-            //                      OrderNumber = 1234,
-            //                      PartNumber = "MAJIK",
-            //                      CancelledBy = this.resource.CancelledBy,
-            //                      ReasonCancelled = this.resource.ReasonCancelled,
-            //                      DateCancelled = new DateTime?()
-            //                  });
 
             this.result = this.Sut.UpdateWorksOrder(this.resource);
         }
@@ -60,18 +52,11 @@
         }
 
         [Test]
-        public void ShouldCallFactory()
-        {
-            // this.WorksOrderFactory.Received().CancelWorksOrder(
-            //     this.worksOrder,
-            //     this.resource.CancelledBy,
-            //     this.resource.ReasonCancelled);
-        }
-
-        [Test]
         public void ShouldReturnSuccess()
         {
             this.result.Should().BeOfType<SuccessResult<WorksOrder>>();
+            var dataResult = this.result.As<SuccessResult<WorksOrder>>().Data;
+            dataResult.CancelledBy.Should().Be(this.updatedBy);
         }
     }
 }
