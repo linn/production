@@ -9,6 +9,7 @@
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
     using Linn.Common.Proxy;
+    using Linn.Production.Domain.LinnApps.Common;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.Reports.Smt;
@@ -98,6 +99,7 @@
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
+            builder.RegisterType<AuthorisationService>().As<IAuthorisationService>();
 
             // Oracle connection
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter(

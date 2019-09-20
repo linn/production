@@ -5,11 +5,20 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Common;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Resources;
 
     public class PtlSettingsResourceBuilder : IResourceBuilder<ResponseModel<PtlSettings>>
     {
+        private readonly IAuthorisationService authorisationService;
+
+        public PtlSettingsResourceBuilder(IAuthorisationService authorisationService)
+        {
+            this.authorisationService = authorisationService;
+        }
+
         public PtlSettingsResource Build(ResponseModel<PtlSettings> model)
         {
             return new PtlSettingsResource
@@ -34,7 +43,16 @@
         private IEnumerable<LinkResource> BuildLinks(ResponseModel<PtlSettings> model)
         {
             yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
-            yield return new LinkResource { Rel = "edit", Href = this.GetLocation(model) };
+
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.PtlSettingsUpdate, model.Privileges))
+            {
+                yield return new LinkResource { Rel = "edit", Href = this.GetLocation(model) };
+            }
+
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.StartTriggerRun, model.Privileges))
+            {
+                yield return new LinkResource { Rel = "start-trigger-run", Href = this.GetLocation(model) };
+            }
         }
     }
 }
