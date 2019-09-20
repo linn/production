@@ -68,6 +68,13 @@ function App() {
                 >
                     <Typography color="primary">SMT Outstanding Works Order Parts</Typography>
                 </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/maintenance/production-trigger-levels-settings"
+                    button
+                >
+                    <Typography color="primary">Production Trigger Level Settings</Typography>
+                </ListItem>
             </List>
         </Page>
     );

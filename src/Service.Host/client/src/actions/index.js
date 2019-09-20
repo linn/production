@@ -115,3 +115,5 @@ export const smtOutstandingWorkOrderPartsActionTypes = makeReportActionTypes(
 );
 
 export const partsActionsTypes = makeActionTypes(itemTypes.parts.actionType, false);
+
+export const ptlSettingsActionTypes = makeActionTypes(itemTypes.ptlSettings.actionType);

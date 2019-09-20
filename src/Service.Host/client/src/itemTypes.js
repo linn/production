@@ -121,3 +121,9 @@ export const manufacturingRoute = new ItemType(
 );
 
 export const parts = new ItemType('parts', 'PARTS', '/production/maintenance/parts');
+
+export const ptlSettings = new ItemType(
+    'ptlSettings',
+    'PTL_SETTINGS',
+    '/production/maintenance/production-trigger-levels-settings'
+);

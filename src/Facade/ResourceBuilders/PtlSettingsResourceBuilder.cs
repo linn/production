@@ -34,6 +34,7 @@
         private IEnumerable<LinkResource> BuildLinks(ResponseModel<PtlSettings> model)
         {
             yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
+            yield return new LinkResource { Rel = "edit", Href = this.GetLocation(model) };
         }
     }
 }
