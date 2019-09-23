@@ -13,14 +13,16 @@ function AssemblyFailsWaitingListReport({ reportData, loading }) {
                 </Grid>
                 <Grid item xs={12}>
                     {loading ? <Loading /> : ''}
-                    <ReportTable
-                        reportData={reportData}
-                        showRowTitles
-                        showTotals={false}
-                        placeholderRows={10}
-                        placeholderColumns={3}
-                        showTitle={false}
-                    />
+                    {reportData && (
+                        <ReportTable
+                            reportData={reportData}
+                            showRowTitles
+                            showTotals={false}
+                            placeholderRows={10}
+                            placeholderColumns={3}
+                            showTitle={false}
+                        />
+                    )}
                 </Grid>
             </Grid>
         </Page>
