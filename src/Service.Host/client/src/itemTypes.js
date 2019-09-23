@@ -88,11 +88,7 @@ export const assemblyFails = new ItemType(
     '/production/quality/assembly-fails'
 );
 
-export const worksOrders = new ItemType(
-    'worksOrders',
-    'WORKS_ORDERS',
-    '/production/maintenance/works-orders'
-);
+export const worksOrders = new ItemType('worksOrders', 'WORKS_ORDERS', '/production/works-orders');
 
 export const productionTriggerLevels = new ItemType(
     'productionTriggerLevels',
@@ -132,4 +128,10 @@ export const smtShifts = new ItemType(
     'smtShifts',
     'SMT_SHIFTS',
     '/production/maintenance/smt-shifts'
+);
+
+export const ptlSettings = new ItemType(
+    'ptlSettings',
+    'PTL_SETTINGS',
+    '/production/maintenance/production-trigger-levels-settings'
 );

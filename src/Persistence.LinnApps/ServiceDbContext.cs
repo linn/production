@@ -110,11 +110,8 @@
             this.QueryProductionTriggers(builder);
             this.BuildLinnWeeks(builder);
             this.BuildBomDetailPhantomView(builder);
-<<<<<<< HEAD
             this.QuerySmtShifts(builder);
-=======
             this.BuildPtlSettings(builder);
->>>>>>> master
             base.OnModelCreating(builder);
         }
 

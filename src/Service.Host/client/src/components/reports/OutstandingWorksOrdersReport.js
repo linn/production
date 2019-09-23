@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function OutstandingWorksOrdersReport({ reportData, loading, config }) {
-    const href = `${config.appRoot}/production/maintenance/works-orders/outstanding-works-orders-report/export`;
+    const href = `${config.appRoot}/production/works-orders/outstanding-works-orders-report/export`;
 
     return (
         <Page>
