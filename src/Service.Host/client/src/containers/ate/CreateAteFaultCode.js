@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 
 const initialise = () => dispatch => {
     dispatch(ateFaultCodeActions.setEditStatus('create'));
-    dispatch(ateFaultCodeActions.create());
+    dispatch(ateFaultCodeActions.clearErrorsForItem());
 };
 
 const mapDispatchToProps = {
