@@ -46,6 +46,8 @@ import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
 import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
+import NotFound from './NotFound';
+import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 
 const Root = ({ store }) => (
     <div>
@@ -104,17 +106,17 @@ const Root = ({ store }) => (
 
                                         <Route
                                             exact
-                                            path="/production/maintenance/works-orders"
+                                            path="/production/works-orders"
                                             component={App}
                                         />
                                         <Route
                                             exact
-                                            path="/production/maintenance/works-orders/outstanding-works-orders-report"
+                                            path="/production/works-orders/outstanding-works-orders-report"
                                             component={OutstandingWorksOrdersReportOptions}
                                         />
                                         <Route
                                             exact
-                                            path="/production/maintenance/works-orders/outstanding-works-orders-report/report"
+                                            path="/production/works-orders/outstanding-works-orders-report/report"
                                             component={OutstandingWorksOrdersReport}
                                         />
 
@@ -259,6 +261,7 @@ const Root = ({ store }) => (
                                             path="/production/reports/assembly-fails-details"
                                             component={AssemblyFailsDetails}
                                         />
+
                                         <Route
                                             exact
                                             path="/production/reports/smt/outstanding-works-order-parts/report"
@@ -269,6 +272,14 @@ const Root = ({ store }) => (
                                             path="/production/reports/smt/outstanding-works-order-parts"
                                             component={SmtOutstandingWOPartsReportOptions}
                                         />
+                                        <Route
+                                            exact
+                                            path="/production/maintenance/production-trigger-levels-settings"
+                                            component={PtlSettings}
+                                        />
+
+                                        <Route component={NotFound} />
+
                                     </Switch>
                                 </div>
                             </Router>

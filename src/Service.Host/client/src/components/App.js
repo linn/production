@@ -44,7 +44,7 @@ function App() {
                 </ListItem>
                 <ListItem
                     component={Link}
-                    to="/production/maintenance/works-orders/outstanding-works-orders-report"
+                    to="/production/works-orders/outstanding-works-orders-report"
                     button
                 >
                     <Typography color="primary">Outstanding Works Orders Report</Typography>
@@ -67,6 +67,13 @@ function App() {
                     button
                 >
                     <Typography color="primary">SMT Outstanding Works Order Parts</Typography>
+                </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/maintenance/production-trigger-levels-settings"
+                    button
+                >
+                    <Typography color="primary">Production Trigger Level Settings</Typography>
                 </ListItem>
             </List>
         </Page>

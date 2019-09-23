@@ -30,6 +30,7 @@ import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
+import ptlSettings from './ptlSettings';
 
 const rootReducer = combineReducers({
     oidc,
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
     assemblyFailsDetails,
     smtOutstandingWorkOrderParts,
     parts,
+    ptlSettings,
     ...sharedLibraryReducers
 });
 
