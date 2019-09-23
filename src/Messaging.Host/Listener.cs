@@ -21,7 +21,7 @@
             this.receiver = scope.Resolve<IReceiver>();
             this.consumer = new DedupingMessageConsumer(new MessageConsumer(this.receiver), this.receiver);
 
-            this.logger.Info("Started pricing-listener");
+            this.logger.Info("Started listener");
 
             this.consumer.For("template.some-type")
                 .OnConsumed(m =>

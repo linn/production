@@ -3,7 +3,7 @@ set -ev
 
 # build dotnet application
 dotnet publish ./src/Service.Host/ -c release
-# dotnet publish ./src/Messaging.Host/ -c release
+dotnet publish ./src/Messaging.Host/ -c release
 
 # determine which branch this change is from
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
@@ -14,9 +14,9 @@ fi
 
 # create a docker
 docker build --no-cache -t linn/production:$TRAVIS_BUILD_NUMBER --build-arg gitBranch=$GIT_BRANCH ./src/Service.Host/
-# docker build --no-cache -t linn/production-messaging:$TRAVIS_BUILD_NUMBER --build-arg gitBranch=$GIT_BRANCH ./src/Messaging.Host/
+docker build --no-cache -t linn/production-messaging:$TRAVIS_BUILD_NUMBER --build-arg gitBranch=$GIT_BRANCH ./src/Messaging.Host/
 
 # push to dockerhub
 docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD 
 docker push linn/production:$TRAVIS_BUILD_NUMBER
-# docker push linn/production-messaging:$TRAVIS_BUILD_NUMBER
+docker push linn/production-messaging:$TRAVIS_BUILD_NUMBER

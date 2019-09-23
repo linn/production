@@ -13,10 +13,8 @@
             builder.RegisterModule<AmazonCredentialsModule>();
             builder.RegisterModule<AmazonSqsModule>();
             builder.RegisterModule<LoggingModule>();
-            //builder.RegisterModule<MessagingModule>();
-            //builder.RegisterModule<PersistenceModule>();
-            //builder.RegisterModule<ServiceModule>();
-            builder.RegisterReceiver("template.q", "template.dlx");
+            builder.RegisterModule<MessagingModule>();
+            builder.RegisterReceiver("production.q", "production.dlx");
 
             builder.RegisterType<Listener>().AsSelf();
 
