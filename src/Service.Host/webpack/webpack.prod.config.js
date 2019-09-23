@@ -1,11 +1,6 @@
 ﻿const path = require('path');
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
-function localResolve(preset) {
-    return Array.isArray(preset)
-        ? [require.resolve(preset[0]), preset[1]]
-        : require.resolve(preset);
-}
 module.exports = {
     entry: {
         app: ['babel-polyfill', './client/src/index.js'],
@@ -31,16 +26,8 @@ module.exports = {
             {
                 test: /\.js$/,
                 use: {
-                    loader: 'babel-loader',
-                    query: {
-                        presets: [
-                            ['@babel/preset-env', { modules: 'commonjs' }],
-                            '@babel/preset-react'
-                        ].map(localResolve),
-                        plugins: ['@babel/plugin-transform-runtime'].map(localResolve)
-                    }
-                },
-                exclude: /node_modules/
+                    loader: 'babel-loader'
+                }
             },
             {
                 test: /\.css$/,
@@ -80,15 +67,10 @@ module.exports = {
             }
         ]
     },
-
     resolve: {
         alias: {
             moment: path.resolve('./node_modules/moment'),
-            '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers'),
-            '@material-ui/styles': path.resolve('./node_modules/@material-ui/styles'),
-            'react-redux': path.resolve('./node_modules/react-redux'),
-            react: path.resolve('./node_modules/react'),
-            notistack: path.resolve('./node_modules/notistack')
+            '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers')
         }
         //modules: [path.resolve('node_modules'), 'node_modules'].concat(/* ... */)
     },
