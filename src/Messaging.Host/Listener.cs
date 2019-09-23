@@ -8,6 +8,7 @@
     using Linn.Common.Logging;
     using Linn.Common.Messaging.RabbitMQ;
     using Linn.Common.Messaging.RabbitMQ.Unicast;
+    using Linn.Production.Messaging.Handlers;
 
     public class Listener
     {
@@ -23,14 +24,13 @@
 
             this.logger.Info("Started listener");
 
-            this.consumer.For("template.some-type")
+            this.consumer.For("production.start-trigger-run")
                 .OnConsumed(m =>
                     {
                         using (var handlerScope = scope.BeginLifetimeScope("messageHandler"))
                         {
-                            //var handler = handlerScope.Resolve<DiscountCacheHandler>();
-                            //return handler.Execute(m);
-                            return true;
+                            var handler = handlerScope.Resolve<StartTriggerRunHandler>();
+                            return handler.Execute(m);
                         }
                     })
                 .OnRejected(this.LogRejection);

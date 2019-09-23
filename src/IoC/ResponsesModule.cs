@@ -8,8 +8,10 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
+    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -79,6 +81,7 @@
             builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<Part>>();
             builder.RegisterType<PartsResourceBuilder>().As<IResourceBuilder<IEnumerable<Part>>>();
             builder.RegisterType<PtlSettingsResourceBuilder>().As<IResourceBuilder<ResponseModel<PtlSettings>>>();
+            builder.RegisterType<ErrorResourceBuilder>().As<IResourceBuilder<Error>>();
         }
     }
 }
