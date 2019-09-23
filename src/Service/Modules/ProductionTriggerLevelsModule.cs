@@ -4,6 +4,7 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Common;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.Common;
     using Linn.Production.Resources;
@@ -20,16 +21,35 @@
 
         private readonly ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService;
 
+        private readonly IAuthorisationService authorisationService;
+
         public ProductionTriggerLevelsModule(
             IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource> productionTriggerLevelsService,
-            ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService)
+            ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService,
+            IAuthorisationService authorisationService)
         {
             this.productionTriggerLevelsService = productionTriggerLevelsService;
             this.ptlSettingsFacadeService = ptlSettingsFacadeService;
+            this.authorisationService = authorisationService;
 
             this.Get("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.GetProductionTriggerLevel(parameters.partNumber));
             this.Get("production/maintenance/production-trigger-levels", _ => this.GetProductionTriggerLevels());
             this.Get("production/maintenance/production-trigger-levels-settings", _ => this.GetProductionTriggerLevelsSettings());
+            this.Put("production/maintenance/production-trigger-levels-settings", _ => this.UpdateProductionTriggerLevelsSettings());
+        }
+
+        private object UpdateProductionTriggerLevelsSettings()
+        {
+            var resource = this.Bind<PtlSettingsResource>();
+            this.RequiresAuthentication();
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.PtlSettingsUpdate, privileges)
+                                 ? this.ptlSettingsFacadeService.Update(resource, privileges)
+                                 : new UnauthorisedResult<ResponseModel<PtlSettings>>("No permissions found for updating ptl settings");
+
+            return this.Negotiate.WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetProductionTriggerLevelsSettings()

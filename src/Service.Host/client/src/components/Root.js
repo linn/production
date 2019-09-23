@@ -47,6 +47,7 @@ import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
 import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 import NotFound from './NotFound';
+import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 
 const Root = ({ store }) => (
     <div>
@@ -271,8 +272,14 @@ const Root = ({ store }) => (
                                             path="/production/reports/smt/outstanding-works-order-parts"
                                             component={SmtOutstandingWOPartsReportOptions}
                                         />
+                                        <Route
+                                            exact
+                                            path="/production/maintenance/production-trigger-levels-settings"
+                                            component={PtlSettings}
+                                        />
 
                                         <Route component={NotFound} />
+
                                     </Switch>
                                 </div>
                             </Router>
