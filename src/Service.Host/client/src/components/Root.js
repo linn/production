@@ -106,7 +106,6 @@ const Root = ({ store }) => (
 
                                         <Route
                                             exact
-
                                             path="/production/works-orders"
                                             component={App}
                                         />
@@ -117,7 +116,6 @@ const Root = ({ store }) => (
                                         />
                                         <Route
                                             exact
-
                                             path="/production/works-orders/outstanding-works-orders-report/report"
                                             component={OutstandingWorksOrdersReport}
                                         />
