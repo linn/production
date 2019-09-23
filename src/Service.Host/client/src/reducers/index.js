@@ -1,6 +1,7 @@
 ﻿import {
     reducers as sharedLibraryReducers, // todo combine
-    fetchErrorReducer
+    fetchErrorReducer,
+    ItemType
 } from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
@@ -35,8 +36,9 @@ import assemblyFailsDetails from './assemblyFailsDetails';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
 import smtShifts from './smtShifts';
+import * as itemTypes from '../itemTypes';
 
-const errors = fetchErrorReducer;
+const errors = fetchErrorReducer(itemTypes);
 
 const rootReducer = combineReducers({
     oidc,
