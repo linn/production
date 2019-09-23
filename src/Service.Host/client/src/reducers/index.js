@@ -35,10 +35,14 @@ import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
+<<<<<<< HEAD
 import smtShifts from './smtShifts';
 import * as itemTypes from '../itemTypes';
 
 const errors = fetchErrorReducer(itemTypes);
+=======
+import ptlSettings from './ptlSettings';
+>>>>>>> master
 
 const rootReducer = combineReducers({
     oidc,
@@ -73,7 +77,11 @@ const rootReducer = combineReducers({
     errors,
     smtOutstandingWorkOrderParts,
     parts,
+<<<<<<< HEAD
     smtShifts,
+=======
+    ptlSettings,
+>>>>>>> master
     ...sharedLibraryReducers
 });
 

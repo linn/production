@@ -39,7 +39,7 @@
 
         public string GetLocation(WorksOrder worksOrder)
         {
-            return $"/production/maintenance/works-orders/{worksOrder.OrderNumber}";
+            return $"/production/works-orders/{worksOrder.OrderNumber}";
         }
 
         object IResourceBuilder<WorksOrder>.Build(WorksOrder worksOrder) => this.Build(worksOrder);

@@ -21,7 +21,7 @@
                 .Returns(new SuccessResult<IEnumerable<IEnumerable<string>>>(new List<List<string>>()));
 
             this.Response = this.Browser.Get(
-                "/production/maintenance/works-orders/outstanding-works-orders-report/export",
+                "/production/works-orders/outstanding-works-orders-report/export",
                 with =>
                     {
                         with.Header("Accept", "text/csv");

@@ -40,7 +40,7 @@
                 .Returns(new SuccessResult<WorksOrder>(worksOrder));
 
             this.Response = this.Browser.Put(
-                "/production/maintenance/works-orders/12345",
+                "/production/works-orders/12345",
                 with =>
                     {
                         with.Header("Accept", "application/json");

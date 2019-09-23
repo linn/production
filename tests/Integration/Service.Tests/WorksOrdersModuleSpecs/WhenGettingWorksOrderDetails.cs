@@ -28,7 +28,7 @@
                 .Returns(new SuccessResult<WorksOrderDetails>(worksOrderDetails));
 
             this.Response = this.Browser.Get(
-                "/production/maintenance/works-orders/details/pcas",
+                "/production/works-orders/details/pcas",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 

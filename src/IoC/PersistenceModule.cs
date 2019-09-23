@@ -44,7 +44,7 @@
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
             builder.RegisterType<EmployeeRepository>().As<IRepository<Employee, int>>();
             builder.RegisterType<AssemblyFailFaultCodeRepository>().As<IRepository<AssemblyFailFaultCode, string>>();
-              builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
+            builder.RegisterType<PtlMasterRepository>().As<IMasterRepository<PtlMaster>>();
             builder.RegisterType<OsrRunMasterRepository>().As<IMasterRepository<OsrRunMaster>>();
             builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
@@ -53,7 +53,11 @@
             builder.RegisterType<ProductionTriggerLevelsRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
+<<<<<<< HEAD
             builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
+=======
+            builder.RegisterType<PtlSettingsRepository>().As<IMasterRepository<PtlSettings>>();
+>>>>>>> master
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

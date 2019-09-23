@@ -8,6 +8,10 @@
 
         public int? TriggerLevel { get; set; }
 
+        public int? VariableTriggerLevel { get; set; }
+
+        public int? OverrideTriggerLevel { get; set; }
+
         public int KanbanSize { get; set; }
 
         public int MaximumKanbans { get; set; }

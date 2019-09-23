@@ -4,8 +4,13 @@ import { ReportTable, Loading, Title, ExportButton } from '@linn-it/linn-form-co
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
+<<<<<<< HEAD
 function OutstandingWorksOrdersReport({ reportData, loading, config }) {
     const href = `${config.appRoot}/production/maintenance/works-orders/outstanding-works-orders-report/export`;
+=======
+function OutstandingWorksOrdersReport({ reportData, loading, config, errorMessage }) {
+    const href = `${config.appRoot}/production/works-orders/outstanding-works-orders-report/export`;
+>>>>>>> master
 
     return (
         <Page>

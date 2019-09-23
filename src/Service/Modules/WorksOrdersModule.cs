@@ -1,11 +1,14 @@
 ﻿namespace Linn.Production.Service.Modules
 {
+    using Linn.Common.Resources;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Service.Extensions;
     using Linn.Production.Service.Models;
 
     using Nancy;
     using Nancy.ModelBinding;
+    using Nancy.Security;
 
     public sealed class WorksOrdersModule : NancyModule
     {
@@ -18,27 +21,43 @@
             this.worksOrdersService = worksOrdersService;
             this.outstandingWorksOrdersReportFacade = outstandingWorksOrdersReportFacade;
 
-            this.Get("/production/maintenance/works-orders", _ => this.GetWorksOrders());
-            this.Get("/production/maintenance/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
-            this.Post("/production/maintenance/works-orders", _ => this.AddWorksOrder());
-            this.Put("/production/maintenance/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
+            this.Get("/production/works-orders", _ => this.GetWorksOrders());
+            this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
+            this.Post("/production/works-orders", _ => this.AddWorksOrder());
+            this.Put("/production/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
             this.Get(
-                "/production/maintenance/works-orders/details/{partNumber}",
+                "/production/works-orders/details/{partNumber}",
                 parameters => this.GetWorksOrderDetails(parameters.partNumber));
 
-            this.Get("/production/maintenance/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
-            this.Get("/production/maintenance/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
+            this.Get("/production/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
+            this.Get("/production/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
         }
 
-        private object GetWorksOrderDetails(string partNumber)
+        private object GetWorksOrder(int orderNumber)
         {
-            return this.Negotiate.WithModel(this.worksOrdersService.GetWorksOrderDetails(partNumber))
+            return this.Negotiate.WithModel(this.worksOrdersService.GetById(orderNumber))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+        }
+
+        private object GetWorksOrders()
+        {
+            var resource = this.Bind<SearchRequestResource>();
+
+            var worksOrders = string.IsNullOrEmpty(resource.SearchTerm)
+                                  ? this.worksOrdersService.GetAll()
+                                  : this.worksOrdersService.Search(resource.SearchTerm);
+
+            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object UpdateWorksOrder()
         {
+            this.RequiresAuthentication();
+
             var resource = this.Bind<WorksOrderResource>();
+
+            resource.Links = new[] { new LinkResource("updated-by", this.Context.CurrentUser.GetEmployeeUri()) };
 
             return this.Negotiate.WithModel(this.worksOrdersService.UpdateWorksOrder(resource))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
@@ -46,18 +65,19 @@
 
         private object AddWorksOrder()
         {
-            // TODO get auth user
+            this.RequiresAuthentication();
+
             var resource = this.Bind<WorksOrderResource>();
 
-            var test = this.worksOrdersService.AddWorksOrder(resource);
+            resource.Links = new[] { new LinkResource("raised-by", this.Context.CurrentUser.GetEmployeeUri()) };
 
             return this.Negotiate.WithModel(this.worksOrdersService.AddWorksOrder(resource))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
-        private object GetWorksOrder(int orderNumber)
+        private object GetWorksOrderDetails(string partNumber)
         {
-            return this.Negotiate.WithModel(this.worksOrdersService.GetById(orderNumber))
+            return this.Negotiate.WithModel(this.worksOrdersService.GetWorksOrderDetails(partNumber))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
@@ -82,18 +102,6 @@
             return this.Negotiate
                 .WithModel(result)
                 .WithAllowedMediaRange("text/csv")
-                .WithView("Index");
-        }
-
-        private object GetWorksOrders()
-        {
-            var resource = this.Bind<SearchRequestResource>();
-
-            var worksOrders = string.IsNullOrEmpty(resource.SearchTerm)
-                              ? this.worksOrdersService.GetAll()
-                              : this.worksOrdersService.Search(resource.SearchTerm);
-
-            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
     }

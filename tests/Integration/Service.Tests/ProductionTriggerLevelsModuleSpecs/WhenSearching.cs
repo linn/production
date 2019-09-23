@@ -29,7 +29,7 @@
                 "/production/maintenance/production-trigger-levels",
                 with =>
                     {
-                        with.Header("Accept", "application/json"); 
+                        with.Header("Accept", "application/json");
                         with.Query("searchTerm", "pcas");
                     }).Result;
         }
