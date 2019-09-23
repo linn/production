@@ -4,6 +4,7 @@
 
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
+    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
@@ -20,17 +21,22 @@
 
         private WorksOrder worksOrder;
 
+        private int raisedBy;
+
         [SetUp]
         public void SetUp()
         {
+            this.raisedBy = 33067;
+
             this.resource = new WorksOrderResource
                                 {
                                     PartNumber = "MAJIK",
                                     RaisedByDepartment = "DEPT",
                                     DocType = "DOC",
                                     RaisedBy = 33067,
-                                    Quantity = 3
-                                };
+                                    Quantity = 3,
+                                    Links = new[] { new LinkResource("raised-by", $"/employees/{this.raisedBy}") }
+            };
 
             this.worksOrder = new WorksOrder
                                   {

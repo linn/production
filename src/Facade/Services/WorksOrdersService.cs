@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
 
     using Linn.Common.Domain.Exceptions;
@@ -9,6 +10,7 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.WorksOrders;
+    using Linn.Production.Facade.Extensions;
     using Linn.Production.Resources;
 
     public class WorksOrdersService : FacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>, IWorksOrdersService
@@ -40,6 +42,15 @@
 
         public IResult<WorksOrder> AddWorksOrder(WorksOrderResource resource)
         {
+            var employee = resource.Links.FirstOrDefault(l => l.Rel == "raised-by");
+
+            if (employee == null)
+            {
+                return new BadRequestResult<WorksOrder>("Must supply an employee number when raising a works order");
+            }
+
+            resource.RaisedBy = employee.Href.ParseId();
+
             var worksOrder = this.CreateFromResource(resource);
 
             try
@@ -76,6 +87,15 @@
 
         public IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource)
         {
+            var employee = resource.Links?.FirstOrDefault(l => l.Rel == "updated-by");
+
+            if (employee == null)
+            {
+                return new BadRequestResult<WorksOrder>("Must supply an employee number when updating a works order");
+            }
+
+            resource.CancelledBy = employee.Href.ParseId();
+
             var worksOrder = this.worksOrderRepository.FindById(resource.OrderNumber);
 
             if (worksOrder == null)

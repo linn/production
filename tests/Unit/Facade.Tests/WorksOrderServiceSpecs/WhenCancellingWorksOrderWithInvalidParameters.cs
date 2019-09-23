@@ -3,6 +3,7 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
@@ -20,14 +21,18 @@
 
         private WorksOrder worksOrder;
 
+        private int updatedBy;
+
         [SetUp]
         public void SetUp()
         {
+            this.updatedBy = 33067;
+
             this.resource = new WorksOrderResource
                                 {
                                     OrderNumber = 1234,
-                                    CancelledBy = 33067,
-                                    ReasonCancelled = string.Empty
+                                    ReasonCancelled = string.Empty,
+                                    Links = new[] { new LinkResource("updated-by", $"/employees/{this.updatedBy}") }
                                 };
 
             this.worksOrder = new WorksOrder
