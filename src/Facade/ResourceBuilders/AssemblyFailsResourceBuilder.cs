@@ -22,6 +22,5 @@
         }
 
         object IResourceBuilder<IEnumerable<AssemblyFail>>.Build(IEnumerable<AssemblyFail> assemblyFails) => this.Build(assemblyFails);
-
     }
 }
