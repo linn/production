@@ -1,0 +1,65 @@
+{
+  "users": [
+  ],
+  "vhosts": [
+  ],
+  "permissions": [
+  ],
+  "queues": [
+    {
+      "name": "production.q",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-ha-policy": "all",
+        "x-dead-letter-exchange": "production.dlx"
+      }
+    },
+    {
+      "name": "production.dlq",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "production.x",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "production.dlx",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "production.dlx",
+      "vhost": "/",
+      "destination": "production.dlq",
+      "destination_type": "queue",
+      "routing_key": "#",
+      "arguments": {}
+    },
+    {
+      "source": "production.x",
+      "vhost": "/",
+      "destination": "production.q",
+      "destination_type": "queue",
+      "routing_key": "#",
+      "arguments": {}
+    }
+  ]
+}
