@@ -27,11 +27,9 @@ function AssemblyFail({
     setSnackbarVisible,
     profile,
     fetchItems,
-    clearSearch,
     worksOrders,
     worksOrdersLoading,
     boardParts,
-    boardPartsLoading,
     pcasRevisions,
     fetchPcasRevisionsForBoardPart,
     cits,
@@ -43,7 +41,6 @@ function AssemblyFail({
     itemId,
     history
 }) {
-    // hooks
     const [searchTerm, setSearchTerm] = useState(null);
     const [assemblyFail, setAssemblyFail] = useState({
         numberOfFails: 1,
@@ -56,7 +53,6 @@ function AssemblyFail({
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
     useSearch(fetchItems, searchTerm, null, 'searchTerm');
 
-    // render constants
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
@@ -64,7 +60,6 @@ function AssemblyFail({
     const inputInvalid = () => !assemblyFail.worksOrderNumber;
     const completed = () => !!item?.dateTimeComplete;
 
-    // initialisation
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevAssemblyFail) {
             setAssemblyFail(item);
@@ -72,7 +67,6 @@ function AssemblyFail({
         }
     }, [item, prevAssemblyFail, editStatus]);
 
-    // effects that populate fields based on criteria
     useEffect(() => {
         if (editStatus === 'create' && profile) {
             setAssemblyFail(a => ({
@@ -737,12 +731,26 @@ AssemblyFail.propTypes = {
     setSnackbarVisible: PropTypes.func.isRequired,
     boardParts: PropTypes.arrayOf(PropTypes.shape({})),
     item: PropTypes.shape({}),
-    itemError: PropTypes.shape({
-        status: PropTypes.number,
-        statusText: PropTypes.string,
-        details: PropTypes.shape({}),
-        item: PropTypes.string
-    })
+    itemErrors: PropTypes.arrayOf(
+        PropTypes.shape({
+            status: PropTypes.number,
+            statusText: PropTypes.string,
+            details: PropTypes.shape({}),
+            item: PropTypes.string
+        })
+    ),
+    worksOrders: PropTypes.arrayOf(PropTypes.shape({})),
+    pcasRevisions: PropTypes.arrayOf(PropTypes.shape({})),
+    fetchPcasRevisionsForBoardPart: PropTypes.func(),
+    cits: PropTypes.arrayOf(PropTypes.shape({})),
+    smtShifts: PropTypes.arrayOf(PropTypes.shape({})),
+    employees: PropTypes.arrayOf(PropTypes.shape({})),
+    faultCodes: PropTypes.arrayOf(PropTypes.shape({})),
+    addItem: PropTypes.func(),
+    updateItem: PropTypes.func(),
+    itemId: PropTypes.number,
+    fetchItems: PropTypes.func(),
+    worksOrdersLoading: PropTypes.bool
 };
 
 AssemblyFail.defaultProps = {
@@ -751,7 +759,19 @@ AssemblyFail.defaultProps = {
     profile: { employee: '', name: '' },
     boardParts: [],
     item: null,
-    itemError: null
+    itemErrors: [],
+    pcasRevisions: [],
+    worksOrders: [],
+    faultCodes: [],
+    addItem: null,
+    updateItem: null,
+    itemId: null,
+    cits: [],
+    smtShifts: [],
+    employees: [],
+    fetchPcasRevisionsForBoardPart: null,
+    fetchItems: null,
+    worksOrdersLoading: true
 };
 
 export default AssemblyFail;

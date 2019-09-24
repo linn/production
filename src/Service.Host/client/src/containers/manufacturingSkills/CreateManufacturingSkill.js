@@ -16,7 +16,6 @@ const mapStateToProps = state => ({
 const initialise = () => dispatch => {
     dispatch(manufacturingSkillActions.clearErrorsForItem());
     dispatch(manufacturingSkillActions.setEditStatus('create'));
-    // dispatch(manufacturingSkillActions.create());
 };
 
 const mapDispatchToProps = {
