@@ -9,7 +9,7 @@
     public class AssemblyFailsResponseProcessor : JsonResponseProcessor<IEnumerable<AssemblyFail>>
     {
     public AssemblyFailsResponseProcessor(IResourceBuilder<IEnumerable<AssemblyFail>> resourceBuilder)
-        : base(resourceBuilder, "assembly-failss", 1)
+        : base(resourceBuilder, "assembly-fails", 1)
     {
     }
     }
