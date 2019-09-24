@@ -16,6 +16,7 @@
             builder.RegisterModule<LoggingModule>();
             builder.RegisterModule<PersistenceModule>();
             builder.RegisterModule<MessagingModule>();
+            builder.RegisterModule<ServiceModule>();
             builder.RegisterReceiver("production.q", "production.dlx");
 
             builder.RegisterType<StartTriggerRunHandler>().AsSelf();

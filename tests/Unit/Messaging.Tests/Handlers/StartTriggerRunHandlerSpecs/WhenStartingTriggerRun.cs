@@ -20,6 +20,12 @@
         }
 
         [Test]
+        public void ShouldStartTriggerRun()
+        {
+            this.TriggerRunPack.Received().AutoTriggerRun();
+        }
+
+        [Test]
         public void ShouldReturnTrue()
         {
             this.result.Should().BeTrue();
