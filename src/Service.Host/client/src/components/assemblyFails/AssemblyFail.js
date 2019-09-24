@@ -178,7 +178,6 @@ function AssemblyFail({
         }
     }, [worksOrders, worksOrdersLoading, editStatus]);
 
-    // event handlers
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
