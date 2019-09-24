@@ -1,5 +1,5 @@
 ﻿import {
-    reducers as sharedLibraryReducers, // todo combine
+    reducers as sharedLibraryReducers, 
     fetchErrorReducer,
     ItemType
 } from '@linn-it/linn-form-components-library';
