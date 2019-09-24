@@ -64,6 +64,8 @@
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
+        public DbQuery<SmtShift> SmtShifts { get; set; }
+
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
 
         public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
@@ -108,6 +110,7 @@
             this.QueryProductionTriggers(builder);
             this.BuildLinnWeeks(builder);
             this.BuildBomDetailPhantomView(builder);
+            this.QuerySmtShifts(builder);
             this.BuildPtlSettings(builder);
             base.OnModelCreating(builder);
         }
@@ -158,6 +161,7 @@
             builder.Query<PcasRevision>().Property(r => r.Cref).HasColumnName("CREF");
             builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
             builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
+            builder.Query<PcasRevision>().Property(r => r.BoardCode).HasColumnName("BOARD_CODE");
         }
 
         private void BuildWorkOrders(ModelBuilder builder)
@@ -445,6 +449,7 @@
             e.HasKey(c => c.FaultCode);
             e.Property(c => c.FaultCode).HasColumnName("FAULT_CODE");
             e.Property(c => c.Description).HasColumnName("DESCRIPTION");
+            e.Property(c => c.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void BuildEmployees(ModelBuilder builder)
@@ -454,6 +459,7 @@
             q.ToTable("AUTH_USER_NAME_VIEW");
             q.Property(e => e.Id).HasColumnName("USER_NUMBER");
             q.Property(e => e.FullName).HasColumnName("USER_NAME");
+            q.Property(e => e.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void QueryPtlMaster(ModelBuilder builder)
@@ -557,6 +563,14 @@
             q.Property(e => e.MWPriority).HasColumnName("MW_PRIORITY");
             q.Property(e => e.CanBuildExSubAssemblies).HasColumnName("CAN_BUILD_EX_SUB_ASSEMBLIES");
             q.Property(e => e.ReportType).HasColumnName("REPORT_TYPE").HasMaxLength(5);
+        }
+
+        private void QuerySmtShifts(ModelBuilder builder)
+        {
+            var q = builder.Query<SmtShift>();
+            q.ToView("SMT_SHIFTS");
+            q.Property(e => e.Shift).HasColumnName("SHIFT");
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION");
         }
     }
 }

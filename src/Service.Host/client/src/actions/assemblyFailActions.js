@@ -4,6 +4,7 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new UpdateApiActions(
+    itemTypes.assemblyFail.item,
     itemTypes.assemblyFail.actionType,
     itemTypes.assemblyFail.uri,
     actionTypes,

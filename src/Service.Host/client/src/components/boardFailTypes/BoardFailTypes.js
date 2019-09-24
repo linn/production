@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const BoardFailTypes = ({ loading, errorMessage, history, items }) => {
+const BoardFailTypes = ({ loading, itemError, history, items }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -74,7 +74,7 @@ const BoardFailTypes = ({ loading, errorMessage, history, items }) => {
     return (
         <Page>
             <Title text="Board Fail Types" />
-            {errorMessage && <ErrorCard errorMessage={errorMessage} />}
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
@@ -102,11 +102,11 @@ BoardFailTypes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    errorMessage: PropTypes.string
+    itemError: PropTypes.shape({})
 };
 
 BoardFailTypes.defaultProps = {
-    errorMessage: '',
+    itemError: null,
     items: []
 };
 

@@ -1,16 +1,17 @@
 ﻿import { connect } from 'react-redux';
-import { fetchErrorSelectors } from '@linn-it/linn-form-components-library';
+import { getItemError } from '@linn-it/linn-form-components-library';
 import PtlSettings from '../../components/productionTriggerLevels/PtlSettings';
 import ptlSettingsActions from '../../actions/ptlSettingsActions';
 import ptlSettingsSelectors from '../../selectors/ptlSettingsSelectors';
 import initialiseOnMount from '../initialiseOnMount';
+import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     item: ptlSettingsSelectors.getItem(state),
     editStatus: ptlSettingsSelectors.getEditStatus(state),
     loading: ptlSettingsSelectors.getLoading(state),
     snackbarVisible: ptlSettingsSelectors.getSnackbarVisible(state),
-    errorMessage: fetchErrorSelectors(state)
+    getItemError: getItemError(state, itemTypes.ptlSettings)
 });
 
 const initialise = () => dispatch => {

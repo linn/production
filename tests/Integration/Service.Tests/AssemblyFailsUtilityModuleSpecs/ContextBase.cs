@@ -51,8 +51,10 @@
                     with.Dependency<IResourceBuilder<AssemblyFailFaultCode>>(
                         new AssemblyFailFaultCodeResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<AssemblyFailFaultCode>>>(new AssemblyFailFaultCodesResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<AssemblyFail>>>(new AssemblyFailsResourceBuilder());
                     with.Module<AssemblyFailsModule>();
                     with.ResponseProcessor<AssemblyFailResponseProcessor>();
+                    with.ResponseProcessor<AssemblyFailsResponseProcessor>();
                     with.ResponseProcessor<AssemblyFailFaultCodesResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>

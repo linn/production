@@ -1,7 +1,12 @@
-﻿import { reducers as sharedLibraryReducers } from '@linn-it/linn-form-components-library';
+﻿import {
+    reducers as sharedLibraryReducers, 
+    fetchErrorReducer,
+    ItemType
+} from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import assemblyFail from './assemblyFails/assemblyFail';
+import assemblyFails from './assemblyFails/assemblyFails';
 import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
@@ -30,11 +35,16 @@ import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
+import smtShifts from './smtShifts';
+import * as itemTypes from '../itemTypes';
 import ptlSettings from './ptlSettings';
+
+const errors = fetchErrorReducer(itemTypes);
 
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
+    assemblyFails,
     assemblyFailFaultCodes,
     assemblyFailsWaitingListReport,
     ateFaultCode,
@@ -61,8 +71,10 @@ const rootReducer = combineReducers({
     manufacturingRoute,
     assemblyFailsMeasures,
     assemblyFailsDetails,
+    errors,
     smtOutstandingWorkOrderParts,
     parts,
+    smtShifts,
     ptlSettings,
     ...sharedLibraryReducers
 });

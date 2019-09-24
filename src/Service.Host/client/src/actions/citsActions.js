@@ -4,6 +4,7 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new FetchApiActions(
+    itemTypes.cits.item,
     itemTypes.cits.actionType,
     itemTypes.cits.uri,
     actionTypes,

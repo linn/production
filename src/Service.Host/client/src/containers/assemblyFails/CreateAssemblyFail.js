@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchErrorSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import AssemblyFail from '../../components/assemblyFails/AssemblyFail';
 import assemblyFailActions from '../../actions/assemblyFailActions';
 import assemblyFailSelectors from '../../selectors/assemblyFailSelectors';
@@ -16,11 +16,14 @@ import employeesActions from '../../actions/employeesActions';
 import employeesSelectors from '../../selectors/employeesSelectors';
 import assemblyFailFaultCodes from '../../actions/assemblyFailFaultCodesActions';
 import assemblyFailFaultCodesSelectors from '../../selectors/assemblyFailFaultCodesSelectors';
+import * as itemTypes from '../../itemTypes';
+import smtShiftsSelectors from '../../selectors/smtShiftsSelectors';
+import smtShiftsActions from '../../actions/smtShiftsActions';
 
 const mapStateToProps = state => ({
     item: {},
     editStatus: 'create',
-    errorMessage: fetchErrorSelectors(state),
+    itemError: getItemError(state, itemTypes.assemblyFail.item),
     loading: assemblyFailSelectors.getLoading(state),
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
     profile: getProfile(state),
@@ -32,7 +35,8 @@ const mapStateToProps = state => ({
     pcasRevisionsLoading: pcasRevisionsSelectors.getLoading(state),
     employees: employeesSelectors.getItems(state),
     cits: citsSelectors.getItems(state),
-    faultCodes: assemblyFailFaultCodesSelectors.getItems(state)
+    faultCodes: assemblyFailFaultCodesSelectors.getItems(state),
+    smtShifts: smtShiftsSelectors.getItems(state)
 });
 
 const initialise = () => dispatch => {
@@ -40,6 +44,7 @@ const initialise = () => dispatch => {
     dispatch(employeesActions.fetch());
     dispatch(citsActions.fetch());
     dispatch(assemblyFailFaultCodes.fetch());
+    dispatch(smtShiftsActions.fetch());
 };
 
 const mapDispatchToProps = {

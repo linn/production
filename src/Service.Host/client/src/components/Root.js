@@ -4,10 +4,9 @@ import { Route, Redirect, Switch } from 'react-router';
 import { OidcProvider } from 'redux-oidc';
 import { Router } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Navigation, linnTheme } from '@linn-it/linn-form-components-library';
+import { Navigation } from '@linn-it/linn-form-components-library';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import PropTypes from 'prop-types';
 import history from '../history';
 import App from './App';
@@ -36,6 +35,7 @@ import BoardFailType from '../containers/boardFailTypes/BoardFailType';
 import CreateBoardFailType from '../containers/boardFailTypes/CreateBoardFailType';
 import AssemblyFailsWaitingListReport from '../containers/reports/AssemblyFailsWaitingListReport';
 import AssemblyFail from '../containers/assemblyFails/AssemblyFail';
+import AssemblyFails from '../containers/assemblyFails/AssemblyFails';
 import CreateAssemblyFail from '../containers/assemblyFails/CreateAssemblyFail';
 import WhoBuiltWhatReportOptions from '../containers/reports/WhoBuiltWhatReportOptions';
 import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
@@ -54,237 +54,226 @@ const Root = ({ store }) => (
         <div style={{ paddingTop: '40px' }}>
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
-                    <ThemeProvider theme={linnTheme}>
-                        <MuiPickersUtilsProvider utils={MomentUtils}>
-                            <Router history={history}>
-                                <div>
-                                    <Navigation />
-                                    <CssBaseline />
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <Router history={history}>
+                            <div>
+                                <Navigation />
+                                <CssBaseline />
 
+                                <Route
+                                    exact
+                                    path="/"
+                                    render={() => <Redirect to="/production/maintenance" />}
+                                />
+
+                                <Route
+                                    exact
+                                    path="/production"
+                                    render={() => <Redirect to="/production/maintenance" />}
+                                />
+                                <Route
+                                    exact
+                                    path="/production/resources"
+                                    render={() => <Redirect to="/production/maintenance" />}
+                                />
+                                <Route
+                                    exact
+                                    path="/production/reports"
+                                    render={() => <Redirect to="/production/maintenance" />}
+                                />
+
+                                <Switch>
                                     <Route
                                         exact
-                                        path="/"
-                                        render={() => <Redirect to="/production/maintenance" />}
+                                        path="/production/maintenance/signin-oidc-client"
+                                        component={Callback}
+                                    />
+
+                                    <Route exact path="/production/maintenance" component={App} />
+
+                                    <Route exact path="/production/quality" component={App} />
+
+                                    <Route exact path="/production/quality/ate" component={App} />
+
+                                    <Route exact path="/production/works-orders" component={App} />
+                                    <Route
+                                        exact
+                                        path="/production/works-orders/outstanding-works-orders-report"
+                                        component={OutstandingWorksOrdersReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/works-orders/outstanding-works-orders-report/report"
+                                        component={OutstandingWorksOrdersReport}
                                     />
 
                                     <Route
                                         exact
-                                        path="/production"
-                                        render={() => <Redirect to="/production/maintenance" />}
+                                        path="/production/maintenance/serial-number-reissue"
+                                        component={SerialNumberReissue}
+                                    />
+
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate/fault-codes/create"
+                                        component={CreateAteFaultCode}
                                     />
                                     <Route
                                         exact
-                                        path="/production/resources"
-                                        render={() => <Redirect to="/production/maintenance" />}
+                                        path="/production/quality/ate/fault-codes/:id"
+                                        component={AteFaultCode}
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports"
-                                        render={() => <Redirect to="/production/maintenance" />}
+                                        path="/production/quality/ate/fault-codes"
+                                        component={AteFaultCodes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/builds-summary-options"
+                                        component={BuildsSummaryReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/triggers"
+                                        component={ProductionTriggersReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/builds-summary"
+                                        component={BuildsSummaryReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/builds-detail/options"
+                                        component={BuildsDetailReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/builds-detail"
+                                        component={BuildsDetailReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-skills"
+                                        component={ManufacturingSkills}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-skills/create"
+                                        component={CreateManufacturingSkill}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-skills/:id"
+                                        component={ManufacturingSkill}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/measures"
+                                        component={ProductionMeasures}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/board-fail-types"
+                                        component={BoardFailTypes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/board-fail-types/create"
+                                        component={CreateBoardFailType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/board-fail-types/:id"
+                                        component={BoardFailType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/assembly-fails-waiting-list"
+                                        component={AssemblyFailsWaitingListReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/who-built-what/report"
+                                        component={WhoBuiltWhatReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/who-built-what"
+                                        component={WhoBuiltWhatReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/who-built-what-details"
+                                        component={WhoBuiltWhatDetailsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/assembly-fails/:id"
+                                        component={AssemblyFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/assembly-fails"
+                                        component={AssemblyFails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/create-assembly-fail"
+                                        component={CreateAssemblyFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-resources/create"
+                                        component={CreateManufacturingResource}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-resources"
+                                        component={ManufacturingResources}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-resources/:id"
+                                        component={ManufacturingResource}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/assembly-fails-measures/report"
+                                        component={AssemblyFailsMeasures}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/assembly-fails-measures"
+                                        component={AssemblyFailsMeasuresOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/assembly-fails-details"
+                                        component={AssemblyFailsDetails}
                                     />
 
-                                    <Switch>
-                                        <Route
-                                            exact
-                                            path="/production/maintenance/signin-oidc-client"
-                                            component={Callback}
-                                        />
-
-                                        <Route
-                                            exact
-                                            path="/production/maintenance"
-                                            component={App}
-                                        />
-
-                                        <Route exact path="/production/quality" component={App} />
-
-                                        <Route
-                                            exact
-                                            path="/production/quality/ate"
-                                            component={App}
-                                        />
-
-                                        <Route
-                                            exact
-                                            path="/production/works-orders"
-                                            component={App}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/works-orders/outstanding-works-orders-report"
-                                            component={OutstandingWorksOrdersReportOptions}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/works-orders/outstanding-works-orders-report/report"
-                                            component={OutstandingWorksOrdersReport}
-                                        />
-
-                                        <Route
-                                            exact
-                                            path="/production/maintenance/serial-number-reissue"
-                                            component={SerialNumberReissue}
-                                        />
-
-                                        <Route
-                                            exact
-                                            path="/production/quality/ate/fault-codes/create"
-                                            component={CreateAteFaultCode}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/quality/ate/fault-codes/:id"
-                                            component={AteFaultCode}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/quality/ate/fault-codes"
-                                            component={AteFaultCodes}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/builds-summary-options"
-                                            component={BuildsSummaryReportOptions}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/triggers"
-                                            component={ProductionTriggersReport}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/builds-summary"
-                                            component={BuildsSummaryReport}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/builds-detail-options"
-                                            component={BuildsDetailReportOptions}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/builds-detail"
-                                            component={BuildsDetailReport}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/manufacturing-skills"
-                                            component={ManufacturingSkills}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/manufacturing-skills/create"
-                                            component={CreateManufacturingSkill}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/manufacturing-skills/:id"
-                                            component={ManufacturingSkill}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/measures"
-                                            component={ProductionMeasures}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/board-fail-types"
-                                            component={BoardFailTypes}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/board-fail-types/create"
-                                            component={CreateBoardFailType}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/board-fail-types/:id"
-                                            component={BoardFailType}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/assembly-fails-waiting-list"
-                                            component={AssemblyFailsWaitingListReport}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/who-built-what/report"
-                                            component={WhoBuiltWhatReport}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/who-built-what"
-                                            component={WhoBuiltWhatReportOptions}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/who-built-what-details"
-                                            component={WhoBuiltWhatDetailsReport}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/quality/assembly-fails/:id"
-                                            component={AssemblyFail}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/quality/create-assembly-fail"
-                                            component={CreateAssemblyFail}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/manufacturing-resources/create"
-                                            component={CreateManufacturingResource}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/manufacturing-resources"
-                                            component={ManufacturingResources}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/resources/manufacturing-resources/:id"
-                                            component={ManufacturingResource}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/assembly-fails-measures/report"
-                                            component={AssemblyFailsMeasures}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/assembly-fails-measures"
-                                            component={AssemblyFailsMeasuresOptions}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/assembly-fails-details"
-                                            component={AssemblyFailsDetails}
-                                        />
-
-                                        <Route
-                                            exact
-                                            path="/production/reports/smt/outstanding-works-order-parts/report"
-                                            component={SmtOutstandingWOPartsReport}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/reports/smt/outstanding-works-order-parts"
-                                            component={SmtOutstandingWOPartsReportOptions}
-                                        />
-                                        <Route
-                                            exact
-                                            path="/production/maintenance/production-trigger-levels-settings"
-                                            component={PtlSettings}
-                                        />
-
-                                        <Route component={NotFound} />
-
-                                    </Switch>
-                                </div>
-                            </Router>
-                        </MuiPickersUtilsProvider>
-                    </ThemeProvider>
+                                    <Route
+                                        exact
+                                        path="/production/reports/smt/outstanding-works-order-parts/report"
+                                        component={SmtOutstandingWOPartsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/smt/outstanding-works-order-parts"
+                                        component={SmtOutstandingWOPartsReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels-settings"
+                                        component={PtlSettings}
+                                    />
+                                    <Route component={NotFound} />
+                                </Switch>
+                            </div>
+                        </Router>
+                    </MuiPickersUtilsProvider>
                 </OidcProvider>
             </Provider>
         </div>

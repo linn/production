@@ -4,6 +4,7 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new UpdateApiActions(
+    itemTypes.ateFaultCode.item,
     itemTypes.ateFaultCode.actionType,
     itemTypes.ateFaultCode.uri,
     actionTypes,

@@ -1,14 +1,15 @@
 ﻿import { connect } from 'react-redux';
-import { fetchErrorSelectors } from '@linn-it/linn-form-components-library';
+import { getItemError } from '@linn-it/linn-form-components-library';
 import initialiseOnMount from '../initialiseOnMount';
 import AteFaultCodes from '../../components/ate/AteFaultCodes';
 import ateFaultCodesActions from '../../actions/ateFaultCodesActions';
 import ateFaultCodesSelectors from '../../selectors/ateFaultCodesSelectors';
+import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     items: ateFaultCodesSelectors.getItems(state),
     loading: ateFaultCodesSelectors.getLoading(state),
-    errorMessage: fetchErrorSelectors(state)
+    itemError: getItemError(state, itemTypes.ateFaultCodes.item)
 });
 
 const initialise = () => dispatch => {
