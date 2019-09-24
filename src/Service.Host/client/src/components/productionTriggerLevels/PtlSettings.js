@@ -10,6 +10,7 @@ import {
     SnackbarMessage,
     utilities
 } from '@linn-it/linn-form-components-library';
+import Button from '@material-ui/core/Button';
 import Page from '../../containers/Page';
 
 function PtlSettings({
@@ -50,6 +51,8 @@ function PtlSettings({
         setPtlSettings(item);
         setEditStatus('view');
     };
+
+    const handleTriggerRunButtonClick = () => {};
 
     const handleBackClick = () => {
         history.push('/production/maintenance');
@@ -121,6 +124,23 @@ function PtlSettings({
                             />
                         </Grid>
                         <Grid item xs={8} />
+                        {startTriggerRunAllowed ? (
+                            <Fragment>
+                                <Grid item xs={3}>
+                                    <Button onClick={handleTriggerRunButtonClick} variant="contained">
+                                        Start Trigger Run
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={9}>
+                                    <div>
+                                        Trigger runs start regularly throughout the day. Please do
+                                        not start a new one unless you are sure.
+                                    </div>
+                                </Grid>
+                            </Fragment>
+                        ) : (
+                            ''
+                        )}
                         <Grid item xs={12}>
                             <SaveBackCancelButtons
                                 saveDisabled={viewing()}
