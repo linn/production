@@ -1,10 +1,13 @@
 ﻿namespace Linn.Production.Service.Modules
 {
+    using System;
     using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Common;
+    using Linn.Production.Domain.LinnApps.Dispatchers;
+    using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.Common;
     using Linn.Production.Resources;
@@ -23,19 +26,46 @@
 
         private readonly IAuthorisationService authorisationService;
 
+        private readonly ITriggerRunDispatcher triggerRunDispatcher;
+
         public ProductionTriggerLevelsModule(
             IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource> productionTriggerLevelsService,
             ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService,
-            IAuthorisationService authorisationService)
+            IAuthorisationService authorisationService,
+            ITriggerRunDispatcher triggerRunDispatcher)
         {
             this.productionTriggerLevelsService = productionTriggerLevelsService;
             this.ptlSettingsFacadeService = ptlSettingsFacadeService;
             this.authorisationService = authorisationService;
+            this.triggerRunDispatcher = triggerRunDispatcher;
 
             this.Get("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.GetProductionTriggerLevel(parameters.partNumber));
             this.Get("production/maintenance/production-trigger-levels", _ => this.GetProductionTriggerLevels());
             this.Get("production/maintenance/production-trigger-levels-settings", _ => this.GetProductionTriggerLevelsSettings());
             this.Put("production/maintenance/production-trigger-levels-settings", _ => this.UpdateProductionTriggerLevelsSettings());
+            this.Post("production/maintenance/production-trigger-levels-settings/start-trigger-run", _ => this.StartTriggerRun());
+        }
+
+        private object StartTriggerRun()
+        {
+            this.RequiresAuthentication();
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.StartTriggerRun, privileges))
+            {
+                try
+                {
+                    this.triggerRunDispatcher.StartTriggerRun(this.Context?.CurrentUser?.GetEmployeeUri());
+                    return HttpStatusCode.OK;
+                }
+                catch (Exception e)
+                {
+                    return this.Negotiate.WithModel(new BadRequestResult<Error>(e.Message));
+                }
+            }
+            else
+            {
+                    return HttpStatusCode.Forbidden;
+            }
         }
 
         private object UpdateProductionTriggerLevelsSettings()
