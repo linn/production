@@ -75,11 +75,10 @@ module.exports = {
         //modules: [path.resolve('node_modules'), 'node_modules'].concat(/* ... */)
     },
     plugins: [
-        //new BundleAnalyzerPlugin(),
         // To strip all locales except “en”
         new MomentLocalesPlugin()
     ],
-    devtool: 'cheap-module-eval-source-map'
+    devtool: 'none'
     // enhance debugging by adding meta info for the browser devtools
     // source-map most detailed at the expense of build speed.
 };
