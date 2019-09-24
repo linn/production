@@ -740,15 +740,15 @@ AssemblyFail.propTypes = {
     ),
     worksOrders: PropTypes.arrayOf(PropTypes.shape({})),
     pcasRevisions: PropTypes.arrayOf(PropTypes.shape({})),
-    fetchPcasRevisionsForBoardPart: PropTypes.func(),
+    fetchPcasRevisionsForBoardPart: PropTypes.func,
     cits: PropTypes.arrayOf(PropTypes.shape({})),
     smtShifts: PropTypes.arrayOf(PropTypes.shape({})),
     employees: PropTypes.arrayOf(PropTypes.shape({})),
     faultCodes: PropTypes.arrayOf(PropTypes.shape({})),
-    addItem: PropTypes.func(),
-    updateItem: PropTypes.func(),
+    addItem: PropTypes.func,
+    updateItem: PropTypes.func,
     itemId: PropTypes.number,
-    fetchItems: PropTypes.func(),
+    fetchItems: PropTypes.func,
     worksOrdersLoading: PropTypes.bool
 };
 
