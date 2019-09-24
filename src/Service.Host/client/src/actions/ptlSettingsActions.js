@@ -4,6 +4,7 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new UpdateApiActions(
+    itemTypes.ptlSettings.item,
     itemTypes.ptlSettings.actionType,
     itemTypes.ptlSettings.uri,
     actionTypes,
