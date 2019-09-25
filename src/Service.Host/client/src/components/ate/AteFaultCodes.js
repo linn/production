@@ -9,7 +9,7 @@ import {
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-function AteFaultCodes({ loading, errorMessage, history, items }) {
+function AteFaultCodes({ loading, itemError, history, items }) {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -68,7 +68,7 @@ function AteFaultCodes({ loading, errorMessage, history, items }) {
     return (
         <Page>
             <Title text="ATE Fault Codes" />
-            {errorMessage && <ErrorCard errorMessage={errorMessage} />}
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
@@ -93,11 +93,11 @@ AteFaultCodes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    errorMessage: PropTypes.string
+    itemError: PropTypes.shape({})
 };
 
 AteFaultCodes.defaultProps = {
-    errorMessage: '',
+    itemError: null,
     items: []
 };
 

@@ -82,6 +82,12 @@ export const assemblyFail = new ItemType(
     '/production/quality/assembly-fails'
 );
 
+export const assemblyFails = new ItemType(
+    'assemblyFails',
+    'ASSEMBLY_FAILS',
+    '/production/quality/assembly-fails'
+);
+
 export const worksOrders = new ItemType('worksOrders', 'WORKS_ORDERS', '/production/works-orders');
 
 export const productionTriggerLevels = new ItemType(
@@ -117,6 +123,12 @@ export const manufacturingRoute = new ItemType(
 );
 
 export const parts = new ItemType('parts', 'PARTS', '/production/maintenance/parts');
+
+export const smtShifts = new ItemType(
+    'smtShifts',
+    'SMT_SHIFTS',
+    '/production/maintenance/smt-shifts'
+);
 
 export const ptlSettings = new ItemType(
     'ptlSettings',

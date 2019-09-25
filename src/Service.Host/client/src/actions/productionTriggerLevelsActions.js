@@ -4,6 +4,7 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new UpdateApiActions(
+    itemTypes.productionTriggerLevels.item,
     itemTypes.productionTriggerLevels.actionType,
     itemTypes.productionTriggerLevels.uri,
     actionTypes,

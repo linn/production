@@ -15,7 +15,7 @@ import Page from '../../containers/Page';
 
 function PtlSettings({
     editStatus,
-    errorMessage,
+    itemError,
     history,
     item,
     loading,
@@ -78,9 +78,9 @@ function PtlSettings({
                 <Grid item xs={12}>
                     <Title text="Production Trigger Level Settings" />
                 </Grid>
-                {errorMessage && (
+                {itemError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 )}
                 {loading || !ptlSettings ? (
@@ -177,7 +177,7 @@ PtlSettings.propTypes = {
     item: PropTypes.shape({}),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
+    itemError: PropTypes.shape({}),
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
     loading: PropTypes.bool,
@@ -194,7 +194,7 @@ PtlSettings.defaultProps = {
     snackbarVisible: false,
     updateItem: null,
     loading: null,
-    errorMessage: '',
+    itemError: null,
     startTriggerRunMessageVisible: false,
     startTriggerRunMessageText: ''
 };
