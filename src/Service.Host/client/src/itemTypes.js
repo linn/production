@@ -89,7 +89,7 @@ export const worksOrders = new ItemType('worksOrders', 'WORKS_ORDERS', '/product
 export const worksOrderDetails = new ItemType(
     'worksOrderDetails',
     'WORKS_ORDER_DETAILS',
-    '/production/works-orders/details'
+    '/production/works-orders/get-part-details'
 );
 
 export const productionTriggerLevels = new ItemType(

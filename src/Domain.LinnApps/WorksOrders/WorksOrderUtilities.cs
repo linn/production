@@ -92,6 +92,11 @@
         {
             var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
 
+            if (productionTriggerLevel == null)
+            {
+                throw new InvalidWorksOrderException($"Production Trigger Level code not found for part {partNumber}");
+            }
+
             var cit = this.citRepository.FindById(productionTriggerLevel.CitCode);
 
             var department = this.departmentRepository.FindById(cit.DepartmentCode);

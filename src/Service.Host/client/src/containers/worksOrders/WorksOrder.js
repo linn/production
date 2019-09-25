@@ -8,8 +8,6 @@ import employeesSelectors from '../../selectors/employeesSelectors';
 import employeesActions from '../../actions/employeesActions';
 import worksOrderDetailsActions from '../../actions/worksOrderDetailsActions';
 import worksOrderDetailsSelectors from '../../selectors/worksOrderDetailsSelectors';
-import departmentActions from '../../actions/departmentActions';
-import departmentsSelectors from '../../selectors/departmentsSelectors';
 
 const mapStateToProps = (state, { match }) => ({
     item: worksOrderSelectors.getItem(state),
@@ -19,9 +17,8 @@ const mapStateToProps = (state, { match }) => ({
     loading: worksOrderSelectors.getLoading(state),
     snackbarVisible: worksOrderSelectors.getSnackbarVisible(state),
     employees: employeesSelectors.getItems(state),
-    worksOrderDetails: worksOrderDetailsSelectors.getItem(state),
-    departments: departmentsSelectors.getItems(state),
-    departmentsLoading: departmentsSelectors.getLoading(state)
+    employeeesLoading: employeesSelectors.getLoading(state),
+    worksOrderDetails: worksOrderDetailsSelectors.getItem(state)
 });
 
 const initialise = ({ orderNumber }) => dispatch => {
@@ -30,7 +27,6 @@ const initialise = ({ orderNumber }) => dispatch => {
     }
     dispatch(employeesActions.fetch());
     dispatch(worksOrderDetailsActions.reset());
-    dispatch(departmentActions.fetch());
 };
 
 const mapDispatchToProps = {
@@ -38,6 +34,7 @@ const mapDispatchToProps = {
     setSnackbarVisible: worksOrderActions.setSnackbarVisible,
     fetchWorksOrderDetails: worksOrderDetailsActions.fetch,
     addItem: worksOrderActions.add,
+    updateItem: worksOrderActions.update,
     setEditStatus: worksOrderActions.setEditStatus,
     fetchWorksOrder: worksOrderActions.fetch
 };

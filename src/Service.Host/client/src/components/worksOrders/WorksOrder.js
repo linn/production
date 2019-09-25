@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import {
     Title,
@@ -9,14 +10,13 @@ import {
     Loading,
     SnackbarMessage,
     InputField,
-    SearchInputField,
+    TypeaheadDialog,
     CreateButton,
     SaveBackCancelButtons,
+    SearchInputField,
     useSearch
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-
-// TODO conditionals around small function components?
 
 function WorksOrder({
     item,
@@ -26,19 +26,21 @@ function WorksOrder({
     loading,
     snackbarVisible,
     worksOrderDetails,
-    departments,
-    departmentsLoading,
     employees,
+    employeesLoading,
+    partsSearchResults,
+    partsSearchLoading,
     addItem,
     updateItem,
     setSnackbarVisible,
     fetchWorksOrderDetails,
     setEditStatus,
-    fetchWorksOrder
+    fetchWorksOrder,
+    searchParts,
+    clearPartsSearch
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
-    const [selectedDepartment, setSelectedDepartment] = useState(null);
     const [raisedByEmployee, setRaisedByEmployee] = useState(null);
     const [cancelledByEmployee, setCancelledByEmployee] = useState(null);
     const [searchTerm, setSearchTerm] = useState(null);
@@ -46,34 +48,36 @@ function WorksOrder({
     useSearch(fetchWorksOrder, searchTerm, null);
 
     const creating = useCallback(() => editStatus === 'create', [editStatus]);
-    // const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
 
-    // TODO is this going to render every time?
+    const useStyles = makeStyles(theme => ({
+        marginTop: {
+            marginTop: theme.spacing(2)
+        }
+    }));
+
+    const classes = useStyles();
+
     useEffect(() => {
         if (item !== prevWorksOrder) {
-            setWorksOrder(item);
             setPrevWorksOrder(item);
+
+            if (creating()) {
+                setWorksOrder({ ...item, docType: 'WO' });
+                return;
+            }
+
+            setWorksOrder(item);
+
             if (item && item.partNumber) {
                 fetchWorksOrderDetails(item.partNumber);
             }
         }
-    }, [item, prevWorksOrder, fetchWorksOrderDetails]);
+    }, [item, prevWorksOrder, fetchWorksOrderDetails, creating]);
 
     useEffect(() => {
-        if (departments && worksOrder) {
-            setSelectedDepartment(
-                departments.find(
-                    department => department.departmentCode === worksOrder.raisedByDepartment
-                )
-            );
-        }
-    }, [departments, worksOrder]);
-
-    // TODO could this be in the same effect above?
-    useEffect(() => {
-        if (employees && worksOrder) {
+        if (employees && worksOrder.raisedBy) {
             if (worksOrder.raisedBy) {
                 setRaisedByEmployee(
                     employees.find(employee => employee.id === worksOrder.raisedBy)
@@ -85,16 +89,17 @@ function WorksOrder({
                 );
             }
         }
-    }, [employees, worksOrder]);
+    }, [employees, worksOrder.raisedBy, worksOrder.cancelledBy]);
 
     useEffect(() => {
         if (creating() && worksOrderDetails) {
             setWorksOrder(wo => ({
                 ...wo,
-                workStationCode: worksOrderDetails.worksStationCode
+                workStationCode: worksOrderDetails.workStationCode,
+                departmentCode: worksOrderDetails.departmentCode
             }));
         }
-    }, [creating, worksOrderDetails]);
+    }, [worksOrderDetails, editStatus, creating]);
 
     const handleCancelClick = () => {
         setWorksOrder(item);
@@ -115,6 +120,11 @@ function WorksOrder({
         history.push('/production/works-orders');
     };
 
+    const handlePartSelect = part => {
+        fetchWorksOrderDetails(part.partNumber);
+        setWorksOrder({ ...worksOrder, partNumber: part.partNumber });
+    };
+
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
@@ -131,6 +141,16 @@ function WorksOrder({
 
         setWorksOrder({ ...worksOrder, [propertyName]: newValue });
     };
+
+    const createValid = () =>
+        worksOrder.docType &&
+        worksOrder.partNumber &&
+        worksOrder.workStationCode &&
+        worksOrder.quantity &&
+        worksOrder.departmentCode &&
+        creating();
+
+    const updateValid = () => editing() && worksOrder.reasonCancelled && worksOrder.quantity;
 
     return (
         <Page>
@@ -160,6 +180,7 @@ function WorksOrder({
                         <ErrorCard errorMessage={errorMessage} />
                     </Grid>
                 )}
+                {/* TODO change to just display if not creating */}
                 {!creating() && (
                     <Fragment>
                         <Grid item xs={4}>
@@ -177,13 +198,12 @@ function WorksOrder({
                     </Fragment>
                 )}
                 {/* TODO check more loadings? */}
-                {loading ? (
+                {loading || employeesLoading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
                 ) : (
                     (worksOrder || creating()) && (
-                        // worksOrder && (
                         <Fragment>
                             <SnackbarMessage
                                 visible={snackbarVisible}
@@ -207,7 +227,8 @@ function WorksOrder({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    value={creating() ? 'WO' : worksOrder.docType}
+                                    // value={creating() ? 'WO' : worksOrder.docType}
+                                    value={worksOrder.docType}
                                     propertyName="docType"
                                     onChange={handleFieldChange}
                                     label="Type"
@@ -228,34 +249,54 @@ function WorksOrder({
                                     <Grid item xs={8} />
                                 </Fragment>
                             )}
-                            {/* TODO search */}
+                            {creating() && (
+                                <Fragment>
+                                    <Grid item xs={4}>
+                                        <InputField
+                                            disabled
+                                            label="Part"
+                                            maxLength={14}
+                                            fullWidth
+                                            value={worksOrder.partNumber}
+                                            onChange={handleFieldChange}
+                                            propertyName="partSearchTerm"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={1}>
+                                        <div className={classes.marginTop}>
+                                            <TypeaheadDialog
+                                                title="Search For Part"
+                                                onSelect={handlePartSelect}
+                                                searchItems={partsSearchResults}
+                                                loading={partsSearchLoading}
+                                                fetchItems={searchParts}
+                                                clearSearch={() => clearPartsSearch}
+                                            />
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={7}>
+                                        <InputField
+                                            fullWidth
+                                            disabled
+                                            value={
+                                                worksOrderDetails
+                                                    ? worksOrderDetails.partDescription
+                                                    : ''
+                                            }
+                                            label="Description"
+                                        />
+                                    </Grid>
+                                </Fragment>
+                            )}
                             <Grid item xs={4}>
-                                <InputField
-                                    fullWidth
-                                    disabled
-                                    value={worksOrder.partNumber}
-                                    label="Part Number"
-                                    propertyName="partNumber"
-                                    onChange={handleFieldChange}
-                                />
-                            </Grid>
-                            <Grid item xs={8}>
                                 <InputField
                                     fullWidth
                                     disabled
                                     value={
-                                        worksOrderDetails ? worksOrderDetails.partDescription : ''
+                                        creating()
+                                            ? worksOrderDetails && worksOrderDetails.workStationCode
+                                            : worksOrder.worksStationCode
                                     }
-                                    // rows={2}
-                                    label="Description"
-                                />
-                            </Grid>
-                            {/* <Grid item xs={4} /> */}
-                            <Grid item xs={4}>
-                                <InputField
-                                    fullWidth
-                                    disabled
-                                    value={worksOrder.workStationCode}
                                     label="Work Station"
                                     onChange={handleFieldChange}
                                     propertyName="workStationCode"
@@ -270,7 +311,7 @@ function WorksOrder({
                                     propertyName="quantity"
                                     label="Quantity"
                                     type="number"
-                                    helperText="Required"
+                                    helperText={creating() || editing() ? 'Required' : ''}
                                     onChange={handleFieldChange}
                                 />
                             </Grid>
@@ -338,7 +379,11 @@ function WorksOrder({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    value={selectedDepartment && selectedDepartment.description}
+                                    value={
+                                        worksOrderDetails
+                                            ? worksOrderDetails.departmentDescription
+                                            : ''
+                                    }
                                     label="Department"
                                 />
                             </Grid>
@@ -376,8 +421,13 @@ function WorksOrder({
                                             required={editing()}
                                             value={worksOrder.reasonCancelled}
                                             label="Reason Cancelled"
-                                            helperText="Reason is required if cancelling a works order"
+                                            helperText={
+                                                editing()
+                                                    ? 'Reason is required if cancelling a works order'
+                                                    : ''
+                                            }
                                             propertyName="reasonCancelled"
+                                            onChange={handleFieldChange}
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
@@ -394,7 +444,7 @@ function WorksOrder({
                             )}
                             <Grid item xs={12}>
                                 <SaveBackCancelButtons
-                                    saveDisabled={viewing()}
+                                    saveDisabled={viewing() || !(createValid() || updateValid())}
                                     saveClick={handleSaveClick}
                                     cancelClick={handleCancelClick}
                                     backClick={handleBackClick}
@@ -425,7 +475,7 @@ WorksOrder.propTypes = {
 };
 
 WorksOrder.defaultProps = {
-    item: null,
+    item: {},
     worksOrderDetails: null,
     errorMessage: '',
     snackbarVisible: false,

@@ -8,25 +8,26 @@ import employeesSelectors from '../../selectors/employeesSelectors';
 import employeesActions from '../../actions/employeesActions';
 import worksOrderDetailsActions from '../../actions/worksOrderDetailsActions';
 import worksOrderDetailsSelectors from '../../selectors/worksOrderDetailsSelectors';
-import departmentActions from '../../actions/departmentActions';
-import departmentsSelectors from '../../selectors/departmentsSelectors';
+import partsActions from '../../actions/partsActions';
+import partsSelectors from '../../selectors/partsSelectors';
 
 const mapStateToProps = state => ({
-    item: {},
     errorMessage: fetchErrorSelectors(state),
     editStatus: 'create',
     loading: worksOrderSelectors.getLoading(state),
     snackbarVisible: worksOrderSelectors.getSnackbarVisible(state),
     employees: employeesSelectors.getItems(state),
     worksOrderDetails: worksOrderDetailsSelectors.getItem(state),
-    departments: departmentsSelectors.getItems(state),
-    departmentsLoading: departmentsSelectors.getLoading(state)
+    partsSearchLoading: partsSelectors.getSearchLoading(state),
+    partsSearchResults: partsSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.partNumber, name: s.partNumber }))
 });
 
 const initialise = () => dispatch => {
     dispatch(employeesActions.fetch());
-    dispatch(worksOrderDetailsActions.reset());
-    dispatch(departmentActions.fetch());
+    dispatch(worksOrderDetailsActions.create());
+    dispatch(worksOrderActions.create());
 };
 
 const mapDispatchToProps = {
@@ -35,7 +36,9 @@ const mapDispatchToProps = {
     fetchWorksOrderDetails: worksOrderDetailsActions.fetch,
     addItem: worksOrderActions.add,
     setEditStatus: worksOrderActions.setEditStatus,
-    fetchWorksOrder: worksOrderActions.fetch
+    fetchWorksOrder: worksOrderActions.fetch,
+    searchParts: partsActions.search,
+    clearPartsSearch: partsActions.clearSearch
 };
 
 export default connect(
