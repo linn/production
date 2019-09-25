@@ -1,6 +1,8 @@
 ﻿import { makeActionTypes, makeReportActionTypes } from '@linn-it/linn-form-components-library';
+import makeProcessActionTypes from './makeProcessActionTypes';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
+import * as processTypes from '../processTypes';
 
 export const outstandingWorksOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.outstandingWorksOrdersReport.actionType
@@ -117,3 +119,7 @@ export const smtOutstandingWorkOrderPartsActionTypes = makeReportActionTypes(
 export const partsActionsTypes = makeActionTypes(itemTypes.parts.actionType, false);
 
 export const ptlSettingsActionTypes = makeActionTypes(itemTypes.ptlSettings.actionType);
+
+export const startTriggerRunActionTypes = makeProcessActionTypes(
+    processTypes.startTriggerRun.actionType
+);

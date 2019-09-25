@@ -31,6 +31,7 @@ import assemblyFailsDetails from './assemblyFailsDetails';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
 import ptlSettings from './ptlSettings';
+import startTriggerRun from './startTriggerRun';
 
 const rootReducer = combineReducers({
     oidc,
@@ -64,6 +65,7 @@ const rootReducer = combineReducers({
     smtOutstandingWorkOrderParts,
     parts,
     ptlSettings,
+    startTriggerRun,
     ...sharedLibraryReducers
 });
 
