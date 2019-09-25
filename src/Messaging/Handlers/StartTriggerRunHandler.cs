@@ -6,6 +6,7 @@
     using Linn.Common.Logging;
     using Linn.Common.Messaging.RabbitMQ.Unicast;
     using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Resources.Messages;
 
     using Newtonsoft.Json;
 
@@ -24,8 +25,8 @@
         public bool Execute(IReceivedMessage message)
         {
             var content = Encoding.UTF8.GetString(message.Body);
-            var employeeUri = JsonConvert.DeserializeObject<string>(content);
-            this.log.Warning($"Trigger run started at {DateTime.Now.ToLongTimeString()} by {employeeUri}");
+            var resource = JsonConvert.DeserializeObject<StartTriggerRunResource>(content);
+            this.log.Warning($"Trigger run started at {DateTime.Now.ToLongTimeString()} by {resource.RequestedByUri}");
             this.triggerRunPack.AutoTriggerRun();
             return true;
         }
