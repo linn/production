@@ -26,7 +26,7 @@
             var resource = this.Bind<BuildsSummaryReportOptionsRequestResource>();
             var from = DateTime.Parse(resource.FromDate);
             var to = DateTime.Parse(resource.ToDate);
-            var results = this.service.GetBuildsSummaryReports(from, to, resource.Monthly);
+            var results = this.service.GetBuildsSummaryReport(from, to, resource.Monthly);
             return this.Negotiate.WithModel(results).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }

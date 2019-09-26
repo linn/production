@@ -22,13 +22,13 @@
         [SetUp]
         public void SetUp()
         {
-            var results = new List<ResultsModel> { new ResultsModel { ReportTitle = new NameModel("t") } };
+            var results = new ResultsModel { ReportTitle = new NameModel("t") };
             this.BuildsByDepartmentReportFacadeService
-                .GetBuildsSummaryReports(DateTime.UnixEpoch, DateTime.UnixEpoch, false)
+                .GetBuildsSummaryReport(DateTime.UnixEpoch, DateTime.UnixEpoch, false)
                 .Returns(
-                    new SuccessResult<IEnumerable<ResultsModel>>(results)
+                    new SuccessResult<ResultsModel>(results)
                         {
-                            Data = new List<ResultsModel> { new ResultsModel { ReportTitle = new NameModel("t") } }
+                            Data = new ResultsModel { ReportTitle = new NameModel("t") }
                         });
 
             this.Response = this.Browser.Get(
@@ -51,7 +51,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildsByDepartmentReportFacadeService.Received().GetBuildsSummaryReports(
+            this.BuildsByDepartmentReportFacadeService.Received().GetBuildsSummaryReport(
                 DateTime.UnixEpoch,
                 DateTime.UnixEpoch,
                 false);
