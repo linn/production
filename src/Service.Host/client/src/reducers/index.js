@@ -38,6 +38,7 @@ import parts from './parts';
 import smtShifts from './smtShifts';
 import * as itemTypes from '../itemTypes';
 import ptlSettings from './ptlSettings';
+import startTriggerRun from './startTriggerRun';
 
 const errors = fetchErrorReducer(itemTypes);
 
@@ -76,6 +77,7 @@ const rootReducer = combineReducers({
     parts,
     smtShifts,
     ptlSettings,
+    startTriggerRun,
     ...sharedLibraryReducers
 });
 
