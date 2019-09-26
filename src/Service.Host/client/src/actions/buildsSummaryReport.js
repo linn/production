@@ -4,6 +4,7 @@ import * as reportTypes from '../reportTypes';
 import config from '../config';
 
 export default new ReportActions(
+    reportTypes.buildsSummaryReport.item,
     reportTypes.buildsSummaryReport.actionType,
     reportTypes.buildsSummaryReport.uri,
     actionTypes,

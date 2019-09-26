@@ -40,7 +40,7 @@ import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
 import ptlSettings from './ptlSettings';
 
-const errors = fetchErrorReducer([...itemTypes, ...reportTypes]);
+const errors = fetchErrorReducer({...itemTypes, ...reportTypes });
 
 const rootReducer = combineReducers({
     oidc,
