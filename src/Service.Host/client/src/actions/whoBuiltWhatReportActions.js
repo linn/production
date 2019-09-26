@@ -5,6 +5,7 @@ import config from '../config';
 
 export default new ReportActions(
     reportTypes.whoBuiltWhat.actionType,
+    reportTypes.whoBuiltWhat.actionType,
     reportTypes.whoBuiltWhat.uri,
     actionTypes,
     config.appRoot

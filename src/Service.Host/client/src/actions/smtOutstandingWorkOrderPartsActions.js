@@ -5,6 +5,7 @@ import config from '../config';
 
 export default new ReportActions(
     reportTypes.smtOutstandingWorkOrderParts.actionType,
+    reportTypes.smtOutstandingWorkOrderParts.actionType,
     reportTypes.smtOutstandingWorkOrderParts.uri,
     actionTypes,
     config.appRoot

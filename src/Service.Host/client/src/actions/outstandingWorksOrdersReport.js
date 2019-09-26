@@ -4,7 +4,7 @@ import * as reportTypes from '../reportTypes';
 import config from '../config';
 
 export default new ReportActions(
-    reportTypes.outstandingWorksOrdersReport,
+    reportTypes.outstandingWorksOrdersReport.item,
     reportTypes.outstandingWorksOrdersReport.actionType,
     reportTypes.outstandingWorksOrdersReport.uri,
     actionTypes,
