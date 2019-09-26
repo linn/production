@@ -4,7 +4,7 @@ import * as reportTypes from '../reportTypes';
 import config from '../config';
 
 export default new ReportActions(
-    reportTypes.smtOutstandingWorkOrderParts.actionType,
+    reportTypes.smtOutstandingWorkOrderParts.item,
     reportTypes.smtOutstandingWorkOrderParts.actionType,
     reportTypes.smtOutstandingWorkOrderParts.uri,
     actionTypes,
