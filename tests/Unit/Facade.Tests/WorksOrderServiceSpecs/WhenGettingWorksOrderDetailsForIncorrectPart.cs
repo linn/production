@@ -2,14 +2,16 @@
 {
     using FluentAssertions;
 
+    using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using NSubstitute;
+    using NSubstitute.ExceptionExtensions;
 
     using NUnit.Framework;
 
-    public class WhenGettingWorksOrderDetails : ContextBase
+    public class WhenGettingWorksOrderDetailsForIncorrectPart : ContextBase
     {
         private IResult<WorksOrderDetails> result;
 
@@ -30,7 +32,7 @@
                                              WorkStationCode = "Code"
                                          };
 
-            this.WorksOrderUtilities.GetWorksOrderDetails(this.partNumber).Returns(this.worksOrderDetails);
+            this.WorksOrderUtilities.GetWorksOrderDetails(this.partNumber).Throws(new DomainException("Exception"));
 
             this.result = this.Sut.GetWorksOrderDetails(this.partNumber);
         }
@@ -42,12 +44,9 @@
         }
 
         [Test]
-        public void ShouldReturnSuccess()
+        public void ShouldReturnBadRequest()
         {
-            this.result.Should().BeOfType<SuccessResult<WorksOrderDetails>>();
-            var dataResult = ((SuccessResult<WorksOrderDetails>)this.result).Data;
-            dataResult.PartNumber.Should().Be(this.partNumber);
-            dataResult.AuditDisclaimer.Should().Be("Disclaimer");
+            this.result.Should().BeOfType<BadRequestResult<WorksOrderDetails>>();
         }
     }
 }

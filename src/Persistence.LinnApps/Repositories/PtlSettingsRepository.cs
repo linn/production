@@ -4,7 +4,7 @@
 
     using Linn.Production.Domain.LinnApps.Triggers;
 
-    public class PtlSettingsRepository : IMasterRepository<PtlSettings>
+    public class PtlSettingsRepository : ISingleRecordRepository<PtlSettings>
     {
         private readonly ServiceDbContext serviceDbContext;
 
@@ -13,7 +13,7 @@
             this.serviceDbContext = serviceDbContext;
         }
 
-        public PtlSettings GetMasterRecord()
+        public PtlSettings GetRecord()
         {
             return this.serviceDbContext.PtlSettings.ToList().FirstOrDefault();
         }

@@ -1,8 +1,8 @@
 ﻿namespace Linn.Production.Facade.CsvExtensions
 {
     using System.Collections.Generic;
-    using Domain;
-    using Domain.LinnApps.Measures;
+
+    using Linn.Production.Domain.LinnApps.Measures;
 
     public static class ProductionMeasuresCsvExtensions
     {

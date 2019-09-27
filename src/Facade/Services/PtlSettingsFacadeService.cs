@@ -8,7 +8,7 @@
 
     public class PtlSettingsFacadeService : SingleRecordFacadeService<PtlSettings, PtlSettingsResource>
     {
-        public PtlSettingsFacadeService(IMasterRepository<PtlSettings> repository, ITransactionManager transactionManager)
+        public PtlSettingsFacadeService(ISingleRecordRepository<PtlSettings> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
         }

@@ -32,7 +32,7 @@
                                     SubAssemblyDaysToLookAhead = 6
                                 };
 
-            this.PtlSettingsRepository.GetMasterRecord()
+            this.PtlSettingsRepository.GetRecord()
                 .Returns(this.settings);
             this.result = this.Sut.Update(this.resource);
         }
@@ -40,7 +40,7 @@
         [Test]
         public void ShouldGetRecord()
         {
-            this.PtlSettingsRepository.Received().GetMasterRecord();
+            this.PtlSettingsRepository.Received().GetRecord();
         }
 
         [Test]

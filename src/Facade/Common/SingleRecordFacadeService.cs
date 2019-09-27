@@ -9,11 +9,11 @@
 
     public abstract class SingleRecordFacadeService<T, TUpdateResource> : ISingleRecordFacadeService<T, TUpdateResource>
     {
-        private readonly IMasterRepository<T> repository;
+        private readonly ISingleRecordRepository<T> repository;
 
         private readonly ITransactionManager transactionManager;
 
-        protected SingleRecordFacadeService(IMasterRepository<T> repository, ITransactionManager transactionManager)
+        protected SingleRecordFacadeService(ISingleRecordRepository<T> repository, ITransactionManager transactionManager)
         {
             this.repository = repository;
             this.transactionManager = transactionManager;
@@ -21,7 +21,7 @@
 
         public IResult<T> Get()
         {
-            var entity = this.repository.GetMasterRecord();
+            var entity = this.repository.GetRecord();
             if (entity == null)
             {
                 return new NotFoundResult<T>();
@@ -32,7 +32,7 @@
 
         public IResult<ResponseModel<T>> Get(IEnumerable<string> privileges)
         {
-            var entity = this.repository.GetMasterRecord();
+            var entity = this.repository.GetRecord();
             if (entity == null)
             {
                 return new NotFoundResult<ResponseModel<T>>();
@@ -43,7 +43,7 @@
 
         public IResult<T> Update(TUpdateResource updateResource)
         {
-            var entity = this.repository.GetMasterRecord();
+            var entity = this.repository.GetRecord();
             if (entity == null)
             {
                 return new NotFoundResult<T>();
@@ -65,7 +65,7 @@
 
         public IResult<ResponseModel<T>> Update(TUpdateResource updateResource, IEnumerable<string> privileges)
         {
-            var entity = this.repository.GetMasterRecord();
+            var entity = this.repository.GetRecord();
             if (entity == null)
             {
                 return new NotFoundResult<ResponseModel<T>>();
