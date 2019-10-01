@@ -71,14 +71,14 @@
                 worksOrder.RaisedBy,
                 worksOrder.Quantity);
 
-            try
-            {
-                this.productAuditPack.GenerateProductAudits(worksOrder.OrderNumber);
-            }
-            catch (Exception e)
-            {
-                return new BadRequestResult<WorksOrder>(e.Message);
-            }
+            // try
+            // {
+            //     this.productAuditPack.GenerateProductAudits(worksOrder.OrderNumber);
+            // }
+            // catch (Exception e)
+            // {
+            //     return new BadRequestResult<WorksOrder>(e.Message);
+            // }
 
             this.transactionManager.Commit();
 
@@ -114,10 +114,14 @@
                     return new BadRequestResult<WorksOrder>(exception.Message);
                 }
 
+                this.transactionManager.Commit();
+
                 return new SuccessResult<WorksOrder>(worksOrder);
             }
 
             this.UpdateFromResource(worksOrder, resource);
+
+            this.transactionManager.Commit();
 
             return new SuccessResult<WorksOrder>(worksOrder);
         }

@@ -3,5 +3,7 @@
     public interface ISalesArticleService
     {
         string GetDescriptionFromPartNumber(string partNumber);
+
+        bool ProductIdOnChip(string partNumber);
     }
 }

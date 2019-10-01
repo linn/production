@@ -18,6 +18,12 @@ import {
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
+const useStyles = makeStyles(theme => ({
+    marginTop: {
+        marginTop: theme.spacing(2)
+    }
+}));
+
 function WorksOrder({
     item,
     editStatus,
@@ -51,12 +57,6 @@ function WorksOrder({
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
 
-    const useStyles = makeStyles(theme => ({
-        marginTop: {
-            marginTop: theme.spacing(2)
-        }
-    }));
-
     const classes = useStyles();
 
     useEffect(() => {
@@ -71,13 +71,13 @@ function WorksOrder({
             setWorksOrder(item);
 
             if (item && item.partNumber) {
-                fetchWorksOrderDetails(item.partNumber);
+                fetchWorksOrderDetails(encodeURI(item.partNumber));
             }
         }
     }, [item, prevWorksOrder, fetchWorksOrderDetails, creating]);
 
     useEffect(() => {
-        if (employees && worksOrder.raisedBy) {
+        if (worksOrder && employees && worksOrder.raisedBy) {
             if (worksOrder.raisedBy) {
                 setRaisedByEmployee(
                     employees.find(employee => employee.id === worksOrder.raisedBy)
@@ -89,7 +89,7 @@ function WorksOrder({
                 );
             }
         }
-    }, [employees, worksOrder.raisedBy, worksOrder.cancelledBy]);
+    }, [employees, worksOrder]);
 
     useEffect(() => {
         if (creating() && worksOrderDetails) {
@@ -117,11 +117,12 @@ function WorksOrder({
     };
 
     const handleBackClick = () => {
+        setEditStatus('view');
         history.push('/production/works-orders');
     };
 
     const handlePartSelect = part => {
-        fetchWorksOrderDetails(part.partNumber);
+        fetchWorksOrderDetails(encodeURIComponent(part.partNumber));
         setWorksOrder({ ...worksOrder, partNumber: part.partNumber });
     };
 
@@ -163,7 +164,7 @@ function WorksOrder({
                                 color="primary"
                                 variant="outlined"
                                 style={{ float: 'right' }}
-                                onClick={() => history.push('/production/works-orders')}
+                                onClick={handleBackClick}
                             >
                                 Search
                             </Button>
@@ -180,7 +181,6 @@ function WorksOrder({
                         <ErrorCard errorMessage={errorMessage} />
                     </Grid>
                 )}
-                {/* TODO change to just display if not creating */}
                 {!creating() && (
                     <Fragment>
                         <Grid item xs={4}>
@@ -197,7 +197,6 @@ function WorksOrder({
                         <Grid item xs={8} />
                     </Fragment>
                 )}
-                {/* TODO check more loadings? */}
                 {loading || employeesLoading ? (
                     <Grid item xs={12}>
                         <Loading />
@@ -227,7 +226,6 @@ function WorksOrder({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    // value={creating() ? 'WO' : worksOrder.docType}
                                     value={worksOrder.docType}
                                     propertyName="docType"
                                     onChange={handleFieldChange}
@@ -249,45 +247,45 @@ function WorksOrder({
                                     <Grid item xs={8} />
                                 </Fragment>
                             )}
-                            {creating() && (
-                                <Fragment>
-                                    <Grid item xs={4}>
-                                        <InputField
-                                            disabled
-                                            label="Part"
-                                            maxLength={14}
-                                            fullWidth
-                                            value={worksOrder.partNumber}
-                                            onChange={handleFieldChange}
-                                            propertyName="partSearchTerm"
-                                        />
-                                    </Grid>
+                            <Fragment>
+                                <Grid item xs={4}>
+                                    <InputField
+                                        disabled
+                                        label="Part"
+                                        maxLength={14}
+                                        fullWidth
+                                        value={worksOrder.partNumber}
+                                        onChange={handleFieldChange}
+                                        propertyName="partSearchTerm"
+                                    />
+                                </Grid>
+                                {creating() && (
                                     <Grid item xs={1}>
                                         <div className={classes.marginTop}>
                                             <TypeaheadDialog
                                                 title="Search For Part"
                                                 onSelect={handlePartSelect}
-                                                searchItems={partsSearchResults}
+                                                searchItems={partsSearchResults || []}
                                                 loading={partsSearchLoading}
                                                 fetchItems={searchParts}
                                                 clearSearch={() => clearPartsSearch}
                                             />
                                         </div>
                                     </Grid>
-                                    <Grid item xs={7}>
-                                        <InputField
-                                            fullWidth
-                                            disabled
-                                            value={
-                                                worksOrderDetails
-                                                    ? worksOrderDetails.partDescription
-                                                    : ''
-                                            }
-                                            label="Description"
-                                        />
-                                    </Grid>
-                                </Fragment>
-                            )}
+                                )}
+                                <Grid item xs={7}>
+                                    <InputField
+                                        fullWidth
+                                        disabled
+                                        value={
+                                            worksOrderDetails
+                                                ? worksOrderDetails.partDescription
+                                                : ''
+                                        }
+                                        label="Description"
+                                    />
+                                </Grid>
+                            </Fragment>
                             <Grid item xs={4}>
                                 <InputField
                                     fullWidth
@@ -295,7 +293,7 @@ function WorksOrder({
                                     value={
                                         creating()
                                             ? worksOrderDetails && worksOrderDetails.workStationCode
-                                            : worksOrder.worksStationCode
+                                            : worksOrder.workStationCode
                                     }
                                     label="Work Station"
                                     onChange={handleFieldChange}

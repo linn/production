@@ -13,16 +13,6 @@ function App() {
                 <ListItem component={Link} to="/production/quality/ate/fault-codes/" button>
                     <Typography color="primary">ATE Fault Codes</Typography>
                 </ListItem>
-                <ListItem
-                    component={Link}
-                    to="/production/maintenance/serial-number-reissue"
-                    button
-                >
-                    <Typography color="primary">Reissue Serial Numbers</Typography>
-                </ListItem>
-                <ListItem component={Link} to="/production/resources/manufacturing-skills/" button>
-                    <Typography color="primary">Manufacturing Skills Utility</Typography>
-                </ListItem>
                 <ListItem component={Link} to="/production/resources/board-fail-types/" button>
                     <Typography color="primary">Board Fail Types</Typography>
                 </ListItem>
@@ -33,14 +23,33 @@ function App() {
                 >
                     <Typography color="primary">Manufacturing Resources Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/resources/manufacturing-skills/" button>
+                    <Typography color="primary">Manufacturing Skills Utility</Typography>
+                </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/maintenance/serial-number-reissue"
+                    button
+                >
+                    <Typography color="primary">Reissue Serial Numbers</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/works-orders/" button>
+                    <Typography color="primary">Works Orders Utility</Typography>
+                </ListItem>
             </List>
             <Typography variant="h6">Reports</Typography>
             <List>
-                <ListItem component={Link} to="/production/reports/builds-summary-options" button>
-                    <Typography color="primary">Builds Summary Report</Typography>
+                <ListItem component={Link} to="/production/reports/assembly-fails-measures" button>
+                    <Typography color="primary">Assembly Fails Measures</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/builds-detail-options" button>
                     <Typography color="primary">Builds Detail Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/builds-summary-options" button>
+                    <Typography color="primary">Builds Summary Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/measures" button>
+                    <Typography color="primary">Operations Status Report (OSR)</Typography>
                 </ListItem>
                 <ListItem
                     component={Link}
@@ -48,15 +57,6 @@ function App() {
                     button
                 >
                     <Typography color="primary">Outstanding Works Orders Report</Typography>
-                </ListItem>
-                <ListItem component={Link} to="/production/reports/measures" button>
-                    <Typography color="primary">Operations Status Report (OSR)</Typography>
-                </ListItem>
-                <ListItem component={Link} to="/production/reports/who-built-what" button>
-                    <Typography color="primary">Who Built What Report</Typography>
-                </ListItem>
-                <ListItem component={Link} to="/production/reports/assembly-fails-measures" button>
-                    <Typography color="primary">Assembly Fails Measures</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/triggers" button>
                     <Typography color="primary">Production Triggers Report</Typography>
@@ -67,6 +67,9 @@ function App() {
                     button
                 >
                     <Typography color="primary">SMT Outstanding Works Order Parts</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/who-built-what" button>
+                    <Typography color="primary">Who Built What Report</Typography>
                 </ListItem>
             </List>
         </Page>

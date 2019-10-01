@@ -18,11 +18,11 @@
 
         private readonly IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository;
 
-        private readonly IWorksOrderProxyService worksOrderProxyService;
-
         private readonly IRepository<Department, string> departmentRepository;
 
         private readonly IRepository<Cit, string> citRepository;
+
+        private readonly ISalesArticleService salesArticleService;
 
         private readonly ISernosPack sernosPack;
 
@@ -31,19 +31,19 @@
             IRepository<PcasBoardForAudit, string> pcasBoardsForAuditRepository,
             IRepository<PcasRevision, string> pcasRevisionsRepository,
             IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository,
-            IWorksOrderProxyService worksOrderProxyService,
             ISernosPack sernosPack,
             IRepository<Cit, string> citRepository,
-            IRepository<Department, string> departmentRepository)
+            IRepository<Department, string> departmentRepository,
+            ISalesArticleService salesArticleService)
         {
             this.partsRepository = partsRepository;
             this.pcasBoardsForAuditRepository = pcasBoardsForAuditRepository;
             this.pcasRevisionsRepository = pcasRevisionsRepository;
             this.productionTriggerLevelsRepository = productionTriggerLevelsRepository;
-            this.worksOrderProxyService = worksOrderProxyService;
             this.sernosPack = sernosPack;
             this.citRepository = citRepository;
             this.departmentRepository = departmentRepository;
+            this.salesArticleService = salesArticleService;
         }
 
         public void IssueSerialNumber(
@@ -53,7 +53,7 @@
             int createdBy,
             int quantity)
         {
-            if (!this.worksOrderProxyService.ProductIdOnChip(partNumber))
+            if (!this.salesArticleService.ProductIdOnChip(partNumber))
             {
                 if (this.sernosPack.SerialNumbersRequired(partNumber))
                 {

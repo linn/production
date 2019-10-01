@@ -28,6 +28,7 @@ const initialise = () => dispatch => {
     dispatch(employeesActions.fetch());
     dispatch(worksOrderDetailsActions.create());
     dispatch(worksOrderActions.create());
+    dispatch(partsActions.clearSearch());
 };
 
 const mapDispatchToProps = {

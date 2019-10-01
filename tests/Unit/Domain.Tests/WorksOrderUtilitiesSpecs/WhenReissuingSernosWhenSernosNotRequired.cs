@@ -25,7 +25,7 @@
             this.createdBy = 33067;
             this.quantity = 3;
 
-            this.WorksOrderService.ProductIdOnChip(this.partNumber).Returns(false);
+            this.SalesArticleService.ProductIdOnChip(this.partNumber).Returns(false);
 
             this.SernosPack.SerialNumbersRequired(this.partNumber).Returns(false);
 

@@ -32,6 +32,8 @@
 
         protected IRepository<Cit, string> CitRepository { get; private set; }
 
+        protected ISalesArticleService SalesArticleService { get; private set; }
+
         [SetUp]
         public void SetUpContext()
         {
@@ -43,16 +45,17 @@
             this.SernosPack = Substitute.For<ISernosPack>();
             this.DepartmentRepository = Substitute.For<IRepository<Department, string>>();
             this.CitRepository = Substitute.For<IRepository<Cit, string>>();
+            this.SalesArticleService = Substitute.For<ISalesArticleService>();
 
             this.Sut = new WorksOrderUtilities(
                 this.PartsRepository,
                 this.PcasBoardsForAuditRepository,
                 this.PcasRevisionsRepository,
                 this.ProductionTriggerLevelsRepository,
-                this.WorksOrderService,
                 this.SernosPack,
                 this.CitRepository,
-                this.DepartmentRepository);
+                this.DepartmentRepository,
+                this.SalesArticleService);
         }
     }
 }
