@@ -28,7 +28,7 @@
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
                         {
-                            Data = new ResultsModel { ReportTitle = new NameModel("t") }
+                            Data = new ResultsModel { ReportTitle = new NameModel("t")}
                         });
 
             this.Response = this.Browser.Get(

@@ -25,10 +25,6 @@
         {
             var summaries = this.databaseService.GetBuildsSummaries(from, to, monthly).ToList();
 
-            var interval = monthly ? "Month" : "Week";
-
-            var weeks = summaries.GroupBy(s => s.WeekEnd.Date);
-
             var model = new ResultsModel { ReportTitle = new NameModel("Builds Summary Report") };
 
             var columns = new List<AxisDetailsModel>
@@ -40,24 +36,31 @@
                               };
 
             var rowId = 0;
-
+            model.AddSortedColumns(columns);
             var values = new List<CalculationValueModel>();
             foreach (var summary in summaries)
             {
-                var newRowId = summary.DepartmentCode.ToString();
-
                 values.Add(
                     new CalculationValueModel
-                        {
-                            RowId = newRowId, TextDisplay = summary.WeekEnd.ToShortDateString(), ColumnId = "WeekEnd"
+                        {    
+                            RowId = rowId.ToString(), TextDisplay = summary.WeekEnd.ToShortDateString(), ColumnId = "WeekEnd"
                         });
-                values.Add(new CalculationValueModel { RowId = newRowId, TextDisplay = summary.DepartmentDescription, ColumnId = "Department" });
-                values.Add(new CalculationValueModel { RowId = newRowId, Value = summary.Value, ColumnId = "Value" });
-                values.Add(new CalculationValueModel { RowId = newRowId, Value = summary.DaysToBuild, ColumnId = "Days" });
+                values.Add(new CalculationValueModel { RowId = rowId.ToString(), TextDisplay = summary.DepartmentDescription, ColumnId = "Department" });
+                values.Add(new CalculationValueModel { RowId = rowId.ToString(), Value = summary.Value, ColumnId = "Value" });
+                values.Add(new CalculationValueModel { RowId = rowId.ToString(), Value = summary.DaysToBuild, ColumnId = "Days" });
+
+                model.ValueDrillDownTemplates.Add(
+                    new DrillDownModel(
+                        "Department",
+                        $"/production/reports/builds-detail/options?fromDate={from.Date.ToString("o", CultureInfo.InvariantCulture)}"
+                        + $"&toDate={to.Date.ToString("o", CultureInfo.InvariantCulture)}"
+                        + $"&department={summaries[rowId].DepartmentCode}&quantityOrValue=Value" + $"&monthly={monthly}",
+                        rowId,
+                        model.ColumnIndex("Department")));
+                rowId++;
             }
 
-            model.AddSortedColumns(columns);
-            this.reportingHelper.AddResultsToModel(model, values, CalculationValueModelType.Value, true); // correct? sort by dates??
+            this.reportingHelper.AddResultsToModel(model, values, CalculationValueModelType.Value, true);
             this.reportingHelper.SubtotalRowsByTextColumnValue(
                 model,
                 model.ColumnIndex("WeekEnd"),
@@ -65,17 +68,6 @@
                 true,
                 true);
 
-            var department = string.Empty;
-
-            model.ValueDrillDownTemplates.Add(
-                new DrillDownModel(
-                    "Department",
-                    $"/production/reports/builds-detail/options?fromDate={from.Date.ToString("o", CultureInfo.InvariantCulture)}"
-                    + $"&toDate={to.Date.ToString("o", CultureInfo.InvariantCulture)}"
-                    + "&department={rowId}&quantityOrValue=Value" + $"&monthly={monthly}",
-                    null,
-                    model.ColumnIndex("Department")));
-            
             return model;
         }
     }
