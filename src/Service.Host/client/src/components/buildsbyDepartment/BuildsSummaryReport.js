@@ -4,17 +4,20 @@ import { ReportTable, Loading, BackButton, ErrorCard } from '@linn-it/linn-form-
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function BuildsSummaryReport({ reportData, loading, history }) {
+function BuildsSummaryReport({ reportData, loading, history, itemError }) {
     const handleBackClick = () => {
         history.push('/production/reports/builds-summary-options');
     };
+    if (loading) {
+        return <Loading />;
+    }
     return (
-        <Page>
-            <Grid container spacing={3} justify="center">
-                <Grid item xs={12}>
-                    {loading || !reportData ? (
-                        <Loading />
-                    ) : (
+        <Page showRequestErrors>
+            {itemError ? (
+                <ErrorCard errorMessage={itemError.details?.message} />
+            ) : (
+                <Grid container spacing={3} justify="center">
+                    <Grid item xs={12}>
                         <ReportTable
                             reportData={reportData}
                             title={reportData.title}
@@ -24,12 +27,12 @@ function BuildsSummaryReport({ reportData, loading, history }) {
                             placeholderColumns={4}
                             showRowTitles={false}
                         />
-                    )}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <BackButton backClick={() => handleBackClick(history)} />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <BackButton backClick={() => handleBackClick(history)} />
-                </Grid>
-            </Grid>
+            )}
         </Page>
     );
 }
@@ -38,13 +41,13 @@ BuildsSummaryReport.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     reportData: PropTypes.shape({}),
     loading: PropTypes.bool,
-    errorMessage: PropTypes.string
+    itemError: PropTypes.shape({})
 };
 
 BuildsSummaryReport.defaultProps = {
     reportData: null,
     loading: false,
-    errorMessage: ''
+    itemError: null
 };
 
 export default BuildsSummaryReport;
