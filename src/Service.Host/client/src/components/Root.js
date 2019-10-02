@@ -130,7 +130,7 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/builds-summary-options"
+                                        path="/production/reports/builds-summary/options"
                                         component={BuildsSummaryReportOptions}
                                     />
                                     <Route

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors, getItemError } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import initialiseOnMount from '../../initialiseOnMount';
 import ProductionTriggers from '../../../components/reports/triggers/ProductionTriggers';
@@ -22,6 +22,7 @@ const mapStateToProps = (state, ownProps) => ({
     loading: reportSelectors.getReportLoading(state) || citsSelectors.getLoading(state),
     options: getOptions(ownProps),
     cits: citsSelectors.getItems(state),
+    itemError: getItemError(state, reportTypes.productionTriggersReport.item),
     config
 });
 
