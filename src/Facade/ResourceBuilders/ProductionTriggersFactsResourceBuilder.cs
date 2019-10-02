@@ -9,6 +9,8 @@
     {
         private readonly WorksOrderResourceBuilder worksOrderResourceBuilder = new WorksOrderResourceBuilder();
 
+        private readonly ProductionBackOrderResourceBuilder productionBackOrderResourceBuilder = new ProductionBackOrderResourceBuilder();
+
         public object Build(ProductionTriggerFacts facts)
         {
             return new ProductionTriggerFactsResultsResource
@@ -59,7 +61,8 @@
                     StockAvailableShortNowBackOrdered = facts.Trigger.StockAvailableShortNowBackOrdered,
                     StockReqtPercNt = facts.Trigger.StockReqtPercNt,
                     Story = facts.Trigger.Story,
-                    OutstandingWorksOrders = facts.OutstandingWorksOrders.Select(w => this.worksOrderResourceBuilder.Build(w))
+                    OutstandingWorksOrders = facts.OutstandingWorksOrders.Select(w => this.worksOrderResourceBuilder.Build(w)),
+                    ProductionBackOrders = facts.OutstandingSalesOrders.Select(o => this.productionBackOrderResourceBuilder.Build(o))
                 }
             };
         }

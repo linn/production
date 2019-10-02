@@ -6,6 +6,7 @@
     using Linn.Common.Persistence.EntityFramework;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Repositories;
@@ -52,6 +53,7 @@
             builder.RegisterType<PcasBoardForAuditRepository>().As<IRepository<PcasBoardForAudit, string>>();
             builder.RegisterType<ProductionTriggerLevelsRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
+            builder.RegisterType<AccountingCompanyRepository>().As<IRepository<AccountingCompany, string>>();
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
             builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
             builder.RegisterType<PtlSettingsRepository>().As<IMasterRepository<PtlSettings>>();
@@ -60,6 +62,7 @@
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
             builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
+            builder.RegisterType<ProductionBackOrderQueryRepository>().As<IQueryRepository<ProductionBackOrder>>();
             builder.RegisterType<BomDetailExplodedPhantomPartViewRepository>().As<IRepository<BomDetailExplodedPhantomPartView, int>>();
         }
     }
