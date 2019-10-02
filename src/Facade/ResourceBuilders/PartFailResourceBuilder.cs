@@ -18,7 +18,7 @@
                            PartDescription = model.Part.Description,
                            Quantity = model.Quantity,
                            Batch = model.Batch,
-                           FaultCode = model.FaultCode.Description,
+                           FaultCode = model.FaultCode.FaultCode,
                            FaultDescription = model.FaultCode.Description,
                            PurchaseOrderNumber = model.PurchaseOrderNumber,
                            ErrorType = model.ErrorType.ErrorType,

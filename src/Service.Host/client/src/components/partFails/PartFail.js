@@ -91,11 +91,11 @@ function PartFail({
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
-                            <Grid item xs={8}>
+                            <Grid item xs={12}>
                                 <InputField
                                     fullWidth
                                     disabled={!creating()}
-                                    value={partFail.Id}
+                                    value={partFail.id}
                                     label="Id"
                                     maxLength={10}
                                     required
@@ -103,33 +103,27 @@ function PartFail({
                                     propertyName="id"
                                 />
                             </Grid>
-                            {/* <Grid item xs={8}>
+                            <Grid item xs={12}>
                                 <InputField
-                                    value={partFail.description}
-                                    label="Description"
+                                    value={partFail.faultCode}
+                                    label="Fault Code"
                                     maxLength={50}
                                     fullWidth
-                                    helperText={
-                                        descriptionInvalid() ? 'This field is required' : ''
-                                    }
                                     required
                                     onChange={handleFieldChange}
-                                    propertyName="description"
+                                    propertyName="faultCode"
                                 />
                             </Grid>
-                            <Grid item xs={8}>
+                            <Grid item xs={12}>
                                 <InputField
-                                    value={partFail.hourlyRate}
-                                    label="Hourly Rate"
-                                    type="number"
-                                    maxLength={3}
-                                    fullWidth
-                                    helperText={hourlyRateInvalid() ? 'This field is required' : ''}
+                                    value={partFail.faultDescription}
+                                    label="Fault Description"
                                     required
+                                    fullWidth
                                     onChange={handleFieldChange}
-                                    propertyName="hourlyRate"
+                                    propertyName="faultDescription"
                                 />
-                            </Grid> */}
+                            </Grid>
                             <Grid item xs={12}>
                                 <SaveBackCancelButtons
                                     saveDisabled={viewing()}
