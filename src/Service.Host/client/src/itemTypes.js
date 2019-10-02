@@ -135,3 +135,7 @@ export const ptlSettings = new ItemType(
     'PTL_SETTINGS',
     '/production/maintenance/production-trigger-levels-settings'
 );
+
+export const partFail = new ItemType('partFail', 'PART_FAIL', '/production/quality/part-fails');
+
+export const partFails = new ItemType('partFails', 'PART_FAILS', '/production/quality/part-fails');

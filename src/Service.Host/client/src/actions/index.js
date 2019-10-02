@@ -127,3 +127,7 @@ export const ptlSettingsActionTypes = makeActionTypes(itemTypes.ptlSettings.acti
 export const startTriggerRunActionTypes = makeProcessActionTypes(
     processTypes.startTriggerRun.actionType
 );
+
+export const partFailActionTypes = makeActionTypes(itemTypes.partFail.actionType);
+
+export const partFailsActionTypes = makeActionTypes(itemTypes.partFails.actionType);

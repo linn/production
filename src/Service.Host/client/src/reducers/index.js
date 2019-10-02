@@ -1,5 +1,5 @@
 ﻿import {
-    reducers as sharedLibraryReducers, 
+    reducers as sharedLibraryReducers,
     fetchErrorReducer,
     ItemType
 } from '@linn-it/linn-form-components-library';
@@ -39,6 +39,8 @@ import smtShifts from './smtShifts';
 import * as itemTypes from '../itemTypes';
 import ptlSettings from './ptlSettings';
 import startTriggerRun from './startTriggerRun';
+import partFail from './partFail';
+import partFails from './partFails';
 
 const errors = fetchErrorReducer(itemTypes);
 
@@ -78,6 +80,8 @@ const rootReducer = combineReducers({
     smtShifts,
     ptlSettings,
     startTriggerRun,
+    partFail,
+    partFails,
     ...sharedLibraryReducers
 });
 
