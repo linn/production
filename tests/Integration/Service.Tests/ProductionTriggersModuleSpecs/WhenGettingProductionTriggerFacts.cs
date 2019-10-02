@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using FluentAssertions;
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
@@ -18,7 +19,8 @@
         {
             var facts = new ProductionTriggerFacts(new ProductionTrigger { PartNumber = "KYLEGUARD", Description = "A product", Priority = "1" })
             {
-                OutstandingWorksOrders = new List<WorksOrder>()
+                OutstandingWorksOrders = new List<WorksOrder>(),
+                OutstandingSalesOrders = new List<ProductionBackOrder>()
             };
 
             this.ProductionTriggersFacadeService.GetProductionTriggerFacts("CJCAIH", "KYLEGUARD")

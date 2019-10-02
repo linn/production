@@ -14,7 +14,7 @@
 
     public class ProductionTriggersFacadeService : IProductionTriggersFacadeService
     {
-        private readonly Domain.LinnApps.Repositories.IQueryRepository<ProductionTrigger> repository;
+        private readonly IQueryRepository<ProductionTrigger> repository;
 
         private readonly IMasterRepository<PtlMaster> masterRepository;
 
@@ -26,7 +26,7 @@
 
         private readonly IRepository<AccountingCompany, string> accountingCompaniesRepository;
 
-        public ProductionTriggersFacadeService(Domain.LinnApps.Repositories.IQueryRepository<ProductionTrigger> repository, IRepository<Cit, string> citRepository, IMasterRepository<PtlMaster> masterRepository, IRepository<WorksOrder, int> worksOrderRepository, IQueryRepository<ProductionBackOrder> productionBackOrderRepository, IRepository<AccountingCompany, string> accountingCompaniesRepository)
+        public ProductionTriggersFacadeService(IQueryRepository<ProductionTrigger> repository, IRepository<Cit, string> citRepository, IMasterRepository<PtlMaster> masterRepository, IRepository<WorksOrder, int> worksOrderRepository, IQueryRepository<ProductionBackOrder> productionBackOrderRepository, IRepository<AccountingCompany, string> accountingCompaniesRepository)
         {
             this.repository = repository;
             this.citRepository = citRepository;
