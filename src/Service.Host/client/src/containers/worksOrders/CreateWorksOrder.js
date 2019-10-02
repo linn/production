@@ -13,7 +13,9 @@ import partsSelectors from '../../selectors/partsSelectors';
 import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
-    itemError: getItemError(state, itemTypes.worksOrder.item),
+    worksOrderError: getItemError(state, itemTypes.worksOrder.item)?.details?.errors[0],
+    worksOrderDetailsError: getItemError(state, itemTypes.worksOrderDetails.item)?.details
+        ?.errors[0],
     editStatus: 'create',
     loading: worksOrderSelectors.getLoading(state),
     snackbarVisible: worksOrderSelectors.getSnackbarVisible(state),

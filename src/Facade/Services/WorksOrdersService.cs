@@ -8,7 +8,6 @@
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Extensions;
     using Linn.Production.Resources;
@@ -21,22 +20,18 @@
 
         private readonly IWorksOrderFactory worksOrderFactory;
 
-        private readonly IProductAuditPack productAuditPack;
-
         private readonly IWorksOrderUtilities worksOrderUtilities;
 
         public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
             IWorksOrderFactory worksOrderFactory,
-            IProductAuditPack productAuditPack,
             IWorksOrderUtilities worksOrderUtilities)
             : base(worksOrderRepository, transactionManager)
         {
             this.worksOrderRepository = worksOrderRepository;
             this.transactionManager = transactionManager;
             this.worksOrderFactory = worksOrderFactory;
-            this.productAuditPack = productAuditPack;
             this.worksOrderUtilities = worksOrderUtilities;
         }
 
@@ -70,17 +65,6 @@
                 worksOrder.DocType,
                 worksOrder.RaisedBy,
                 worksOrder.Quantity);
-
-            this.transactionManager.Commit();
-
-            try
-            {
-                this.productAuditPack.GenerateProductAudits(worksOrder.OrderNumber);
-            }
-            catch (Exception e)
-            {
-                return new BadRequestResult<WorksOrder>(e.Message);
-            }
 
             this.transactionManager.Commit();
 

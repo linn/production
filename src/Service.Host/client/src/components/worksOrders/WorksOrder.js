@@ -27,7 +27,8 @@ const useStyles = makeStyles(theme => ({
 function WorksOrder({
     item,
     editStatus,
-    itemError,
+    worksOrderDetailsError,
+    worksOrderError,
     history,
     loading,
     snackbarVisible,
@@ -179,9 +180,14 @@ function WorksOrder({
                         </Fragment>
                     )}
                 </Grid>
-                {itemError && (
+                {worksOrderError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemError.statusText} />
+                        <ErrorCard errorMessage={worksOrderError} />
+                    </Grid>
+                )}
+                {worksOrderDetailsError && (
+                    <Grid item xs={12}>
+                        <ErrorCard errorMessage={worksOrderDetailsError} />
                     </Grid>
                 )}
                 {!creating() && (
@@ -463,7 +469,13 @@ WorksOrder.propTypes = {
     item: PropTypes.shape({}),
     worksOrderDetails: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
-    itemError: PropTypes.shape({
+    worksOrderDetailsError: PropTypes.shape({
+        status: PropTypes.number,
+        statusText: PropTypes.string,
+        details: PropTypes.shape({}),
+        item: PropTypes.string
+    }),
+    worksOrderError: PropTypes.shape({
         status: PropTypes.number,
         statusText: PropTypes.string,
         details: PropTypes.shape({}),
@@ -489,7 +501,8 @@ WorksOrder.propTypes = {
 WorksOrder.defaultProps = {
     item: {},
     worksOrderDetails: null,
-    itemError: null,
+    worksOrderDetailsError: null,
+    worksOrderError: null,
     snackbarVisible: false,
     loading: false,
     employees: null,
