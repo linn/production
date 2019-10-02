@@ -3,5 +3,7 @@
     public interface IMasterRepository<T>
     {
         T GetMasterRecord();
+
+        void UpdateRecord(T newValues);
     }
 }

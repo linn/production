@@ -8,13 +8,17 @@
     using Domain.LinnApps.RemoteServices;
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
+    using Linn.Common.Persistence;
     using Linn.Common.Proxy;
+    using Linn.Production.Domain.LinnApps.Common;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.Reports.Smt;
     using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
+    using Linn.Production.Facade.Common;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -73,6 +77,10 @@
                 .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
             builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
+            builder.RegisterType<SmtShiftsService>()
+                .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
+            builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
+            builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -88,6 +96,7 @@
             builder.RegisterType<SernosPack>().As<ISernosPack>();
             builder.RegisterType<ProductAuditPack>().As<IProductAuditPack>();
             builder.RegisterType<ProductionTriggersFacadeService>().As<IProductionTriggersFacadeService>();
+            builder.RegisterType<TriggerRunPack>().As<ITriggerRunPack>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
@@ -95,6 +104,7 @@
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
+            builder.RegisterType<AuthorisationService>().As<IAuthorisationService>();
 
             // Oracle connection
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter(

@@ -13,7 +13,7 @@ import Page from '../../containers/Page';
 
 function ManufacturingResource({
     editStatus,
-    errorMessage,
+    itemError,
     history,
     itemId,
     item,
@@ -80,75 +80,83 @@ function ManufacturingResource({
                         <Title text="Manufacturing Resource" />
                     )}
                 </Grid>
-                {errorMessage && (
+                {itemError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 )}
-                {loading || !manufacturingResource ? (
+                {loading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
                 ) : (
-                    <Fragment>
-                        <SnackbarMessage
-                            visible={snackbarVisible}
-                            onClose={() => setSnackbarVisible(false)}
-                            message="Save Successful"
-                        />
-                        <Grid item xs={8}>
-                            <InputField
-                                fullWidth
-                                disabled={!creating()}
-                                value={manufacturingResource.resourceCode}
-                                label="Resource Code"
-                                maxLength={10}
-                                helperText={
-                                    !creating()
-                                        ? 'This field cannot be changed'
-                                        : `${resourceCodeInvalid() ? 'This field is required' : ''}`
-                                }
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="resourceCode"
+                    manufacturingResource && (
+                        <Fragment>
+                            <SnackbarMessage
+                                visible={snackbarVisible}
+                                onClose={() => setSnackbarVisible(false)}
+                                message="Save Successful"
                             />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={manufacturingResource.description}
-                                label="Description"
-                                maxLength={50}
-                                fullWidth
-                                helperText={descriptionInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="description"
-                            />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={manufacturingResource.cost}
-                                label="Cost"
-                                type="number"
-                                decimalPlaces={2}
-                                maxLength={14}
-                                fullWidth
-                                helperText={costInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="cost"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <SaveBackCancelButtons
-                                saveDisabled={viewing() || inputInvalid()}
-                                saveClick={handleSaveClick}
-                                cancelClick={handleCancelClick}
-                                backClick={handleBackClick}
-                            />
-                        </Grid>
-                    </Fragment>
+                            <Grid item xs={8}>
+                                <InputField
+                                    fullWidth
+                                    disabled={!creating()}
+                                    value={manufacturingResource.resourceCode}
+                                    label="Resource Code"
+                                    maxLength={10}
+                                    helperText={
+                                        !creating()
+                                            ? 'This field cannot be changed'
+                                            : `${
+                                                  resourceCodeInvalid()
+                                                      ? 'This field is required'
+                                                      : ''
+                                              }`
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="resourceCode"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={manufacturingResource.description}
+                                    label="Description"
+                                    maxLength={50}
+                                    fullWidth
+                                    helperText={
+                                        descriptionInvalid() ? 'This field is required' : ''
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="description"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={manufacturingResource.cost}
+                                    label="Cost"
+                                    type="number"
+                                    decimalPlaces={2}
+                                    maxLength={14}
+                                    fullWidth
+                                    helperText={costInvalid() ? 'This field is required' : ''}
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="cost"
+                                />
+                            </Grid>
+                        </Fragment>
+                    )
                 )}
+                <Grid item xs={12}>
+                    <SaveBackCancelButtons
+                        saveDisabled={viewing() || inputInvalid()}
+                        saveClick={handleSaveClick}
+                        cancelClick={handleCancelClick}
+                        backClick={handleBackClick}
+                    />
+                </Grid>
             </Grid>
         </Page>
     );
@@ -162,7 +170,7 @@ ManufacturingResource.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
+    itemError: PropTypes.shape({}),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -178,7 +186,7 @@ ManufacturingResource.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    errorMessage: '',
+    itemError: null,
     itemId: null
 };
 

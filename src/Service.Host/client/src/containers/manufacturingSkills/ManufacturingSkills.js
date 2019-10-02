@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
-import { fetchErrorSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import ViewManufacturingSkills from '../../components/manufacturingSkills/ManufacturingSkills';
 import manufacturingSkillsActions from '../../actions/manufacturingSkillsActions';
 import manufacturingSkillsSelectors from '../../selectors/manufacturingSkillsSelectors';
+import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     items: manufacturingSkillsSelectors.getItems(state),
     loading: manufacturingSkillsSelectors.getLoading(state),
-    errorMessage: fetchErrorSelectors(state)
+    itemError: getItemError(state, itemTypes.manufacturingSkills.item)
 });
 
 const initialise = () => dispatch => {

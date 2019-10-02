@@ -4,6 +4,7 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new FetchApiActions(
+    itemTypes.assemblyFailFaultCodes.item,
     itemTypes.assemblyFailFaultCodes.actionType,
     itemTypes.assemblyFailFaultCodes.uri,
     actionTypes,

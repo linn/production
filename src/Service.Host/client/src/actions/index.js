@@ -1,6 +1,8 @@
 ﻿import { makeActionTypes, makeReportActionTypes } from '@linn-it/linn-form-components-library';
+import makeProcessActionTypes from './makeProcessActionTypes';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
+import * as processTypes from '../processTypes';
 
 export const outstandingWorksOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.outstandingWorksOrdersReport.actionType
@@ -16,6 +18,8 @@ export const ateFaultCodeActionTypes = makeActionTypes(itemTypes.ateFaultCode.ac
 export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.actionType, false);
 
 export const assemblyFailActionTypes = makeActionTypes(itemTypes.assemblyFail.actionType, true);
+export const assemblyFailsActionTypes = makeActionTypes(itemTypes.assemblyFails.actionType, true);
+
 export const salesArticleActionTypes = makeActionTypes(itemTypes.salesArticle.actionType);
 
 export const worksOrderActionTypes = makeActionTypes(itemTypes.worksOrder.actionType);
@@ -118,3 +122,11 @@ export const smtOutstandingWorkOrderPartsActionTypes = makeReportActionTypes(
 );
 
 export const partsActionsTypes = makeActionTypes(itemTypes.parts.actionType, false);
+
+export const smtShiftsActionTypes = makeActionTypes(itemTypes.smtShifts.actionType);
+
+export const ptlSettingsActionTypes = makeActionTypes(itemTypes.ptlSettings.actionType);
+
+export const startTriggerRunActionTypes = makeProcessActionTypes(
+    processTypes.startTriggerRun.actionType
+);

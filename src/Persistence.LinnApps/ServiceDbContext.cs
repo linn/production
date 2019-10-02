@@ -64,6 +64,8 @@
 
         public DbSet<ManufacturingResource> ManufacturingResources { get; set; }
 
+        public DbQuery<SmtShift> SmtShifts { get; set; }
+
         public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
 
         public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
@@ -71,6 +73,8 @@
         public DbQuery<ProductionTrigger> ProductionTriggers { get; set; }
 
         public DbSet<LinnWeek> LinnWeeks { get; set; }
+
+        public DbSet<PtlSettings> PtlSettings { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
@@ -106,6 +110,8 @@
             this.QueryProductionTriggers(builder);
             this.BuildLinnWeeks(builder);
             this.BuildBomDetailPhantomView(builder);
+            this.QuerySmtShifts(builder);
+            this.BuildPtlSettings(builder);
             base.OnModelCreating(builder);
         }
 
@@ -123,6 +129,19 @@
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
+        }
+
+        private void BuildPtlSettings(ModelBuilder builder)
+        {
+            var q = builder.Entity<PtlSettings>().ToTable("PTL_SETTINGS");
+            q.HasKey(e => e.Key);
+            q.Property(e => e.Key).HasColumnName("PRIMARY_KEY").HasMaxLength(10);
+            q.Property(e => e.DaysToLookAhead).HasColumnName("DAYS_TO_LOOK_AHEAD");
+            q.Property(e => e.BuildToMonthEndFromDays).HasColumnName("BUILD_TO_MONTH_END_FROM_DAYS");
+            q.Property(e => e.FinalAssemblyDaysToLookAhead).HasColumnName("FA_DAYS_TO_LOOK_AHEAD");
+            q.Property(e => e.SubAssemblyDaysToLookAhead).HasColumnName("SUBASSY_DAYS_TO_LOOK_AHEAD");
+            q.Property(e => e.PriorityCutOffDays).HasColumnName("PRIORITY_CUT_OFF_DAYS");
+            q.Property(e => e.PriorityStrategy).HasColumnName("PRIORITY_STRATEGY");
         }
 
         private void BuildBomDetailPhantomView(ModelBuilder builder)
@@ -430,6 +449,7 @@
             e.HasKey(c => c.FaultCode);
             e.Property(c => c.FaultCode).HasColumnName("FAULT_CODE");
             e.Property(c => c.Description).HasColumnName("DESCRIPTION");
+            e.Property(c => c.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void BuildEmployees(ModelBuilder builder)
@@ -439,6 +459,7 @@
             q.ToTable("AUTH_USER_NAME_VIEW");
             q.Property(e => e.Id).HasColumnName("USER_NUMBER");
             q.Property(e => e.FullName).HasColumnName("USER_NAME");
+            q.Property(e => e.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void QueryPtlMaster(ModelBuilder builder)
@@ -542,6 +563,14 @@
             q.Property(e => e.MWPriority).HasColumnName("MW_PRIORITY");
             q.Property(e => e.CanBuildExSubAssemblies).HasColumnName("CAN_BUILD_EX_SUB_ASSEMBLIES");
             q.Property(e => e.ReportType).HasColumnName("REPORT_TYPE").HasMaxLength(5);
+        }
+
+        private void QuerySmtShifts(ModelBuilder builder)
+        {
+            var q = builder.Query<SmtShift>();
+            q.ToView("SMT_SHIFTS");
+            q.Property(e => e.Shift).HasColumnName("SHIFT");
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION");
         }
     }
 }

@@ -4,6 +4,7 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new UpdateApiActions(
+    itemTypes.boardFailType.item,
     itemTypes.boardFailType.actionType,
     itemTypes.boardFailTypes.uri,
     actionTypes,

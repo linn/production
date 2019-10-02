@@ -4,6 +4,7 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new FetchApiActions(
+    itemTypes.ateFaultCodes.item,
     itemTypes.ateFaultCodes.actionType,
     itemTypes.ateFaultCodes.uri,
     actionTypes,

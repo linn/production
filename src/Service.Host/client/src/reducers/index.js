@@ -1,7 +1,12 @@
-﻿import { reducers as sharedLibraryReducers } from '@linn-it/linn-form-components-library';
+﻿import {
+    reducers as sharedLibraryReducers,
+    fetchErrorReducer,
+    ItemType
+} from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import assemblyFail from './assemblyFails/assemblyFail';
+import assemblyFails from './assemblyFails/assemblyFails';
 import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
@@ -32,10 +37,17 @@ import assemblyFailsDetails from './assemblyFailsDetails';
 import worksOrderDetails from './worksOrders/worksOrderDetails';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
+import smtShifts from './smtShifts';
+import * as itemTypes from '../itemTypes';
+import ptlSettings from './ptlSettings';
+import startTriggerRun from './startTriggerRun';
+
+const errors = fetchErrorReducer(itemTypes);
 
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
+    assemblyFails,
     assemblyFailsDetails,
     assemblyFailFaultCodes,
     assemblyFailsMeasures,
@@ -49,6 +61,7 @@ const rootReducer = combineReducers({
     cits,
     departments,
     employees,
+    errors,
     manufacturingSkills,
     manufacturingSkill,
     manufacturingResources,
@@ -60,7 +73,10 @@ const rootReducer = combineReducers({
     productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,
+    ptlSettings,
+    smtShifts,
     smtOutstandingWorkOrderParts,
+    startTriggerRun,
     whoBuiltWhat,
     whoBuiltWhatDetails,
     worksOrder,

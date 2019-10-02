@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
@@ -49,7 +50,8 @@
                             CorrectiveAction = model.CorrectiveAction,
                             CaDate = model.CaDate?.ToString("o"),
                             DateInvalid = model.DateInvalid?.ToString("o"),
-                            AoiEscape = model.AoiEscape
+                            AoiEscape = model.AoiEscape,
+                            Links = this.BuildLinks(model).ToArray()
                        };
         }
 

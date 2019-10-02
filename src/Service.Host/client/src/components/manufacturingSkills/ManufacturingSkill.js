@@ -13,7 +13,7 @@ import Page from '../../containers/Page';
 
 function ManufacturingSkill({
     editStatus,
-    errorMessage,
+    itemError,
     history,
     itemId,
     item,
@@ -80,73 +80,79 @@ function ManufacturingSkill({
                         <Title text="Manufacturing Skill" />
                     )}
                 </Grid>
-                {errorMessage && (
+                {itemError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 )}
-                {loading || !manufacturingSkill ? (
+                {loading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
                 ) : (
-                    <Fragment>
-                        <SnackbarMessage
-                            visible={snackbarVisible}
-                            onClose={() => setSnackbarVisible(false)}
-                            message="Save Successful"
-                        />
-                        <Grid item xs={8}>
-                            <InputField
-                                fullWidth
-                                disabled={!creating()}
-                                value={manufacturingSkill.skillCode}
-                                label="Skill Code"
-                                maxLength={10}
-                                helperText={
-                                    !creating()
-                                        ? 'This field cannot be changed'
-                                        : `${skillCodeInvalid() ? 'This field is required' : ''}`
-                                }
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="skillCode"
+                    manufacturingSkill && (
+                        <Fragment>
+                            <SnackbarMessage
+                                visible={snackbarVisible}
+                                onClose={() => setSnackbarVisible(false)}
+                                message="Save Successful"
                             />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={manufacturingSkill.description}
-                                label="Description"
-                                maxLength={50}
-                                fullWidth
-                                helperText={descriptionInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="description"
-                            />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={manufacturingSkill.hourlyRate}
-                                label="Hourly Rate"
-                                type="number"
-                                maxLength={3}
-                                fullWidth
-                                helperText={hourlyRateInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="hourlyRate"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <SaveBackCancelButtons
-                                saveDisabled={viewing() || inputInvalid()}
-                                saveClick={handleSaveClick}
-                                cancelClick={handleCancelClick}
-                                backClick={handleBackClick}
-                            />
-                        </Grid>
-                    </Fragment>
+                            <Grid item xs={8}>
+                                <InputField
+                                    fullWidth
+                                    disabled={!creating()}
+                                    value={manufacturingSkill.skillCode}
+                                    label="Skill Code"
+                                    maxLength={10}
+                                    helperText={
+                                        !creating()
+                                            ? 'This field cannot be changed'
+                                            : `${
+                                                  skillCodeInvalid() ? 'This field is required' : ''
+                                              }`
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="skillCode"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={manufacturingSkill.description}
+                                    label="Description"
+                                    maxLength={50}
+                                    fullWidth
+                                    helperText={
+                                        descriptionInvalid() ? 'This field is required' : ''
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="description"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={manufacturingSkill.hourlyRate}
+                                    label="Hourly Rate"
+                                    type="number"
+                                    maxLength={3}
+                                    fullWidth
+                                    helperText={hourlyRateInvalid() ? 'This field is required' : ''}
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="hourlyRate"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <SaveBackCancelButtons
+                                    saveDisabled={viewing() || inputInvalid()}
+                                    saveClick={handleSaveClick}
+                                    cancelClick={handleCancelClick}
+                                    backClick={handleBackClick}
+                                />
+                            </Grid>
+                        </Fragment>
+                    )
                 )}
             </Grid>
         </Page>
@@ -161,7 +167,7 @@ ManufacturingSkill.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
+    itemError: PropTypes.shape({}),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -177,7 +183,7 @@ ManufacturingSkill.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    errorMessage: '',
+    itemError: null,
     itemId: null
 };
 
