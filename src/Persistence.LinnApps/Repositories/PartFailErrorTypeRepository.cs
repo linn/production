@@ -7,41 +7,41 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
 
-    public class PartFailFaultCodeRepository : IRepository<PartFailFaultCode, string>
+    public class PartFailErrorTypeRepository : IRepository<PartFailErrorType, string>
     {
         private readonly ServiceDbContext serviceDbContext;
 
-        public PartFailFaultCodeRepository(ServiceDbContext serviceDbContext)
+        public PartFailErrorTypeRepository(ServiceDbContext serviceDbContext)
         {
             this.serviceDbContext = serviceDbContext;
         }
 
-        public PartFailFaultCode FindById(string key)
+        public PartFailErrorType FindById(string key)
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<PartFailFaultCode> FindAll()
+        public IQueryable<PartFailErrorType> FindAll()
+        {
+            return this.serviceDbContext.PartFailErrorTypes;
+        }
+
+        public void Add(PartFailErrorType entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(PartFailFaultCode entity)
+        public void Remove(PartFailErrorType entity)
         {
             throw new NotImplementedException();
         }
 
-        public void Remove(PartFailFaultCode entity)
+        public PartFailErrorType FindBy(Expression<Func<PartFailErrorType, bool>> expression)
         {
             throw new NotImplementedException();
         }
 
-        public PartFailFaultCode FindBy(Expression<Func<PartFailFaultCode, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<PartFailFaultCode> FilterBy(Expression<Func<PartFailFaultCode, bool>> expression)
+        public IQueryable<PartFailErrorType> FilterBy(Expression<Func<PartFailErrorType, bool>> expression)
         {
             throw new NotImplementedException();
         }

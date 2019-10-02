@@ -9,6 +9,13 @@
 
     public class StoragePlaceRepository : IRepository<StoragePlace, string>
     {
+        private readonly ServiceDbContext serviceDbContext;
+
+        public StoragePlaceRepository(ServiceDbContext serviceDbContext)
+        {
+            this.serviceDbContext = serviceDbContext;
+        }
+
         public StoragePlace FindById(string key)
         {
             throw new NotImplementedException();

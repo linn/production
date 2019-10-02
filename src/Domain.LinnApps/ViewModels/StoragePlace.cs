@@ -6,7 +6,9 @@
 
     public class StoragePlace
     {
-        public string Id { get; set; }
+        public string StoragePlaceId { get; set; }
+
+        public int LocationId { get; set; }
 
         public string Description { get; set; }
 

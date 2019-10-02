@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
+    using System;
     using System.Linq;
 
     using Linn.Common.Configuration;
@@ -80,8 +81,12 @@
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
-        private DbQuery<StoragePlace> StoragePlaces { get; set; }
+        public DbSet<StoragePlace> StoragePlaces { get; set; }
 
+        public DbSet<PartFail> PartFails { get; set; }
+
+        public DbSet<PartFailErrorType> PartFailErrorTypes { get; set;  }
+ 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -114,8 +119,10 @@
             this.BuildBomDetailPhantomView(builder);
             this.QuerySmtShifts(builder);
             this.BuildPtlSettings(builder);
-            this.QueryStoragePlaces(builder);
+            this.BuildStoragePlaces(builder);
             this.BuildPartFailFaultCodes(builder);
+            this.BuildPartFails(builder);
+            this.BuildPartFailErrorTypes(builder);
             base.OnModelCreating(builder);
         }
 
@@ -577,11 +584,13 @@
             q.Property(e => e.Description).HasColumnName("DESCRIPTION");
         }
 
-        private void QueryStoragePlaces(ModelBuilder builder)
+        private void BuildStoragePlaces(ModelBuilder builder)
         {
-            var q = builder.Query<StoragePlace>();
-            q.ToView("V_STORAGE_PLACES");
-            q.Property(p => p.Id).HasColumnName("STORAGE_PLACE");
+            var q = builder.Entity<StoragePlace>();
+            q.ToTable("V_STORAGE_PLACES");
+            q.HasKey(p => p.LocationId);
+            q.Property(p => p.LocationId).HasColumnName("LOCATION_ID");
+            q.Property(p => p.StoragePlaceId).HasColumnName("STORAGE_PLACE");
             q.Property(p => p.Description).HasColumnName("STORAGE_PLACE_DESCRIPTION");
             q.Property(p => p.SiteCode).HasColumnName("SITE_CODE");
             q.Property(p => p.VaxPallet).HasColumnName("VAX_PALLET");
@@ -590,6 +599,7 @@
 
         private void BuildPartFailFaultCodes(ModelBuilder builder)
         {
+            builder.Entity<PartFailFaultCode>().ToTable("PART_FAIL_FAULT_CODES");
             builder.Entity<PartFailFaultCode>().HasKey(c => c.FaultCode);
             builder.Entity<PartFailFaultCode>().Property(c => c.FaultCode).HasColumnName("FAULT_CODE");
             builder.Entity<PartFailFaultCode>().Property(c => c.Description).HasColumnName("FAULT_DESCRIPTION");
@@ -600,17 +610,28 @@
             var e = builder.Entity<PartFail>();
             e.ToTable("PART_FAIL_LOG");
             e.HasKey(f => f.Id);
+            e.Property(f => f.Id).HasColumnName("ID");
             e.Property(f => f.Batch).HasColumnName("BATCH");
             e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.PartFails).HasForeignKey("WORKS_ORDER_NUMBER");
+            e.Property(f => f.PurchaseOrderNumber).HasColumnName("PURCHASE_ORDER_NUMBER");
             e.Property(f => f.DateCreated).HasColumnName("DATE_CREATED");
-            e.Property(f => f.ErrorType).HasColumnName("ERROR_TYPE");
             e.HasOne<Employee>(f => f.EnteredBy).WithMany(m => m.PartFailsEntered).HasForeignKey("ENTERED_BY");
             e.Property(f => f.MinutesWasted).HasColumnName("MINUTES_WASTED");
             e.Property(f => f.Batch).HasColumnName("BATCH");
             e.HasOne<Part>(f => f.Part).WithMany(p => p.Fails).HasForeignKey("PART_NUMBER");
             e.Property(f => f.Quantity).HasColumnName("QTY");
+            e.Property(f => f.Story).HasColumnName("STORY");
             e.HasOne<PartFailFaultCode>(f => f.FaultCode).WithMany(c => c.PartFails).HasForeignKey("FAULT_CODE");
-            e.HasOne<StoragePlace>(f => f.StoragePlace).WithMany()
+            e.HasOne<StoragePlace>(f => f.StoragePlace).WithMany(c => c.PartFails).HasForeignKey("LOCATION_ID");
+            e.HasOne<PartFailErrorType>(f => f.ErrorType).WithMany(t => t.PartFails).HasForeignKey("ERROR_TYPE");
+        }
+
+        private void BuildPartFailErrorTypes(ModelBuilder builder)
+        {
+            builder.Entity<PartFailErrorType>().ToTable("PART_FAIL_ERROR_TYPES");
+            builder.Entity<PartFailErrorType>().HasKey(t => t.ErrorType);
+            builder.Entity<PartFailErrorType>().Property(e => e.ErrorType).HasColumnName("ERROR_TYPE");
+            builder.Entity<PartFailErrorType>().Property(e => e.DateInvalid).HasColumnName("DATE_INVALID");
         }
     }
 }

@@ -15,13 +15,13 @@
 
         public Part Part { get; set; }
 
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
 
         public string Batch { get; set; }
 
         public PartFailFaultCode FaultCode { get; set; }
 
-        public string ErrorType { get; set; }
+        public PartFailErrorType ErrorType { get; set; }
 
         public string Story { get; set; }
 
@@ -29,6 +29,8 @@
 
         public StoragePlace StoragePlace { get; set; }
 
-        public int MinutesWasted { get; set; }
+        public string PurchaseOrderNumber { get; set; }
+
+        public int? MinutesWasted { get; set; }
     }
 }
