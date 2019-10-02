@@ -121,7 +121,6 @@ function WorksOrder({
         history.push('/production/works-orders');
     };
 
-    // TODO in field change
     const handlePartSelect = part => {
         fetchWorksOrderDetails(encodeURIComponent(part.partNumber));
         setWorksOrder({ ...worksOrder, partNumber: part.partNumber });
