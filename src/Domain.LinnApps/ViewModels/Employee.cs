@@ -15,6 +15,8 @@
 
         public List<AssemblyFail> AssemblyFailsEntered { get; set; }
 
+        public List<PartFail> PartFailsEntered { get; set; }
+
         public List<AssemblyFail> AssemblyFailsReturned { get; set; }
 
         public List<AssemblyFail> AssemblyFailsResponsibleFor { get; set; }

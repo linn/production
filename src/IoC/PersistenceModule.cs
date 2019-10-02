@@ -55,7 +55,8 @@
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
             builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
             builder.RegisterType<PtlSettingsRepository>().As<IMasterRepository<PtlSettings>>();
-
+            builder.RegisterType<StoragePlaceRepository>().As<IRepository<StoragePlace, string>>();
+            builder.RegisterType<PartFailFaultCodeRepository>().As<IRepository<PartFailFaultCode, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

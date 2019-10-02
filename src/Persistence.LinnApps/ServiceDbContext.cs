@@ -80,6 +80,8 @@
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
+        private DbQuery<StoragePlace> StoragePlaces { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -112,6 +114,8 @@
             this.BuildBomDetailPhantomView(builder);
             this.QuerySmtShifts(builder);
             this.BuildPtlSettings(builder);
+            this.QueryStoragePlaces(builder);
+            this.BuildPartFailFaultCodes(builder);
             base.OnModelCreating(builder);
         }
 
@@ -571,6 +575,42 @@
             q.ToView("SMT_SHIFTS");
             q.Property(e => e.Shift).HasColumnName("SHIFT");
             q.Property(e => e.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void QueryStoragePlaces(ModelBuilder builder)
+        {
+            var q = builder.Query<StoragePlace>();
+            q.ToView("V_STORAGE_PLACES");
+            q.Property(p => p.Id).HasColumnName("STORAGE_PLACE");
+            q.Property(p => p.Description).HasColumnName("STORAGE_PLACE_DESCRIPTION");
+            q.Property(p => p.SiteCode).HasColumnName("SITE_CODE");
+            q.Property(p => p.VaxPallet).HasColumnName("VAX_PALLET");
+            q.Property(p => p.StorageAreaCode).HasColumnName("STORAGE_AREA_CODE");
+        }
+
+        private void BuildPartFailFaultCodes(ModelBuilder builder)
+        {
+            builder.Entity<PartFailFaultCode>().HasKey(c => c.FaultCode);
+            builder.Entity<PartFailFaultCode>().Property(c => c.FaultCode).HasColumnName("FAULT_CODE");
+            builder.Entity<PartFailFaultCode>().Property(c => c.Description).HasColumnName("FAULT_DESCRIPTION");
+        }
+
+        private void BuildPartFails(ModelBuilder builder)
+        {
+            var e = builder.Entity<PartFail>();
+            e.ToTable("PART_FAIL_LOG");
+            e.HasKey(f => f.Id);
+            e.Property(f => f.Batch).HasColumnName("BATCH");
+            e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.PartFails).HasForeignKey("WORKS_ORDER_NUMBER");
+            e.Property(f => f.DateCreated).HasColumnName("DATE_CREATED");
+            e.Property(f => f.ErrorType).HasColumnName("ERROR_TYPE");
+            e.HasOne<Employee>(f => f.EnteredBy).WithMany(m => m.PartFailsEntered).HasForeignKey("ENTERED_BY");
+            e.Property(f => f.MinutesWasted).HasColumnName("MINUTES_WASTED");
+            e.Property(f => f.Batch).HasColumnName("BATCH");
+            e.HasOne<Part>(f => f.Part).WithMany(p => p.Fails).HasForeignKey("PART_NUMBER");
+            e.Property(f => f.Quantity).HasColumnName("QTY");
+            e.HasOne<PartFailFaultCode>(f => f.FaultCode).WithMany(c => c.PartFails).HasForeignKey("FAULT_CODE");
+            e.HasOne<StoragePlace>(f => f.StoragePlace).WithMany()
         }
     }
 }
