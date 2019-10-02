@@ -48,6 +48,7 @@ import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstan
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 import NotFound from './NotFound';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
+import PartFail from '../containers/partFails/PartFail';
 
 const Root = ({ store }) => (
     <div>
@@ -268,6 +269,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/production-trigger-levels-settings"
                                         component={PtlSettings}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/:id"
+                                        component={PartFail}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>
