@@ -77,6 +77,8 @@
 
             var department = this.GetDepartment(partNumber);
 
+            var quantity = this.GetQuantity(partNumber);
+
             return new WorksOrderPartDetails
                        {
                            PartNumber = partNumber,
@@ -84,7 +86,8 @@
                            WorkStationCode = workStationCode,
                            AuditDisclaimer = auditDisclaimer,
                            DepartmentCode = department.DepartmentCode,
-                           DepartmentDescription = department.Description
+                           DepartmentDescription = department.Description,
+                           Quantity = quantity
                        };
         }
 
@@ -139,6 +142,13 @@
             var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
 
             return productionTriggerLevel?.WsName;
+        }
+
+        private int GetQuantity(string partNumber)
+        {
+            var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
+
+            return productionTriggerLevel?.KanbanSize ?? 0;
         }
     }
 }

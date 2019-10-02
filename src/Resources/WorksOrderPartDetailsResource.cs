@@ -15,5 +15,7 @@
         public string DepartmentCode { get; set; }
 
         public string DepartmentDescription { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

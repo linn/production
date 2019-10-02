@@ -25,6 +25,8 @@
 
         private string workStationCode;
 
+        private int quantity;
+
         private WorksOrderPartDetails result;
 
         [SetUp]
@@ -34,12 +36,19 @@
             this.partDescription = "DESCRIPTION";
             this.boardCode = "123AB";
             this.workStationCode = "STATION";
+            this.quantity = 10;
 
             this.PartsRepository.FindById(this.partNumber)
                 .Returns(new Part { PartNumber = this.partNumber, Description = this.partDescription });
 
             this.ProductionTriggerLevelsRepository.FindById(this.partNumber).Returns(
-                new ProductionTriggerLevel() { PartNumber = this.partNumber, WsName = this.workStationCode, CitCode = "CIT" });
+                new ProductionTriggerLevel()
+                    {
+                        PartNumber = this.partNumber,
+                        WsName = this.workStationCode,
+                        CitCode = "CIT",
+                        KanbanSize = this.quantity
+                    });
 
             this.PcasRevisionsRepository.FindBy(Arg.Any<Expression<Func<PcasRevision, bool>>>()).Returns(
                 new PcasRevision { BoardCode = this.boardCode, PcasPartNumber = this.partNumber });
@@ -79,13 +88,14 @@
         }
 
         [Test]
-        public void ShouldReturnNull()
+        public void ShouldReturnWorksOrderDetails()
         {
             this.result.AuditDisclaimer.Should().Be("Board requires audit");
             this.result.PartNumber.Should().Be(this.partNumber);
             this.result.PartDescription.Should().Be(this.partDescription);
             this.result.PartNumber.Should().Be(this.partNumber);
             this.result.WorkStationCode.Should().Be(this.workStationCode);
+            this.result.Quantity.Should().Be(this.quantity);
         }
     }
 }

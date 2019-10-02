@@ -100,7 +100,8 @@ function WorksOrder({
             setWorksOrder(wo => ({
                 ...wo,
                 workStationCode: worksOrderDetails.workStationCode,
-                departmentCode: worksOrderDetails.departmentCode
+                departmentCode: worksOrderDetails.departmentCode,
+                quantity: worksOrderDetails.quantity
             }));
         }
     }, [worksOrderDetails, editStatus, creating]);
@@ -328,7 +329,7 @@ function WorksOrder({
                                         <InputField
                                             fullWidth
                                             disabled
-                                            value={worksOrder.quantityBuilt}
+                                            value={creating() ? 0 : worksOrder.quantityBuilt}
                                             label="Quantity Built"
                                             propertyName="quantityBuilt"
                                             onChange={handleFieldChange}
