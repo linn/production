@@ -13,8 +13,9 @@ import * as itemTypes from '../../itemTypes';
 const mapStateToProps = (state, { match }) => ({
     item: worksOrderSelectors.getItem(state),
     orderNumber: match.params.id,
-    worksOrderError: getItemErrors(state, itemTypes.worksOrder.item),
-    worksOrderDetailsError: getItemErrors(state, itemTypes.worksOrderDetails.item),
+    worksOrderError: getItemErrors(state, itemTypes.worksOrder.item)?.details?.errors[0],
+    worksOrderDetailsError: getItemErrors(state, itemTypes.worksOrderDetails.item)?.details
+        ?.errors[0],
     editStatus: worksOrderSelectors.getEditStatus(state),
     loading: worksOrderSelectors.getLoading(state),
     snackbarVisible: worksOrderSelectors.getSnackbarVisible(state),

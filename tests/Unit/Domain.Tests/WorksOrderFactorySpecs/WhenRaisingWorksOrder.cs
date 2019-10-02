@@ -46,12 +46,6 @@
             this.ProductionTriggerLevelsRepository.FindById(this.partNumber).Returns(
                 new ProductionTriggerLevel { PartNumber = this.partNumber, WsName = this.workStationCode, CitCode = this.citCode });
 
-            // this.CitRepository.FindById(this.citCode)
-            //     .Returns(new Cit { Code = this.citCode, DepartmentCode = this.citDepartment });
-            //
-            // this.DepartmentRepository.FindById(this.citDepartment)
-            //     .Returns(new Department { DepartmentCode = this.citDepartment });
-
             this.result = this.Sut.RaiseWorksOrder(new WorksOrder
                                                        {
                                                            PartNumber = this.partNumber,

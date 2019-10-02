@@ -44,10 +44,6 @@
             connection.Close();
 
             return result.Value.ToString() == "SUCCESS";
-
-            // var success = int.Parse(result.Value.ToString());
-            //
-            // return success == 1;
         }
 
         public void IssueSernos(
