@@ -73,7 +73,6 @@
 
             this.transactionManager.Commit();
 
-            // TODO reinstate this
             try
             {
                 this.productAuditPack.GenerateProductAudits(worksOrder.OrderNumber);
