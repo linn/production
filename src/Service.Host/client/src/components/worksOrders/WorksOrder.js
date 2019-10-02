@@ -121,6 +121,7 @@ function WorksOrder({
         history.push('/production/works-orders');
     };
 
+    // TODO in field change
     const handlePartSelect = part => {
         fetchWorksOrderDetails(encodeURIComponent(part.partNumber));
         setWorksOrder({ ...worksOrder, partNumber: part.partNumber });
@@ -151,7 +152,7 @@ function WorksOrder({
         worksOrder.departmentCode &&
         creating();
 
-    const updateValid = () => editing() && worksOrder.reasonCancelled && worksOrder.quantity;
+    const updateValid = () => editing() && (worksOrder.reasonCancelled || worksOrder.quantity);
 
     return (
         <Page>
@@ -241,7 +242,7 @@ function WorksOrder({
                                             disabled
                                             error
                                             value={worksOrderDetails.auditDisclaimer}
-                                            label="Type"
+                                            label="Audit Disclaimer"
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
@@ -469,7 +470,13 @@ WorksOrder.propTypes = {
     addItem: PropTypes.func.isRequired,
     updateItem: PropTypes.func.isRequired,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    fetchWorksOrder: PropTypes.func.isRequired
+    fetchWorksOrder: PropTypes.func.isRequired,
+    searchParts: PropTypes.func.isRequired,
+    clearPartsSearch: PropTypes.func.isRequired,
+    employees: PropTypes.arrayOf(PropTypes.shape({})),
+    employeesLoading: PropTypes.bool,
+    partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    partsSearchLoading: PropTypes.bool
 };
 
 WorksOrder.defaultProps = {
@@ -477,7 +484,11 @@ WorksOrder.defaultProps = {
     worksOrderDetails: null,
     errorMessage: '',
     snackbarVisible: false,
-    loading: false
+    loading: false,
+    employees: null,
+    employeesLoading: false,
+    partsSearchResults: null,
+    partsSearchLoading: false
 };
 
 export default WorksOrder;

@@ -71,14 +71,17 @@
                 worksOrder.RaisedBy,
                 worksOrder.Quantity);
 
-            // try
-            // {
-            //     this.productAuditPack.GenerateProductAudits(worksOrder.OrderNumber);
-            // }
-            // catch (Exception e)
-            // {
-            //     return new BadRequestResult<WorksOrder>(e.Message);
-            // }
+            this.transactionManager.Commit();
+
+            // TODO reinstate this
+            try
+            {
+                this.productAuditPack.GenerateProductAudits(worksOrder.OrderNumber);
+            }
+            catch (Exception e)
+            {
+                return new BadRequestResult<WorksOrder>(e.Message);
+            }
 
             this.transactionManager.Commit();
 
