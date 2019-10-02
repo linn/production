@@ -96,8 +96,6 @@ const Root = ({ store }) => (
                                     <Route exact path="/production/quality" component={App} />
 
                                     <Route exact path="/production/quality/ate" component={App} />
-
-                                    <Route exact path="/production/works-orders" component={App} />
                                     <Route
                                         exact
                                         path="/production/works-orders/outstanding-works-orders-report"

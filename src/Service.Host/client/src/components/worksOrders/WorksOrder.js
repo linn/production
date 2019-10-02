@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 function WorksOrder({
     item,
     editStatus,
-    errorMessage,
+    itemError,
     history,
     loading,
     snackbarVisible,
@@ -62,6 +62,9 @@ function WorksOrder({
     useEffect(() => {
         if (item !== prevWorksOrder) {
             setPrevWorksOrder(item);
+
+            setRaisedByEmployee(null);
+            setCancelledByEmployee(null);
 
             if (creating()) {
                 setWorksOrder({ ...item, docType: 'WO' });
@@ -176,9 +179,9 @@ function WorksOrder({
                         </Fragment>
                     )}
                 </Grid>
-                {errorMessage && (
+                {itemError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 )}
                 {!creating() && (
@@ -460,7 +463,12 @@ WorksOrder.propTypes = {
     item: PropTypes.shape({}),
     worksOrderDetails: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
+    itemError: PropTypes.shape({
+        status: PropTypes.number,
+        statusText: PropTypes.string,
+        details: PropTypes.shape({}),
+        item: PropTypes.string
+    }),
     snackbarVisible: PropTypes.bool,
     loading: PropTypes.bool,
     setSnackbarVisible: PropTypes.func.isRequired,
@@ -481,7 +489,7 @@ WorksOrder.propTypes = {
 WorksOrder.defaultProps = {
     item: {},
     worksOrderDetails: null,
-    errorMessage: '',
+    itemError: null,
     snackbarVisible: false,
     loading: false,
     employees: null,
