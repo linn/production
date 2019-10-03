@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 function SerialNumberReissue({
     addItem,
     editStatus,
-    itemError,
+    itemErrors,
     fetchSerialNumbers,
     fetchSalesArticle,
     history,
@@ -141,11 +141,13 @@ function SerialNumberReissue({
                 <Grid item xs={12}>
                     <Title text="Reissue Serial Numbers" />
                 </Grid>
-                {itemError && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemError.statusText} />
-                    </Grid>
-                )}
+                {itemErrors &&
+                    !loading &&
+                    itemErrors?.map(itemError => (
+                        <Grid item xs={12}>
+                            <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
+                        </Grid>
+                    ))}
                 <Grid item xs={3}>
                     <SearchInputField
                         label="Search by Serial Number"
@@ -167,7 +169,7 @@ function SerialNumberReissue({
                         <Fragment>
                             <Grid item xs={3} className={classes.marginTop}>
                                 <Dropdown
-                                    disabled={viewing() && !itemError}
+                                    disabled={viewing() && !itemErrors}
                                     value={selectedSernosGroup || ''}
                                     label="Filter by Sernos Group"
                                     fullWidth
@@ -219,7 +221,7 @@ function SerialNumberReissue({
                                     <Grid item xs={1}>
                                         <div className={classes.searchIcon}>
                                             <TypeaheadDialog
-                                                disabled={viewing() && !itemError}
+                                                disabled={viewing() && !itemErrors}
                                                 title="Sales Article Search"
                                                 onSelect={handleNewArticleNumberSelect}
                                                 searchItems={salesArticleSearchResults}
@@ -242,7 +244,7 @@ function SerialNumberReissue({
                                     <Grid item xs={3} />
                                     <Grid item xs={3}>
                                         <InputField
-                                            disabled={viewing() && !itemError}
+                                            disabled={viewing() && !itemErrors}
                                             label="Comments"
                                             type="string"
                                             rows={2}
@@ -288,7 +290,7 @@ function SerialNumberReissue({
 SerialNumberReissue.propTypes = {
     addItem: PropTypes.func.isRequired,
     editStatus: PropTypes.func.isRequired,
-    itemError: PropTypes.shape({}),
+    itemErrors: PropTypes.shape({}),
     fetchSerialNumbers: PropTypes.func.isRequired,
     fetchSalesArticle: PropTypes.func.isRequired,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
@@ -307,7 +309,7 @@ SerialNumberReissue.propTypes = {
 };
 
 SerialNumberReissue.defaultProps = {
-    itemError: null,
+    itemErrors: null,
     loading: false,
     salesArticle: null,
     serialNumbers: null,
