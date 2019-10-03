@@ -16,6 +16,6 @@
 
         public string DepartmentDescription { get; set; }
 
-        public int Quantity { get; set; }
+        public int QuantityToBuild { get; set; }
     }
 }

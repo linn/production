@@ -77,7 +77,7 @@
 
             var department = this.GetDepartment(partNumber);
 
-            var quantity = this.GetQuantity(partNumber);
+            var quantity = this.GetQuantityToBuild(partNumber);
 
             return new WorksOrderPartDetails
                        {
@@ -87,7 +87,7 @@
                            AuditDisclaimer = auditDisclaimer,
                            DepartmentCode = department.DepartmentCode,
                            DepartmentDescription = department.Description,
-                           Quantity = quantity
+                           QuantityToBuild = quantity
                        };
         }
 
@@ -144,7 +144,7 @@
             return productionTriggerLevel?.WsName;
         }
 
-        private int GetQuantity(string partNumber)
+        private int GetQuantityToBuild(string partNumber)
         {
             var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
 

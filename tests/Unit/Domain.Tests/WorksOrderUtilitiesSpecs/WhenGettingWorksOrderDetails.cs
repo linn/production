@@ -95,7 +95,7 @@
             this.result.PartDescription.Should().Be(this.partDescription);
             this.result.PartNumber.Should().Be(this.partNumber);
             this.result.WorkStationCode.Should().Be(this.workStationCode);
-            this.result.Quantity.Should().Be(this.quantity);
+            this.result.QuantityToBuild.Should().Be(this.quantity);
         }
     }
 }

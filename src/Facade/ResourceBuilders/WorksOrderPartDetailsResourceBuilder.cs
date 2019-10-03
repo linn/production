@@ -20,7 +20,7 @@
                            PartDescription = worksOrderPartDetails.PartDescription,
                            DepartmentCode = worksOrderPartDetails.DepartmentCode,
                            DepartmentDescription = worksOrderPartDetails.DepartmentDescription,
-                           Quantity = worksOrderPartDetails.Quantity,
+                           QuantityToBuild = worksOrderPartDetails.QuantityToBuild,
                            Links = this.BuildLinks(worksOrderPartDetails).ToArray()
                        };
         }
