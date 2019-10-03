@@ -11,7 +11,7 @@ import {
     TypeaheadDialog,
     ErrorCard,
     useSearch,
-    sortList
+    utilities
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -73,7 +73,7 @@ function SerialNumberReissue({
                 if (!groups.includes(serialNumber.sernosGroup)) {
                     groups.push(serialNumber.sernosGroup);
                 }
-                return sortList(groups);
+                return utilities.sortList(groups);
             }, []);
 
             setSernosGroups(sortedGroups);
