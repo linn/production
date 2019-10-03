@@ -131,3 +131,9 @@ export const startTriggerRunActionTypes = makeProcessActionTypes(
 export const partFailActionTypes = makeActionTypes(itemTypes.partFail.actionType);
 
 export const partFailsActionTypes = makeActionTypes(itemTypes.partFails.actionType);
+
+export const partFailErrorTypesActionTypes = makeActionTypes(
+    itemTypes.partFailErrorTypes.actionType
+);
+
+export const storagePlacesActionTypes = makeActionTypes(itemTypes.storagePlaces.actionType);

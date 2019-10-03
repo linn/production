@@ -1,7 +1,6 @@
 ﻿import {
     reducers as sharedLibraryReducers,
-    fetchErrorReducer,
-    ItemType
+    fetchErrorReducer
 } from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
@@ -42,8 +41,10 @@ import ptlSettings from './ptlSettings';
 import startTriggerRun from './startTriggerRun';
 import partFail from './partFail';
 import partFails from './partFails';
+import storagePlaces from './storagePlaces';
+import partFailErrorTypes from './partFailErrorTypes';
 
-const errors = fetchErrorReducer({...itemTypes, ...reportTypes });
+const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes });
 
 const rootReducer = combineReducers({
     oidc,
@@ -83,6 +84,8 @@ const rootReducer = combineReducers({
     startTriggerRun,
     partFail,
     partFails,
+    storagePlaces,
+    partFailErrorTypes,
     ...sharedLibraryReducers
 });
 
