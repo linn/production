@@ -38,7 +38,7 @@
 
         public void Add(PartFail entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.PartFails.Add(entity);
         }
 
         public void Remove(PartFail entity)
@@ -53,7 +53,7 @@
 
         public IQueryable<PartFail> FilterBy(Expression<Func<PartFail, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PartFails.Where(expression);
         }
     }
 }

@@ -8,9 +8,15 @@ import PartFail from '../../components/partFails/PartFail';
 import partFailActions from '../../actions/partFailActions';
 import partFailSelectors from '../../selectors/partFailSelectors';
 import * as itemTypes from '../../itemTypes';
+import partFailErrorTypesSelectors from '../../selectors/partFailErrorTypesSelectors';
+import storagePlacesSelectors from '../../selectors/storagePlacesSelectors';
+import storagePlacesActions from '../../actions/storagePlacesActions';
+import partFailErrorTypesActions from '../../actions/partFailErrorTypesActions';
 
 const mapStateToProps = (state, { match }) => ({
     item: partFailSelectors.getItem(state),
+    errorTypes: partFailErrorTypesSelectors.getItems(state),
+    storagePlaces: storagePlacesSelectors.getItems(state),
     itemId: match.params.id,
     editStatus: partFailSelectors.getEditStatus(state),
     loading: partFailSelectors.getLoading(state),
@@ -21,6 +27,8 @@ const mapStateToProps = (state, { match }) => ({
 
 const initialise = ({ itemId }) => dispatch => {
     dispatch(partFailActions.fetch(itemId));
+    dispatch(storagePlacesActions.fetch());
+    dispatch(partFailErrorTypesActions.fetch());
 };
 
 const mapDispatchToProps = {

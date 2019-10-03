@@ -17,6 +17,8 @@ function PartFail({
     history,
     itemId,
     item,
+    errorTypes,
+    storagePlaces,
     loading,
     snackbarVisible,
     addItem,

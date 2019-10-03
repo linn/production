@@ -143,11 +143,11 @@ export const partFails = new ItemType('partFails', 'PART_FAILS', '/production/qu
 export const storagePlaces = new ItemType(
     'storagePlaces',
     'STORAGE_PLACES',
-    '/production/maintenace/storage-places'
+    '/production/maintenance/storage-places'
 );
 
 export const partFailErrorTypes = new ItemType(
     'partFailErrorTypes',
     'PART_FAIL_ERROR_TYPES',
-    'production/quality/part-fail-error-types'
+    '/production/quality/part-fail-error-types'
 );

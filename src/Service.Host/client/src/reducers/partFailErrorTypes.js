@@ -1,5 +1,5 @@
 import { collectionStoreFactory } from '@linn-it/linn-form-components-library';
-import { partFailsActionTypes as actionTypes } from '../actions';
+import { partFailErrorTypesActionTypes as actionTypes } from '../actions';
 import * as itemTypes from '../itemTypes';
 
 const defaultState = {
@@ -7,4 +7,8 @@ const defaultState = {
     items: []
 };
 
-export default collectionStoreFactory(itemTypes.partFails.actionType, actionTypes, defaultState);
+export default collectionStoreFactory(
+    itemTypes.partFailErrorTypes.actionType,
+    actionTypes,
+    defaultState
+);

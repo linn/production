@@ -5,7 +5,6 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
 
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;

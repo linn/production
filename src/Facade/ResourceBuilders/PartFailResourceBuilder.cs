@@ -22,6 +22,7 @@
                            FaultDescription = model.FaultCode.Description,
                            PurchaseOrderNumber = model.PurchaseOrderNumber,
                            ErrorType = model.ErrorType.ErrorType,
+                           StoragePlace = model.StorageLocation.LocationCode,
                            Story = model.Story
                        };
         }

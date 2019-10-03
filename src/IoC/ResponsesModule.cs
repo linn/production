@@ -89,6 +89,7 @@
             builder.RegisterType<ErrorResourceBuilder>().As<IResourceBuilder<Error>>();
 
             builder.RegisterType<PartFailResourceBuilder>().As<IResourceBuilder<PartFail>>();
+            builder.RegisterType<PartFailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PartFail>>>();
             builder.RegisterType<PartFailErrorTypeResourceBuilder>().As<IResourceBuilder<PartFailErrorType>>();
             builder.RegisterType<PartFailErrorTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<PartFailErrorType>>>();
             builder.RegisterType<StoragePlaceResourceBuilder>().As<IResourceBuilder<StoragePlace>>();
