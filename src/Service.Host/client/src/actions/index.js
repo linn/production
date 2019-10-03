@@ -20,8 +20,11 @@ export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.
 export const assemblyFailActionTypes = makeActionTypes(itemTypes.assemblyFail.actionType, true);
 export const assemblyFailsActionTypes = makeActionTypes(itemTypes.assemblyFails.actionType, true);
 
-export const worksOrdersActionTypes = makeActionTypes(itemTypes.worksOrders.actionType, true);
 export const salesArticleActionTypes = makeActionTypes(itemTypes.salesArticle.actionType);
+
+export const worksOrderActionTypes = makeActionTypes(itemTypes.worksOrder.actionType);
+export const worksOrderDetailsActionTypes = makeActionTypes(itemTypes.worksOrderDetails.actionType);
+export const worksOrdersActionTypes = makeActionTypes(itemTypes.worksOrders.actionType, true);
 
 export const salesArticles = makeActionTypes(itemTypes.salesArticles.actionType);
 

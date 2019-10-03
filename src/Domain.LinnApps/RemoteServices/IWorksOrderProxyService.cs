@@ -5,7 +5,5 @@
         string CanRaiseWorksOrder(string partNumber);
 
         int GetNextBatch(string partNumber);
-
-        bool ProductIdOnChip(string partNumber);
     }
 }

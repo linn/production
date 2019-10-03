@@ -19,14 +19,15 @@
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
 
-            var cmd = new OracleCommand("SERNOS_PACK_V2.SERIAL_NOS_RQD", connection)
+            var cmd = new OracleCommand("SERNOS_PACK_V2.SERIAL_NOS_REQD_WRAPPER", connection)
                           {
                               CommandType = CommandType.StoredProcedure
                           };
 
-            var result = new OracleParameter(null, OracleDbType.Int32)
+            var result = new OracleParameter(null, OracleDbType.Varchar2)
                              {
-                                 Direction = ParameterDirection.ReturnValue
+                                 Direction = ParameterDirection.ReturnValue,
+                                 Size = 2000
                              };
             cmd.Parameters.Add(result);
 
@@ -42,9 +43,7 @@
             cmd.ExecuteNonQuery();
             connection.Close();
 
-            var success = int.Parse(result.Value.ToString());
-
-            return success == 1;
+            return result.Value.ToString() == "SUCCESS";
         }
 
         public void IssueSernos(

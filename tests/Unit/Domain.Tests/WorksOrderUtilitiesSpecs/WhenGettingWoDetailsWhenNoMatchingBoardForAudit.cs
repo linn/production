@@ -6,6 +6,7 @@
     using FluentAssertions;
 
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
@@ -22,7 +23,7 @@
 
         private string boardCode;
 
-        private WorksOrderDetails result;
+        private WorksOrderPartDetails result;
 
         [SetUp]
         public void SetUp()
@@ -39,6 +40,13 @@
 
             this.PcasBoardsForAuditRepository.FindBy(Arg.Any<Expression<Func<PcasBoardForAudit, bool>>>())
                 .Returns((PcasBoardForAudit)null);
+
+            this.ProductionTriggerLevelsRepository.FindById(this.partNumber)
+                .Returns(new ProductionTriggerLevel { CitCode = "CIT" });
+
+            this.CitRepository.FindById("CIT").Returns(new Cit { DepartmentCode = "DEPT" });
+
+            this.DepartmentRepository.FindById("DEPT").Returns(new Department { DepartmentCode = "DEPT" });
 
             this.result = this.Sut.GetWorksOrderDetails(this.partNumber);
         }

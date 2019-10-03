@@ -44,9 +44,11 @@ import ProductionTriggersReport from '../containers/reports/triggers/ProductionT
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
+import WorksOrder from '../containers/worksOrders/WorksOrder';
+import CreateWorksOrder from '../containers/worksOrders/CreateWorksOrder';
+import NotFound from './NotFound';
 import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
-import NotFound from './NotFound';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 
 const Root = ({ store }) => (
@@ -94,8 +96,6 @@ const Root = ({ store }) => (
                                     <Route exact path="/production/quality" component={App} />
 
                                     <Route exact path="/production/quality/ate" component={App} />
-
-                                    <Route exact path="/production/works-orders" component={App} />
                                     <Route
                                         exact
                                         path="/production/works-orders/outstanding-works-orders-report"
@@ -105,6 +105,24 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/works-orders/outstanding-works-orders-report/report"
                                         component={OutstandingWorksOrdersReport}
+                                    />
+
+                                    <Route
+                                        exact
+                                        path="/production/works-orders"
+                                        component={WorksOrder}
+                                    />
+
+                                    <Route
+                                        exact
+                                        path="/production/works-orders/create"
+                                        component={CreateWorksOrder}
+                                    />
+
+                                    <Route
+                                        exact
+                                        path="/production/works-orders/:id"
+                                        component={WorksOrder}
                                     />
 
                                     <Route
