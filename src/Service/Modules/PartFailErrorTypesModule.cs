@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Modules
 {
+    using System;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
@@ -24,7 +26,7 @@
 
         private object GetAll()
         {
-            var result = this.facadeService.GetAll();
+            var result = this.facadeService.Search(string.Empty);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

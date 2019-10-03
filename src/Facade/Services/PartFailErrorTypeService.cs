@@ -27,7 +27,7 @@
 
         protected override Expression<Func<PartFailErrorType, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return t => t.DateInvalid == null;
         }
     }
 }

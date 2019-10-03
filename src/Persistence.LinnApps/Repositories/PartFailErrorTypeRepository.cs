@@ -43,7 +43,7 @@
 
         public IQueryable<PartFailErrorType> FilterBy(Expression<Func<PartFailErrorType, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PartFailErrorTypes.Where(expression);
         }
     }
 }
