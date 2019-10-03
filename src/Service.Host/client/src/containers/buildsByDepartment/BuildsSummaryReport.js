@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors, getItemError } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import initialiseOnMount from '../initialiseOnMount';
 import BuildsSummaryReport from '../../components/buildsbyDepartment/BuildsSummaryReport';
 import actions from '../../actions/buildsSummaryReport';
 import config from '../../config';
+import * as reportTypes from '../../reportTypes';
 
 const reportSelectors = new ReportSelectors('buildsSummaryReport');
 
@@ -17,6 +18,7 @@ const mapStateToProps = (state, ownProps) => ({
     reportData: reportSelectors.getReportData(state),
     loading: reportSelectors.getReportLoading(state),
     options: getOptions(ownProps),
+    itemError: getItemError(state, reportTypes.buildsSummaryReport),
     config
 });
 

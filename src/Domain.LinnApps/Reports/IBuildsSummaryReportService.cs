@@ -7,6 +7,6 @@
 
     public interface IBuildsSummaryReportService
     {
-        IEnumerable<ResultsModel> GetBuildsSummaryReports(DateTime from, DateTime to, bool monthly = false);
+        ResultsModel GetBuildsSummaryReports(DateTime from, DateTime to, bool monthly = false);
     }
 }

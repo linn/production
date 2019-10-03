@@ -37,12 +37,13 @@ import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
 import smtShifts from './smtShifts';
 import * as itemTypes from '../itemTypes';
+import * as reportTypes from '../reportTypes';
 import ptlSettings from './ptlSettings';
 import startTriggerRun from './startTriggerRun';
 import partFail from './partFail';
 import partFails from './partFails';
 
-const errors = fetchErrorReducer(itemTypes);
+const errors = fetchErrorReducer({...itemTypes, ...reportTypes });
 
 const rootReducer = combineReducers({
     oidc,
