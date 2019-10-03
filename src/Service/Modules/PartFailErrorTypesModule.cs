@@ -26,7 +26,7 @@
 
         private object GetAll()
         {
-            var result = this.facadeService.Search(string.Empty);
+            var result = this.facadeService.GetAll();
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

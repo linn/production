@@ -27,7 +27,7 @@
 
         public WorksOrder WorksOrder { get; set; }
 
-        public StoragePlace StoragePlace { get; set; }
+        public StorageLocation StorageLocation { get; set; }
 
         public string PurchaseOrderNumber { get; set; }
 

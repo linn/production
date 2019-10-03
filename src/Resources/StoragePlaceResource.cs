@@ -1,14 +1,10 @@
-﻿namespace Linn.Production.Domain.LinnApps.ViewModels
+﻿namespace Linn.Production.Resources
 {
-    using System.Collections.Generic;
-
-    using Linn.Production.Domain.LinnApps.Measures;
-
-    public class StoragePlace
+    public class StoragePlaceResource
     {
-        public int? LocationId { get; set; }
-
         public string StoragePlaceId { get; set; }
+
+        public int? LocationId { get; set; }
 
         public string Description { get; set; }
 

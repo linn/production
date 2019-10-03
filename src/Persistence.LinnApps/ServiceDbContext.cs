@@ -81,7 +81,7 @@
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
-        public DbSet<StoragePlace> StoragePlaces { get; set; }
+        public DbQuery<StoragePlace> StoragePlaces { get; set; }
 
         public DbSet<PartFail> PartFails { get; set; }
 
@@ -119,10 +119,11 @@
             this.BuildBomDetailPhantomView(builder);
             this.QuerySmtShifts(builder);
             this.BuildPtlSettings(builder);
-            this.BuildStoragePlaces(builder);
+            this.QueryStoragePlaces(builder);
             this.BuildPartFailFaultCodes(builder);
             this.BuildPartFails(builder);
             this.BuildPartFailErrorTypes(builder);
+            this.BuildStorageLocations(builder);
             base.OnModelCreating(builder);
         }
 
@@ -584,17 +585,25 @@
             q.Property(e => e.Description).HasColumnName("DESCRIPTION");
         }
 
-        private void BuildStoragePlaces(ModelBuilder builder)
+        private void QueryStoragePlaces(ModelBuilder builder)
         {
-            var q = builder.Entity<StoragePlace>();
-            q.ToTable("V_STORAGE_PLACES");
-            q.HasKey(p => p.LocationId);
+            var q = builder.Query<StoragePlace>();
+            q.ToView("V_STORAGE_PLACES");
             q.Property(p => p.LocationId).HasColumnName("LOCATION_ID");
             q.Property(p => p.StoragePlaceId).HasColumnName("STORAGE_PLACE");
             q.Property(p => p.Description).HasColumnName("STORAGE_PLACE_DESCRIPTION");
             q.Property(p => p.SiteCode).HasColumnName("SITE_CODE");
             q.Property(p => p.VaxPallet).HasColumnName("VAX_PALLET");
             q.Property(p => p.StorageAreaCode).HasColumnName("STORAGE_AREA_CODE");
+        }
+
+        private void BuildStorageLocations(ModelBuilder builder)
+        {
+            var e = builder.Entity<StorageLocation>();
+            e.ToTable("STORAGE_LOCATIONS");
+            e.HasKey(l => l.LocationId);
+            e.Property(l => l.LocationId).HasColumnName("LOCATION_ID");
+            e.Property(l => l.LocationCode).HasColumnName("LOCATION_CODE");
         }
 
         private void BuildPartFailFaultCodes(ModelBuilder builder)
@@ -622,7 +631,7 @@
             e.Property(f => f.Quantity).HasColumnName("QTY");
             e.Property(f => f.Story).HasColumnName("STORY");
             e.HasOne<PartFailFaultCode>(f => f.FaultCode).WithMany(c => c.PartFails).HasForeignKey("FAULT_CODE");
-            e.HasOne<StoragePlace>(f => f.StoragePlace).WithMany(c => c.PartFails).HasForeignKey("LOCATION_ID");
+            e.HasOne<StorageLocation>(f => f.StorageLocation).WithMany(l => l.PartFails).HasForeignKey("LOCATION_ID");
             e.HasOne<PartFailErrorType>(f => f.ErrorType).WithMany(t => t.PartFails).HasForeignKey("ERROR_TYPE");
         }
 

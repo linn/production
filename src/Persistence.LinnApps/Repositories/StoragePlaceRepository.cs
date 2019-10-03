@@ -4,10 +4,10 @@
     using System.Linq;
     using System.Linq.Expressions;
 
-    using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
-    public class StoragePlaceRepository : IRepository<StoragePlace, string>
+    public class StoragePlaceRepository : IQueryRepository<StoragePlace>
     {
         private readonly ServiceDbContext serviceDbContext;
 
@@ -16,24 +16,9 @@
             this.serviceDbContext = serviceDbContext;
         }
 
-        public StoragePlace FindById(string key)
-        {
-            throw new NotImplementedException();
-        }
-
         public IQueryable<StoragePlace> FindAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public void Add(StoragePlace entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(StoragePlace entity)
-        {
-            throw new NotImplementedException();
+            return this.serviceDbContext.StoragePlaces;
         }
 
         public StoragePlace FindBy(Expression<Func<StoragePlace, bool>> expression)

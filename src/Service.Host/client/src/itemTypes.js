@@ -139,3 +139,15 @@ export const ptlSettings = new ItemType(
 export const partFail = new ItemType('partFail', 'PART_FAIL', '/production/quality/part-fails');
 
 export const partFails = new ItemType('partFails', 'PART_FAILS', '/production/quality/part-fails');
+
+export const storagePlaces = new ItemType(
+    'storagePlaces',
+    'STORAGE_PLACES',
+    '/production/maintenace/storage-places'
+);
+
+export const partFailErrorTypes = new ItemType(
+    'partFailErrorTypes',
+    'PART_FAIL_ERROR_TYPES',
+    'production/quality/part-fail-error-types'
+);

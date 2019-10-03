@@ -55,7 +55,7 @@
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
             builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
             builder.RegisterType<PtlSettingsRepository>().As<IMasterRepository<PtlSettings>>();
-            builder.RegisterType<StoragePlaceRepository>().As<IRepository<StoragePlace, string>>();
+            builder.RegisterType<StoragePlaceRepository>().As<IQueryRepository<StoragePlace>>();
             builder.RegisterType<PartFailFaultCodeRepository>().As<IRepository<PartFailFaultCode, string>>();
             builder.RegisterType<PartFailRepository>().As<IRepository<PartFail, int>>();
             builder.RegisterType<PartFailErrorTypeRepository>().As<IRepository<PartFailErrorType, string>>();

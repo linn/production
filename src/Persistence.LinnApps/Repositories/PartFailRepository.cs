@@ -27,7 +27,7 @@
                 .Include(f => f.WorksOrder)
                 .Include(f => f.ErrorType)
                 .Include(f => f.Part)
-                .Include(f => f.StoragePlace)
+                .Include(f => f.StorageLocation)
                 .Where(f => f.Id == key).ToList().FirstOrDefault();
         }
 
