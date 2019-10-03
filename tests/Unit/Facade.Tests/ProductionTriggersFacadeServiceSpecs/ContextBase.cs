@@ -26,7 +26,7 @@
 
         protected IRepository<AccountingCompany, string> AccountingCompanyRepository { get; private set; }
 
-        protected IQueryRepository<ProductionBackOrder> productionQueryRepository { get; private set; }
+        protected IQueryRepository<ProductionBackOrder> ProductionBackOrderQueryRepository { get; private set; }
 
         [SetUp]
         public void SetUpContext()
@@ -35,9 +35,10 @@
             this.PtlMasterRepository = Substitute.For<IMasterRepository<PtlMaster>>();
             this.CitRepository = Substitute.For<IRepository<Cit, string>> ();
             this.WorksOrderRepository = Substitute.For<IRepository<WorksOrder, int>>();
+            this.ProductionBackOrderQueryRepository = Substitute.For<IQueryRepository<ProductionBackOrder>>();
 
             this.AccountingCompanyRepository = Substitute.For<IRepository<AccountingCompany, string>>();
-            this.Sut = new ProductionTriggersFacadeService(this.ProductionTriggerQueryRepository, this.CitRepository, this.PtlMasterRepository, this.WorksOrderRepository, this.productionQueryRepository, this.AccountingCompanyRepository);
+            this.Sut = new ProductionTriggersFacadeService(this.ProductionTriggerQueryRepository, this.CitRepository, this.PtlMasterRepository, this.WorksOrderRepository, this.ProductionBackOrderQueryRepository, this.AccountingCompanyRepository);
         }
     }
 }
