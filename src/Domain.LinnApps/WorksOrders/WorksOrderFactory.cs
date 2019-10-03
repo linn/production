@@ -72,7 +72,9 @@
                 this.worksOrderUtilities.GetDepartment(partNumber);
 
                 worksOrderToBeRaised.RaisedByDepartment = raisedByDepartment;
-                
+
+                worksOrderToBeRaised.BatchNumber = this.worksOrderProxyService.GetNextBatch(partNumber);
+
                 return worksOrderToBeRaised;
             }
 
