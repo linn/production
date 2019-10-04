@@ -7,7 +7,7 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
 
-    public class StorageLocationRepository : IRepository<StorageLocation, string>
+    public class StorageLocationRepository : IRepository<StorageLocation, int>
     {
         private readonly ServiceDbContext serviceDbContext;
 
@@ -16,7 +16,7 @@
             this.serviceDbContext = serviceDbContext;
         }
 
-        public StorageLocation FindById(string key)
+        public StorageLocation FindById(int key)
         {
             throw new NotImplementedException();
         }

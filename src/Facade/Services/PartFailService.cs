@@ -22,7 +22,7 @@
 
         private readonly IRepository<PartFailFaultCode, string> faultCodeRepository;
 
-        private readonly IRepository<WorksOrder, string> worksOrderRepository;
+        private readonly IRepository<WorksOrder, int> worksOrderRepository;
 
         private readonly IRepository<Part, string> partRepository;
 
@@ -38,7 +38,7 @@
             IRepository<StorageLocation, int> storageLocationRepository,
             IRepository<Employee, int> employeeRepository,
             IRepository<PartFailFaultCode, string> faultCodeRepository,
-            IRepository<WorksOrder, string> worksOrderRepository, 
+            IRepository<WorksOrder, int> worksOrderRepository, 
             ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {

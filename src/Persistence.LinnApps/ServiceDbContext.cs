@@ -88,6 +88,8 @@
         public DbSet<PartFail> PartFails { get; set; }
 
         public DbSet<PartFailErrorType> PartFailErrorTypes { get; set;  }
+
+        public DbSet<PartFailFaultCode> PartFailFaultCodes { get; set; }
  
         protected override void OnModelCreating(ModelBuilder builder)
         {

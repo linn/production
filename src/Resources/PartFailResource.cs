@@ -26,7 +26,7 @@
 
         public string Story { get; set; }
 
-        public string WorksOrderNumber { get; set; }
+        public int WorksOrderNumber { get; set; }
 
         public string PurchaseOrderNumber { get; set; }
 

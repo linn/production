@@ -41,6 +41,8 @@
                 with =>
                 {
                     with.Dependency(this.FacadeService);
+                    with.Dependency(this.FaultCodeService);
+                    with.Dependency(this.ErrorTypeService);
                     with.Dependency<IResourceBuilder<PartFail>>(new PartFailResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<PartFail>>>(new PartFailsResourceBuilder());
                     with.Module<PartFailsModule>();

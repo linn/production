@@ -23,7 +23,7 @@
 
         public IQueryable<PartFailFaultCode> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PartFailFaultCodes;
         }
 
         public void Add(PartFailFaultCode entity)

@@ -37,7 +37,7 @@
             this.requestResource = new PartFailResource()
             {
                 Id = 1,
-                WorksOrderNumber = "1",
+                WorksOrderNumber = 1,
                 PartNumber = "A",
                 EnteredBy = 1
             };

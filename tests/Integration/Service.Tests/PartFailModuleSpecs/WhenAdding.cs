@@ -25,7 +25,7 @@
         {
             this.requestResource = new PartFailResource
             {
-                WorksOrderNumber = "99999999",
+                WorksOrderNumber = 99999999,
                 EnteredBy = 12345678,
                 EnteredByName = "Colin",
                 PartNumber = "PART",
