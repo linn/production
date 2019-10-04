@@ -19,19 +19,24 @@
 
     public class ContextBase : NancyContextBase
     {
-        protected IFacadeService<PartFail, int, PartFailResource, PartFailResource> FacadeService
-        {
-            get;
-            private set;
-        }
+        protected IFacadeService<PartFail, int, PartFailResource, PartFailResource> FacadeService { get; private set; }
+
+        protected IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource> FaultCodeService { get; private set; }
+
+        protected IFacadeService<PartFailErrorType, string, PartFailErrorTypeResource, PartFailErrorTypeResource> ErrorTypeService { get; private set; }
+
 
         [SetUp]
         public void EstablishContext()
         {
             this.FacadeService = Substitute
                 .For<IFacadeService<PartFail, int, PartFailResource, PartFailResource>>();
-
-
+            this.ErrorTypeService =
+                Substitute
+                    .For<IFacadeService<PartFailErrorType, string, PartFailErrorTypeResource, PartFailErrorTypeResource>>();
+            this.FaultCodeService =
+                Substitute
+                    .For<IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource>>();
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {

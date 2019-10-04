@@ -59,7 +59,7 @@
             builder.RegisterType<PartFailFaultCodeRepository>().As<IRepository<PartFailFaultCode, string>>();
             builder.RegisterType<PartFailRepository>().As<IRepository<PartFail, int>>();
             builder.RegisterType<PartFailErrorTypeRepository>().As<IRepository<PartFailErrorType, string>>();
-            builder.RegisterType<StorageLocation>().As<IRepository<StorageLocation, int>>();
+            builder.RegisterType<StorageLocationRepository>().As<IRepository<StorageLocation, int>>();
 
 
 

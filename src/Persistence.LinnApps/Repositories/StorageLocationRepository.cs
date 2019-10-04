@@ -13,7 +13,7 @@
 
         public StorageLocationRepository(ServiceDbContext serviceDbContext)
         {
-            this.serviceDbContext = serviceDbContext
+            this.serviceDbContext = serviceDbContext;
         }
 
         public StorageLocation FindById(string key)
