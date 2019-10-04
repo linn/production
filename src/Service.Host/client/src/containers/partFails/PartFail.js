@@ -12,10 +12,13 @@ import partFailErrorTypesSelectors from '../../selectors/partFailErrorTypesSelec
 import storagePlacesSelectors from '../../selectors/storagePlacesSelectors';
 import storagePlacesActions from '../../actions/storagePlacesActions';
 import partFailErrorTypesActions from '../../actions/partFailErrorTypesActions';
+import partFailFaultCodesSelectors from '../../selectors/partFailFaultCodesSelectors';
+import partFailFailFaultCodesActions from '../../actions/partFailFailFaultCodesActions';
 
 const mapStateToProps = (state, { match }) => ({
     item: partFailSelectors.getItem(state),
     errorTypes: partFailErrorTypesSelectors.getItems(state),
+    faultCodes: partFailFaultCodesSelectors.getItems(state),
     storagePlaces: storagePlacesSelectors.getItems(state),
     itemId: match.params.id,
     editStatus: partFailSelectors.getEditStatus(state),
@@ -29,6 +32,7 @@ const initialise = ({ itemId }) => dispatch => {
     dispatch(partFailActions.fetch(itemId));
     dispatch(storagePlacesActions.fetch());
     dispatch(partFailErrorTypesActions.fetch());
+    dispatch(partFailFailFaultCodesActions.fetch());
 };
 
 const mapDispatchToProps = {

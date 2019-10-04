@@ -1,6 +1,8 @@
 ﻿namespace Linn.Production.Resources
 {
-    public class PartFailResource
+    using Linn.Common.Resources;
+
+    public class PartFailResource : HypermediaResource
     {
         public int Id { get; set; }
 
@@ -26,7 +28,7 @@
 
         public string Story { get; set; }
 
-        public int WorksOrderNumber { get; set; }
+        public int? WorksOrderNumber { get; set; }
 
         public string PurchaseOrderNumber { get; set; }
 

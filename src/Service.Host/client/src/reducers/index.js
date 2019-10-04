@@ -43,6 +43,7 @@ import partFail from './partFail';
 import partFails from './partFails';
 import storagePlaces from './storagePlaces';
 import partFailErrorTypes from './partFailErrorTypes';
+import partFailFaultCodes from './partFailFaultCodes';
 
 const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes });
 
@@ -86,6 +87,7 @@ const rootReducer = combineReducers({
     partFails,
     storagePlaces,
     partFailErrorTypes,
+    partFailFaultCodes,
     ...sharedLibraryReducers
 });
 

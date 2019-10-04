@@ -53,7 +53,16 @@
 
         public IQueryable<PartFail> FilterBy(Expression<Func<PartFail, bool>> expression)
         {
-            return this.serviceDbContext.PartFails.Where(expression);
+            return this.serviceDbContext
+                .PartFails
+                .Where(expression)
+                .Include(f => f.EnteredBy)
+                .Include(f => f.FaultCode)
+                .Include(f => f.WorksOrder)
+                .Include(f => f.ErrorType)
+                .Include(f => f.Part)
+                .Include(f => f.StorageLocation)
+                .OrderBy(f => f.Id.ToString().Length);
         }
     }
 }

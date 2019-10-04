@@ -151,3 +151,9 @@ export const partFailErrorTypes = new ItemType(
     'PART_FAIL_ERROR_TYPES',
     '/production/quality/part-fail-error-types'
 );
+
+export const partFailFaultCodes = new ItemType(
+    'partFailFaultCodes', 
+    'PART_FAIL_FAULT_CODES',
+    '/production/quality/part-fail-fault-codes'
+);

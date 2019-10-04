@@ -1,6 +1,10 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Linn.Common.Facade;
+    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
 
@@ -22,9 +26,11 @@
                            FaultDescription = model.FaultCode.Description,
                            PurchaseOrderNumber = model.PurchaseOrderNumber,
                            ErrorType = model.ErrorType.ErrorType,
-                           StoragePlace = model.StorageLocation.LocationCode,
-                           Story = model.Story
-                       };
+                           StoragePlace = model.StorageLocation?.LocationCode,
+                           Story = model.Story,
+                           WorksOrderNumber = model.WorksOrder?.OrderNumber,
+                           Links = this.BuildLinks(model).ToArray()
+            };
         }
 
         object IResourceBuilder<PartFail>.Build(PartFail fail) => this.Build(fail);
@@ -32,6 +38,11 @@
         public string GetLocation(PartFail fail)
         {
             return $"/production/quality/part-fails/{fail.Id}";
+        }
+
+        private IEnumerable<LinkResource> BuildLinks(PartFail fail)
+        {
+            yield return new LinkResource { Rel = "self", Href = this.GetLocation(fail) };
         }
     }
 }

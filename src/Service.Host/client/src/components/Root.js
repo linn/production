@@ -49,6 +49,7 @@ import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOP
 import NotFound from './NotFound';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 import PartFail from '../containers/partFails/PartFail';
+import PartFails from '../containers/partFails/PartFails';
 
 const Root = ({ store }) => (
     <div>
@@ -274,6 +275,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/quality/part-fails/:id"
                                         component={PartFail}
+                                    />
+                                     <Route
+                                        exact
+                                        path="/production/quality/part-fails"
+                                        component={PartFails}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

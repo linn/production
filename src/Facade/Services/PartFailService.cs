@@ -64,7 +64,7 @@
                            FaultCode = this.faultCodeRepository.FindById(resource.FaultCode),
                            ErrorType = this.errorTypeRepository.FindById(resource.ErrorType),
                            Story = resource.Story,
-                           WorksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber),
+                           WorksOrder = resource.WorksOrderNumber != null ? this.worksOrderRepository.FindById((int)resource.WorksOrderNumber) : null,
                            StorageLocation = this.storageLocationRepository.FindBy(s => s.LocationCode == resource.StoragePlace),
                            PurchaseOrderNumber = resource.PurchaseOrderNumber,
                            MinutesWasted = resource.MinutesWasted
@@ -79,7 +79,8 @@
             partFail.FaultCode = this.faultCodeRepository.FindById(resource.FaultCode);
             partFail.ErrorType = this.errorTypeRepository.FindById(resource.ErrorType);
             partFail.Story = resource.Story;
-            partFail.WorksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber);
+            partFail.WorksOrder = resource.WorksOrderNumber 
+                                  != null ? this.worksOrderRepository.FindById((int)resource.WorksOrderNumber) : null;
             partFail.StorageLocation =
                 this.storageLocationRepository.FindBy(s => s.LocationCode == resource.StoragePlace);
             partFail.PurchaseOrderNumber = resource.PurchaseOrderNumber;
