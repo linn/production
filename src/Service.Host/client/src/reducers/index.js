@@ -42,8 +42,12 @@ import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
 import ptlSettings from './ptlSettings';
 import startTriggerRun from './startTriggerRun';
+import serialNumbers from './serialNumbers';
+import serialNumberReissue from './serialNumberReissue';
+import salesArticles from './salesArticles';
+import salesArticle from './salesArticle';
 
-const errors = fetchErrorReducer({...itemTypes, ...reportTypes });
+const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes });
 
 const rootReducer = combineReducers({
     oidc,
@@ -75,6 +79,10 @@ const rootReducer = combineReducers({
     productionMeasures,
     productionTriggersReport,
     ptlSettings,
+    salesArticle,
+    salesArticles,
+    serialNumbers,
+    serialNumberReissue,
     smtShifts,
     smtOutstandingWorkOrderParts,
     startTriggerRun,

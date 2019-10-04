@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getItemError } from '@linn-it/linn-form-components-library';
+import { getItemErrorDetailMessage } from '@linn-it/linn-form-components-library';
 import initialiseOnMount from '../initialiseOnMount';
 import WorksOrder from '../../components/worksOrders/WorksOrder';
 import worksOrderSelectors from '../../selectors/worksOrderSelectors';
@@ -13,9 +13,8 @@ import partsSelectors from '../../selectors/partsSelectors';
 import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
-    worksOrderError: getItemError(state, itemTypes.worksOrder.item)?.details?.errors[0],
-    worksOrderDetailsError: getItemError(state, itemTypes.worksOrderDetails.item)?.details
-        ?.errors[0],
+    worksOrderError: getItemErrorDetailMessage(state, itemTypes.worksOrder.item),
+    worksOrderDetailsError: getItemErrorDetailMessage(state, itemTypes.worksOrderDetails.item),
     editStatus: 'create',
     loading: worksOrderSelectors.getLoading(state),
     snackbarVisible: worksOrderSelectors.getSnackbarVisible(state),

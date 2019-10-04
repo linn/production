@@ -68,7 +68,7 @@ function WorksOrder({
             setCancelledByEmployee(null);
 
             if (creating()) {
-                setWorksOrder({ ...item, docType: 'WO' });
+                setWorksOrder({ ...item, docType: 'WO', quantity: null });
                 return;
             }
 
