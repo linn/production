@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-// import { makeStyles } from '@material-ui/styles';
 import Grid from '@material-ui/core/Grid';
 import {
     Loading,
@@ -8,27 +7,10 @@ import {
     ErrorCard,
     Title,
     PaginatedTable,
-    InputField,
     useSearch,
     SearchInputField
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-
-// const useStyles = makeStyles(theme => ({
-//     root: {
-//         width: '90%'
-//     },
-//     button: {
-//         marginTop: theme.spacing(1),
-//         marginRight: theme.spacing(1)
-//     },
-//     actionsContainer: {
-//         marginBottom: theme.spacing(2)
-//     },
-//     resetContainer: {
-//         padding: theme.spacing(3)
-//     }
-// }));
 
 const ViewManufacturingRoutes = ({ loading, errorMessage, history, items, fetchItems }) => {
     const [pageOptions, setPageOptions] = useState({
@@ -38,8 +20,6 @@ const ViewManufacturingRoutes = ({ loading, errorMessage, history, items, fetchI
         rowsPerPage: 10
     });
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
-
-    // const classes = useStyles();
 
     useEffect(() => {
         const compare = (field, orderAscending) => (a, b) => {
@@ -90,7 +70,6 @@ const ViewManufacturingRoutes = ({ loading, errorMessage, history, items, fetchI
     useSearch(fetchItems, searchTerm, null, 'searchTerm');
 
     const handleSearchTermChange = (...args) => {
-        console.log(args);
         setSearchTerm(args[1]);
     };
 

@@ -45,6 +45,7 @@ import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMea
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
 import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
+import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
 
 const Root = ({ store }) => (
     <div>
@@ -86,21 +87,17 @@ const Root = ({ store }) => (
                                             path="/production/maintenance/signin-oidc-client"
                                             component={Callback}
                                         />
-
                                         <Route
                                             exact
                                             path="/production/maintenance"
                                             component={App}
                                         />
-
                                         <Route exact path="/production/quality" component={App} />
-
                                         <Route
                                             exact
                                             path="/production/quality/ate"
                                             component={App}
                                         />
-
                                         <Route
                                             exact
                                             path="/production/maintenance/works-orders"
@@ -116,13 +113,11 @@ const Root = ({ store }) => (
                                             path="/production/maintenance/works-orders/outstanding-works-orders-report/report"
                                             component={OutstandingWorksOrdersReport}
                                         />
-
                                         <Route
                                             exact
                                             path="/production/maintenance/serial-number-reissue"
                                             component={SerialNumberReissue}
                                         />
-
                                         <Route
                                             exact
                                             path="/production/quality/ate/fault-codes/create"
@@ -252,6 +247,11 @@ const Root = ({ store }) => (
                                             exact
                                             path="/production/reports/assembly-fails-measures"
                                             component={AssemblyFailsMeasuresOptions}
+                                        />{' '}
+                                        <Route
+                                            exact
+                                            path="/production/resources/manufacturing-routes/create"
+                                            component={CreateManufacturingRoute}
                                         />
                                         <Route
                                             exact

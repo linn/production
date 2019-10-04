@@ -9,9 +9,8 @@ import {
     ErrorCard,
     SnackbarMessage
 } from '@linn-it/linn-form-components-library';
-import { Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
 import Page from '../../containers/Page';
-import Operation from './Operation';
+import TableWithInlineEditing from './TableWithInlineEditing';
 
 function ManufacturingRoute({
     editStatus,
@@ -24,6 +23,9 @@ function ManufacturingRoute({
     addItem,
     updateItem,
     setEditStatus,
+    manufacturingSkills,
+    manufacturingResources,
+    cits,
     setSnackbarVisible
 }) {
     const [manufacturingRoute, setManufacturingRoute] = useState({});
@@ -40,7 +42,7 @@ function ManufacturingRoute({
         }
     }, [item, prevManufacturingRoute]);
 
-    const RouteCodeInvalid = () => !manufacturingRoute.RouteCode;
+    const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
     const descriptionInvalid = () => !manufacturingRoute.description;
     const notesInvalid = () => !manufacturingRoute.notes;
 
@@ -70,6 +72,71 @@ function ManufacturingRoute({
             setEditStatus('edit');
         }
         setManufacturingRoute({ ...manufacturingRoute, [propertyName]: newValue });
+    };
+
+    const updateOp = ops => {
+        handleFieldChange('operations', ops);
+    };
+
+    const OperationsTableAndInfo = () => {
+        const skillCodes = manufacturingSkills.map(skill => skill.skillCode);
+        const resourceCodes = manufacturingResources.map(resource => resource.resourceCode);
+        const citCodes = cits.map(cit => cit.code);
+
+        const columnsInfo = [
+            {
+                title: 'Operation Number',
+                key: 'operationNumber',
+                type: 'number'
+            },
+            {
+                title: 'Description',
+                key: 'description',
+                type: 'text'
+            },
+            {
+                title: 'CIT Code',
+                key: 'cITCode',
+                type: 'dropdown',
+                options: citCodes
+            },
+            {
+                title: 'Skill Code',
+                key: 'skillCode',
+                type: 'dropdown',
+                options: skillCodes
+            },
+            {
+                title: 'Set & Clean Time mins',
+                key: 'setAndCleanTime',
+                type: 'number'
+            },
+            {
+                title: 'Resource Code',
+                key: 'resourceCode',
+                type: 'dropdown',
+                options: resourceCodes
+            },
+            {
+                title: 'Cycle Time mins',
+                key: 'cycleTime',
+                type: 'number'
+            },
+            {
+                title: 'Labour Percentage',
+                key: 'labourPercentage',
+                type: 'number'
+            }
+        ];
+        return (
+            <TableWithInlineEditing
+                columnsInfo={columnsInfo}
+                content={manufacturingRoute.operations}
+                updateContent={updateOp}
+                editStatus={editStatus}
+                allowedToEdit
+            />
+        );
     };
 
     return (
@@ -141,47 +208,8 @@ function ManufacturingRoute({
                             />
                         </Grid>
 
-                        <Fragment>
-                            {console.info(manufacturingRoute.operations)}
+                        {!creating() && manufacturingRoute.operations && OperationsTableAndInfo()}
 
-                            {manufacturingRoute.operations ? (
-                                <Table>
-                                    <TableHead key="headers">
-                                        <TableRow>
-                                            <TableCell>Operation Number</TableCell>
-                                            <TableCell>Description</TableCell>
-                                            <TableCell>CIT Code</TableCell>
-                                            <TableCell>Skill Code</TableCell>
-                                            <TableCell>Set & Clean Time mins</TableCell>
-                                            <TableCell>Resource Code</TableCell>
-                                            <TableCell>Cycle Time mins </TableCell>
-                                            <TableCell>Labour Percentage</TableCell>
-                                            <TableCell>Links</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    {manufacturingRoute.operations.map((
-                                        el //<p>{el.routeCode}</p>
-                                    ) => (
-                                        <Operation
-                                            routeCode={el.routeCode}
-                                            manufacturingId={el.manufacturingId}
-                                            operationNumber={el.operationNumber}
-                                            description={el.description}
-                                            skillCode={el.skillCode}
-                                            resourceCode={el.resourceCode}
-                                            setAndCleanTime={el.setAndCleanTime}
-                                            cycleTime={el.cycleTime}
-                                            labourPercentage={el.labourPercentage}
-                                            citCode={el.citCode}
-                                            links={el.links}
-                                            editStatus={editStatus}
-                                        />
-                                    ))}
-                                </Table>
-                            ) : (
-                                <p>test</p>
-                            )}
-                        </Fragment>
                         <Grid item xs={12}>
                             <SaveBackCancelButtons
                                 saveDisabled={viewing() || inputInvalid()}
@@ -199,7 +227,7 @@ function ManufacturingRoute({
 
 ManufacturingRoute.propTypes = {
     item: PropTypes.shape({
-        RouteCode: PropTypes.string,
+        routeCode: PropTypes.string,
         description: PropTypes.string,
         notes: PropTypes.number
     }),
@@ -212,7 +240,18 @@ ManufacturingRoute.propTypes = {
     addItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
-    setSnackbarVisible: PropTypes.func.isRequired
+    setSnackbarVisible: PropTypes.func.isRequired,
+    manufacturingSkills: PropTypes.shape({
+        skillCode: PropTypes.string,
+        description: PropTypes.string
+    }).isRequired,
+    manufacturingResources: PropTypes.shape({
+        skillCode: PropTypes.string,
+        description: PropTypes.string
+    }).isRequired,
+    cits: PropTypes.shape({
+        code: PropTypes.string
+    }).isRequired
 };
 
 ManufacturingRoute.defaultProps = {
