@@ -18,7 +18,7 @@
 
         public PartFailFaultCode FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PartFailFaultCodes.Where(c => c.FaultCode == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<PartFailFaultCode> FindAll()

@@ -57,6 +57,7 @@
                        {
                            Id = this.databaseService.GetIdSequence("PART_FAIL_LOG_SEQ"),
                            EnteredBy = this.employeeRepository.FindById(resource.EnteredBy),
+                           
                            Batch = resource.Batch,
                            DateCreated = DateTime.Parse(resource.DateCreated),
                            Part = this.partRepository.FindById(resource.PartNumber),

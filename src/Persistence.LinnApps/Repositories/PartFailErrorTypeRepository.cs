@@ -18,7 +18,7 @@
 
         public PartFailErrorType FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PartFailErrorTypes.Where(t => t.ErrorType == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<PartFailErrorType> FindAll()

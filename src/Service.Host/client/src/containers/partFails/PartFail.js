@@ -14,6 +14,8 @@ import storagePlacesActions from '../../actions/storagePlacesActions';
 import partFailErrorTypesActions from '../../actions/partFailErrorTypesActions';
 import partFailFaultCodesSelectors from '../../selectors/partFailFaultCodesSelectors';
 import partFailFailFaultCodesActions from '../../actions/partFailFailFaultCodesActions';
+import getProfile from '../../selectors/userSelectors';
+import worksOrdersSelectors from '../../selectors/worksOrdersSelectors';
 
 const mapStateToProps = (state, { match }) => ({
     item: partFailSelectors.getItem(state),
@@ -25,6 +27,9 @@ const mapStateToProps = (state, { match }) => ({
     loading: partFailSelectors.getLoading(state),
     snackbarVisible: partFailSelectors.getSnackbarVisible(state),
     itemError: getItemError(state, itemTypes.partFail.item),
+    profile: getProfile(state),
+    worksOrders: worksOrdersSelectors.getItems(state),
+    worksOrdersLoading: worksOrdersSelectors.getLoading(state),
     requestErrors: getRequestErrors(state)
 });
 

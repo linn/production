@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function PartFails({ items, fetchItems, loading, clearSearch, history }) {
-    const forecastItems = items.map(item => ({
+    const searchItems = items.map(item => ({
         ...item,
         name: item.id.toString(),
         description: item.faultDescription
@@ -19,7 +19,7 @@ function PartFails({ items, fetchItems, loading, clearSearch, history }) {
                         <CreateButton createUrl="/production/quality/create-part-fail" />
                     </Fragment>
                     <Typeahead
-                        items={forecastItems}
+                        items={searchItems}
                         fetchItems={fetchItems}
                         clearSearch={clearSearch}
                         loading={loading}
