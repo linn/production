@@ -16,12 +16,23 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingById : ContextBase
+    public class WhenAdding : ContextBase
     {
+        private PartFailResource requestResource;
+
         [SetUp]
         public void SetUp()
         {
-            var a = new PartFail
+            this.requestResource = new PartFailResource
+            {
+                WorksOrderNumber = "99999999",
+                EnteredBy = 12345678,
+                EnteredByName = "Colin",
+                PartNumber = "PART",
+                PartDescription = "Something"
+            };
+
+            var partFail = new PartFail
                         {
                             Id = 1,
                             WorksOrder = new WorksOrder { OrderNumber = 1, PartNumber = "A", Part = new Part { Description = "desc" } },
@@ -32,23 +43,31 @@
                             FaultCode = new PartFailFaultCode { FaultCode = "F", Description = "Fault" }
                         };
 
-            this.FacadeService.GetById(1).Returns(new SuccessResult<PartFail>(a));
+            this.FacadeService.Add(Arg.Any<PartFailResource>())
+                .Returns(new CreatedResult<PartFail>(partFail));
 
-            this.Response = this.Browser.Get(
-                "/production/quality/part-fails/1",
-                with => { with.Header("Accept", "application/json"); }).Result;
+            this.Response = this.Browser.Post(
+                "/production/quality/part-fails",
+                with =>
+                {
+                    with.Header("Accept", "application/json");
+                    with.Header("Content-Type", "application/json");
+                    with.JsonBody(this.requestResource);
+                }).Result;
         }
 
         [Test]
-        public void ShouldReturnOk()
+        public void ShouldReturnCreated()
         {
-            this.Response.StatusCode.Should().Be(HttpStatusCode.OK);
+            this.Response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
 
         [Test]
         public void ShouldCallService()
         {
-            this.FacadeService.Received().GetById(1);
+            this.FacadeService
+                .Received()
+                .Add(Arg.Any<PartFailResource>());
         }
 
         [Test]
@@ -56,7 +75,6 @@
         {
             var resource = this.Response.Body.DeserializeJson<PartFailResource>();
             resource.Id.Should().Be(1);
-            resource.ErrorType.Should().Be("Error");
         }
     }
 }

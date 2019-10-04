@@ -83,6 +83,8 @@
 
         public DbQuery<StoragePlace> StoragePlaces { get; set; }
 
+        public DbSet<StorageLocation> StorageLocations { get; set; }
+
         public DbSet<PartFail> PartFails { get; set; }
 
         public DbSet<PartFailErrorType> PartFailErrorTypes { get; set;  }

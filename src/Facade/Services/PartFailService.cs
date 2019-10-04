@@ -8,6 +8,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
 
@@ -18,6 +19,10 @@
         private readonly IRepository<PartFail, int> repository;
 
         private readonly IRepository<PartFailErrorType, string> errorTypeRepository;
+
+        private readonly IRepository<PartFailFaultCode, string> faultCodeRepository;
+
+        private readonly IRepository<WorksOrder, string> worksOrderRepository;
 
         private readonly IRepository<Part, string> partRepository;
 
@@ -32,6 +37,8 @@
             IRepository<Part, string> partRepository,
             IRepository<StorageLocation, int> storageLocationRepository,
             IRepository<Employee, int> employeeRepository,
+            IRepository<PartFailFaultCode, string> faultCodeRepository,
+            IRepository<WorksOrder, string> worksOrderRepository, 
             ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
@@ -40,6 +47,8 @@
             this.partRepository = partRepository;
             this.storageLocationRepository = storageLocationRepository;
             this.employeeRepository = employeeRepository;
+            this.faultCodeRepository = faultCodeRepository;
+            this.worksOrderRepository = worksOrderRepository;
         }
 
         protected override PartFail CreateFromResource(PartFailResource resource)
@@ -47,13 +56,34 @@
             return new PartFail
                        {
                            Id = this.databaseService.GetIdSequence("PART_FAIL_LOG_SEQ"),
-                           EnteredBy = this.employeeRepository.FindById(resource.EnteredBy)
-                       };
+                           EnteredBy = this.employeeRepository.FindById(resource.EnteredBy),
+                           Batch = resource.Batch,
+                           DateCreated = DateTime.Parse(resource.DateCreated),
+                           Part = this.partRepository.FindById(resource.PartNumber),
+                           Quantity = resource.Quantity,
+                           FaultCode = this.faultCodeRepository.FindById(resource.FaultCode),
+                           ErrorType = this.errorTypeRepository.FindById(resource.ErrorType),
+                           Story = resource.Story,
+                           WorksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber),
+                           StorageLocation = this.storageLocationRepository.FindBy(s => s.LocationCode == resource.StoragePlace),
+                           PurchaseOrderNumber = resource.PurchaseOrderNumber,
+                           MinutesWasted = resource.MinutesWasted
+            };
         }
 
-        protected override void UpdateFromResource(PartFail entity, PartFailResource updateResource)
+        protected override void UpdateFromResource(PartFail partFail, PartFailResource resource)
         {
-            throw new NotImplementedException();
+            partFail.Batch = resource.Batch;
+            partFail.Part = this.partRepository.FindById(resource.PartNumber);
+            partFail.Quantity = resource.Quantity;
+            partFail.FaultCode = this.faultCodeRepository.FindById(resource.FaultCode);
+            partFail.ErrorType = this.errorTypeRepository.FindById(resource.ErrorType);
+            partFail.Story = resource.Story;
+            partFail.WorksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber);
+            partFail.StorageLocation =
+                this.storageLocationRepository.FindBy(s => s.LocationCode == resource.StoragePlace);
+            partFail.PurchaseOrderNumber = resource.PurchaseOrderNumber;
+            partFail.MinutesWasted = resource.MinutesWasted;
         }
 
         protected override Expression<Func<PartFail, bool>> SearchExpression(string searchTerm)

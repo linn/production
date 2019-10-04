@@ -29,9 +29,9 @@
 
         object IResourceBuilder<PartFail>.Build(PartFail fail) => this.Build(fail);
 
-        public string GetLocation(PartFail model)
+        public string GetLocation(PartFail fail)
         {
-            throw new System.NotImplementedException();
+            return $"/production/quality/part-fails/{fail.Id}";
         }
     }
 }
