@@ -3,13 +3,12 @@
     using System.Collections.Generic;
     using System.Security.Claims;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Common;
     using Linn.Production.Domain.LinnApps.Dispatchers;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Triggers;
-    using Linn.Production.Facade.Common;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;

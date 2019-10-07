@@ -1,14 +1,13 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Triggers;
-    using Linn.Production.Facade.Common;
-    using Linn.Production.Persistence.LinnApps.Repositories;
     using Linn.Production.Resources;
 
     public class PtlSettingsFacadeService : SingleRecordFacadeService<PtlSettings, PtlSettingsResource>
     {
-        public PtlSettingsFacadeService(IMasterRepository<PtlSettings> repository, ITransactionManager transactionManager)
+        public PtlSettingsFacadeService(ISingleRecordRepository<PtlSettings> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
         }

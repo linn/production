@@ -1,8 +1,9 @@
 ﻿namespace Linn.Production.Persistence.LinnApps.Repositories
 {
+    using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Triggers;
 
-    public class PtlMasterRepository : IMasterRepository<PtlMaster>
+    public class PtlMasterRepository : ISingleRecordRepository<PtlMaster>
     {
         private readonly ServiceDbContext serviceDbContext;
 
@@ -11,7 +12,7 @@
             this.serviceDbContext = serviceDbContext;
         }
 
-        public PtlMaster GetMasterRecord()
+        public PtlMaster GetRecord()
         {
             return this.serviceDbContext.PtlMaster;
         }

@@ -1,8 +1,8 @@
 ﻿namespace Linn.Production.Service.ResponseProcessors
 {
-    using Common.Facade;
-    using Common.Nancy.Facade;
-    using Domain.LinnApps.Measures;
+    using Linn.Common.Facade;
+    using Linn.Common.Nancy.Facade;
+    using Linn.Production.Domain.LinnApps.Measures;
 
     public class OsrInfoResponseProcessor : JsonResponseProcessor<OsrInfo>
     {

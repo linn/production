@@ -3,10 +3,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Common;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Resources;
 

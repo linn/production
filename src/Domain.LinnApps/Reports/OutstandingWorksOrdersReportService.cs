@@ -4,7 +4,6 @@
 
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.RemoteServices;
-    using Linn.Production.Resources;
 
     public class OutstandingWorksOrdersReportService : IOutstandingWorksOrdersReportService
     {

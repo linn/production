@@ -21,8 +21,8 @@
             var cit = new Cit { Code = "A", Name = "Army of the Undead" };
             this.CitRepository.FindById(Arg.Any<string>()).Returns(cit);
 
-            var master = new PtlMaster {LastFullRunJobref = "CJCAIH", LastFullRunDateTime = new DateTime(2019, 1, 1)};
-            this.PtlMasterRepository.GetMasterRecord().Returns(master);
+            var master = new PtlMaster { LastFullRunJobref = "CJCAIH", LastFullRunDateTime = new DateTime(2019, 1, 1) };
+            this.PtlMasterRepository.GetRecord().Returns(master);
 
             var triggers = new List<ProductionTrigger>
             {
@@ -40,7 +40,6 @@
         public void ShouldReturnSuccessRequest()
         {
             this.result.Should().BeOfType<SuccessResult<ProductionTriggersReport>>();
-            var triggers = this.result.As<SuccessResult<ProductionTriggersReport>>().Data;
         }
 
         [Test]
@@ -50,7 +49,7 @@
             report.PtlMaster.LastFullRunJobref.Should().Be("CJCAIH");
             report.Cit.Code.Should().Be("A");
 
-            var triggers = report.Triggers;
+            var triggers = report.Triggers.ToList();
             triggers.Count().Should().Be(3);
             triggers.First().PartNumber.Should().Be("A");
         }

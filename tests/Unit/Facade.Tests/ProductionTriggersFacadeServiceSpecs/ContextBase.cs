@@ -16,9 +16,9 @@
     {
         protected ProductionTriggersFacadeService Sut { get; set; }
 
-        protected Domain.LinnApps.Repositories.IQueryRepository<ProductionTrigger> ProductionTriggerQueryRepository { get; private set; }
+        protected IQueryRepository<ProductionTrigger> ProductionTriggerQueryRepository { get; private set; }
 
-        protected IMasterRepository<PtlMaster> PtlMasterRepository { get; private set; }
+        protected ISingleRecordRepository<PtlMaster> PtlMasterRepository { get; private set; }
 
         protected IRepository<Cit, string> CitRepository { get; private set; }
 
@@ -31,14 +31,20 @@
         [SetUp]
         public void SetUpContext()
         {
-            this.ProductionTriggerQueryRepository = Substitute.For<Domain.LinnApps.Repositories.IQueryRepository<ProductionTrigger>>();
-            this.PtlMasterRepository = Substitute.For<IMasterRepository<PtlMaster>>();
-            this.CitRepository = Substitute.For<IRepository<Cit, string>> ();
+            this.ProductionTriggerQueryRepository = Substitute.For<IQueryRepository<ProductionTrigger>>();
+            this.PtlMasterRepository = Substitute.For<ISingleRecordRepository<PtlMaster>>();
+            this.CitRepository = Substitute.For<IRepository<Cit, string>>();
             this.WorksOrderRepository = Substitute.For<IRepository<WorksOrder, int>>();
             this.ProductionBackOrderQueryRepository = Substitute.For<IQueryRepository<ProductionBackOrder>>();
 
             this.AccountingCompanyRepository = Substitute.For<IRepository<AccountingCompany, string>>();
-            this.Sut = new ProductionTriggersFacadeService(this.ProductionTriggerQueryRepository, this.CitRepository, this.PtlMasterRepository, this.WorksOrderRepository, this.ProductionBackOrderQueryRepository, this.AccountingCompanyRepository);
+            this.Sut = new ProductionTriggersFacadeService(
+                this.ProductionTriggerQueryRepository,
+                this.CitRepository,
+                this.PtlMasterRepository,
+                this.WorksOrderRepository,
+                this.ProductionBackOrderQueryRepository,
+                this.AccountingCompanyRepository);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Linn.Production.Facade.Tests.ResourceBuilders.PtlSettingsSpecs
 {
-    using Linn.Production.Domain.LinnApps.Common;
+    using Linn.Common.Authorisation;
     using Linn.Production.Facade.ResourceBuilders;
 
     using NSubstitute;

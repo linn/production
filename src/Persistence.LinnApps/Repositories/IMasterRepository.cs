@@ -1,9 +1,0 @@
-﻿namespace Linn.Production.Persistence.LinnApps.Repositories
-{
-    public interface IMasterRepository<T>
-    {
-        T GetMasterRecord();
-
-        void UpdateRecord(T newValues);
-    }
-}
