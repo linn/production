@@ -7,10 +7,8 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.WorksOrders;
-    using Linn.Production.Persistence.LinnApps.Repositories;
 
     public class ProductionTriggersFacadeService : IProductionTriggersFacadeService
     {

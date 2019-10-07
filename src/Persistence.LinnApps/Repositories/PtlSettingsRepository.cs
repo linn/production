@@ -2,6 +2,7 @@
 {
     using System.Linq;
 
+    using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Triggers;
 
     public class PtlSettingsRepository : ISingleRecordRepository<PtlSettings>

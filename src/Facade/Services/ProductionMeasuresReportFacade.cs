@@ -7,7 +7,6 @@
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.CsvExtensions;
-    using Linn.Production.Persistence.LinnApps.Repositories;
 
     public class ProductionMeasuresReportFacade : IProductionMeasuresReportFacade
     {
