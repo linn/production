@@ -4,6 +4,8 @@
     using System.Linq;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.Triggers;
@@ -20,12 +22,24 @@
 
         private readonly IRepository<WorksOrder, int> worksOrderRepository;
 
-        public ProductionTriggersFacadeService(IQueryRepository<ProductionTrigger> repository, IRepository<Cit, string> citRepository, ISingleRecordRepository<PtlMaster> masterRepository, IRepository<WorksOrder, int> worksOrderRepository)
+        private readonly IQueryRepository<ProductionBackOrder> productionBackOrderRepository;
+
+        private readonly IRepository<AccountingCompany, string> accountingCompaniesRepository;
+
+        public ProductionTriggersFacadeService(
+            IQueryRepository<ProductionTrigger> repository,
+            IRepository<Cit, string> citRepository,
+            ISingleRecordRepository<PtlMaster> masterRepository,
+            IRepository<WorksOrder, int> worksOrderRepository,
+            IQueryRepository<ProductionBackOrder> productionBackOrderRepository,
+            IRepository<AccountingCompany, string> accountingCompaniesRepository)
         {
             this.repository = repository;
             this.citRepository = citRepository;
             this.masterRepository = masterRepository;
             this.worksOrderRepository = worksOrderRepository;
+            this.productionBackOrderRepository = productionBackOrderRepository;
+            this.accountingCompaniesRepository = accountingCompaniesRepository;
         }
 
         public IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode)
@@ -41,7 +55,7 @@
             ProductionTriggerReportType triggerReportType;
 
             // if no cit then just pick the first production one you can find
-            var cit = (string.IsNullOrEmpty(citCode)) ? this.citRepository.FilterBy(c => c.BuildGroup == "PP" && c.DateInvalid == null).ToList().OrderBy(c => c.SortOrder).FirstOrDefault() : this.citRepository.FindById(citCode);
+            var cit = string.IsNullOrEmpty(citCode) ? this.citRepository.FilterBy(c => c.BuildGroup == "PP" && c.DateInvalid == null).ToList().OrderBy(c => c.SortOrder).FirstOrDefault() : this.citRepository.FindById(citCode);
 
             if (cit == null)
             {
@@ -77,6 +91,18 @@
                 ? this.worksOrderRepository.FilterBy(w =>
                     w.PartNumber == partNumber & w.DateCancelled == null & w.Quantity > w.QuantityBuilt).ToList()
                 : new List<WorksOrder>();
+
+            if (trigger.ReqtForSalesOrdersBE > 0)
+            {
+                var linn = this.accountingCompaniesRepository.FindById("LINN");
+                facts.OutstandingSalesOrders = linn != null
+                    ? this.productionBackOrderRepository.FilterBy(o =>
+                        o.JobId == linn.LatestSosJobId && o.ArticleNumber == partNumber).ToList() : new List<ProductionBackOrder>();
+            }
+            else
+            {
+                facts.OutstandingSalesOrders = new List<ProductionBackOrder>();
+            }
 
             return new SuccessResult<ProductionTriggerFacts>(facts);
         }

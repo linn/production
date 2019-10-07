@@ -30,7 +30,7 @@ function BuildsDetailReport({ reportData, loading, config, errorMessage, options
                     <ExportButton href={href} />
                 </Grid>
                 <Grid item xs={12}>
-                    <Link component={RouterLink} to="/production/reports/builds-detail-options">
+                    <Link component={RouterLink} to="/production/reports/builds-detail/options">
                         Run this report for different parameters
                     </Link>
                 </Grid>

@@ -93,7 +93,6 @@
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
             builder.RegisterType<WorksOrderProxy>().As<IWorksOrderProxyService>();
             builder.RegisterType<SernosPack>().As<ISernosPack>();
-            builder.RegisterType<ProductAuditPack>().As<IProductAuditPack>();
             builder.RegisterType<ProductionTriggersFacadeService>().As<IProductionTriggersFacadeService>();
             builder.RegisterType<TriggerRunPack>().As<ITriggerRunPack>();
 

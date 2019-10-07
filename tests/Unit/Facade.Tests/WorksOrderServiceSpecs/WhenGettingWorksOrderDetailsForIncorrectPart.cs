@@ -13,28 +13,28 @@
 
     public class WhenGettingWorksOrderDetailsForIncorrectPart : ContextBase
     {
-        private IResult<WorksOrderDetails> result;
+        private IResult<WorksOrderPartDetails> result;
 
         private string partNumber;
 
-        private WorksOrderDetails worksOrderDetails;
+        private WorksOrderPartDetails worksOrderPartDetails;
 
         [SetUp]
         public void SetUp()
         {
             this.partNumber = "PCAS 123";
 
-            this.worksOrderDetails = new WorksOrderDetails
-                                         {
-                                             AuditDisclaimer = "Disclaimer",
-                                             PartNumber = this.partNumber,
-                                             PartDescription = "Description",
-                                             WorkStationCode = "Code"
-                                         };
+            this.worksOrderPartDetails = new WorksOrderPartDetails
+                                             {
+                                                 AuditDisclaimer = "Disclaimer",
+                                                 PartNumber = this.partNumber,
+                                                 PartDescription = "Description",
+                                                 WorkStationCode = "Code"
+                                             };
 
             this.WorksOrderUtilities.GetWorksOrderDetails(this.partNumber).Throws(new DomainException("Exception"));
 
-            this.result = this.Sut.GetWorksOrderDetails(this.partNumber);
+            this.result = this.Sut.GetWorksOrderPartDetails(this.partNumber);
         }
 
         [Test]
@@ -46,7 +46,7 @@
         [Test]
         public void ShouldReturnBadRequest()
         {
-            this.result.Should().BeOfType<BadRequestResult<WorksOrderDetails>>();
+            this.result.Should().BeOfType<BadRequestResult<WorksOrderPartDetails>>();
         }
     }
 }

@@ -5,6 +5,7 @@
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
@@ -72,6 +73,8 @@
 
         public DbQuery<ProductionTrigger> ProductionTriggers { get; set; }
 
+        public DbQuery<ProductionBackOrder> ProductionBackOrders { get; set; }
+
         public DbSet<LinnWeek> LinnWeeks { get; set; }
 
         public DbSet<PtlSettings> PtlSettings { get; set; }
@@ -79,6 +82,8 @@
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
+
+        public DbQuery<AccountingCompany> AccountingCompanies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -112,6 +117,8 @@
             this.BuildBomDetailPhantomView(builder);
             this.QuerySmtShifts(builder);
             this.BuildPtlSettings(builder);
+            this.QueryAccountingCompanies(builder);
+            this.QueryProductionBackOrders(builder);
             base.OnModelCreating(builder);
         }
 
@@ -571,6 +578,32 @@
             q.ToView("SMT_SHIFTS");
             q.Property(e => e.Shift).HasColumnName("SHIFT");
             q.Property(e => e.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void QueryAccountingCompanies(ModelBuilder builder)
+        {
+            var q = builder.Query<AccountingCompany>();
+            q.ToView("ACCOUNTING_COMPANIES");
+            q.Property(e => e.Name).HasColumnName("ACCOUNTING_COMPANY").HasMaxLength(10);
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            q.Property(e => e.LatestSosJobId).HasColumnName("LATEST_SOS_JOB_ID");
+            q.Property(e => e.DateLatestSosJobId).HasColumnName("DATE_LATEST_SOS_JOB_ID");
+        }
+
+        private void QueryProductionBackOrders(ModelBuilder builder)
+        {
+            var q = builder.Query<ProductionBackOrder>();
+            q.ToView("V_PRODUCTION_BACK_ORDERS");
+            q.Property(e => e.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(e => e.ArticleNumber).HasColumnName("ARTICLE_NUMBER").HasMaxLength(14);
+            q.Property(e => e.JobId).HasColumnName("JOB_ID");
+            q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
+            q.Property(e => e.OrderLine).HasColumnName("ORDER_LINE");
+            q.Property(e => e.BackOrderQty).HasColumnName("BACK_ORDER_QTY");
+            q.Property(e => e.BaseValue).HasColumnName("BASE_VALUE");
+            q.Property(e => e.RequestedDeliveryDate).HasColumnName("REQUESTED_DELIVERY_DATE");
+            q.Property(e => e.DatePossible).HasColumnName("DATE_POSSIBLE");
+            q.Property(e => e.QueuePosition).HasColumnName("QUEUE_POSITION");
         }
     }
 }

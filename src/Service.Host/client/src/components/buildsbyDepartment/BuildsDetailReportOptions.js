@@ -2,12 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { OnOffSwitch, Dropdown, DatePicker } from '@linn-it/linn-form-components-library';
+import { OnOffSwitch, Dropdown, DatePicker, Loading } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Page from '../../containers/Page';
 
-function BuildsDetailReportOptions({ history, departments, options, prevOptions }) {
+function BuildsDetailReportOptions({
+    history,
+    departments,
+    options,
+    prevOptions,
+    departmentsLoading
+}) {
     const getFromDate = () => {
         if (options.fromDate) {
             return moment(options.fromDate.replace(' ', '+'));
@@ -83,69 +89,73 @@ function BuildsDetailReportOptions({ history, departments, options, prevOptions 
 
     return (
         <Page>
-            <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
-                <Grid item xs={12}>
-                    <Typography variant="h6" gutterBottom>
-                        Report Options:
-                    </Typography>
-                </Grid>
-                <Grid item xs={6}>
-                    <Dropdown
-                        label="Department"
-                        propertyName="department"
-                        items={departments.map(d => d.description)}
-                        fullWidth
-                        value={department ? department.description : ''}
-                        onChange={handleDepartmentChange}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <Dropdown
-                        label="Quantity Or Value"
-                        propertyName="quantityOrValue"
-                        items={['Value', 'Quantity', 'Mins']}
-                        fullWidth
-                        value={quantityOrValue}
-                        onChange={handleQuantityOrValueChange}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <DatePicker
-                        value={fromDate}
-                        label="From Date"
-                        minDate={fromDate}
-                        onChange={setFromDate}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <DatePicker
-                        value={toDate}
-                        label="To Date"
-                        minDate={fromDate}
-                        onChange={setToDate}
-                    />
-                </Grid>
+            {!departmentsLoading ? (
+                <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
+                    <Grid item xs={12}>
+                        <Typography variant="h6" gutterBottom>
+                            Report Options:
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Dropdown
+                            label="Department"
+                            propertyName="department"
+                            items={departments.map(d => d.description)}
+                            fullWidth
+                            value={department ? department.description : ''}
+                            onChange={handleDepartmentChange}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Dropdown
+                            label="Quantity Or Value"
+                            propertyName="quantityOrValue"
+                            items={['Value', 'Quantity', 'Mins']}
+                            fullWidth
+                            value={quantityOrValue}
+                            onChange={handleQuantityOrValueChange}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <DatePicker
+                            value={fromDate}
+                            label="From Date"
+                            minDate={fromDate}
+                            onChange={setFromDate}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <DatePicker
+                            value={toDate}
+                            label="To Date"
+                            minDate={fromDate}
+                            onChange={setToDate}
+                        />
+                    </Grid>
 
-                <Grid item xs={12}>
-                    <OnOffSwitch
-                        label="Total by months"
-                        value={monthly}
-                        onChange={() => setMonthly(!monthly)}
-                        propertyName="monthly"
-                    />
+                    <Grid item xs={12}>
+                        <OnOffSwitch
+                            label="Total by months"
+                            value={monthly}
+                            onChange={() => setMonthly(!monthly)}
+                            propertyName="monthly"
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            style={{ float: 'right' }}
+                            disabled={!fromDate && !toDate && department.departmentCode}
+                            onClick={handleClick}
+                        >
+                            Run Report
+                        </Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        style={{ float: 'right' }}
-                        disabled={!fromDate && !toDate && department.departmentCode}
-                        onClick={handleClick}
-                    >
-                        Run Report
-                    </Button>
-                </Grid>
-            </Grid>
+            ) : (
+                <Loading />
+            )}
         </Page>
     );
 }

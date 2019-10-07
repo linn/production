@@ -75,12 +75,6 @@
         }
 
         [Test]
-        public void ShouldCallProductAuditPack()
-        {
-            this.ProductAuditPack.Received().GenerateProductAudits(this.resource.OrderNumber);
-        }
-
-        [Test]
         public void ShouldReturnCreated()
         {
             this.result.Should().BeOfType<CreatedResult<WorksOrder>>();

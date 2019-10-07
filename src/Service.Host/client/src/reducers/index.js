@@ -1,5 +1,5 @@
 ﻿import {
-    reducers as sharedLibraryReducers, 
+    reducers as sharedLibraryReducers,
     fetchErrorReducer,
     ItemType
 } from '@linn-it/linn-form-components-library';
@@ -24,6 +24,7 @@ import manufacturingResource from './manufacturingResources/manufacturingResourc
 import boardFailTypes from './boardFailTypes/boardFailTypes';
 import boardFailType from './boardFailTypes/boardFailType';
 import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
+import worksOrder from './worksOrders/worksOrder';
 import worksOrders from './worksOrders/worksOrders';
 import productionTriggerLevels from './productionTriggerLevels';
 import pcasRevisions from './pcasRevisions';
@@ -33,51 +34,63 @@ import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
+import worksOrderDetails from './worksOrders/worksOrderDetails';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
 import smtShifts from './smtShifts';
 import * as itemTypes from '../itemTypes';
+import * as reportTypes from '../reportTypes';
 import ptlSettings from './ptlSettings';
 import startTriggerRun from './startTriggerRun';
+import serialNumbers from './serialNumbers';
+import serialNumberReissue from './serialNumberReissue';
+import salesArticles from './salesArticles';
+import salesArticle from './salesArticle';
 
-const errors = fetchErrorReducer(itemTypes);
+const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes });
 
 const rootReducer = combineReducers({
     oidc,
     assemblyFail,
     assemblyFails,
+    assemblyFailsDetails,
     assemblyFailFaultCodes,
+    assemblyFailsMeasures,
     assemblyFailsWaitingListReport,
     ateFaultCode,
     ateFaultCodes,
-    buildsDetailReport,
-    buildsSummaryReport,
     boardFailType,
     boardFailTypes,
+    buildsDetailReport,
+    buildsSummaryReport,
     cits,
     departments,
+    employees,
+    errors,
     manufacturingSkills,
     manufacturingSkill,
     manufacturingResources,
     manufacturingResource,
-    worksOrders,
-    productionTriggerLevels,
-    pcasRevisions,
-    employees,
+    manufacturingRoute,
     outstandingWorksOrdersReport,
+    parts,
+    pcasRevisions,
+    productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,
+    ptlSettings,
+    salesArticle,
+    salesArticles,
+    serialNumbers,
+    serialNumberReissue,
+    smtShifts,
+    smtOutstandingWorkOrderParts,
+    startTriggerRun,
     whoBuiltWhat,
     whoBuiltWhatDetails,
-    manufacturingRoute,
-    assemblyFailsMeasures,
-    assemblyFailsDetails,
-    errors,
-    smtOutstandingWorkOrderParts,
-    parts,
-    smtShifts,
-    ptlSettings,
-    startTriggerRun,
+    worksOrder,
+    worksOrders,
+    worksOrderDetails,
     ...sharedLibraryReducers
 });
 
