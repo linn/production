@@ -7,11 +7,11 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
-    Dropdown,
     SaveBackCancelButtons,
     DatePicker,
     DateTimePicker,
-    ValidatedInputDialog
+    ValidatedInputDialog,
+    Dropdown
 } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
@@ -262,7 +262,7 @@ function AssemblyFail({
                                     />
                                 </Grid>
                                 {creating() && (
-                                    <Grid xs={2}>
+                                    <Grid item xs={2}>
                                         <div className={classes.marginTop}>
                                             <ValidatedInputDialog
                                                 title="Enter a Valid Works Order"
@@ -413,8 +413,8 @@ function AssemblyFail({
                                             propertyName="faultCode"
                                             disabled={completed()}
                                             items={
-                                                faultCodes
-                                                    ? [''].concat(
+                                                faultCodes.length > 0
+                                                    ? [{ id: '', displayText: '' }].concat(
                                                           faultCodes.map(c => ({
                                                               id: c.faultCode,
                                                               displayText: `${c.faultCode} - ${c.description}`
@@ -423,7 +423,7 @@ function AssemblyFail({
                                                     : ['']
                                             }
                                             fullWidth
-                                            value={assemblyFail.faultCode}
+                                            value={assemblyFail.faultCode?.toString()}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -464,7 +464,7 @@ function AssemblyFail({
                                             disabled={completed()}
                                             items={aoiEscapeValues}
                                             fullWidth
-                                            value={assemblyFail.aoiEscape}
+                                            value={assemblyFail.aoiEscape?.toString()}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -475,7 +475,7 @@ function AssemblyFail({
                                             disabled={completed()}
                                             items={[''].concat(boardParts?.map(p => p.partNumber))}
                                             fullWidth
-                                            value={assemblyFail.boardPartNumber}
+                                            value={assemblyFail.boardPartNumber?.toString()}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -508,7 +508,7 @@ function AssemblyFail({
                                                     : ['']
                                             }
                                             fullWidth
-                                            value={assemblyFail.circuitRef}
+                                            value={assemblyFail.circuitRef?.toString()}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -542,7 +542,7 @@ function AssemblyFail({
                                                     : ['']
                                             }
                                             fullWidth
-                                            value={assemblyFail.citResponsible}
+                                            value={assemblyFail.citResponsible?.toString()}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -567,7 +567,7 @@ function AssemblyFail({
                                                     : ['']
                                             }
                                             fullWidth
-                                            value={assemblyFail.personResponsible}
+                                            value={assemblyFail.personResponsible?.toString()}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -595,15 +595,17 @@ function AssemblyFail({
                                             items={
                                                 employees
                                                     ? [''].concat(
-                                                          employees.map(c => ({
-                                                              id: c.id,
-                                                              displayText: c.fullName
-                                                          }))
+                                                          employees
+                                                              .filter(c => !!c.fullName)
+                                                              .map(c => ({
+                                                                  id: c.id,
+                                                                  displayText: c.fullName
+                                                              }))
                                                       )
                                                     : ['']
                                             }
                                             fullWidth
-                                            value={assemblyFail.completedBy}
+                                            value={assemblyFail.completedBy?.toString()}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -627,15 +629,17 @@ function AssemblyFail({
                                             items={
                                                 employees
                                                     ? [''].concat(
-                                                          employees.map(c => ({
-                                                              id: c.id,
-                                                              displayText: c.fullName
-                                                          }))
+                                                          employees
+                                                              .filter(c => !!c.fullName)
+                                                              .map(c => ({
+                                                                  id: c.id,
+                                                                  displayText: c.fullName
+                                                              }))
                                                       )
                                                     : ['']
                                             }
                                             fullWidth
-                                            value={assemblyFail.returnedBy}
+                                            value={assemblyFail.returnedBy?.toString()}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -723,7 +727,7 @@ AssemblyFail.propTypes = {
     faultCodes: PropTypes.arrayOf(PropTypes.shape({})),
     addItem: PropTypes.func,
     updateItem: PropTypes.func,
-    itemId: PropTypes.number,
+    itemId: PropTypes.string,
     searchWorksOrders: PropTypes.func.isRequired,
     worksOrdersSearchLoading: PropTypes.bool,
     clearWorksOrdersSearch: PropTypes.func.isRequired
