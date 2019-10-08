@@ -93,6 +93,10 @@ export const citsActionsTypes = makeActionTypes(itemTypes.cits.actionType, false
 
 export const employeesActionTypes = makeActionTypes(itemTypes.employees.actionType, false);
 
+export const assemblyFailFaultCodeActionTypes = makeActionTypes(
+    itemTypes.assemblyFailFaultCode.actionType
+);
+
 export const assemblyFailFaultCodesActionTypes = makeActionTypes(
     itemTypes.assemblyFailFaultCodes.actionType,
     false

@@ -1,8 +1,5 @@
 ﻿namespace Linn.Production.Service.Tests.AssemblyFailsUtilityModuleSpecs
 {
-    using System.Collections.Generic;
-    using System.Linq;
-
     using FluentAssertions;
 
     using Linn.Common.Facade;
