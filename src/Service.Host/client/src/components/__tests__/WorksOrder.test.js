@@ -9,19 +9,23 @@ afterEach(cleanup);
 const addItemMock = jest.fn();
 const updateItemMock = jest.fn();
 const setEditStatusMock = jest.fn();
+const fetchWorksOrderDetailsMock = jest.fn();
 
 const worksOrder = {
     orderNumber: 827436,
     dateRaised: '2019-09-30T11:39:26.0000000',
     raisedBy: 33067,
     partNumber: 'KEEL',
-    quantity: 12
+    quantity: 12,
+    docType: 'WO',
+    workStationCode: 'CODE',
+    departmentCode: 'DEPT'
 };
 
 const defaultProps = {
     editStatus: 'view',
     setSnackbarVisible: jest.fn(),
-    fetchWorksOrderDetails: jest.fn(),
+    fetchWorksOrderDetails: fetchWorksOrderDetailsMock,
     setEditStatus: setEditStatusMock,
     addItem: addItemMock,
     updateItem: updateItemMock,
@@ -30,6 +34,13 @@ const defaultProps = {
     searchParts: jest.fn(),
     clearPartsSearch: jest.fn()
 };
+
+const employees = [
+    {
+        id: 33067,
+        fullName: 'Employee Name'
+    }
+];
 
 describe('when loading', () => {
     it('should display spinner', () => {
@@ -95,6 +106,14 @@ describe('when viewing', () => {
         expect(getByDisplayValue('30-Sep-2019')).toBeInTheDocument();
     });
 
+    it('should display employee full name', () => {
+        const { getByDisplayValue } = render(
+            <WorksOrder {...defaultProps} item={worksOrder} employees={employees} />
+        );
+
+        expect(getByDisplayValue('Employee Name')).toBeInTheDocument();
+    });
+
     it('Should have save button disabled', () => {
         const { getByText } = render(<WorksOrder {...defaultProps} item={worksOrder} />);
         const item = getByText('Save');
@@ -131,7 +150,7 @@ describe('when creating', () => {
 
     it('should not display view specific form fields', () => {
         const { queryByText } = render(
-            <WorksOrder {...defaultProps} item={worksOrder} editStatus="create" />
+            <WorksOrder {...defaultProps} item={{}} editStatus="create" />
         );
 
         expect(queryByText('Works Order')).toBeNull();
@@ -147,27 +166,185 @@ describe('when creating', () => {
         expect(queryByText('Reason Cancelled')).toBeNull();
         expect(queryByText('Kitted Short')).toBeNull();
     });
-});
 
-describe('when editing', () => {
-    it('should have save button disabled when works order has not been changed', () => {
+    it('should have save disabled when fields not filled', () => {
         const { getByText } = render(
-            <WorksOrder {...defaultProps} item={worksOrder} edotStatis="edit" />
+            <WorksOrder {...defaultProps} item={{}} editStatus="create" />
         );
+
         const item = getByText('Save');
         expect(item.closest('button')).toHaveAttribute('disabled');
     });
 
-    it('should have save button disabled when there is no quantity set', () => {
-        const noQuantity = {
-            orderNumber: 12345,
-            quantity: null
+    it('should display part search results when search button clicked', () => {
+        const { getByText, getByTitle } = render(
+            <WorksOrder
+                {...defaultProps}
+                item={{}}
+                editStatus="create"
+                partsSearchResults={[
+                    { id: 'A', name: 'Part A', partNumber: 'Part A', description: 'Description A' },
+                    { id: 'B', name: 'Part B', partNumber: 'Part B', description: 'Description B' }
+                ]}
+            />
+        );
+
+        fireEvent(
+            getByTitle('Search For Part'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        expect(getByText('Part A')).toBeInTheDocument();
+        expect(getByText('Description A')).toBeInTheDocument();
+        expect(getByText('Part B')).toBeInTheDocument();
+        expect(getByText('Description B')).toBeInTheDocument();
+    });
+
+    it('should fetch works order details when part is selected', () => {
+        const { getByText, getByTitle } = render(
+            <WorksOrder
+                {...defaultProps}
+                item={{}}
+                editStatus="create"
+                partsSearchResults={[
+                    { id: 'A', name: 'Part A', partNumber: 'Part A', description: 'Description A' },
+                    { id: 'B', name: 'Part B', partNumber: 'Part B', description: 'Description B' }
+                ]}
+            />
+        );
+
+        fireEvent(
+            getByTitle('Search For Part'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        fireEvent(
+            getByText('Part A'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        expect(fetchWorksOrderDetailsMock).toHaveBeenCalled();
+    });
+
+    it('should add item when all create fields are present', () => {
+        const { getByText, getByTitle } = render(
+            <WorksOrder
+                {...defaultProps}
+                item={{}}
+                editStatus="create"
+                worksOrderDetails={{
+                    partNumber: 'PART',
+                    workStationCode: 'AB',
+                    departmentCode: 'DEPT',
+                    quantity: 6
+                }}
+                partsSearchResults={[
+                    { id: 'A', name: 'Part A', partNumber: 'Part A', description: 'Description A' },
+                    { id: 'B', name: 'Part B', partNumber: 'Part B', description: 'Description B' }
+                ]}
+            />
+        );
+
+        fireEvent(
+            getByTitle('Search For Part'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        fireEvent(
+            getByText('Part A'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        fireEvent(
+            getByText('Save'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+        expect(addItemMock).toHaveBeenCalled();
+    });
+});
+
+describe('when editing', () => {
+    it('should have save button disabled when there is no quantity or reason cancelled', () => {
+        const worksOrderNoQuantityOrReasonCancelled = {
+            orderNumber: 827436,
+            dateRaised: '2019-09-30T11:39:26.0000000',
+            raisedBy: 33067,
+            partNumber: 'KEEL',
+            quantity: null,
+            docType: 'WO',
+            workStationCode: 'CODE',
+            departmentCode: 'DEPT',
+            reasonCancelled: null
         };
 
         const { getByText } = render(
-            <WorksOrder {...defaultProps} item={noQuantity} edotStatis="edit" />
+            <WorksOrder
+                {...defaultProps}
+                item={worksOrderNoQuantityOrReasonCancelled}
+                editStatis="edit"
+            />
         );
         const item = getByText('Save');
         expect(item.closest('button')).toBeDisabled();
+    });
+
+    it('should have save button enabled when editing item and quantity set', () => {
+        const { getByText } = render(
+            <WorksOrder {...defaultProps} item={worksOrder} editStatus="edit" />
+        );
+
+        fireEvent(
+            getByText('Save'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+        expect(updateItemMock).toHaveBeenCalled();
+    });
+
+    it('should have save button enabled when editing item and reason cancelled set', () => {
+        const worksOrderNoQuantity = {
+            orderNumber: 827436,
+            dateRaised: '2019-09-30T11:39:26.0000000',
+            raisedBy: 33067,
+            partNumber: 'KEEL',
+            quantity: null,
+            docType: 'WO',
+            workStationCode: 'CODE',
+            departmentCode: 'DEPT',
+            reasonCancelled: 'reason'
+        };
+
+        const { getByText } = render(
+            <WorksOrder {...defaultProps} item={worksOrderNoQuantity} editStatus="edit" />
+        );
+
+        fireEvent(
+            getByText('Save'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+        expect(updateItemMock).toHaveBeenCalled();
     });
 });
