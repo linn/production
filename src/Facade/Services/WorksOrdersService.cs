@@ -169,7 +169,7 @@
 
         protected override Expression<Func<WorksOrder, bool>> SearchExpression(string searchTerm)
         {
-            return w => w.OrderNumber.ToString().Contains(searchTerm);
+            return w => w.OrderNumber.ToString().Equals(searchTerm);
         }
     }
 }

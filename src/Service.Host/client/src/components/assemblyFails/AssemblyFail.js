@@ -1,20 +1,19 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import DateTimePicker from '@linn-it/linn-form-components-library/cjs/DateTimePicker';
 import {
     InputField,
     Loading,
     Title,
     ErrorCard,
     SnackbarMessage,
-    SearchInputField,
-    useSearch,
     Dropdown,
     SaveBackCancelButtons,
-    DatePicker
+    DatePicker,
+    DateTimePicker,
+    ValidatedInputDialog
 } from '@linn-it/linn-form-components-library';
+import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
 
 function AssemblyFail({
@@ -26,9 +25,10 @@ function AssemblyFail({
     setEditStatus,
     setSnackbarVisible,
     profile,
-    fetchItems,
-    worksOrders,
-    worksOrdersLoading,
+    searchWorksOrders,
+    worksOrdersSearchResults,
+    worksOrdersSearchLoading,
+    clearWorksOrdersSearch,
     boardParts,
     pcasRevisions,
     fetchPcasRevisionsForBoardPart,
@@ -41,7 +41,6 @@ function AssemblyFail({
     itemId,
     history
 }) {
-    const [searchTerm, setSearchTerm] = useState(null);
     const [assemblyFail, setAssemblyFail] = useState({
         numberOfFails: 1,
         dateTimeFound: new Date().toISOString(),
@@ -51,7 +50,6 @@ function AssemblyFail({
         boardPartNumber: ''
     });
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
-    useSearch(fetchItems, searchTerm, null, 'searchTerm');
 
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
@@ -66,6 +64,10 @@ function AssemblyFail({
             setPrevAssemblyFail(item);
         }
     }, [item, prevAssemblyFail, editStatus]);
+
+    useEffect(() => {
+        clearWorksOrdersSearch();
+    }, [clearWorksOrdersSearch]);
 
     useEffect(() => {
         if (editStatus === 'create' && profile) {
@@ -157,27 +159,6 @@ function AssemblyFail({
         }
     }, [faultCodes, assemblyFail.faultCode]);
 
-    useEffect(() => {
-        if (editStatus === 'create') {
-            if (worksOrders.length === 1 && !worksOrdersLoading) {
-                setAssemblyFail(a => ({
-                    ...a,
-                    worksOrderNumber: worksOrders[0].orderNumber,
-                    partNumber: worksOrders[0].partNumber,
-                    partDescription: worksOrders[0].partDescription
-                }));
-            } else {
-                setAssemblyFail(a => ({
-                    ...a,
-                    boardPart: null,
-                    worksOrderNumber: null,
-                    partNumber: null,
-                    partDescription: null
-                }));
-            }
-        }
-    }, [worksOrders, worksOrdersLoading, editStatus]);
-
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
@@ -185,12 +166,9 @@ function AssemblyFail({
         setAssemblyFail({ ...assemblyFail, [propertyName]: newValue });
     };
 
-    const handleSearchTermChange = (...args) => {
-        setSearchTerm(args[1]);
-    };
-
     const handleSaveClick = () => {
         if (editing()) {
+            console.log(JSON.stringify(assemblyFail));
             updateItem(itemId, assemblyFail);
             setEditStatus('view');
         } else if (creating()) {
@@ -209,12 +187,19 @@ function AssemblyFail({
             setAssemblyFail(item);
         }
         setEditStatus('view');
-        setSearchTerm('');
+        clearWorksOrdersSearch('');
     };
 
     const handleBackClick = () => {
         history.push('/production/quality/assembly-fails');
     };
+
+    const useStyles = makeStyles(theme => ({
+        marginTop: {
+            marginTop: theme.spacing(3)
+        }
+    }));
+    const classes = useStyles();
 
     return (
         <Page showRequestErrors>
@@ -246,23 +231,6 @@ function AssemblyFail({
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
-                            {!assemblyFail?.worksOrderNumber ? (
-                                <Fragment>
-                                    <Grid item xs={4}>
-                                        <SearchInputField
-                                            label="Search for a Works Order to get started"
-                                            fullWidth
-                                            placeholder="Order Number"
-                                            onChange={handleSearchTermChange}
-                                            propertyName="searchTerm"
-                                            type="number"
-                                            value={searchTerm}
-                                        />
-                                    </Grid>
-                                </Fragment>
-                            ) : (
-                                <Fragment />
-                            )}
                             {!creating() ? (
                                 <Fragment>
                                     <Grid item xs={2}>
@@ -281,6 +249,42 @@ function AssemblyFail({
                             ) : (
                                 <Fragment />
                             )}
+
+                            <Fragment>
+                                <Grid item xs={6}>
+                                    <InputField
+                                        label="Works Order"
+                                        maxLength={14}
+                                        fullWidth
+                                        value={assemblyFail.worksOrderNumber}
+                                        disabled
+                                        propertyName="worksOrder"
+                                    />
+                                </Grid>
+                                {creating() && (
+                                    <Grid xs={2}>
+                                        <div className={classes.marginTop}>
+                                            <ValidatedInputDialog
+                                                title="Enter a Valid Works Order"
+                                                searchItems={worksOrdersSearchResults}
+                                                loading={worksOrdersSearchLoading}
+                                                onAccept={accepted => {
+                                                    setEditStatus('edit');
+                                                    setAssemblyFail(a => ({
+                                                        ...a,
+                                                        worksOrderNumber: accepted.orderNumber,
+                                                        partNumber: accepted.partNumber,
+                                                        partDescription: accepted.partDescription
+                                                    }));
+                                                }}
+                                                fetchItems={searchWorksOrders}
+                                                clearSearch={clearWorksOrdersSearch}
+                                            />
+                                        </div>
+                                    </Grid>
+                                )}
+                            </Fragment>
+                            <Grid item xs={2} />
                             {assemblyFail.worksOrderNumber || !creating() ? (
                                 <Fragment>
                                     <Grid item xs={3}>
@@ -294,26 +298,15 @@ function AssemblyFail({
                                             propertyName="enteredByName"
                                         />
                                     </Grid>
-                                    <Grid item xs={4}>
+                                    <Grid item xs={3}>
                                         <DateTimePicker
                                             value={assemblyFail.dateTimeFound}
                                             label="Found"
                                             disabled
                                         />
                                     </Grid>
-                                    {<Grid item xs={creating() ? 4 : 2} />}
-                                    <Grid item xs={2}>
-                                        <InputField
-                                            disabled
-                                            value={assemblyFail.worksOrderNumber}
-                                            type="number"
-                                            label="Works Order"
-                                            maxLength={8}
-                                            onChange={handleFieldChange}
-                                            propertyName="worksOrderNumber"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={4}>
+                                    <Grid item xs={6} />
+                                    <Grid item xs={3}>
                                         <InputField
                                             fullWidth
                                             disabled
@@ -336,7 +329,7 @@ function AssemblyFail({
                                             propertyName="partDescription"
                                         />
                                     </Grid>
-                                    <Grid item xs={2} />
+                                    <Grid item xs={5} />
                                     <Grid item xs={2}>
                                         <InputField
                                             fullWidth
@@ -656,6 +649,7 @@ function AssemblyFail({
                                             propertyName="correctiveAction"
                                         />
                                     </Grid>
+                                    <Grid item xs={6} />
                                     <Grid item xs={3}>
                                         <DatePicker
                                             value={assemblyFail.caDate}
@@ -686,24 +680,6 @@ function AssemblyFail({
                             ) : (
                                 <Fragment />
                             )}
-                            {worksOrdersLoading && (
-                                <Grid item xs={12}>
-                                    <Loading />
-                                </Grid>
-                            )}
-                            {!worksOrdersLoading && worksOrders && worksOrders.length > 1 && (
-                                <Typography>
-                                    Refine your search.. more than one Works Order returned.
-                                </Typography>
-                            )}
-                            {!worksOrdersLoading &&
-                                searchTerm &&
-                                worksOrders &&
-                                worksOrders.length === 0 && (
-                                    <Typography>
-                                        No results to match the search criteria.
-                                    </Typography>
-                                )}
                         </Fragment>
                     )
                 )}
@@ -738,7 +714,7 @@ AssemblyFail.propTypes = {
             item: PropTypes.string
         })
     ),
-    worksOrders: PropTypes.arrayOf(PropTypes.shape({})),
+    worksOrdersSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     pcasRevisions: PropTypes.arrayOf(PropTypes.shape({})),
     fetchPcasRevisionsForBoardPart: PropTypes.func,
     cits: PropTypes.arrayOf(PropTypes.shape({})),
@@ -748,8 +724,9 @@ AssemblyFail.propTypes = {
     addItem: PropTypes.func,
     updateItem: PropTypes.func,
     itemId: PropTypes.number,
-    fetchItems: PropTypes.func,
-    worksOrdersLoading: PropTypes.bool
+    searchWorksOrders: PropTypes.func.isRequired,
+    worksOrdersSearchLoading: PropTypes.bool,
+    clearWorksOrdersSearch: PropTypes.func.isRequired
 };
 
 AssemblyFail.defaultProps = {
@@ -760,7 +737,7 @@ AssemblyFail.defaultProps = {
     item: null,
     itemErrors: [],
     pcasRevisions: [],
-    worksOrders: [],
+    worksOrdersSearchResults: [],
     faultCodes: [],
     addItem: null,
     updateItem: null,
@@ -769,8 +746,7 @@ AssemblyFail.defaultProps = {
     smtShifts: [],
     employees: [],
     fetchPcasRevisionsForBoardPart: null,
-    fetchItems: null,
-    worksOrdersLoading: true
+    worksOrdersSearchLoading: false
 };
 
 export default AssemblyFail;
