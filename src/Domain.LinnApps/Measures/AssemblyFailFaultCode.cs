@@ -11,6 +11,8 @@
 
         public DateTime? DateInvalid { get; set; }
 
+        public string Explanation { get; set; }
+
         public List<AssemblyFail> AssemblyFails { get; set; }
     }
 }

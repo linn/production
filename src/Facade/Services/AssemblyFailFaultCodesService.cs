@@ -18,12 +18,22 @@
 
         protected override AssemblyFailFaultCode CreateFromResource(AssemblyFailFaultCodeResource resource)
         {
-            throw new NotImplementedException();
+            return new AssemblyFailFaultCode
+                       {
+                           FaultCode = resource.FaultCode,
+                           Description = resource.Description,
+                           Explanation = resource.Explanation,
+                           DateInvalid = resource.DateInvalid != null
+                                             ? DateTime.Parse(resource.DateInvalid)
+                                             : (DateTime?)null
+                       };
         }
 
-        protected override void UpdateFromResource(AssemblyFailFaultCode entity, AssemblyFailFaultCodeResource updateResource)
+        protected override void UpdateFromResource(AssemblyFailFaultCode assemblyFailFaultCode, AssemblyFailFaultCodeResource resource)
         {
-            throw new NotImplementedException();
+            assemblyFailFaultCode.Description = resource.Description;
+            assemblyFailFaultCode.DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null;
+            assemblyFailFaultCode.Explanation = resource.Explanation;
         }
 
         protected override Expression<Func<AssemblyFailFaultCode, bool>> SearchExpression(string searchTerm)

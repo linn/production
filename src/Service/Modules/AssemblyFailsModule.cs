@@ -23,13 +23,17 @@
              this.faultCodeService = faultCodeService;
              this.assemblyFailService = assemblyFailService;
              this.Get("/production/quality/assembly-fails/{id*}", parameters => this.GetById(parameters.id));
-             this.Get("/production/quality/assembly-fail-fault-codes", _ => this.GetFaultCodes());
              this.Post("/production/quality/assembly-fails", _ => this.Add());
              this.Get("/production/quality/assembly-fails", _ => this.Search());
              this.Put("/production/quality/assembly-fails/{id*}", parameters => this.Update(parameters.id));
+             this.Get("/production/quality/assembly-fail-fault-codes", _ => this.GetFaultCodes());
+             this.Post("/production/quality/assembly-fail-fault-codes", _ => this.AddFaultCode());
+             this.Put(
+                 "/production/quality/assembly-fail-fault-codes/{id*}",
+                 parameters => this.UpdateFaultCode(parameters.id));
          }
 
-        private object GetById(int id)
+         private object GetById(int id)
         {
             var result = this.assemblyFailService.GetById(id);
             return this.Negotiate
@@ -42,6 +46,26 @@
         {
             var resource = this.Bind<AssemblyFailResource>();
             var result = this.assemblyFailService.Add(resource);
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object AddFaultCode()
+        {
+            var resource = this.Bind<AssemblyFailFaultCodeResource>();
+            var result = this.faultCodeService.Add(resource);
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object UpdateFaultCode(string id)
+        {
+            var resource = this.Bind<AssemblyFailFaultCodeResource>();
+            var result = this.faultCodeService.Update(id, resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
