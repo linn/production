@@ -62,6 +62,11 @@
                         ReportTitle = new NameModel("Assembly Fail Waiting List")
                     };
 
+            foreach (var resultsColumn in results.Columns)
+            {
+                results.SetColumnType(resultsColumn.ColumnIndex, GridDisplayType.TextValue);
+            }
+
             foreach (var fail in assemblyFails.ToList())
             {
                 this.weekPack.Wwsyy(fail.DateTimeFound);
@@ -134,15 +139,15 @@
                 null,
                 new List<AxisDetailsModel>
                     {
-                        new AxisDetailsModel("Week"),
-                        new AxisDetailsModel("PartNumber", "Part Number"),
-                        new AxisDetailsModel("BoardPartNumber", "Board Part Number"),
-                        new AxisDetailsModel("Fails"),
-                        new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number"),
-                        new AxisDetailsModel("FaultCode", "Fault Code"),
-                        new AxisDetailsModel("ReportedFault", "Reported Fault"),
-                        new AxisDetailsModel("Analysis"),
-                        new AxisDetailsModel("Cit")
+                        new AxisDetailsModel("Week", GridDisplayType.TextValue),
+                        new AxisDetailsModel("PartNumber", "Part Number", GridDisplayType.TextValue),
+                        new AxisDetailsModel("BoardPartNumber", "Board Part Number", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Fails", GridDisplayType.TextValue),
+                        new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number", GridDisplayType.TextValue),
+                        new AxisDetailsModel("FaultCode", "Fault Code", GridDisplayType.TextValue),
+                        new AxisDetailsModel("ReportedFault", "Reported Fault", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Analysis", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Cit", GridDisplayType.TextValue)
                     });
 
             var filterQueries = this.GetAssemblyFailDataQueries(
@@ -164,10 +169,6 @@
 
             reportLayout.SetGridData(values);
             var model = reportLayout.GetResultsModel();
-            foreach (var modelColumn in model.Columns)
-            {
-                model.SetColumnType(modelColumn.ColumnIndex, GridDisplayType.TextValue);
-            }
 
             return model;
         }
