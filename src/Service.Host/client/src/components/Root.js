@@ -50,6 +50,7 @@ import NotFound from './NotFound';
 import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
+import AssemblyFailFaultCodes from '../containers/assemblyFails/AssemblyFailFaultCodes';
 
 const Root = ({ store }) => (
     <div>
@@ -226,6 +227,7 @@ const Root = ({ store }) => (
                                         path="/production/reports/who-built-what-details"
                                         component={WhoBuiltWhatDetailsReport}
                                     />
+
                                     <Route
                                         exact
                                         path="/production/quality/assembly-fails/:id"
@@ -241,6 +243,13 @@ const Root = ({ store }) => (
                                         path="/production/quality/create-assembly-fail"
                                         component={CreateAssemblyFail}
                                     />
+
+                                    <Route
+                                        exact
+                                        path="/production/quality/assembly-fail-fault-codes"
+                                        component={AssemblyFailFaultCodes}
+                                    />
+
                                     <Route
                                         exact
                                         path="/production/resources/manufacturing-resources/create"

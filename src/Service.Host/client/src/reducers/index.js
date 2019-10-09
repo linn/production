@@ -46,6 +46,7 @@ import serialNumbers from './serialNumbers';
 import serialNumberReissue from './serialNumberReissue';
 import salesArticles from './salesArticles';
 import salesArticle from './salesArticle';
+import assemblyFailFaultCode from './assemblyFails/assemblyFailFaultCode';
 
 const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes });
 
@@ -54,6 +55,7 @@ const rootReducer = combineReducers({
     assemblyFail,
     assemblyFails,
     assemblyFailsDetails,
+    assemblyFailFaultCode,
     assemblyFailFaultCodes,
     assemblyFailsMeasures,
     assemblyFailsWaitingListReport,
