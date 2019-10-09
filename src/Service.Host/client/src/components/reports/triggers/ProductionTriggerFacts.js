@@ -6,7 +6,9 @@ import NotesIcon from '@material-ui/icons/Notes';
 import Page from '../../../containers/Page';
 import FactList from './FactList';
 import FactListItem from './FactListItem';
+import FactListDetails from './FactListDetails';
 import WorksOrderList from './WorksOrderList';
+import SalesOrderList from './SalesOrderList';
 
 function ProductionTriggerFacts({ reportData, loading, options, history, itemError }) {
     return (
@@ -17,7 +19,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                     {loading ? <Loading /> : ''}
                 </Grid>
                 {itemError ? (
-                    <ErrorCard errorMessage={itemError.details?.message}/>
+                    <ErrorCard errorMessage={itemError.details?.message} />
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
@@ -26,19 +28,45 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     <FactListItem
                                         header={reportData.partNumber}
                                         secondary={reportData.description}
-                                    />
-                                    <FactListItem
-                                        header="Build"
-                                        secondary="Build this to satisfy internal customers and trigger level"
-                                        avatar={reportData.reqtForInternalAndTriggerLevelBT}
                                     >
-                                        <span>Test Expanded</span>
+                                        <FactListDetails
+                                            details={[
+                                                {
+                                                    header: 'Cit',
+                                                    value: reportData.citName
+                                                },
+                                                {
+                                                    header: 'PTL Jobref',
+                                                    value: reportData.jobref
+                                                }
+                                            ]}
+                                        />
                                     </FactListItem>
                                     <FactListItem
                                         header="Qty Free"
                                         secondary="Good stock available to use"
                                         avatar={reportData.qtyFree}
-                                    />
+                                    >
+                                        <FactListDetails
+                                            details={[
+                                                {
+                                                    header: 'Good Stock',
+                                                    value: reportData.qtyYFlagged,
+                                                    notes: 'Y Flagged'
+                                                },
+                                                {
+                                                    header: 'Uninspected Stock',
+                                                    value: reportData.qtyNFlagged,
+                                                    notes: 'N Flagged'
+                                                },
+                                                {
+                                                    header: 'Failed Stock',
+                                                    value: reportData.qtyFFlagged,
+                                                    notes: 'F Flagged'
+                                                }
+                                            ]}
+                                        />
+                                    </FactListItem>
                                     <FactListItem
                                         header="Qty Being Built"
                                         secondary="Outstanding works order qty"
@@ -50,20 +78,64 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     </FactListItem>
                                     <FactListItem
                                         header="Back-Order Requirement"
-                                        secondary="Required for customer back orders"
+                                        secondary="Required for sales customers back orders"
                                         avatar={reportData.reqtForSalesOrdersBE}
+                                    >
+                                        <Fragment>
+                                            <SalesOrderList
+                                                salesOrders={reportData.productionBackOrders}
+                                            />
+                                        </Fragment>
+                                    </FactListItem>
+                                    <FactListItem
+                                        header="Required for Internal Customers"
+                                        secondary="Required to satisfy all your internal customers"
+                                        avatar={reportData.reqtForInternalCustomersGBI}
                                     />
+                                    <FactListItem
+                                        header="Trigger Level"
+                                        secondary={`You should have at least this in stock after customers have been satisfied. ${reportData.triggerLevelText}`}
+                                        avatar={reportData.effectiveTriggerLevel}
+                                    >
+                                        <FactListDetails
+                                            details={[
+                                                {
+                                                    header: 'Variable Trigger Level',
+                                                    value: reportData.variableTriggerLevel,
+                                                    notes:
+                                                        'Set by forecasting system for certain parts'
+                                                },
+                                                {
+                                                    header: 'Override Trigger Level',
+                                                    value: reportData.overrideTriggerLevel,
+                                                    notes:
+                                                        'Set manually in production trigger levels utility'
+                                                }
+                                            ]}
+                                        />
+                                    </FactListItem>
                                     <FactListItem
                                         header="Kanban Size"
                                         secondary="You must always build in multiples of this"
                                         avatar={reportData.kanbanSize}
                                     />
                                     <FactListItem
-                                        header="Trigger Level"
-                                        secondary="You should have at least this in stock after customers have been satisfied"
-                                        avatar={reportData.triggerLevel}
+                                        header="Build"
+                                        secondary="Build this to satisfy internal and external customers, and trigger level"
+                                        avatar={reportData.reqtForInternalAndTriggerLevelBT}
                                     >
-                                        <span>Test Expanded</span>
+                                        <FactListDetails
+                                            details={[
+                                                {
+                                                    header: 'Cit',
+                                                    value: reportData.citName
+                                                },
+                                                {
+                                                    header: 'PTL Jobref',
+                                                    value: reportData.jobref
+                                                }
+                                            ]}
+                                        />
                                     </FactListItem>
                                     <FactListItem
                                         header="Priority"

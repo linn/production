@@ -13,6 +13,9 @@ function WorksOrderList({ worksOrders }) {
         <Table size="small">
             <TableHead>
                 <TableRow>
+                    <TableCell colSpan="4">Works Orders</TableCell>
+                </TableRow>                
+                <TableRow>
                     <TableCell>Order Number</TableCell>
                     <TableCell>Qty</TableCell>
                     <TableCell>Qty Built</TableCell>
@@ -23,7 +26,7 @@ function WorksOrderList({ worksOrders }) {
                 {worksOrders.map(o => (
                     <TableRow>
                         <TableCell>
-                            <a href={`../../works-orders/:id/${o.orderNumber}`}>{o.orderNumber}</a>
+                            <a href={`../../works-orders/${o.orderNumber}`}>{o.orderNumber}</a>
                         </TableCell>
                         <TableCell>{o.quantity}</TableCell>
                         <TableCell>{o.quantityBuilt}</TableCell>
