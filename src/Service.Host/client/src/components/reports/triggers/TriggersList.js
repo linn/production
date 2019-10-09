@@ -36,7 +36,9 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                         <TableCell>{m.partNumber}</TableCell>
                         <TableCell>{m.description}</TableCell>
                         <TableCell>
-                            <Link to={`facts?jobref=${jobref}&part-number=${m.partNumber}`}>
+                            <Link
+                                to={`triggers/facts?jobref=${jobref}&part-number=${m.partNumber}`}
+                            >
                                 {m.reqtForInternalAndTriggerLevelBT}
                             </Link>
                         </TableCell>
@@ -58,7 +60,7 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                         <TableCell>
                             <ContextMenu id={`triggers-menu${m.partNumber}`}>
                                 <span>
-                                    <a href={`facts?jobref=${jobref}&part-number=${m.partNumber}`}>
+                                    <a href={`triggers/facts?jobref=${jobref}&part-number=${m.partNumber}`}>
                                         <MenuItem>Facts</MenuItem>
                                     </a>
                                 </span>

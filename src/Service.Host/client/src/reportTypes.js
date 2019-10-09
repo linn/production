@@ -36,6 +36,12 @@ export const productionTriggersReport = new ItemType(
     '/production/reports/triggers'
 );
 
+export const productionTriggerFacts = new ItemType(
+    'productionTriggerFacts',
+    'PRODUCTION_TRIGGER_FACTS',
+    '/production/reports/triggers/facts'
+);
+
 export const assemblyFailsWaitingList = new ItemType(
     'assemblyFailsWaitingListReport',
     'ASSEMBLY_FAILS_WAITING_LIST_REPORT',
