@@ -6,8 +6,8 @@
 
     public class ManufacturingCommitDateResults
     {
-        public IEnumerable<ManufacturingCommitDateResult> Results { get; set; }
+        public IEnumerable<ManufacturingCommitDateResult> Results { get; set; } = new List<ManufacturingCommitDateResult>();
 
-        public ResultsModel IncompleteLinesAnalysis { get; set; }
+        public ResultsModel IncompleteLinesAnalysis { get; set; } = new ResultsModel();
     }
 }

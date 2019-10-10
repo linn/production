@@ -343,6 +343,7 @@
             builder.Query<MCDLine>().Property(t => t.Status).HasColumnName("STATUS");
             builder.Query<MCDLine>().Property(t => t.OrderLineCompleted).HasColumnName("COMPLETE");
             builder.Query<MCDLine>().Property(t => t.Reason).HasColumnName("REASON");
+            builder.Query<MCDLine>().Property(t => t.CouldGo).HasColumnName("COULD_GO");
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)

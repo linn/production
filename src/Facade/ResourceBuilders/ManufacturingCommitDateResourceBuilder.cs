@@ -33,6 +33,10 @@
                                 {
                                     NumberOfLines = manufacturingCommitDateResult.NumberOfLines,
                                     ProductType = manufacturingCommitDateResult.ProductType,
+                                    NumberSupplied = manufacturingCommitDateResult.NumberSupplied,
+                                    PercentageSupplied = manufacturingCommitDateResult.PercentageSupplied,
+                                    NumberAvailable = manufacturingCommitDateResult.NumberAvailable,
+                                    PercentageAvailable = manufacturingCommitDateResult.PercentageAvailable,
                                     Results = new ReportReturnResource
                                                   {
                                                       ReportResults =

@@ -31,5 +31,7 @@
         public int OrderLineCompleted { get; set; }
 
         public string Reason { get; set; }
+
+        public int CouldGo { get; set; }
     }
 }

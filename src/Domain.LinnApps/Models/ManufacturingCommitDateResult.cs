@@ -8,6 +8,14 @@
 
         public int NumberOfLines { get; set; }
 
+        public int NumberSupplied { get; set; }
+
+        public decimal PercentageSupplied { get; set; }
+
+        public int NumberAvailable { get; set; }
+
+        public decimal PercentageAvailable { get; set; }
+
         public ResultsModel Results { get; set; }
     }
 }
