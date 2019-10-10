@@ -29,7 +29,7 @@
 
         public StorageLocation StorageLocation { get; set; }
 
-        public string PurchaseOrderNumber { get; set; }
+        public int? PurchaseOrderNumber { get; set; }
 
         public int? MinutesWasted { get; set; }
     }

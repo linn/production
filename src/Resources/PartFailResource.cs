@@ -30,7 +30,7 @@
 
         public int? WorksOrderNumber { get; set; }
 
-        public string PurchaseOrderNumber { get; set; }
+        public int? PurchaseOrderNumber { get; set; }
 
         public string StoragePlace { get; set; }
 

@@ -29,6 +29,10 @@ function PartFail({
     worksOrdersSearchLoading,
     searchWorksOrders,
     clearWorksOrdersSearch,
+    purchaseOrdersSearchResults,
+    purchaseOrdersSearchLoading,
+    searchPurchaseOrders,
+    clearPurchaseOrdersSearch,
     faultCodes,
     errorTypes,
     storagePlaces,
@@ -126,6 +130,7 @@ function PartFail({
 
     const handleSaveClick = () => {
         if (editing()) {
+            console.log(JSON.stringify(partFail));
             updateItem(itemId, partFail);
             setEditStatus('view');
         } else if (creating()) {
@@ -353,7 +358,7 @@ function PartFail({
                                             }}
                                             fetchItems={searchWorksOrders}
                                             clearSearch={clearWorksOrdersSearch}
-                                            searchItemId="partNumber"
+                                            searchItemId="orderNumber"
                                         />
                                     </div>
                                 </Grid>
@@ -365,32 +370,30 @@ function PartFail({
                                         maxLength={14}
                                         fullWidth
                                         onChange={() => {}}
-                                        value={partFail.worksOrderNumber}
-                                        propertyName="worksOrderNumber"
+                                        value={partFail.purchaseOrderNumber}
+                                        propertyName="purchaseOrderNumber"
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
                                     <div className={classes.marginTop}>
                                         <ValidatedInputDialog
                                             title="Enter a Valid Purchase Order"
-                                            searchItems={worksOrdersSearchResults}
-                                            loading={worksOrdersSearchLoading}
+                                            searchItems={purchaseOrdersSearchResults}
+                                            loading={purchaseOrdersSearchLoading}
                                             onAccept={accepted => {
                                                 setEditStatus('edit');
                                                 setPartFail(a => ({
                                                     ...a,
-                                                    worksOrderNumber: accepted.orderNumber
+                                                    purchaseOrderNumber: accepted.orderNumber
                                                 }));
                                             }}
-                                            fetchItems={searchWorksOrders}
-                                            clearSearch={clearWorksOrdersSearch}
-                                            searchItemId="partNumber"
+                                            fetchItems={searchPurchaseOrders}
+                                            clearSearch={clearPurchaseOrdersSearch}
+                                            searchItemId="orderNumber"
                                         />
                                     </div>
                                 </Grid>
                                 <Grid item xs={6} />
-
-
                                 <Grid item xs={3}>
                                     <Dropdown
                                         label="Storage Place"
@@ -465,6 +468,10 @@ PartFail.propTypes = {
     worksOrdersSearchLoading: PropTypes.bool,
     searchWorksOrders: PropTypes.func.isRequired,
     clearWorksOrdersSearch: PropTypes.func.isRequired,
+    purchaseOrdersSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    purchaseOrdersSearchLoading: PropTypes.bool,
+    searchPurchaseOrders: PropTypes.func.isRequired,
+    clearPurchaseOrdersSearch: PropTypes.func.isRequired,
     partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     searchParts: PropTypes.func.isRequired,
     partsSearchLoading: PropTypes.bool,
@@ -485,6 +492,8 @@ PartFail.defaultProps = {
     storagePlaces: [],
     worksOrdersSearchResults: [],
     worksOrdersSearchLoading: false,
+    purchaseOrdersSearchResults: [],
+    purchaseOrdersSearchLoading: false,
     partsSearchResults: [],
     partsSearchLoading: false
 };

@@ -16,6 +16,8 @@ import partFailFailFaultCodesActions from '../../actions/partFailFailFaultCodesA
 import getProfile from '../../selectors/userSelectors';
 import worksOrdersSelectors from '../../selectors/worksOrdersSelectors';
 import worksOrdersActions from '../../actions/worksOrdersActions';
+import purchaseOrdersSelectors from '../../selectors/purchaseOrdersSelectors';
+import purchaseOrdersActions from '../../actions/purchaseOrdersActions';
 import partsActions from '../../actions/partsActions';
 import partsSelectors from '../../selectors/partsSelectors';
 
@@ -39,6 +41,11 @@ const mapStateToProps = (state, { match }) => ({
         .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
     worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
     clearWorksOrdersSearch: worksOrdersActions.clearSearch,
+    purchaseOrdersSearchResults: purchaseOrdersSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
+    purchaseOrdersSearchLoading: purchaseOrdersSelectors.getSearchLoading(state),
+    clearPurchaseOrdersSearch: worksOrdersActions.clearSearch,
     requestErrors: getRequestErrors(state)
 });
 
@@ -55,6 +62,7 @@ const mapDispatchToProps = {
     setEditStatus: partFailActions.setEditStatus,
     setSnackbarVisible: partFailActions.setSnackbarVisible,
     searchWorksOrders: worksOrdersActions.search,
+    searchPurchaseOrders: purchaseOrdersActions.search,
     searchParts: partsActions.search,
     clearPartsSearch: partsActions.clearSearch
 };

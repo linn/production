@@ -141,3 +141,6 @@ export const partFailFaultCodesActionTypes = makeActionTypes(
 );
 
 export const storagePlacesActionTypes = makeActionTypes(itemTypes.storagePlaces.actionType);
+
+export const purchaseOrdersActionTypes = makeActionTypes(itemTypes.purchaseOrders.actionType, true);
+
