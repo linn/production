@@ -98,6 +98,10 @@
                 .As<IResourceBuilder<PartFailFaultCode>>();
             builder.RegisterType<PartFailFaultCodesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PartFailFaultCode>>>();
+            builder.RegisterType<PurchaseOrderResourceBuilder>()
+                .As<IResourceBuilder<PurchaseOrder>>();
+            builder.RegisterType<PurchaseOrdersResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<PurchaseOrder>>>();
         }
     }
 }

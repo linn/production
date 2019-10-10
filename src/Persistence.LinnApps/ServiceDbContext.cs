@@ -90,6 +90,8 @@
         public DbSet<PartFailErrorType> PartFailErrorTypes { get; set;  }
 
         public DbSet<PartFailFaultCode> PartFailFaultCodes { get; set; }
+
+        public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
  
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -128,6 +130,7 @@
             this.BuildPartFails(builder);
             this.BuildPartFailErrorTypes(builder);
             this.BuildStorageLocations(builder);
+            this.BuildPurchaseOrders(builder);
             base.OnModelCreating(builder);
         }
 
@@ -646,6 +649,13 @@
             builder.Entity<PartFailErrorType>().HasKey(t => t.ErrorType);
             builder.Entity<PartFailErrorType>().Property(e => e.ErrorType).HasColumnName("ERROR_TYPE");
             builder.Entity<PartFailErrorType>().Property(e => e.DateInvalid).HasColumnName("DATE_INVALID");
+        }
+
+        private void BuildPurchaseOrders(ModelBuilder builder)
+        {
+            builder.Entity<PurchaseOrder>().ToTable("PL_ORDERS");
+            builder.Entity<PurchaseOrder>().HasKey(o => o.OrderNumber);
+            builder.Entity<PurchaseOrder>().Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
         }
     }
 }

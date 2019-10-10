@@ -88,6 +88,8 @@
             builder.RegisterType<StoragePlaceService>().As<IStoragePlaceService>();
             builder.RegisterType<PartFailFaultCodeService>()
                 .As<IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource>>();
+            builder.RegisterType<PurchaseOrderService>()
+                .As<IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource>>();
     
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

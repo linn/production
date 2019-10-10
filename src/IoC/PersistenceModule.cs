@@ -60,6 +60,7 @@
             builder.RegisterType<PartFailRepository>().As<IRepository<PartFail, int>>();
             builder.RegisterType<PartFailErrorTypeRepository>().As<IRepository<PartFailErrorType, string>>();
             builder.RegisterType<StorageLocationRepository>().As<IRepository<StorageLocation, int>>();
+            builder.RegisterType<PurchaseOrderRepository>().As<IRepository<PurchaseOrder, int>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
