@@ -9,6 +9,7 @@ import FactListItem from './FactListItem';
 import FactListDetails from './FactListDetails';
 import WorksOrderList from './WorksOrderList';
 import SalesOrderList from './SalesOrderList';
+import priorityText from './priorityText';
 
 function ProductionTriggerFacts({ reportData, loading, options, history, itemError }) {
     return (
@@ -137,12 +138,44 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                             ]}
                                         />
                                     </FactListItem>
+                                    {reportData.remainingBuild ? (
+                                        <FactListItem
+                                            header="Remaining Fixed Build"
+                                            secondary="The fixed build for the next 7 days minus what has already been built"
+                                            avatar={reportData.remainingBuild}
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
                                     <FactListItem
                                         header="Priority"
-                                        secondary="This part is needed to satisfy back orders"
+                                        secondary={priorityText(reportData.priority)}
                                         avatar={reportData.priority}
                                     >
-                                        <span>Test Expanded</span>
+                                        <FactListDetails
+                                            details={[
+                                                {
+                                                    header: '1',
+                                                    value: `${priorityText('1')}`
+                                                },
+                                                {
+                                                    header: '2',
+                                                    value: `${priorityText('2')}`
+                                                },
+                                                {
+                                                    header: '3',
+                                                    value: `${priorityText('3')}`
+                                                },
+                                                {
+                                                    header: '4',
+                                                    value: `${priorityText('4')}`
+                                                },
+                                                {
+                                                    header: '5',
+                                                    value: `${priorityText('5')}`
+                                                }
+                                            ]}
+                                        />
                                     </FactListItem>
                                     <FactListItem
                                         header="Story"

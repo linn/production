@@ -39,7 +39,9 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                             <Link
                                 to={`triggers/facts?jobref=${jobref}&part-number=${m.partNumber}`}
                             >
-                                {m.reqtForInternalAndTriggerLevelBT}
+                                {m.remainingBuild
+                                    ? m.remainingBuild
+                                    : m.reqtForInternalAndTriggerLevelBT}
                             </Link>
                         </TableCell>
                         <TableCell>{m.priority}</TableCell>
