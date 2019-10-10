@@ -4,15 +4,13 @@
 
     using Autofac;
 
-    using Domain.LinnApps.SerialNumberReissue;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
-    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
@@ -76,7 +74,7 @@
             builder.RegisterType<OsrInfoResourceBuilder>().As<IResourceBuilder<OsrInfo>>();
             builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
             builder.RegisterType<WorksOrdersResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrder>>>();
-            builder.RegisterType<WorksOrderDetailsResourceBuilder>().As<IResourceBuilder<WorksOrderDetails>>();
+            builder.RegisterType<WorksOrderPartDetailsResourceBuilder>().As<IResourceBuilder<WorksOrderPartDetails>>();
             builder.RegisterType<ProductionTriggersReportResourceBuilder>().As<IResourceBuilder<ProductionTriggersReport>>();
             builder.RegisterType<ProductionTriggersFactsResourceBuilder>().As<IResourceBuilder<ProductionTriggerFacts>>();
             builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<Part>>();

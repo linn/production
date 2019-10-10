@@ -8,7 +8,7 @@
 
     public interface IBuildsByDepartmentReportFacadeService
     {
-        IResult<IEnumerable<ResultsModel>> GetBuildsSummaryReports(DateTime fromWeek, DateTime toWeek, bool monthly = false);
+        IResult<ResultsModel> GetBuildsSummaryReport(DateTime fromWeek, DateTime toWeek, bool monthly = false);
 
         IResult<ResultsModel> GetBuildsDetailReport(
             DateTime fromWeek,

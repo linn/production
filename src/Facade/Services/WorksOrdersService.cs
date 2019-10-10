@@ -1,14 +1,12 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
 
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Extensions;
     using Linn.Production.Resources;
@@ -21,22 +19,18 @@
 
         private readonly IWorksOrderFactory worksOrderFactory;
 
-        private readonly IProductAuditPack productAuditPack;
-
         private readonly IWorksOrderUtilities worksOrderUtilities;
 
         public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
             IWorksOrderFactory worksOrderFactory,
-            IProductAuditPack productAuditPack,
             IWorksOrderUtilities worksOrderUtilities)
             : base(worksOrderRepository, transactionManager)
         {
             this.worksOrderRepository = worksOrderRepository;
             this.transactionManager = transactionManager;
             this.worksOrderFactory = worksOrderFactory;
-            this.productAuditPack = productAuditPack;
             this.worksOrderUtilities = worksOrderUtilities;
         }
 
@@ -70,15 +64,6 @@
                 worksOrder.DocType,
                 worksOrder.RaisedBy,
                 worksOrder.Quantity);
-
-            try
-            {
-                this.productAuditPack.GenerateProductAudits(worksOrder.OrderNumber);
-            }
-            catch (Exception e)
-            {
-                return new BadRequestResult<WorksOrder>(e.Message);
-            }
 
             this.transactionManager.Commit();
 
@@ -114,28 +99,32 @@
                     return new BadRequestResult<WorksOrder>(exception.Message);
                 }
 
+                this.transactionManager.Commit();
+
                 return new SuccessResult<WorksOrder>(worksOrder);
             }
 
             this.UpdateFromResource(worksOrder, resource);
 
+            this.transactionManager.Commit();
+
             return new SuccessResult<WorksOrder>(worksOrder);
         }
 
-        public IResult<WorksOrderDetails> GetWorksOrderDetails(string partNumber)
+        public IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber)
         {
-            WorksOrderDetails worksOrderDetails;
+            WorksOrderPartDetails worksOrderPartDetails;
 
             try
             {
-                worksOrderDetails = this.worksOrderUtilities.GetWorksOrderDetails(partNumber);
+                worksOrderPartDetails = this.worksOrderUtilities.GetWorksOrderDetails(partNumber);
             }
             catch (DomainException exception)
             {
-                return new BadRequestResult<WorksOrderDetails>(exception.Message);
+                return new BadRequestResult<WorksOrderPartDetails>(exception.Message);
             }
 
-            return new SuccessResult<WorksOrderDetails>(worksOrderDetails);
+            return new SuccessResult<WorksOrderPartDetails>(worksOrderPartDetails);
         }
 
         protected override WorksOrder CreateFromResource(WorksOrderResource resource)

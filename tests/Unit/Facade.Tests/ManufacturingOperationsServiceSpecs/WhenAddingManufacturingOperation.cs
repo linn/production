@@ -18,7 +18,17 @@
         [SetUp]
         public void SetUp()
         {
-            this.manufacturingOperation = new ManufacturingOperation("routecode 1", 77, 15, "descrip of op", "codeOfOperation", "res Code", 27, 54, 5, "cit code test");
+            this.manufacturingOperation = new ManufacturingOperation(
+                "routecode 1",
+                77,
+                15,
+                "descrip of op",
+                "codeOfOperation",
+                "res Code",
+                27,
+                54,
+                5,
+                "cit code test");
 
             this.resource = new ManufacturingOperationResource
             {

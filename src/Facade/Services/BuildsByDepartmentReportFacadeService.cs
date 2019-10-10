@@ -21,9 +21,9 @@
             this.buildsDetailReportService = buildsDetailReportService;
         }
 
-        public IResult<IEnumerable<ResultsModel>> GetBuildsSummaryReports(DateTime fromWeek, DateTime toWeek, bool monthly = false)
+        public IResult<ResultsModel> GetBuildsSummaryReport(DateTime fromWeek, DateTime toWeek, bool monthly = false)
         {
-            return new SuccessResult<IEnumerable<ResultsModel>>(this.buildsSummaryReportService.GetBuildsSummaryReports(fromWeek, toWeek, monthly));
+            return new SuccessResult<ResultsModel>(this.buildsSummaryReportService.GetBuildsSummaryReports(fromWeek, toWeek, monthly));
         }
 
         public IResult<ResultsModel> GetBuildsDetailReport(

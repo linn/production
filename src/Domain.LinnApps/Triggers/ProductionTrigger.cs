@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Triggers
 {
     using System;
-    using System.Collections;
 
     public class ProductionTrigger
     {

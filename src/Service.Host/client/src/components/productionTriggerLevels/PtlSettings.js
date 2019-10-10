@@ -10,6 +10,7 @@ import {
     SnackbarMessage,
     utilities
 } from '@linn-it/linn-form-components-library';
+import Button from '@material-ui/core/Button';
 import Page from '../../containers/Page';
 
 function PtlSettings({
@@ -21,7 +22,11 @@ function PtlSettings({
     snackbarVisible,
     updateItem,
     setEditStatus,
-    setSnackbarVisible
+    setSnackbarVisible,
+    setStartTriggerRunMessageVisible,
+    startTriggerRun,
+    startTriggerRunMessageVisible,
+    startTriggerRunMessageText
 }) {
     const [ptlSettings, setPtlSettings] = useState({});
     const [prevPtlSettings, setPrevPtlSettings] = useState({});
@@ -49,6 +54,10 @@ function PtlSettings({
     const handleCancelClick = () => {
         setPtlSettings(item);
         setEditStatus('view');
+    };
+
+    const handleTriggerRunButtonClick = () => {
+        startTriggerRun(null);
     };
 
     const handleBackClick = () => {
@@ -84,6 +93,11 @@ function PtlSettings({
                             visible={snackbarVisible}
                             onClose={() => setSnackbarVisible(false)}
                             message="Save Successful"
+                        />
+                        <SnackbarMessage
+                            visible={startTriggerRunMessageVisible}
+                            onClose={() => setStartTriggerRunMessageVisible(false)}
+                            message={startTriggerRunMessageText}
                         />
                         <Grid item xs={4}>
                             <InputField
@@ -121,7 +135,7 @@ function PtlSettings({
                             />
                         </Grid>
                         <Grid item xs={8} />
-                        <Grid item xs={12}>
+                        <Grid item xs={7}>
                             <SaveBackCancelButtons
                                 saveDisabled={viewing()}
                                 saveClick={handleSaveClick}
@@ -129,6 +143,29 @@ function PtlSettings({
                                 backClick={handleBackClick}
                             />
                         </Grid>
+                        <Grid item xs={5} />
+                        {startTriggerRunAllowed ? (
+                            <Fragment>
+                                <Grid item xs={12}>
+                                    <div>
+                                        Trigger runs start regularly throughout the day. Please do
+                                        not start a new one unless you are sure.
+                                    </div>
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Button
+                                        onClick={handleTriggerRunButtonClick}
+                                        variant="outlined"
+                                        color="secondary"
+                                    >
+                                        Start Trigger Run
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={9} />
+                            </Fragment>
+                        ) : (
+                            ''
+                        )}
                     </Fragment>
                 )}
             </Grid>
@@ -145,7 +182,11 @@ PtlSettings.propTypes = {
     updateItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
-    setSnackbarVisible: PropTypes.func.isRequired
+    setSnackbarVisible: PropTypes.func.isRequired,
+    setStartTriggerRunMessageVisible: PropTypes.func.isRequired,
+    startTriggerRun: PropTypes.func.isRequired,
+    startTriggerRunMessageVisible: PropTypes.bool,
+    startTriggerRunMessageText: PropTypes.string
 };
 
 PtlSettings.defaultProps = {
@@ -153,7 +194,9 @@ PtlSettings.defaultProps = {
     snackbarVisible: false,
     updateItem: null,
     loading: null,
-    itemError: null
+    itemError: null,
+    startTriggerRunMessageVisible: false,
+    startTriggerRunMessageText: ''
 };
 
 export default PtlSettings;

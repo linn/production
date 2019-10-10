@@ -4,6 +4,8 @@
     {
         void IssueSerialNumber(string partNumber, int orderNumber, string docType, int createdBy, int quantity);
 
-        WorksOrderDetails GetWorksOrderDetails(string partNumber);
+        WorksOrderPartDetails GetWorksOrderDetails(string partNumber);
+
+        Department GetDepartment(string partNumber);
     }
 }

@@ -2,6 +2,8 @@
 {
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps.Exceptions;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -16,7 +18,11 @@
 
         private readonly IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository;
 
-        private readonly IWorksOrderProxyService worksOrderProxyService;
+        private readonly IRepository<Department, string> departmentRepository;
+
+        private readonly IRepository<Cit, string> citRepository;
+
+        private readonly ISalesArticleService salesArticleService;
 
         private readonly ISernosPack sernosPack;
 
@@ -25,15 +31,19 @@
             IRepository<PcasBoardForAudit, string> pcasBoardsForAuditRepository,
             IRepository<PcasRevision, string> pcasRevisionsRepository,
             IRepository<ProductionTriggerLevel, string> productionTriggerLevelsRepository,
-            IWorksOrderProxyService worksOrderProxyService,
-            ISernosPack sernosPack)
+            ISernosPack sernosPack,
+            IRepository<Cit, string> citRepository,
+            IRepository<Department, string> departmentRepository,
+            ISalesArticleService salesArticleService)
         {
             this.partsRepository = partsRepository;
             this.pcasBoardsForAuditRepository = pcasBoardsForAuditRepository;
             this.pcasRevisionsRepository = pcasRevisionsRepository;
             this.productionTriggerLevelsRepository = productionTriggerLevelsRepository;
-            this.worksOrderProxyService = worksOrderProxyService;
             this.sernosPack = sernosPack;
+            this.citRepository = citRepository;
+            this.departmentRepository = departmentRepository;
+            this.salesArticleService = salesArticleService;
         }
 
         public void IssueSerialNumber(
@@ -43,7 +53,7 @@
             int createdBy,
             int quantity)
         {
-            if (!this.worksOrderProxyService.ProductIdOnChip(partNumber))
+            if (!this.salesArticleService.ProductIdOnChip(partNumber))
             {
                 if (this.sernosPack.SerialNumbersRequired(partNumber))
                 {
@@ -52,7 +62,7 @@
             }
         }
 
-        public WorksOrderDetails GetWorksOrderDetails(string partNumber)
+        public WorksOrderPartDetails GetWorksOrderDetails(string partNumber)
         {
             var part = this.partsRepository.FindById(partNumber);
 
@@ -65,13 +75,41 @@
 
             var workStationCode = this.GetWorkStationCode(partNumber);
 
-            return new WorksOrderDetails
+            var department = this.GetDepartment(partNumber);
+
+            var quantity = this.GetQuantityToBuild(partNumber);
+
+            return new WorksOrderPartDetails
                        {
                            PartNumber = partNumber,
                            PartDescription = part.Description,
                            WorkStationCode = workStationCode,
-                           AuditDisclaimer = auditDisclaimer
+                           AuditDisclaimer = auditDisclaimer,
+                           DepartmentCode = department.DepartmentCode,
+                           DepartmentDescription = department.Description,
+                           QuantityToBuild = quantity
                        };
+        }
+
+        public Department GetDepartment(string partNumber)
+        {
+            var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
+
+            if (productionTriggerLevel == null)
+            {
+                throw new InvalidWorksOrderException($"Production Trigger Level code not found for part {partNumber}");
+            }
+
+            var cit = this.citRepository.FindById(productionTriggerLevel.CitCode);
+
+            var department = this.departmentRepository.FindById(cit.DepartmentCode);
+
+            if (department == null)
+            {
+                throw new InvalidWorksOrderException($"Department code not found for CIT {cit.Code}");
+            }
+
+            return department;
         }
 
         private string GetAuditDisclaimer(string partNumber)
@@ -104,6 +142,13 @@
             var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
 
             return productionTriggerLevel?.WsName;
+        }
+
+        private int GetQuantityToBuild(string partNumber)
+        {
+            var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
+
+            return productionTriggerLevel?.KanbanSize ?? 0;
         }
     }
 }

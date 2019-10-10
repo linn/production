@@ -13,13 +13,13 @@
     {
         protected PtlSettingsFacadeService Sut { get; private set; }
 
-        protected IMasterRepository<PtlSettings> PtlSettingsRepository { get; private set; }
+        protected ISingleRecordRepository<PtlSettings> PtlSettingsRepository { get; private set; }
 
         protected ITransactionManager TransactionManager { get; private set; }
         [SetUp]
         public void SetUpContext()
         {
-            this.PtlSettingsRepository = Substitute.For<IMasterRepository<PtlSettings>>();
+            this.PtlSettingsRepository = Substitute.For<ISingleRecordRepository<PtlSettings>>();
             this.TransactionManager = Substitute.For<ITransactionManager>();
 
             this.Sut = new PtlSettingsFacadeService(this.PtlSettingsRepository, this.TransactionManager);

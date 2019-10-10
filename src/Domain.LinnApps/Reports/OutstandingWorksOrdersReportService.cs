@@ -3,8 +3,8 @@
     using System.Data;
 
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Extensions;
     using Linn.Production.Domain.LinnApps.RemoteServices;
-    using Linn.Production.Resources;
 
     public class OutstandingWorksOrdersReportService : IOutstandingWorksOrdersReportService
     {
@@ -33,6 +33,11 @@
                         ReportTitle = new NameModel("Outstanding Works Orders")
                     };
 
+            for (var i = 0; i < 3; i++)
+            {
+                results.SetColumnType(i, GridDisplayType.TextValue);
+            }
+
             foreach (DataRow tableRow in table.Rows)
             {
                 var row = results.AddRow(tableRow[0]?.ToString());
@@ -40,7 +45,7 @@
                 results.SetGridTextValue(row.RowIndex, 0, tableRow[1]?.ToString());
                 results.SetGridTextValue(row.RowIndex, 1, tableRow[5]?.ToString());
                 results.SetGridTextValue(row.RowIndex, 2, tableRow[3]?.ToString());
-                results.SetGridTextValue(row.RowIndex, 3, tableRow[2]?.ToString());
+                results.SetGridValue(row.RowIndex, 3, tableRow[2]?.ToString().ParseDecimal());
             }
 
             return results;

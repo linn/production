@@ -25,7 +25,7 @@
             this.createdBy = 33067;
             this.quantity = 3;
 
-            this.WorksOrderService.ProductIdOnChip(this.partNumber).Returns(true);
+            this.SalesArticleService.ProductIdOnChip(this.partNumber).Returns(true);
 
             this.Sut.IssueSerialNumber(this.partNumber, this.orderNumber, this.docType, this.createdBy, this.quantity);
         }

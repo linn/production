@@ -34,7 +34,7 @@
 
         public void Add(WorksOrder entity)
         {
-            entity.OrderNumber = this.linnappsDatabaseService.GetIdSequence("WO_ORDER_SEQ");
+            entity.OrderNumber = this.linnappsDatabaseService.GetNextVal("WO_ORDER_SEQ");
             this.serviceDbContext.WorksOrders.Add(entity);
         }
 

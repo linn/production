@@ -1,6 +1,11 @@
-﻿import { makeActionTypes, makeReportActionTypes } from '@linn-it/linn-form-components-library';
+﻿import {
+    makeActionTypes,
+    makeReportActionTypes,
+    makeProcessActionTypes
+} from '@linn-it/linn-form-components-library';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
+import * as processTypes from '../processTypes';
 
 export const outstandingWorksOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.outstandingWorksOrdersReport.actionType
@@ -18,8 +23,11 @@ export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.
 export const assemblyFailActionTypes = makeActionTypes(itemTypes.assemblyFail.actionType, true);
 export const assemblyFailsActionTypes = makeActionTypes(itemTypes.assemblyFails.actionType, true);
 
-export const worksOrdersActionTypes = makeActionTypes(itemTypes.worksOrders.actionType, true);
 export const salesArticleActionTypes = makeActionTypes(itemTypes.salesArticle.actionType);
+
+export const worksOrderActionTypes = makeActionTypes(itemTypes.worksOrder.actionType);
+export const worksOrderDetailsActionTypes = makeActionTypes(itemTypes.worksOrderDetails.actionType);
+export const worksOrdersActionTypes = makeActionTypes(itemTypes.worksOrders.actionType, true);
 
 export const salesArticles = makeActionTypes(itemTypes.salesArticles.actionType);
 
@@ -121,3 +129,7 @@ export const partsActionsTypes = makeActionTypes(itemTypes.parts.actionType, fal
 export const smtShiftsActionTypes = makeActionTypes(itemTypes.smtShifts.actionType);
 
 export const ptlSettingsActionTypes = makeActionTypes(itemTypes.ptlSettings.actionType);
+
+export const startTriggerRunActionTypes = makeProcessActionTypes(
+    processTypes.startTriggerRun.actionType
+);

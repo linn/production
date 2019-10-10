@@ -96,5 +96,7 @@
         public int? CanBuildExSubAssemblies { get; set; }
 
         public IEnumerable<WorksOrderResource> OutstandingWorksOrders { get; set; }
+
+        public IEnumerable<ProductionBackOrderResource> ProductionBackOrders { get; set; }
     }
 }

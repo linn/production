@@ -9,7 +9,10 @@
 
     public class ManufacturingRouteService : FacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>
     {
-        public ManufacturingRouteService(IRepository<ManufacturingRoute, string> repository, ITransactionManager transactionManager) : base(repository, transactionManager)
+        public ManufacturingRouteService(
+            IRepository<ManufacturingRoute, string> repository,
+            ITransactionManager transactionManager)
+            : base(repository, transactionManager)
         {
         }
 

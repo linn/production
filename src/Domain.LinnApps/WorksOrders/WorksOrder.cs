@@ -23,7 +23,6 @@
         public int? LabelsPrinted { get; set; }
 
         public string Outstanding { get; set; }
-        
 
         public Part Part { get; set; }
 
