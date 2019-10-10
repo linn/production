@@ -54,11 +54,11 @@ function PartFail({
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
-    const inputInvalid = () => false;
+    const inputInvalid = () => !partFail.partNumber || !partFail.faultCode || !partFail.errorType;
 
     const errorTypeOptions = () =>
-        errorTypes.length > 0 && partFail.errorType
-            ? errorTypes.filter(t => t.dateInvalid == null)?.map(p => p.errorType)
+        errorTypes.length > 0 && (partFail.errorType || creating())
+            ? [''].concat(errorTypes.filter(t => t.dateInvalid == null)?.map(p => p.errorType))
             : ['loading...'];
     const errorTypeValue = () =>
         errorTypes.length > 0
@@ -66,8 +66,8 @@ function PartFail({
             : 'loading...';
 
     const faultCodeOptions = () =>
-        faultCodes.length > 0 && partFail.faultCode
-            ? faultCodes.map(p => p.faultCode)
+        faultCodes.length > 0 && (partFail.faultCode || creating())
+            ? [''].concat(faultCodes.map(p => p.faultCode))
             : ['loading...'];
     const faultCodeValue = () =>
         faultCodes.length > 0
