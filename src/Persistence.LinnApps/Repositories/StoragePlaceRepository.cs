@@ -18,7 +18,9 @@
 
         public IQueryable<StoragePlace> FindAll()
         {
-            return this.serviceDbContext.StoragePlaces;
+            return this.serviceDbContext.StoragePlaces.GroupBy(x => x.StoragePlaceId)
+                .Where(g => g.Count() == 1)
+                .Select(g => g.First());
         }
 
         public StoragePlace FindBy(Expression<Func<StoragePlace, bool>> expression)
@@ -28,7 +30,7 @@
 
         public IQueryable<StoragePlace> FilterBy(Expression<Func<StoragePlace, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.StoragePlaces.Where(expression);
         }
     }
 }

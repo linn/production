@@ -50,6 +50,7 @@ import NotFound from './NotFound';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 import PartFail from '../containers/partFails/PartFail';
 import PartFails from '../containers/partFails/PartFails';
+import CreatePartFail from '../containers/partFails/CreatePartFail';
 
 const Root = ({ store }) => (
     <div>
@@ -212,18 +213,18 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/quality/assembly-fails/:id"
-                                        component={AssemblyFail}
-                                    />
-                                    <Route
-                                        exact
                                         path="/production/quality/assembly-fails"
                                         component={AssemblyFails}
                                     />
                                     <Route
                                         exact
-                                        path="/production/quality/create-assembly-fail"
+                                        path="/production/quality/assembly-fails/create"
                                         component={CreateAssemblyFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/assembly-fails/:id"
+                                        component={AssemblyFail}
                                     />
                                     <Route
                                         exact
@@ -271,15 +272,20 @@ const Root = ({ store }) => (
                                         path="/production/maintenance/production-trigger-levels-settings"
                                         component={PtlSettings}
                                     />
-                                    <Route
-                                        exact
-                                        path="/production/quality/part-fails/:id"
-                                        component={PartFail}
-                                    />
                                      <Route
                                         exact
                                         path="/production/quality/part-fails"
                                         component={PartFails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/create"
+                                        component={CreatePartFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/:id"
+                                        component={PartFail}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

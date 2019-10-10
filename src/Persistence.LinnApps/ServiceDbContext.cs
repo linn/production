@@ -608,6 +608,7 @@
             e.HasKey(l => l.LocationId);
             e.Property(l => l.LocationId).HasColumnName("LOCATION_ID");
             e.Property(l => l.LocationCode).HasColumnName("LOCATION_CODE");
+            e.Property(l => l.Description).HasColumnName("DESCRIPTION");
         }
 
         private void BuildPartFailFaultCodes(ModelBuilder builder)

@@ -27,8 +27,10 @@
                            PurchaseOrderNumber = model.PurchaseOrderNumber,
                            ErrorType = model.ErrorType.ErrorType,
                            StoragePlace = model.StorageLocation?.LocationCode,
+                           StoragePlaceDescription = model.StorageLocation?.Description,
                            Story = model.Story,
                            WorksOrderNumber = model.WorksOrder?.OrderNumber,
+                           MinutesWasted = model.MinutesWasted,
                            Links = this.BuildLinks(model).ToArray()
             };
         }

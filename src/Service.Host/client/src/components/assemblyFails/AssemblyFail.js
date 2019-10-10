@@ -196,7 +196,8 @@ function AssemblyFail({
 
     const useStyles = makeStyles(theme => ({
         marginTop: {
-            marginTop: theme.spacing(3)
+            marginTop: theme.spacing(2),
+            marginLeft: theme.spacing(-3)
         }
     }));
     const classes = useStyles();

@@ -19,8 +19,9 @@ import worksOrdersActions from '../../actions/worksOrdersActions';
 import partsActions from '../../actions/partsActions';
 import partsSelectors from '../../selectors/partsSelectors';
 
-const mapStateToProps = (state, { match }) => ({
-    item: partFailSelectors.getItem(state),
+const mapStateToProps = state => ({
+    item: {},
+    editStatus: 'create',
     errorTypes: partFailErrorTypesSelectors.getItems(state),
     faultCodes: partFailFaultCodesSelectors.getItems(state),
     partsSearchResults: partsSelectors
@@ -28,8 +29,6 @@ const mapStateToProps = (state, { match }) => ({
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     storagePlaces: storagePlacesSelectors.getItems(state),
-    itemId: match.params.id,
-    editStatus: partFailSelectors.getEditStatus(state),
     loading: partFailSelectors.getLoading(state),
     snackbarVisible: partFailSelectors.getSnackbarVisible(state),
     itemErrors: getItemErrors(state),
@@ -42,8 +41,7 @@ const mapStateToProps = (state, { match }) => ({
     requestErrors: getRequestErrors(state)
 });
 
-const initialise = ({ itemId }) => dispatch => {
-    dispatch(partFailActions.fetch(itemId));
+const initialise = () => dispatch => {
     dispatch(storagePlacesActions.fetch());
     dispatch(partFailErrorTypesActions.fetch());
     dispatch(partFailFailFaultCodesActions.fetch());
@@ -51,7 +49,7 @@ const initialise = ({ itemId }) => dispatch => {
 
 const mapDispatchToProps = {
     initialise,
-    updateItem: partFailActions.update,
+    addItem: partFailActions.add,
     setEditStatus: partFailActions.setEditStatus,
     setSnackbarVisible: partFailActions.setSnackbarVisible,
     searchWorksOrders: worksOrdersActions.search,

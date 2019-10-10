@@ -17,9 +17,9 @@
 
         private object GetStoragePlaces()
         {
-            var parts = this.storagePlaceService.GetAll();
+            var locations = this.storagePlaceService.GetAll();
 
-            return this.Negotiate.WithModel(parts).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+            return this.Negotiate.WithModel(locations).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
     }

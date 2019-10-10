@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.ViewModels
 {
+    using System;
     using System.Collections.Generic;
 
     using Linn.Production.Domain.LinnApps.Measures;

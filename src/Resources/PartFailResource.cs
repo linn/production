@@ -34,6 +34,8 @@
 
         public string StoragePlace { get; set; }
 
-        public int MinutesWasted { get; set; }
+        public string StoragePlaceDescription { get; set; }
+
+        public int? MinutesWasted { get; set; }
     }
 }

@@ -16,8 +16,6 @@
     {
         private readonly IDatabaseService databaseService;
 
-        private readonly IRepository<PartFail, int> repository;
-
         private readonly IRepository<PartFailErrorType, string> errorTypeRepository;
 
         private readonly IRepository<PartFailFaultCode, string> faultCodeRepository;
@@ -55,7 +53,7 @@
         {
             return new PartFail
                        {
-                           Id = this.databaseService.GetIdSequence("PART_FAIL_LOG_SEQ"),
+                           Id = this.databaseService.GetNextVal("PART_FAIL_LOG_SEQ"),
                            EnteredBy = this.employeeRepository.FindById(resource.EnteredBy),
                            
                            Batch = resource.Batch,
