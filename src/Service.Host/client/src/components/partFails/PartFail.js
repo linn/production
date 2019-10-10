@@ -130,7 +130,6 @@ function PartFail({
 
     const handleSaveClick = () => {
         if (editing()) {
-            console.log(JSON.stringify(partFail));
             updateItem(itemId, partFail);
             setEditStatus('view');
         } else if (creating()) {
