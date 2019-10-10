@@ -1,7 +1,6 @@
 ﻿import {
     reducers as sharedLibraryReducers,
-    fetchErrorReducer,
-    ItemType
+    fetchErrorReducer
 } from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
@@ -40,6 +39,7 @@ import parts from './parts';
 import smtShifts from './smtShifts';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
+import * as processTypes from '../processTypes';
 import ptlSettings from './ptlSettings';
 import startTriggerRun from './startTriggerRun';
 import serialNumbers from './serialNumbers';
@@ -47,7 +47,7 @@ import serialNumberReissue from './serialNumberReissue';
 import salesArticles from './salesArticles';
 import salesArticle from './salesArticle';
 
-const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes });
+const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes, ...processTypes });
 
 const rootReducer = combineReducers({
     oidc,
