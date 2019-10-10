@@ -76,7 +76,7 @@ function PartFail({
 
     const storagePlaceOptions = () =>
         storagePlaces.length > 0 && (partFail.storagePlace || creating())
-            ? storagePlaces.map(p => p.storagePlaceId).concat([''])
+            ? [''].concat(storagePlaces.map(p => p.storagePlaceId))
             : ['loading...'];
     const storagePlaceValue = () =>
         storagePlaces.length > 0
