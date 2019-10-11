@@ -38,7 +38,7 @@ export const productionTriggersReport = new ItemType(
 
 export const productionTriggerFacts = new ItemType(
     'productionTriggerFacts',
-    'PRODUCTION_TRIGGER_FACTS',
+    'PRODUCTION_TRIGGER_FACTS_REPORT',
     '/production/reports/triggers/facts'
 );
 
