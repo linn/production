@@ -530,6 +530,10 @@
             q.Property(e => e.Citcode).HasColumnName("CIT_CODE").HasMaxLength(10);
             q.Property(e => e.CitName).HasColumnName("CIT_NAME").HasMaxLength(50);
             q.Property(e => e.TriggerLevel).HasColumnName("TRIGGER_LEVEL");
+            q.Property(e => e.OverrideTriggerLevel).HasColumnName("OVERRIDE_TRIGGER_LEVEL");
+            q.Property(e => e.VariableTriggerLevel).HasColumnName("VARIABLE_TRIGGER_LEVEL");
+            q.Property(e => e.EffectiveTriggerLevel).HasColumnName("EFFECTIVE_TRIGGER_LEVEL");
+            q.Property(e => e.TriggerLevelText).HasColumnName("TRIGGER_LEVEL_TEXT").HasMaxLength(40);
             q.Property(e => e.KanbanSize).HasColumnName("KANBAN_SIZE");
             q.Property(e => e.EffectiveKanbanSize).HasColumnName("EFFECTIVE_KANBAN_SIZE");
             q.Property(e => e.MaximumKanbans).HasColumnName("MAXIMUM_KANBANS");
