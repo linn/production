@@ -1,5 +1,8 @@
-﻿import { makeActionTypes, makeReportActionTypes } from '@linn-it/linn-form-components-library';
-import makeProcessActionTypes from './makeProcessActionTypes';
+﻿import {
+    makeActionTypes,
+    makeReportActionTypes,
+    makeProcessActionTypes
+} from '@linn-it/linn-form-components-library';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
 import * as processTypes from '../processTypes';
@@ -76,6 +79,10 @@ export const productionMeasuresCitsActionTypes = makeReportActionTypes(
 
 export const productionTriggersReportTypes = makeReportActionTypes(
     reportTypes.productionTriggersReport.actionType
+);
+
+export const productionTriggerFactsTypes = makeReportActionTypes(
+    reportTypes.productionTriggerFacts.actionType
 );
 
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(

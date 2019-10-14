@@ -1,7 +1,6 @@
 ﻿import {
     reducers as sharedLibraryReducers,
-    fetchErrorReducer,
-    ItemType
+    fetchErrorReducer
 } from '@linn-it/linn-form-components-library';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
@@ -16,6 +15,7 @@ import buildsDetailReport from './buildsDetailReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
 import productionTriggersReport from './productionTriggersReport';
+import productionTriggerFacts from './productionTriggerFacts';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
 import cits from './cits';
@@ -40,6 +40,7 @@ import parts from './parts';
 import smtShifts from './smtShifts';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
+import * as processTypes from '../processTypes';
 import ptlSettings from './ptlSettings';
 import startTriggerRun from './startTriggerRun';
 import serialNumbers from './serialNumbers';
@@ -48,7 +49,7 @@ import salesArticles from './salesArticles';
 import salesArticle from './salesArticle';
 import assemblyFailFaultCode from './assemblyFails/assemblyFailFaultCode';
 
-const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes });
+const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes, ...processTypes });
 
 const rootReducer = combineReducers({
     oidc,
@@ -80,6 +81,7 @@ const rootReducer = combineReducers({
     productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,
+    productionTriggerFacts,
     ptlSettings,
     salesArticle,
     salesArticles,
