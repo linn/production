@@ -127,7 +127,7 @@
 
         private decimal GetPercentage(int value, int total)
         {
-            return total == 0 ? 0 : decimal.Round(value / total * 100, 2);
+            return total == 0 ? 0 : decimal.Round(decimal.Divide(value, total) * 100, 1);
         }
     }
 }
