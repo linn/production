@@ -51,6 +51,8 @@ import NotFound from './NotFound';
 import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
+import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
+import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
 
 const Root = ({ store }) => (
     <div>
@@ -292,6 +294,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/production-trigger-levels-settings"
                                         component={PtlSettings}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/manufacturing-commit-date/report"
+                                        component={ManufacturingCommitDateReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/manufacturing-commit-date"
+                                        component={ManufacturingCommitDateReportOptions}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

@@ -137,3 +137,7 @@ export const ptlSettingsActionTypes = makeActionTypes(itemTypes.ptlSettings.acti
 export const startTriggerRunActionTypes = makeProcessActionTypes(
     processTypes.startTriggerRun.actionType
 );
+
+export const manufacturingCommitDateActionTypes = makeReportActionTypes(
+    reportTypes.manufacturingCommitDate.actionType
+);

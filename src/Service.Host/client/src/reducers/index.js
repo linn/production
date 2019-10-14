@@ -47,6 +47,7 @@ import serialNumbers from './serialNumbers';
 import serialNumberReissue from './serialNumberReissue';
 import salesArticles from './salesArticles';
 import salesArticle from './salesArticle';
+import manufacturingCommitDate from './manufacturingCommitDate';
 
 const errors = fetchErrorReducer({ ...itemTypes, ...reportTypes, ...processTypes });
 
@@ -93,6 +94,7 @@ const rootReducer = combineReducers({
     worksOrder,
     worksOrders,
     worksOrderDetails,
+    manufacturingCommitDate,
     ...sharedLibraryReducers
 });
 
