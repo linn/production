@@ -57,7 +57,7 @@
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
             builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
             builder.RegisterType<PtlSettingsRepository>().As<ISingleRecordRepository<PtlSettings>>();
-
+            builder.RegisterType<MCDLineRepository>().As<IQueryRepository<MCDLine>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

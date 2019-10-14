@@ -79,11 +79,13 @@
 
         public DbSet<PtlSettings> PtlSettings { get; set; }
 
+        public DbQuery<AccountingCompany> AccountingCompanies { get; set; }
+
+        public DbQuery<MCDLine> MCDLines { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
-
-        public DbQuery<AccountingCompany> AccountingCompanies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -94,6 +96,7 @@
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
+            this.QueryMCDLines(builder);
             this.BuildManufacturingResources(builder);
 
             this.BuildManufacturingSkills(builder);
@@ -295,7 +298,7 @@
             e.Property(p => p.ForAudit).HasColumnName("FOR_AUDIT").HasMaxLength(1);
             e.Property(p => p.CutClinch).HasColumnName("CUT_CLINCH").HasMaxLength(1);
         }
-        
+
         private void BuildLinnWeeks(ModelBuilder builder)
         {
             builder.Entity<LinnWeek>().ToTable("LINN_WEEKS");
@@ -321,6 +324,26 @@
             builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
             builder.Query<WhoBuiltWhat>().Property(t => t.SernosNumber).HasColumnName("SERNOS_NUMBER");
             builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+        }
+
+        private void QueryMCDLines(ModelBuilder builder)
+        {
+            builder.Query<MCDLine>().ToView("MCD_VIEW");
+            builder.Query<MCDLine>().Property(v => v.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Query<MCDLine>().Property(t => t.OrderLine).HasColumnName("ORDER_LINE");
+            builder.Query<MCDLine>().Property(t => t.OrderDate).HasColumnName("ORDER_DATE");
+            builder.Query<MCDLine>().Property(t => t.RequestedDeliveryDate).HasColumnName("REQUESTED_DELIVERY_DATE");
+            builder.Query<MCDLine>().Property(t => t.CoreType).HasColumnName("CORE_TYPE");
+            builder.Query<MCDLine>().Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            builder.Query<MCDLine>().Property(t => t.QtyAllocated).HasColumnName("QTY_ALLOCATED");
+            builder.Query<MCDLine>().Property(t => t.QtyOrdered).HasColumnName("QTY_ORDERED");
+            builder.Query<MCDLine>().Property(t => t.QtyOutstanding).HasColumnName("QTY_OUTSTANDING");
+            builder.Query<MCDLine>().Property(t => t.Invoiced).HasColumnName("INV");
+            builder.Query<MCDLine>().Property(t => t.MCDDate).HasColumnName("MCD_DATE");
+            builder.Query<MCDLine>().Property(t => t.Status).HasColumnName("STATUS");
+            builder.Query<MCDLine>().Property(t => t.OrderLineCompleted).HasColumnName("COMPLETE");
+            builder.Query<MCDLine>().Property(t => t.Reason).HasColumnName("REASON");
+            builder.Query<MCDLine>().Property(t => t.CouldGo).HasColumnName("COULD_GO");
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)
