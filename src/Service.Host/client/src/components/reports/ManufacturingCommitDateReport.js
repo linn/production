@@ -3,30 +3,73 @@ import { Loading, Title } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import Typography from '@material-ui/core/Typography';
 import Page from '../../containers/Page';
 
-const ManufacturingCommitDateReport = ({ reportData, loading, options }) => (
-    <Page>
-        <Grid container spacing={3} justify="center">
-            <Grid item xs={12}>
-                <Title
-                    text={`Manufacturing Commit Date Results For ${moment(options.date).format('DD-MMM-YYYY')}`}
-                />
+const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
+    if (loading) {
+        return <Loading />;
+    }
+
+    if (reportData) {
+        return (
+            <Page>
+                <Grid container spacing={3} justify="center">
+                    <Grid item xs={12}>
+                        <Title
+                            text={`Manufacturing Commit Date Results For ${moment(options.date).format('DD-MMM-YYYY')}`}
+                        />
+                    </Grid>
+                    {reportData.results.map(result => (
+                        <Fragment>
+                            <Grid item xs={12}>
+                                <Typography variant="h6">
+                                    Product Type: {result.productType ? result.productType : 'None'}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Typography variant="subtitle1">
+                                    No Of Lines: {result.numberOfLines}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Typography variant="subtitle1">
+                                    Supplied: {result.numberSupplied} ({result.percentageSupplied}%)
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <Typography variant="subtitle1">
+                                    Available: {result.numberAvailable} (
+                                    {result.percentageAvailable}%)
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={6} />
+                        </Fragment>
+                    ))}
+                </Grid>
+            </Page>
+        );
+    }
+
+    return (
+        <Page>
+            <Grid container spacing={3} justify="center">
+                <Grid item xs={12}>
+                    <Typography variant="body2">No report data found</Typography>
+                </Grid>
             </Grid>
-            <Grid item xs={6}></Grid>
-            <Grid item xs={6} />
-        </Grid>
-    </Page>
-);
+        </Page>
+    );
+};
 
 ManufacturingCommitDateReport.propTypes = {
-    reportData: PropTypes.arrayOf(PropTypes.shape({})),
+    reportData: PropTypes.shape({}),
     loading: PropTypes.bool,
     options: PropTypes.shape({})
 };
 
 ManufacturingCommitDateReport.defaultProps = {
-    reportData: [],
+    reportData: {},
     options: {},
     loading: false
 };
