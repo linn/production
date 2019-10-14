@@ -20,13 +20,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-export default function AssemblyFailFaultCodeRow({
-    item,
-    updateAssemblyFailFaultCode,
-    creating,
-    removeItem,
-    key
-}) {
+export default function AssemblyFailFaultCodeRow({ item, updateAssemblyFailFaultCode }) {
     const [editing, setEditing] = useState(false);
     const [prevItem, setPrevItem] = useState({});
     const [faultCode, setFaultCode] = useState({});
@@ -38,25 +32,19 @@ export default function AssemblyFailFaultCodeRow({
             setFaultCode(item);
             setPrevItem(item);
         }
-        if (creating && item !== prevItem) {
-            setEditing(true);
-        }
-    }, [item, prevItem, creating]);
+    }, [item, prevItem]);
 
     const handleFieldChange = (propertyName, newValue) => {
         setFaultCode({ ...faultCode, [propertyName]: newValue });
     };
 
     const handleSaveClick = () => {
-        console.log('SAVE ME PLZ');
+        setEditing(false);
+        updateAssemblyFailFaultCode(faultCode.faultCode, faultCode);
     };
 
     const handleCancelClick = () => {
         setEditing(false);
-        if (creating) {
-            removeItem();
-            return;
-        }
         if (prevItem) {
             setFaultCode(prevItem);
         }
@@ -64,20 +52,7 @@ export default function AssemblyFailFaultCodeRow({
 
     return (
         <TableRow key={faultCode.faultCode}>
-            {creating ? (
-                <TableCell>
-                    <InputField
-                        fullWidth
-                        maxLength={50}
-                        propertyName="faultCode"
-                        value={faultCode.faultCode}
-                        onChange={handleFieldChange}
-                        error={!faultCode.faultCode}
-                    />
-                </TableCell>
-            ) : (
-                <TableCell>{faultCode.faultCode}</TableCell>
-            )}
+            <TableCell>{faultCode.faultCode}</TableCell>
             {editing ? (
                 <Fragment>
                     <TableCell>
@@ -108,8 +83,6 @@ export default function AssemblyFailFaultCodeRow({
                     </TableCell>
                     <TableCell>
                         <Button
-                            // TODO creating state that sets all to be editable
-                            disabled={creating && !faultCode.faultCode}
                             onClick={handleSaveClick}
                             color="primary"
                             variant="outlined"
@@ -147,13 +120,13 @@ export default function AssemblyFailFaultCodeRow({
                     <TableCell>
                         <Button
                             color="primary"
-                            aria-label="Edit"
                             variant="outlined"
                             onClick={() => setEditing(true)}
                             size="small"
                             classes={{
                                 root: classes.button
                             }}
+                            data-testid="edit-button"
                         >
                             <EditIcon fontSize="small" />
                         </Button>
@@ -164,3 +137,12 @@ export default function AssemblyFailFaultCodeRow({
         </TableRow>
     );
 }
+
+AssemblyFailFaultCodeRow.propTypes = {
+    item: PropTypes.shape({}),
+    updateAssemblyFailFaultCode: PropTypes.func.isRequired
+};
+
+AssemblyFailFaultCodeRow.defaultProps = {
+    item: {}
+};

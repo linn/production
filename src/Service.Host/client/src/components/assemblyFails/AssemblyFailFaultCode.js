@@ -6,7 +6,8 @@ import {
     SnackbarMessage,
     InputField,
     SaveBackCancelButtons,
-    DatePicker
+    DatePicker,
+    ErrorCard
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import Page from '../../containers/Page';
@@ -20,7 +21,8 @@ export default function AssemblyFailFaultCode({
     history,
     snackbarVisible,
     setSnackbarVisible,
-    loading
+    loading,
+    error
 }) {
     const [faultCode, setFaultCode] = useState({});
     const [prevFaultCode, setPrevFaultCode] = useState({});
@@ -73,6 +75,11 @@ export default function AssemblyFailFaultCode({
                         <Title text="Create Assembly Fail Fault Code" />
                     )}
                 </Grid>
+                {error && (
+                    <Grid item xs={12}>
+                        <ErrorCard errorMessage={error} />
+                    </Grid>
+                )}
                 {loading ? (
                     <Loading />
                 ) : (
@@ -149,9 +156,21 @@ AssemblyFailFaultCode.propTypes = {
         description: PropTypes.string,
         explanation: PropTypes.string,
         dateCancelled: PropTypes.string
-    })
+    }),
+    editStatus: PropTypes.bool.isRequired,
+    setEditStatus: PropTypes.func.isRequired,
+    addItem: PropTypes.func.isRequired,
+    updateItem: PropTypes.func.isRequired,
+    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    snackbarVisible: PropTypes.bool,
+    setSnackbarVisible: PropTypes.func.isRequired,
+    loading: PropTypes.bool,
+    error: PropTypes.string
 };
 
 AssemblyFailFaultCode.defaultProps = {
-    item: {}
+    item: {},
+    loading: false,
+    snackbarVisible: false,
+    error: ''
 };

@@ -1,19 +1,19 @@
 import React, { useEffect, useState, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import {
     Title,
     Loading,
     utilities,
     SnackbarMessage,
-    CreateButton
+    CreateButton,
+    ErrorCard
 } from '@linn-it/linn-form-components-library';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
-import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
 import AssemblyFailFaultCodeRow from './AssemblyFailFaultCodeRow';
@@ -31,13 +31,15 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-// TODO do inline editing and set get the code from each item
-// set the editing one in state
 export default function AssemblyFailFaultCodes({
     items,
     loading,
+    faultCodeLoading,
     snackbarVisible,
-    setSnackbarVisible
+    setSnackbarVisible,
+    updateAssemblyFailFaultCode,
+    faultCodeError,
+    faultCodesError
 }) {
     const [faultCodes, setFaultCodes] = useState(false);
     const [prevItems, setPrevItems] = useState({});
@@ -58,40 +60,75 @@ export default function AssemblyFailFaultCodes({
                     <Title text="Assembly Fail Fault Codes" />
                     <CreateButton createUrl="/production/quality/assembly-fail-fault-codes/create" />
                 </Grid>
-                {loading && (
+                {faultCodeError && (
+                    <Grid item xs={12}>
+                        <ErrorCard errorMessage={faultCodeError} />
+                    </Grid>
+                )}
+                {faultCodesError && (
+                    <Grid item xs={12}>
+                        <ErrorCard errorMessage={faultCodesError} />
+                    </Grid>
+                )}
+                {loading || faultCodeLoading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
-                )}
-                {faultCodes.length > 0 && (
-                    <Fragment>
-                        {/* TODO next stage is to do saving from this page - pass in func with that fault code and fire the action
-                        - when receiving a fault code (middleware?) then fetch them again */}
-                        {/* <SnackbarMessage
-                            visible={snackbarVisible}
-                            onClose={() => setSnackbarVisible(false)}
-                            message="Save Successful"
-                        /> */}
-                        <Table size="small" className={classes.marginTop}>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Fault Code</TableCell>
-                                    <TableCell>Description</TableCell>
-                                    <TableCell>Explanation</TableCell>
-                                    <TableCell>Date Invalid</TableCell>
-                                    <TableCell />
-                                    <TableCell />
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {utilities.sortEntityList(faultCodes, 'faultCode').map(item => (
-                                    <AssemblyFailFaultCodeRow key={item.faultCode} item={item} />
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </Fragment>
+                ) : (
+                    faultCodes.length > 0 && (
+                        <Fragment>
+                            <SnackbarMessage
+                                visible={snackbarVisible}
+                                onClose={() => setSnackbarVisible(false)}
+                                message="Save Successful"
+                            />
+                            <Table size="small" className={classes.marginTop}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Fault Code</TableCell>
+                                        <TableCell>Description</TableCell>
+                                        <TableCell>Explanation</TableCell>
+                                        <TableCell>Date Invalid</TableCell>
+                                        <TableCell />
+                                        <TableCell />
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {utilities.sortEntityList(faultCodes, 'faultCode').map(item => (
+                                        <AssemblyFailFaultCodeRow
+                                            key={item.faultCode}
+                                            item={item}
+                                            updateAssemblyFailFaultCode={
+                                                updateAssemblyFailFaultCode
+                                            }
+                                        />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </Fragment>
+                    )
                 )}
             </Grid>
         </Page>
     );
 }
+
+AssemblyFailFaultCodes.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.shape({})),
+    loading: PropTypes.bool,
+    faultCodeLoading: PropTypes.bool,
+    snackbarVisible: PropTypes.bool,
+    setSnackbarVisible: PropTypes.func.isRequired,
+    updateAssemblyFailFaultCode: PropTypes.func.isRequired,
+    faultCodeError: PropTypes.string,
+    faultCodesError: PropTypes.string
+};
+
+AssemblyFailFaultCodes.defaultProps = {
+    items: [],
+    loading: false,
+    faultCodeLoading: false,
+    snackbarVisible: false,
+    faultCodeError: '',
+    faultCodesError: ''
+};
