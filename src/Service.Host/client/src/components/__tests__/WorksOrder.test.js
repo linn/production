@@ -19,7 +19,7 @@ const worksOrder = {
     quantity: 12,
     docType: 'WO',
     workStationCode: 'CODE',
-    departmentCode: 'DEPT'
+    raisedByDepartment: 'DEPT'
 };
 
 const defaultProps = {
@@ -245,7 +245,7 @@ describe('when creating', () => {
                     partNumber: 'PART',
                     workStationCode: 'AB',
                     departmentCode: 'DEPT',
-                    quantity: 6
+                    quantityToBuild: 6
                 }}
                 partsSearchResults={[
                     { id: 'A', name: 'Part A', partNumber: 'Part A', description: 'Description A' },
@@ -291,7 +291,7 @@ describe('when editing', () => {
             quantity: null,
             docType: 'WO',
             workStationCode: 'CODE',
-            departmentCode: 'DEPT',
+            raisedByDepartment: 'DEPT',
             reasonCancelled: null
         };
 
@@ -330,7 +330,7 @@ describe('when editing', () => {
             quantity: null,
             docType: 'WO',
             workStationCode: 'CODE',
-            departmentCode: 'DEPT',
+            raisedByDepartment: 'DEPT',
             reasonCancelled: 'reason'
         };
 
