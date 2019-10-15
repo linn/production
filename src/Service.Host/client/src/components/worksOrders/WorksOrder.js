@@ -100,8 +100,8 @@ function WorksOrder({
             setWorksOrder(wo => ({
                 ...wo,
                 workStationCode: worksOrderDetails.workStationCode,
-                departmentCode: worksOrderDetails.departmentCode,
-                quantity: worksOrderDetails.quantity,
+                raisedByDepartment: worksOrderDetails.departmentCode,
+                quantity: worksOrderDetails.quantityToBuild,
                 quantityBuilt: 0
             }));
         }
@@ -154,7 +154,7 @@ function WorksOrder({
         worksOrder.partNumber &&
         worksOrder.workStationCode &&
         worksOrder.quantity &&
-        worksOrder.departmentCode &&
+        worksOrder.raisedByDepartment &&
         creating();
 
     const updateValid = () => editing() && (worksOrder.reasonCancelled || worksOrder.quantity);
