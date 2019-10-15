@@ -36,14 +36,14 @@
                                    {
                                        Id = 1,
                                        WorksOrder = new WorksOrder
-                                                                {
-                                                                    OrderNumber = 99999999,
-                                                                    PartNumber = "PART",
-                                                                    Part = new Part
-                                                                               {
-                                                                                   PartNumber = "PART", Description = "Something"
-                                                                               }
-                                                                },
+                                                        {
+                                                            OrderNumber = 99999999,
+                                                            PartNumber = "PART",
+                                                            Part = new Part
+                                                                       {
+                                                                           PartNumber = "PART", Description = "Something"
+                                                                       }
+                                                        },
                                        EnteredBy = new Employee
                                                        {
                                                            Id = 12345678,

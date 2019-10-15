@@ -13,6 +13,13 @@ function App() {
                 <ListItem component={Link} to="/production/quality/ate/fault-codes/" button>
                     <Typography color="primary">ATE Fault Codes</Typography>
                 </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/quality/assembly-fail-fault-codes"
+                    button
+                >
+                    <Typography color="primary">Assembly Fail Fault Codes Utility</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/resources/board-fail-types/" button>
                     <Typography color="primary">Board Fail Types</Typography>
                 </ListItem>
