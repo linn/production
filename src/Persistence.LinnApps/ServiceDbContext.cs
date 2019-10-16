@@ -84,23 +84,23 @@
 
         public DbQuery<MCDLine> MCDLines { get; set; }
 
+        public DbQuery<SalesBackOrderAnalysis> SalesBackOrderAnalysis { get; set; }
+
+        public DbQuery<SalesOrder> SalesOrders { get; set; }
+
+        public DbQuery<SalesOrderDetails> SalesOrderDetails { get; set; }
+
+        public DbQuery<SalesOutlet> SalesOutlets { get; set; }
+
+        public DbQuery<SalesAccount> SalesAccounts { get; set; }
+
+        public DbQuery<SalesArticle> SalesArticles { get; set; }
+
+        public DbQuery<Address> Addresses { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
-
-        private DbQuery<SalesBackOrderAnalysis> SalesBackOrderAnalysis { get; set; }
-
-        private DbQuery<SalesOrder> SalesOrders { get; set; }
-
-        private DbQuery<SalesOrder> SalesOrderDetails { get; set; }
-
-        private DbQuery<SalesOutlet> SalesOutlets { get; set; }
-
-        private DbQuery<SalesAccount> SalesAccounts { get; set; }
-
-        private DbQuery<SalesArticle> SalesArticles { get; set; }
-
-        private DbQuery<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
