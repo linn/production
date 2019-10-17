@@ -36,7 +36,7 @@
             var newRow = resultTable.NewRow();
             newRow["ORDER_NUMBER"] = 12345;
             newRow["PART_NUMBER"] = "part";
-            newRow["QTY_OUTSTANDING"] = "qty";
+            newRow["QTY_OUTSTANDING"] = "3";
             newRow["DATE_RAISED"] = new DateTime();
             newRow["CIT_CODE"] = "code";
             newRow["DESCRIPTION"] = "desc";

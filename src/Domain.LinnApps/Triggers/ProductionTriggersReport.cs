@@ -2,15 +2,15 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
+
+    using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.Repositories;
 
     public class ProductionTriggersReport
     {
         public ProductionTriggersReport()
         {
-            // for testing        
+            // for testing
         }
 
         public ProductionTriggersReport(string jobref, PtlMaster ptlMaster, Cit cit, IQueryRepository<ProductionTrigger> repository)

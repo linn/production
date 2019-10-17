@@ -9,11 +9,10 @@ import salesArticlesActions from '../../actions/salesArticlesActions';
 import salesArticlesSelectors from '../../selectors/salesArticlesSelectors';
 import serialNumberActions from '../../actions/serialNumberActions';
 import serialNumberSelectors from '../../selectors/serialNumberSelectors';
-import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     editStatus: serialNumberReissueSelectors.getEditStatus(state),
-    itemErrors: getItemErrors(state, itemTypes.serialNumberReissue),
+    itemErrors: getItemErrors(state),
     item: serialNumberReissueSelectors.getItem(state),
     loading: serialNumberReissueSelectors.getLoading(state),
     salesArticle: salesArticleSelectors.getItem(state),

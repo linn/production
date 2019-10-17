@@ -12,7 +12,7 @@ const Results = ({ reportData }) => (
         ) : (
             <MultiReportTable
                 reportData={reportData}
-                showTotals={false}
+                showTotals
                 placeholderRows={10}
                 placeholderColumns={3}
                 showRowTitles

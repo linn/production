@@ -1,7 +1,7 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
@@ -15,20 +15,23 @@
             return new AssemblyFailFaultCodeResource
                        {
                            FaultCode = faultCode.FaultCode,
-                           Description = faultCode.Description
+                           Description = faultCode.Description,
+                           Explanation = faultCode.Explanation,
+                           DateInvalid = faultCode.DateInvalid?.ToString("o"),
+                           Links = this.BuildLinks(faultCode).ToArray()
                        };
         }
 
         public string GetLocation(AssemblyFailFaultCode faultCode)
         {
-            throw new NotImplementedException();
+            return $"/production/quality/assembly-fail-fault-codes/{faultCode.FaultCode}";
         }
 
         object IResourceBuilder<AssemblyFailFaultCode>.Build(AssemblyFailFaultCode faultCode) => this.Build(faultCode);
 
         private IEnumerable<LinkResource> BuildLinks(AssemblyFailFaultCode faultCode)
         {
-            throw new NotImplementedException();
+            yield return new LinkResource { Rel = "self", Href = this.GetLocation(faultCode) };
         }
     }
 }

@@ -2,8 +2,7 @@
 {
     using System.Data;
 
-    using Domain.LinnApps.RemoteServices;
-
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     using Oracle.ManagedDataAccess.Client;

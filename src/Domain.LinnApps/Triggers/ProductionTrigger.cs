@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Triggers
 {
     using System;
-    using System.Collections;
 
     public class ProductionTrigger
     {
@@ -16,6 +15,14 @@
         public string CitName { get; set; }
 
         public int? TriggerLevel { get; set; }
+
+        public int? OverrideTriggerLevel { get; set; }
+
+        public int? VariableTriggerLevel { get; set; }
+
+        public int? EffectiveTriggerLevel { get; set; }
+
+        public string TriggerLevelText { get; set; }
 
         public int KanbanSize { get; set; }
 

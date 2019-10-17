@@ -21,8 +21,6 @@
 
         protected IWorksOrderProxyService WorksOrderProxyService { get; private set; }
 
-        protected IProductAuditPack ProductAuditPack { get; private set;  }
-
         protected IWorksOrderUtilities WorksOrderUtilities { get; private set; }
 
         [SetUp]
@@ -32,14 +30,12 @@
             this.TransactionManager = Substitute.For<ITransactionManager>();
             this.WorksOrderFactory = Substitute.For<IWorksOrderFactory>();
             this.WorksOrderProxyService = Substitute.For<IWorksOrderProxyService>();
-            this.ProductAuditPack = Substitute.For<IProductAuditPack>();
             this.WorksOrderUtilities = Substitute.For<IWorksOrderUtilities>();
 
             this.Sut = new WorksOrdersService(
                 this.WorksOrderRepository,
                 this.TransactionManager,
                 this.WorksOrderFactory,
-                this.ProductAuditPack,
                 this.WorksOrderUtilities);
         }
     }

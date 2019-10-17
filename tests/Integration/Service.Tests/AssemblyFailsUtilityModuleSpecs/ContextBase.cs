@@ -5,7 +5,10 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
@@ -54,6 +57,7 @@
                     with.Module<AssemblyFailsModule>();
                     with.ResponseProcessor<AssemblyFailResponseProcessor>();
                     with.ResponseProcessor<AssemblyFailsResponseProcessor>();
+                    with.ResponseProcessor<AssemblyFailFaultCodeResponseProcessor>();
                     with.ResponseProcessor<AssemblyFailFaultCodesResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>

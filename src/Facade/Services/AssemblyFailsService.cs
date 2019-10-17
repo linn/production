@@ -10,7 +10,6 @@
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Proxy;
-
     using Linn.Production.Resources;
 
     public class AssemblyFailsService : FacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>

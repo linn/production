@@ -1,8 +1,9 @@
 ﻿namespace Linn.Production.Persistence.LinnApps.Repositories
 {
+    using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
 
-    public class OsrRunMasterRepository : IMasterRepository<OsrRunMaster>
+    public class OsrRunMasterRepository : ISingleRecordRepository<OsrRunMaster>
     {
         private readonly ServiceDbContext serviceDbContext;
 
@@ -11,7 +12,7 @@
             this.serviceDbContext = serviceDbContext;
         }
 
-        public OsrRunMaster GetMasterRecord()
+        public OsrRunMaster GetRecord()
         {
             return this.serviceDbContext.OsrRunMaster;
         }

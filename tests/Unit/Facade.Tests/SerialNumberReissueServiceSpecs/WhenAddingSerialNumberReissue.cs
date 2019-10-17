@@ -4,18 +4,16 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    using Domain.LinnApps.SerialNumberReissue;
-
     using FluentAssertions;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Resources;
 
     using NSubstitute;
 
     using NUnit.Framework;
-
-    using Resources;
 
     public class WhenAddingSerialNumberReissue : ContextBase
     {

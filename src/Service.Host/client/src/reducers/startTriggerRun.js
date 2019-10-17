@@ -1,4 +1,4 @@
-﻿import processStoreFactory from './processStoreFactory';
+﻿import { processStoreFactory } from '@linn-it/linn-form-components-library';
 import { startTriggerRunActionTypes as actionTypes } from '../actions';
 import * as processTypes from '../processTypes';
 

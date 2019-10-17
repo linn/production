@@ -22,13 +22,13 @@
         {
             this.partNumber = "pcas";
 
-            var worksOrderDetails = new WorksOrderDetails { PartNumber = this.partNumber };
+            var worksOrderDetails = new WorksOrderPartDetails { PartNumber = this.partNumber };
 
-            this.WorksOrdersService.GetWorksOrderDetails(this.partNumber)
-                .Returns(new SuccessResult<WorksOrderDetails>(worksOrderDetails));
+            this.WorksOrdersService.GetWorksOrderPartDetails(this.partNumber)
+                .Returns(new SuccessResult<WorksOrderPartDetails>(worksOrderDetails));
 
             this.Response = this.Browser.Get(
-                "/production/works-orders/details/pcas",
+                "/production/works-orders/get-part-details/pcas",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 
@@ -41,13 +41,13 @@
         [Test]
         public void ShouldCallService()
         {
-            this.WorksOrdersService.Received().GetWorksOrderDetails(this.partNumber);
+            this.WorksOrdersService.Received().GetWorksOrderPartDetails(this.partNumber);
         }
 
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<WorksOrderDetailsResource>();
+            var resource = this.Response.Body.DeserializeJson<WorksOrderPartDetailsResource>();
             resource.PartNumber.Should().Be(this.partNumber);
         }
     }

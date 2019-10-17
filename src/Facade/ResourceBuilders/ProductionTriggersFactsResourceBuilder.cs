@@ -9,6 +9,8 @@
     {
         private readonly WorksOrderResourceBuilder worksOrderResourceBuilder = new WorksOrderResourceBuilder();
 
+        private readonly ProductionBackOrderResourceBuilder productionBackOrderResourceBuilder = new ProductionBackOrderResourceBuilder();
+
         public object Build(ProductionTriggerFacts facts)
         {
             return new ProductionTriggerFactsResultsResource
@@ -27,6 +29,10 @@
                     EffectiveKanbanSize = facts.Trigger.EffectiveKanbanSize,
                     KanbanSize = facts.Trigger.KanbanSize,
                     TriggerLevel = facts.Trigger.TriggerLevel,
+                    OverrideTriggerLevel = facts.Trigger.OverrideTriggerLevel,
+                    VariableTriggerLevel = facts.Trigger.VariableTriggerLevel,
+                    EffectiveTriggerLevel = facts.Trigger.EffectiveTriggerLevel,
+                    TriggerLevelText = facts.Trigger.TriggerLevelText,
                     Description = facts.Trigger.Description,
                     Priority = facts.Trigger.Priority,
                     CanBuildExSubAssemblies = facts.Trigger.CanBuildExSubAssemblies,
@@ -59,7 +65,8 @@
                     StockAvailableShortNowBackOrdered = facts.Trigger.StockAvailableShortNowBackOrdered,
                     StockReqtPercNt = facts.Trigger.StockReqtPercNt,
                     Story = facts.Trigger.Story,
-                    OutstandingWorksOrders = facts.OutstandingWorksOrders.Select(w => this.worksOrderResourceBuilder.Build(w))
+                    OutstandingWorksOrders = facts.OutstandingWorksOrders.Select(w => this.worksOrderResourceBuilder.Build(w)),
+                    ProductionBackOrders = facts.OutstandingSalesOrders.Select(o => this.productionBackOrderResourceBuilder.Build(o))
                 }
             };
         }

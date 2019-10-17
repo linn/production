@@ -16,6 +16,14 @@
 
         public int? TriggerLevel { get; set; }
 
+        public int? OverrideTriggerLevel { get; set; }
+
+        public int? VariableTriggerLevel { get; set; }
+
+        public int? EffectiveTriggerLevel { get; set; }
+
+        public string TriggerLevelText { get; set; }
+
         public int KanbanSize { get; set; }
 
         public int? EffectiveKanbanSize { get; set; }
@@ -96,5 +104,7 @@
         public int? CanBuildExSubAssemblies { get; set; }
 
         public IEnumerable<WorksOrderResource> OutstandingWorksOrders { get; set; }
+
+        public IEnumerable<ProductionBackOrderResource> ProductionBackOrders { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace Linn.Production.Service.Tests.SerialNumberReissueModuleSpecs
 {
-    using Domain.LinnApps.SerialNumberReissue;
-
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Resources;
 
     using Nancy;
     using Nancy.Testing;
@@ -12,8 +12,6 @@
     using NSubstitute;
 
     using NUnit.Framework;
-
-    using Resources;
 
     public class WhenAddingSerialNumberReissue : ContextBase
     {
@@ -44,7 +42,7 @@
         }
 
         [Test]
-        public void SholdCallService()
+        public void ShouldCallService()
         {
             this.SerialNumberReissueService.Received()
                 .ReissueSerialNumber(Arg.Is<SerialNumberReissueResource>(r => r.SernosGroup == this.requestResource.SernosGroup));

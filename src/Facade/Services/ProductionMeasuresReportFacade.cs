@@ -2,25 +2,24 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using CsvExtensions;
-    using Domain.LinnApps.Triggers;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Persistence.LinnApps.Repositories;
+    using Linn.Production.Domain.LinnApps.Triggers;
+    using Linn.Production.Facade.CsvExtensions;
 
     public class ProductionMeasuresReportFacade : IProductionMeasuresReportFacade
     {
         private readonly IRepository<ProductionMeasures, string> productionMeasuresRepository;
 
-        private readonly IMasterRepository<PtlMaster> ptlMasterRepository;
+        private readonly ISingleRecordRepository<PtlMaster> ptlMasterRepository;
 
-        private readonly IMasterRepository<OsrRunMaster> osrRunMasterRepository;
+        private readonly ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository;
 
         public ProductionMeasuresReportFacade(
             IRepository<ProductionMeasures, string> productionMeasuresRepository,
-            IMasterRepository<PtlMaster> ptlMasterRepository,
-            IMasterRepository<OsrRunMaster> osrRunMasterRepository)
+            ISingleRecordRepository<PtlMaster> ptlMasterRepository,
+            ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository)
         {
             this.productionMeasuresRepository = productionMeasuresRepository;
             this.ptlMasterRepository = ptlMasterRepository;
@@ -45,8 +44,8 @@
         {
             var info = new OsrInfo
             {
-               RunMaster = this.osrRunMasterRepository.GetMasterRecord(),
-               PtlMaster = this.ptlMasterRepository.GetMasterRecord()
+               RunMaster = this.osrRunMasterRepository.GetRecord(),
+               PtlMaster = this.ptlMasterRepository.GetRecord()
             };
 
             return new SuccessResult<OsrInfo>(info);

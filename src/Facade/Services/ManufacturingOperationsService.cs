@@ -11,14 +11,27 @@
     {
         private readonly IRepository<ManufacturingOperation, int> manufacturingOperationRepository;
 
-        public ManufacturingOperationsService(IRepository<ManufacturingOperation, int> repository, ITransactionManager transactionManager) : base(repository, transactionManager)
+        public ManufacturingOperationsService(
+            IRepository<ManufacturingOperation, int> repository,
+            ITransactionManager transactionManager)
+            : base(repository, transactionManager)
         {
             this.manufacturingOperationRepository = repository;
         }
 
         protected override ManufacturingOperation CreateFromResource(ManufacturingOperationResource resource)
         {
-            return new ManufacturingOperation(resource.RouteCode, resource.ManufacturingId, resource.OperationNumber, resource.Description, resource.SkillCode, resource.ResourceCode, resource.SetAndCleanTime, resource.CycleTime, resource.LabourPercentage, resource.CITCode);
+            return new ManufacturingOperation(
+                resource.RouteCode,
+                resource.ManufacturingId,
+                resource.OperationNumber,
+                resource.Description,
+                resource.SkillCode,
+                resource.ResourceCode,
+                resource.SetAndCleanTime,
+                resource.CycleTime,
+                resource.LabourPercentage,
+                resource.CITCode);
         }
 
         protected override void UpdateFromResource(ManufacturingOperation entity, ManufacturingOperationResource updateResource)

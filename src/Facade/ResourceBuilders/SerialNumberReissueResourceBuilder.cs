@@ -6,8 +6,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
-
-    using Resources;
+    using Linn.Production.Resources;
 
     public class SerialNumberReissueResourceBuilder : IResourceBuilder<SerialNumberReissue>
     {

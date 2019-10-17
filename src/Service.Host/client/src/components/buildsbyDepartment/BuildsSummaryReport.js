@@ -6,7 +6,7 @@ import Page from '../../containers/Page';
 
 function BuildsSummaryReport({ reportData, loading, history, itemError }) {
     const handleBackClick = () => {
-        history.push('/production/reports/builds-summary-options');
+        history.push('/production/reports/builds-summary/options');
     };
     if (loading) {
         return (

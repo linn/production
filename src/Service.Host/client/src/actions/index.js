@@ -1,5 +1,8 @@
-﻿import { makeActionTypes, makeReportActionTypes } from '@linn-it/linn-form-components-library';
-import makeProcessActionTypes from './makeProcessActionTypes';
+﻿import {
+    makeActionTypes,
+    makeReportActionTypes,
+    makeProcessActionTypes
+} from '@linn-it/linn-form-components-library';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
 import * as processTypes from '../processTypes';
@@ -20,8 +23,11 @@ export const ateFaultCodesActionTypes = makeActionTypes(itemTypes.ateFaultCodes.
 export const assemblyFailActionTypes = makeActionTypes(itemTypes.assemblyFail.actionType, true);
 export const assemblyFailsActionTypes = makeActionTypes(itemTypes.assemblyFails.actionType, true);
 
-export const worksOrdersActionTypes = makeActionTypes(itemTypes.worksOrders.actionType, true);
 export const salesArticleActionTypes = makeActionTypes(itemTypes.salesArticle.actionType);
+
+export const worksOrderActionTypes = makeActionTypes(itemTypes.worksOrder.actionType);
+export const worksOrderDetailsActionTypes = makeActionTypes(itemTypes.worksOrderDetails.actionType);
+export const worksOrdersActionTypes = makeActionTypes(itemTypes.worksOrders.actionType, true);
 
 export const salesArticles = makeActionTypes(itemTypes.salesArticles.actionType);
 
@@ -75,6 +81,10 @@ export const productionTriggersReportTypes = makeReportActionTypes(
     reportTypes.productionTriggersReport.actionType
 );
 
+export const productionTriggerFactsTypes = makeReportActionTypes(
+    reportTypes.productionTriggerFacts.actionType
+);
+
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );
@@ -89,6 +99,10 @@ export const pcasRevisionsActionTypes = makeActionTypes(itemTypes.pcasRevisions.
 export const citsActionsTypes = makeActionTypes(itemTypes.cits.actionType, false);
 
 export const employeesActionTypes = makeActionTypes(itemTypes.employees.actionType, false);
+
+export const assemblyFailFaultCodeActionTypes = makeActionTypes(
+    itemTypes.assemblyFailFaultCode.actionType
+);
 
 export const assemblyFailFaultCodesActionTypes = makeActionTypes(
     itemTypes.assemblyFailFaultCodes.actionType,

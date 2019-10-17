@@ -2,8 +2,7 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
-
-    using Resources;
+    using Linn.Production.Resources;
 
     public class OsrInfoResourceBuilder : IResourceBuilder<OsrInfo>
     {
