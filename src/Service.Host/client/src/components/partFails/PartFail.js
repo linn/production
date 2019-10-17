@@ -1,6 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
     InputField,
     Loading,
@@ -43,7 +46,10 @@ function PartFail({
     addItem,
     updateItem,
     itemId,
-    history
+    history,
+    errorTypesLoading,
+    faultCodesLoading,
+    storagePlacesLoading
 }) {
     const [partFail, setPartFail] = useState({
         dateCreated: new Date().toISOString()
@@ -57,7 +63,7 @@ function PartFail({
     const inputInvalid = () => !partFail.partNumber || !partFail.faultCode || !partFail.errorType;
 
     const errorTypeOptions = () =>
-        errorTypes.length > 0 && (partFail.errorType || creating())
+        errorTypes.length > 0
             ? [''].concat(errorTypes.filter(t => t.dateInvalid == null)?.map(p => p.errorType))
             : ['loading...'];
     const errorTypeValue = () =>
@@ -66,16 +72,14 @@ function PartFail({
             : 'loading...';
 
     const faultCodeOptions = () =>
-        faultCodes.length > 0 && (partFail.faultCode || creating())
-            ? [''].concat(faultCodes.map(p => p.faultCode))
-            : ['loading...'];
+        faultCodes.length > 0 ? [''].concat(faultCodes.map(p => p.faultCode)) : ['loading...'];
     const faultCodeValue = () =>
         faultCodes.length > 0
             ? faultCodes.find(p => p.faultCode === partFail.faultCode)?.faultCode
             : 'loading...';
 
     const storagePlaceOptions = () =>
-        storagePlaces.length > 0 && (partFail.storagePlace || creating())
+        storagePlaces.length > 0
             ? [''].concat(storagePlaces.map(p => p.storagePlaceId))
             : ['loading...'];
     const storagePlaceValue = () =>
@@ -107,6 +111,11 @@ function PartFail({
                 faultDescription: faultCodes.find(c => c.faultCode === a.faultCode)
                     ?.faultDescription
             }));
+        } else {
+            setPartFail(a => ({
+                ...a,
+                faultDescription: ''
+            }));
         }
     }, [faultCodes, partFail.faultCode]);
 
@@ -117,6 +126,11 @@ function PartFail({
                 storagePlaceDescription: storagePlaces.find(
                     c => c.storagePlaceId === a.storagePlace
                 )?.description
+            }));
+        } else {
+            setPartFail(a => ({
+                ...a,
+                storagePlaceDescription: ''
             }));
         }
     }, [storagePlaces, partFail.storagePlace]);
@@ -157,7 +171,12 @@ function PartFail({
     const useStyles = makeStyles(theme => ({
         marginTop: {
             marginTop: theme.spacing(2),
-            marginLeft: theme.spacing(-3)
+            marginLeft: theme.spacing(-2)
+        },
+        closeButton: {
+            height: theme.spacing(4.5),
+            marginTop: theme.spacing(4.5),
+            marginLeft: theme.spacing(-1)
         }
     }));
     const classes = useStyles();
@@ -179,7 +198,7 @@ function PartFail({
                             <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
                         </Grid>
                     ))}
-                {loading ? (
+                {loading || errorTypesLoading || faultCodesLoading || storagePlacesLoading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
@@ -239,6 +258,7 @@ function PartFail({
                                         value={partFail.partNumber}
                                         onChange={() => {}}
                                         propertyName="partNumber"
+                                        required
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
@@ -299,6 +319,7 @@ function PartFail({
                                         fullWidth
                                         value={faultCodeValue()}
                                         onChange={handleFieldChange}
+                                        required
                                     />
                                 </Grid>
                                 <Grid item xs={6}>
@@ -319,6 +340,7 @@ function PartFail({
                                         fullWidth
                                         value={errorTypeValue()}
                                         onChange={handleFieldChange}
+                                        required
                                     />
                                 </Grid>
                                 <Grid item xs={8}>
@@ -361,7 +383,27 @@ function PartFail({
                                         />
                                     </div>
                                 </Grid>
-                                <Grid item xs={6} />
+                                <Tooltip title="Clear">
+                                    <span>
+                                        <Button
+                                            color="primary"
+                                            aria-label="Clear"
+                                            disabled={!partFail.worksOrderNumber}
+                                            onClick={() => {
+                                                clearWorksOrdersSearch();
+                                                setPartFail(a => ({
+                                                    ...a,
+                                                    worksOrderNumber: null
+                                                }));
+                                            }}
+                                            variant="outlined"
+                                            className={classes.closeButton}
+                                        >
+                                            <CloseIcon />
+                                        </Button>
+                                    </span>
+                                </Tooltip>
+                                <Grid item xs={5} />
 
                                 <Grid item xs={5}>
                                     <InputField
@@ -385,6 +427,7 @@ function PartFail({
                                                     ...a,
                                                     purchaseOrderNumber: accepted.orderNumber
                                                 }));
+                                                clearPurchaseOrdersSearch();
                                             }}
                                             fetchItems={searchPurchaseOrders}
                                             clearSearch={clearPurchaseOrdersSearch}
@@ -392,7 +435,27 @@ function PartFail({
                                         />
                                     </div>
                                 </Grid>
-                                <Grid item xs={6} />
+                                <Tooltip title="Clear">
+                                    <span>
+                                        <Button
+                                            color="primary"
+                                            aria-label="Clear"
+                                            disabled={!partFail.purchaseOrderNumber}
+                                            onClick={() => {
+                                                clearWorksOrdersSearch();
+                                                setPartFail(a => ({
+                                                    ...a,
+                                                    purchaseOrderNumber: null
+                                                }));
+                                            }}
+                                            variant="outlined"
+                                            className={classes.closeButton}
+                                        >
+                                            <CloseIcon />
+                                        </Button>
+                                    </span>
+                                </Tooltip>
+                                <Grid item xs={5} />
                                 <Grid item xs={3}>
                                     <Dropdown
                                         label="Storage Place"
@@ -474,6 +537,9 @@ PartFail.propTypes = {
     partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     searchParts: PropTypes.func.isRequired,
     partsSearchLoading: PropTypes.bool,
+    errorTypesLoading: PropTypes.bool,
+    faultCodesLoading: PropTypes.bool,
+    storagePlacesLoading: PropTypes.bool,
     clearPartsSearch: PropTypes.func.isRequired
 };
 
@@ -494,6 +560,9 @@ PartFail.defaultProps = {
     purchaseOrdersSearchResults: [],
     purchaseOrdersSearchLoading: false,
     partsSearchResults: [],
+    errorTypesLoading: false,
+    faultCodesLoading: false,
+    storagePlacesLoading: false,
     partsSearchLoading: false
 };
 

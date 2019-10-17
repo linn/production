@@ -39,13 +39,14 @@ const mapStateToProps = state => ({
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
     worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
-    clearWorksOrdersSearch: worksOrdersActions.clearSearch,
     purchaseOrdersSearchResults: purchaseOrdersSelectors
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
     purchaseOrdersSearchLoading: purchaseOrdersSelectors.getSearchLoading(state),
-    clearPurchaseOrdersSearch: worksOrdersActions.clearSearch,
-    requestErrors: getRequestErrors(state)
+    requestErrors: getRequestErrors(state),
+    errorTypesLoading: partFailErrorTypesSelectors.getLoading(state),
+    faultCodesLoading: partFailFaultCodesSelectors.getLoading(state),
+    storagePlacesLoading: storagePlacesSelectors.getLoading(state)
 });
 
 const initialise = () => dispatch => {
@@ -62,7 +63,9 @@ const mapDispatchToProps = {
     searchWorksOrders: worksOrdersActions.search,
     searchParts: partsActions.search,
     searchPurchaseOrders: purchaseOrdersActions.search,
-    clearPartsSearch: partsActions.clearSearch
+    clearPartsSearch: partsActions.clearSearch,
+    clearPurchaseOrdersSearch: purchaseOrdersActions.clearSearch,
+    clearWorksOrdersSearch: worksOrdersActions.clearSearch
 };
 
 export default connect(
