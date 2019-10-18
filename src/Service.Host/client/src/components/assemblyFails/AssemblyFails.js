@@ -16,7 +16,7 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Fragment>
-                        <CreateButton createUrl="/production/quality/create-assembly-fail" />
+                        <CreateButton createUrl="/production/quality/assembly-fails/create" />
                     </Fragment>
                     <Typeahead
                         items={forecastItems}
