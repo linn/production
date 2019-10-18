@@ -32,18 +32,18 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                                     No Of Lines: {result.numberOfLines}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={3}>
                                 <Typography variant="h6">
                                     Supplied: {result.numberSupplied} ({result.percentageSupplied}%)
                                 </Typography>
                             </Grid>
-                            <Grid item xs={2}>
+                            <Grid item xs={3}>
                                 <Typography variant="h6">
                                     Available: {result.numberAvailable} (
                                     {result.percentageAvailable}%)
                                 </Typography>
                             </Grid>
-                            <Grid item xs={6} />
+                            <Grid item xs={4} />
                             <Grid item xs={12}>
                                 <ReportTable
                                     reportData={result.results.reportResults[0]}
@@ -61,20 +61,32 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                         <Typography variant="h5">Totals:</Typography>
                     </Grid>
                     <Grid item xs={2}>
-                        <Typography variant="h6">
+                        <Typography variant="h6" gutterBottom>
                             No Of Lines: {reportData.totals.numberOfLines}
                         </Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <Typography variant="h6">
                             Supplied: {reportData.totals.numberSupplied} ({reportData.totals.percentageSupplied}%)
                         </Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={3}>
                         <Typography variant="h6">
                             Available: {reportData.totals.numberAvailable} (
                             {reportData.totals.percentageAvailable}%)
                         </Typography>
+                    </Grid>
+                    <Grid item xs={4} />
+                    <Grid item xs={6}>
+                        <ReportTable
+                            reportData={reportData.incompleteLinesAnalysis.reportResults[0]}
+                            title={reportData.incompleteLinesAnalysis.reportResults[0].title}
+                            showTitle
+                            showTotals
+                            placeholderRows={4}
+                            placeholderColumns={2}
+                            showRowTitles
+                        />
                     </Grid>
                     <Grid item xs={6} />
                 </Grid>
