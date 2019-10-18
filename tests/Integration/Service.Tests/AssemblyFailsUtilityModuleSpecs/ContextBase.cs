@@ -5,10 +5,6 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;

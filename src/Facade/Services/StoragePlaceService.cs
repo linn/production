@@ -3,7 +3,7 @@
     using System.Collections.Generic;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.Repositories;
+    using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class StoragePlaceService : IStoragePlaceService

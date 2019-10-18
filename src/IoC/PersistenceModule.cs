@@ -56,8 +56,7 @@
             builder.RegisterType<AccountingCompanyRepository>().As<IRepository<AccountingCompany, string>>();
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
             builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
-            builder.RegisterType<PtlSettingsRepository>().As<IMasterRepository<PtlSettings>>();
-            builder.RegisterType<StoragePlaceRepository>().As<IQueryRepository<StoragePlace>>();
+            builder.RegisterType<StoragePlaceRepository>().As<Common.Persistence.IQueryRepository<StoragePlace>>();
             builder.RegisterType<PartFailFaultCodeRepository>().As<IRepository<PartFailFaultCode, string>>();
             builder.RegisterType<PartFailRepository>().As<IRepository<PartFail, int>>();
             builder.RegisterType<PartFailErrorTypeRepository>().As<IRepository<PartFailErrorType, string>>();
@@ -68,8 +67,8 @@
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
-            builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
-            builder.RegisterType<ProductionBackOrderQueryRepository>().As<IQueryRepository<ProductionBackOrder>>();
+            builder.RegisterType<ProductionTriggerQueryRepository>().As<Common.Persistence.IQueryRepository<ProductionTrigger>>();
+            builder.RegisterType<ProductionBackOrderQueryRepository>().As<Common.Persistence.IQueryRepository<ProductionBackOrder>>();
             builder.RegisterType<BomDetailExplodedPhantomPartViewRepository>().As<IRepository<BomDetailExplodedPhantomPartView, int>>();
         }
     }
