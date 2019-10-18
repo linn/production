@@ -10,7 +10,6 @@
 
         public ManufacturingCommitDateResult Totals { get; set; } = new ManufacturingCommitDateResult();
 
-
         public ResultsModel IncompleteLinesAnalysis { get; set; } = new ResultsModel();
     }
 }
