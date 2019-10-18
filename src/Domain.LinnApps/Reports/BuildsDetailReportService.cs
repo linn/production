@@ -31,10 +31,12 @@
         {
             var table = this.databaseService.GetBuildsDetail(from, to, quantityOrValue, department, monthly);
             var partGroups = table.Select().GroupBy(r => r[2]).ToList();
-            var weeks = partGroups.Select(g => ((DateTime)g.First().ItemArray[4]).ToShortDateString()).Distinct().ToList();
+            var weeks = partGroups
+                .Select(
+                    g => ((DateTime)g.First().ItemArray[4])).Distinct().OrderBy(w => w).ToList();
 
             var colHeaders = new List<string> { "Part Number" };
-            colHeaders.AddRange(weeks);
+            colHeaders.AddRange(weeks.Select(w => w.ToShortDateString()));
             colHeaders.Add("Total");
 
             var results = new ResultsModel(colHeaders)
@@ -54,13 +56,13 @@
                 for (var i = 0; i < weeks.Count; i++)
                 {
                     var valueExistsThisWeek = partGroup.FirstOrDefault(g =>
-                                          ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i)) != null;
+                                          ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i).ToShortDateString()) != null;
 
                     var val = valueExistsThisWeek
                                   ? ConvertFromDbVal<decimal>(
                                       partGroup.FirstOrDefault(
                                           g => ((DateTime)g.ItemArray[4]).ToShortDateString()
-                                               == weeks.ElementAt(i))?.ItemArray[5])
+                                               == weeks.ElementAt(i).ToShortDateString())?.ItemArray[5])
                                   : new decimal(0);
 
                 results.SetColumnType(i + 1, GridDisplayType.Value);
@@ -72,7 +74,8 @@
                     }
 
                     var itemArray = partGroup.First(
-                                g => ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i))
+                                g => ((DateTime)g.ItemArray[4]).ToShortDateString() 
+                                     == weeks.ElementAt(i).ToShortDateString())
                             ?.ItemArray;
                         {
                             if (itemArray != null)

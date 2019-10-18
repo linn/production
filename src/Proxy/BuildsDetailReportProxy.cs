@@ -30,7 +30,7 @@
                 'Quantity', QUANTITY, 'Days', QUANTITY, null)) t_adj from v_builds a, linn_departments d, production_trigger_levels ptl
             where a.cr_dept = d.department_code
             and bu_date between trunc(to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') ) 
-and trunc(to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) +1
+            and trunc(to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) +1
             and cr_dept = '{department}' and a.part_number = ptl.part_number(+)
             group by a.cr_dept , d.description , a.part_number , ptl.kanban_size , 
             decode('{totalBy}', 'MONTH', last_day(TRUNC(bu_date)), 'WEEK', linn_week_pack.linn_week_end_date(bu_date))
