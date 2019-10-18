@@ -118,6 +118,12 @@ export const employees = new ItemType(
 
 export const cits = new ItemType('cits', 'CITS', '/production/maintenance/cits');
 
+export const assemblyFailFaultCode = new ItemType(
+    'assemblyFailFaultCode',
+    'ASSEMBLY_FAIL_FAULT_CODE',
+    '/production/quality/assembly-fail-fault-codes'
+);
+
 export const assemblyFailFaultCodes = new ItemType(
     'assemblyFailFaultCodes',
     'ASSEMBLY_FAIL_FAULT_CODES',

@@ -477,9 +477,10 @@
             var e = builder.Entity<AssemblyFailFaultCode>();
             e.ToTable("ASSEMBLY_FAIL_FAULT_CODES");
             e.HasKey(c => c.FaultCode);
-            e.Property(c => c.FaultCode).HasColumnName("FAULT_CODE");
-            e.Property(c => c.Description).HasColumnName("DESCRIPTION");
+            e.Property(c => c.FaultCode).HasColumnName("FAULT_CODE").HasMaxLength(10);
+            e.Property(c => c.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
             e.Property(c => c.DateInvalid).HasColumnName("DATE_INVALID");
+            e.Property(c => c.Explanation).HasColumnName("EXPLANATION").HasMaxLength(2000);
         }
 
         private void BuildEmployees(ModelBuilder builder)

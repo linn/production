@@ -38,6 +38,7 @@ const mapDispatchToProps = {
     setSnackbarVisible: worksOrderActions.setSnackbarVisible,
     fetchWorksOrderDetails: worksOrderDetailsActions.fetch,
     addItem: worksOrderActions.add,
+    updateItem: worksOrderActions.update,
     setEditStatus: worksOrderActions.setEditStatus,
     fetchWorksOrder: worksOrderActions.fetch,
     searchParts: partsActions.search,

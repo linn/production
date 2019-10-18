@@ -29,7 +29,7 @@
 
         public void Add(AssemblyFailFaultCode entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.AssemblyFailFaultCodes.Add(entity);
         }
 
         public void Remove(AssemblyFailFaultCode entity)
