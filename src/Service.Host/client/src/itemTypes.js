@@ -149,3 +149,31 @@ export const ptlSettings = new ItemType(
     'PTL_SETTINGS',
     '/production/maintenance/production-trigger-levels-settings'
 );
+
+export const partFail = new ItemType('partFail', 'PART_FAIL', '/production/quality/part-fails');
+
+export const partFails = new ItemType('partFails', 'PART_FAILS', '/production/quality/part-fails');
+
+export const storagePlaces = new ItemType(
+    'storagePlaces',
+    'STORAGE_PLACES',
+    '/production/maintenance/storage-places'
+);
+
+export const partFailErrorTypes = new ItemType(
+    'partFailErrorTypes',
+    'PART_FAIL_ERROR_TYPES',
+    '/production/quality/part-fail-error-types'
+);
+
+export const partFailFaultCodes = new ItemType(
+    'partFailFaultCodes',
+    'PART_FAIL_FAULT_CODES',
+    '/production/quality/part-fail-fault-codes'
+);
+
+export const purchaseOrders = new ItemType(
+    'purchaseOrders',
+    'PURCHASE_ORDERS',
+    '/production/resources/purchase-orders'
+);

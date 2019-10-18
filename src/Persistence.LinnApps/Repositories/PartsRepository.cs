@@ -43,7 +43,7 @@
 
         public IQueryable<Part> FilterBy(Expression<Func<Part, bool>> expression)
         {
-            return this.serviceDbContext.Parts.Where(expression);
+            return this.serviceDbContext.Parts.Where(expression).ToList().AsQueryable().Take(20);
         }
     }
 }

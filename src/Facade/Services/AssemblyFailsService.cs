@@ -61,30 +61,44 @@
                            AoiEscape = resource.AoiEscape,
                            CircuitPartRef = resource.CircuitRef,
                            CircuitPart = resource.CircuitPartNumber,
-                           BoardPart = resource.BoardPartNumber != null ? this.partRepository.FindById(resource.BoardPartNumber) : null,
-                           CitResponsible = resource.CitResponsible != null ? this.citRepository.FindById(resource.CitResponsible) : null,
+                           BoardPart =
+                               resource.BoardPartNumber != null
+                                   ? this.partRepository.FindById(resource.BoardPartNumber)
+                                   : null,
+                           CitResponsible =
+                               resource.CitResponsible != null
+                                   ? this.citRepository.FindById(resource.CitResponsible)
+                                   : null,
                            BoardPartNumber = resource.BoardPartNumber,
-                           PersonResponsible = resource.PersonResponsible != null
-                                                   ? this.employeeRepository.FindById((int)resource.PersonResponsible)
-                                                   : null,
-                           CompletedBy = resource.CompletedBy != null 
-                                             ? this.employeeRepository.FindById((int)resource.CompletedBy)
-                                             : null,
-                           ReturnedBy = resource.ReturnedBy != null
-                                             ? this.employeeRepository.FindById((int)resource.ReturnedBy)
-                                             : null,
-                           DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null,
+                           PersonResponsible =
+                               resource.PersonResponsible != null
+                                   ? this.employeeRepository.FindById((int)resource.PersonResponsible)
+                                   : null,
+                           CompletedBy =
+                               resource.CompletedBy != null
+                                   ? this.employeeRepository.FindById((int)resource.CompletedBy)
+                                   : null,
+                           ReturnedBy =
+                               resource.ReturnedBy != null
+                                   ? this.employeeRepository.FindById((int)resource.ReturnedBy)
+                                   : null,
+                           DateInvalid =
+                               resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null,
                            CaDate = resource.CaDate != null ? DateTime.Parse(resource.CaDate) : (DateTime?)null,
                            SerialNumber = resource.SerialNumber,
                            WorksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber),
                            ReportedFault = resource.ReportedFault,
                            OutSlot = resource.OutSlot,
                            CorrectiveAction = resource.CorrectiveAction,
-                           FaultCode = resource.FaultCode != null 
-                                           ? this.faultCodeRepository.FindById(resource.FaultCode)
-                                           : null,
+                           FaultCode =
+                               resource.FaultCode != null
+                                   ? this.faultCodeRepository.FindById(resource.FaultCode)
+                                   : null,
                            Analysis = resource.Analysis,
-                           EngineeringComments = resource.EngineeringComments
+                           EngineeringComments = resource.EngineeringComments,
+                           DateTimeComplete = resource.DateTimeComplete != null
+                                                  ? DateTime.Parse(resource.DateTimeComplete)
+                                                  : (DateTime?)null
                        };
         }
 

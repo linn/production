@@ -145,3 +145,19 @@ export const startTriggerRunActionTypes = makeProcessActionTypes(
 export const manufacturingCommitDateActionTypes = makeReportActionTypes(
     reportTypes.manufacturingCommitDate.actionType
 );
+
+export const partFailActionTypes = makeActionTypes(itemTypes.partFail.actionType);
+
+export const partFailsActionTypes = makeActionTypes(itemTypes.partFails.actionType);
+
+export const partFailErrorTypesActionTypes = makeActionTypes(
+    itemTypes.partFailErrorTypes.actionType
+);
+
+export const partFailFaultCodesActionTypes = makeActionTypes(
+    itemTypes.partFailFaultCodes.actionType
+);
+
+export const storagePlacesActionTypes = makeActionTypes(itemTypes.storagePlaces.actionType);
+
+export const purchaseOrdersActionTypes = makeActionTypes(itemTypes.purchaseOrders.actionType, true);
