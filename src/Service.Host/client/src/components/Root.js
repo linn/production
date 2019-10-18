@@ -57,6 +57,8 @@ import CreatePartFail from '../containers/partFails/CreatePartFail';
 import AssemblyFailFaultCodes from '../containers/assemblyFails/AssemblyFailFaultCodes';
 import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFaultCode';
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
+import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
+import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
 
 const Root = ({ store }) => (
     <div>
@@ -317,7 +319,7 @@ const Root = ({ store }) => (
                                         path="/production/maintenance/production-trigger-levels-settings"
                                         component={PtlSettings}
                                     />
-                                     <Route
+                                    <Route
                                         exact
                                         path="/production/quality/part-fails"
                                         component={PartFails}
@@ -331,6 +333,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/quality/part-fails/:id"
                                         component={PartFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/manufacturing-commit-date/report"
+                                        component={ManufacturingCommitDateReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/manufacturing-commit-date"
+                                        component={ManufacturingCommitDateReportOptions}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

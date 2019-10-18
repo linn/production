@@ -28,7 +28,8 @@
             var rawData = this.mcdRepository.FilterBy(a => a.MCDDate == reportDate);
 
             returnResults.Results = this.CalculateResultsGroupedByCoreType(rawData);
-            returnResults.IncompleteLinesAnalysis = new ResultsModel();
+            returnResults.Totals = this.CalculateTotals(rawData);
+            returnResults.IncompleteLinesAnalysis = this.IncompleteLinesAnalysis(rawData);
 
             return returnResults;
         }
@@ -37,7 +38,7 @@
         {
             var coreTypeResults = new List<ManufacturingCommitDateResult>();
 
-            foreach (var coreType in data.GroupBy(a => a.CoreType))
+            foreach (var coreType in data.GroupBy(a => a.CoreType).OrderBy(a => string.IsNullOrEmpty(a.Key) ? "XXX" : a.Key))
             {
                 var numberOfLines = coreType.Count();
                 var numberSupplied = coreType.Sum(a => a.OrderLineCompleted);
@@ -56,6 +57,74 @@
             }
 
             return coreTypeResults;
+        }
+
+        private ManufacturingCommitDateResult CalculateTotals(IQueryable<MCDLine> data)
+        {
+            var numberOfLines = data.Count();
+            var numberSupplied = data.Sum(a => a.OrderLineCompleted);
+            var numberAvailable = data.Select(b => b.Invoiced + b.CouldGo >= b.QtyOrdered ? 1 : 0).Sum();
+            return new ManufacturingCommitDateResult
+                        {
+                            NumberOfLines = numberOfLines,
+                            NumberSupplied = numberSupplied,
+                            PercentageSupplied = this.GetPercentage(numberSupplied, numberOfLines),
+                            NumberAvailable = numberAvailable,
+                            PercentageAvailable = this.GetPercentage(numberAvailable, numberOfLines),
+                            ProductType = "Totals"
+            };
+        }
+
+        private ResultsModel IncompleteLinesAnalysis(IEnumerable<MCDLine> data)
+        {
+            var model = new ResultsModel { ReportTitle = new NameModel("Incomplete Lines Analysis") };
+            var notSuppliedLines = data.Where(mcdLine => !string.IsNullOrEmpty(mcdLine.Reason)).ToList();
+            var totalNotSupplied = notSuppliedLines.Count;
+            var rows = new List<AxisDetailsModel>
+                           {
+                               new AxisDetailsModel("Allocated", GridDisplayType.Value),
+                               new AxisDetailsModel("No Stock", GridDisplayType.Value),
+                               new AxisDetailsModel("Credit Limit", GridDisplayType.Value),
+                               new AxisDetailsModel("Supply In Full", GridDisplayType.Value),
+                               new AxisDetailsModel("Account Hold", GridDisplayType.Value),
+                               new AxisDetailsModel("Shipment Hold", GridDisplayType.Value),
+                               new AxisDetailsModel("Dunno", GridDisplayType.Value)
+                           };
+            var columns = new List<AxisDetailsModel>
+                              {
+                                  new AxisDetailsModel("Qty", GridDisplayType.Value),
+                                  new AxisDetailsModel("%", GridDisplayType.Value)
+                              };
+            model.AddSortedRows(rows);
+            model.AddSortedColumns(columns);
+            this.reportingHelper.ZeroPad(model);
+
+            if (totalNotSupplied > 0)
+            {
+                var allocated = notSuppliedLines.Count(a => a.Reason.Contains("allocated"));
+                var noStock = notSuppliedLines.Count(a => a.Reason.Contains("No Stock"));
+                var creditLimit = notSuppliedLines.Count(a => a.Reason.Contains("CR"));
+                var supplyInFull = notSuppliedLines.Count(a => a.Reason.Contains("SIF"));
+                var accountHold = notSuppliedLines.Count(a => a.Reason.Contains("AH"));
+                var shipmentHold = notSuppliedLines.Count(a => a.Reason.Contains("SH"));
+                var dunno = totalNotSupplied - (noStock + creditLimit + supplyInFull + accountHold + shipmentHold);
+                model.SetGridValue(model.RowIndex("Allocated"), model.ColumnIndex("Qty"), allocated);
+                model.SetGridValue(model.RowIndex("Allocated"), model.ColumnIndex("%"), this.GetPercentage(allocated, totalNotSupplied));
+                model.SetGridValue(model.RowIndex("No Stock"), model.ColumnIndex("Qty"), noStock);
+                model.SetGridValue(model.RowIndex("No Stock"), model.ColumnIndex("%"), this.GetPercentage(noStock, totalNotSupplied));
+                model.SetGridValue(model.RowIndex("Credit Limit"), model.ColumnIndex("Qty"), creditLimit);
+                model.SetGridValue(model.RowIndex("Credit Limit"), model.ColumnIndex("%"), this.GetPercentage(creditLimit, totalNotSupplied));
+                model.SetGridValue(model.RowIndex("Supply In Full"), model.ColumnIndex("Qty"), supplyInFull);
+                model.SetGridValue(model.RowIndex("Supply In Full"), model.ColumnIndex("%"), this.GetPercentage(supplyInFull, totalNotSupplied));
+                model.SetGridValue(model.RowIndex("Account Hold"), model.ColumnIndex("Qty"),  accountHold);
+                model.SetGridValue(model.RowIndex("Account Hold"), model.ColumnIndex("%"), this.GetPercentage(accountHold, totalNotSupplied));
+                model.SetGridValue(model.RowIndex("Shipment Hold"), model.ColumnIndex("Qty"), shipmentHold);
+                model.SetGridValue(model.RowIndex("Shipment Hold"), model.ColumnIndex("%"), this.GetPercentage(shipmentHold, totalNotSupplied));
+                model.SetGridValue(model.RowIndex("Dunno"), model.ColumnIndex("Qty"), dunno);
+                model.SetGridValue(model.RowIndex("Dunno"), model.ColumnIndex("%"), this.GetPercentage(dunno, totalNotSupplied));
+            }
+
+            return model;
         }
 
         private ResultsModel BuildDetailsResultsModel(IEnumerable<MCDLine> coreType)

@@ -54,6 +54,7 @@ import serialNumberReissue from './serialNumberReissue';
 import salesArticles from './salesArticles';
 import salesArticle from './salesArticle';
 import assemblyFailFaultCode from './assemblyFails/assemblyFailFaultCode';
+import manufacturingCommitDate from './manufacturingCommitDate';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -111,6 +112,7 @@ const rootReducer = combineReducers({
     worksOrder,
     worksOrders,
     worksOrderDetails,
+    manufacturingCommitDate,
     ...sharedLibraryReducers
 });
 

@@ -142,6 +142,10 @@ export const startTriggerRunActionTypes = makeProcessActionTypes(
     processTypes.startTriggerRun.actionType
 );
 
+export const manufacturingCommitDateActionTypes = makeReportActionTypes(
+    reportTypes.manufacturingCommitDate.actionType
+);
+
 export const partFailActionTypes = makeActionTypes(itemTypes.partFail.actionType);
 
 export const partFailsActionTypes = makeActionTypes(itemTypes.partFails.actionType);
@@ -157,4 +161,3 @@ export const partFailFaultCodesActionTypes = makeActionTypes(
 export const storagePlacesActionTypes = makeActionTypes(itemTypes.storagePlaces.actionType);
 
 export const purchaseOrdersActionTypes = makeActionTypes(itemTypes.purchaseOrders.actionType, true);
-

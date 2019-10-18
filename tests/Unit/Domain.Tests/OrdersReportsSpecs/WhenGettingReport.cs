@@ -27,8 +27,8 @@
                     new List<MCDLine>
                                  {
                                      new MCDLine { ArticleNumber = "a", OrderNumber = 1, OrderLine = 1, CouldGo = 0, QtyOrdered = 4, Invoiced = 4, CoreType = "c", OrderLineCompleted = 1 },
-                                     new MCDLine { ArticleNumber = "b", OrderNumber = 2, OrderLine = 1, CouldGo = 4, QtyOrdered = 4, Invoiced = 0, CoreType = "c", OrderLineCompleted = 0 },
-                                     new MCDLine { ArticleNumber = "v", OrderNumber = 3, OrderLine = 1, CouldGo = 0, QtyOrdered = 1, Invoiced = 0, CoreType = "c", OrderLineCompleted = 0 },
+                                     new MCDLine { ArticleNumber = "b", OrderNumber = 2, OrderLine = 1, CouldGo = 4, QtyOrdered = 4, Invoiced = 0, CoreType = "c", OrderLineCompleted = 0, Reason = "A SIF issue" },
+                                     new MCDLine { ArticleNumber = "v", OrderNumber = 3, OrderLine = 1, CouldGo = 0, QtyOrdered = 1, Invoiced = 0, CoreType = "c", OrderLineCompleted = 0, Reason = "a No Stock problem" },
                                      new MCDLine { ArticleNumber = "f", OrderNumber = 4, OrderLine = 1, CouldGo = 0, QtyOrdered = 3, Invoiced = 3, CoreType = "b", OrderLineCompleted = 1 },
                                      new MCDLine { ArticleNumber = "h", OrderNumber = 5, OrderLine = 1, CouldGo = 0, QtyOrdered = 1, Invoiced = 1, CoreType = "b", OrderLineCompleted = 1 }
                                  }.AsQueryable());
@@ -93,6 +93,28 @@
             details2.GetGridValue(details2.RowIndex("5/1"), details2.ColumnIndex("Qty Invoiced")).Should().Be(1);
             details2.GetGridValue(details2.RowIndex("5/1"), details2.ColumnIndex("Qty Ordered")).Should().Be(1);
             details2.GetGridValue(details2.RowIndex("5/1"), details2.ColumnIndex("Qty Could Go")).Should().Be(0);
+        }
+
+        [Test]
+        public void ShouldSetTotals()
+        {
+            this.results.Totals.NumberOfLines.Should().Be(5);
+            this.results.Totals.NumberAvailable.Should().Be(4);
+            this.results.Totals.NumberSupplied.Should().Be(3);
+            this.results.Totals.PercentageSupplied.Should().Be(60m);
+            this.results.Totals.PercentageAvailable.Should().Be(80m);
+        }
+
+        [Test]
+        public void ShouldIncludeAnalysisValues()
+        {
+            var analysis = this.results.IncompleteLinesAnalysis;
+            analysis.GetGridValue(analysis.RowIndex("No Stock"), analysis.ColumnIndex("Qty")).Should().Be(1);
+            analysis.GetGridValue(analysis.RowIndex("No Stock"), analysis.ColumnIndex("%")).Should().Be(50m);
+            analysis.GetGridValue(analysis.RowIndex("Supply In Full"), analysis.ColumnIndex("Qty")).Should().Be(1);
+            analysis.GetGridValue(analysis.RowIndex("Supply In Full"), analysis.ColumnIndex("%")).Should().Be(50m);
+            analysis.GetGridValue(analysis.RowIndex("Shipment Hold"), analysis.ColumnIndex("Qty")).Should().Be(0);
+            analysis.GetGridValue(analysis.RowIndex("Shipment Hold"), analysis.ColumnIndex("%")).Should().Be(0m);
         }
     }
 }

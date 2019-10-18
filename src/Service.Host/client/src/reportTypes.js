@@ -77,3 +77,9 @@ export const smtOutstandingWorkOrderParts = new ItemType(
     'SMT_OUTSTANDING_WO_PARTS_REPORT',
     '/production/reports/smt/outstanding-works-order-parts/report'
 );
+
+export const manufacturingCommitDate = new ItemType(
+    'manufacturingCommitDate',
+    'MANUFACTURING_COMMIT_DATE_REPORT',
+    '/production/reports/manufacturing-commit-date/report'
+);

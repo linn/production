@@ -85,6 +85,9 @@ function App() {
                 <ListItem component={Link} to="/production/reports/who-built-what" button>
                     <Typography color="primary">Who Built What Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/reports/manufacturing-commit-date" button>
+                    <Typography color="primary">Manufacturing Commit Date Report</Typography>
+                </ListItem>
             </List>
         </Page>
     );
