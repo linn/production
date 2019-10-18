@@ -57,6 +57,26 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                             </Grid>
                         </Fragment>
                     ))}
+                    <Grid item xs={12}>
+                        <Typography variant="h5">Totals:</Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant="h6">
+                            No Of Lines: {reportData.totals.numberOfLines}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant="h6">
+                            Supplied: {reportData.totals.numberSupplied} ({reportData.totals.percentageSupplied}%)
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <Typography variant="h6">
+                            Available: {reportData.totals.numberAvailable} (
+                            {reportData.totals.percentageAvailable}%)
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={6} />
                 </Grid>
             </Page>
         );

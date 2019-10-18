@@ -28,6 +28,7 @@
             var rawData = this.mcdRepository.FilterBy(a => a.MCDDate == reportDate);
 
             returnResults.Results = this.CalculateResultsGroupedByCoreType(rawData);
+            returnResults.Totals = this.CalculateTotals(rawData);
             returnResults.IncompleteLinesAnalysis = new ResultsModel();
 
             return returnResults;
@@ -56,6 +57,22 @@
             }
 
             return coreTypeResults;
+        }
+
+        private ManufacturingCommitDateResult CalculateTotals(IQueryable<MCDLine> data)
+        {
+            var numberOfLines = data.Count();
+            var numberSupplied = data.Sum(a => a.OrderLineCompleted);
+            var numberAvailable = data.Select(b => b.Invoiced + b.CouldGo >= b.QtyOrdered ? 1 : 0).Sum();
+            return new ManufacturingCommitDateResult
+                        {
+                            NumberOfLines = numberOfLines,
+                            NumberSupplied = numberSupplied,
+                            PercentageSupplied = this.GetPercentage(numberSupplied, numberOfLines),
+                            NumberAvailable = numberAvailable,
+                            PercentageAvailable = this.GetPercentage(numberAvailable, numberOfLines),
+                            ProductType = "Totals"
+            };
         }
 
         private ResultsModel BuildDetailsResultsModel(IEnumerable<MCDLine> coreType)

@@ -94,5 +94,15 @@
             details2.GetGridValue(details2.RowIndex("5/1"), details2.ColumnIndex("Qty Ordered")).Should().Be(1);
             details2.GetGridValue(details2.RowIndex("5/1"), details2.ColumnIndex("Qty Could Go")).Should().Be(0);
         }
+
+        [Test]
+        public void ShouldSetTotals()
+        {
+            this.results.Totals.NumberOfLines.Should().Be(5);
+            this.results.Totals.NumberAvailable.Should().Be(4);
+            this.results.Totals.NumberSupplied.Should().Be(3);
+            this.results.Totals.PercentageSupplied.Should().Be(60m);
+            this.results.Totals.PercentageAvailable.Should().Be(80m);
+        }
     }
 }

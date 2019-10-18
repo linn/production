@@ -22,8 +22,17 @@
                                                                                    {
                                                                                        model.IncompleteLinesAnalysis.ConvertFinalModelToResource()
                                                                                    }
-                                                                       }
-                                     };
+                                                                       },
+                                         Totals = new ManufacturingCommitDateResultResource
+                                                      {
+                                                          NumberOfLines = model.Totals.NumberOfLines,
+                                                          ProductType = model.Totals.ProductType,
+                                                          NumberSupplied = model.Totals.NumberSupplied,
+                                                          PercentageSupplied = model.Totals.PercentageSupplied,
+                                                          NumberAvailable = model.Totals.NumberAvailable,
+                                                          PercentageAvailable = model.Totals.PercentageAvailable
+                                                      }
+            };
 
             var results = new List<ManufacturingCommitDateResultResource>();
 
