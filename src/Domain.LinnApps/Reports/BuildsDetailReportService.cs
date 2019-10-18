@@ -57,7 +57,7 @@
                                           ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i)) != null;
 
                     var val = valueExistsThisWeek
-                                  ? this.ConvertFromDbVal<decimal>(
+                                  ? ConvertFromDbVal<decimal>(
                                       partGroup.FirstOrDefault(
                                           g => ((DateTime)g.ItemArray[4]).ToShortDateString()
                                                == weeks.ElementAt(i))?.ItemArray[5])
