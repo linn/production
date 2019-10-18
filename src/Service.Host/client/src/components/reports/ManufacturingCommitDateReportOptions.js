@@ -14,7 +14,7 @@ function ManufacturingCommitDateReportOptions({ history }) {
 
     const handleClick = () =>
         history.push({
-            pathname: `${reportTypes.manufacturingCommitDate.uri}`, // `/production/reports/manufacturing-commit-date/report`,
+            pathname: `${reportTypes.manufacturingCommitDate.uri}`,
             search: `?date=${date.toISOString()}`
         });
 
