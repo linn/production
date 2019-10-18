@@ -37,7 +37,7 @@
         {
             var coreTypeResults = new List<ManufacturingCommitDateResult>();
 
-            foreach (var coreType in data.GroupBy(a => a.CoreType))
+            foreach (var coreType in data.GroupBy(a => a.CoreType).OrderBy(a => string.IsNullOrEmpty(a.Key) ? "XXX" : a.Key))
             {
                 var numberOfLines = coreType.Count();
                 var numberSupplied = coreType.Sum(a => a.OrderLineCompleted);

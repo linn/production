@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Loading, Title } from '@linn-it/linn-form-components-library';
+import { Loading, Title, ReportTable } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -23,27 +23,38 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                     {reportData.results.map(result => (
                         <Fragment>
                             <Grid item xs={12}>
-                                <Typography variant="h6">
+                                <Typography variant="h5">
                                     Product Type: {result.productType ? result.productType : 'None'}
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
-                                <Typography variant="subtitle1">
+                                <Typography variant="h6">
                                     No Of Lines: {result.numberOfLines}
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
-                                <Typography variant="subtitle1">
+                                <Typography variant="h6">
                                     Supplied: {result.numberSupplied} ({result.percentageSupplied}%)
                                 </Typography>
                             </Grid>
                             <Grid item xs={2}>
-                                <Typography variant="subtitle1">
+                                <Typography variant="h6">
                                     Available: {result.numberAvailable} (
                                     {result.percentageAvailable}%)
                                 </Typography>
                             </Grid>
                             <Grid item xs={6} />
+                            <Grid item xs={12}>
+                                <ReportTable
+                                    reportData={result.results.reportResults[0]}
+                                    title={result.results.reportResults[0].title}
+                                    showTitle={false}
+                                    showTotals={false}
+                                    placeholderRows={4}
+                                    placeholderColumns={7}
+                                    showRowTitles={false}
+                                />
+                            </Grid>
                         </Fragment>
                     ))}
                 </Grid>
