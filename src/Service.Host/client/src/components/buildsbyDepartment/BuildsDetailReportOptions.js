@@ -117,12 +117,7 @@ function BuildsDetailReportOptions({
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <DatePicker
-                            value={fromDate}
-                            label="From Date"
-                            minDate={fromDate}
-                            onChange={setFromDate}
-                        />
+                        <DatePicker value={fromDate} label="From Date" onChange={setFromDate} />
                     </Grid>
                     <Grid item xs={6}>
                         <DatePicker
