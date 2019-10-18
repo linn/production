@@ -77,7 +77,7 @@
                         {
                             if (itemArray != null)
                             {
-                                partTotal += this.ConvertFromDbVal<decimal>(itemArray?[5]);
+                                partTotal += ConvertFromDbVal<decimal>(itemArray?[5]);
                             }
                         }
                 }
@@ -90,7 +90,7 @@
             return results;
         }
 
-        private T ConvertFromDbVal<T>(object obj)
+        private static T ConvertFromDbVal<T>(object obj)
         {
             return obj == null || obj == DBNull.Value ? default(T) : (T)obj;
         }
