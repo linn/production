@@ -1,16 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import CloseIcon from '@material-ui/icons/Close';
-import Tooltip from '@material-ui/core/Tooltip';
 import {
     InputField,
     Loading,
     Title,
     ErrorCard,
     SnackbarMessage,
-    ValidatedInputDialog,
     TypeaheadDialog,
     Dropdown,
     SaveBackCancelButtons,
@@ -225,6 +221,7 @@ function PartFail({
                                             propertyName="id"
                                         />
                                     </Grid>
+                                    <Grid item xs={10} />
                                 </Fragment>
                             ) : (
                                 <Fragment />
@@ -241,7 +238,7 @@ function PartFail({
                                         propertyName="enteredByName"
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={3}>
                                     <DatePicker
                                         value={partFail.dateCreated}
                                         label="Date Created"
@@ -249,10 +246,11 @@ function PartFail({
                                     />
                                 </Grid>
                                 {creating() && <Grid item xs={3} />}
+                                <Grid item xs={6} />
 
                                 <Grid item xs={5}>
                                     <InputField
-                                        label="Part (click search button to Search for a Part)"
+                                        label="Part"
                                         maxLength={14}
                                         fullWidth
                                         value={partFail.partNumber}
@@ -280,6 +278,7 @@ function PartFail({
                                         />
                                     </div>
                                 </Grid>
+                                <Grid item xs={6} />
                                 <Grid item xs={6}>
                                     <InputField
                                         fullWidth
@@ -291,6 +290,8 @@ function PartFail({
                                         propertyName="partDescription"
                                     />
                                 </Grid>
+                                <Grid item xs={6} />
+
                                 <Grid item xs={3}>
                                     <InputField
                                         fullWidth
@@ -343,7 +344,8 @@ function PartFail({
                                         required
                                     />
                                 </Grid>
-                                <Grid item xs={8}>
+                                <Grid item xs={9} />
+                                <Grid item xs={6}>
                                     <InputField
                                         fullWidth
                                         rows={4}
@@ -353,108 +355,75 @@ function PartFail({
                                         propertyName="story"
                                     />
                                 </Grid>
+                                <Grid item xs={6} />
 
                                 <Grid item xs={5}>
                                     <InputField
-                                        label="Works Order (click edit button to change)"
+                                        label="Works Order"
                                         maxLength={14}
                                         fullWidth
-                                        onChange={() => {}}
                                         value={partFail.worksOrderNumber}
+                                        onChange={handleFieldChange}
                                         propertyName="worksOrderNumber"
+                                        required
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
                                     <div className={classes.marginTop}>
-                                        <ValidatedInputDialog
-                                            title="Enter a Valid Works Order"
-                                            searchItems={worksOrdersSearchResults}
-                                            loading={worksOrdersSearchLoading}
-                                            onAccept={accepted => {
+                                        <TypeaheadDialog
+                                            title="Search For Works Order"
+                                            onSelect={newValue => {
                                                 setEditStatus('edit');
                                                 setPartFail(a => ({
                                                     ...a,
-                                                    worksOrderNumber: accepted.orderNumber
+                                                    worksOrderNumber: newValue.name
                                                 }));
                                             }}
+                                            searchItems={worksOrdersSearchResults.map(w => ({
+                                                name: w.orderNumber,
+                                                description: w.partNumber
+                                            }))}
+                                            loading={worksOrdersSearchLoading}
                                             fetchItems={searchWorksOrders}
                                             clearSearch={clearWorksOrdersSearch}
-                                            searchItemId="orderNumber"
                                         />
                                     </div>
                                 </Grid>
-                                <Tooltip title="Clear">
-                                    <span>
-                                        <Button
-                                            color="primary"
-                                            aria-label="Clear"
-                                            disabled={!partFail.worksOrderNumber}
-                                            onClick={() => {
-                                                clearWorksOrdersSearch();
-                                                setPartFail(a => ({
-                                                    ...a,
-                                                    worksOrderNumber: null
-                                                }));
-                                            }}
-                                            variant="outlined"
-                                            className={classes.closeButton}
-                                        >
-                                            <CloseIcon />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
                                 <Grid item xs={5} />
-
                                 <Grid item xs={5}>
                                     <InputField
-                                        label="Purchase Order (click edit button to change)"
+                                        label="Purchase Order"
                                         maxLength={14}
                                         fullWidth
-                                        onChange={() => {}}
                                         value={partFail.purchaseOrderNumber}
+                                        onChange={handleFieldChange}
                                         propertyName="purchaseOrderNumber"
+                                        required
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
                                     <div className={classes.marginTop}>
-                                        <ValidatedInputDialog
-                                            title="Enter a Valid Purchase Order"
-                                            searchItems={purchaseOrdersSearchResults}
-                                            loading={purchaseOrdersSearchLoading}
-                                            onAccept={accepted => {
+                                        <TypeaheadDialog
+                                            title={`Search For a ${partFail.partNumber} Purchase Order`}
+                                            onSelect={newValue => {
                                                 setEditStatus('edit');
                                                 setPartFail(a => ({
                                                     ...a,
-                                                    purchaseOrderNumber: accepted.orderNumber
+                                                    purchaseOrderNumber: newValue.name
                                                 }));
-                                                clearPurchaseOrdersSearch();
                                             }}
+                                            searchItems={purchaseOrdersSearchResults
+                                                .filter(d => d.parts?.includes(partFail.partNumber))
+                                                .map(w => ({
+                                                    name: w.orderNumber,
+                                                    description: w.parts[0]
+                                                }))}
+                                            loading={purchaseOrdersSearchLoading}
                                             fetchItems={searchPurchaseOrders}
                                             clearSearch={clearPurchaseOrdersSearch}
-                                            searchItemId="orderNumber"
                                         />
                                     </div>
                                 </Grid>
-                                <Tooltip title="Clear">
-                                    <span>
-                                        <Button
-                                            color="primary"
-                                            aria-label="Clear"
-                                            disabled={!partFail.purchaseOrderNumber}
-                                            onClick={() => {
-                                                clearWorksOrdersSearch();
-                                                setPartFail(a => ({
-                                                    ...a,
-                                                    purchaseOrderNumber: null
-                                                }));
-                                            }}
-                                            variant="outlined"
-                                            className={classes.closeButton}
-                                        >
-                                            <CloseIcon />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
                                 <Grid item xs={5} />
                                 <Grid item xs={3}>
                                     <Dropdown
@@ -470,7 +439,7 @@ function PartFail({
                                     <InputField
                                         fullWidth
                                         value={partFail.storagePlaceDescription}
-                                        label="Storage Place Description"
+                                        label="Description"
                                         onChange={() => {}}
                                         propertyName="storagePlaceDescription"
                                     />
