@@ -27,7 +27,7 @@
                     new List<MCDLine>
                                  {
                                      new MCDLine { ArticleNumber = "a", OrderNumber = 1, OrderLine = 1, CouldGo = 0, QtyOrdered = 4, Invoiced = 4, CoreType = "c", OrderLineCompleted = 1 },
-                                     new MCDLine { ArticleNumber = "b", OrderNumber = 2, OrderLine = 1, CouldGo = 4, QtyOrdered = 4, Invoiced = 0, CoreType = "c", OrderLineCompleted = 0, Reason = "A SIF issue" },
+                                     new MCDLine { ArticleNumber = "b", OrderNumber = 2, OrderLine = 1, CouldGo = 4, QtyOrdered = 4, Invoiced = 0, CoreType = "c", OrderLineCompleted = 0, Reason = "A SIF issue and SH issue" },
                                      new MCDLine { ArticleNumber = "v", OrderNumber = 3, OrderLine = 1, CouldGo = 0, QtyOrdered = 1, Invoiced = 0, CoreType = "c", OrderLineCompleted = 0, Reason = "a No Stock problem" },
                                      new MCDLine { ArticleNumber = "f", OrderNumber = 4, OrderLine = 1, CouldGo = 0, QtyOrdered = 3, Invoiced = 3, CoreType = "b", OrderLineCompleted = 1 },
                                      new MCDLine { ArticleNumber = "h", OrderNumber = 5, OrderLine = 1, CouldGo = 0, QtyOrdered = 1, Invoiced = 1, CoreType = "b", OrderLineCompleted = 1 }
@@ -111,10 +111,10 @@
             var analysis = this.results.IncompleteLinesAnalysis;
             analysis.GetGridValue(analysis.RowIndex("No Stock"), analysis.ColumnIndex("Qty")).Should().Be(1);
             analysis.GetGridValue(analysis.RowIndex("No Stock"), analysis.ColumnIndex("%")).Should().Be(50m);
-            analysis.GetGridValue(analysis.RowIndex("Supply In Full"), analysis.ColumnIndex("Qty")).Should().Be(1);
-            analysis.GetGridValue(analysis.RowIndex("Supply In Full"), analysis.ColumnIndex("%")).Should().Be(50m);
-            analysis.GetGridValue(analysis.RowIndex("Shipment Hold"), analysis.ColumnIndex("Qty")).Should().Be(0);
-            analysis.GetGridValue(analysis.RowIndex("Shipment Hold"), analysis.ColumnIndex("%")).Should().Be(0m);
+            analysis.GetGridValue(analysis.RowIndex("Supply In Full"), analysis.ColumnIndex("Qty")).Should().Be(0);
+            analysis.GetGridValue(analysis.RowIndex("Supply In Full"), analysis.ColumnIndex("%")).Should().Be(0m);
+            analysis.GetGridValue(analysis.RowIndex("Shipment Hold"), analysis.ColumnIndex("Qty")).Should().Be(1m);
+            analysis.GetGridValue(analysis.RowIndex("Shipment Hold"), analysis.ColumnIndex("%")).Should().Be(50m);
         }
     }
 }

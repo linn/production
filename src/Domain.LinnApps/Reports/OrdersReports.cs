@@ -104,9 +104,9 @@
                 var allocated = notSuppliedLines.Count(a => a.Reason.Contains("allocated"));
                 var noStock = notSuppliedLines.Count(a => a.Reason.Contains("No Stock"));
                 var creditLimit = notSuppliedLines.Count(a => a.Reason.Contains("CR"));
-                var supplyInFull = notSuppliedLines.Count(a => a.Reason.Contains("SIF"));
-                var accountHold = notSuppliedLines.Count(a => a.Reason.Contains("AH"));
-                var shipmentHold = notSuppliedLines.Count(a => a.Reason.Contains("SH"));
+                var accountHold = notSuppliedLines.Count(a => a.Reason.Contains("AH") && !a.Reason.Contains("CR"));
+                var shipmentHold = notSuppliedLines.Count(a => a.Reason.Contains("SH") && !a.Reason.Contains("CR") && !a.Reason.Contains("AH"));
+                var supplyInFull = notSuppliedLines.Count(a => a.Reason.Contains("SIF") && !a.Reason.Contains("SH") && !a.Reason.Contains("CR") && !a.Reason.Contains("AH"));
                 var dunno = totalNotSupplied - (noStock + creditLimit + supplyInFull + accountHold + shipmentHold);
                 model.SetGridValue(model.RowIndex("Allocated"), model.ColumnIndex("Qty"), allocated);
                 model.SetGridValue(model.RowIndex("Allocated"), model.ColumnIndex("%"), this.GetPercentage(allocated, totalNotSupplied));
