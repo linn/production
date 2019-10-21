@@ -127,7 +127,6 @@ function BuildsDetailReportOptions({
                             onChange={setToDate}
                         />
                     </Grid>
-
                     <Grid item xs={12}>
                         <OnOffSwitch
                             label="Total by months"
@@ -162,6 +161,7 @@ BuildsDetailReportOptions.propTypes = {
         departmentCode: PropTypes.string,
         quantityOrValue: PropTypes.string
     }),
+    departmentsLoading: PropTypes.bool,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     departments: PropTypes.arrayOf(
         PropTypes.shape({ departmentCode: PropTypes.string, description: PropTypes.string })
@@ -171,10 +171,12 @@ BuildsDetailReportOptions.propTypes = {
         toDate: PropTypes.string
     })
 };
+
 BuildsDetailReportOptions.defaultProps = {
     departments: [],
     options: null,
-    prevOptions: null
+    prevOptions: null,
+    departmentsLoading: false
 };
 
 export default BuildsDetailReportOptions;
