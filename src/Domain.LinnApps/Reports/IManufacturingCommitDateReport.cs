@@ -2,7 +2,7 @@
 {
     using Linn.Production.Domain.LinnApps.Models;
 
-    public interface IOrdersReports
+    public interface IManufacturingCommitDateReport
     {
         ManufacturingCommitDateResults ManufacturingCommitDate(string date);
     }

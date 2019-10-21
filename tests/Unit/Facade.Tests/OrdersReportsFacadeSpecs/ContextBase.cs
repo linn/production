@@ -11,13 +11,13 @@
     {
         protected OrdersReportsFacadeService Sut { get; set; }
 
-        protected IOrdersReports OrdersReports { get; private set; }
+        protected IManufacturingCommitDateReport ManufacturingCommitDateReport { get; private set; }
 
         [SetUp]
         public void SetUpContext()
         {
-            this.OrdersReports = Substitute.For<IOrdersReports>();
-            this.Sut = new OrdersReportsFacadeService(this.OrdersReports);
+            this.ManufacturingCommitDateReport = Substitute.For<IManufacturingCommitDateReport>();
+            this.Sut = new OrdersReportsFacadeService(this.ManufacturingCommitDateReport);
         }
     }
 }
