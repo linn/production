@@ -6,16 +6,16 @@
 
     public class OrdersReportsFacadeService : IOrdersReportsFacadeService
     {
-        private readonly IOrdersReports ordersReportsService;
+        private readonly IManufacturingCommitDateReport manufacturingCommitDateReportService;
 
-        public OrdersReportsFacadeService(IOrdersReports ordersReportsService)
+        public OrdersReportsFacadeService(IManufacturingCommitDateReport manufacturingCommitDateReportService)
         {
-            this.ordersReportsService = ordersReportsService;
+            this.manufacturingCommitDateReportService = manufacturingCommitDateReportService;
         }
 
         public IResult<ManufacturingCommitDateResults> ManufacturingCommitDateReport(string date)
         {
-            return new SuccessResult<ManufacturingCommitDateResults>(this.ordersReportsService.ManufacturingCommitDate(date));
+            return new SuccessResult<ManufacturingCommitDateResults>(this.manufacturingCommitDateReportService.ManufacturingCommitDate(date));
         }
     }
 }

@@ -11,7 +11,7 @@
 
     public abstract class ContextBase
     {
-        protected OrdersReports Sut { get; set; }
+        protected ManufacturingCommitDateReport Sut { get; set; }
 
         protected IQueryRepository<MCDLine> MCDLinesRepository { get; private set; }
 
@@ -22,7 +22,7 @@
         {
             this.MCDLinesRepository = Substitute.For<IQueryRepository<MCDLine>>();
             this.ReportingHelper = new ReportingHelper();
-            this.Sut = new OrdersReports(this.MCDLinesRepository, this.ReportingHelper);
+            this.Sut = new ManufacturingCommitDateReport(this.MCDLinesRepository, this.ReportingHelper);
         }
     }
 }

@@ -9,13 +9,13 @@
     using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
-    public class OrdersReports : IOrdersReports
+    public class ManufacturingCommitDateReport : IManufacturingCommitDateReport
     {
         private readonly IQueryRepository<MCDLine> mcdRepository;
 
         private readonly IReportingHelper reportingHelper;
 
-        public OrdersReports(IQueryRepository<MCDLine> mcdRepository, IReportingHelper reportingHelper)
+        public ManufacturingCommitDateReport(IQueryRepository<MCDLine> mcdRepository, IReportingHelper reportingHelper)
         {
             this.mcdRepository = mcdRepository;
             this.reportingHelper = reportingHelper;
