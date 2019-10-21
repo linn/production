@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Domain.Tests.OrdersReportsSpecs
+﻿namespace Linn.Production.Domain.Tests.ManufacturingCommitDateReportSpecs
 {
     using System;
     using System.Collections.Generic;
