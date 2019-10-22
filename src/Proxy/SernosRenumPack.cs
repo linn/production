@@ -3,7 +3,6 @@
     using System.Data;
 
     using Linn.Production.Domain.LinnApps.RemoteServices;
-    using Linn.Production.Resources;
 
     using Oracle.ManagedDataAccess.Client;
 
