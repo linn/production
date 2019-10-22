@@ -37,8 +37,9 @@
             builder.RegisterType<LinnWeekService>().As<ILinnWeekService>();
             builder.RegisterType<SmtReports>().As<ISmtReports>();
             builder.RegisterType<WorksOrderUtilities>().As<IWorksOrderUtilities>();
-            builder.RegisterType<OrdersReports>().As<IOrdersReports>();
             builder.RegisterType<PartFailService>().As<IPartFailService>();
+            builder.RegisterType<OverdueOrdersReportService>().As<IOverdueOrdersService>();
+            builder.RegisterType<ManufacturingCommitDateReport>().As<IManufacturingCommitDateReport>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();

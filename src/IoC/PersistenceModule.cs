@@ -64,6 +64,7 @@
             builder.RegisterType<PurchaseOrderRepository>().As<IRepository<PurchaseOrder, int>>();
             builder.RegisterType<PtlSettingsRepository>().As<ISingleRecordRepository<PtlSettings>>();
             builder.RegisterType<MCDLineRepository>().As<IQueryRepository<MCDLine>>();
+            builder.RegisterType<OverdueOrderLineRepository>().As<IQueryRepository<OverdueOrderLine>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

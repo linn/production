@@ -32,7 +32,14 @@
 
             resource.CreatedBy = employee.Href.ParseId();
 
-            var sernosRenumMessage = this.sernosRenumPack.ReissueSerialNumber(resource);
+            var sernosRenumMessage = this.sernosRenumPack.ReissueSerialNumber(
+                resource.SernosGroup,
+                resource.SerialNumber,
+                resource.NewSerialNumber,
+                resource.ArticleNumber,
+                resource.NewArticleNumber,
+                resource.Comments,
+                resource.CreatedBy);
 
             if (sernosRenumMessage != "SUCCESS")
             {
