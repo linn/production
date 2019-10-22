@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
     marginTop: {
@@ -25,7 +26,6 @@ function LabelReprint({ itemErrors, fetchSerialNumbers, serialNumbers, serialNum
     const [searchTerm, setSearchTerm] = useState(null);
     const [sernosGroups, setSernosGroups] = useState([]);
     const [selectedSernosGroup, setSelectedSernosGroup] = useState('');
-    const [selectedSerialNumber, setSelectedSerialNumber] = useState(null);
     const [articleNumber, setArticleNumber] = useState(null);
 
     const classes = useStyles();
@@ -35,7 +35,6 @@ function LabelReprint({ itemErrors, fetchSerialNumbers, serialNumbers, serialNum
     const selectSerialNumber = useCallback(
         sernosGroup => {
             const sernos = serialNumbers.find(s => s.sernosGroup === sernosGroup);
-            setSelectedSerialNumber({ ...sernos, newSerialNumber: null });
             if (sernos) {
                 setArticleNumber(sernos.articleNumber);
             }
@@ -72,11 +71,12 @@ function LabelReprint({ itemErrors, fetchSerialNumbers, serialNumbers, serialNum
 
         if (propertyName === 'articleNumber') {
             setArticleNumber(newValue);
-            return;
         }
-
-        setSelectedSerialNumber({ ...selectedSerialNumber, [propertyName]: newValue });
     };
+
+    const handlePrintMacAddressButtonClick = () => {};
+
+    const handlePrintAllButtonClick = () => {};
 
     return (
         <Page showRequestErrors>
@@ -119,21 +119,37 @@ function LabelReprint({ itemErrors, fetchSerialNumbers, serialNumbers, serialNum
                                     propertyName="selectedSernosGroup"
                                 />
                             </Grid>
-                            {selectedSerialNumber && (
-                                <Fragment>
-                                    <Grid item xs={3} className={classes.marginTop}>
-                                        <InputField
-                                            label="Article Number"
-                                            fullWidth
-                                            type="string"
-                                            onChange={handleFieldChange}
-                                            propertyName="articleNumber"
-                                            value={articleNumber}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6} />
-                                </Fragment>
-                            )}
+                            <Grid item xs={3} className={classes.marginTop}>
+                                <InputField
+                                    label="Article Number"
+                                    fullWidth
+                                    type="string"
+                                    onChange={handleFieldChange}
+                                    propertyName="articleNumber"
+                                    value={articleNumber}
+                                />
+                            </Grid>
+                            <Grid item xs={6} />
+                            <Grid item xs={1} />
+                            <Grid item xs={3} className={classes.marginTop}>
+                                <Button
+                                    onClick={handlePrintMacAddressButtonClick}
+                                    variant="outlined"
+                                    color="secondary"
+                                >
+                                    Print MAC Labels
+                                </Button>
+                            </Grid>
+                            <Grid item xs={3} className={classes.marginTop}>
+                                <Button
+                                    onClick={handlePrintAllButtonClick}
+                                    variant="outlined"
+                                    color="secondary"
+                                >
+                                    Print All Labels
+                                </Button>
+                            </Grid>
+                            <Grid item xs={5} />
                         </Fragment>
                     )
                 )}
