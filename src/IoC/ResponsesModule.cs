@@ -86,6 +86,20 @@
             builder.RegisterType<PtlSettingsResourceBuilder>().As<IResourceBuilder<ResponseModel<PtlSettings>>>();
             builder.RegisterType<PtlSettingsResourceBuilder>().As<IResourceBuilder<ResponseModel<PtlSettings>>>();
             builder.RegisterType<ErrorResourceBuilder>().As<IResourceBuilder<Error>>();
+            builder.RegisterType<PartFailResourceBuilder>().As<IResourceBuilder<PartFail>>();
+            builder.RegisterType<PartFailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PartFail>>>();
+            builder.RegisterType<PartFailErrorTypeResourceBuilder>().As<IResourceBuilder<PartFailErrorType>>();
+            builder.RegisterType<PartFailErrorTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<PartFailErrorType>>>();
+            builder.RegisterType<StoragePlaceResourceBuilder>().As<IResourceBuilder<StoragePlace>>();
+            builder.RegisterType<StoragePlacesResourceBuilder>().As<IResourceBuilder<IEnumerable<StoragePlace>>>();
+            builder.RegisterType<PartFailFaultCodeResourceBuilder>()
+                .As<IResourceBuilder<PartFailFaultCode>>();
+            builder.RegisterType<PartFailFaultCodesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<PartFailFaultCode>>>();
+            builder.RegisterType<PurchaseOrderResourceBuilder>()
+                .As<IResourceBuilder<PurchaseOrder>>();
+            builder.RegisterType<PurchaseOrdersResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<PurchaseOrder>>>();
             builder.RegisterType<ManufacturingCommitDateResourceBuilder>().As<IResourceBuilder<ManufacturingCommitDateResults>>();
         }
     }

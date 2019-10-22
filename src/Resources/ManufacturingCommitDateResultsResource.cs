@@ -8,6 +8,8 @@
     {
         public IEnumerable<ManufacturingCommitDateResultResource> Results { get; set; }
 
+        public ManufacturingCommitDateResultResource Totals { get; set; }
+
         public ReportReturnResource IncompleteLinesAnalysis { get; set; }
     }
 }

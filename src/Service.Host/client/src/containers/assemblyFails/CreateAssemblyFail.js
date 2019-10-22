@@ -16,19 +16,20 @@ import employeesActions from '../../actions/employeesActions';
 import employeesSelectors from '../../selectors/employeesSelectors';
 import assemblyFailFaultCodes from '../../actions/assemblyFailFaultCodesActions';
 import assemblyFailFaultCodesSelectors from '../../selectors/assemblyFailFaultCodesSelectors';
-import * as itemTypes from '../../itemTypes';
 import smtShiftsSelectors from '../../selectors/smtShiftsSelectors';
 import smtShiftsActions from '../../actions/smtShiftsActions';
 
 const mapStateToProps = state => ({
     item: {},
     editStatus: 'create',
-    itemError: getItemError(state, itemTypes.assemblyFail.item),
+    itemErrors: getItemError(state),
     loading: assemblyFailSelectors.getLoading(state),
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
     profile: getProfile(state),
-    worksOrders: worksOrdersSelectors.getItems(state),
-    worksOrdersLoading: worksOrdersSelectors.getLoading(state),
+    worksOrdersSearchResults: worksOrdersSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
+    worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
     boardParts: productionTriggerLevelsSelectors.getItems(state),
     boardPartsLoading: productionTriggerLevelsSelectors.getLoading(state),
     pcasRevisions: pcasRevisionsSelectors.getItems(state),
@@ -52,9 +53,9 @@ const mapDispatchToProps = {
     addItem: assemblyFailActions.add,
     setEditStatus: assemblyFailActions.setEditStatus,
     setSnackbarVisible: assemblyFailActions.setSnackbarVisible,
-    fetchItems: worksOrdersActions.fetchByQueryString,
+    searchWorksOrders: worksOrdersActions.search,
     fetchPcasRevisionsForBoardPart: pcasRevisionsActions.fetchByQueryString,
-    clearSearch: worksOrdersActions.reset
+    clearWorksOrdersSearch: worksOrdersActions.clearSearch
 };
 
 export default connect(

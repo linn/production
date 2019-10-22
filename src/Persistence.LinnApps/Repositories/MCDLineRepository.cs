@@ -26,5 +26,10 @@
         {
             return this.serviceDbContext.MCDLines.Where(expression);
         }
+
+        public IQueryable<MCDLine> FindAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

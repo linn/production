@@ -43,9 +43,7 @@
         {
             var resource = this.Bind<SearchRequestResource>();
 
-            var worksOrders = string.IsNullOrEmpty(resource.SearchTerm)
-                                  ? this.worksOrdersService.GetAll()
-                                  : this.worksOrdersService.Search(resource.SearchTerm);
+            var worksOrders = this.worksOrdersService.Search(resource.SearchTerm);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");

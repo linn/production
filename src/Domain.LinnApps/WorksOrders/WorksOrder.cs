@@ -50,6 +50,8 @@
 
         public List<AssemblyFail> AssemblyFails { get; set; }
 
+        public List<PartFail> PartFails { get; set; }
+
         public void CancelWorksOrder(int? cancelledBy, string reasonCancelled)
         {
             if (cancelledBy == null || string.IsNullOrEmpty(reasonCancelled))

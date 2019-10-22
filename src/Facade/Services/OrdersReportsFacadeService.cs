@@ -7,21 +7,21 @@
 
     public class OrdersReportsFacadeService : IOrdersReportsFacadeService
     {
-        private readonly IOrdersReports ordersReportsService;
+        private readonly IManufacturingCommitDateReport manufacturingCommitDateReportService;
 
         private readonly IOverdueOrdersService overdueOrdersService;
 
         public OrdersReportsFacadeService(
-            IOrdersReports ordersReportsService,
+            IManufacturingCommitDateReport manufacturingCommitDateReportService,
             IOverdueOrdersService overdueOrdersService)
         {
-            this.ordersReportsService = ordersReportsService;
+            this.manufacturingCommitDateReportService = manufacturingCommitDateReportService;
             this.overdueOrdersService = overdueOrdersService;
         }
 
         public IResult<ManufacturingCommitDateResults> ManufacturingCommitDateReport(string date)
         {
-            return new SuccessResult<ManufacturingCommitDateResults>(this.ordersReportsService.ManufacturingCommitDate(date));
+            return new SuccessResult<ManufacturingCommitDateResults>(this.manufacturingCommitDateReportService.ManufacturingCommitDate(date));
         }
 
         public IResult<ResultsModel> GetOverdueOrdersReport(

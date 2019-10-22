@@ -34,8 +34,13 @@
                                                             Results = new ResultsModel { ReportTitle = new NameModel("details") }
                                                         }
                                                 },
-                                  IncompleteLinesAnalysis = new ResultsModel { ReportTitle = new NameModel("title") }
-                              };
+                                  IncompleteLinesAnalysis = new ResultsModel { ReportTitle = new NameModel("title") },
+                                  Totals = new ManufacturingCommitDateResult
+                                               {
+                                                   NumberOfLines = 34,
+                                                   ProductType = "Totals"
+                                               }
+            };
             this.OrdersReportsFacadeService.ManufacturingCommitDateReport(Arg.Any<string>())
                 .Returns(new SuccessResult<ManufacturingCommitDateResults>(results));
             this.Response = this.Browser.Get(
@@ -68,6 +73,9 @@
             resource.Results.First().NumberOfLines.Should().Be(34);
             resource.Results.First().ProductType.Should().Be("Excellent");
             resource.Results.First().Results.ReportResults.First().title.displayString.Should().Be("details");
+            resource.Totals.NumberOfLines.Should().Be(34);
+            resource.Totals.ProductType.Should().Be("Totals");
+            resource.Totals.Results.Should().BeNull();
         }
     }
 }

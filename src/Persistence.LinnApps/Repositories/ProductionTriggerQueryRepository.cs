@@ -26,5 +26,10 @@
         {
             return this.serviceDbContext.ProductionTriggers.Where(expression);
         }
+
+        public IQueryable<ProductionTrigger> FindAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

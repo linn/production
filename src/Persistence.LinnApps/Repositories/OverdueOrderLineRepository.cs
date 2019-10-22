@@ -25,5 +25,10 @@
         {
             return this.serviceDbContext.OverdueOrderLines.Where(expression);
         }
+
+        public IQueryable<OverdueOrderLine> FindAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

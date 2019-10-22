@@ -51,9 +51,14 @@ import NotFound from './NotFound';
 import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
+import PartFail from '../containers/partFails/PartFail';
+import PartFails from '../containers/partFails/PartFails';
+import CreatePartFail from '../containers/partFails/CreatePartFail';
 import AssemblyFailFaultCodes from '../containers/assemblyFails/AssemblyFailFaultCodes';
 import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFaultCode';
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
+import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
+import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
 
 const Root = ({ store }) => (
     <div>
@@ -238,17 +243,12 @@ const Root = ({ store }) => (
 
                                     <Route
                                         exact
-                                        path="/production/quality/assembly-fails/:id"
-                                        component={AssemblyFail}
-                                    />
-                                    <Route
-                                        exact
                                         path="/production/quality/assembly-fails"
                                         component={AssemblyFails}
                                     />
                                     <Route
                                         exact
-                                        path="/production/quality/create-assembly-fail"
+                                        path="/production/quality/assembly-fails/create"
                                         component={CreateAssemblyFail}
                                     />
 
@@ -268,6 +268,11 @@ const Root = ({ store }) => (
                                         component={CreateAssemblyFailFaultCode}
                                     />
 
+                                    <Route
+                                        exact
+                                        path="/production/quality/assembly-fails/:id"
+                                        component={AssemblyFail}
+                                    />
                                     <Route
                                         exact
                                         path="/production/resources/manufacturing-resources/create"
@@ -313,6 +318,31 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/production-trigger-levels-settings"
                                         component={PtlSettings}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails"
+                                        component={PartFails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/create"
+                                        component={CreatePartFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/:id"
+                                        component={PartFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/manufacturing-commit-date/report"
+                                        component={ManufacturingCommitDateReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/manufacturing-commit-date"
+                                        component={ManufacturingCommitDateReportOptions}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

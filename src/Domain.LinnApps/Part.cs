@@ -21,6 +21,8 @@
 
         public string SernosSequence { get; set; }
 
+        public List<PartFail> Fails { get; set; }
+
         public List<AssemblyFail> AssemblyFails { get; set; }
 
         public List<WorksOrder> WorksOrders { get; set; }

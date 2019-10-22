@@ -25,5 +25,10 @@
         {
             return this.serviceDbContext.ProductionBackOrders.Where(expression);
         }
+
+        public IQueryable<ProductionBackOrder> FindAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

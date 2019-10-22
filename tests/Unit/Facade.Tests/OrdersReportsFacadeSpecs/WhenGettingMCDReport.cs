@@ -22,7 +22,7 @@
         public void SetUp()
         {
             this.resource = new DateRequestResource { Date = 1.May(2020).ToString("o") };
-            this.OrdersReports.ManufacturingCommitDate(this.resource.Date)
+            this.ManufacturingCommitDateReport.ManufacturingCommitDate(this.resource.Date)
                 .Returns(new ManufacturingCommitDateResults { IncompleteLinesAnalysis = new ResultsModel { ReportTitle = new NameModel("name") } });
             this.result = this.Sut.ManufacturingCommitDateReport(this.resource.Date);
         }
@@ -30,7 +30,7 @@
         [Test]
         public void ShouldGetReport()
         {
-            this.OrdersReports.Received().ManufacturingCommitDate(this.resource.Date);
+            this.ManufacturingCommitDateReport.Received().ManufacturingCommitDate(this.resource.Date);
         }
 
         [Test]
