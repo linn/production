@@ -18,7 +18,6 @@ import Page from '../../containers/Page';
 function PartFail({
     editStatus,
     itemErrors,
-    errorDetail,
     item,
     loading,
     snackbarVisible,
@@ -370,7 +369,7 @@ function PartFail({
                                         value={partFail.worksOrderNumber}
                                         onChange={handleFieldChange}
                                         propertyName="worksOrderNumber"
-                                        required
+                                        type="number"
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
@@ -514,8 +513,7 @@ PartFail.propTypes = {
     errorTypesLoading: PropTypes.bool,
     faultCodesLoading: PropTypes.bool,
     storagePlacesLoading: PropTypes.bool,
-    clearPartsSearch: PropTypes.func.isRequired,
-    errorDetail: PropTypes.string
+    clearPartsSearch: PropTypes.func.isRequired
 };
 
 PartFail.defaultProps = {
@@ -538,8 +536,7 @@ PartFail.defaultProps = {
     errorTypesLoading: false,
     faultCodesLoading: false,
     storagePlacesLoading: false,
-    partsSearchLoading: false,
-    errorDetail: null
+    partsSearchLoading: false
 };
 
 export default PartFail;

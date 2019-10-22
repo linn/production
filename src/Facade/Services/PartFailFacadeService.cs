@@ -6,7 +6,6 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -33,11 +32,9 @@
             IPartFailService partFailService,
             IRepository<PartFail, int> repository,
             IRepository<PartFailErrorType, string> errorTypeRepository,
-            IRepository<Part, string> partRepository,
             IRepository<StorageLocation, int> storageLocationRepository,
             IRepository<Employee, int> employeeRepository,
             IRepository<PartFailFaultCode, string> faultCodeRepository,
-            IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
@@ -71,7 +68,7 @@
                            MinutesWasted = resource.MinutesWasted
                        };
 
-            return this.partFailService.Check(candidate);
+            return this.partFailService.Create(candidate);
         }
 
         protected override void UpdateFromResource(PartFail partFail, PartFailResource resource)
@@ -96,7 +93,7 @@
                                     MinutesWasted = resource.MinutesWasted
                                 };
 
-            this.partFailService.Check(candidate);
+            partFail.UpdateFrom(partFail, this.partFailService.Create(candidate));
         }
 
         protected override Expression<Func<PartFail, bool>> SearchExpression(string searchTerm)

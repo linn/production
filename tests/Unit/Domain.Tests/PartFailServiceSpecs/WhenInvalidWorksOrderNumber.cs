@@ -27,7 +27,7 @@
         [Test]
         public void ShouldThrowInvalidWorksOrderException()
         {
-            Assert.Throws<InvalidWorksOrderException>(() => this.Sut.Check(this.Candidate));
+            Assert.Throws<InvalidWorksOrderException>(() => this.Sut.Create(this.Candidate));
         }
     }
 }

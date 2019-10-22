@@ -46,7 +46,8 @@
 
         public IQueryable<PurchaseOrder> FilterBy(Expression<Func<PurchaseOrder, bool>> expression)
         {
-            return this.serviceDbContext.PurchaseOrders.Where(expression).Include(o => o.Details);
+            return this.serviceDbContext
+                .PurchaseOrders.Where(expression).Include(o => o.Details).Take(10);
         }
     }
 }

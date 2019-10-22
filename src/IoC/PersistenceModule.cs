@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.IoC
 {
-    using System.Collections.Generic;
-
     using Autofac;
 
     using Linn.Common.Persistence;

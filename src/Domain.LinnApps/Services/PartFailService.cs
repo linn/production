@@ -23,7 +23,7 @@
             this.purchaseOrderRepository = purchaseOrderRepository;
         }
 
-        public PartFail Check(PartFail candidate)
+        public PartFail Create(PartFail candidate)
         {
             if (candidate.WorksOrder != null)
             {
@@ -39,7 +39,7 @@
 
             if (candidate.Part != null)
             {
-                Part part = this.partRepository.FindById(candidate.Part.PartNumber);
+                var part = this.partRepository.FindById(candidate.Part.PartNumber);
 
                 if (part == null)
                 {

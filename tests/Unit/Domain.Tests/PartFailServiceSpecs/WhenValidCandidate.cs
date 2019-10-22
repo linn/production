@@ -45,7 +45,7 @@
         [Test]
         public void ShouldReturnPartFail()
         {
-            this.Sut.Check(Candidate).Should().BeOfType<PartFail>();
+            this.Sut.Create(this.Candidate).Should().BeOfType<PartFail>();
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Measures
 {
     using System;
+    using System.Data.Common;
+
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
@@ -31,5 +33,19 @@
         public StorageLocation StorageLocation { get; set; }
 
         public int? MinutesWasted { get; set; }
+
+        public void UpdateFrom(PartFail partFail, PartFail updated)
+        {
+            partFail.Part = updated.Part;
+            partFail.PurchaseOrderNumber = updated.PurchaseOrderNumber;
+            partFail.WorksOrder = updated.WorksOrder;
+            partFail.Batch = updated.Batch;
+            partFail.ErrorType = updated.ErrorType;
+            partFail.FaultCode = updated.FaultCode;
+            partFail.MinutesWasted = updated.MinutesWasted;
+            partFail.Quantity = updated.Quantity;
+            partFail.Story = updated.Story;
+            partFail.StorageLocation = updated.StorageLocation;
+        }
     }
 }

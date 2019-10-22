@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import {
     getItemErrors,
     getRequestErrors,
-    initialiseOnMount,
-    getItemErrorDetailMessage
+    initialiseOnMount
 } from '@linn-it/linn-form-components-library';
 import PartFail from '../../components/partFails/PartFail';
 import partFailActions from '../../actions/partFailActions';
@@ -36,7 +35,6 @@ const mapStateToProps = (state, { match }) => ({
     loading: partFailSelectors.getLoading(state),
     snackbarVisible: partFailSelectors.getSnackbarVisible(state),
     itemErrors: getItemErrors(state),
-    errorDetail: getItemErrorDetailMessage(state, 'partFail'),
     profile: getProfile(state),
     worksOrdersSearchResults: worksOrdersSelectors
         .getSearchItems(state)

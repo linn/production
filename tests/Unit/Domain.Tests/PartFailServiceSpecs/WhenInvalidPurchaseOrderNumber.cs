@@ -29,7 +29,7 @@
         [Test]
         public void ShouldThrowInvalidWorksOrderException()
         {
-            Assert.Throws<InvalidPurchaseOrderException>(() => this.Sut.Check(this.Candidate));
+            Assert.Throws<InvalidPurchaseOrderException>(() => this.Sut.Create(this.Candidate));
         }
     }
 }

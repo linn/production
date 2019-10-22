@@ -26,7 +26,7 @@
         [Test]
         public void ShouldThrowInvalidWorksOrderException()
         {
-            Assert.Throws<InvalidPartNumberException>(() => this.Sut.Check(this.Candidate));
+            Assert.Throws<InvalidPartNumberException>(() => this.Sut.Create(this.Candidate));
         }
     }
 }

@@ -7,7 +7,7 @@
     {
         public int OrderNumber { get; set; }
 
-        public List<PurchaseOrderDetail> Details { get; set; }
+        public IEnumerable<PurchaseOrderDetail> Details { get; set; }
 
         public bool ContainsPart(string partNumber)
         {
