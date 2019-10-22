@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
+    using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -84,10 +85,6 @@
 
         public DbQuery<MCDLine> MCDLines { get; set; }
 
-        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
-
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
-
         public DbQuery<StoragePlace> StoragePlaces { get; set; }
 
         public DbSet<StorageLocation> StorageLocations { get; set; }
@@ -99,7 +96,13 @@
         public DbSet<PartFailFaultCode> PartFailFaultCodes { get; set; }
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
- 
+
+        public DbSet<ProductData> ProductData { get; set; }
+
+        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
+
+        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -141,6 +144,7 @@
             this.BuildPurchaseOrders(builder);
             this.QueryAccountingCompanies(builder);
             this.QueryProductionBackOrders(builder);
+            this.BuildProductData(builder);
             base.OnModelCreating(builder);
         }
 
@@ -516,7 +520,7 @@
         {
             var q = builder.Query<PtlMaster>();
             q.ToView("PTL_MASTER");
-            q.Property(e => e.LastFullRunJobref).HasColumnName("LAST_FULL_RUN_JOBREF").HasMaxLength(6); 
+            q.Property(e => e.LastFullRunJobref).HasColumnName("LAST_FULL_RUN_JOBREF").HasMaxLength(6);
             q.Property(e => e.LastFullRunDateTime).HasColumnName("LAST_FULL_RUN_DATE");
             q.Property(e => e.LastPtlShortageJobref).HasColumnName("LAST_PTL_SHORTAGE_JOBREF").HasMaxLength(6);
             q.Property(e => e.LastDaysToLookAhead).HasColumnName("LAST_DAYS_TO_LOOK_AHEAD");
@@ -692,7 +696,7 @@
             builder.Entity<PurchaseOrder>().HasKey(o => o.OrderNumber);
             builder.Entity<PurchaseOrder>().Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
         }
-        
+
         private void QueryAccountingCompanies(ModelBuilder builder)
         {
             var q = builder.Query<AccountingCompany>();
@@ -717,6 +721,15 @@
             q.Property(e => e.RequestedDeliveryDate).HasColumnName("REQUESTED_DELIVERY_DATE");
             q.Property(e => e.DatePossible).HasColumnName("DATE_POSSIBLE");
             q.Property(e => e.QueuePosition).HasColumnName("QUEUE_POSITION");
+        }
+
+        private void BuildProductData(ModelBuilder builder)
+        {
+            builder.Entity<ProductData>().ToTable("PRODUCT_DATA");
+            builder.Entity<ProductData>().HasKey(o => o.ProductId);
+            builder.Entity<ProductData>().Property(o => o.ProductId).HasColumnName("PRODUCT_ID");
+            builder.Entity<ProductData>().Property(o => o.MACAddress).HasColumnName("MAC_ADDRESS").HasMaxLength(20);
+            builder.Entity<ProductData>().Property(o => o.ProductGroup).HasColumnName("PRODUCT_GROUP").HasMaxLength(10);
         }
     }
 }

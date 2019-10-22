@@ -38,6 +38,7 @@
             builder.RegisterType<SmtReports>().As<ISmtReports>();
             builder.RegisterType<WorksOrderUtilities>().As<IWorksOrderUtilities>();
             builder.RegisterType<ManufacturingCommitDateReport>().As<IManufacturingCommitDateReport>();
+            builder.RegisterType<LabelService>().As<ILabelService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -106,6 +107,8 @@
             builder.RegisterType<SernosPack>().As<ISernosPack>();
             builder.RegisterType<ProductionTriggersFacadeService>().As<IProductionTriggersFacadeService>();
             builder.RegisterType<TriggerRunPack>().As<ITriggerRunPack>();
+            builder.RegisterType<BartenderLabelPack>().As<IBartenderLabelPack>();
+            builder.RegisterType<LabelPack>().As<ILabelPack>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
