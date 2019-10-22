@@ -59,6 +59,7 @@ import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFault
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
 import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
 import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
+import LabelReprint from '../containers/labels/LabelReprint';
 
 const Root = ({ store }) => (
     <div>
@@ -343,6 +344,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/manufacturing-commit-date"
                                         component={ManufacturingCommitDateReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/reprint"
+                                        component={LabelReprint}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

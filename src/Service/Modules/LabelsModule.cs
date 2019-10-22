@@ -5,6 +5,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Resources.RequestResources;
+    using Linn.Production.Service.Models;
 
     using Nancy;
     using Nancy.ModelBinding;
@@ -16,6 +17,7 @@
         public LabelsModule(ILabelService labelService)
         {
             this.labelService = labelService;
+            this.Get("/production/maintenance/labels/reprint", _ => this.GetApp());
             this.Post("/production/maintenance/labels/reprint-mac-label/{serialNumber:int}", parameters => this.ReprintMACLabel(parameters.serialNumber));
             this.Post("/production/maintenance/labels/reprint-all/{serialNumber:int}", parameters => this.ReprintAllLabels(parameters.serialNumber));
         }
@@ -47,6 +49,11 @@
             }
 
             return HttpStatusCode.OK;
+        }
+
+        private object GetApp()
+        {
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
     }
 }
