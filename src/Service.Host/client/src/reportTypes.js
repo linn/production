@@ -83,3 +83,10 @@ export const manufacturingCommitDate = new ItemType(
     'MANUFACTURING_COMMIT_DATE_REPORT',
     '/production/reports/manufacturing-commit-date/report'
 );
+
+// TODO Maybe i dont need options any more?
+export const overdueOrders = new ItemType(
+    'overdueOrders',
+    'OVERDUE_ORDERS_REPORT',
+    '/production/reports/overdue-orders'
+);

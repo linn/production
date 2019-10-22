@@ -55,6 +55,7 @@ import salesArticles from './salesArticles';
 import salesArticle from './salesArticle';
 import assemblyFailFaultCode from './assemblyFails/assemblyFailFaultCode';
 import manufacturingCommitDate from './manufacturingCommitDate';
+import overdueOrders from './overdueOrdersReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -87,6 +88,7 @@ const rootReducer = combineReducers({
     manufacturingResource,
     manufacturingRoute,
     outstandingWorksOrdersReport,
+    overdueOrders,
     parts,
     pcasRevisions,
     productionTriggerLevels,
