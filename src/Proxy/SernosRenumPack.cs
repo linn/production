@@ -9,7 +9,14 @@
 
     public class SernosRenumPack : ISernosRenumPack
     {
-        public string ReissueSerialNumber(SerialNumberReissueResource resource)
+        public string ReissueSerialNumber(
+            string sernosGroup,
+            int serialNumber,
+            int? newSerialNumber,
+            string articleNumber,
+            string newArticleNumber,
+            string comments,
+            int? createdBy)
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
 
@@ -29,21 +36,21 @@
             {
                 Direction = ParameterDirection.Input,
                 Size = 10,
-                Value = resource.SernosGroup
+                Value = sernosGroup
             };
             cmd.Parameters.Add(sernosGroupParameter);
 
             var serialNumberParameter = new OracleParameter("p_orig_serial_number", OracleDbType.Decimal)
             {
                 Direction = ParameterDirection.Input,
-                Value = resource.SerialNumber
+                Value = serialNumber
             };
             cmd.Parameters.Add(serialNumberParameter);
 
             var newSerialNumberParameter = new OracleParameter("p_new_serial_number", OracleDbType.Decimal)
             {
                 Direction = ParameterDirection.InputOutput,
-                Value = resource.NewSerialNumber
+                Value = newSerialNumber
             };
             cmd.Parameters.Add(newSerialNumberParameter);
 
@@ -51,7 +58,7 @@
             {
                 Direction = ParameterDirection.Input,
                 Size = 14,
-                Value = resource.ArticleNumber
+                Value = articleNumber
             };
             cmd.Parameters.Add(articleNumberParameter);
 
@@ -59,7 +66,7 @@
             {
                 Direction = ParameterDirection.Input,
                 Size = 14,
-                Value = resource.NewArticleNumber
+                Value = newArticleNumber
             };
             cmd.Parameters.Add(newArticleNumberParameter);
 
@@ -67,14 +74,14 @@
             {
                 Direction = ParameterDirection.Input,
                 Size = 200,
-                Value = resource.Comments
+                Value = comments
             };
             cmd.Parameters.Add(commentsParameter);
 
             var createdByParameter = new OracleParameter("p_user_number", OracleDbType.Decimal)
             {
                 Direction = ParameterDirection.Input,
-                Value = resource.CreatedBy
+                Value = createdBy
             };
             cmd.Parameters.Add(createdByParameter);
 
