@@ -18,6 +18,7 @@ import Page from '../../containers/Page';
 function PartFail({
     editStatus,
     itemErrors,
+    errorDetail,
     item,
     loading,
     snackbarVisible,
@@ -187,11 +188,16 @@ function PartFail({
                         <Title text="Part Fail Details" />
                     )}
                 </Grid>
+
                 {itemErrors &&
                     !loading &&
                     itemErrors?.map(itemError => (
                         <Grid item xs={12}>
-                            <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
+                            <ErrorCard
+                                errorMessage={`${itemError.item} ${itemError.statusText} - ${
+                                    itemError.details?.errors?.[0]
+                                }`}
+                            />
                         </Grid>
                     ))}
                 {loading || errorTypesLoading || faultCodesLoading || storagePlacesLoading ? (
@@ -245,7 +251,6 @@ function PartFail({
                                         disabled
                                     />
                                 </Grid>
-                                {creating() && <Grid item xs={3} />}
                                 <Grid item xs={6} />
 
                                 <Grid item xs={5}>
@@ -254,7 +259,7 @@ function PartFail({
                                         maxLength={14}
                                         fullWidth
                                         value={partFail.partNumber}
-                                        onChange={() => {}}
+                                        onChange={handleFieldChange}
                                         propertyName="partNumber"
                                         required
                                     />
@@ -398,7 +403,7 @@ function PartFail({
                                         value={partFail.purchaseOrderNumber}
                                         onChange={handleFieldChange}
                                         propertyName="purchaseOrderNumber"
-                                        required
+                                        type="number"
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
@@ -509,7 +514,8 @@ PartFail.propTypes = {
     errorTypesLoading: PropTypes.bool,
     faultCodesLoading: PropTypes.bool,
     storagePlacesLoading: PropTypes.bool,
-    clearPartsSearch: PropTypes.func.isRequired
+    clearPartsSearch: PropTypes.func.isRequired,
+    errorDetail: PropTypes.string
 };
 
 PartFail.defaultProps = {
@@ -532,7 +538,8 @@ PartFail.defaultProps = {
     errorTypesLoading: false,
     faultCodesLoading: false,
     storagePlacesLoading: false,
-    partsSearchLoading: false
+    partsSearchLoading: false,
+    errorDetail: null
 };
 
 export default PartFail;

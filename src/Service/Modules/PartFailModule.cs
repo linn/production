@@ -1,6 +1,9 @@
 ﻿namespace Linn.Production.Service.Modules
 {
+    using System;
+
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
@@ -55,22 +58,41 @@
         private object Add()
         {
             var resource = this.Bind<PartFailResource>();
-            var result = this.partFailService.Add(resource);
-            return this.Negotiate
-                .WithModel(result)
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
-                .WithView("Index");
+            try
+            {
+                var result = this.partFailService.Add(resource);
+                return this.Negotiate
+                    .WithModel(result)
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
+            catch (Exception e)
+            {
+                return this.Negotiate
+                    .WithModel(new BadRequestResult<PartFail>(e.Message))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
         }
 
         private object Update(int type)
         {
             var resource = this.Bind<PartFailResource>();
-
-            var result = this.partFailService.Update(type, resource);
-            return this.Negotiate
-                .WithModel(result)
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
-                .WithView("Index");
+            try
+            {
+                var result = this.partFailService.Update(type, resource);
+                return this.Negotiate
+                    .WithModel(result)
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
+            catch (Exception e)
+            {
+                return this.Negotiate
+                    .WithModel(new BadRequestResult<PartFail>(e.Message))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
         }
 
         private object Search()

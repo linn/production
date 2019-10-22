@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Runtime.CompilerServices;
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
@@ -12,6 +13,7 @@
     public class PartFailRepository : IRepository<PartFail, int>
     {
         private readonly ServiceDbContext serviceDbContext;
+
 
         public PartFailRepository(ServiceDbContext serviceDbContext)
         {

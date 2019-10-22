@@ -38,6 +38,7 @@
             builder.RegisterType<SmtReports>().As<ISmtReports>();
             builder.RegisterType<WorksOrderUtilities>().As<IWorksOrderUtilities>();
             builder.RegisterType<OrdersReports>().As<IOrdersReports>();
+            builder.RegisterType<PartFailService>().As<IPartFailService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -81,7 +82,7 @@
                 .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
             builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
             builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
-            builder.RegisterType<PartFailService>()
+            builder.RegisterType<Facade.Services.PartFailFacadeService>()
                 .As<IFacadeService<PartFail, int, PartFailResource, PartFailResource>>();
             builder.RegisterType<PartFailErrorTypeService>()
                 .As<IFacadeService<PartFailErrorType, string, PartFailErrorTypeResource, PartFailErrorTypeResource>>();
