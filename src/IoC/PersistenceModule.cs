@@ -58,6 +58,7 @@
             builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
             builder.RegisterType<PtlSettingsRepository>().As<ISingleRecordRepository<PtlSettings>>();
             builder.RegisterType<MCDLineRepository>().As<IQueryRepository<MCDLine>>();
+            builder.RegisterType<OverdueOrderLineRepository>().As<IQueryRepository<OverdueOrderLine>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

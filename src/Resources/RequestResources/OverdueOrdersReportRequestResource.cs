@@ -13,5 +13,7 @@
         public string ReportBy { get; set; }
 
         public string DaysMethod { get; set; }
+
+        public int JobId { get; set; }
     }
 }

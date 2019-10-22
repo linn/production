@@ -27,7 +27,7 @@
 
             var results = new ResultsModel(new[] { "col1" });
             this.OrdersReportsFacadeService
-                .GetOverdueOrdersReport(this.testDate, this.testDate, "AC", "SP", "RB", "DM")
+                .GetOverdueOrdersReport(123, this.testDate, this.testDate, "AC", "SP", "RB", "DM")
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
                         {
@@ -39,6 +39,7 @@
                 with =>
                     {
                         with.Header("Accept", "application/json");
+                        with.Query("jobId", "123");
                         with.Query("fromDate", this.testDate);
                         with.Query("toDate", this.testDate);
                         with.Query("accountingCompany", "AC");
@@ -58,6 +59,7 @@
         public void ShouldCallService()
         {
             this.OrdersReportsFacadeService.Received().GetOverdueOrdersReport(
+                123,
                 this.testDate,
                 this.testDate,
                 "AC",

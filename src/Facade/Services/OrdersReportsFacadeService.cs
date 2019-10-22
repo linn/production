@@ -9,9 +9,14 @@
     {
         private readonly IOrdersReports ordersReportsService;
 
-        public OrdersReportsFacadeService(IOrdersReports ordersReportsService)
+        private readonly IOverdueOrdersService overdueOrdersService;
+
+        public OrdersReportsFacadeService(
+            IOrdersReports ordersReportsService,
+            IOverdueOrdersService overdueOrdersService)
         {
             this.ordersReportsService = ordersReportsService;
+            this.overdueOrdersService = overdueOrdersService;
         }
 
         public IResult<ManufacturingCommitDateResults> ManufacturingCommitDateReport(string date)
@@ -20,6 +25,7 @@
         }
 
         public IResult<ResultsModel> GetOverdueOrdersReport(
+            int jobId,
             string fromDate,
             string toDate,
             string accountingCompany,
@@ -28,7 +34,8 @@
             string daysMethod)
         {
             return new SuccessResult<ResultsModel>(
-                this.ordersReportsService.OverdueOrdersReport(
+                this.overdueOrdersService.OverdueOrdersReport(
+                    jobId,
                     fromDate,
                     toDate,
                     accountingCompany,

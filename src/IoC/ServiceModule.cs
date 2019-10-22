@@ -38,6 +38,7 @@
             builder.RegisterType<SmtReports>().As<ISmtReports>();
             builder.RegisterType<WorksOrderUtilities>().As<IWorksOrderUtilities>();
             builder.RegisterType<OrdersReports>().As<IOrdersReports>();
+            builder.RegisterType<OverdueOrdersReportService>().As<IOverdueOrdersService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();

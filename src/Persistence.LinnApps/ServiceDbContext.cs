@@ -8,7 +8,6 @@
     using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
-    using Linn.Production.Domain.LinnApps.SalesOrders;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
@@ -84,19 +83,7 @@
 
         public DbQuery<MCDLine> MCDLines { get; set; }
 
-        public DbQuery<SalesBackOrderAnalysis> SalesBackOrderAnalysis { get; set; }
-
-        public DbQuery<SalesOrder> SalesOrders { get; set; }
-
-        public DbQuery<SalesOrderDetails> SalesOrderDetails { get; set; }
-
-        public DbQuery<SalesOutlet> SalesOutlets { get; set; }
-
-        public DbQuery<SalesAccount> SalesAccounts { get; set; }
-
-        public DbQuery<SalesArticle> SalesArticles { get; set; }
-
-        public DbQuery<Address> Addresses { get; set; }
+        public DbQuery<OverdueOrderLine> OverdueOrderLines { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
@@ -137,17 +124,11 @@
             this.BuildPtlSettings(builder);
             this.QueryAccountingCompanies(builder);
             this.QueryProductionBackOrders(builder);
-            this.QuerySalesBackOrderAnalysis(builder);
-            this.QuerySalesOrders(builder);
-            this.QuerySalesOrderDetails(builder);
-            this.QuerySalesOutlets(builder);
-            this.QuerySalesAccounts(builder);
-            this.QuerySalesArticles(builder);
-            this.QueryAddresses(builder);
+            this.QueryOverdueOrderLines(builder);
 
             base.OnModelCreating(builder);
         }
-        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var host = ConfigurationManager.Configuration["DATABASE_HOST"];
@@ -369,83 +350,37 @@
             builder.Query<MCDLine>().Property(t => t.CouldGo).HasColumnName("COULD_GO");
         }
 
-        private void QuerySalesBackOrderAnalysis(ModelBuilder builder)
+        private void QueryOverdueOrderLines(ModelBuilder builder)
         {
-            var q = builder.Query<SalesBackOrderAnalysis>();
-            q.ToView("V_SALES_BACK_ORDER_ANALYSIS");
-            q.Property(t => t.OrderNumber).HasColumnName("ORDER_NUMBER");
-            q.Property(t => t.BaseValue).HasColumnName("BASE_VALUE");
+            var q = builder.Query<OverdueOrderLine>();
+            q.ToView("V_OVERDUE_ORDERS_REPORT");
             q.Property(t => t.JobId).HasColumnName("JOB_ID");
-            q.Property(t => t.OrderLine).HasColumnName("ORDER_LINE");
-            q.Property(t => t.OrderNumber).HasColumnName("ORDER_NUMBER");
-            q.Property(t => t.QAllocated).HasColumnName("Q_ALLOCATED");
-            q.Property(t => t.QRnNs).HasColumnName("Q_RN_NS");
-            q.Property(t => t.QRnSNd).HasColumnName("Q_RN_S_ND");
-            q.Property(t => t.QRnmNs).HasColumnName("Q_RNM_NS");
-            q.Property(t => t.QRnmS).HasColumnName("Q_RNM_S");
-            q.Property(t => t.QRtmNs).HasColumnName("Q_RTM_NS");
-            q.Property(t => t.QRtmS).HasColumnName("Q_RTM_S");
-            q.Property(t => t.VRnNs).HasColumnName("V_RN_NS");
-            q.Property(t => t.VRnSNd).HasColumnName("V_RN_S_ND");
-            q.Property(t => t.VRnmNs).HasColumnName("V_RNM_NS");
-            q.Property(t => t.VRnmS).HasColumnName("V_RNM_S");
-            q.Property(t => t.VRtmNs).HasColumnName("V_RTM_NS");
-            q.Property(t => t.VRtmS).HasColumnName("V_RTM_S");
-            q.Property(t => t.VAllocated).HasColumnName("V_ALLOCATED");
-        }
-
-        private void QuerySalesOrders(ModelBuilder builder)
-        {
-            var q = builder.Query<SalesOrder>();
-            q.ToView("SALES_ORDERS");
-            q.Property(t => t.OrderNumber).HasColumnName("ORDER_NUMBER");
             q.Property(t => t.AccountId).HasColumnName("ACCOUNT_ID");
             q.Property(t => t.OutletNumber).HasColumnName("OUTLET_NUMBER");
-        }
-
-        private void QuerySalesOrderDetails(ModelBuilder builder)
-        {
-            var q = builder.Query<SalesOrderDetails>();
-            q.ToView("SALES_ORDER_DETAILS");
+            q.Property(t => t.OutletName).HasColumnName("OUTLET_NAME");
             q.Property(t => t.OrderNumber).HasColumnName("ORDER_NUMBER");
-            q.Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
-            q.Property(t => t.FirstAdvisedDespatchDate).HasColumnName("FIRST_ADVISED_DESPATCH_DATE");
             q.Property(t => t.OrderLine).HasColumnName("ORDER_LINE");
-            q.Property(t => t.RequestedDeliveryDate).HasColumnName("REQUESTED_DELIVERY_DATE");
-        }
-
-        private void QueryAddresses(ModelBuilder builder)
-        {
-            var q = builder.Query<Address>();
-            q.ToView("ADDRESSES");
-            q.Property(t => t.AddressId).HasColumnName("ADDRESS_ID");
-        }
-
-        private void QuerySalesArticles(ModelBuilder builder)
-        {
-            var q = builder.Query<SalesArticle>();
-            q.ToView("SALES_ARTICLES");
+            q.Property(t => t.OrderRef).HasColumnName("ORDER_REF");
             q.Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
             q.Property(t => t.InvoiceDescription).HasColumnName("INVOICE_DESCRIPTION");
+            q.Property(t => t.RequestedDeliveryDate).HasColumnName("REQUESTED_DELIVERY_DATE");
+            q.Property(t => t.FirstAdvisedDespatchDate).HasColumnName("FIRST_ADVISED_DESPATCH_DATE");
+            q.Property(t => t.NoStockQuantity).HasColumnName("NO_STOCK_QTY");
+            q.Property(t => t.AllocVal).HasColumnName("ALLOC_VAL");
+            q.Property(t => t.RnSDVal).HasColumnName("RN_S_D_VAL");
+            q.Property(t => t.RnSNdVal).HasColumnName("RN_S_ND_VAL");
+            q.Property(t => t.RnNsVal).HasColumnName("RN_NS_VAL");
+            q.Property(t => t.RtmSVal).HasColumnName("RTM_S_VAL");
+            q.Property(t => t.RtmNsVal).HasColumnName("RTM_NS_VAL");
+            q.Property(t => t.RnmSVal).HasColumnName("RNM_S_VAL");
+            q.Property(t => t.RnmNsVal).HasColumnName("RNM_NS_VAL");
+            q.Property(t => t.Reasons).HasColumnName("REASONS");
+            q.Property(t => t.Quantity).HasColumnName("QTY");
+            q.Property(t => t.DaysLate).HasColumnName("DAYS_LATE");
+            q.Property(t => t.DaysLateFa).HasColumnName("DAYS_LATE_FA");
+            q.Property(t => t.BaseValue).HasColumnName("BASE_VALUE");
+            q.Property(t => t.OrderValue).HasColumnName("ORDER_VALUE");
         }
-
-        private void QuerySalesAccounts(ModelBuilder builder)
-        {
-            var q = builder.Query<SalesAccount>();
-            q.ToView("SALES_ACCOUNTS");
-            q.Property(t => t.AccountId).HasColumnName("ACCOUNT_ID");
-        }
-
-        private void QuerySalesOutlets(ModelBuilder builder)
-        {
-            var q = builder.Query<SalesOutlet>();
-            q.ToView("SALES_OUTLETS");
-            q.Property(t => t.AccountId).HasColumnName("ACCOUNT_ID");
-            q.Property(t => t.OutletNumber).HasColumnName("OUTLET_NUMBER");
-            q.Property(t => t.Name).HasColumnName("NAME");
-            q.Property(t => t.OutletAddress).HasColumnName("OUTLET_ADDRESS");
-        }
-
 
         private void BuildSerialNumberReissues(ModelBuilder builder)
         {

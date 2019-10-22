@@ -13,11 +13,14 @@
 
         protected IOrdersReports OrdersReports { get; private set; }
 
+        protected IOverdueOrdersService OverdueOrdersService { get; private set; }
+
         [SetUp]
         public void SetUpContext()
         {
             this.OrdersReports = Substitute.For<IOrdersReports>();
-            this.Sut = new OrdersReportsFacadeService(this.OrdersReports);
+            this.OverdueOrdersService = Substitute.For<IOverdueOrdersService>();
+            this.Sut = new OrdersReportsFacadeService(this.OrdersReports, this.OverdueOrdersService);
         }
     }
 }

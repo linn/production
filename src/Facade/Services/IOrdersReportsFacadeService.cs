@@ -11,6 +11,7 @@
         IResult<ManufacturingCommitDateResults> ManufacturingCommitDateReport(string date);
 
         IResult<ResultsModel> GetOverdueOrdersReport(
+            int jobId,
             string fromDate,
             string toDate,
             string accountingCompany,

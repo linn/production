@@ -44,6 +44,7 @@
         {
             var resource = this.Bind<OverdueOrdersReportRequestResource>();
             var results = this.reportService.GetOverdueOrdersReport(
+                resource.JobId,
                 resource.FromDate,
                 resource.ToDate,
                 resource.AccountingCompany,

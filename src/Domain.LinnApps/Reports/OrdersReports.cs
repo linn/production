@@ -15,7 +15,9 @@
 
         private readonly IReportingHelper reportingHelper;
 
-        public OrdersReports(IQueryRepository<MCDLine> mcdRepository, IReportingHelper reportingHelper)
+        public OrdersReports(
+            IQueryRepository<MCDLine> mcdRepository,
+            IReportingHelper reportingHelper)
         {
             this.mcdRepository = mcdRepository;
             this.reportingHelper = reportingHelper;
@@ -31,17 +33,6 @@
             returnResults.IncompleteLinesAnalysis = new ResultsModel();
 
             return returnResults;
-        }
-
-        public ResultsModel OverdueOrdersReport(
-            string fromDate,
-            string toDate,
-            string accountingCompany,
-            string stockPool,
-            string reportBy,
-            string daysMethod)
-        {
-            throw new NotImplementedException();
         }
 
         private IEnumerable<ManufacturingCommitDateResult> CalculateResultsGroupedByCoreType(IQueryable<MCDLine> data)
