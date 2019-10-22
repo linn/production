@@ -10,14 +10,18 @@
     {
         private readonly IQueryRepository<OverdueOrderLine> overdueOrderLineQueryRepository;
 
+        private readonly IRepository<AccountingCompany, string> accountingCompaniesRepository;
+
         private readonly IReportingHelper reportingHelper;
 
         public OverdueOrdersReportService(
             IQueryRepository<OverdueOrderLine> overdueOrderLineQueryRepository,
-            IReportingHelper reportingHelper)
+            IReportingHelper reportingHelper,
+            IRepository<AccountingCompany, string> accountingCompaniesRepository)
         {
             this.overdueOrderLineQueryRepository = overdueOrderLineQueryRepository;
             this.reportingHelper = reportingHelper;
+            this.accountingCompaniesRepository = accountingCompaniesRepository;
         }
 
         public ResultsModel OverdueOrdersReport(
@@ -29,7 +33,9 @@
             string reportBy,
             string daysMethod)
         {
-            var data = this.overdueOrderLineQueryRepository.FilterBy(o => o.JobId == jobId);
+            var linn = this.accountingCompaniesRepository.FindById("LINN");
+
+            var data = this.overdueOrderLineQueryRepository.FilterBy(o => o.JobId == linn.LatestSosJobId);
 
             var model = new ResultsModel { ReportTitle = new NameModel("Outstanding Sales Orders by Days Late") };
 

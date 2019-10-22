@@ -34,6 +34,12 @@
         }
 
         [Test]
+        public void ShouldCallAccountingCompanyRepository()
+        {
+            this.AccountingCompaniesRepository.Received().FindById("LINN");
+        }
+
+        [Test]
         public void ShouldGetReportTitle()
         {
             this.result.ReportTitle.DisplayValue.Should().Be("Outstanding Sales Orders by Days Late");

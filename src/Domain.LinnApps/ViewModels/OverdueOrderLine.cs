@@ -30,19 +30,19 @@
 
         public int? AllocVal { get; set; }
 
-        public int? RnSDVal { get; set; }
+        public int? RequiredNowStockDespatchableValue { get; set; }
 
-        public int? RnSNdVal { get; set; }
+        public int? RequiredNowStockNotDespatchableValue { get; set; }
 
-        public int? RnNsVal { get; set; }
+        public int? RequiredNowNoStockValue { get; set; }
 
-        public int? RtmSVal { get; set; }
+        public int? RequiredThisMonthStockValue { get; set; }
 
-        public int? RtmNsVal { get; set; }
+        public int? RequiredThisMonthNoStockValue { get; set; }
 
-        public int? RnmSVal { get; set; }
+        public int? RequiredNextMonthStockValue { get; set; }
 
-        public int? RnmNsVal { get; set; }
+        public int? RequiredNextMonthNoStockValue { get; set; }
 
         public string Reasons { get; set; }
 
