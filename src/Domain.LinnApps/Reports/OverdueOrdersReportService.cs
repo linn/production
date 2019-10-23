@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
@@ -88,8 +89,10 @@
                 values.Add(
                     new CalculationValueModel
                         {
-                            RowId = newRowId.ToString(), Quantity = row.DaysLate, ColumnId = "Requested Days Late"
-                    });
+                            RowId = newRowId.ToString(),
+                            Quantity = daysMethod == "Working Days" ? row.WorkingDaysLate : row.DaysLate,
+                            ColumnId = "Requested Days Late"
+                        });
                 values.Add(
                     new CalculationValueModel
                         {
@@ -100,8 +103,10 @@
                 values.Add(
                     new CalculationValueModel
                         {
-                            RowId = newRowId.ToString(), Quantity = row.DaysLateFa, ColumnId = "Advised Days Late"
-                    });
+                            RowId = newRowId.ToString(),
+                            Quantity = daysMethod == "Working Days" ? row.WorkingDaysLateFa : row.DaysLateFa,
+                            ColumnId = "Advised Days Late"
+                        });
                 values.Add(
                     new CalculationValueModel
                         {

@@ -52,6 +52,10 @@
 
         public int DaysLateFa { get; set; }
 
+        public int WorkingDaysLate { get; set; }
+
+        public int WorkingDaysLateFa { get; set; }
+
         public decimal BaseValue { get; set; }
 
         public decimal OrderValue { get; set; }
