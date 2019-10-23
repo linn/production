@@ -67,7 +67,7 @@ function ManufacturingRoute({
         history.push('/production/resources/manufacturing-routes/');
     };
 
-    const handleFieldChange = (propertyName, newValue) => {
+    const handleResourceFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
         }
@@ -75,7 +75,7 @@ function ManufacturingRoute({
     };
 
     const updateOp = ops => {
-        handleFieldChange('operations', ops);
+        handleResourceFieldChange('operations', ops);
     };
 
     const OperationsTableAndInfo = () => {
@@ -178,7 +178,7 @@ function ManufacturingRoute({
                                         : `${RouteCodeInvalid() ? 'This field is required' : ''}`
                                 }
                                 required
-                                onChange={handleFieldChange}
+                                onChange={handleResourceFieldChange}
                                 propertyName="RouteCode"
                             />
                         </Grid>
@@ -190,7 +190,7 @@ function ManufacturingRoute({
                                 fullWidth
                                 helperText={descriptionInvalid() ? 'This field is required' : ''}
                                 required
-                                onChange={handleFieldChange}
+                                onChange={handleResourceFieldChange}
                                 propertyName="description"
                             />
                         </Grid>
@@ -203,7 +203,7 @@ function ManufacturingRoute({
                                 fullWidth
                                 helperText={notesInvalid() ? 'This field is required' : ''}
                                 required
-                                onChange={handleFieldChange}
+                                onChange={handleResourceFieldChange}
                                 propertyName="notes"
                             />
                         </Grid>

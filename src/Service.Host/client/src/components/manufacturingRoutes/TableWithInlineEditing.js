@@ -1,13 +1,15 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { TableCell, TableRow, Table, TableHead, TableBody } from '@material-ui/core';
+import { TableCell, TableRow, Table, TableHead, TableBody, Button } from '@material-ui/core';
 import { InputField, Dropdown } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedToEdit }) {
     const [editingCellId, setEditingCellId] = useState({});
 
-    const handleFieldChange = (propertyName, newValue, rowIndex) => {
+    const handleRowChange = (propertyName, newValue, rowIndex) => {
         const updatedRow = { ...content[rowIndex], [propertyName]: newValue };
         const allRows = content;
         allRows[rowIndex] = updatedRow;
@@ -38,7 +40,7 @@ function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedTo
                             rowContent={el}
                             key={index}
                             rowIndex={index}
-                            updateField={handleFieldChange}
+                            updateField={handleRowChange}
                             columnsInfo={columnsInfo}
                             currentlyEditing={editingCellId}
                             changeCell={switchToEditingDifferentCell}
@@ -46,18 +48,25 @@ function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedTo
                             clearEditingCell={clearEditingCell}
                         />
                     ))}
-                    <Row
+                    <TableRow key="addButton">
+                        <TableCell>
+                            {/* <Button onClick={showFieldsToAddElement}>
+                                <AddIcon />
+                            </Button> */}
+                        </TableCell>
+                    </TableRow>
+                    {/* <Row
                         rowContent={[{}]}
                         key="newRow"
                         rowIndex={content.length}
-                        updateField={handleFieldChange}
+                        updateField={handleRowChange}
                         columnsInfo={columnsInfo}
                         currentlyEditing={editingCellId}
                         changeCell={switchToEditingDifferentCell}
                         allowedToEdit={allowedToEdit}
                         clearEditingCell={clearEditingCell}
                         isNewRow
-                    />
+                    /> */}
                 </TableBody>
             </Table>
         </Fragment>
@@ -105,7 +114,7 @@ const Row = ({
 
     const classes = useStyles();
 
-    const handleChange = (propertyName, newValue) => {
+    const handleCellChange = (propertyName, newValue) => {
         updateField(propertyName, newValue, rowIndex);
     };
 
@@ -129,7 +138,7 @@ const Row = ({
                     (allowedToEdit ? (
                         <Fragment>
                             {columnsInfo.map((column, index) => (
-                            //    console.log(columnsInfo[index].isReadonly);
+                                //    console.log(columnsInfo[index].isReadonly);
                                 <Fragment>
                                     <TableCell
                                         key={columnsInfo[index].title}
@@ -144,7 +153,7 @@ const Row = ({
                                             <Fragment>
                                                 {column.type === 'dropdown' ? (
                                                     <Dropdown
-                                                        onChange={handleChange}
+                                                        onChange={handleCellChange}
                                                         items={column.options}
                                                         value={rowContent[column.key]}
                                                         propertyName={column.key}
@@ -153,7 +162,7 @@ const Row = ({
                                                     <InputField
                                                         type={column.type}
                                                         value={rowContent[column.key]}
-                                                        onChange={handleChange}
+                                                        onChange={handleCellChange}
                                                         propertyName={column.key}
                                                     />
                                                 )}

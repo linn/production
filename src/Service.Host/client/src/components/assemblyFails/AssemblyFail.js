@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { DateTimePicker } from '@linn-it/linn-form-components-library';
 import {
     InputField,
     Loading,
@@ -13,7 +12,8 @@ import {
     useSearch,
     Dropdown,
     SaveBackCancelButtons,
-    DatePicker
+    DatePicker,
+    DateTimePicker
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
