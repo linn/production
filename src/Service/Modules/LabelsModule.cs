@@ -18,15 +18,17 @@
         {
             this.labelService = labelService;
             this.Get("/production/maintenance/labels/reprint", _ => this.GetApp());
-            this.Post("/production/maintenance/labels/reprint-mac-label/{serialNumber:int}", parameters => this.ReprintMACLabel(parameters.serialNumber));
-            this.Post("/production/maintenance/labels/reprint-all/{serialNumber:int}", parameters => this.ReprintAllLabels(parameters.serialNumber));
+            this.Post("/production/maintenance/labels/reprint-mac-label", _ => this.ReprintMACLabel());
+            this.Post("/production/maintenance/labels/reprint-all", _ => this.ReprintAllLabels());
         }
 
-        private object ReprintMACLabel(int serialNumber)
+        private object ReprintMACLabel()
         {
+            var resource = this.Bind<SerialNumberRequestResource>();
+
             try
             {
-                this.labelService.PrintMACLabel(serialNumber);
+                this.labelService.PrintMACLabel(resource.SerialNumber);
             }
             catch (DomainException exception)
             {
@@ -36,12 +38,13 @@
             return HttpStatusCode.OK;
         }
 
-        private object ReprintAllLabels(int serialNumber)
+        private object ReprintAllLabels()
         {
-            var resource = this.Bind<ArticleNumberRequestResource>();
+            var resource = this.Bind<ProductRequestResource>();
+
             try
             {
-                this.labelService.PrintAllLabels(serialNumber, resource.ArticleNumber);
+                this.labelService.PrintAllLabels(resource.SerialNumber, resource.ArticleNumber);
             }
             catch (DomainException exception)
             {

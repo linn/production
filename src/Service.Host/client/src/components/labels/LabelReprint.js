@@ -13,8 +13,8 @@ import {
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
-import Page from '../../containers/Page';
 import Button from '@material-ui/core/Button';
+import Page from '../../containers/Page';
 
 const useStyles = makeStyles(theme => ({
     marginTop: {

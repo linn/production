@@ -14,11 +14,12 @@
         public void SetUp()
         {
             this.Response = this.Browser.Post(
-                "/production/maintenance/labels/reprint-all/808",
+                "/production/maintenance/labels/reprint-all",
                 with =>
                 {
                     with.Header("Accept", "application/json");
                     with.Query("articleNumber", "article");
+                    with.Query("serialNumber", "808");
                 }).Result;
         }
 

@@ -23,10 +23,11 @@
                 .Do(t => throw new DomainException("Fail"));
 
             this.Response = this.Browser.Post(
-                "/production/maintenance/labels/reprint-mac-label/808",
+                "/production/maintenance/labels/reprint-mac-label",
                 with =>
                 {
                     with.Header("Accept", "application/json");
+                    with.Query("serialNumber", "808");
                 }).Result;
         }
 
