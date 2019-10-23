@@ -34,7 +34,6 @@ function PartFail({
     clearPurchaseOrdersSearch,
     faultCodes,
     errorTypes,
-    storagePlaces,
     partsSearchResults,
     searchParts,
     partsSearchLoading,
@@ -45,7 +44,10 @@ function PartFail({
     history,
     errorTypesLoading,
     faultCodesLoading,
-    storagePlacesLoading
+    storagePlacesSearchResults,
+    searchStoragePlaces,
+    storagePlacesSearchLoading,
+    clearStoragePlacesSearch
 }) {
     const [partFail, setPartFail] = useState({
         dateCreated: new Date().toISOString()
@@ -74,14 +76,14 @@ function PartFail({
             ? faultCodes.find(p => p.faultCode === partFail.faultCode)?.faultCode
             : 'loading...';
 
-    const storagePlaceOptions = () =>
-        storagePlaces.length > 0
-            ? [''].concat(storagePlaces.map(p => p.storagePlaceId))
-            : ['loading...'];
-    const storagePlaceValue = () =>
-        storagePlaces.length > 0
-            ? storagePlaces.find(p => p.storagePlaceId === partFail.storagePlace)?.storagePlaceId
-            : 'loading...';
+    // const storagePlaceOptions = () =>
+    //     storagePlaces.length > 0
+    //         ? [''].concat(storagePlaces.map(p => p.storagePlaceId))
+    //         : ['loading...'];
+    // const storagePlaceValue = () =>
+    //     storagePlaces.length > 0
+    //         ? storagePlaces.find(p => p.storagePlaceId === partFail.storagePlace)?.storagePlaceId
+    //         : 'loading...';
 
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevPartFail) {
@@ -115,21 +117,21 @@ function PartFail({
         }
     }, [faultCodes, partFail.faultCode]);
 
-    useEffect(() => {
-        if (storagePlaces && partFail.storagePlace) {
-            setPartFail(a => ({
-                ...a,
-                storagePlaceDescription: storagePlaces.find(
-                    c => c.storagePlaceId === a.storagePlace
-                )?.description
-            }));
-        } else {
-            setPartFail(a => ({
-                ...a,
-                storagePlaceDescription: ''
-            }));
-        }
-    }, [storagePlaces, partFail.storagePlace]);
+    // useEffect(() => {
+    //     if (storagePlaces && partFail.storagePlace) {
+    //         setPartFail(a => ({
+    //             ...a,
+    //             storagePlaceDescription: storagePlaces.find(
+    //                 c => c.storagePlaceId === a.storagePlace
+    //             )?.description
+    //         }));
+    //     } else {
+    //         setPartFail(a => ({
+    //             ...a,
+    //             storagePlaceDescription: ''
+    //         }));
+    //     }
+    // }, [storagePlaces, partFail.storagePlace]);
 
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
@@ -199,7 +201,7 @@ function PartFail({
                             />
                         </Grid>
                     ))}
-                {loading || errorTypesLoading || faultCodesLoading || storagePlacesLoading ? (
+                {loading || errorTypesLoading || faultCodesLoading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
@@ -258,7 +260,7 @@ function PartFail({
                                         maxLength={14}
                                         fullWidth
                                         value={partFail.partNumber}
-                                        onChange={handleFieldChange}
+                                        onChange={() => {}}
                                         propertyName="partNumber"
                                         required
                                     />
@@ -417,7 +419,7 @@ function PartFail({
                                                         setEditStatus('edit');
                                                         setPartFail(a => ({
                                                             ...a,
-                                                            purchaseOrderNumber: newValue.name
+                                                            purchaseOrderNumber: newValue.id
                                                         }));
                                                     }}
                                                     searchItems={purchaseOrdersSearchResults
@@ -435,7 +437,40 @@ function PartFail({
                                             </div>
                                         </Grid>
                                         <Grid item xs={5} />
-                                        <Grid item xs={3}>
+                                        <Grid item xs={5}>
+                                            <InputField
+                                                label="Storage Place"
+                                                fullWidth
+                                                value={partFail.storagePlace}
+                                                onChange={handleFieldChange}
+                                                propertyName="storagePlace"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={1}>
+                                            <div className={classes.marginTop}>
+                                                <TypeaheadDialog
+                                                    title="Search For a Storage Place"
+                                                    onSelect={newValue => {
+                                                        setEditStatus('edit');
+                                                        setPartFail(a => ({
+                                                            ...a,
+                                                            storagePlace: newValue.name
+                                                        }));
+                                                    }}
+                                                    searchItems={storagePlacesSearchResults.map(
+                                                        w => ({
+                                                            name: w.storagePlaceId,
+                                                            description: w.siteCode
+                                                        })
+                                                    )}
+                                                    loading={storagePlacesSearchLoading}
+                                                    fetchItems={searchStoragePlaces}
+                                                    clearSearch={clearStoragePlacesSearch}
+                                                />
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={5} />
+                                        {/* <Grid item xs={3}>
                                             <Dropdown
                                                 label="Storage Place"
                                                 propertyName="storagePlace"
@@ -453,7 +488,7 @@ function PartFail({
                                                 onChange={() => {}}
                                                 propertyName="storagePlaceDescription"
                                             />
-                                        </Grid>
+                                        </Grid> */}
                                         <Grid item xs={6} />
                                         <Grid item xs={3}>
                                             <InputField
@@ -501,7 +536,6 @@ PartFail.propTypes = {
             item: PropTypes.string
         })
     ),
-    storagePlaces: PropTypes.arrayOf(PropTypes.shape({})),
     faultCodes: PropTypes.arrayOf(PropTypes.shape({})),
     errorTypes: PropTypes.arrayOf(PropTypes.shape({})),
     addItem: PropTypes.func,
@@ -520,8 +554,11 @@ PartFail.propTypes = {
     partsSearchLoading: PropTypes.bool,
     errorTypesLoading: PropTypes.bool,
     faultCodesLoading: PropTypes.bool,
-    storagePlacesLoading: PropTypes.bool,
-    clearPartsSearch: PropTypes.func.isRequired
+    clearPartsSearch: PropTypes.func.isRequired,
+    storagePlacesSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    searchStoragePlaces: PropTypes.func.isRequired,
+    storagePlacesSearchLoading: PropTypes.bool,
+    clearStoragePlacesSearch: PropTypes.func.isRequired
 };
 
 PartFail.defaultProps = {
@@ -535,7 +572,6 @@ PartFail.defaultProps = {
     addItem: null,
     updateItem: null,
     itemId: null,
-    storagePlaces: [],
     worksOrdersSearchResults: [],
     worksOrdersSearchLoading: false,
     purchaseOrdersSearchResults: [],
@@ -543,7 +579,8 @@ PartFail.defaultProps = {
     partsSearchResults: [],
     errorTypesLoading: false,
     faultCodesLoading: false,
-    storagePlacesLoading: false,
+    storagePlacesSearchResults: [],
+    storagePlacesSearchLoading: false,
     partsSearchLoading: false
 };
 

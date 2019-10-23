@@ -47,12 +47,14 @@ const mapStateToProps = (state, { match }) => ({
     requestErrors: getRequestErrors(state),
     errorTypesLoading: partFailErrorTypesSelectors.getLoading(state),
     faultCodesLoading: partFailFaultCodesSelectors.getLoading(state),
-    storagePlacesLoading: storagePlacesSelectors.getLoading(state)
+    storagePlacesSearchResults: storagePlacesSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.storagePlaceId, name: s.siteCode })),
+    storagePlacesSearchLoading: storagePlacesSelectors.getSearchLoading(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {
     dispatch(partFailActions.fetch(itemId));
-    dispatch(storagePlacesActions.fetch());
     dispatch(partFailErrorTypesActions.fetch());
     dispatch(partFailFailFaultCodesActions.fetch());
 };
@@ -67,7 +69,9 @@ const mapDispatchToProps = {
     searchParts: partsActions.search,
     clearPartsSearch: partsActions.clearSearch,
     clearPurchaseOrdersSearch: purchaseOrdersActions.clearSearch,
-    clearWorksOrdersSearch: worksOrdersActions.clearSearch
+    clearWorksOrdersSearch: worksOrdersActions.clearSearch,
+    searchStoragePlaces: storagePlacesActions.search,
+    clearStoragePlacesSearch: storagePlacesActions.clearSearch
 };
 
 export default connect(
