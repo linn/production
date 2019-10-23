@@ -1,6 +1,12 @@
 ﻿const path = require('path');
 const webpack = require('webpack');
 
+function localResolve(preset) {
+    return Array.isArray(preset)
+        ? [require.resolve(preset[0]), preset[1]]
+        : require.resolve(preset);
+}
+
 module.exports = {
     mode: 'development',
     entry: {
@@ -42,24 +48,18 @@ module.exports = {
                 }
             },
             {
-                test: /\.js$/,
-                exclude: /(node_modules)/,
+                test: /.js$/,
                 use: {
                     loader: 'babel-loader',
                     query: {
-                        presets: [['@babel/preset-env', { modules: false }], '@babel/react'],
-                        plugins: [
-                            'react-hot-loader/babel',
-                            '@babel/plugin-transform-object-assign',
-                            [
-                                '@babel/plugin-proposal-class-properties',
-                                {
-                                    loose: true
-                                }
-                            ]
-                        ]
+                        presets: [
+                            ['@babel/preset-env', { modules: 'commonjs' }],
+                            '@babel/preset-react'
+                        ].map(localResolve),
+                        plugins: ['@babel/plugin-transform-runtime'].map(localResolve)
                     }
-                }
+                },
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
@@ -101,7 +101,11 @@ module.exports = {
     },
     resolve: {
         alias: {
-            '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers')
+            '@material-ui/pickers': path.resolve('./node_modules/@material-ui/pickers'),
+            'react-redux': path.resolve('./node_modules/react-redux'),
+            react: path.resolve('./node_modules/react'),
+            notistack: path.resolve('./node_modules/notistack'),
+            '@material-ui/styles': path.resolve('./node_modules/@material-ui/styles')
         }
         //modules: [path.resolve('node_modules'), 'node_modules'].concat(/* ... */)
     },
