@@ -27,36 +27,23 @@
         {
             if (candidate.WorksOrder != null)
             {
-                var worksOrder = this.worksOrderRepository.FindById(candidate.WorksOrder.OrderNumber);
-
-                if (worksOrder == null)
-                {
-                    throw new InvalidWorksOrderException("Invalid Works Order Number supplied.");
-                }
-
+                var worksOrder = this.worksOrderRepository.FindById(candidate.WorksOrder.OrderNumber)
+                                 ?? throw new InvalidWorksOrderException("Invalid Works Order Number supplied.");
                 candidate.WorksOrder = worksOrder;
             }
 
             if (candidate.Part != null)
             {
-                var part = this.partRepository.FindById(candidate.Part.PartNumber);
-
-                if (part == null)
-                {
-                    throw new InvalidPartNumberException("Invalid Part Number Supplied");
-                }
-
+                var part = this.partRepository.FindById(candidate.Part.PartNumber)
+                    ?? throw new InvalidPartNumberException("Invalid Part Number Supplied");
                 candidate.Part = part;
             }
 
             if (candidate.PurchaseOrderNumber != null)
             {
-                var purchaseOrder = this.purchaseOrderRepository.FindById((int)candidate.PurchaseOrderNumber);
-                if (purchaseOrder == null)
-                {
-                    throw new InvalidPurchaseOrderException("Invalid Purchase Order Number Supplied");
-                }
-
+                var purchaseOrder = this.purchaseOrderRepository.FindById((int)candidate.PurchaseOrderNumber) 
+                    ?? throw new InvalidPurchaseOrderException("Invalid Purchase Order Number Supplied");
+                
                 if (!purchaseOrder.ContainsPart(candidate.Part?.PartNumber))
                 {
                     throw new InvalidPurchaseOrderException("Part Number supplied does not match Purchase Order");
