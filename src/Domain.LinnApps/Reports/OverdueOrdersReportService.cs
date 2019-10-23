@@ -25,11 +25,6 @@
         }
 
         public ResultsModel OverdueOrdersReport(
-            int jobId,
-            string fromDate,
-            string toDate,
-            string accountingCompany,
-            string stockPool,
             string reportBy,
             string daysMethod)
         {
@@ -46,9 +41,9 @@
                                   new AxisDetailsModel("Article Number") { SortOrder = 2, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Description") { SortOrder = 3, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Requested Date") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
-                                  new AxisDetailsModel("Days Late") { SortOrder = 5, GridDisplayType = GridDisplayType.Value },
+                                  new AxisDetailsModel("Requested Days Late") { SortOrder = 5, GridDisplayType = GridDisplayType.Value },
                                   new AxisDetailsModel("First Advised") { SortOrder = 6, GridDisplayType = GridDisplayType.TextValue },
-                                  new AxisDetailsModel("Days Late 2") { SortOrder = 7, GridDisplayType = GridDisplayType.Value },
+                                  new AxisDetailsModel("Advised Days Late") { SortOrder = 7, GridDisplayType = GridDisplayType.Value },
                                   new AxisDetailsModel("Quantity") { SortOrder = 8, GridDisplayType = GridDisplayType.Value },
                                   new AxisDetailsModel("Value") { SortOrder = 9, GridDisplayType = GridDisplayType.Value },
                                   new AxisDetailsModel("Total Order Value") { SortOrder = 10, GridDisplayType = GridDisplayType.Value },
@@ -87,26 +82,26 @@
                     new CalculationValueModel
                         {
                             RowId = newRowId.ToString(),
-                            TextDisplay = row.RequestedDeliveryDate.ToString(),
+                            TextDisplay = row.RequestedDeliveryDate?.ToString("dd-MMM-yy"),
                             ColumnId = "Requested Date"
                         });
                 values.Add(
                     new CalculationValueModel
                         {
-                            RowId = newRowId.ToString(), Quantity = row.DaysLate, ColumnId = "Days Late"
-                        });
+                            RowId = newRowId.ToString(), Quantity = row.DaysLate, ColumnId = "Requested Days Late"
+                    });
                 values.Add(
                     new CalculationValueModel
                         {
                             RowId = newRowId.ToString(),
-                            TextDisplay = row.FirstAdvisedDespatchDate.ToString(),
+                            TextDisplay = row.FirstAdvisedDespatchDate?.ToString("dd-MMM-yy"),
                             ColumnId = "First Advised"
                         });
                 values.Add(
                     new CalculationValueModel
                         {
-                            RowId = newRowId.ToString(), Quantity = row.DaysLateFa, ColumnId = "Days Late 2"
-                        });
+                            RowId = newRowId.ToString(), Quantity = row.DaysLateFa, ColumnId = "Advised Days Late"
+                    });
                 values.Add(
                     new CalculationValueModel
                         {

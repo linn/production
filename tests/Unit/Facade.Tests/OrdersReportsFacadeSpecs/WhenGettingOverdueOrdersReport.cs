@@ -22,16 +22,16 @@
         {
             this.testDate = DateTime.UnixEpoch.ToString("d");
 
-            this.OverdueOrdersService.OverdueOrdersReport(123, this.testDate, this.testDate, "AC", "SP", "RB", "DM")
+            this.OverdueOrdersService.OverdueOrdersReport("RB", "DM")
                 .Returns(new ResultsModel { ReportTitle = new NameModel("title") });
 
-            this.result = this.Sut.GetOverdueOrdersReport(123, this.testDate, this.testDate, "AC", "SP", "RB", "DM");
+            this.result = this.Sut.GetOverdueOrdersReport("RB", "DM");
         }
 
         [Test]
         public void ShouldGetReport()
         {
-            this.OverdueOrdersService.Received().OverdueOrdersReport(123, this.testDate, this.testDate, "AC", "SP", "RB", "DM");
+            this.OverdueOrdersService.Received().OverdueOrdersReport("RB", "DM");
         }
 
         [Test]
