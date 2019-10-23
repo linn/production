@@ -3,11 +3,11 @@ import { ReportSelectors } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import initialiseOnMount from '../initialiseOnMount';
 import OverdueOrderReport from '../../components/reports/OverdueOrdersReport';
-import actions from '../../actions/whoBuiltWhatReportActions';
+import actions from '../../actions/overdueOrdersReportActions';
 import config from '../../config';
 import * as reportTypes from '../../reportTypes';
 
-const reportSelectors = new ReportSelectors(reportTypes.OverdueOrderReport.item);
+const reportSelectors = new ReportSelectors(reportTypes.overdueOrders.item);
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);
