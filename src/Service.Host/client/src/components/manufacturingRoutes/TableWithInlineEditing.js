@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { TableCell, TableRow, Table, TableHead, TableBody } from '@material-ui/core';
 import { InputField, Dropdown } from '@linn-it/linn-form-components-library';
+import { makeStyles } from '@material-ui/styles';
 
 function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedToEdit }) {
     const [editingCellId, setEditingCellId] = useState({});
@@ -55,6 +56,7 @@ function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedTo
                         changeCell={switchToEditingDifferentCell}
                         allowedToEdit={allowedToEdit}
                         clearEditingCell={clearEditingCell}
+                        isNewRow
                     />
                 </TableBody>
             </Table>
@@ -87,13 +89,21 @@ const Row = ({
     currentlyEditing,
     changeCell,
     allowedToEdit,
-    clearEditingCell
+    clearEditingCell,
+    isNewRow
 }) => {
     // const handleCellChange = e => {
     //     const propertyName = e.target.name;
     //     const newValue = e.target.value;
     //     updateField(propertyName, newValue, rowIndex);
     // };
+
+    const useStyles = makeStyles(theme => ({
+        pointer: { cursor: 'pointer' },
+        notClickable: { cursor: 'text' }
+    }));
+
+    const classes = useStyles();
 
     const handleChange = (propertyName, newValue) => {
         updateField(propertyName, newValue, rowIndex);
@@ -119,6 +129,7 @@ const Row = ({
                     (allowedToEdit ? (
                         <Fragment>
                             {columnsInfo.map((column, index) => (
+                            //    console.log(columnsInfo[index].isReadonly);
                                 <Fragment>
                                     <TableCell
                                         key={columnsInfo[index].title}
@@ -126,7 +137,9 @@ const Row = ({
                                         onKeyDown={e => handleKeyPress(e, index)}
                                     >
                                         {currentlyEditing !== `${rowIndex}${column.key}` ? (
-                                            <span name={column.key}>{rowContent[column.key]}</span>
+                                            <span name={column.key} className={classes.pointer}>
+                                                {rowContent[column.key]}
+                                            </span>
                                         ) : (
                                             <Fragment>
                                                 {column.type === 'dropdown' ? (
@@ -156,7 +169,9 @@ const Row = ({
                             {columnsInfo.map((column, index) => (
                                 <Fragment>
                                     <TableCell key={columnsInfo[index].title}>
-                                        <span name={column.key}>{rowContent[column.key]}</span>
+                                        <span name={column.key} className={classes.notClickable}>
+                                            {rowContent[column.key]}
+                                        </span>
                                     </TableCell>
                                 </Fragment>
                             ))}
@@ -172,8 +187,8 @@ Row.propTypes = {
     rowIndex: PropTypes.number.isRequired,
     updateField: PropTypes.func.isRequired,
     currentlyEditing: PropTypes.string.isRequired,
-    changeCell: PropTypes.string.isRequired,
-    allowedToEdit: PropTypes.func.isRequired,
+    changeCell: PropTypes.func.isRequired,
+    allowedToEdit: PropTypes.bool.isRequired,
     clearEditingCell: PropTypes.func.isRequired,
     columnsInfo: PropTypes.arrayOf(
         PropTypes.shape({
@@ -181,11 +196,13 @@ Row.propTypes = {
             displayName: PropTypes.string,
             type: PropTypes.string
         })
-    ).isRequired
+    ).isRequired,
+    isNewRow: PropTypes.bool
 };
 
 Row.defaultProps = {
-    rowContent: {}
+    rowContent: {},
+    isNewRow: false
 };
 
 export default TableWithInlineEditing;

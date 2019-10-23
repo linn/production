@@ -64,7 +64,7 @@ function ManufacturingRoute({
     };
 
     const handleBackClick = () => {
-        history.push('/production/resources/manufacturing-Routes/');
+        history.push('/production/resources/manufacturing-routes/');
     };
 
     const handleFieldChange = (propertyName, newValue) => {
