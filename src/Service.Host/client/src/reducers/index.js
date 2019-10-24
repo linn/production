@@ -56,6 +56,8 @@ import salesArticle from './salesArticle';
 import assemblyFailFaultCode from './assemblyFails/assemblyFailFaultCode';
 import manufacturingCommitDate from './manufacturingCommitDate';
 import overdueOrders from './overdueOrdersReport';
+import partFailErrorType from './partFailErrorType';
+import partFailFaultCode from './partFailFaultCode';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -115,6 +117,8 @@ const rootReducer = combineReducers({
     worksOrders,
     worksOrderDetails,
     manufacturingCommitDate,
+    partFailErrorType,
+    partFailFaultCode,
     ...sharedLibraryReducers
 });
 

@@ -154,9 +154,13 @@ export const partFailErrorTypesActionTypes = makeActionTypes(
     itemTypes.partFailErrorTypes.actionType
 );
 
+export const partFailErrorTypeActionTypes = makeActionTypes(itemTypes.partFailErrorType);
+
 export const partFailFaultCodesActionTypes = makeActionTypes(
     itemTypes.partFailFaultCodes.actionType
 );
+
+export const partFailFaultCodeActionTypes = makeActionTypes(itemTypes.partFailFaultCode);
 
 export const storagePlacesActionTypes = makeActionTypes(itemTypes.storagePlaces.actionType);
 
