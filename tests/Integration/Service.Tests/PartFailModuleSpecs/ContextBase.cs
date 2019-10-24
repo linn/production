@@ -45,9 +45,13 @@
                     with.Dependency(this.ErrorTypeService);
                     with.Dependency<IResourceBuilder<PartFail>>(new PartFailResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<PartFail>>>(new PartFailsResourceBuilder());
+                    with.Dependency<IResourceBuilder<PartFailErrorType>>(new PartFailErrorTypeResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<PartFailErrorType>>>(new PartFailErrorTypesResourceBuilder());
                     with.Module<PartFailsModule>();
                     with.ResponseProcessor<PartFailResponseProcessor>();
                     with.ResponseProcessor<PartFailsResponseProcessor>();
+                    with.ResponseProcessor<PartFailErrorTypeResponseProcessor>();
+                    with.ResponseProcessor<PartFailErrorTypesResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

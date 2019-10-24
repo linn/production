@@ -17,7 +17,11 @@
 
         protected override PartFailErrorType CreateFromResource(PartFailErrorTypeResource resource)
         {
-            throw new NotImplementedException();
+            return new PartFailErrorType
+                       {
+                           ErrorType = resource.ErrorType,
+                           DateInvalid = DateTime.Parse(resource.DateInvalid)
+                       };
         }
 
         protected override void UpdateFromResource(PartFailErrorType entity, PartFailErrorTypeResource updateResource)
