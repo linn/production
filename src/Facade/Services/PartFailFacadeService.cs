@@ -93,7 +93,7 @@
                                     MinutesWasted = resource.MinutesWasted
                                 };
 
-            partFail.UpdateFrom(partFail, this.partFailService.Create(candidate));
+            partFail.UpdateFrom(this.partFailService.Create(candidate));
         }
 
         protected override Expression<Func<PartFail, bool>> SearchExpression(string searchTerm)

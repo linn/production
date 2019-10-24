@@ -33,18 +33,18 @@
 
         public int? MinutesWasted { get; set; }
 
-        public void UpdateFrom(PartFail partFail, PartFail updated)
+        public void UpdateFrom(PartFail updated)
         {
-            partFail.Part = updated.Part;
-            partFail.PurchaseOrderNumber = updated.PurchaseOrderNumber;
-            partFail.WorksOrder = updated.WorksOrder;
-            partFail.Batch = updated.Batch;
-            partFail.ErrorType = updated.ErrorType;
-            partFail.FaultCode = updated.FaultCode;
-            partFail.MinutesWasted = updated.MinutesWasted;
-            partFail.Quantity = updated.Quantity;
-            partFail.Story = updated.Story;
-            partFail.StorageLocation = updated.StorageLocation;
+            this.PurchaseOrderNumber = updated.PurchaseOrderNumber;
+            this.WorksOrder = updated.WorksOrder;
+            this.Part = updated.Part;
+            this.Batch = updated.Batch;
+            this.ErrorType = updated.ErrorType;
+            this.FaultCode = updated.FaultCode;
+            this.MinutesWasted = updated.MinutesWasted;
+            this.Quantity = updated.Quantity;
+            this.Story = updated.Story;
+            this.StorageLocation = updated.StorageLocation;
         }
     }
 }
