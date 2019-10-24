@@ -8,7 +8,7 @@ function PartFails({ items, fetchItems, loading, clearSearch, history }) {
     const searchItems = items.map(item => ({
         ...item,
         name: item.id.toString(),
-        description: item.faultDescription
+        description: `${item.partNumber} - ${item.faultDescription}`
     }));
 
     return (

@@ -1,6 +1,9 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
     InputField,
     Loading,
@@ -47,7 +50,8 @@ function PartFail({
     storagePlacesSearchResults,
     searchStoragePlaces,
     storagePlacesSearchLoading,
-    clearStoragePlacesSearch
+    clearStoragePlacesSearch,
+    clearPartFailErrors
 }) {
     const [partFail, setPartFail] = useState({
         dateCreated: new Date().toISOString()
@@ -75,15 +79,6 @@ function PartFail({
         faultCodes.length > 0
             ? faultCodes.find(p => p.faultCode === partFail.faultCode)?.faultCode
             : 'loading...';
-
-    // const storagePlaceOptions = () =>
-    //     storagePlaces.length > 0
-    //         ? [''].concat(storagePlaces.map(p => p.storagePlaceId))
-    //         : ['loading...'];
-    // const storagePlaceValue = () =>
-    //     storagePlaces.length > 0
-    //         ? storagePlaces.find(p => p.storagePlaceId === partFail.storagePlace)?.storagePlaceId
-    //         : 'loading...';
 
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevPartFail) {
@@ -117,21 +112,9 @@ function PartFail({
         }
     }, [faultCodes, partFail.faultCode]);
 
-    // useEffect(() => {
-    //     if (storagePlaces && partFail.storagePlace) {
-    //         setPartFail(a => ({
-    //             ...a,
-    //             storagePlaceDescription: storagePlaces.find(
-    //                 c => c.storagePlaceId === a.storagePlace
-    //             )?.description
-    //         }));
-    //     } else {
-    //         setPartFail(a => ({
-    //             ...a,
-    //             storagePlaceDescription: ''
-    //         }));
-    //     }
-    // }, [storagePlaces, partFail.storagePlace]);
+    useEffect(() => {
+        clearPartFailErrors();
+    }, []);
 
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
@@ -141,6 +124,7 @@ function PartFail({
     };
 
     const handleSaveClick = () => {
+        clearPartFailErrors();
         if (editing()) {
             updateItem(itemId, partFail);
             setEditStatus('view');
@@ -177,6 +161,7 @@ function PartFail({
             marginLeft: theme.spacing(-1)
         }
     }));
+
     const classes = useStyles();
 
     return (
@@ -256,7 +241,7 @@ function PartFail({
 
                                 <Grid item xs={5}>
                                     <InputField
-                                        label="Part"
+                                        label="Part (click search icon to change)"
                                         maxLength={14}
                                         fullWidth
                                         value={partFail.partNumber}
@@ -437,9 +422,9 @@ function PartFail({
                                             </div>
                                         </Grid>
                                         <Grid item xs={5} />
-                                        <Grid item xs={5}>
+                                        <Grid item xs={4}>
                                             <InputField
-                                                label="Storage Place"
+                                                label="Storage Place (click search icon to change)"
                                                 fullWidth
                                                 value={partFail.storagePlace}
                                                 onChange={handleFieldChange}
@@ -454,13 +439,15 @@ function PartFail({
                                                         setEditStatus('edit');
                                                         setPartFail(a => ({
                                                             ...a,
-                                                            storagePlace: newValue.name
+                                                            storagePlace: newValue.name,
+                                                            storagePlaceDescription:
+                                                                newValue.description
                                                         }));
                                                     }}
                                                     searchItems={storagePlacesSearchResults.map(
                                                         w => ({
                                                             name: w.storagePlaceId,
-                                                            description: w.siteCode
+                                                            description: w.description
                                                         })
                                                     )}
                                                     loading={storagePlacesSearchLoading}
@@ -469,18 +456,29 @@ function PartFail({
                                                 />
                                             </div>
                                         </Grid>
-                                        <Grid item xs={5} />
-                                        {/* <Grid item xs={3}>
-                                            <Dropdown
-                                                label="Storage Place"
-                                                propertyName="storagePlace"
-                                                items={storagePlaceOptions()}
-                                                fullWidth
-                                                value={storagePlaceValue()}
-                                                onChange={handleFieldChange}
-                                            />
+                                        <Grid itemx xs={1}>
+                                            <Tooltip title="Clear">
+                                                <span>
+                                                    <Button
+                                                        color="primary"
+                                                        aria-label="Clear"
+                                                        disabled={!partFail.storagePlace}
+                                                        onClick={() => {
+                                                            setPartFail(a => ({
+                                                                ...a,
+                                                                storagePlace: '',
+                                                                storagePlaceDescription: ''
+                                                            }));
+                                                        }}
+                                                        variant="outlined"
+                                                        className={classes.closeButton}
+                                                    >
+                                                        <CloseIcon />
+                                                    </Button>
+                                                </span>
+                                            </Tooltip>
                                         </Grid>
-                                        <Grid item xs={3}>
+                                        <Grid item xs={6}>
                                             <InputField
                                                 fullWidth
                                                 value={partFail.storagePlaceDescription}
@@ -488,8 +486,7 @@ function PartFail({
                                                 onChange={() => {}}
                                                 propertyName="storagePlaceDescription"
                                             />
-                                        </Grid> */}
-                                        <Grid item xs={6} />
+                                        </Grid>
                                         <Grid item xs={3}>
                                             <InputField
                                                 fullWidth
@@ -558,7 +555,8 @@ PartFail.propTypes = {
     storagePlacesSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     searchStoragePlaces: PropTypes.func.isRequired,
     storagePlacesSearchLoading: PropTypes.bool,
-    clearStoragePlacesSearch: PropTypes.func.isRequired
+    clearStoragePlacesSearch: PropTypes.func.isRequired,
+    clearPartFailErrors: PropTypes.func.isRequired
 };
 
 PartFail.defaultProps = {

@@ -69,7 +69,8 @@ const mapDispatchToProps = {
     clearPurchaseOrdersSearch: purchaseOrdersActions.clearSearch,
     clearWorksOrdersSearch: worksOrdersActions.clearSearch,
     searchStoragePlaces: storagePlacesActions.search,
-    clearStoragePlacesSearch: storagePlacesActions.clearSearch
+    clearStoragePlacesSearch: storagePlacesActions.clearSearch,
+    clearPartFailErrors: partFailActions.clearErrorsForItem
 };
 
 export default connect(

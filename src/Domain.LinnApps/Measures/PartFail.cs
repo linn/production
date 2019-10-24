@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Measures
 {
     using System;
-    using System.Data.Common;
 
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
