@@ -65,6 +65,9 @@ function App() {
                 >
                     <Typography color="primary">Outstanding Works Orders Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/reports/overdue-orders" button>
+                    <Typography color="primary">Overdue Orders Report</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/reports/triggers" button>
                     <Typography color="primary">Production Triggers Report</Typography>
                 </ListItem>
@@ -85,7 +88,11 @@ function App() {
                 <ListItem component={Link} to="/production/reports/who-built-what" button>
                     <Typography color="primary">Who Built What Report</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/reports/manufacturing-commit-date" button>
+                <ListItem
+                    component={Link}
+                    to="/production/reports/manufacturing-commit-date"
+                    button
+                >
                     <Typography color="primary">Manufacturing Commit Date Report</Typography>
                 </ListItem>
             </List>
