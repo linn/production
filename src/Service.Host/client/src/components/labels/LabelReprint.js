@@ -7,6 +7,7 @@ import {
     SearchInputField,
     Title,
     ErrorCard,
+    SnackbarMessage,
     useSearch,
     utilities
 } from '@linn-it/linn-form-components-library';
@@ -22,7 +23,24 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function LabelReprint({ itemErrors, fetchSerialNumbers, serialNumbers, serialNumbersLoading }) {
+function LabelReprint({
+    itemErrors,
+    fetchSerialNumbers,
+    serialNumbers,
+    serialNumbersLoading,
+    printAllLabelsForProductMessageVisible,
+    printAllLabelsForProductMessageText,
+    printMACLabelsMessageVisible,
+    printMACLabelsMessageText,
+    setPrintAllLabelsForProductActionsMessageVisible,
+    printAllLabelsForProduct,
+    setPrintMACLabelsActionsMessageVisible,
+    printMACLabels,
+    printAllLabelsForProductErrorDetail,
+    printMACLabelsErrorDetail,
+    clearMacLabelErrors,
+    clearAllLabelErrors
+}) {
     const [searchTerm, setSearchTerm] = useState(null);
     const [sernosGroups, setSernosGroups] = useState([]);
     const [selectedSernosGroup, setSelectedSernosGroup] = useState('');
@@ -74,9 +92,15 @@ function LabelReprint({ itemErrors, fetchSerialNumbers, serialNumbers, serialNum
         }
     };
 
-    const handlePrintMacAddressButtonClick = () => {};
+    const handlePrintMacAddressButtonClick = () => {
+        clearMacLabelErrors();
+        printMACLabels({ serialNumber: searchTerm });
+    };
 
-    const handlePrintAllButtonClick = () => {};
+    const handlePrintAllButtonClick = () => {
+        clearAllLabelErrors();
+        printAllLabelsForProduct({ serialNumber: searchTerm, articleNumber });
+    };
 
     return (
         <Page showRequestErrors>
@@ -84,10 +108,25 @@ function LabelReprint({ itemErrors, fetchSerialNumbers, serialNumbers, serialNum
                 <Grid item xs={12}>
                     <Title text="Reprint Product Labels" />
                 </Grid>
+                <SnackbarMessage
+                    visible={printMACLabelsMessageVisible}
+                    onClose={() => setPrintMACLabelsActionsMessageVisible(false)}
+                    message={printMACLabelsMessageText}
+                />
+                <SnackbarMessage
+                    visible={printAllLabelsForProductMessageVisible}
+                    onClose={() => setPrintAllLabelsForProductActionsMessageVisible(false)}
+                    message={printAllLabelsForProductMessageText}
+                />
                 {itemErrors &&
                     itemErrors.map(itemError => (
                         <Grid item xs={12}>
-                            <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
+                            <ErrorCard
+                                errorMessage={`${printMACLabelsErrorDetail ||
+                                    printAllLabelsForProductErrorDetail ||
+                                    itemError.statusText ||
+                                    ''} `}
+                            />
                         </Grid>
                     ))}
                 <Grid item xs={3}>
@@ -165,13 +204,31 @@ LabelReprint.propTypes = {
     itemErrors: PropTypes.shape({}),
     fetchSerialNumbers: PropTypes.func.isRequired,
     serialNumbers: PropTypes.shape({}),
-    serialNumbersLoading: PropTypes.bool
+    serialNumbersLoading: PropTypes.bool,
+    setPrintAllLabelsForProductActionsMessageVisible: PropTypes.func.isRequired,
+    setPrintMACLabelsActionsMessageVisible: PropTypes.func.isRequired,
+    printAllLabelsForProduct: PropTypes.func.isRequired,
+    printMACLabels: PropTypes.func.isRequired,
+    clearMacLabelErrors: PropTypes.func.isRequired,
+    clearAllLabelErrors: PropTypes.func.isRequired,
+    printMACLabelsMessageVisible: PropTypes.bool,
+    printAllLabelsForProductMessageVisible: PropTypes.bool,
+    printAllLabelsForProductMessageText: PropTypes.string,
+    printMACLabelsMessageText: PropTypes.string,
+    printMACLabelsErrorDetail: PropTypes.string,
+    printAllLabelsForProductErrorDetail: PropTypes.string
 };
 
 LabelReprint.defaultProps = {
     itemErrors: null,
     serialNumbers: null,
-    serialNumbersLoading: false
+    serialNumbersLoading: false,
+    printAllLabelsForProductMessageVisible: false,
+    printMACLabelsMessageVisible: false,
+    printAllLabelsForProductMessageText: '',
+    printMACLabelsMessageText: '',
+    printMACLabelsErrorDetail: '',
+    printAllLabelsForProductErrorDetail: ''
 };
 
 export default LabelReprint;

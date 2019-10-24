@@ -55,6 +55,8 @@ import salesArticles from './salesArticles';
 import salesArticle from './salesArticle';
 import assemblyFailFaultCode from './assemblyFails/assemblyFailFaultCode';
 import manufacturingCommitDate from './manufacturingCommitDate';
+import printAllLabelsForProduct from './printAllLabelsForProduct';
+import printMACLabels from './printMACLabels';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -89,6 +91,8 @@ const rootReducer = combineReducers({
     outstandingWorksOrdersReport,
     parts,
     pcasRevisions,
+    printAllLabelsForProduct,
+    printMACLabels,
     productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,
