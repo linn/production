@@ -165,3 +165,11 @@ export const purchaseOrdersActionTypes = makeActionTypes(itemTypes.purchaseOrder
 export const overdueOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.overdueOrders.actionType
 );
+
+export const printMACLabelsActionTypes = makeProcessActionTypes(
+    processTypes.printMACLabels.actionType
+);
+
+export const printAllLabelsForProductActionTypes = makeProcessActionTypes(
+    processTypes.printAllLabelsForProduct.actionType
+);

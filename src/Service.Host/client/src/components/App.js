@@ -43,6 +43,9 @@ function App() {
                 <ListItem component={Link} to="/production/works-orders/" button>
                     <Typography color="primary">Works Orders Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/maintenance/labels/reprint" button>
+                    <Typography color="primary">Label Reprint</Typography>
+                </ListItem>
             </List>
             <Typography variant="h6">Reports</Typography>
             <List>
