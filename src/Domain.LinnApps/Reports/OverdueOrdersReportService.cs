@@ -31,7 +31,10 @@
         {
             var linn = this.accountingCompaniesRepository.FindById("LINN");
 
-            var data = this.overdueOrderLineQueryRepository.FilterBy(o => o.JobId == linn.LatestSosJobId);
+            var data = reportBy == "First Advised Date"
+                       ? this.overdueOrderLineQueryRepository.FilterBy(o => o.JobId == linn.LatestSosJobId)
+                           .OrderBy(d => d.FirstAdvisedDespatchDate)
+                       : this.overdueOrderLineQueryRepository.FilterBy(o => o.JobId == linn.LatestSosJobId);
 
             var model = new ResultsModel { ReportTitle = new NameModel("Outstanding Sales Orders by Days Late") };
 

@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 export default function OverdueOrdersReportOptions({ history }) {
-    const [reportBy, setReportBy] = useState('REQUESTED DELIVERY DATE');
+    const [reportBy, setReportBy] = useState('Requested Delivery Date');
     const [daysMethod, setDaysMethod] = useState('Working Days');
 
-    const reportByOptions = ['REQUESTED DELIVERY DATE', 'FIRST ADVISED DATE'];
+    const reportByOptions = ['Requested Delivery Date', 'First Advised Date'];
     const daysMethodOptions = ['Working Days', 'Actual Days'];
 
     const handleRunClick = () => {
