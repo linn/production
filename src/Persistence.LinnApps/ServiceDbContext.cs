@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using System;
     using System.Linq;
 
     using Linn.Common.Configuration;
@@ -13,7 +12,6 @@
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -101,6 +99,8 @@
         public DbSet<PartFailFaultCode> PartFailFaultCodes { get; set; }
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
  
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -143,8 +143,8 @@
             this.BuildPurchaseOrders(builder);
             this.QueryAccountingCompanies(builder);
             this.QueryProductionBackOrders(builder);
+            this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
-
             base.OnModelCreating(builder);
         }
 
@@ -726,9 +726,20 @@
 
         private void BuildPurchaseOrders(ModelBuilder builder)
         {
-            builder.Entity<PurchaseOrder>().ToTable("PL_ORDERS");
+            builder.Entity<PurchaseOrder>().ToTable("PL_ORDERS");   
             builder.Entity<PurchaseOrder>().HasKey(o => o.OrderNumber);
             builder.Entity<PurchaseOrder>().Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
+                .HasForeignKey(d => d.OrderNumber);
+        }
+
+        private void BuildPurchaseOrderDetails(ModelBuilder builder)
+        {
+            builder.Entity<PurchaseOrderDetail>().ToTable("PL_ORDER_DETAILS");
+            builder.Entity<PurchaseOrderDetail>().HasKey(d => new { d.OrderNumber, d.OrderLine });
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
         }
         
         private void QueryAccountingCompanies(ModelBuilder builder)

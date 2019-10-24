@@ -7,6 +7,6 @@
 
     public interface IStoragePlaceService
     {
-        SuccessResult<IEnumerable<StoragePlace>> GetAll();
+        SuccessResult<IEnumerable<StoragePlace>> Search(string searchTerm);
     }
 }

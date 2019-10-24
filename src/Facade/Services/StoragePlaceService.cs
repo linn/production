@@ -15,9 +15,11 @@
             this.storagePlaceQueryRepository = storagePlaceQueryRepository;
         }
 
-        public SuccessResult<IEnumerable<StoragePlace>> GetAll()
+        public SuccessResult<IEnumerable<StoragePlace>> Search(string searchTerm)
         {
-            return new SuccessResult<IEnumerable<StoragePlace>>(this.storagePlaceQueryRepository.FindAll());
+            return new SuccessResult<IEnumerable<StoragePlace>>(
+                this.storagePlaceQueryRepository
+                    .FilterBy(p => p.StoragePlaceId.Contains(searchTerm.ToUpper())));
         }
     }
 }
