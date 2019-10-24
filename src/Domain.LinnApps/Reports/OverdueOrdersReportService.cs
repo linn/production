@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
@@ -25,17 +26,15 @@
         }
 
         public ResultsModel OverdueOrdersReport(
-            int jobId,
-            string fromDate,
-            string toDate,
-            string accountingCompany,
-            string stockPool,
             string reportBy,
             string daysMethod)
         {
             var linn = this.accountingCompaniesRepository.FindById("LINN");
 
-            var data = this.overdueOrderLineQueryRepository.FilterBy(o => o.JobId == linn.LatestSosJobId);
+            var data = reportBy == "First Advised Date"
+                       ? this.overdueOrderLineQueryRepository.FilterBy(o => o.JobId == linn.LatestSosJobId)
+                           .OrderBy(d => d.FirstAdvisedDespatchDate)
+                       : this.overdueOrderLineQueryRepository.FilterBy(o => o.JobId == linn.LatestSosJobId);
 
             var model = new ResultsModel { ReportTitle = new NameModel("Outstanding Sales Orders by Days Late") };
 
@@ -46,9 +45,9 @@
                                   new AxisDetailsModel("Article Number") { SortOrder = 2, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Description") { SortOrder = 3, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Requested Date") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
-                                  new AxisDetailsModel("Days Late") { SortOrder = 5, GridDisplayType = GridDisplayType.Value },
+                                  new AxisDetailsModel("Requested Days Late") { SortOrder = 5, GridDisplayType = GridDisplayType.Value },
                                   new AxisDetailsModel("First Advised") { SortOrder = 6, GridDisplayType = GridDisplayType.TextValue },
-                                  new AxisDetailsModel("Days Late 2") { SortOrder = 7, GridDisplayType = GridDisplayType.Value },
+                                  new AxisDetailsModel("Advised Days Late") { SortOrder = 7, GridDisplayType = GridDisplayType.Value },
                                   new AxisDetailsModel("Quantity") { SortOrder = 8, GridDisplayType = GridDisplayType.Value },
                                   new AxisDetailsModel("Value") { SortOrder = 9, GridDisplayType = GridDisplayType.Value },
                                   new AxisDetailsModel("Total Order Value") { SortOrder = 10, GridDisplayType = GridDisplayType.Value },
@@ -87,25 +86,29 @@
                     new CalculationValueModel
                         {
                             RowId = newRowId.ToString(),
-                            TextDisplay = row.RequestedDeliveryDate.ToString(),
+                            TextDisplay = row.RequestedDeliveryDate?.ToString("dd-MMM-yy"),
                             ColumnId = "Requested Date"
                         });
                 values.Add(
                     new CalculationValueModel
                         {
-                            RowId = newRowId.ToString(), Quantity = row.DaysLate, ColumnId = "Days Late"
+                            RowId = newRowId.ToString(),
+                            Quantity = daysMethod == "Working Days" ? row.WorkingDaysLate : row.DaysLate,
+                            ColumnId = "Requested Days Late"
                         });
                 values.Add(
                     new CalculationValueModel
                         {
                             RowId = newRowId.ToString(),
-                            TextDisplay = row.FirstAdvisedDespatchDate.ToString(),
+                            TextDisplay = row.FirstAdvisedDespatchDate?.ToString("dd-MMM-yy"),
                             ColumnId = "First Advised"
                         });
                 values.Add(
                     new CalculationValueModel
                         {
-                            RowId = newRowId.ToString(), Quantity = row.DaysLateFa, ColumnId = "Days Late 2"
+                            RowId = newRowId.ToString(),
+                            Quantity = daysMethod == "Working Days" ? row.WorkingDaysLateFa : row.DaysLateFa,
+                            ColumnId = "Advised Days Late"
                         });
                 values.Add(
                     new CalculationValueModel

@@ -25,21 +25,11 @@
         }
 
         public IResult<ResultsModel> GetOverdueOrdersReport(
-            int jobId,
-            string fromDate,
-            string toDate,
-            string accountingCompany,
-            string stockPool,
             string reportBy,
             string daysMethod)
         {
             return new SuccessResult<ResultsModel>(
                 this.overdueOrdersService.OverdueOrdersReport(
-                    jobId,
-                    fromDate,
-                    toDate,
-                    accountingCompany,
-                    stockPool,
                     reportBy,
                     daysMethod));
         }

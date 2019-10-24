@@ -27,7 +27,7 @@
 
             var results = new ResultsModel(new[] { "col1" });
             this.OrdersReportsFacadeService
-                .GetOverdueOrdersReport(123, this.testDate, this.testDate, "AC", "SP", "RB", "DM")
+                .GetOverdueOrdersReport("RB", "DM")
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
                         {
@@ -58,14 +58,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.OrdersReportsFacadeService.Received().GetOverdueOrdersReport(
-                123,
-                this.testDate,
-                this.testDate,
-                "AC",
-                "SP",
-                "RB",
-                "DM");
+            this.OrdersReportsFacadeService.Received().GetOverdueOrdersReport("RB", "DM");
         }
 
         [Test]

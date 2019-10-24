@@ -4,7 +4,8 @@ import { Page, getRequestErrors } from '@linn-it/linn-form-components-library';
 
 const mapStateToProps = (state, ownProps) => ({
     requestErrors: getRequestErrors(state),
-    showRequestErrors: ownProps.showRequestErrors
+    showRequestErrors: ownProps.showRequestErrors,
+    width: ownProps.width
 });
 
 const mapDispatchToProps = {};

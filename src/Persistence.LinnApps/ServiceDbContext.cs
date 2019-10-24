@@ -397,6 +397,8 @@
             q.Property(t => t.Quantity).HasColumnName("QTY");
             q.Property(t => t.DaysLate).HasColumnName("DAYS_LATE");
             q.Property(t => t.DaysLateFa).HasColumnName("DAYS_LATE_FA");
+            q.Property(t => t.WorkingDaysLate).HasColumnName("WORKING_DAYS_LATE");
+            q.Property(t => t.WorkingDaysLateFa).HasColumnName("WORKING_DAYS_LATE_FA");
             q.Property(t => t.BaseValue).HasColumnName("BASE_VALUE");
             q.Property(t => t.OrderValue).HasColumnName("ORDER_VALUE");
         }
