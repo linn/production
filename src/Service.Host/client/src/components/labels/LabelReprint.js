@@ -66,9 +66,12 @@ function LabelReprint({
                 if (!groups.includes(serialNumber.sernosGroup)) {
                     groups.push(serialNumber.sernosGroup);
                 }
+
                 return utilities.sortList(groups);
             }, []);
 
+            clearMacLabelErrors();
+            clearAllLabelErrors();
             setSernosGroups(sortedGroups);
             setSelectedSernosGroup(sortedGroups[0] || '');
             selectSerialNumber(sortedGroups[0]);

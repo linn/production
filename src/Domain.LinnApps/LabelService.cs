@@ -33,7 +33,20 @@
         public void PrintAllLabels(int serialNumber, string articleNumber)
         {
             var labelData = this.labelPack.GetLabelData("BOX", serialNumber, articleNumber, "B");
-            this.PrintMACAddressLabel(serialNumber, this.GetMACAddress(serialNumber));
+            string macAddress = null;
+            try
+            {
+                macAddress = this.GetMACAddress(serialNumber);
+            }
+            catch (DomainException) {
+                // Still print the other labels if the product does not have a MAC address
+            }
+
+            if (!string.IsNullOrEmpty(macAddress))
+            {
+                this.PrintMACAddressLabel(serialNumber, this.GetMACAddress(serialNumber));
+            }
+
             this.PrintBoxLabel(serialNumber, labelData);
             this.PrintProductLabel(serialNumber, labelData);
         }
