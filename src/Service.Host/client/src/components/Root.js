@@ -62,6 +62,7 @@ import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCo
 import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersReportOptions';
 import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
 import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
+import PartFailFaultCodes from '../containers/partFails/PartFailFaultCodes';
 
 const Root = ({ store }) => (
     <div>
@@ -329,6 +330,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/quality/part-fail-error-types"
                                         component={PartFailErrorTypes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes"
+                                        component={PartFailFaultCodes}
                                     />
                                     <Route
                                         exact
