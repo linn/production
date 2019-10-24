@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors, getItemErrorDetailMessage } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import initialiseOnMount from '../initialiseOnMount';
 import OverdueOrderReport from '../../components/reports/OverdueOrdersReport';
@@ -18,6 +18,7 @@ const mapStateToProps = (state, ownProps) => ({
     reportData: reportSelectors.getReportData(state),
     loading: reportSelectors.getReportLoading(state),
     options: getOptions(ownProps),
+    error: getItemErrorDetailMessage(state, reportTypes.overdueOrders.item),
     config
 });
 
