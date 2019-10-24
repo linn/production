@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using System;
     using System.Linq;
 
     using Linn.Common.Configuration;
@@ -14,7 +13,6 @@
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -85,6 +83,8 @@
 
         public DbQuery<MCDLine> MCDLines { get; set; }
 
+        public DbQuery<OverdueOrderLine> OverdueOrderLines { get; set; }
+
         public DbQuery<StoragePlace> StoragePlaces { get; set; }
 
         public DbSet<StorageLocation> StorageLocations { get; set; }
@@ -96,6 +96,8 @@
         public DbSet<PartFailFaultCode> PartFailFaultCodes { get; set; }
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public DbSet<ProductData> ProductData { get; set; }
 
@@ -144,7 +146,10 @@
             this.BuildPurchaseOrders(builder);
             this.QueryAccountingCompanies(builder);
             this.QueryProductionBackOrders(builder);
+            this.BuildPurchaseOrderDetails(builder);
+            this.QueryOverdueOrderLines(builder);
             this.BuildProductData(builder);
+
             base.OnModelCreating(builder);
         }
 
@@ -367,6 +372,40 @@
             builder.Query<MCDLine>().Property(t => t.OrderLineCompleted).HasColumnName("COMPLETE");
             builder.Query<MCDLine>().Property(t => t.Reason).HasColumnName("REASON");
             builder.Query<MCDLine>().Property(t => t.CouldGo).HasColumnName("COULD_GO");
+        }
+
+        private void QueryOverdueOrderLines(ModelBuilder builder)
+        {
+            var q = builder.Query<OverdueOrderLine>();
+            q.ToView("V_OVERDUE_ORDERS_REPORT");
+            q.Property(t => t.JobId).HasColumnName("JOB_ID");
+            q.Property(t => t.AccountId).HasColumnName("ACCOUNT_ID");
+            q.Property(t => t.OutletNumber).HasColumnName("OUTLET_NUMBER");
+            q.Property(t => t.OutletName).HasColumnName("OUTLET_NAME");
+            q.Property(t => t.OrderNumber).HasColumnName("ORDER_NUMBER");
+            q.Property(t => t.OrderLine).HasColumnName("ORDER_LINE");
+            q.Property(t => t.OrderRef).HasColumnName("ORDER_REF");
+            q.Property(t => t.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            q.Property(t => t.InvoiceDescription).HasColumnName("INVOICE_DESCRIPTION");
+            q.Property(t => t.RequestedDeliveryDate).HasColumnName("REQUESTED_DELIVERY_DATE");
+            q.Property(t => t.FirstAdvisedDespatchDate).HasColumnName("FIRST_ADVISED_DESPATCH_DATE");
+            q.Property(t => t.NoStockQuantity).HasColumnName("NO_STOCK_QTY");
+            q.Property(t => t.AllocVal).HasColumnName("ALLOC_VAL");
+            q.Property(t => t.RequiredNowStockDespatchableValue).HasColumnName("RN_S_D_VAL");
+            q.Property(t => t.RequiredNowStockNotDespatchableValue).HasColumnName("RN_S_ND_VAL");
+            q.Property(t => t.RequiredNowNoStockValue).HasColumnName("RN_NS_VAL");
+            q.Property(t => t.RequiredThisMonthStockValue).HasColumnName("RTM_S_VAL");
+            q.Property(t => t.RequiredThisMonthNoStockValue).HasColumnName("RTM_NS_VAL");
+            q.Property(t => t.RequiredNextMonthStockValue).HasColumnName("RNM_S_VAL");
+            q.Property(t => t.RequiredNextMonthNoStockValue).HasColumnName("RNM_NS_VAL");
+            q.Property(t => t.Reasons).HasColumnName("REASONS");
+            q.Property(t => t.Quantity).HasColumnName("QTY");
+            q.Property(t => t.DaysLate).HasColumnName("DAYS_LATE");
+            q.Property(t => t.DaysLateFa).HasColumnName("DAYS_LATE_FA");
+            q.Property(t => t.WorkingDaysLate).HasColumnName("WORKING_DAYS_LATE");
+            q.Property(t => t.WorkingDaysLateFa).HasColumnName("WORKING_DAYS_LATE_FA");
+            q.Property(t => t.BaseValue).HasColumnName("BASE_VALUE");
+            q.Property(t => t.OrderValue).HasColumnName("ORDER_VALUE");
         }
 
         private void BuildSerialNumberReissues(ModelBuilder builder)
@@ -695,9 +734,17 @@
             builder.Entity<PurchaseOrder>().ToTable("PL_ORDERS");
             builder.Entity<PurchaseOrder>().HasKey(o => o.OrderNumber);
             builder.Entity<PurchaseOrder>().Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
+                .HasForeignKey(d => d.OrderNumber);
         }
-
-        private void QueryAccountingCompanies(ModelBuilder builder)
+        private void BuildPurchaseOrderDetails(ModelBuilder builder)
+        {
+            builder.Entity<PurchaseOrderDetail>().ToTable("PL_ORDER_DETAILS");
+            builder.Entity<PurchaseOrderDetail>().HasKey(d => new { d.OrderNumber, d.OrderLine });
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+        }        private void QueryAccountingCompanies(ModelBuilder builder)
         {
             var q = builder.Query<AccountingCompany>();
             q.ToView("ACCOUNTING_COMPANIES");

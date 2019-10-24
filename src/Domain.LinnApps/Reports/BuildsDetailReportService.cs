@@ -31,16 +31,22 @@
         {
             var table = this.databaseService.GetBuildsDetail(from, to, quantityOrValue, department, monthly);
             var partGroups = table.Select().GroupBy(r => r[2]).ToList();
-            var weeks = partGroups.Select(g => ((DateTime)g.First().ItemArray[4]).ToShortDateString()).Distinct().ToList();
+            var weeks = partGroups
+                .Select(
+                    g => ((DateTime)g.First().ItemArray[4])).Distinct().OrderBy(w => w).ToList();
 
             var colHeaders = new List<string> { "Part Number" };
-            colHeaders.AddRange(weeks);
+            colHeaders.AddRange(weeks.Select(w => w.ToShortDateString()));
             colHeaders.Add("Total");
+
             var results = new ResultsModel(colHeaders)
             {
-                ReportTitle = new NameModel($"Builds {quantityOrValue} for {this.departmentRepository.FindById(department).Description}")
+                ReportTitle = new NameModel(
+                    $"Builds {quantityOrValue} for {this.departmentRepository.FindById(department).Description}")
             };
+
             var rowIndex = 0;
+
             foreach (var partGroup in partGroups)
             {
                 var partTotal = new decimal();
@@ -50,15 +56,33 @@
                 for (var i = 0; i < weeks.Count; i++)
                 {
                     var valueExistsThisWeek = partGroup.FirstOrDefault(g =>
-                                          ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i)) != null;
+                                          ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i).ToShortDateString()) != null;
 
-                    results.SetColumnType(i + 1, GridDisplayType.Value);
-                    results.SetGridValue(rowIndex, i + 1, (decimal?)(valueExistsThisWeek ? partGroup.FirstOrDefault(g => ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i))?.ItemArray[5] : new decimal(0)));
+                    var val = valueExistsThisWeek
+                                  ? ConvertFromDbVal<decimal>(
+                                      partGroup.FirstOrDefault(
+                                          g => ((DateTime)g.ItemArray[4]).ToShortDateString()
+                                               == weeks.ElementAt(i).ToShortDateString())?.ItemArray[5])
+                                  : new decimal(0);
 
-                    if (valueExistsThisWeek)
+                results.SetColumnType(i + 1, GridDisplayType.Value);
+                    results.SetGridValue(rowIndex, i + 1, val);
+
+                    if (!valueExistsThisWeek)
                     {
-                        partTotal += (decimal)partGroup.First(g => ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i))?.ItemArray[5];
+                        continue;
                     }
+
+                    var itemArray = partGroup.First(
+                                g => ((DateTime)g.ItemArray[4]).ToShortDateString() 
+                                     == weeks.ElementAt(i).ToShortDateString())
+                            ?.ItemArray;
+                        {
+                            if (itemArray != null)
+                            {
+                                partTotal += ConvertFromDbVal<decimal>(itemArray?[5]);
+                            }
+                        }
                 }
 
                 results.SetColumnType(weeks.Count, GridDisplayType.Value);
@@ -67,6 +91,11 @@
             }
 
             return results;
+        }
+
+        private static T ConvertFromDbVal<T>(object obj)
+        {
+            return obj == null || obj == DBNull.Value ? default(T) : (T)obj;
         }
     }
 }

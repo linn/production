@@ -9,14 +9,12 @@
 
     public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>
     {
-        private readonly IRepository<ManufacturingOperation, int> manufacturingOperationRepository;
 
         public ManufacturingOperationsService(
             IRepository<ManufacturingOperation, int> repository,
             ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
-            this.manufacturingOperationRepository = repository;
         }
 
         protected override ManufacturingOperation CreateFromResource(ManufacturingOperationResource resource)

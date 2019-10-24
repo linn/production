@@ -8,7 +8,7 @@ function PartFails({ items, fetchItems, loading, clearSearch, history }) {
     const searchItems = items.map(item => ({
         ...item,
         name: item.id.toString(),
-        description: item.faultDescription
+        description: `${item.partNumber} - ${item.faultDescription}`
     }));
 
     return (
@@ -16,7 +16,7 @@ function PartFails({ items, fetchItems, loading, clearSearch, history }) {
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Fragment>
-                        <CreateButton createUrl="/production/quality/create-part-fail" />
+                        <CreateButton createUrl="/production/quality/part-fails/create" />
                     </Fragment>
                     <Typeahead
                         items={searchItems}

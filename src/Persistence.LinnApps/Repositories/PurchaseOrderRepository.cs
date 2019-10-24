@@ -7,6 +7,8 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class PurchaseOrderRepository : IRepository<PurchaseOrder, int>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -18,7 +20,8 @@
 
         public PurchaseOrder FindById(int key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PurchaseOrders.Where(o => o.OrderNumber == key).Include(o => o.Details)
+                .ToList().FirstOrDefault();
         }
 
         public IQueryable<PurchaseOrder> FindAll()
@@ -43,7 +46,8 @@
 
         public IQueryable<PurchaseOrder> FilterBy(Expression<Func<PurchaseOrder, bool>> expression)
         {
-            return this.serviceDbContext.PurchaseOrders.Where(expression);
+            return this.serviceDbContext
+                .PurchaseOrders.Where(expression).Include(o => o.Details).Take(10);
         }
     }
 }

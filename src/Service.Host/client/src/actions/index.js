@@ -162,6 +162,10 @@ export const storagePlacesActionTypes = makeActionTypes(itemTypes.storagePlaces.
 
 export const purchaseOrdersActionTypes = makeActionTypes(itemTypes.purchaseOrders.actionType, true);
 
+export const overdueOrdersReportActionTypes = makeReportActionTypes(
+    reportTypes.overdueOrders.actionType
+);
+
 export const printMACLabelsActionTypes = makeProcessActionTypes(
     processTypes.printMACLabels.actionType
 );

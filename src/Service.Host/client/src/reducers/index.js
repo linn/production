@@ -57,6 +57,7 @@ import assemblyFailFaultCode from './assemblyFails/assemblyFailFaultCode';
 import manufacturingCommitDate from './manufacturingCommitDate';
 import printAllLabelsForProduct from './printAllLabelsForProduct';
 import printMACLabels from './printMACLabels';
+import overdueOrders from './overdueOrdersReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -89,6 +90,7 @@ const rootReducer = combineReducers({
     manufacturingResource,
     manufacturingRoute,
     outstandingWorksOrdersReport,
+    overdueOrders,
     parts,
     pcasRevisions,
     printAllLabelsForProduct,

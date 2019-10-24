@@ -2,6 +2,7 @@
 { 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
@@ -15,6 +16,7 @@
             return new PurchaseOrderResource
                        {
                            OrderNumber = purchaseOrder.OrderNumber,
+                           Parts = purchaseOrder.Details.Select(d => d.PartNumber).ToList()
                        };
         }
 
