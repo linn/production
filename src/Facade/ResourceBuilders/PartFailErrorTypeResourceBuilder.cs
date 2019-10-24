@@ -23,7 +23,7 @@
 
         public string GetLocation(PartFailErrorType errorType)
         {
-            return $"/production/resources/board-fail-types/{errorType.ErrorType}";
+            return $"/production/resources/part-fail-error-types/{errorType.ErrorType}";
         }
 
         object IResourceBuilder<PartFailErrorType>.Build(PartFailErrorType errorType) => this.Build(errorType);
