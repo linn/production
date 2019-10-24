@@ -404,7 +404,7 @@ function PartFail({
                                                         setEditStatus('edit');
                                                         setPartFail(a => ({
                                                             ...a,
-                                                            purchaseOrderNumber: newValue.id
+                                                            purchaseOrderNumber: newValue.name
                                                         }));
                                                     }}
                                                     searchItems={purchaseOrdersSearchResults
