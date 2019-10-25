@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -16,7 +15,7 @@
             return new PartFailErrorTypeResource
                        {
                            ErrorType = type.ErrorType,
-                           DateInvalid = type.DateInvalid != null ? ((DateTime)type.DateInvalid).ToString("o") : null,
+                           DateInvalid = type.DateInvalid?.ToString("o"),
                            Links = this.BuildLinks(type).ToArray()
                        };
         }

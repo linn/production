@@ -18,7 +18,11 @@
 
         protected override PartFailFaultCode CreateFromResource(PartFailFaultCodeResource resource)
         {
-            throw new NotImplementedException();
+            return new PartFailFaultCode
+                       {
+                           FaultCode = resource.FaultCode,
+                           Description = resource.FaultDescription
+                       };
         }
 
         protected override void UpdateFromResource(PartFailFaultCode entity, PartFailFaultCodeResource updateResource)
