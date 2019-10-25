@@ -23,7 +23,7 @@
 
         protected override void UpdateFromResource(PartFailFaultCode entity, PartFailFaultCodeResource updateResource)
         {
-            throw new NotImplementedException();
+            entity.Description = updateResource.FaultDescription;
         }
 
         protected override Expression<Func<PartFailFaultCode, bool>> SearchExpression(string searchTerm)

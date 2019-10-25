@@ -23,7 +23,7 @@
 
         public string GetLocation(PartFailFaultCode faultCode)
         {
-            return $"/production/resources/part-fail-fault-codes/{faultCode.FaultCode}";
+            return $"/production/quality/part-fail-fault-codes/{faultCode.FaultCode}";
         }
 
         object IResourceBuilder<PartFailFaultCode>.Build(PartFailFaultCode faultCode) => this.Build(faultCode);

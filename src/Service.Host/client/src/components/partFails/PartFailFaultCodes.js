@@ -73,14 +73,14 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
 
     return (
         <Page>
-            <Title text="Part Fail Error Types" />
+            <Title text="Part Fail Fault Codes" />
             {itemError && <ErrorCard errorMessage={itemError.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
                 <Fragment>
                     <Fragment className={classes.actionsContainer}>
-                        <CreateButton createUrl="/production/resources/part-fail-fault-codes/create" />
+                        <CreateButton createUrl="/production/quality/part-fail-fault-codes/create" />
                     </Fragment>
                     <PaginatedTable
                         columns={columns}

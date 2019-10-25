@@ -63,6 +63,10 @@ import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersRepor
 import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
 import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
 import PartFailFaultCodes from '../containers/partFails/PartFailFaultCodes';
+import PartFailErrorType from '../containers/partFails/PartFailErrorType';
+import CreatePartFailErrorType from '../containers/partFails/CreatePartFailErrorType';
+import CreatePartFailFaultCode from '../containers/partFails/CreatePartFailFaultCode';
+import PartFailFaultCode from '../containers/partFails/PartFailFaultCode';
 
 const Root = ({ store }) => (
     <div>
@@ -333,8 +337,28 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/quality/part-fail-error-types/create"
+                                        component={CreatePartFailErrorType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-error-types/:id"
+                                        component={PartFailErrorType}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/quality/part-fail-fault-codes"
                                         component={PartFailFaultCodes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes/create"
+                                        component={CreatePartFailFaultCode}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes/:id"
+                                        component={PartFailFaultCode}
                                     />
                                     <Route
                                         exact

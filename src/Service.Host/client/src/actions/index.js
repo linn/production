@@ -154,13 +154,13 @@ export const partFailErrorTypesActionTypes = makeActionTypes(
     itemTypes.partFailErrorTypes.actionType
 );
 
-export const partFailErrorTypeActionTypes = makeActionTypes(itemTypes.partFailErrorType);
+export const partFailErrorTypeActionTypes = makeActionTypes(itemTypes.partFailErrorType.actionType);
 
 export const partFailFaultCodesActionTypes = makeActionTypes(
     itemTypes.partFailFaultCodes.actionType
 );
 
-export const partFailFaultCodeActionTypes = makeActionTypes(itemTypes.partFailFaultCode);
+export const partFailFaultCodeActionTypes = makeActionTypes(itemTypes.partFailFaultCode.actionType);
 
 export const storagePlacesActionTypes = makeActionTypes(itemTypes.storagePlaces.actionType);
 

@@ -37,11 +37,13 @@ const PartFailErrorTypes = ({ loading, itemError, history, items }) => {
 
     const classes = useStyles();
 
+    const formatDate = date => `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+
     useEffect(() => {
         const rows = items
             ? items.map(el => ({
                   type: `${el.errorType}`,
-                  description: `${el.dateInvalid}`,
+                  description: el.dateInvalid ? formatDate(new Date(el.dateInvalid)) : null,
                   links: el.links
               }))
             : null;
@@ -80,7 +82,7 @@ const PartFailErrorTypes = ({ loading, itemError, history, items }) => {
             ) : (
                 <Fragment>
                     <Fragment className={classes.actionsContainer}>
-                        <CreateButton createUrl="/production/resources/part-fail-error-types/create" />
+                        <CreateButton createUrl="/production/quality/part-fail-error-types/create" />
                     </Fragment>
 
                     <PaginatedTable

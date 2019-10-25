@@ -168,7 +168,6 @@ function AssemblyFail({
 
     const handleSaveClick = () => {
         if (editing()) {
-            console.log(JSON.stringify(assemblyFail));
             updateItem(itemId, assemblyFail);
             setEditStatus('view');
         } else if (creating()) {
