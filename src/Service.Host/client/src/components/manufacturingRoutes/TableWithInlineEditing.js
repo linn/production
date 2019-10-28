@@ -8,11 +8,14 @@ import DeleteIcon from '@material-ui/icons/Delete';
 
 function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedToEdit }) {
     const [editingCellId, setEditingCellId] = useState({});
+    const [allRows, setAllRows] = useState([...content]);
 
     const handleRowChange = (propertyName, newValue, rowIndex) => {
         const updatedRow = { ...content[rowIndex], [propertyName]: newValue };
-        const allRows = content;
-        allRows[rowIndex] = updatedRow;
+        allRows.splice(rowIndex, 1, updatedRow);
+        //the above mutates all rows without using set state - check if this is ok?? Seems pointless
+        //having all rows as state to mutate it here to me if so, so maybe is not how it should
+        //be done
         updateContent(allRows);
     };
 
@@ -146,11 +149,15 @@ const Row = ({
                                         onKeyDown={e => handleKeyPress(e, index)}
                                     >
                                         {currentlyEditing !== `${rowIndex}${column.key}` ? (
-                                            <span name={column.key} className={classes.pointer}>
+                                            <span
+                                                id={`outer${rowIndex}-${index}`}
+                                                name={column.key}
+                                                className={classes.pointer}
+                                            >
                                                 {rowContent[column.key]}
                                             </span>
                                         ) : (
-                                            <Fragment>
+                                            <div id={`inner${rowIndex}-${index}`}>
                                                 {column.type === 'dropdown' ? (
                                                     <Dropdown
                                                         onChange={handleCellChange}
@@ -166,7 +173,7 @@ const Row = ({
                                                         propertyName={column.key}
                                                     />
                                                 )}
-                                            </Fragment>
+                                            </div>
                                         )}
                                     </TableCell>
                                 </Fragment>

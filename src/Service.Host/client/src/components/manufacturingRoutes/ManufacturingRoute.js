@@ -59,8 +59,8 @@ function ManufacturingRoute({
     };
 
     const handleCancelClick = () => {
-        setManufacturingRoute(item);
         setEditStatus('view');
+        setManufacturingRoute(item);
     };
 
     const handleBackClick = () => {
@@ -68,10 +68,10 @@ function ManufacturingRoute({
     };
 
     const handleResourceFieldChange = (propertyName, newValue) => {
+        setManufacturingRoute({ ...manufacturingRoute, [propertyName]: newValue });
         if (viewing()) {
             setEditStatus('edit');
         }
-        setManufacturingRoute({ ...manufacturingRoute, [propertyName]: newValue });
     };
 
     const updateOp = ops => {
@@ -128,6 +128,7 @@ function ManufacturingRoute({
                 type: 'number'
             }
         ];
+
         return (
             <TableWithInlineEditing
                 columnsInfo={columnsInfo}
@@ -229,7 +230,7 @@ ManufacturingRoute.propTypes = {
     item: PropTypes.shape({
         routeCode: PropTypes.string,
         description: PropTypes.string,
-        notes: PropTypes.number
+        notes: PropTypes.string
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
@@ -241,17 +242,23 @@ ManufacturingRoute.propTypes = {
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
-    manufacturingSkills: PropTypes.shape({
-        skillCode: PropTypes.string,
-        description: PropTypes.string
-    }).isRequired,
-    manufacturingResources: PropTypes.shape({
-        skillCode: PropTypes.string,
-        description: PropTypes.string
-    }).isRequired,
-    cits: PropTypes.shape({
-        code: PropTypes.string
-    }).isRequired
+    manufacturingSkills: PropTypes.arrayOf(
+        PropTypes.shape({
+            skillCode: PropTypes.string,
+            description: PropTypes.string
+        })
+    ).isRequired,
+    manufacturingResources: PropTypes.arrayOf(
+        PropTypes.shape({
+            skillCode: PropTypes.string,
+            description: PropTypes.string
+        })
+    ).isRequired,
+    cits: PropTypes.arrayOf(
+        PropTypes.shape({
+            code: PropTypes.string
+        })
+    ).isRequired
 };
 
 ManufacturingRoute.defaultProps = {

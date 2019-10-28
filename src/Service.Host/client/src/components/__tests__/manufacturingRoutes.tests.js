@@ -1,19 +1,27 @@
 ﻿import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { cleanup } from '@testing-library/react';
+import {
+    cleanup,
+    fireEvent,
+    getAllByPlaceholderText,
+    queryByPlaceholderText,
+    find
+} from '@testing-library/react';
 import render from '../../test-utils';
 import ManufacturingRoutes from '../manufacturingRoutes/ManufacturingRoutes';
 
 afterEach(cleanup);
 
+const fetchItems = jest.fn();
+
 const manufacturingRoutes = [
     {
-        resourceCode: 'TESTCODE1',
+        routeCode: 'TESTCODE1',
         description: 'Descripticon',
         cost: 10
     },
     {
-        resourceCode: 'TESTCODE2',
+        routeCode: 'TESTCODE2',
         description: 'Descrip',
         cost: 12
     }
@@ -22,6 +30,7 @@ const defaultProps = {
     loading: false,
     errorMessage: 'there was an error',
     items: manufacturingRoutes,
+    fetchItems,
     history: {}
 };
 
@@ -47,13 +56,10 @@ describe('When viewing', () => {
         const { queryByRole } = render(<ManufacturingRoutes {...defaultProps} />);
         expect(queryByRole('table')).toBeInTheDocument();
     });
-
-    test('should display the two manufactruing resources', () => {
+    test('Should display both results', () => {
         const { getByText } = render(<ManufacturingRoutes {...defaultProps} />);
-        const firstRoute = getByText('TESTCODE1');
-        const secondRoute = getByText('TESTCODE2');
-        expect(firstRoute).toBeInTheDocument();
-        expect(secondRoute).toBeInTheDocument();
+        expect(getByText('TESTCODE1')).toBeInTheDocument();
+        expect(getByText('TESTCODE2')).toBeInTheDocument();
     });
 
     test('should display create button', () => {
@@ -61,4 +67,19 @@ describe('When viewing', () => {
         const input = getByText('Create');
         expect(input).toBeInTheDocument();
     });
+
+    test('should display search bar', () => {
+        const { getByPlaceholderText } = render(<ManufacturingRoutes {...defaultProps} />);
+        const item = getByPlaceholderText('search..');
+        expect(item).toBeInTheDocument();
+    });
+
+    // test('should call search upon text entry', () => {
+    //     const { getByPlaceholderText } = render(<ManufacturingRoutes {...defaultProps} />);
+    //     const item = getByPlaceholderText('search..');
+    //     fireEvent.change(item, {
+    //         target: { value: 'new value' }
+    //     });
+    //     expect(fetchItems).toHaveBeenCalledWith('new value');
+    // });
 });

@@ -86,7 +86,6 @@ const rootReducer = combineReducers({
     manufacturingSkill,
     manufacturingResources,
     manufacturingResource,
-    manufacturingRoute,
     outstandingWorksOrdersReport,
     parts,
     pcasRevisions,
@@ -116,7 +115,6 @@ const rootReducer = combineReducers({
     manufacturingCommitDate,
     manufacturingRoute,
     manufacturingRoutes,
-    assemblyFailsMeasures,
     ...sharedLibraryReducers
 });
 
