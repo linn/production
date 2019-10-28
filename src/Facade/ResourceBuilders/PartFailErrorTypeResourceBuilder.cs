@@ -1,7 +1,7 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
@@ -15,20 +15,21 @@
             return new PartFailErrorTypeResource
                        {
                            ErrorType = type.ErrorType,
-                           DateInvalid = type.DateInvalid != null ? ((DateTime)type.DateInvalid).ToString("o") : null
+                           DateInvalid = type.DateInvalid?.ToString("o"),
+                           Links = this.BuildLinks(type).ToArray()
                        };
         }
 
-        public string GetLocation(PartFailErrorType type)
+        public string GetLocation(PartFailErrorType errorType)
         {
-            throw new NotImplementedException();
+            return $"/production/quality/part-fail-error-types/{errorType.ErrorType}";
         }
 
-        object IResourceBuilder<PartFailErrorType>.Build(PartFailErrorType type) => this.Build(type);
+        object IResourceBuilder<PartFailErrorType>.Build(PartFailErrorType errorType) => this.Build(errorType);
 
-        private IEnumerable<LinkResource> BuildLinks(PartFailErrorType type)
+        private IEnumerable<LinkResource> BuildLinks(PartFailErrorType errorType)
         {
-            throw new NotImplementedException();
+            yield return new LinkResource { Rel = "self", Href = this.GetLocation(errorType) };
         }
     }
 }

@@ -58,6 +58,8 @@ import manufacturingCommitDate from './manufacturingCommitDate';
 import printAllLabelsForProduct from './printAllLabelsForProduct';
 import printMACLabels from './printMACLabels';
 import overdueOrders from './overdueOrdersReport';
+import partFailErrorType from './partFailErrorType';
+import partFailFaultCode from './partFailFaultCode';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -119,6 +121,8 @@ const rootReducer = combineReducers({
     worksOrders,
     worksOrderDetails,
     manufacturingCommitDate,
+    partFailErrorType,
+    partFailFaultCode,
     ...sharedLibraryReducers
 });
 

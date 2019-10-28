@@ -1,6 +1,8 @@
 ﻿namespace Linn.Production.Resources
 {
-    public class PartFailErrorTypeResource
+    using Linn.Common.Resources;
+
+    public class PartFailErrorTypeResource : HypermediaResource
     {
         public string ErrorType { get; set; }
 
