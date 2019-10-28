@@ -5,17 +5,21 @@
     using System.Linq.Expressions;
 
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
+    using Linn.Production.Proxy;
 
     using Microsoft.EntityFrameworkCore;
 
     public class WorksOrderRepository : IRepository<WorksOrder, int>
     {
+        private readonly IDatabaseService linnappsDatabaseService;
+
         private readonly ServiceDbContext serviceDbContext;
 
-        public WorksOrderRepository(ServiceDbContext serviceDbContext)
+        public WorksOrderRepository(ServiceDbContext serviceDbContext, IDatabaseService linnappsDatabaseService)
         {
             this.serviceDbContext = serviceDbContext;
+            this.linnappsDatabaseService = linnappsDatabaseService;
         }
 
         public WorksOrder FindById(int key)
@@ -30,7 +34,8 @@
 
         public void Add(WorksOrder entity)
         {
-            throw new NotImplementedException();
+            entity.OrderNumber = this.linnappsDatabaseService.GetNextVal("WO_ORDER_SEQ");
+            this.serviceDbContext.WorksOrders.Add(entity);
         }
 
         public void Remove(WorksOrder entity)

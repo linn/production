@@ -34,5 +34,21 @@
             var resource = json.Deserialize<SalesArticleResource>(response.Value);
             return resource.Description;
         }
+
+        public bool ProductIdOnChip(string partNumber)
+        {
+            var uri = new Uri($"{this.rootUri}/products/maint/sales-articles/{partNumber}", UriKind.RelativeOrAbsolute);
+
+            var response = this.restClient.Get(
+                CancellationToken.None,
+                uri,
+                new Dictionary<string, string>(),
+                DefaultHeaders.JsonGetHeaders()).Result;
+
+            var json = new JsonSerializer();
+            var resource = json.Deserialize<SalesArticleResource>(response.Value);
+
+            return resource.ProductIdOnChip == "Y";
+        }
     }
 }

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchErrorSelectors } from '@linn-it/linn-form-components-library';
+import { getItemErrors } from '@linn-it/linn-form-components-library';
 import salesArticleActions from '../../actions/salesArticleActions';
 import salesArticleSelectors from '../../selectors/salesArticleSelectors';
 import SerialNumberReissue from '../../components/serialNumberReissue/SerialNumberReissue';
@@ -12,7 +12,7 @@ import serialNumberSelectors from '../../selectors/serialNumberSelectors';
 
 const mapStateToProps = state => ({
     editStatus: serialNumberReissueSelectors.getEditStatus(state),
-    errorMessage: fetchErrorSelectors(state),
+    itemErrors: getItemErrors(state),
     item: serialNumberReissueSelectors.getItem(state),
     loading: serialNumberReissueSelectors.getLoading(state),
     salesArticle: salesArticleSelectors.getItem(state),

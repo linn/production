@@ -26,7 +26,7 @@
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Exception: {e.Message}");
+                Console.WriteLine($"Exception: {e.Message} {e.InnerException?.Message}");
                 Environment.Exit(1);
             }
         }

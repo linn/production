@@ -4,18 +4,16 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
-    using Domain.LinnApps.SerialNumberReissue;
-
     using FluentAssertions;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Resources;
 
     using NSubstitute;
 
     using NUnit.Framework;
-
-    using Resources;
 
     public class WhenAddingSerialNumberReissue : ContextBase
     {
@@ -33,7 +31,10 @@
                                     SernosGroup = "group",
                                     ArticleNumber = "art",
                                     SerialNumber = 123,
+                                    NewSerialNumber = 555,
                                     NewArticleNumber = "newart",
+                                    Comments = "comment",
+                                    CreatedBy = 33067,
                                     Links = new List<LinkResource>
                                                 {
                                                     new LinkResource("created-by", "/employees/33067")
@@ -48,7 +49,14 @@
                 SerialNumber = 123
             };
 
-            this.SernosRenumPack.ReissueSerialNumber(Arg.Any<SerialNumberReissueResource>()).Returns("SUCCESS");
+            this.SernosRenumPack.ReissueSerialNumber(
+                this.resource.SernosGroup,
+                this.resource.SerialNumber,
+                this.resource.NewSerialNumber,
+                this.resource.ArticleNumber,
+                this.resource.NewArticleNumber,
+                this.resource.Comments,
+                this.resource.CreatedBy).Returns("SUCCESS");
 
             this.SerialNumberResissueRepository.FindBy(Arg.Any<Expression<Func<SerialNumberReissue, bool>>>())
                 .Returns(this.serialNumberReissue);
@@ -59,7 +67,14 @@
         [Test]
         public void ShouldCallSernosReissuePack()
         {
-            this.SernosRenumPack.Received().ReissueSerialNumber(Arg.Any<SerialNumberReissueResource>());
+            this.SernosRenumPack.Received().ReissueSerialNumber(
+                this.resource.SernosGroup,
+                this.resource.SerialNumber,
+                this.resource.NewSerialNumber,
+                this.resource.ArticleNumber,
+                this.resource.NewArticleNumber,
+                this.resource.Comments,
+                this.resource.CreatedBy);
         }
 
         [Test]

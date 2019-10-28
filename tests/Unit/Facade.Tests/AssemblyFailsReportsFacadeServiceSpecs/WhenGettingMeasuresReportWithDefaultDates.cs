@@ -17,7 +17,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.result = this.Sut.GetAssemblyFailsMeasuresReport(null, null);
+            this.result = this.Sut.GetAssemblyFailsMeasuresReport(null, null, "board-part-number");
         }
 
         [Test]
@@ -26,7 +26,7 @@
             this.ReportService.Received().GetAssemblyFailsMeasuresReport(
                 Arg.Is<DateTime>(a => a.Date == DateTime.UtcNow.Date.AddMonths(-4)),
                 Arg.Is<DateTime>(b => b.Date == DateTime.UtcNow.Date),
-                AssemblyFailGroupBy.boardPartNumber);
+                AssemblyFailGroupBy.BoardPartNumber);
         }
     }
 }

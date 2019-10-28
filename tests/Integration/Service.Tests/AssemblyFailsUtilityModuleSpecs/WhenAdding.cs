@@ -6,6 +6,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     using Nancy;
@@ -35,14 +36,14 @@
                                    {
                                        Id = 1,
                                        WorksOrder = new WorksOrder
-                                                                {
-                                                                    OrderNumber = 99999999,
-                                                                    PartNumber = "PART",
-                                                                    Part = new Part
-                                                                               {
-                                                                                   PartNumber = "PART", Description = "Something"
-                                                                               }
-                                                                },
+                                                        {
+                                                            OrderNumber = 99999999,
+                                                            PartNumber = "PART",
+                                                            Part = new Part
+                                                                       {
+                                                                           PartNumber = "PART", Description = "Something"
+                                                                       }
+                                                        },
                                        EnteredBy = new Employee
                                                        {
                                                            Id = 12345678,

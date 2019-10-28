@@ -27,7 +27,7 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading, history }) {
             options.reportType === 'All' ? '' : `?reportType=cit&searchParameter=${options.cit}`;
 
         history.push({
-            pathname: '/production/maintenance/works-orders/outstanding-works-orders-report/report',
+            pathname: '/production/works-orders/outstanding-works-orders-report/report',
             search: queryString
         });
     };

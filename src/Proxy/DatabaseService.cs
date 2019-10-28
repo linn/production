@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Proxy
 {
-    using System.Configuration;
     using System.Data;
 
     using Oracle.ManagedDataAccess.Client;
@@ -52,7 +51,7 @@
 
         public DataSet ExecuteQuery(string sql)
         {
-            using (OracleConnection connection = new OracleConnection(ConnectionStrings.ManagedConnectionString()))
+            using (var connection = this.GetConnection())
             {
                 var dataAdapter = new OracleDataAdapter(
                     new OracleCommand(sql, connection) { CommandType = CommandType.Text });
@@ -64,7 +63,7 @@
 
         public int GetIdSequence(string sequenceName)
         {
-            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+            var connection = this.GetConnection();
 
             var cmd = new OracleCommand("get_next_sequence_value", connection)
             {

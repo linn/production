@@ -18,7 +18,7 @@
 
         public PcasRevision FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PcasRevisions.Where(p => p.BoardCode == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<PcasRevision> FindAll()
@@ -38,7 +38,7 @@
 
         public PcasRevision FindBy(Expression<Func<PcasRevision, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PcasRevisions.Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<PcasRevision> FilterBy(Expression<Func<PcasRevision, bool>> expression)

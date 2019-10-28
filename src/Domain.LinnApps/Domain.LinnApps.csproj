@@ -8,12 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="Linn.Common.Domain" Version="1.0.0" />
-    <PackageReference Include="Linn.Common.Persistence" Version="2.0.1" />
-    <PackageReference Include="Linn.Common.Reporting" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Resources\Resources.csproj" />
+    <PackageReference Include="Linn.Common.Persistence" Version="2.1.0" />
+    <PackageReference Include="Linn.Common.Reporting" Version="1.0.5" />
   </ItemGroup>
 
 </Project>

@@ -8,8 +8,8 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Proxy;
-
     using Linn.Production.Resources;
 
     public class AssemblyFailsService : FacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>
@@ -33,7 +33,7 @@
             IRepository<WorksOrder, int> worksOrderRepository,
             IRepository<Cit, string> citRepository,
             IRepository<Part, string> partRepository,
-        ITransactionManager transactionManager, 
+            ITransactionManager transactionManager,
             IDatabaseService databaseService)
             : base(assemblyFailRepository, transactionManager)
         {
@@ -60,41 +60,86 @@
                            Batch = resource.Batch,
                            AoiEscape = resource.AoiEscape,
                            CircuitPartRef = resource.CircuitRef,
-                           BoardPart = resource.BoardPartNumber != null ? this.partRepository.FindById(resource.BoardPartNumber) : null,
-                           CitResponsible = resource.CitResponsible != null ? this.citRepository.FindById(resource.CitResponsible) : null, 
+                           CircuitPart = resource.CircuitPartNumber,
+                           BoardPart =
+                               resource.BoardPartNumber != null
+                                   ? this.partRepository.FindById(resource.BoardPartNumber)
+                                   : null,
+                           CitResponsible =
+                               resource.CitResponsible != null
+                                   ? this.citRepository.FindById(resource.CitResponsible)
+                                   : null,
                            BoardPartNumber = resource.BoardPartNumber,
-                           PersonResponsible = resource.PersonResponsible != null 
-                                                   ? this.employeeRepository.FindById((int)resource.PersonResponsible)
-                                                   : null,
-                           CompletedBy = resource.CompletedBy != null 
-                                             ? this.employeeRepository.FindById((int)resource.CompletedBy)
-                                             : null,
-                           ReturnedBy = resource.ReturnedBy != null
-                                             ? this.employeeRepository.FindById((int)resource.ReturnedBy)
-                                             : null,
-                           DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null,
+                           PersonResponsible =
+                               resource.PersonResponsible != null
+                                   ? this.employeeRepository.FindById((int)resource.PersonResponsible)
+                                   : null,
+                           CompletedBy =
+                               resource.CompletedBy != null
+                                   ? this.employeeRepository.FindById((int)resource.CompletedBy)
+                                   : null,
+                           ReturnedBy =
+                               resource.ReturnedBy != null
+                                   ? this.employeeRepository.FindById((int)resource.ReturnedBy)
+                                   : null,
+                           DateInvalid =
+                               resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null,
                            CaDate = resource.CaDate != null ? DateTime.Parse(resource.CaDate) : (DateTime?)null,
                            SerialNumber = resource.SerialNumber,
                            WorksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber),
                            ReportedFault = resource.ReportedFault,
                            OutSlot = resource.OutSlot,
                            CorrectiveAction = resource.CorrectiveAction,
-                           FaultCode = resource.FaultCode != null 
-                                           ? this.faultCodeRepository.FindById(resource.FaultCode)
-                                           : null,
+                           FaultCode =
+                               resource.FaultCode != null
+                                   ? this.faultCodeRepository.FindById(resource.FaultCode)
+                                   : null,
                            Analysis = resource.Analysis,
-                           EngineeringComments = resource.EngineeringComments
+                           EngineeringComments = resource.EngineeringComments,
+                           DateTimeComplete = resource.DateTimeComplete != null
+                                                  ? DateTime.Parse(resource.DateTimeComplete)
+                                                  : (DateTime?)null
                        };
         }
 
-        protected override void UpdateFromResource(AssemblyFail entity, AssemblyFailResource updateResource)
+        protected override void UpdateFromResource(AssemblyFail assemblyFail, AssemblyFailResource resource)
         {
-            throw new NotImplementedException();
+            assemblyFail.BoardPartNumber = resource.BoardPartNumber;
+            assemblyFail.SerialNumber = resource.SerialNumber;
+            assemblyFail.InSlot = resource.InSlot;
+            assemblyFail.Machine = resource.Machine;
+            assemblyFail.NumberOfFails = resource.NumberOfFails;
+            assemblyFail.ReportedFault = resource.ReportedFault;
+            assemblyFail.Analysis = resource.Analysis;
+            assemblyFail.EngineeringComments = resource.EngineeringComments;
+            assemblyFail.Shift = resource.Shift;
+            assemblyFail.Batch = resource.Batch;
+            assemblyFail.AoiEscape = resource.AoiEscape;
+            assemblyFail.BoardPart = resource.BoardPartNumber != null
+                                         ? this.partRepository.FindById(resource.BoardPartNumber)
+                                         : null;
+            assemblyFail.CircuitPart = resource.CircuitPartNumber;
+            assemblyFail.CircuitPartRef = resource.CircuitRef;
+            assemblyFail.CitResponsible = this.citRepository.FindById(resource.CitResponsible);
+            assemblyFail.PersonResponsible = resource.PersonResponsible != null
+                                                 ? this.employeeRepository.FindById((int)resource.PersonResponsible)
+                                                 : null;
+            assemblyFail.FaultCode = resource.FaultCode != null
+                                        ? this.faultCodeRepository.FindById(resource.FaultCode)
+                                        : null;
+            assemblyFail.DateTimeComplete = resource.DateTimeComplete != null ? DateTime.Parse(resource.DateTimeComplete) : (DateTime?)null;
+            assemblyFail.CompletedBy = resource.CompletedBy != null
+                                           ? this.employeeRepository.FindById((int)resource.CompletedBy)
+                                           : null;
+            assemblyFail.CorrectiveAction = resource.CorrectiveAction;
+            assemblyFail.OutSlot = resource.OutSlot;
+            assemblyFail.CaDate = resource.CaDate != null ? DateTime.Parse(resource.CaDate) : (DateTime?)null;
+            assemblyFail.DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null;
         }
 
         protected override Expression<Func<AssemblyFail, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return w => w.Id.ToString().Contains(searchTerm);
         }
     }
 }

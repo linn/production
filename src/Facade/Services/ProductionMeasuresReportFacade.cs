@@ -2,22 +2,24 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using CsvExtensions;
-    using Domain.LinnApps.Triggers;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Persistence.LinnApps.Repositories;
+    using Linn.Production.Domain.LinnApps.Triggers;
+    using Linn.Production.Facade.CsvExtensions;
 
     public class ProductionMeasuresReportFacade : IProductionMeasuresReportFacade
     {
         private readonly IRepository<ProductionMeasures, string> productionMeasuresRepository;
 
-        private readonly IMasterRepository<PtlMaster> ptlMasterRepository;
+        private readonly ISingleRecordRepository<PtlMaster> ptlMasterRepository;
 
-        private readonly IMasterRepository<OsrRunMaster> osrRunMasterRepository;
+        private readonly ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository;
 
-        public ProductionMeasuresReportFacade(IRepository<ProductionMeasures, string> productionMeasuresRepository, IMasterRepository<PtlMaster> ptlMasterRepository, IMasterRepository<OsrRunMaster> osrRunMasterRepository)
+        public ProductionMeasuresReportFacade(
+            IRepository<ProductionMeasures, string> productionMeasuresRepository,
+            ISingleRecordRepository<PtlMaster> ptlMasterRepository,
+            ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository)
         {
             this.productionMeasuresRepository = productionMeasuresRepository;
             this.ptlMasterRepository = ptlMasterRepository;
@@ -33,7 +35,7 @@
         public IResult<IEnumerable<IEnumerable<string>>> GetProductionMeasuresCsv()
         {
             var citMeasures = this.productionMeasuresRepository.FindAll().ToList();
-            var results = new List<List<string>>() { ProductionMeasuresCsvExtensions.CsvHeaderLine().ToList()};
+            var results = new List<List<string>> { ProductionMeasuresCsvExtensions.CsvHeaderLine().ToList() };
             results.AddRange(citMeasures.Where(m => m.HasMeasures()).Select(m => m.ToCsvLine().ToList()));
             return new SuccessResult<IEnumerable<IEnumerable<string>>>(results);
         }
@@ -42,8 +44,8 @@
         {
             var info = new OsrInfo
             {
-               RunMaster = osrRunMasterRepository.GetMasterRecord(),
-               PtlMaster = ptlMasterRepository.GetMasterRecord()
+               RunMaster = this.osrRunMasterRepository.GetRecord(),
+               PtlMaster = this.ptlMasterRepository.GetRecord()
             };
 
             return new SuccessResult<OsrInfo>(info);

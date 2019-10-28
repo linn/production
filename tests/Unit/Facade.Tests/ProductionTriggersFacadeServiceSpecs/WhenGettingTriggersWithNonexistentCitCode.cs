@@ -13,7 +13,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.PtlMasterRepository.GetMasterRecord().Returns(new PtlMaster() { LastFullRunJobref = "AAAAAA" });
+            this.PtlMasterRepository.GetRecord().Returns(new PtlMaster { LastFullRunJobref = "AAAAAA" });
             this.result = this.Sut.GetProductionTriggerReport("CJCAIH", "A");
         }
 

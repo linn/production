@@ -2,17 +2,22 @@
 {
     using System.Data;
     using Autofac;
-    using Common.Reporting.Models;
-    using Domain.LinnApps;
-    using Domain.LinnApps.ATE;
-    using Domain.LinnApps.RemoteServices;
+
+    using Linn.Common.Authorisation;
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
     using Linn.Common.Proxy;
+    using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
+    using Linn.Production.Domain.LinnApps.Reports.Smt;
     using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -27,8 +32,13 @@
             builder.RegisterType<WhoBuiltWhatReport>().As<IWhoBuiltWhatReport>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<BuildsDetailReportService>().As<IBuildsDetailReportService>();
+            builder.RegisterType<WorksOrderFactory>().As<IWorksOrderFactory>();
             builder.RegisterType<AssemblyFailsReportService>().As<IAssemblyFailsReportService>();
             builder.RegisterType<LinnWeekService>().As<ILinnWeekService>();
+            builder.RegisterType<SmtReports>().As<ISmtReports>();
+            builder.RegisterType<WorksOrderUtilities>().As<IWorksOrderUtilities>();
+            builder.RegisterType<OverdueOrdersReportService>().As<IOverdueOrdersService>();
+            builder.RegisterType<ManufacturingCommitDateReport>().As<IManufacturingCommitDateReport>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -47,8 +57,7 @@
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
-            builder.RegisterType<WorksOrdersService>()
-                .As<IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>>();
+            builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
             builder.RegisterType<ProductionTriggerLevelService>()
                 .As<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();
             builder.RegisterType<PcasRevisionService>()
@@ -57,7 +66,6 @@
                 .As<IFacadeService<Employee, int, EmployeeResource, EmployeeResource>>();
             builder.RegisterType<AssemblyFailFaultCodesService>()
                 .As<IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>>();
-
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             builder.RegisterType<ManufacturingSkillService>()
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
@@ -68,6 +76,22 @@
                 .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
             builder.RegisterType<ManufacturingOperationsService>()
                 .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
+            builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
+            builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
+            builder.RegisterType<SmtShiftsService>()
+                .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
+            builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
+            builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
+            builder.RegisterType<PartFailService>()
+                .As<IFacadeService<PartFail, int, PartFailResource, PartFailResource>>();
+            builder.RegisterType<PartFailErrorTypeService>()
+                .As<IFacadeService<PartFailErrorType, string, PartFailErrorTypeResource, PartFailErrorTypeResource>>();
+            builder.RegisterType<StoragePlaceService>().As<IStoragePlaceService>();
+            builder.RegisterType<PartFailFaultCodeService>()
+                .As<IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource>>();
+            builder.RegisterType<PurchaseOrderService>()
+                .As<IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource>>();
+            builder.RegisterType<OrdersReportsFacadeService>().As<IOrdersReportsFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -79,7 +103,10 @@
             builder.RegisterType<BuildsDetailReportProxy>().As<IBuildsDetailReportDatabaseService>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
             builder.RegisterType<LinnWeekPack>().As<ILinnWeekPack>();
+            builder.RegisterType<WorksOrderProxy>().As<IWorksOrderProxyService>();
+            builder.RegisterType<SernosPack>().As<ISernosPack>();
             builder.RegisterType<ProductionTriggersFacadeService>().As<IProductionTriggersFacadeService>();
+            builder.RegisterType<TriggerRunPack>().As<ITriggerRunPack>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
@@ -87,7 +114,8 @@
 
             // services
             builder.RegisterType<ReportingHelper>().As<IReportingHelper>();
-           
+            builder.RegisterType<AuthorisationService>().As<IAuthorisationService>();
+
             // Oracle connection
             builder.RegisterType<OracleConnection>().As<IDbConnection>().WithParameter(
                 "connectionString",

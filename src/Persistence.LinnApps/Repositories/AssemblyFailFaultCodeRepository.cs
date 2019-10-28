@@ -18,17 +18,18 @@
 
         public AssemblyFailFaultCode FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.AssemblyFailFaultCodes.Where(a => a.FaultCode == key).ToList()
+                .FirstOrDefault();
         }
 
         public IQueryable<AssemblyFailFaultCode> FindAll()
         {
-            return this.serviceDbContext.AssemblyFailFaultCodes.OrderBy(c => c.FaultCode);
+            return this.serviceDbContext.AssemblyFailFaultCodes.Where(f => f.DateInvalid == null).OrderBy(c => c.FaultCode);
         }
 
         public void Add(AssemblyFailFaultCode entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.AssemblyFailFaultCodes.Add(entity);
         }
 
         public void Remove(AssemblyFailFaultCode entity)

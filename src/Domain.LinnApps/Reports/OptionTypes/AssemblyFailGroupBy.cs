@@ -2,6 +2,11 @@
 {
     public enum AssemblyFailGroupBy
     {
-        boardPartNumber
+        BoardPartNumber,
+        FaultCode,
+        Board,
+        CitCode,
+        CircuitPartNumber,
+        Person
     }
 }

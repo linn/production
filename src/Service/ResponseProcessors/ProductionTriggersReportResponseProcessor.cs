@@ -7,7 +7,7 @@
     public class ProductionTriggersReportResponseProcessor : JsonResponseProcessor<ProductionTriggersReport>
     {
         public ProductionTriggersReportResponseProcessor(IResourceBuilder<ProductionTriggersReport> resourceBuilder)
-            : base(resourceBuilder, "production-measures-list", 1)
+            : base(resourceBuilder, "production-triggers-report", 1)
         {
         }
     }

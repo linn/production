@@ -14,7 +14,7 @@ import TableWithInlineEditing from './TableWithInlineEditing';
 
 function ManufacturingRoute({
     editStatus,
-    errorMessage,
+    itemError,
     history,
     itemId,
     item,
@@ -149,9 +149,9 @@ function ManufacturingRoute({
                         <Title text="Manufacturing Route" />
                     )}
                 </Grid>
-                {errorMessage && (
+                {itemError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 )}
                 {loading || !manufacturingRoute ? (
@@ -233,7 +233,7 @@ ManufacturingRoute.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
+    itemError: PropTypes.shape({}),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -260,7 +260,7 @@ ManufacturingRoute.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    errorMessage: '',
+    itemError: null,
     itemId: null
 };
 

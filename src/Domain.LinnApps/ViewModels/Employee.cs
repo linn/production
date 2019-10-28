@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.ViewModels
 {
+    using System;
     using System.Collections.Generic;
 
     using Linn.Production.Domain.LinnApps.Measures;
@@ -10,7 +11,11 @@
 
         public string FullName { get; set; }
 
+        public DateTime? DateInvalid { get; set; }
+
         public List<AssemblyFail> AssemblyFailsEntered { get; set; }
+
+        public List<PartFail> PartFailsEntered { get; set; }
 
         public List<AssemblyFail> AssemblyFailsReturned { get; set; }
 

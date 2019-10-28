@@ -1,10 +1,5 @@
 ﻿namespace Linn.Production.Facade.Tests.ManufacturingOperationsServiceSpecs
 {
-    using System;
-    using System.Linq.Expressions;
-
-    using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
-
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -23,7 +18,17 @@
         [SetUp]
         public void SetUp()
         {
-            this.manufacturingOperation = new ManufacturingOperation("routecode 1", 77, 15, "descrip of op", "codeOfSkill", "res Code", 27, 54, 5, "cit code test");
+            this.manufacturingOperation = new ManufacturingOperation(
+                "routecode 1",
+                77,
+                15,
+                "descrip of op",
+                "codeOfSkill",
+                "res Code",
+                27,
+                54,
+                5,
+                "cit code test");
 
             this.resource = new ManufacturingOperationResource
             {

@@ -5,8 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
@@ -21,36 +20,33 @@
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IOutstandingWorksOrdersReportFacade OutstandingWorksOrdersReportFacade { get; set; }
+        protected IOutstandingWorksOrdersReportFacade OutstandingWorksOrdersReportFacade { get; private set; }
 
-        protected IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource> WorksOrderService
-        {
-            get;
-            set;
-        }
+        protected IWorksOrdersService WorksOrdersService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
             this.OutstandingWorksOrdersReportFacade = Substitute.For<IOutstandingWorksOrdersReportFacade>();
-            this.WorksOrderService = Substitute.For<IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>>();
+            this.WorksOrdersService = Substitute.For<IWorksOrdersService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                     {
                         with.Dependency(this.OutstandingWorksOrdersReportFacade);
-                        with.Dependency(this.WorksOrderService);
+                        with.Dependency(this.WorksOrdersService);
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
-
+                        with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(
+                            new WorksOrdersResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(new WorksOrdersResourceBuilder());
+                        with.Dependency<IResourceBuilder<WorksOrderPartDetails>>(new WorksOrderPartDetailsResourceBuilder());
                         with.Module<WorksOrdersModule>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                         with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
-                        with.Dependency<IResourceBuilder<WorksOrder>>(
-                            new WorksOrderResourceBuilder());
-                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(
-                            new WorksOrdersResourceBuilder());
                         with.ResponseProcessor<WorksOrderResponseProcessor>();
                         with.ResponseProcessor<WorksOrdersResponseProcessor>();
+                        with.ResponseProcessor<WorksOrderPartDetailsResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>

@@ -4,6 +4,7 @@ import * as reportTypes from '../reportTypes';
 import config from '../config';
 
 export default new ReportActions(
+    reportTypes.productionMeasuresInfoReport.item,
     reportTypes.productionMeasuresInfoReport.actionType,
     reportTypes.productionMeasuresInfoReport.uri,
     actionTypes,

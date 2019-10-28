@@ -82,10 +82,20 @@ export const assemblyFail = new ItemType(
     '/production/quality/assembly-fails'
 );
 
-export const worksOrders = new ItemType(
-    'worksOrders',
-    'WORKS_ORDERS',
-    '/production/maintenance/works-orders'
+export const assemblyFails = new ItemType(
+    'assemblyFails',
+    'ASSEMBLY_FAILS',
+    '/production/quality/assembly-fails'
+);
+
+export const worksOrder = new ItemType('worksOrder', 'WORKS_ORDER', '/production/works-orders');
+
+export const worksOrders = new ItemType('worksOrders', 'WORKS_ORDERS', '/production/works-orders');
+
+export const worksOrderDetails = new ItemType(
+    'worksOrderDetails',
+    'WORKS_ORDER_DETAILS',
+    '/production/works-orders/get-part-details'
 );
 
 export const productionTriggerLevels = new ItemType(
@@ -108,11 +118,18 @@ export const employees = new ItemType(
 
 export const cits = new ItemType('cits', 'CITS', '/production/maintenance/cits');
 
+export const assemblyFailFaultCode = new ItemType(
+    'assemblyFailFaultCode',
+    'ASSEMBLY_FAIL_FAULT_CODE',
+    '/production/quality/assembly-fail-fault-codes'
+);
+
 export const assemblyFailFaultCodes = new ItemType(
     'assemblyFailFaultCodes',
     'ASSEMBLY_FAIL_FAULT_CODES',
     '/production/quality/assembly-fail-fault-codes'
 );
+
 export const manufacturingRoute = new ItemType(
     'manufacturingRoute',
     'MANUFACTURING_ROUTE',
@@ -122,4 +139,46 @@ export const manufacturingRoutes = new ItemType(
     'manufacturingRoutes',
     'MANUFACTURING_ROUTES',
     '/production/resources/manufacturing-routes'
+);
+
+export const parts = new ItemType('parts', 'PARTS', '/production/maintenance/parts');
+
+export const smtShifts = new ItemType(
+    'smtShifts',
+    'SMT_SHIFTS',
+    '/production/maintenance/smt-shifts'
+);
+
+export const ptlSettings = new ItemType(
+    'ptlSettings',
+    'PTL_SETTINGS',
+    '/production/maintenance/production-trigger-levels-settings'
+);
+
+export const partFail = new ItemType('partFail', 'PART_FAIL', '/production/quality/part-fails');
+
+export const partFails = new ItemType('partFails', 'PART_FAILS', '/production/quality/part-fails');
+
+export const storagePlaces = new ItemType(
+    'storagePlaces',
+    'STORAGE_PLACES',
+    '/production/maintenance/storage-places'
+);
+
+export const partFailErrorTypes = new ItemType(
+    'partFailErrorTypes',
+    'PART_FAIL_ERROR_TYPES',
+    '/production/quality/part-fail-error-types'
+);
+
+export const partFailFaultCodes = new ItemType(
+    'partFailFaultCodes',
+    'PART_FAIL_FAULT_CODES',
+    '/production/quality/part-fail-fault-codes'
+);
+
+export const purchaseOrders = new ItemType(
+    'purchaseOrders',
+    'PURCHASE_ORDERS',
+    '/production/resources/purchase-orders'
 );

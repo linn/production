@@ -5,8 +5,6 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
-
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
@@ -51,8 +49,11 @@
                     with.Dependency<IResourceBuilder<AssemblyFailFaultCode>>(
                         new AssemblyFailFaultCodeResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<AssemblyFailFaultCode>>>(new AssemblyFailFaultCodesResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<AssemblyFail>>>(new AssemblyFailsResourceBuilder());
                     with.Module<AssemblyFailsModule>();
                     with.ResponseProcessor<AssemblyFailResponseProcessor>();
+                    with.ResponseProcessor<AssemblyFailsResponseProcessor>();
+                    with.ResponseProcessor<AssemblyFailFaultCodeResponseProcessor>();
                     with.ResponseProcessor<AssemblyFailFaultCodesResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>

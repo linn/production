@@ -2,15 +2,12 @@
 {
     using System.Linq;
 
-    using Domain.LinnApps.RemoteServices;
-    using Domain.LinnApps.SerialNumberReissue;
-
-    using Extensions;
-
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
-
-    using Resources;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Facade.Extensions;
+    using Linn.Production.Resources;
 
     public class SerialNumberReissueService : ISerialNumberReissueService
     {
@@ -35,7 +32,14 @@
 
             resource.CreatedBy = employee.Href.ParseId();
 
-            var sernosRenumMessage = this.sernosRenumPack.ReissueSerialNumber(resource);
+            var sernosRenumMessage = this.sernosRenumPack.ReissueSerialNumber(
+                resource.SernosGroup,
+                resource.SerialNumber,
+                resource.NewSerialNumber,
+                resource.ArticleNumber,
+                resource.NewArticleNumber,
+                resource.Comments,
+                resource.CreatedBy);
 
             if (sernosRenumMessage != "SUCCESS")
             {
@@ -43,11 +47,11 @@
             }
 
             var sernos = this.serialNumberReissueRepository.FindBy(
-                r => r.SerialNumber == resource.SerialNumber 
-                     && r.ArticleNumber == resource.ArticleNumber 
+                r => r.SerialNumber == resource.SerialNumber
+                     && r.ArticleNumber == resource.ArticleNumber
                      && r.SernosGroup == resource.SernosGroup);
 
-            var serialNumberReissue =  new SerialNumberReissue(sernos.SernosGroup, sernos.ArticleNumber)
+            var serialNumberReissue = new SerialNumberReissue(sernos.SernosGroup, sernos.ArticleNumber)
                                             {
                                                 SerialNumber = sernos.SerialNumber,
                                                 NewSerialNumber = sernos.NewSerialNumber,

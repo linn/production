@@ -1,8 +1,8 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using Common.Facade;
-    using Domain.LinnApps.Measures;
-    using Resources;
+    using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Resources;
 
     public class OsrInfoResourceBuilder : IResourceBuilder<OsrInfo>
     {

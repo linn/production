@@ -13,7 +13,7 @@ import Page from '../../containers/Page';
 
 function BoardFailType({
     editStatus,
-    errorMessage,
+    itemError,
     history,
     itemId,
     item,
@@ -68,9 +68,17 @@ function BoardFailType({
         }
         setBoardFailType({ ...boardFailType, [propertyName]: newValue });
     };
-
+    if (loading) {
+        return (
+            <Page showRequestErrors>
+                <Grid item xs={12}>
+                    <Loading />
+                </Grid>
+            </Page>
+        );
+    }
     return (
-        <Page>
+        <Page showRequestErrors>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     {creating() ? (
@@ -79,61 +87,60 @@ function BoardFailType({
                         <Title text="Board Fail Type" />
                     )}
                 </Grid>
-                {errorMessage && (
+                {itemError ? (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
-                    </Grid>
-                )}
-                {loading || !boardFailType ? (
-                    <Grid item xs={12}>
-                        <Loading />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 ) : (
-                    <Fragment>
-                        <SnackbarMessage
-                            visible={snackbarVisible}
-                            onClose={() => setSnackbarVisible(false)}
-                            message="Save Successful"
-                        />
-                        <Grid item xs={8}>
-                            <InputField
-                                fullWidth
-                                disabled={!creating()}
-                                value={boardFailType.failType}
-                                label="Skill Code"
-                                maxLength={10}
-                                helperText={
-                                    !creating()
-                                        ? 'This field cannot be changed'
-                                        : `${failTypeInvalid() ? 'This field is required' : ''}`
-                                }
-                                required={creating()}
-                                onChange={handleFieldChange}
-                                propertyName="failType"
+                    boardFailType && (
+                        <Fragment>
+                            <SnackbarMessage
+                                visible={snackbarVisible}
+                                onClose={() => setSnackbarVisible(false)}
+                                message="Save Successful"
                             />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={boardFailType.description}
-                                label="Description"
-                                maxLength={50}
-                                fullWidth
-                                helperText={descriptionInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleFieldChange}
-                                propertyName="description"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <SaveBackCancelButtons
-                                saveDisabled={viewing() || inputInvalid()}
-                                saveClick={handleSaveClick}
-                                cancelClick={handleCancelClick}
-                                backClick={handleBackClick}
-                            />
-                        </Grid>
-                    </Fragment>
+                            <Grid item xs={8}>
+                                <InputField
+                                    fullWidth
+                                    disabled={!creating()}
+                                    value={boardFailType.failType}
+                                    label="Skill Code"
+                                    maxLength={10}
+                                    helperText={
+                                        !creating()
+                                            ? 'This field cannot be changed'
+                                            : `${failTypeInvalid() ? 'This field is required' : ''}`
+                                    }
+                                    required={creating()}
+                                    onChange={handleFieldChange}
+                                    propertyName="failType"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={boardFailType.description}
+                                    label="Description"
+                                    maxLength={50}
+                                    fullWidth
+                                    helperText={
+                                        descriptionInvalid() ? 'This field is required' : ''
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="description"
+                                />
+                            </Grid>
+                        </Fragment>
+                    )
                 )}
+                <Grid item xs={12}>
+                    <SaveBackCancelButtons
+                        saveDisabled={viewing() || inputInvalid()}
+                        saveClick={handleSaveClick}
+                        cancelClick={handleCancelClick}
+                        backClick={handleBackClick}
+                    />
+                </Grid>
             </Grid>
         </Page>
     );
@@ -147,13 +154,13 @@ BoardFailType.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    errorMessage: PropTypes.string,
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
     addItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
+    itemError: PropTypes.shape({}),
     setSnackbarVisible: PropTypes.func.isRequired
 };
 
@@ -163,8 +170,8 @@ BoardFailType.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    errorMessage: '',
-    itemId: null
+    itemId: null,
+    itemError: null
 };
 
 export default BoardFailType;

@@ -5,7 +5,6 @@
     using System.Linq;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
 

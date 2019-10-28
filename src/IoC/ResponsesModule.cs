@@ -4,17 +4,18 @@
 
     using Autofac;
 
-    using Domain.LinnApps.SerialNumberReissue;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Models;
+    using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
-    using Linn.Production.Facade.ResourceBuilders;
-
     using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
+    using Linn.Production.Facade.ResourceBuilders;
 
     public class ResponsesModule : Module
     {
@@ -45,6 +46,7 @@
             builder.RegisterType<BoardFailTypesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<BoardFailType>>>();
             builder.RegisterType<AssemblyFailResourceBuilder>().As<IResourceBuilder<AssemblyFail>>();
+            builder.RegisterType<AssemblyFailsResourceBuilder>().As<IResourceBuilder<IEnumerable<AssemblyFail>>>();
             builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
             builder.RegisterType<WorksOrdersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<WorksOrder>>>();
@@ -71,7 +73,34 @@
             builder.RegisterType<ManufacturingResourcesResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingResource>>>();
             builder.RegisterType<OsrInfoResourceBuilder>().As<IResourceBuilder<OsrInfo>>();
+            builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
+            builder.RegisterType<WorksOrdersResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrder>>>();
+            builder.RegisterType<WorksOrderPartDetailsResourceBuilder>().As<IResourceBuilder<WorksOrderPartDetails>>();
             builder.RegisterType<ProductionTriggersReportResourceBuilder>().As<IResourceBuilder<ProductionTriggersReport>>();
+            builder.RegisterType<ProductionTriggersFactsResourceBuilder>().As<IResourceBuilder<ProductionTriggerFacts>>();
+            builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<Part>>();
+            builder.RegisterType<PartsResourceBuilder>().As<IResourceBuilder<IEnumerable<Part>>>();
+
+            builder.RegisterType<SmtShiftResourceBuilder>().As<IResourceBuilder<SmtShift>>();
+            builder.RegisterType<SmtShiftsResourceBuilder>().As<IResourceBuilder<IEnumerable<SmtShift>>>();
+            builder.RegisterType<PtlSettingsResourceBuilder>().As<IResourceBuilder<ResponseModel<PtlSettings>>>();
+            builder.RegisterType<PtlSettingsResourceBuilder>().As<IResourceBuilder<ResponseModel<PtlSettings>>>();
+            builder.RegisterType<ErrorResourceBuilder>().As<IResourceBuilder<Error>>();
+            builder.RegisterType<PartFailResourceBuilder>().As<IResourceBuilder<PartFail>>();
+            builder.RegisterType<PartFailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PartFail>>>();
+            builder.RegisterType<PartFailErrorTypeResourceBuilder>().As<IResourceBuilder<PartFailErrorType>>();
+            builder.RegisterType<PartFailErrorTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<PartFailErrorType>>>();
+            builder.RegisterType<StoragePlaceResourceBuilder>().As<IResourceBuilder<StoragePlace>>();
+            builder.RegisterType<StoragePlacesResourceBuilder>().As<IResourceBuilder<IEnumerable<StoragePlace>>>();
+            builder.RegisterType<PartFailFaultCodeResourceBuilder>()
+                .As<IResourceBuilder<PartFailFaultCode>>();
+            builder.RegisterType<PartFailFaultCodesResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<PartFailFaultCode>>>();
+            builder.RegisterType<PurchaseOrderResourceBuilder>()
+                .As<IResourceBuilder<PurchaseOrder>>();
+            builder.RegisterType<PurchaseOrdersResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<PurchaseOrder>>>();
+            builder.RegisterType<ManufacturingCommitDateResourceBuilder>().As<IResourceBuilder<ManufacturingCommitDateResults>>();
         }
     }
 }

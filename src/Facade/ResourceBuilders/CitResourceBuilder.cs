@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -14,14 +13,14 @@
         public CitResource Build(Cit cit)
         {
             return new CitResource
-			   {
-				   Code = cit.Code,
-				   Name = cit.Name,
-				   BuildGroup = cit.BuildGroup,
-				   SortOrder = cit.SortOrder,
-				   DateInvalid = cit.DateInvalid?.ToString(),
-				   Links = this.BuildLinks(cit).ToArray()
-			   };
+                       {
+                           Code = cit.Code,
+                           Name = cit.Name,
+                           BuildGroup = cit.BuildGroup,
+                           SortOrder = cit.SortOrder,
+                           DateInvalid = cit.DateInvalid?.ToString(),
+                           Links = this.BuildLinks(cit).ToArray()
+                       };
         }
 
         public string GetLocation(Cit cit)

@@ -11,7 +11,7 @@ import {
     TypeaheadDialog,
     ErrorCard,
     useSearch,
-    sortList
+    utilities
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 function SerialNumberReissue({
     addItem,
     editStatus,
-    errorMessage,
+    itemErrors,
     fetchSerialNumbers,
     fetchSalesArticle,
     history,
@@ -73,7 +73,7 @@ function SerialNumberReissue({
                 if (!groups.includes(serialNumber.sernosGroup)) {
                     groups.push(serialNumber.sernosGroup);
                 }
-                return sortList(groups);
+                return utilities.sortList(groups);
             }, []);
 
             setSernosGroups(sortedGroups);
@@ -136,16 +136,18 @@ function SerialNumberReissue({
     };
 
     return (
-        <Page>
+        <Page showRequestErrors>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Title text="Reissue Serial Numbers" />
                 </Grid>
-                {errorMessage && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={errorMessage} />
-                    </Grid>
-                )}
+                {itemErrors &&
+                    !loading &&
+                    itemErrors?.map(itemError => (
+                        <Grid item xs={12}>
+                            <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
+                        </Grid>
+                    ))}
                 <Grid item xs={3}>
                     <SearchInputField
                         label="Search by Serial Number"
@@ -167,7 +169,7 @@ function SerialNumberReissue({
                         <Fragment>
                             <Grid item xs={3} className={classes.marginTop}>
                                 <Dropdown
-                                    disabled={viewing() && !errorMessage}
+                                    disabled={viewing() && !itemErrors}
                                     value={selectedSernosGroup || ''}
                                     label="Filter by Sernos Group"
                                     fullWidth
@@ -219,7 +221,7 @@ function SerialNumberReissue({
                                     <Grid item xs={1}>
                                         <div className={classes.searchIcon}>
                                             <TypeaheadDialog
-                                                disabled={viewing() && !errorMessage}
+                                                disabled={viewing() && !itemErrors}
                                                 title="Sales Article Search"
                                                 onSelect={handleNewArticleNumberSelect}
                                                 searchItems={salesArticleSearchResults}
@@ -242,7 +244,7 @@ function SerialNumberReissue({
                                     <Grid item xs={3} />
                                     <Grid item xs={3}>
                                         <InputField
-                                            disabled={viewing() && !errorMessage}
+                                            disabled={viewing() && !itemErrors}
                                             label="Comments"
                                             type="string"
                                             rows={2}
@@ -288,7 +290,7 @@ function SerialNumberReissue({
 SerialNumberReissue.propTypes = {
     addItem: PropTypes.func.isRequired,
     editStatus: PropTypes.func.isRequired,
-    errorMessage: PropTypes.string,
+    itemErrors: PropTypes.shape({}),
     fetchSerialNumbers: PropTypes.func.isRequired,
     fetchSalesArticle: PropTypes.func.isRequired,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
@@ -307,7 +309,7 @@ SerialNumberReissue.propTypes = {
 };
 
 SerialNumberReissue.defaultProps = {
-    errorMessage: '',
+    itemErrors: null,
     loading: false,
     salesArticle: null,
     serialNumbers: null,

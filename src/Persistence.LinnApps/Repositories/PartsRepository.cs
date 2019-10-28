@@ -23,7 +23,7 @@
 
         public IQueryable<Part> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Parts;
         }
 
         public void Add(Part entity)
@@ -38,12 +38,12 @@
 
         public Part FindBy(Expression<Func<Part, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Parts.Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<Part> FilterBy(Expression<Func<Part, bool>> expression)
         {
-            return this.serviceDbContext.Parts.Where(expression);
+            return this.serviceDbContext.Parts.Where(expression).ToList().AsQueryable().Take(20);
         }
     }
 }

@@ -12,7 +12,7 @@ import {
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-const ViewManufacturingRoutes = ({ loading, errorMessage, history, items, fetchItems }) => {
+const ViewManufacturingRoutes = ({ loading, itemError, history, items, fetchItems }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -83,7 +83,7 @@ const ViewManufacturingRoutes = ({ loading, errorMessage, history, items, fetchI
     return (
         <Page>
             <Title text="Manufacturing Routes" />
-            {errorMessage && <ErrorCard errorMessage={errorMessage} />}
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
 
             <Fragment>
                 <CreateButton createUrl="/production/resources/manufacturing-routes/create" />
@@ -121,12 +121,12 @@ ViewManufacturingRoutes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    errorMessage: PropTypes.string,
+    itemError: PropTypes.shape({}),
     fetchItems: PropTypes.func.isRequired
 };
 
 ViewManufacturingRoutes.defaultProps = {
-    errorMessage: '',
+    itemError: null,
     items: []
 };
 

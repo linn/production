@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ViewManufacturingResources = ({ loading, errorMessage, history, items }) => {
+const ViewManufacturingResources = ({ loading, itemError, history, items }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -92,7 +92,7 @@ const ViewManufacturingResources = ({ loading, errorMessage, history, items }) =
     return (
         <Page>
             <Title text="Manufacturing Resources" />
-            {errorMessage && <ErrorCard errorMessage={errorMessage} />}
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
@@ -120,11 +120,11 @@ ViewManufacturingResources.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    errorMessage: PropTypes.string
+    itemError: PropTypes.shape({})
 };
 
 ViewManufacturingResources.defaultProps = {
-    errorMessage: '',
+    itemError: null,
     items: []
 };
 
