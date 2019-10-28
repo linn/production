@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup, fireEvent } from '@testing-library/react';
-import deepFreeze from 'deep-freeze';
 import render from '../../test-utils';
 import TableWithInlineEditing from '../manufacturingRoutes/TableWithInlineEditing';
 
@@ -152,9 +151,9 @@ describe('When not allowed to edit', () => {
     });
 });
 
-
 //the below was necessary because of the great redux state mutation mystery of 2019
-//which was that the state was being mutated with because I had mutated a prop directly
+//which was that the state was being mutated without an action
+// because I had mutated a prop directly.
 //it just takes a copy of the content prop before anything is done and
 //compares it to the content after a change is made.
 describe('when state passed in', () => {

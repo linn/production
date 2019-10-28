@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, cleanup, getByTestId } from '@testing-library/react';
+import { fireEvent, cleanup } from '@testing-library/react';
 import render from '../../test-utils';
 import ManufacturingRoute from '../manufacturingRoutes/ManufacturingRoute';
 
@@ -176,48 +176,3 @@ describe('When updating', () => {
         expect(setEditStatusMock).toHaveBeenLastCalledWith('view');
     });
 });
-
-// describe('When creating', () => {
-//     test('Should call addManufacturingRoute', () => {
-//         const { getByText, getAllByDisplayValue } = render(
-//             <ManufacturingRoute
-//                 {...defaultProps}
-//                 item={{ routeCode: '', description: '', notes: '', operations: routeOperations }}
-//                 editStatus="create"
-//             />
-//         );
-
-//         // we need to fill the inputs before we are allowed to click save
-//         const inputs = getAllByDisplayValue('');
-//         inputs.forEach(input => {
-//             if (input.type !== 'number') {
-//                 fireEvent.change(input, {
-//                     target: { value: 'new value' }
-//                 });
-//             } else {
-//                 fireEvent.change(input, {
-//                     target: { value: 1 }
-//                 });
-//             }
-//         });
-
-//         //console.log(getByTestId(`inner0-0`));
-
-//         // for (let i = 0; i < 8; i += 1) {
-//         //     console.log(getByTestId(`inner0-${i}`).children[1].children[0].children[1].type);
-//         //     fireEvent.change(getByTestId(`inner0-${i}`).children[1].children[0].children[1], {
-//         //         target: { value: 'new value' }
-//         //     });
-//         // }
-
-//         // now click save
-//         fireEvent(
-//             getByText('Save'),
-//             new MouseEvent('click', {
-//                 bubbles: true,
-//                 cancelable: true
-//             })
-//         );
-//         expect(addManufacturingRouteMock).toHaveBeenCalled();
-//     });
-// });

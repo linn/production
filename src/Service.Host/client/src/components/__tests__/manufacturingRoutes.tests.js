@@ -1,12 +1,6 @@
 ﻿import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import {
-    cleanup,
-    fireEvent,
-    getAllByPlaceholderText,
-    queryByPlaceholderText,
-    find
-} from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import render from '../../test-utils';
 import ManufacturingRoutes from '../manufacturingRoutes/ManufacturingRoutes';
 
@@ -73,13 +67,4 @@ describe('When viewing', () => {
         const item = getByPlaceholderText('search..');
         expect(item).toBeInTheDocument();
     });
-
-    // test('should call search upon text entry', () => {
-    //     const { getByPlaceholderText } = render(<ManufacturingRoutes {...defaultProps} />);
-    //     const item = getByPlaceholderText('search..');
-    //     fireEvent.change(item, {
-    //         target: { value: 'new value' }
-    //     });
-    //     expect(fetchItems).toHaveBeenCalledWith('new value');
-    // });
 });
