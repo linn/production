@@ -1,22 +1,23 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { TableCell, TableRow, Table, TableHead, TableBody, Button } from '@material-ui/core';
+import { TableCell, TableRow, Table, TableHead, TableBody } from '@material-ui/core';
 import { InputField, Dropdown } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
-import AddIcon from '@material-ui/icons/Add';
+import AddIcon from '@material-ui/icons/Add'; //will be adding these two in soon
 import DeleteIcon from '@material-ui/icons/Delete';
 
 function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedToEdit }) {
     const [editingCellId, setEditingCellId] = useState({});
-    const [allRows, setAllRows] = useState([...content]);
 
     const handleRowChange = (propertyName, newValue, rowIndex) => {
         const updatedRow = { ...content[rowIndex], [propertyName]: newValue };
-        allRows.splice(rowIndex, 1, updatedRow);
-        //the above mutates all rows without using set state - check if this is ok?? Seems pointless
-        //having all rows as state to mutate it here to me if so, so maybe is not how it should
-        //be done
-        updateContent(allRows);
+
+        updateContent(
+            content
+                .slice(0, rowIndex)
+                .concat(updatedRow)
+                .concat(content.slice(rowIndex + 1, content.length + 1))
+        );
     };
 
     const switchToEditingDifferentCell = newCellId => {
@@ -51,14 +52,7 @@ function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedTo
                             clearEditingCell={clearEditingCell}
                         />
                     ))}
-                    <TableRow key="addButton">
-                        <TableCell>
-                            {/* <Button onClick={showFieldsToAddElement}>
-                                <AddIcon />
-                            </Button> */}
-                        </TableCell>
-                    </TableRow>
-                    {/* <Row
+                    <Row
                         rowContent={[{}]}
                         key="newRow"
                         rowIndex={content.length}
@@ -69,7 +63,7 @@ function TableWithInlineEditing({ content, columnsInfo, updateContent, allowedTo
                         allowedToEdit={allowedToEdit}
                         clearEditingCell={clearEditingCell}
                         isNewRow
-                    /> */}
+                    />
                 </TableBody>
             </Table>
         </Fragment>
@@ -104,12 +98,6 @@ const Row = ({
     clearEditingCell,
     isNewRow
 }) => {
-    // const handleCellChange = e => {
-    //     const propertyName = e.target.name;
-    //     const newValue = e.target.value;
-    //     updateField(propertyName, newValue, rowIndex);
-    // };
-
     const useStyles = makeStyles(theme => ({
         pointer: { cursor: 'pointer' },
         notClickable: { cursor: 'text' }
@@ -141,7 +129,6 @@ const Row = ({
                     (allowedToEdit ? (
                         <Fragment>
                             {columnsInfo.map((column, index) => (
-                                //    console.log(columnsInfo[index].isReadonly);
                                 <Fragment>
                                     <TableCell
                                         key={columnsInfo[index].title}

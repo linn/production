@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import { cleanup, fireEvent } from '@testing-library/react';
+import deepFreeze from 'deep-freeze';
 import render from '../../test-utils';
 import TableWithInlineEditing from '../manufacturingRoutes/TableWithInlineEditing';
 
@@ -132,7 +133,7 @@ describe('When allowed to edit', () => {
 
 describe('When not allowed to edit', () => {
     test('should not update to allow input upon click', () => {
-        const { getByText, queryByDisplayValue, queryByRole } = render(
+        const { getByText, queryByDisplayValue, queryByRole, queryByText } = render(
             <TableWithInlineEditing {...defaultProps} allowedToEdit={false} />
         );
         const item = getByText('1');
@@ -147,6 +148,35 @@ describe('When not allowed to edit', () => {
         expect(queryByDisplayValue('1')).not.toBeInTheDocument();
         expect(queryByRole('input')).not.toBeInTheDocument();
         //expect input not to be there, but span still should be
-        expect(getByText('1')).toBeInTheDocument();
+        expect(queryByText('1')).toBeInTheDocument();
+    });
+});
+
+
+//the below was necessary because of the great redux state mutation mystery of 2019
+//which was that the state was being mutated with because I had mutated a prop directly
+//it just takes a copy of the content prop before anything is done and
+//compares it to the content after a change is made.
+describe('when state passed in', () => {
+    test('should not mutate the state of parent component', () => {
+        const copyOfContent = [...content];
+
+        const { getByText, getByDisplayValue } = render(
+            <TableWithInlineEditing {...defaultProps} />
+        );
+        const item = getByText('1');
+        fireEvent(
+            item,
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+        const input = getByDisplayValue('1');
+        fireEvent.change(input, {
+            target: { value: '11' }
+        });
+
+        expect(copyOfContent).toEqual(content);
     });
 });
