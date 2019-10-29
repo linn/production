@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Modules
 {
+    using System;
+
     using Linn.Common.Resources;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
@@ -31,6 +33,7 @@
 
             this.Get("/production/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
             this.Get("/production/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
+            this.Get("/production/works-orders-for-part", _ => this.GetWorksOrdersForPart());
         }
 
         private object GetWorksOrder(int orderNumber)
@@ -100,6 +103,16 @@
             return this.Negotiate
                 .WithModel(result)
                 .WithAllowedMediaRange("text/csv")
+                .WithView("Index");
+        }
+
+        private Object GetWorksOrdersForPart()
+        {
+            var resource = this.Bind<SearchRequestResource>();
+
+            var worksOrders = this.worksOrdersService.SearchByPartNumber(resource.SearchTerm);
+
+            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
     }

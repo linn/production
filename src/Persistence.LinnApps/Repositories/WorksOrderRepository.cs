@@ -51,9 +51,7 @@
         public IQueryable<WorksOrder> FilterBy(Expression<Func<WorksOrder, bool>> expression)
         {
             return this.serviceDbContext.WorksOrders
-                .AsNoTracking().Include(o => o.Part)
-                .ToList().AsQueryable().Where(expression)
-                .Take(10);
+                .AsNoTracking().Include(o => o.Part).Where(expression);
         }
     }
 }

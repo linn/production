@@ -115,7 +115,7 @@
         public IResult<IEnumerable<WorksOrder>> SearchByPartNumber(string partNumber)
         {
             return new SuccessResult<IEnumerable<WorksOrder>>(
-                this.worksOrderRepository.FilterBy(w => w.PartNumber == partNumber));
+                this.worksOrderRepository.FilterBy(w => w.Part.PartNumber.Contains(partNumber)));
         }
 
         public IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber)
