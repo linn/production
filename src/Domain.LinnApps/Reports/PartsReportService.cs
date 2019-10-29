@@ -35,7 +35,6 @@
             this.partRepository = partRepository;
         }
 
-        // TODO move supplier id to last param
         public ResultsModel PartFailDetailsReport(
             int? supplierId,
             string fromWeek,
