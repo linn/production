@@ -68,6 +68,7 @@
             builder.RegisterType<MCDLineRepository>().As<IQueryRepository<MCDLine>>();
             builder.RegisterType<ProductDataRepository>().As<IRepository<ProductData, int>>();
             builder.RegisterType<OverdueOrderLineRepository>().As<IQueryRepository<OverdueOrderLine>>();
+            builder.RegisterType<BoardTestRepository>().As<IRepository<BoardTest, BoardTestKey>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

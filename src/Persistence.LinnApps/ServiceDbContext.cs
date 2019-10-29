@@ -102,6 +102,10 @@
 
         public DbSet<ProductData> ProductData { get; set; }
 
+        public DbSet<BoardTest> BoardTests { get; set; }
+
+        public DbSet<TestMachine> TestMachines { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -123,6 +127,8 @@
             this.BuildManufacturingOperations(builder);
 
             this.BuildBoardFailTypes(builder);
+            this.BuildTestMachines(builder);
+            this.BuildBoardTests(builder);
             this.BuildAssemblyFails(builder);
             this.BuildWorkOrders(builder);
             this.BuildParts(builder);
@@ -283,7 +289,29 @@
             builder.Entity<BoardFailType>().ToTable("BOARD_FAIL_TYPES");
             builder.Entity<BoardFailType>().HasKey(t => t.Type);
             builder.Entity<BoardFailType>().Property(t => t.Type).HasColumnName("FAIL_TYPE");
-            builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION");
+            builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION").HasMaxLength(300);
+        }
+
+        private void BuildTestMachines(ModelBuilder builder)
+        {
+            builder.Entity<TestMachine>().ToTable("TEST_MACHINES");
+            builder.Entity<TestMachine>().HasKey(t => t.MachineCode);
+            builder.Entity<TestMachine>().Property(t => t.MachineCode).HasColumnName("MACHINE_CODE");
+            builder.Entity<TestMachine>().Property(t => t.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void BuildBoardTests(ModelBuilder builder)
+        {
+            builder.Entity<BoardTest>().ToTable("BOARD_TESTS");
+            builder.Entity<BoardTest>().HasKey(t => new { t.BoardSerialNumber, t.Seq });
+            builder.Entity<BoardTest>().Property(t => t.BoardName).HasColumnName("BOARD_NAME").HasMaxLength(14);
+            builder.Entity<BoardTest>().Property(t => t.BoardSerialNumber).HasColumnName("BOARD_SN").HasMaxLength(20);
+            builder.Entity<BoardTest>().Property(t => t.Seq).HasColumnName("SEQ");
+            builder.Entity<BoardTest>().Property(t => t.DateTested).HasColumnName("DATE_TESTED");
+            builder.Entity<BoardTest>().Property(t => t.TimeTested).HasColumnName("TIME_TESTED");
+            builder.Entity<BoardTest>().Property(t => t.Status).HasColumnName("STATUS").HasMaxLength(10);
+            builder.Entity<BoardTest>().Property(t => t.TestMachine).HasColumnName("TEST_MACHINE").HasMaxLength(30);
+            builder.Entity<BoardTest>().HasOne<BoardFailType>(f => f.FailType).WithMany(o => o.BoardTests).HasForeignKey("FAIL_TYPE");
         }
 
         private void BuildWorkStations(ModelBuilder builder)

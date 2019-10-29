@@ -2,6 +2,7 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.BoardTests;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
@@ -12,14 +13,31 @@
     {
         private readonly IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource> facadeService;
 
+        private readonly IBoardTestReportFacadeService boardTestReportFacadeService;
+
         public BoardFailTypesModule(
-            IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource> facadeService)
+            IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource> facadeService,
+            IBoardTestReportFacadeService boardTestReportFacadeService)
         {
+            this.boardTestReportFacadeService = boardTestReportFacadeService;
             this.facadeService = facadeService;
+
+            this.Get("/production/measures/board-tests-report", _ => this.GetBoardTestsReport());
             this.Get("/production/resources/board-fail-types", _ => this.GetAll());
             this.Get("/production/resources/board-fail-types/{type*}", parameters => this.GetById(parameters.type));
             this.Put("/production/resources/board-fail-types/{type*}", parameters => this.Update(parameters.type));
             this.Post("/production/resources/board-fail-types", parameters => this.Add());
+        }
+
+        private object GetBoardTestsReport()
+        {
+            var resource = this.Bind<FromToDateRequestResource>();
+            var result = this.boardTestReportFacadeService.GetBoardTestReport(resource.FromDate, resource.ToDate);
+
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetAll()
