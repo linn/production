@@ -224,11 +224,11 @@
                                },
                            new AxisDetailsModel("Base Unit Price")
                                {
-                                   SortOrder = 8, GridDisplayType = GridDisplayType.Value
+                                   SortOrder = 8, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
                                },
                            new AxisDetailsModel("Total Price")
                                {
-                                   SortOrder = 9, GridDisplayType = GridDisplayType.Value
+                                   SortOrder = 9, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
                                },
                            new AxisDetailsModel("Id") { SortOrder = 10, GridDisplayType = GridDisplayType.Value }
                        };
