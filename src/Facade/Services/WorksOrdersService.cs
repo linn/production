@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -109,6 +110,12 @@
             this.transactionManager.Commit();
 
             return new SuccessResult<WorksOrder>(worksOrder);
+        }
+
+        public IResult<IEnumerable<WorksOrder>> SearchByPartNumber(string partNumber)
+        {
+            return new SuccessResult<IEnumerable<WorksOrder>>(
+                this.worksOrderRepository.FilterBy(w => w.PartNumber == partNumber));
         }
 
         public IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber)
