@@ -168,7 +168,7 @@ Resources:
         Image: !Sub docker.io/linn/production-messaging:${dockerTag}
         PortMappings:
         - ContainerPort: 5050
-        Memory: '250'
+        Memory: '150'
         LogConfiguration:
           LogDriver: gelf
           Options:
