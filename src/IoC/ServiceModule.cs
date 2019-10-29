@@ -39,6 +39,7 @@
             builder.RegisterType<WorksOrderUtilities>().As<IWorksOrderUtilities>();
             builder.RegisterType<OverdueOrdersReportService>().As<IOverdueOrdersService>();
             builder.RegisterType<ManufacturingCommitDateReport>().As<IManufacturingCommitDateReport>();
+            builder.RegisterType<PartsReportService>().As<IPartsReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -92,6 +93,7 @@
             builder.RegisterType<PurchaseOrderService>()
                 .As<IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource>>();
             builder.RegisterType<OrdersReportsFacadeService>().As<IOrdersReportsFacadeService>();
+            builder.RegisterType<PartsReportFacadeService>().As<IPartsReportFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
