@@ -1,7 +1,7 @@
 ﻿namespace Linn.Production.Service.Modules
 {
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 

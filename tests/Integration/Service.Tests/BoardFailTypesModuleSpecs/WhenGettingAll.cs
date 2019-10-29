@@ -4,7 +4,7 @@
     using System.Linq;
     using FluentAssertions;
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Resources;
     using Nancy;
     using Nancy.Testing;

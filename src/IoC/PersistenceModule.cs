@@ -7,6 +7,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BackOrders;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;

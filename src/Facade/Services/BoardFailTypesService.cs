@@ -5,7 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Resources;
 
     public class BoardFailTypesService : FacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource>

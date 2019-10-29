@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Domain.LinnApps.Measures
+﻿namespace Linn.Production.Domain.LinnApps.BoardTests
 {
     public class BoardFailType
     {
