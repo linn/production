@@ -37,9 +37,11 @@
             builder.RegisterType<LinnWeekService>().As<ILinnWeekService>();
             builder.RegisterType<SmtReports>().As<ISmtReports>();
             builder.RegisterType<WorksOrderUtilities>().As<IWorksOrderUtilities>();
+            builder.RegisterType<PartFailService>().As<IPartFailService>();
             builder.RegisterType<OverdueOrdersReportService>().As<IOverdueOrdersService>();
             builder.RegisterType<ManufacturingCommitDateReport>().As<IManufacturingCommitDateReport>();
             builder.RegisterType<PartsReportService>().As<IPartsReportService>();
+            builder.RegisterType<LabelService>().As<ILabelService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -83,7 +85,7 @@
                 .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
             builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
             builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
-            builder.RegisterType<PartFailService>()
+            builder.RegisterType<PartFailFacadeService>()
                 .As<IFacadeService<PartFail, int, PartFailResource, PartFailResource>>();
             builder.RegisterType<PartFailErrorTypeService>()
                 .As<IFacadeService<PartFailErrorType, string, PartFailErrorTypeResource, PartFailErrorTypeResource>>();
@@ -109,6 +111,8 @@
             builder.RegisterType<SernosPack>().As<ISernosPack>();
             builder.RegisterType<ProductionTriggersFacadeService>().As<IProductionTriggersFacadeService>();
             builder.RegisterType<TriggerRunPack>().As<ITriggerRunPack>();
+            builder.RegisterType<BartenderLabelPack>().As<IBartenderLabelPack>();
+            builder.RegisterType<LabelPack>().As<ILabelPack>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();

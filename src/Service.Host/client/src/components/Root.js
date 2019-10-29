@@ -59,8 +59,15 @@ import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFault
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
 import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
 import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
+import LabelReprint from '../containers/labels/LabelReprint';
 import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersReportOptions';
 import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
+import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
+import PartFailFaultCodes from '../containers/partFails/PartFailFaultCodes';
+import PartFailErrorType from '../containers/partFails/PartFailErrorType';
+import CreatePartFailErrorType from '../containers/partFails/CreatePartFailErrorType';
+import CreatePartFailFaultCode from '../containers/partFails/CreatePartFailFaultCode';
+import PartFailFaultCode from '../containers/partFails/PartFailFaultCode';
 
 const Root = ({ store }) => (
     <div>
@@ -326,6 +333,36 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/quality/part-fail-error-types"
+                                        component={PartFailErrorTypes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-error-types/create"
+                                        component={CreatePartFailErrorType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-error-types/:id"
+                                        component={PartFailErrorType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes"
+                                        component={PartFailFaultCodes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes/create"
+                                        component={CreatePartFailFaultCode}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes/:id"
+                                        component={PartFailFaultCode}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/manufacturing-commit-date/report"
                                         component={ManufacturingCommitDateReport}
                                     />
@@ -333,6 +370,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/manufacturing-commit-date"
                                         component={ManufacturingCommitDateReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/reprint"
+                                        component={LabelReprint}
                                     />
                                     <Route
                                         exact

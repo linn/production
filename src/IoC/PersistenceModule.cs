@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
+    using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
@@ -64,6 +65,7 @@
             builder.RegisterType<PurchaseOrderRepository>().As<IRepository<PurchaseOrder, int>>();
             builder.RegisterType<PtlSettingsRepository>().As<ISingleRecordRepository<PtlSettings>>();
             builder.RegisterType<MCDLineRepository>().As<IQueryRepository<MCDLine>>();
+            builder.RegisterType<ProductDataRepository>().As<IRepository<ProductData, int>>();
             builder.RegisterType<OverdueOrderLineRepository>().As<IQueryRepository<OverdueOrderLine>>();
             builder.RegisterType<PartFailLogRepository>().As<IQueryRepository<PartFailLog>>();
             builder.RegisterType<EmployeeDepartmentViewRepository>().As<IQueryRepository<EmployeeDepartmentView>>();

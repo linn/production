@@ -17,7 +17,9 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                 <Grid container spacing={3} justify="center">
                     <Grid item xs={12}>
                         <Title
-                            text={`Manufacturing Commit Date Results For ${moment(options.date).format('DD-MMM-YYYY')}`}
+                            text={`Manufacturing Commit Date Results For ${moment(
+                                options.date
+                            ).format('DD-MMM-YYYY')}`}
                         />
                     </Grid>
                     {reportData.results.map(result => (
@@ -67,7 +69,8 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                     </Grid>
                     <Grid item xs={3}>
                         <Typography variant="h6">
-                            Supplied: {reportData.totals.numberSupplied} ({reportData.totals.percentageSupplied}%)
+                            Supplied: {reportData.totals.numberSupplied} (
+                            {reportData.totals.percentageSupplied}%)
                         </Typography>
                     </Grid>
                     <Grid item xs={3}>

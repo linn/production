@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using System;
     using System.Linq;
 
     using Linn.Common.Configuration;
@@ -9,11 +8,11 @@
     using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
+    using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -101,11 +100,15 @@
         public DbQuery<PartFailLog> PartFailLogs { get; set; }
 
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
+        
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+
+        public DbSet<ProductData> ProductData { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
- 
+        private DbQuery<PtlMaster> PtlMasterSet { get; set; } 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -147,9 +150,11 @@
             this.BuildPurchaseOrders(builder);
             this.QueryAccountingCompanies(builder);
             this.QueryProductionBackOrders(builder);
+            this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
             this.QueryPartFailLogs(builder);
             this.QueryEmployeeDepartmentView(builder);
+            this.BuildProductData(builder);
 
             base.OnModelCreating(builder);
         }
@@ -586,7 +591,7 @@
         {
             var q = builder.Query<PtlMaster>();
             q.ToView("PTL_MASTER");
-            q.Property(e => e.LastFullRunJobref).HasColumnName("LAST_FULL_RUN_JOBREF").HasMaxLength(6); 
+            q.Property(e => e.LastFullRunJobref).HasColumnName("LAST_FULL_RUN_JOBREF").HasMaxLength(6);
             q.Property(e => e.LastFullRunDateTime).HasColumnName("LAST_FULL_RUN_DATE");
             q.Property(e => e.LastPtlShortageJobref).HasColumnName("LAST_PTL_SHORTAGE_JOBREF").HasMaxLength(6);
             q.Property(e => e.LastDaysToLookAhead).HasColumnName("LAST_DAYS_TO_LOOK_AHEAD");
@@ -761,9 +766,17 @@
             builder.Entity<PurchaseOrder>().ToTable("PL_ORDERS");
             builder.Entity<PurchaseOrder>().HasKey(o => o.OrderNumber);
             builder.Entity<PurchaseOrder>().Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
+                .HasForeignKey(d => d.OrderNumber);
         }
-        
-        private void QueryAccountingCompanies(ModelBuilder builder)
+        private void BuildPurchaseOrderDetails(ModelBuilder builder)
+        {
+            builder.Entity<PurchaseOrderDetail>().ToTable("PL_ORDER_DETAILS");
+            builder.Entity<PurchaseOrderDetail>().HasKey(d => new { d.OrderNumber, d.OrderLine });
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+        }        private void QueryAccountingCompanies(ModelBuilder builder)
         {
             var q = builder.Query<AccountingCompany>();
             q.ToView("ACCOUNTING_COMPANIES");
@@ -787,6 +800,15 @@
             q.Property(e => e.RequestedDeliveryDate).HasColumnName("REQUESTED_DELIVERY_DATE");
             q.Property(e => e.DatePossible).HasColumnName("DATE_POSSIBLE");
             q.Property(e => e.QueuePosition).HasColumnName("QUEUE_POSITION");
+        }
+
+        private void BuildProductData(ModelBuilder builder)
+        {
+            builder.Entity<ProductData>().ToTable("PRODUCT_DATA");
+            builder.Entity<ProductData>().HasKey(o => o.ProductId);
+            builder.Entity<ProductData>().Property(o => o.ProductId).HasColumnName("PRODUCT_ID");
+            builder.Entity<ProductData>().Property(o => o.MACAddress).HasColumnName("MAC_ADDRESS").HasMaxLength(20);
+            builder.Entity<ProductData>().Property(o => o.ProductGroup).HasColumnName("PRODUCT_GROUP").HasMaxLength(10);
         }
     }
 }

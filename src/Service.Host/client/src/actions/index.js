@@ -154,9 +154,13 @@ export const partFailErrorTypesActionTypes = makeActionTypes(
     itemTypes.partFailErrorTypes.actionType
 );
 
+export const partFailErrorTypeActionTypes = makeActionTypes(itemTypes.partFailErrorType.actionType);
+
 export const partFailFaultCodesActionTypes = makeActionTypes(
     itemTypes.partFailFaultCodes.actionType
 );
+
+export const partFailFaultCodeActionTypes = makeActionTypes(itemTypes.partFailFaultCode.actionType);
 
 export const storagePlacesActionTypes = makeActionTypes(itemTypes.storagePlaces.actionType);
 
@@ -164,4 +168,12 @@ export const purchaseOrdersActionTypes = makeActionTypes(itemTypes.purchaseOrder
 
 export const overdueOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.overdueOrders.actionType
+);
+
+export const printMACLabelsActionTypes = makeProcessActionTypes(
+    processTypes.printMACLabels.actionType
+);
+
+export const printAllLabelsForProductActionTypes = makeProcessActionTypes(
+    processTypes.printAllLabelsForProduct.actionType
 );

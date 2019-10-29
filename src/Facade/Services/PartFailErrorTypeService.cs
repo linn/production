@@ -17,12 +17,16 @@
 
         protected override PartFailErrorType CreateFromResource(PartFailErrorTypeResource resource)
         {
-            throw new NotImplementedException();
+            return new PartFailErrorType
+                       {
+                           ErrorType = resource.ErrorType,
+                           DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null
+                       };
         }
 
         protected override void UpdateFromResource(PartFailErrorType entity, PartFailErrorTypeResource updateResource)
         {
-            throw new NotImplementedException();
+            entity.DateInvalid = DateTime.Parse(updateResource.DateInvalid);
         }
 
         protected override Expression<Func<PartFailErrorType, bool>> SearchExpression(string searchTerm)

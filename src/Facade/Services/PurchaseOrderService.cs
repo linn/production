@@ -27,7 +27,7 @@
 
         protected override Expression<Func<PurchaseOrder, bool>> SearchExpression(string searchTerm)
         {
-            return order => order.OrderNumber.ToString().Equals(searchTerm);
+            return order => order.OrderNumber.ToString().Contains(searchTerm);
         }
     }
 }
