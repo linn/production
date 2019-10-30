@@ -12,8 +12,6 @@
     using Linn.Production.Facade.Extensions;
     using Linn.Production.Resources;
 
-    using Microsoft.Extensions.FileProviders.Embedded;
-
     public class WorksOrdersService : FacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>, IWorksOrdersService
     {
         private readonly IRepository<WorksOrder, int> worksOrderRepository;
