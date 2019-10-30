@@ -34,6 +34,7 @@ function WorksOrdersBatchNotes({ items, fetchItems, loading, clearSearch, histor
                         loading={loading}
                         title="Works Order Batch Notes"
                         history={history}
+                        placeholder="Part Number..."
                     />
                 </Grid>
             </Grid>

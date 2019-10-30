@@ -14,7 +14,16 @@ import TableBody from '@material-ui/core/TableBody';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-function TypeAheadTable({ fetchItems, table, columnNames, title, loading, clearSearch, history }) {
+function TypeAheadTable({
+    fetchItems,
+    table,
+    columnNames,
+    title,
+    loading,
+    clearSearch,
+    history,
+    placeholder
+}) {
     const [searchTerm, setSearchTerm] = useState('');
     useSearch(fetchItems, searchTerm, clearSearch);
 
@@ -66,7 +75,7 @@ function TypeAheadTable({ fetchItems, table, columnNames, title, loading, clearS
         <Fragment>
             {title && <Title text={title} />}
             <SearchInputField
-                placeholder="Search by id or description"
+                placeholder={placeholder}
                 onChange={handleSearchTermChange}
                 type="search"
                 label="Search Works Orders by Part Number"
@@ -84,16 +93,19 @@ TypeAheadTable.propTypes = {
     table: PropTypes.shape({
         rows: PropTypes.arrayOf(
             PropTypes.shape({
-                Id: PropTypes.string,
+                Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
                 values: PropTypes.arrayOf(
-                    PropTypes.shape({ id: PropTypes.string, value: PropTypes.string })
+                    PropTypes.shape({
+                        id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+                        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+                    })
                 ),
                 expandableInfo: PropTypes.shape({
-                    Id: PropTypes.string,
+                    Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
                     elements: PropTypes.arrayOf(
                         PropTypes.shape({
-                            label: PropTypes.string,
-                            value: PropTypes.string
+                            label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+                            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
                         })
                     )
                 })
@@ -106,12 +118,14 @@ TypeAheadTable.propTypes = {
     fetchItems: PropTypes.func.isRequired,
     clearSearch: PropTypes.func.isRequired,
     title: PropTypes.string,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    placeholder: PropTypes.string
 };
 
 TypeAheadTable.defaultProps = {
     title: null,
-    loading: false
+    loading: false,
+    placeholder: ''
 };
 
 export default TypeAheadTable;

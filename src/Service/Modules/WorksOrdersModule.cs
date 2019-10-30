@@ -106,7 +106,7 @@
                 .WithView("Index");
         }
 
-        private Object GetWorksOrdersForPart()
+        private object GetWorksOrdersForPart()
         {
             var resource = this.Bind<SearchRequestResource>();
 
