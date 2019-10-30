@@ -1,7 +1,7 @@
 ﻿namespace Linn.Production.Facade.Tests.BoardFailTypesServiceSpecs
 {
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Facade.Services;
 
     using NSubstitute;

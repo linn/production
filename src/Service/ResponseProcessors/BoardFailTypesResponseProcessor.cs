@@ -4,8 +4,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Nancy.Facade;
-    using Linn.Production.Domain.LinnApps.Measures;
-
+    using Linn.Production.Domain.LinnApps.BoardTests;
 
     public class BoardFailTypesResponseProcessor : JsonResponseProcessor<IEnumerable<BoardFailType>>
     {

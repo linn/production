@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import initialiseOnMount from '../initialiseOnMount';
 import SmtOutstandingWOPartsReport from '../../components/reports/SmtOutstandingWOPartsReport';
 import actions from '../../actions/smtOutstandingWorkOrderPartsActions';
 import config from '../../config';

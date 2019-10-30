@@ -5,7 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
-    using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Resources;
 
     public class BoardFailTypeResourceBuilder : IResourceBuilder<BoardFailType>

@@ -10,6 +10,7 @@
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
@@ -42,6 +43,7 @@
             builder.RegisterType<ManufacturingCommitDateReport>().As<IManufacturingCommitDateReport>();
             builder.RegisterType<PartsReportService>().As<IPartsReportService>();
             builder.RegisterType<LabelService>().As<ILabelService>();
+            builder.RegisterType<BoardTestReports>().As<IBoardTestReports>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -96,6 +98,9 @@
                 .As<IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource>>();
             builder.RegisterType<OrdersReportsFacadeService>().As<IOrdersReportsFacadeService>();
             builder.RegisterType<PartsReportFacadeService>().As<IPartsReportFacadeService>();
+            builder.RegisterType<BoardTestsService>()
+                .As<IFacadeService<BoardTest, BoardTestKey, BoardTestResource, BoardTestResource>>();
+            builder.RegisterType<BoardTestReportFacadeService>().As<IBoardTestReportFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

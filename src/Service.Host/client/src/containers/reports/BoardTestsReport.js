@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import AssemblyFailsDetails from '../../components/reports/AssemblyFailsDetails';
-import actions from '../../actions/assemblyFailsDetailsActions';
+import BoardTestsReport from '../../components/reports/BoardTestsReport';
+import actions from '../../actions/boardTestsReportActions';
 import config from '../../config';
 import * as reportTypes from '../../reportTypes';
 
-const reportSelectors = new ReportSelectors(reportTypes.assemblyFailsDetails.item);
+const reportSelectors = new ReportSelectors(reportTypes.boardTestsReport.item);
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);
@@ -31,4 +31,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(initialiseOnMount(AssemblyFailsDetails));
+)(initialiseOnMount(BoardTestsReport));
