@@ -106,5 +106,7 @@
         public IEnumerable<WorksOrderResource> OutstandingWorksOrders { get; set; }
 
         public IEnumerable<ProductionBackOrderResource> ProductionBackOrders { get; set; }
+
+        public IEnumerable<ProductionTriggerAssemblyResource> WhereUsedAssemblies { get; set; }
     }
 }

@@ -26,6 +26,8 @@
 
         protected IQueryRepository<ProductionBackOrder> ProductionBackOrderQueryRepository { get; private set; }
 
+        protected IQueryRepository<ProductionTriggerAssembly> ProductionTriggerAssemblyQueryRepository { get; private set; }
+
         [SetUp]
         public void SetUpContext()
         {
@@ -34,6 +36,8 @@
             this.CitRepository = Substitute.For<IRepository<Cit, string>>();
             this.WorksOrderRepository = Substitute.For<IRepository<WorksOrder, int>>();
             this.ProductionBackOrderQueryRepository = Substitute.For<IQueryRepository<ProductionBackOrder>>();
+            this.ProductionTriggerAssemblyQueryRepository =
+                Substitute.For<IQueryRepository<ProductionTriggerAssembly>>();
 
             this.AccountingCompanyRepository = Substitute.For<IRepository<AccountingCompany, string>>();
             this.Sut = new ProductionTriggersFacadeService(
@@ -42,7 +46,8 @@
                 this.PtlMasterRepository,
                 this.WorksOrderRepository,
                 this.ProductionBackOrderQueryRepository,
-                this.AccountingCompanyRepository);
+                this.AccountingCompanyRepository,
+                this.ProductionTriggerAssemblyQueryRepository);
         }
     }
 }
