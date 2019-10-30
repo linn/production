@@ -50,8 +50,7 @@
 
         public IQueryable<WorksOrder> FilterBy(Expression<Func<WorksOrder, bool>> expression)
         {
-            return this.serviceDbContext.WorksOrders
-                .AsNoTracking().Include(o => o.Part).Where(expression);
+            return this.serviceDbContext.WorksOrders.AsNoTracking().Include(o => o.Part).Where(expression);
         }
     }
 }
