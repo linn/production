@@ -30,7 +30,7 @@
             this.OverdueOrderRepository.FilterBy(Arg.Any<Expression<Func<OverdueOrderLine, bool>>>())
                 .Returns(overdueOrderLines.AsQueryable());
 
-            this.result = this.Sut.OverdueOrdersReport(123, null, null, null, null, null, null);
+            this.result = this.Sut.OverdueOrdersReport("RB", "DM");
         }
 
         [Test]

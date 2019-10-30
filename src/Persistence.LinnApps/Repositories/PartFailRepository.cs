@@ -13,6 +13,7 @@
     {
         private readonly ServiceDbContext serviceDbContext;
 
+
         public PartFailRepository(ServiceDbContext serviceDbContext)
         {
             this.serviceDbContext = serviceDbContext;

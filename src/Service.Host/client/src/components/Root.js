@@ -59,6 +59,15 @@ import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFault
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
 import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
 import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
+import LabelReprint from '../containers/labels/LabelReprint';
+import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersReportOptions';
+import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
+import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
+import PartFailFaultCodes from '../containers/partFails/PartFailFaultCodes';
+import PartFailErrorType from '../containers/partFails/PartFailErrorType';
+import CreatePartFailErrorType from '../containers/partFails/CreatePartFailErrorType';
+import CreatePartFailFaultCode from '../containers/partFails/CreatePartFailFaultCode';
+import PartFailFaultCode from '../containers/partFails/PartFailFaultCode';
 import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
 import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
 import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
@@ -102,11 +111,8 @@ const Root = ({ store }) => (
                                         path="/production/maintenance/signin-oidc-client"
                                         component={Callback}
                                     />
-
                                     <Route exact path="/production/maintenance" component={App} />
-
                                     <Route exact path="/production/quality" component={App} />
-
                                     <Route exact path="/production/quality/ate" component={App} />
                                     <Route
                                         exact
@@ -118,31 +124,26 @@ const Root = ({ store }) => (
                                         path="/production/works-orders/outstanding-works-orders-report/report"
                                         component={OutstandingWorksOrdersReport}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/works-orders"
                                         component={WorksOrder}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/works-orders/create"
                                         component={CreateWorksOrder}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/works-orders/:id"
                                         component={WorksOrder}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/maintenance/serial-number-reissue"
                                         component={SerialNumberReissue}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/quality/ate/fault-codes/create"
@@ -167,7 +168,7 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/triggers/facts"
                                         component={ProductionTriggersFacts}
-                                            />
+                                    />
                                     <Route
                                         exact
                                         path="/production/reports/triggers"
@@ -243,7 +244,6 @@ const Root = ({ store }) => (
                                         path="/production/reports/who-built-what-details"
                                         component={WhoBuiltWhatDetailsReport}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/quality/assembly-fails"
@@ -254,7 +254,6 @@ const Root = ({ store }) => (
                                         path="/production/quality/assembly-fails/create"
                                         component={CreateAssemblyFail}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/quality/assembly-fail-fault-codes"
@@ -270,7 +269,6 @@ const Root = ({ store }) => (
                                         path="/production/quality/assembly-fail-fault-codes/create"
                                         component={CreateAssemblyFailFaultCode}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/quality/assembly-fails/:id"
@@ -306,7 +304,6 @@ const Root = ({ store }) => (
                                         path="/production/reports/assembly-fails-details"
                                         component={AssemblyFailsDetails}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/reports/smt/outstanding-works-order-parts/report"
@@ -339,6 +336,36 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/quality/part-fail-error-types"
+                                        component={PartFailErrorTypes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-error-types/create"
+                                        component={CreatePartFailErrorType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-error-types/:id"
+                                        component={PartFailErrorType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes"
+                                        component={PartFailFaultCodes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes/create"
+                                        component={CreatePartFailFaultCode}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fail-fault-codes/:id"
+                                        component={PartFailFaultCode}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/manufacturing-commit-date/report"
                                         component={ManufacturingCommitDateReport}
                                     />
@@ -346,6 +373,21 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/manufacturing-commit-date"
                                         component={ManufacturingCommitDateReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/reprint"
+                                        component={LabelReprint}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/overdue-orders/report"
+                                        component={OverdueOrdersReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/overdue-orders"
+                                        component={OverdueOrdersReportOptions}
                                     />
                                     <Route
                                         exact

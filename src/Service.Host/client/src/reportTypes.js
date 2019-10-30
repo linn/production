@@ -83,3 +83,9 @@ export const manufacturingCommitDate = new ItemType(
     'MANUFACTURING_COMMIT_DATE_REPORT',
     '/production/reports/manufacturing-commit-date/report'
 );
+
+export const overdueOrders = new ItemType(
+    'overdueOrders',
+    'OVERDUE_ORDERS_REPORT',
+    '/production/reports/overdue-orders/report'
+);

@@ -140,10 +140,10 @@
                 new List<AxisDetailsModel>
                     {
                         new AxisDetailsModel("Week", GridDisplayType.TextValue),
-                        new AxisDetailsModel("PartNumber", "Part Number", GridDisplayType.TextValue),
-                        new AxisDetailsModel("BoardPartNumber", "Board Part Number", GridDisplayType.TextValue),
+                        new AxisDetailsModel("PartNumber", "Part Number", GridDisplayType.TextValue) { AllowWrap = false },
+                        new AxisDetailsModel("BoardPartNumber", "Board Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("Fails", GridDisplayType.TextValue),
-                        new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number", GridDisplayType.TextValue),
+                        new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("FaultCode", "Fault Code", GridDisplayType.TextValue),
                         new AxisDetailsModel("ReportedFault", "Reported Fault", GridDisplayType.TextValue),
                         new AxisDetailsModel("Analysis", GridDisplayType.TextValue),

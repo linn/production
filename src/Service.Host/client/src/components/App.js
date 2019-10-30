@@ -43,6 +43,9 @@ function App() {
                 <ListItem component={Link} to="/production/works-orders/" button>
                     <Typography color="primary">Works Orders Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/maintenance/labels/reprint" button>
+                    <Typography color="primary">Label Reprint</Typography>
+                </ListItem>
             </List>
             <Typography variant="h6">Reports</Typography>
             <List>
@@ -52,7 +55,7 @@ function App() {
                 <ListItem component={Link} to="/production/reports/builds-detail/options" button>
                     <Typography color="primary">Builds Detail Report</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/reports/builds-summary-options" button>
+                <ListItem component={Link} to="/production/reports/builds-summary/options" button>
                     <Typography color="primary">Builds Summary Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/measures" button>
@@ -64,6 +67,9 @@ function App() {
                     button
                 >
                     <Typography color="primary">Outstanding Works Orders Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/overdue-orders" button>
+                    <Typography color="primary">Overdue Orders Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/triggers" button>
                     <Typography color="primary">Production Triggers Report</Typography>
@@ -85,7 +91,11 @@ function App() {
                 <ListItem component={Link} to="/production/reports/who-built-what" button>
                     <Typography color="primary">Who Built What Report</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/reports/manufacturing-commit-date" button>
+                <ListItem
+                    component={Link}
+                    to="/production/reports/manufacturing-commit-date"
+                    button
+                >
                     <Typography color="primary">Manufacturing Commit Date Report</Typography>
                 </ListItem>
             </List>

@@ -109,12 +109,11 @@ Resources:
       TaskRoleArn: !GetAtt productionRole.Arn
       ContainerDefinitions:
       - Name: production
-        Cpu: '1'
         Essential: 'true'
         Image: !Sub docker.io/linn/production:${dockerTag}
         PortMappings:
         - ContainerPort: 5050
-        Memory: '150'
+        Memory: '250'
         LogConfiguration:
           LogDriver: gelf
           Options:
@@ -165,7 +164,6 @@ Resources:
       TaskRoleArn: !GetAtt productionRole.Arn
       ContainerDefinitions:
       - Name: productionMessaging
-        Cpu: '1'
         Essential: 'true'
         Image: !Sub docker.io/linn/production-messaging:${dockerTag}
         PortMappings:

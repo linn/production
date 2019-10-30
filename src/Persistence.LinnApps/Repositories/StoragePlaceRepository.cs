@@ -23,14 +23,16 @@
 
         public IQueryable<StoragePlace> FilterBy(Expression<Func<StoragePlace, bool>> expression)
         {
-            return this.serviceDbContext.StoragePlaces.Where(expression);
+            return this.serviceDbContext.StoragePlaces.Where(expression)
+                .GroupBy(x => x.StoragePlaceId)
+                .Where(g => g.Count() == 1)
+                .Select(g => g.First())
+                .Take(10);
         }
 
         public IQueryable<StoragePlace> FindAll()
         {
-            return this.serviceDbContext.StoragePlaces.GroupBy(x => x.StoragePlaceId)
-                .Where(g => g.Count() == 1)
-                .Select(g => g.First());
+            throw new NotImplementedException();
         }
     }
 }

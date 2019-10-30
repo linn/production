@@ -10,7 +10,6 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
-    ValidatedInputDialog,
     TypeaheadDialog,
     Dropdown,
     SaveBackCancelButtons,
@@ -38,7 +37,6 @@ function PartFail({
     clearPurchaseOrdersSearch,
     faultCodes,
     errorTypes,
-    storagePlaces,
     partsSearchResults,
     searchParts,
     partsSearchLoading,
@@ -49,7 +47,11 @@ function PartFail({
     history,
     errorTypesLoading,
     faultCodesLoading,
-    storagePlacesLoading
+    storagePlacesSearchResults,
+    searchStoragePlaces,
+    storagePlacesSearchLoading,
+    clearStoragePlacesSearch,
+    clearPartFailErrors
 }) {
     const [partFail, setPartFail] = useState({
         dateCreated: new Date().toISOString()
@@ -76,15 +78,6 @@ function PartFail({
     const faultCodeValue = () =>
         faultCodes.length > 0
             ? faultCodes.find(p => p.faultCode === partFail.faultCode)?.faultCode
-            : 'loading...';
-
-    const storagePlaceOptions = () =>
-        storagePlaces.length > 0
-            ? [''].concat(storagePlaces.map(p => p.storagePlaceId))
-            : ['loading...'];
-    const storagePlaceValue = () =>
-        storagePlaces.length > 0
-            ? storagePlaces.find(p => p.storagePlaceId === partFail.storagePlace)?.storagePlaceId
             : 'loading...';
 
     useEffect(() => {
@@ -120,20 +113,8 @@ function PartFail({
     }, [faultCodes, partFail.faultCode]);
 
     useEffect(() => {
-        if (storagePlaces && partFail.storagePlace) {
-            setPartFail(a => ({
-                ...a,
-                storagePlaceDescription: storagePlaces.find(
-                    c => c.storagePlaceId === a.storagePlace
-                )?.description
-            }));
-        } else {
-            setPartFail(a => ({
-                ...a,
-                storagePlaceDescription: ''
-            }));
-        }
-    }, [storagePlaces, partFail.storagePlace]);
+        clearPartFailErrors();
+    }, []);
 
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
@@ -143,6 +124,7 @@ function PartFail({
     };
 
     const handleSaveClick = () => {
+        clearPartFailErrors();
         if (editing()) {
             updateItem(itemId, partFail);
             setEditStatus('view');
@@ -179,6 +161,7 @@ function PartFail({
             marginLeft: theme.spacing(-1)
         }
     }));
+
     const classes = useStyles();
 
     return (
@@ -191,14 +174,19 @@ function PartFail({
                         <Title text="Part Fail Details" />
                     )}
                 </Grid>
+
                 {itemErrors &&
                     !loading &&
                     itemErrors?.map(itemError => (
                         <Grid item xs={12}>
-                            <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
+                            <ErrorCard
+                                errorMessage={`${itemError.item} ${itemError.statusText} - ${
+                                    itemError.details?.errors?.[0]
+                                }`}
+                            />
                         </Grid>
                     ))}
-                {loading || errorTypesLoading || faultCodesLoading || storagePlacesLoading ? (
+                {loading || errorTypesLoading || faultCodesLoading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>
@@ -225,6 +213,7 @@ function PartFail({
                                             propertyName="id"
                                         />
                                     </Grid>
+                                    <Grid item xs={10} />
                                 </Fragment>
                             ) : (
                                 <Fragment />
@@ -241,18 +230,18 @@ function PartFail({
                                         propertyName="enteredByName"
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={3}>
                                     <DatePicker
                                         value={partFail.dateCreated}
                                         label="Date Created"
                                         disabled
                                     />
                                 </Grid>
-                                {creating() && <Grid item xs={3} />}
+                                <Grid item xs={6} />
 
                                 <Grid item xs={5}>
                                     <InputField
-                                        label="Part (click search button to Search for a Part)"
+                                        label="Part (click search icon to change)"
                                         maxLength={14}
                                         fullWidth
                                         value={partFail.partNumber}
@@ -280,212 +269,236 @@ function PartFail({
                                         />
                                     </div>
                                 </Grid>
-                                <Grid item xs={6}>
-                                    <InputField
-                                        fullWidth
-                                        rows={3}
-                                        value={partFail.partDescription}
-                                        label="Description"
-                                        maxLength={10}
-                                        onChange={() => {}}
-                                        propertyName="partDescription"
-                                    />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <InputField
-                                        fullWidth
-                                        type="number"
-                                        value={partFail.quantity}
-                                        label="Quantity"
-                                        onChange={handleFieldChange}
-                                        propertyName="quantity"
-                                    />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <InputField
-                                        fullWidth
-                                        value={partFail.batch}
-                                        label="Batch"
-                                        onChange={handleFieldChange}
-                                        propertyName="batch"
-                                    />
-                                </Grid>
-                                <Grid item xs={6} />
-                                <Grid item xs={3}>
-                                    <Dropdown
-                                        label="Fault Code"
-                                        propertyName="faultCode"
-                                        items={faultCodeOptions()}
-                                        fullWidth
-                                        value={faultCodeValue()}
-                                        onChange={handleFieldChange}
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <InputField
-                                        fullWidth
-                                        value={partFail.faultDescription}
-                                        label="Description"
-                                        onChange={() => {}}
-                                        propertyName="faultDescription"
-                                    />
-                                </Grid>
-                                <Grid item xs={3} />
-                                <Grid item xs={3}>
-                                    <Dropdown
-                                        label="Error Type"
-                                        propertyName="errorType"
-                                        items={errorTypeOptions()}
-                                        fullWidth
-                                        value={errorTypeValue()}
-                                        onChange={handleFieldChange}
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={8}>
-                                    <InputField
-                                        fullWidth
-                                        rows={4}
-                                        value={partFail.story}
-                                        label="Story"
-                                        onChange={handleFieldChange}
-                                        propertyName="story"
-                                    />
-                                </Grid>
+                                {partFail.partNumber && (
+                                    <Fragment>
+                                        <Grid item xs={6} />
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                fullWidth
+                                                rows={3}
+                                                value={partFail.partDescription}
+                                                label="Description"
+                                                maxLength={10}
+                                                onChange={() => {}}
+                                                propertyName="partDescription"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6} />
 
-                                <Grid item xs={5}>
-                                    <InputField
-                                        label="Works Order (click edit button to change)"
-                                        maxLength={14}
-                                        fullWidth
-                                        onChange={() => {}}
-                                        value={partFail.worksOrderNumber}
-                                        propertyName="worksOrderNumber"
-                                    />
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <div className={classes.marginTop}>
-                                        <ValidatedInputDialog
-                                            title="Enter a Valid Works Order"
-                                            searchItems={worksOrdersSearchResults}
-                                            loading={worksOrdersSearchLoading}
-                                            onAccept={accepted => {
-                                                setEditStatus('edit');
-                                                setPartFail(a => ({
-                                                    ...a,
-                                                    worksOrderNumber: accepted.orderNumber
-                                                }));
-                                            }}
-                                            fetchItems={searchWorksOrders}
-                                            clearSearch={clearWorksOrdersSearch}
-                                            searchItemId="orderNumber"
-                                        />
-                                    </div>
-                                </Grid>
-                                <Tooltip title="Clear">
-                                    <span>
-                                        <Button
-                                            color="primary"
-                                            aria-label="Clear"
-                                            disabled={!partFail.worksOrderNumber}
-                                            onClick={() => {
-                                                clearWorksOrdersSearch();
-                                                setPartFail(a => ({
-                                                    ...a,
-                                                    worksOrderNumber: null
-                                                }));
-                                            }}
-                                            variant="outlined"
-                                            className={classes.closeButton}
-                                        >
-                                            <CloseIcon />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
-                                <Grid item xs={5} />
+                                        <Grid item xs={3}>
+                                            <InputField
+                                                fullWidth
+                                                type="number"
+                                                value={partFail.quantity}
+                                                label="Quantity"
+                                                onChange={handleFieldChange}
+                                                propertyName="quantity"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <InputField
+                                                fullWidth
+                                                value={partFail.batch}
+                                                label="Batch"
+                                                onChange={handleFieldChange}
+                                                propertyName="batch"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6} />
+                                        <Grid item xs={3}>
+                                            <Dropdown
+                                                label="Fault Code"
+                                                propertyName="faultCode"
+                                                items={faultCodeOptions()}
+                                                fullWidth
+                                                value={faultCodeValue()}
+                                                onChange={handleFieldChange}
+                                                required
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                fullWidth
+                                                value={partFail.faultDescription}
+                                                label="Description"
+                                                onChange={() => {}}
+                                                propertyName="faultDescription"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={3} />
+                                        <Grid item xs={3}>
+                                            <Dropdown
+                                                label="Error Type"
+                                                propertyName="errorType"
+                                                items={errorTypeOptions()}
+                                                fullWidth
+                                                value={errorTypeValue()}
+                                                onChange={handleFieldChange}
+                                                required
+                                            />
+                                        </Grid>
+                                        <Grid item xs={9} />
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                fullWidth
+                                                rows={4}
+                                                value={partFail.story}
+                                                label="Story"
+                                                onChange={handleFieldChange}
+                                                propertyName="story"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6} />
 
-                                <Grid item xs={5}>
-                                    <InputField
-                                        label="Purchase Order (click edit button to change)"
-                                        maxLength={14}
-                                        fullWidth
-                                        onChange={() => {}}
-                                        value={partFail.purchaseOrderNumber}
-                                        propertyName="purchaseOrderNumber"
-                                    />
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <div className={classes.marginTop}>
-                                        <ValidatedInputDialog
-                                            title="Enter a Valid Purchase Order"
-                                            searchItems={purchaseOrdersSearchResults}
-                                            loading={purchaseOrdersSearchLoading}
-                                            onAccept={accepted => {
-                                                setEditStatus('edit');
-                                                setPartFail(a => ({
-                                                    ...a,
-                                                    purchaseOrderNumber: accepted.orderNumber
-                                                }));
-                                                clearPurchaseOrdersSearch();
-                                            }}
-                                            fetchItems={searchPurchaseOrders}
-                                            clearSearch={clearPurchaseOrdersSearch}
-                                            searchItemId="orderNumber"
-                                        />
-                                    </div>
-                                </Grid>
-                                <Tooltip title="Clear">
-                                    <span>
-                                        <Button
-                                            color="primary"
-                                            aria-label="Clear"
-                                            disabled={!partFail.purchaseOrderNumber}
-                                            onClick={() => {
-                                                clearWorksOrdersSearch();
-                                                setPartFail(a => ({
-                                                    ...a,
-                                                    purchaseOrderNumber: null
-                                                }));
-                                            }}
-                                            variant="outlined"
-                                            className={classes.closeButton}
-                                        >
-                                            <CloseIcon />
-                                        </Button>
-                                    </span>
-                                </Tooltip>
-                                <Grid item xs={5} />
-                                <Grid item xs={3}>
-                                    <Dropdown
-                                        label="Storage Place"
-                                        propertyName="storagePlace"
-                                        items={storagePlaceOptions()}
-                                        fullWidth
-                                        value={storagePlaceValue()}
-                                        onChange={handleFieldChange}
-                                    />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <InputField
-                                        fullWidth
-                                        value={partFail.storagePlaceDescription}
-                                        label="Storage Place Description"
-                                        onChange={() => {}}
-                                        propertyName="storagePlaceDescription"
-                                    />
-                                </Grid>
-                                <Grid item xs={6} />
-                                <Grid item xs={3}>
-                                    <InputField
-                                        fullWidth
-                                        type="number"
-                                        value={partFail.minutesWasted}
-                                        label="Minutes Wasted"
-                                        onChange={handleFieldChange}
-                                        propertyName="minutesWasted"
-                                    />
-                                </Grid>
+                                        <Grid item xs={5}>
+                                            <InputField
+                                                label="Works Order"
+                                                maxLength={14}
+                                                fullWidth
+                                                value={partFail.worksOrderNumber}
+                                                onChange={handleFieldChange}
+                                                propertyName="worksOrderNumber"
+                                                type="number"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={1}>
+                                            <div className={classes.marginTop}>
+                                                <TypeaheadDialog
+                                                    title="Search For Works Order"
+                                                    onSelect={newValue => {
+                                                        setEditStatus('edit');
+                                                        setPartFail(a => ({
+                                                            ...a,
+                                                            worksOrderNumber: newValue.name
+                                                        }));
+                                                    }}
+                                                    searchItems={worksOrdersSearchResults.map(
+                                                        w => ({
+                                                            name: w.orderNumber,
+                                                            description: w.partNumber
+                                                        })
+                                                    )}
+                                                    loading={worksOrdersSearchLoading}
+                                                    fetchItems={searchWorksOrders}
+                                                    clearSearch={clearWorksOrdersSearch}
+                                                />
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={5} />
+                                        <Grid item xs={5}>
+                                            <InputField
+                                                label="Purchase Order"
+                                                maxLength={14}
+                                                fullWidth
+                                                value={partFail.purchaseOrderNumber}
+                                                onChange={handleFieldChange}
+                                                propertyName="purchaseOrderNumber"
+                                                type="number"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={1}>
+                                            <div className={classes.marginTop}>
+                                                <TypeaheadDialog
+                                                    title={`Search For a ${partFail.partNumber} Purchase Order`}
+                                                    onSelect={newValue => {
+                                                        setEditStatus('edit');
+                                                        setPartFail(a => ({
+                                                            ...a,
+                                                            purchaseOrderNumber: newValue.name
+                                                        }));
+                                                    }}
+                                                    searchItems={purchaseOrdersSearchResults
+                                                        .filter(d =>
+                                                            d.parts?.includes(partFail.partNumber)
+                                                        )
+                                                        .map(w => ({
+                                                            name: w.orderNumber,
+                                                            description: w.parts[0]
+                                                        }))}
+                                                    loading={purchaseOrdersSearchLoading}
+                                                    fetchItems={searchPurchaseOrders}
+                                                    clearSearch={clearPurchaseOrdersSearch}
+                                                />
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={5} />
+                                        <Grid item xs={4}>
+                                            <InputField
+                                                label="Storage Place (click search icon to change)"
+                                                fullWidth
+                                                value={partFail.storagePlace}
+                                                onChange={handleFieldChange}
+                                                propertyName="storagePlace"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={1}>
+                                            <div className={classes.marginTop}>
+                                                <TypeaheadDialog
+                                                    title="Search For a Storage Place"
+                                                    onSelect={newValue => {
+                                                        setEditStatus('edit');
+                                                        setPartFail(a => ({
+                                                            ...a,
+                                                            storagePlace: newValue.name,
+                                                            storagePlaceDescription:
+                                                                newValue.description
+                                                        }));
+                                                    }}
+                                                    searchItems={storagePlacesSearchResults.map(
+                                                        w => ({
+                                                            name: w.storagePlaceId,
+                                                            description: w.description
+                                                        })
+                                                    )}
+                                                    loading={storagePlacesSearchLoading}
+                                                    fetchItems={searchStoragePlaces}
+                                                    clearSearch={clearStoragePlacesSearch}
+                                                />
+                                            </div>
+                                        </Grid>
+                                        <Grid itemx xs={1}>
+                                            <Tooltip title="Clear">
+                                                <span>
+                                                    <Button
+                                                        color="primary"
+                                                        aria-label="Clear"
+                                                        disabled={!partFail.storagePlace}
+                                                        onClick={() => {
+                                                            setPartFail(a => ({
+                                                                ...a,
+                                                                storagePlace: '',
+                                                                storagePlaceDescription: ''
+                                                            }));
+                                                        }}
+                                                        variant="outlined"
+                                                        className={classes.closeButton}
+                                                    >
+                                                        <CloseIcon />
+                                                    </Button>
+                                                </span>
+                                            </Tooltip>
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                fullWidth
+                                                value={partFail.storagePlaceDescription}
+                                                label="Description"
+                                                onChange={() => {}}
+                                                propertyName="storagePlaceDescription"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <InputField
+                                                fullWidth
+                                                type="number"
+                                                value={partFail.minutesWasted}
+                                                label="Minutes Wasted"
+                                                onChange={handleFieldChange}
+                                                propertyName="minutesWasted"
+                                            />
+                                        </Grid>
+                                    </Fragment>
+                                )}
                             </Fragment>
                         </Fragment>
                     )
@@ -520,7 +533,6 @@ PartFail.propTypes = {
             item: PropTypes.string
         })
     ),
-    storagePlaces: PropTypes.arrayOf(PropTypes.shape({})),
     faultCodes: PropTypes.arrayOf(PropTypes.shape({})),
     errorTypes: PropTypes.arrayOf(PropTypes.shape({})),
     addItem: PropTypes.func,
@@ -539,8 +551,12 @@ PartFail.propTypes = {
     partsSearchLoading: PropTypes.bool,
     errorTypesLoading: PropTypes.bool,
     faultCodesLoading: PropTypes.bool,
-    storagePlacesLoading: PropTypes.bool,
-    clearPartsSearch: PropTypes.func.isRequired
+    clearPartsSearch: PropTypes.func.isRequired,
+    storagePlacesSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    searchStoragePlaces: PropTypes.func.isRequired,
+    storagePlacesSearchLoading: PropTypes.bool,
+    clearStoragePlacesSearch: PropTypes.func.isRequired,
+    clearPartFailErrors: PropTypes.func.isRequired
 };
 
 PartFail.defaultProps = {
@@ -554,7 +570,6 @@ PartFail.defaultProps = {
     addItem: null,
     updateItem: null,
     itemId: null,
-    storagePlaces: [],
     worksOrdersSearchResults: [],
     worksOrdersSearchLoading: false,
     purchaseOrdersSearchResults: [],
@@ -562,7 +577,8 @@ PartFail.defaultProps = {
     partsSearchResults: [],
     errorTypesLoading: false,
     faultCodesLoading: false,
-    storagePlacesLoading: false,
+    storagePlacesSearchResults: [],
+    storagePlacesSearchLoading: false,
     partsSearchLoading: false
 };
 

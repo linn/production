@@ -28,7 +28,7 @@
 
         public void Add(PartFailFaultCode entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.PartFailFaultCodes.Add(entity);
         }
 
         public void Remove(PartFailFaultCode entity)

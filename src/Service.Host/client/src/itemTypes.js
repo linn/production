@@ -177,6 +177,18 @@ export const partFailFaultCodes = new ItemType(
     '/production/quality/part-fail-fault-codes'
 );
 
+export const partFailErrorType = new ItemType(
+    'partFailErrorType',
+    'PART_FAIL_ERROR_TYPE',
+    '/production/quality/part-fail-error-types'
+);
+
+export const partFailFaultCode = new ItemType(
+    'partFailFaultCode',
+    'PART_FAIL_FAULT_CODE',
+    '/production/quality/part-fail-fault-codes'
+);
+
 export const purchaseOrders = new ItemType(
     'purchaseOrders',
     'PURCHASE_ORDERS',

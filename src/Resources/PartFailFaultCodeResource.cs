@@ -1,6 +1,8 @@
 ﻿namespace Linn.Production.Resources
 {
-    public class PartFailFaultCodeResource
+    using Linn.Common.Resources;
+
+    public class PartFailFaultCodeResource : HypermediaResource
     {
         public string FaultCode { get; set; }
 
