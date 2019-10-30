@@ -22,7 +22,7 @@
             this.boardTestReportFacadeService = boardTestReportFacadeService;
             this.facadeService = facadeService;
 
-            this.Get("/production/measures/board-tests-report", _ => this.GetBoardTestsReport());
+            this.Get("/production/reports/board-tests-report", _ => this.GetBoardTestsReport());
             this.Get("/production/resources/board-fail-types", _ => this.GetAll());
             this.Get("/production/resources/board-fail-types/{type*}", parameters => this.GetById(parameters.type));
             this.Put("/production/resources/board-fail-types/{type*}", parameters => this.Update(parameters.type));

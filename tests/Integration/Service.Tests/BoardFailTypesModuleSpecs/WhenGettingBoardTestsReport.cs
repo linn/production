@@ -24,7 +24,7 @@
                 .Returns(new SuccessResult<ResultsModel>(results));
 
             this.Response = this.Browser.Get(
-                "/production/measures/board-tests-report",
+                "/production/reports/board-tests-report",
                 with =>
                     {
                         with.Header("Accept", "application/json");
