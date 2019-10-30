@@ -91,19 +91,23 @@
 
         public DbSet<PartFail> PartFails { get; set; }
 
-        public DbSet<PartFailErrorType> PartFailErrorTypes { get; set;  }
+        public DbSet<PartFailErrorType> PartFailErrorTypes { get; set; }
 
         public DbSet<PartFailFaultCode> PartFailFaultCodes { get; set; }
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
+        public DbQuery<PartFailLog> PartFailLogs { get; set; }
+
+        public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
+        
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public DbSet<ProductData> ProductData { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
+        private DbQuery<PtlMaster> PtlMasterSet { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -148,6 +152,8 @@
             this.QueryProductionBackOrders(builder);
             this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
+            this.QueryPartFailLogs(builder);
+            this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
 
             base.OnModelCreating(builder);
@@ -374,6 +380,30 @@
             builder.Query<MCDLine>().Property(t => t.CouldGo).HasColumnName("COULD_GO");
         }
 
+        private void QueryEmployeeDepartmentView(ModelBuilder builder)
+        {
+            var q = builder.Query<EmployeeDepartmentView>();
+            q.ToView("EMP_DEPT_VIEW");
+            q.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
+            q.Property(t => t.DepartmentCode).HasColumnName("DEPARTMENT_CODE");
+        }
+
+        private void QueryPartFailLogs(ModelBuilder builder)
+        {
+            var q = builder.Query<PartFailLog>();
+            q.ToView("PART_FAIL_LOG");
+            q.Property(t => t.Id).HasColumnName("ID");
+            q.Property(t => t.DateCreated).HasColumnName("DATE_CREATED");
+            q.Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
+            q.Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
+            q.Property(t => t.Story).HasColumnName("STORY");
+            q.Property(t => t.Quantity).HasColumnName("QTY");
+            q.Property(t => t.MinutesWasted).HasColumnName("MINUTES_WASTED");
+            q.Property(t => t.ErrorType).HasColumnName("ERROR_TYPE");
+            q.Property(t => t.Batch).HasColumnName("BATCH");
+            q.Property(t => t.EnteredBy).HasColumnName("ENTERED_BY");
+        }
+
         private void QueryOverdueOrderLines(ModelBuilder builder)
         {
             var q = builder.Query<OverdueOrderLine>();
@@ -532,6 +562,8 @@
             e.Property(p => p.BomId).HasColumnName("BOM_ID");
             e.Property(p => p.SernosSequence).HasColumnName("SERNOS_SEQUENCE").HasMaxLength(10);
             e.Property(p => p.AccountingCompany).HasColumnName("ACCOUNTING_COMPANY").HasMaxLength(10);
+            e.Property(p => p.BaseUnitPrice).HasColumnName("BASE_UNIT_PRICE");
+            e.Property(p => p.PreferredSupplier).HasColumnName("PREFERRED_SUPPLIER");
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)
