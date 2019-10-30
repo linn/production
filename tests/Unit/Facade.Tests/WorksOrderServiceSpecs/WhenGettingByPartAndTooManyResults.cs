@@ -30,7 +30,7 @@
 
             for (int i = 0; i <= 500; i++)
             {
-                results.Add(new WorksOrder { OrderNumber = i, Part = new Part { PartNumber = "part"}});
+                results.Add(new WorksOrder { OrderNumber = i, Part = new Part { PartNumber = "part" } });
             }
             this.part = "part";
             this.WorksOrderRepository.FilterBy(Arg.Any<Expression<Func<WorksOrder, bool>>>())
