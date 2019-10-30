@@ -7,10 +7,10 @@ import {
     Loading,
     Title,
     ErrorCard,
-    SnackbarMessage
+    SnackbarMessage,
+    TableWithInlineEditing
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-import TableWithInlineEditing from './TableWithInlineEditing';
 
 function ManufacturingRoute({
     editStatus,
@@ -36,6 +36,12 @@ function ManufacturingRoute({
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
+        if (item) {
+            const operationsWithIds = [...item.operations];
+            item.operations.forEach((operation, index) => {
+                operationsWithIds[index].id = `${operation.manufacturingId}`;
+            });
+        }
         if (item !== prevManufacturingRoute) {
             setManufacturingRoute(item);
             setPrevManufacturingRoute(item);
