@@ -68,6 +68,7 @@ import PartFailErrorType from '../containers/partFails/PartFailErrorType';
 import CreatePartFailErrorType from '../containers/partFails/CreatePartFailErrorType';
 import CreatePartFailFaultCode from '../containers/partFails/CreatePartFailFaultCode';
 import PartFailFaultCode from '../containers/partFails/PartFailFaultCode';
+import WorksOrderBatchNotes from '../containers/worksOrders/WorksOrderBatchNotes';
 
 const Root = ({ store }) => (
     <div>
@@ -125,6 +126,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/works-orders"
                                         component={WorksOrder}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/works-orders-batch-notes"
+                                        component={WorksOrderBatchNotes}
                                     />
                                     <Route
                                         exact

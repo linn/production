@@ -12,6 +12,8 @@
     using Linn.Production.Facade.Extensions;
     using Linn.Production.Resources;
 
+    using Microsoft.Extensions.FileProviders.Embedded;
+
     public class WorksOrdersService : FacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>, IWorksOrdersService
     {
         private readonly IRepository<WorksOrder, int> worksOrderRepository;
@@ -114,8 +116,14 @@
 
         public IResult<IEnumerable<WorksOrder>> SearchByPartNumber(string partNumber)
         {
-            return new SuccessResult<IEnumerable<WorksOrder>>(
-                this.worksOrderRepository.FilterBy(w => w.Part.PartNumber.Contains(partNumber)));
+            var result = this.worksOrderRepository.FilterBy(w => w.Part.PartNumber.Contains(partNumber.ToUpper()));
+
+            if (result.Count() > 500)
+            {
+                return new BadRequestResult<IEnumerable<WorksOrder>>($"Please refine Search, {result.Count()} matches were returned.");
+            }
+
+            return new SuccessResult<IEnumerable<WorksOrder>>(result);
         }
 
         public IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber)
