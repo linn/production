@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Facade.Tests.OrdersReportsFacadeSpecs
+﻿namespace Linn.Production.Facade.Tests.PartsReportFacadeServiceSpecs
 {
     using FluentAssertions;
 
@@ -9,23 +9,23 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingOverdueOrdersReport : ContextBase
+    public class WhenGettingPartFailDetailsReport : ContextBase
     {
         private IResult<ResultsModel> result;
 
         [SetUp]
         public void SetUp()
         {
-            this.OverdueOrdersService.OverdueOrdersReport("RB", "DM")
+            this.PartsReportService.PartFailDetailsReport(123, "fw", "tw", "et", "fc", "pn", "de")
                 .Returns(new ResultsModel { ReportTitle = new NameModel("title") });
 
-            this.result = this.Sut.GetOverdueOrdersReport("RB", "DM");
+            this.result = this.Sut.GetPartFailDetailsReport(123, "fw", "tw", "et", "fc", "pn", "de");
         }
 
         [Test]
         public void ShouldGetReport()
         {
-            this.OverdueOrdersService.Received().OverdueOrdersReport("RB", "DM");
+            this.PartsReportService.Received().PartFailDetailsReport(123, "fw", "tw", "et", "fc", "pn", "de");
         }
 
         [Test]
