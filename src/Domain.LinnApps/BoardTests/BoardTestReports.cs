@@ -28,7 +28,7 @@
                                   new AxisDetailsModel("Board Serial Number", "Board SN", GridDisplayType.TextValue) { SortOrder = 1, AllowWrap = false },
                                   new AxisDetailsModel("First Test Date", "First Test", GridDisplayType.TextValue) { SortOrder = 2, AllowWrap = false },
                                   new AxisDetailsModel("Last Test Date", "Last Test", GridDisplayType.TextValue) { SortOrder = 3, AllowWrap = false },
-                                  new AxisDetailsModel("No Of Tests") { SortOrder = 4 },
+                                  new AxisDetailsModel("No Of Tests", GridDisplayType.TextValue) { SortOrder = 4 },
                                   new AxisDetailsModel("Passed At Test", GridDisplayType.TextValue) { SortOrder = 5 },
                                   new AxisDetailsModel("Status", GridDisplayType.TextValue) { SortOrder = 6 }
                               };
@@ -52,7 +52,7 @@
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Board Serial Number", TextDisplay = board.Key });
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "First Test Date", TextDisplay = board.Min(a => a.DateTested).ToString("dd-MMM-yyyy") });
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Last Test Date", TextDisplay = board.Max(a => a.DateTested).ToString("dd-MMM-yyyy") });
-                models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "No Of Tests", Quantity = board.Count() });
+                models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "No Of Tests", TextDisplay = board.Count().ToString() });
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Passed At Test", TextDisplay = firstPassSeq.ToString() });
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Status", TextDisplay = board.First(a => a.Seq == board.Max(b => b.Seq)).Status });
             }

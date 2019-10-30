@@ -60,6 +60,7 @@ import printMACLabels from './printMACLabels';
 import overdueOrders from './overdueOrdersReport';
 import partFailErrorType from './partFailErrorType';
 import partFailFaultCode from './partFailFaultCode';
+import boardTestsReport from './boardTestsReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -80,6 +81,7 @@ const rootReducer = combineReducers({
     ateFaultCodes,
     boardFailType,
     boardFailTypes,
+    boardTestsReport,
     buildsDetailReport,
     buildsSummaryReport,
     cits,

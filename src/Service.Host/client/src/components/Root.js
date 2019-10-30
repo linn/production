@@ -50,6 +50,8 @@ import CreateWorksOrder from '../containers/worksOrders/CreateWorksOrder';
 import NotFound from './NotFound';
 import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
+import BoardTestsReportOptions from '../containers/reports/BoardTestsReportOptions';
+import BoardTestsReport from '../containers/reports/BoardTestsReport';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 import PartFail from '../containers/partFails/PartFail';
 import PartFails from '../containers/partFails/PartFails';
@@ -310,6 +312,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/smt/outstanding-works-order-parts"
                                         component={SmtOutstandingWOPartsReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/board-tests-report/report"
+                                        component={BoardTestsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/board-tests-report"
+                                        component={BoardTestsReportOptions}
                                     />
                                     <Route
                                         exact
