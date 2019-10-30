@@ -98,11 +98,7 @@ function App() {
                 >
                     <Typography color="primary">Manufacturing Commit Date Report</Typography>
                 </ListItem>
-                <ListItem
-                    component={Link}
-                    to="/production/reports/board-tests-report"
-                    button
-                >
+                <ListItem component={Link} to="/production/reports/board-tests-report" button>
                     <Typography color="primary">Board Tests Report</Typography>
                 </ListItem>
             </List>
