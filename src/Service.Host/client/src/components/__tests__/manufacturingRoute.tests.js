@@ -147,7 +147,8 @@ describe('When Editing', () => {
         const noDescription = {
             resourceCode: 'TESTROUTECODE1',
             description: '',
-            notes: 'some notes'
+            notes: 'some notes',
+            operations: []
         };
 
         const { getByText } = render(
