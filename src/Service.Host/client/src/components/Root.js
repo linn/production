@@ -70,6 +70,9 @@ import PartFailErrorType from '../containers/partFails/PartFailErrorType';
 import CreatePartFailErrorType from '../containers/partFails/CreatePartFailErrorType';
 import CreatePartFailFaultCode from '../containers/partFails/CreatePartFailFaultCode';
 import PartFailFaultCode from '../containers/partFails/PartFailFaultCode';
+import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
+import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
+import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
 
 const Root = ({ store }) => (
     <div>
@@ -398,6 +401,21 @@ const Root = ({ store }) => (
                                         path="/production/reports/overdue-orders"
                                         component={OverdueOrdersReportOptions}
                                     />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-routes/create"
+                                        component={CreateManufacturingRoute}
+                                            />
+                                            <Route
+                                        exact
+                                        path="/production/resources/manufacturing-routes/:id"
+                                        component={ManufacturingRoute}
+                                            />
+                                            <Route
+                                        exact
+                                        path="/production/resources/manufacturing-routes"
+                                        component={ManufacturingRoutes}
+                                            />
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>

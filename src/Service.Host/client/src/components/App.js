@@ -30,6 +30,9 @@ function App() {
                 >
                     <Typography color="primary">Manufacturing Resources Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/resources/manufacturing-routes/" button>
+                    <Typography color="primary">Manufacturing Routes Utility</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/resources/manufacturing-skills/" button>
                     <Typography color="primary">Manufacturing Skills Utility</Typography>
                 </ListItem>

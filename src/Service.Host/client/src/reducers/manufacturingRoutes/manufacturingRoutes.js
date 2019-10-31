@@ -1,5 +1,5 @@
 ﻿import { collectionStoreFactory } from '@linn-it/linn-form-components-library';
-import { manufacturingSkillsActionTypes as actionTypes } from '../../actions';
+import { manufacturingRoutesActionTypes as actionTypes } from '../../actions';
 import * as itemTypes from '../../itemTypes';
 
 const defaultState = {
@@ -8,7 +8,7 @@ const defaultState = {
 };
 
 export default collectionStoreFactory(
-    itemTypes.manufacturingSkills.actionType,
+    itemTypes.manufacturingRoutes.actionType,
     actionTypes,
     defaultState
 );

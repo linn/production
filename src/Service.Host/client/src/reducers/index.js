@@ -32,6 +32,7 @@ import employees from './employees';
 import whoBuiltWhat from './whoBuiltWhat';
 import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
+import manufacturingRoutes from './manufacturingRoutes/manufacturingRoutes';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 import worksOrderDetails from './worksOrders/worksOrderDetails';
@@ -92,7 +93,6 @@ const rootReducer = combineReducers({
     manufacturingSkill,
     manufacturingResources,
     manufacturingResource,
-    manufacturingRoute,
     outstandingWorksOrdersReport,
     overdueOrders,
     parts,
@@ -125,6 +125,8 @@ const rootReducer = combineReducers({
     manufacturingCommitDate,
     partFailErrorType,
     partFailFaultCode,
+    manufacturingRoute,
+    manufacturingRoutes,
     ...sharedLibraryReducers
 });
 
