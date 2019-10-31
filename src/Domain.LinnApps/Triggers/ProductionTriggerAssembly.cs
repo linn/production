@@ -24,7 +24,6 @@
 
         public bool HasReqt()
         {
-            //  (PW.NETT_SALES_ORDERS != 0 OR PW.QTY_BEING_BUILT != 0 OR PW.BT != 0)
             return this.NettSalesOrders > 0 || this.QtyBeingBuilt > 0 || this.ReqtForInternalAndTriggerLevelBT > 0;
         }
     }
