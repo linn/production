@@ -1,8 +1,8 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import { TypeAheadTable } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
-import TypeAheadTable from './TypeAheadTable';
 
 function WorksOrdersBatchNotes({ items, fetchItems, loading, clearSearch, history }) {
     const formatDate = date => `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;

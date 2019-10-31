@@ -27,8 +27,8 @@ function TypeAheadTable({
     const [searchTerm, setSearchTerm] = useState('');
     useSearch(fetchItems, searchTerm, clearSearch);
 
-    const handleSearchTermChange = (...args) => {
-        setSearchTerm(args[1]);
+    const handleSearchTermChange = (_propertyName, newValue) => {
+        setSearchTerm(newValue);
     };
 
     const cursor = {
@@ -97,15 +97,15 @@ TypeAheadTable.propTypes = {
                 values: PropTypes.arrayOf(
                     PropTypes.shape({
                         id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-                        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+                        value: PropTypes.string
                     })
                 ),
                 expandableInfo: PropTypes.shape({
-                    Id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+                    Id: PropTypes.string,
                     elements: PropTypes.arrayOf(
                         PropTypes.shape({
-                            label: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-                            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+                            label: PropTypes.string,
+                            value: PropTypes.string
                         })
                     )
                 })
