@@ -89,3 +89,9 @@ export const overdueOrders = new ItemType(
     'OVERDUE_ORDERS_REPORT',
     '/production/reports/overdue-orders/report'
 );
+
+export const boardTestsReport = new ItemType(
+    'boardTestsReport',
+    'BOARD_TESTS_REPORT',
+    '/production/reports/board-tests-report'
+);

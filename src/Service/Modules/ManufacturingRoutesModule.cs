@@ -14,15 +14,17 @@
         public ManufacturingRoutesModule(IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> manufacturingRouteService)
         {
             this.manufacturingRouteService = manufacturingRouteService;
-            this.Get("/production/resources/manufacturing-routes", _ => this.GetAll());
+            this.Get("/production/resources/manufacturing-routes", _ => this.Search());
             this.Get("/production/resources/manufacturing-routes/{routeCode*}", parameters => this.GetById(parameters.routeCode));
             this.Put("/production/resources/manufacturing-routes/{routeCode*}", parameters => this.UpdateManufacturingRoute(parameters.routeCode));
             this.Post("/production/resources/manufacturing-routes", parameters => this.AddManufacturingRoute());
         }
 
-        private object GetAll()
+        private object Search()
         {
-            var result = this.manufacturingRouteService.GetAll();
+            var resource = this.Bind<SearchRequestResource>();
+            var result = this.manufacturingRouteService.Search(resource.SearchTerm);
+
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

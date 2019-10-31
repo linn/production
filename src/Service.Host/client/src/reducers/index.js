@@ -32,6 +32,7 @@ import employees from './employees';
 import whoBuiltWhat from './whoBuiltWhat';
 import whoBuiltWhatDetails from './whoBuiltWhatDetails';
 import manufacturingRoute from './manufacturingRoutes/manufacturingRoute';
+import manufacturingRoutes from './manufacturingRoutes/manufacturingRoutes';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 import worksOrderDetails from './worksOrders/worksOrderDetails';
@@ -60,6 +61,7 @@ import printMACLabels from './printMACLabels';
 import overdueOrders from './overdueOrdersReport';
 import partFailErrorType from './partFailErrorType';
 import partFailFaultCode from './partFailFaultCode';
+import boardTestsReport from './boardTestsReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -80,6 +82,7 @@ const rootReducer = combineReducers({
     ateFaultCodes,
     boardFailType,
     boardFailTypes,
+    boardTestsReport,
     buildsDetailReport,
     buildsSummaryReport,
     cits,
@@ -90,7 +93,6 @@ const rootReducer = combineReducers({
     manufacturingSkill,
     manufacturingResources,
     manufacturingResource,
-    manufacturingRoute,
     outstandingWorksOrdersReport,
     overdueOrders,
     parts,
@@ -123,6 +125,8 @@ const rootReducer = combineReducers({
     manufacturingCommitDate,
     partFailErrorType,
     partFailFaultCode,
+    manufacturingRoute,
+    manufacturingRoutes,
     ...sharedLibraryReducers
 });
 

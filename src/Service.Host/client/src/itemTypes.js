@@ -141,6 +141,11 @@ export const manufacturingRoute = new ItemType(
     'MANUFACTURING_ROUTE',
     '/production/resources/manufacturing-routes'
 );
+export const manufacturingRoutes = new ItemType(
+    'manufacturingRoutes',
+    'MANUFACTURING_ROUTES',
+    '/production/resources/manufacturing-routes'
+);
 
 export const parts = new ItemType('parts', 'PARTS', '/production/maintenance/parts');
 

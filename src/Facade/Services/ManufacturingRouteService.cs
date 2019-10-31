@@ -1,19 +1,29 @@
 ﻿namespace Linn.Production.Facade.Services
 {
-    using System;
-    using System.Linq.Expressions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class ManufacturingRouteService : FacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    using Linn.Production.Facade.ResourceBuilders;
+
+    public class ManufacturingRouteService : FacadeService<ManufacturingRoute, string, ManufacturingRouteResource,
+        ManufacturingRouteResource>
     {
+        private readonly IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationService;
+        private readonly ManufacturingOperationResourceBuilder manufacturingOperationResourceBuilder = new ManufacturingOperationResourceBuilder();
+
         public ManufacturingRouteService(
             IRepository<ManufacturingRoute, string> repository,
-            ITransactionManager transactionManager)
+            ITransactionManager transactionManager,
+            IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationService)
             : base(repository, transactionManager)
         {
+            this.manufacturingOperationService = manufacturingOperationService;
         }
 
         protected override ManufacturingRoute CreateFromResource(ManufacturingRouteResource resource)
@@ -26,11 +36,23 @@
             entity.RouteCode = updateResource.RouteCode;
             entity.Description = updateResource.Description;
             entity.Notes = updateResource.Notes;
+
+            foreach (var operation in updateResource.Operations)
+            {
+              if (operation.ManufacturingId > 0)
+              {
+                  this.manufacturingOperationService.Update(operation.ManufacturingId, operation);
+              }
+              else
+              {
+                  this.manufacturingOperationService.Add(operation);
+              }
+            }
         }
 
         protected override Expression<Func<ManufacturingRoute, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return w => w.RouteCode.ToUpper().Contains(searchTerm.ToUpper());
         }
     }
 }

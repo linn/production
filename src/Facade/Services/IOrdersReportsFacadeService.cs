@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Facade.Services
 {
-    using System;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Models;

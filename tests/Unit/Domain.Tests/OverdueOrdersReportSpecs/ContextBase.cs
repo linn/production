@@ -12,12 +12,11 @@
 
     public abstract class ContextBase
     {
-        protected OverdueOrdersReportService Sut;
+        protected OverdueOrdersReportService Sut { get; set; }
 
-        protected IQueryRepository<OverdueOrderLine> OverdueOrderRepository;
+        protected IQueryRepository<OverdueOrderLine> OverdueOrderRepository { get; private set; }
 
-        protected IRepository<AccountingCompany, string> AccountingCompaniesRepository;
-
+        protected IRepository<AccountingCompany, string> AccountingCompaniesRepository { get; private set; }
 
         protected IReportingHelper ReportingHelper { get; private set; }
 

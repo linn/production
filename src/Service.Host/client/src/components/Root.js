@@ -50,6 +50,8 @@ import CreateWorksOrder from '../containers/worksOrders/CreateWorksOrder';
 import NotFound from './NotFound';
 import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstandingWOPartsReportOptions';
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
+import BoardTestsReportOptions from '../containers/reports/BoardTestsReportOptions';
+import BoardTestsReport from '../containers/reports/BoardTestsReport';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 import PartFail from '../containers/partFails/PartFail';
 import PartFails from '../containers/partFails/PartFails';
@@ -69,6 +71,9 @@ import CreatePartFailErrorType from '../containers/partFails/CreatePartFailError
 import CreatePartFailFaultCode from '../containers/partFails/CreatePartFailFaultCode';
 import PartFailFaultCode from '../containers/partFails/PartFailFaultCode';
 import WorksOrderBatchNotes from '../containers/worksOrders/WorksOrderBatchNotes';
+import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
+import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
+import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
 
 const Root = ({ store }) => (
     <div>
@@ -319,6 +324,16 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/board-tests-report/report"
+                                        component={BoardTestsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/board-tests-report"
+                                        component={BoardTestsReportOptions}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/maintenance/production-trigger-levels-settings"
                                         component={PtlSettings}
                                     />
@@ -392,6 +407,21 @@ const Root = ({ store }) => (
                                         path="/production/reports/overdue-orders"
                                         component={OverdueOrdersReportOptions}
                                     />
+                                    <Route
+                                        exact
+                                        path="/production/resources/manufacturing-routes/create"
+                                        component={CreateManufacturingRoute}
+                                            />
+                                            <Route
+                                        exact
+                                        path="/production/resources/manufacturing-routes/:id"
+                                        component={ManufacturingRoute}
+                                            />
+                                            <Route
+                                        exact
+                                        path="/production/resources/manufacturing-routes"
+                                        component={ManufacturingRoutes}
+                                            />
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>

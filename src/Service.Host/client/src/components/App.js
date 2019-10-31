@@ -30,6 +30,9 @@ function App() {
                 >
                     <Typography color="primary">Manufacturing Resources Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/resources/manufacturing-routes/" button>
+                    <Typography color="primary">Manufacturing Routes Utility</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/resources/manufacturing-skills/" button>
                     <Typography color="primary">Manufacturing Skills Utility</Typography>
                 </ListItem>
@@ -97,6 +100,9 @@ function App() {
                     button
                 >
                     <Typography color="primary">Manufacturing Commit Date Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/board-tests-report" button>
+                    <Typography color="primary">Board Tests Report</Typography>
                 </ListItem>
             </List>
         </Page>

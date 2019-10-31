@@ -120,6 +120,11 @@ export const manufacturingRouteActionTypes = makeActionTypes(
     itemTypes.manufacturingRoute.actionType
 );
 
+export const manufacturingRoutesActionTypes = makeActionTypes(
+    itemTypes.manufacturingRoutes.actionType,
+    false
+);
+
 export const assemblyFailsMeasuresActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsMeasures.actionType
 );
@@ -176,4 +181,8 @@ export const printMACLabelsActionTypes = makeProcessActionTypes(
 
 export const printAllLabelsForProductActionTypes = makeProcessActionTypes(
     processTypes.printAllLabelsForProduct.actionType
+);
+
+export const boardTestsReportActionTypes = makeReportActionTypes(
+    reportTypes.boardTestsReport.actionType
 );

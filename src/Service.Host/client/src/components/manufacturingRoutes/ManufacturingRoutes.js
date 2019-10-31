@@ -1,32 +1,18 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
+import Grid from '@material-ui/core/Grid';
 import {
     Loading,
     CreateButton,
     ErrorCard,
     Title,
-    PaginatedTable
+    PaginatedTable,
+    useSearch,
+    SearchInputField
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '90%'
-    },
-    button: {
-        marginTop: theme.spacing(1),
-        marginRight: theme.spacing(1)
-    },
-    actionsContainer: {
-        marginBottom: theme.spacing(2)
-    },
-    resetContainer: {
-        padding: theme.spacing(3)
-    }
-}));
-
-const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
+const ViewManufacturingRoutes = ({ loading, itemError, history, items, fetchItems }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -34,8 +20,6 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
         rowsPerPage: 10
     });
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
-
-    const classes = useStyles();
 
     useEffect(() => {
         const compare = (field, orderAscending) => (a, b) => {
@@ -53,13 +37,13 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
 
             return 0;
         };
-
-        const rows = items.map(el => ({
-            skillCode: el.skillCode,
-            description: el.description,
-            hourlyRate: el.hourlyRate,
-            links: el.links
-        }));
+        const rows = items
+            ? items.map(el => ({
+                  routeCode: el.routeCode,
+                  description: el.description,
+                  links: el.links
+              }))
+            : [];
 
         if (!rows || rows.length === 0) {
             setRowsToDisplay([]);
@@ -81,26 +65,44 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
         items
     ]);
 
+    const [searchTerm, setSearchTerm] = useState(null);
+
+    useSearch(fetchItems, searchTerm, null, 'searchTerm');
+
+    const handleSearchTermChange = (...args) => {
+        setSearchTerm(args[1]);
+    };
+
     const handleRowLinkClick = href => history.push(href);
 
     const columns = {
-        skillCode: 'Skill Code',
-        description: 'Description',
-        hourlyRate: 'Hourly Rate'
+        routeCode: 'Route Code',
+        description: 'Description'
     };
 
     return (
         <Page>
-            <Title text="Manufacturing Skills" />
-            {errorMessage && <ErrorCard errorMessage={errorMessage} />}
+            <Title text="Manufacturing Routes" />
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
+
+            <Fragment>
+                <CreateButton createUrl="/production/resources/manufacturing-routes/create" />
+            </Fragment>
+            <Grid item xs={8}>
+                <SearchInputField
+                    label="Route Code"
+                    fullWidth
+                    placeholder="search.."
+                    onChange={handleSearchTermChange}
+                    propertyName="searchTerm"
+                    type="text"
+                    value={searchTerm}
+                />
+            </Grid>
             {loading ? (
                 <Loading />
             ) : (
                 <Fragment>
-                    <Fragment className={classes.actionsContainer}>
-                        <CreateButton createUrl="/production/resources/manufacturing-skills/create" />
-                    </Fragment>
-
                     <PaginatedTable
                         columns={columns}
                         handleRowLinkClick={handleRowLinkClick}
@@ -115,16 +117,17 @@ const ViewManufacturingSkills = ({ loading, errorMessage, history, items }) => {
     );
 };
 
-ViewManufacturingSkills.propTypes = {
+ViewManufacturingRoutes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    errorMessage: PropTypes.string
+    itemError: PropTypes.shape({}),
+    fetchItems: PropTypes.func.isRequired
 };
 
-ViewManufacturingSkills.defaultProps = {
-    errorMessage: '',
+ViewManufacturingRoutes.defaultProps = {
+    itemError: null,
     items: []
 };
 
-export default ViewManufacturingSkills;
+export default ViewManufacturingRoutes;

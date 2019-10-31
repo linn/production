@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.ManufacturingRoutesModuleSpecs
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -8,10 +10,8 @@
     using Nancy.Testing;
     using NSubstitute;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
 
-    public class WhenGettingManufacturingRoutes : ContextBase
+    public class WhenSearching : ContextBase
     {
         [SetUp]
         public void SetUp()
@@ -21,12 +21,12 @@
             a.Operations = new List<ManufacturingOperation>();
             b.Operations = new List<ManufacturingOperation>();
 
-            this.ManufacturingRouteService.GetAll()
+            this.ManufacturingRouteService.Search("code")
                 .Returns(new SuccessResult<IEnumerable<ManufacturingRoute>>(new List<ManufacturingRoute> { a, b }));
 
             this.Response = this.Browser.Get(
                 "/production/resources/manufacturing-routes",
-                with => { with.Header("Accept", "application/json"); }).Result;
+                with => { with.Header("Accept", "application/json"); with.Query("searchTerm", "code"); }).Result;
         }
 
         [Test]
@@ -38,7 +38,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingRouteService.Received().GetAll();
+            this.ManufacturingRouteService.Received().Search("code");
         }
 
         [Test]
