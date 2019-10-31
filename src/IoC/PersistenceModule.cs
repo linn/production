@@ -74,8 +74,9 @@
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
-            builder.RegisterType<ProductionTriggerQueryRepository>().As<Common.Persistence.IQueryRepository<ProductionTrigger>>();
-            builder.RegisterType<ProductionBackOrderQueryRepository>().As<Common.Persistence.IQueryRepository<ProductionBackOrder>>();
+            builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
+            builder.RegisterType<ProductionTriggerAssemblyRepository>().As<IQueryRepository<ProductionTriggerAssembly>>();
+            builder.RegisterType<ProductionBackOrderQueryRepository>().As<IQueryRepository<ProductionBackOrder>>();
             builder.RegisterType<BomDetailExplodedPhantomPartViewRepository>().As<IRepository<BomDetailExplodedPhantomPartView, int>>();
         }
     }

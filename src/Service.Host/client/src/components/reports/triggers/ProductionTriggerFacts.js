@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import { Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import NotesIcon from '@material-ui/icons/Notes';
@@ -9,40 +11,39 @@ import FactListItem from './FactListItem';
 import FactListDetails from './FactListDetails';
 import WorksOrderList from './WorksOrderList';
 import SalesOrderList from './SalesOrderList';
+import WhereUsedAssembliesList from './WhereUsedAssembliesList';
 import priorityText from './priorityText';
 
 function ProductionTriggerFacts({ reportData, loading, options, history, itemError }) {
     return (
         <Page>
             <Grid container spacing={3} justify="center">
-                <Grid item xs={12}>
-                    <Title text="The Facts about a production part" />
-                    {loading ? <Loading /> : ''}
-                </Grid>
+                {loading ? (
+                    <Grid item xs={12}>
+                        <Title text="Loading Production Trigger Facts for a Part" />
+                        <Loading />
+                    </Grid>
+                ) : (
+                    ''
+                )}
                 {itemError ? (
                     <ErrorCard errorMessage={itemError.details?.message} />
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
                             <Fragment>
+                                <Title text="Production Trigger Facts for a Part" />
+                                <Link
+                                    component={RouterLink}
+                                    to={`/production/reports/triggers?jobref=${reportData.jobref}&citCode=${reportData.citcode}`}
+                                >
+                                    From jobref {reportData.jobref} CIT {reportData.citName}
+                                </Link>                                
                                 <FactList>
                                     <FactListItem
                                         header={reportData.partNumber}
                                         secondary={reportData.description}
-                                    >
-                                        <FactListDetails
-                                            details={[
-                                                {
-                                                    header: 'Cit',
-                                                    value: reportData.citName
-                                                },
-                                                {
-                                                    header: 'PTL Jobref',
-                                                    value: reportData.jobref
-                                                }
-                                            ]}
-                                        />
-                                    </FactListItem>
+                                    />
                                     <FactListItem
                                         header="Qty Free"
                                         secondary="Good stock available to use"
@@ -92,7 +93,11 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                         header="Required for Internal Customers"
                                         secondary="Required to satisfy all your internal customers"
                                         avatar={reportData.reqtForInternalCustomersGBI}
-                                    />
+                                        >
+                                        <WhereUsedAssembliesList
+                                            assemblies={reportData.whereUsedAssemblies}
+                                        />
+                                    </FactListItem>
                                     <FactListItem
                                         header="Trigger Level"
                                         secondary={`You should have at least this in stock after customers have been satisfied. ${reportData.triggerLevelText}`}
@@ -120,24 +125,6 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                         secondary="You must always build in multiples of this"
                                         avatar={reportData.kanbanSize}
                                     />
-                                    <FactListItem
-                                        header="Build"
-                                        secondary="Build this to satisfy internal and external customers, and trigger level"
-                                        avatar={reportData.reqtForInternalAndTriggerLevelBT}
-                                    >
-                                        <FactListDetails
-                                            details={[
-                                                {
-                                                    header: 'Cit',
-                                                    value: reportData.citName
-                                                },
-                                                {
-                                                    header: 'PTL Jobref',
-                                                    value: reportData.jobref
-                                                }
-                                            ]}
-                                        />
-                                    </FactListItem>
                                     {reportData.remainingBuild ? (
                                         <FactListItem
                                             header="Remaining Fixed Build"
@@ -145,7 +132,24 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                             avatar={reportData.remainingBuild}
                                         />
                                     ) : (
-                                        ''
+                                        <FactListItem
+                                            header="Build"
+                                            secondary="Build this to satisfy internal and external customers, and trigger level"
+                                            avatar={reportData.reqtForInternalAndTriggerLevelBT}
+                                        >
+                                            <FactListDetails
+                                                details={[
+                                                    {
+                                                        header: 'Cit',
+                                                        value: reportData.citName
+                                                    },
+                                                    {
+                                                        header: 'PTL Jobref',
+                                                        value: reportData.jobref
+                                                    }
+                                                ]}
+                                            />
+                                        </FactListItem>
                                     )}
                                     <FactListItem
                                         header="Priority"

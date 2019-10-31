@@ -6,15 +6,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ContextMenu from './ContextMenu';
 import NotesPopover from './NotesPopover';
 
 function TriggersList({ triggers, jobref, reportFormat }) {
-    function showInReport(trigger) {
-        return reportFormat === 'FULL' || reportFormat === trigger.reportFormat;
-    }
-
     return (
         <Table size="small">
             <TableHead>
@@ -31,13 +28,14 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {triggers.filter(showInReport).map(m => (
+                {triggers.map(m => (
                     <TableRow>
                         <TableCell>{m.partNumber}</TableCell>
                         <TableCell>{m.description}</TableCell>
                         <TableCell>
                             <Link
-                                to={`triggers/facts?jobref=${jobref}&part-number=${m.partNumber}`}
+                                component={RouterLink}
+                                to={`/production/reports/triggers/facts?jobref=${jobref}&part-number=${m.partNumber}`}
                             >
                                 {m.remainingBuild
                                     ? m.remainingBuild
@@ -46,7 +44,9 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                         </TableCell>
                         <TableCell>{m.priority}</TableCell>
                         <TableCell>
-                            <Link to={`../wwd?part-number=${m.partNumber}`}>{m.canBuild}</Link>
+                            <Link to={`/production/reports/wwd?part-number=${m.partNumber}`}>
+                                {m.canBuild}
+                            </Link>
                         </TableCell>
                         <TableCell>{m.kanbanSize}</TableCell>
                         <TableCell>{m.qtyBeingBuilt}</TableCell>
@@ -61,11 +61,12 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                         </TableCell>
                         <TableCell>
                             <ContextMenu id={`triggers-menu${m.partNumber}`}>
-                                <span>
-                                    <a href={`triggers/facts?jobref=${jobref}&part-number=${m.partNumber}`}>
-                                        <MenuItem>Facts</MenuItem>
-                                    </a>
-                                </span>
+                                <Link
+                                    component={RouterLink}
+                                    to={`/production/reports/triggers/facts?jobref=${jobref}&part-number=${m.partNumber}`}
+                                >
+                                    <MenuItem>Facts</MenuItem>
+                                </Link>
                                 <MenuItem>Edit Story</MenuItem>
                                 <MenuItem>Works Order</MenuItem>
                                 <MenuItem>Build Plan</MenuItem>

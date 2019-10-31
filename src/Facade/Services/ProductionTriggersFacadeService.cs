@@ -22,6 +22,8 @@
 
         private readonly IQueryRepository<ProductionBackOrder> productionBackOrderRepository;
 
+        private readonly IQueryRepository<ProductionTriggerAssembly> productionTriggerAssemblyRepository;
+
         private readonly IRepository<AccountingCompany, string> accountingCompaniesRepository;
 
         public ProductionTriggersFacadeService(
@@ -30,7 +32,8 @@
             ISingleRecordRepository<PtlMaster> masterRepository,
             IRepository<WorksOrder, int> worksOrderRepository,
             IQueryRepository<ProductionBackOrder> productionBackOrderRepository,
-            IRepository<AccountingCompany, string> accountingCompaniesRepository)
+            IRepository<AccountingCompany, string> accountingCompaniesRepository, 
+            IQueryRepository<ProductionTriggerAssembly> productionTriggerAssemblyRepository)
         {
             this.repository = repository;
             this.citRepository = citRepository;
@@ -38,6 +41,7 @@
             this.worksOrderRepository = worksOrderRepository;
             this.productionBackOrderRepository = productionBackOrderRepository;
             this.accountingCompaniesRepository = accountingCompaniesRepository;
+            this.productionTriggerAssemblyRepository = productionTriggerAssemblyRepository;
         }
 
         public IResult<ProductionTriggersReport> GetProductionTriggerReport(string jobref, string citCode)
@@ -100,6 +104,17 @@
             else
             {
                 facts.OutstandingSalesOrders = new List<ProductionBackOrder>();
+            }
+
+            if ((trigger.ReqtForInternalCustomersBI > 0) || (trigger.ReqtForInternalCustomersGBI > 0))
+            {
+                var parentAssemblies = this.productionTriggerAssemblyRepository.FilterBy(a => a.Jobref == trigger.Jobref && a.PartNumber == trigger.PartNumber);
+                facts.WhereUsedAssemblies = parentAssemblies.ToList().Where(a => a.HasReqt());
+
+            }
+            else
+            {
+                facts.WhereUsedAssemblies = new List<ProductionTriggerAssembly>();
             }
 
             return new SuccessResult<ProductionTriggerFacts>(facts);

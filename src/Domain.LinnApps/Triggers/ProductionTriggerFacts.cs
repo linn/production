@@ -16,5 +16,7 @@
         public IEnumerable<WorksOrder> OutstandingWorksOrders { get; set; }
 
         public IEnumerable<ProductionBackOrder> OutstandingSalesOrders { get; set; }
+
+        public IEnumerable<ProductionTriggerAssembly> WhereUsedAssemblies { get; set; }
     }
 }

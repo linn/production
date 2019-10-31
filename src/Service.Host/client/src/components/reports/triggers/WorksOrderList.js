@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function WorksOrderList({ worksOrders }) {
@@ -26,7 +27,12 @@ function WorksOrderList({ worksOrders }) {
                 {worksOrders.map(o => (
                     <TableRow>
                         <TableCell>
-                            <a href={`../../works-orders/${o.orderNumber}`}>{o.orderNumber}</a>
+                        <Link
+                                component={RouterLink}
+                                to={`/production/works-orders/${o.orderNumber}`}
+                            >
+                                {o.orderNumber}
+                            </Link>
                         </TableCell>
                         <TableCell>{o.quantity}</TableCell>
                         <TableCell>{o.quantityBuilt}</TableCell>

@@ -9,6 +9,7 @@ import {
 } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { nodeInternals } from 'stack-utils';
 import Page from '../../../containers/Page';
 import TriggersList from './TriggersList';
 
@@ -63,6 +64,24 @@ function ProductionTriggers({
         fetchTriggers(newOptions);
     };
 
+    function showInReport(trigger) {
+        return reportFormat === 'FULL' || reportFormat === trigger.reportFormat;
+    }
+
+    function numOfParts(triggers) {
+        const results = triggers.filter(showInReport);
+
+        if (results.length === 1) {
+            return '1 Part';
+        }
+
+        if (results.length > 1) {
+            return `${results.length} Parts`;
+        }
+
+        return 'No Parts';
+    }
+
     return (
         <Page>
             <Grid container spacing={3} justify="center">
@@ -71,7 +90,7 @@ function ProductionTriggers({
                     {loading ? <Loading /> : ''}
                 </Grid>
                 {itemError ? (
-                    <ErrorCard errorMessage={itemError.details?.message}/>
+                    <ErrorCard errorMessage={itemError.details?.message} />
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
@@ -96,6 +115,7 @@ function ProductionTriggers({
                                             ]}
                                             value={reportFormat}
                                             onChange={handleLengthChange}
+                                            helperText={numOfParts(reportData.triggers)}
                                         />
                                     </Grid>
                                     <Grid item xs={2}>
@@ -117,7 +137,7 @@ function ProductionTriggers({
                                     </Grid>
                                 </Grid>
                                 <TriggersList
-                                    triggers={reportData.triggers}
+                                    triggers={reportData.triggers.filter(showInReport)}
                                     jobref={reportData.ptlJobref}
                                     reportFormat={reportFormat}
                                 />

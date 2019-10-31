@@ -76,6 +76,8 @@
 
         public DbQuery<ProductionBackOrder> ProductionBackOrders { get; set; }
 
+        public DbQuery<ProductionTriggerAssembly> ProductionTriggerAssemblies { get; set; }
+
         public DbSet<LinnWeek> LinnWeeks { get; set; }
 
         public DbSet<PtlSettings> PtlSettings { get; set; }
@@ -157,6 +159,7 @@
             this.BuildPurchaseOrders(builder);
             this.QueryAccountingCompanies(builder);
             this.QueryProductionBackOrders(builder);
+            this.QueryProductionTriggerAssemblies(builder);
             this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
             this.QueryPartFailLogs(builder);
@@ -838,6 +841,22 @@
             builder.Entity<ProductData>().Property(o => o.ProductId).HasColumnName("PRODUCT_ID");
             builder.Entity<ProductData>().Property(o => o.MACAddress).HasColumnName("MAC_ADDRESS").HasMaxLength(20);
             builder.Entity<ProductData>().Property(o => o.ProductGroup).HasColumnName("PRODUCT_GROUP").HasMaxLength(10);
+        }
+
+        private void QueryProductionTriggerAssemblies(ModelBuilder builder)
+        {
+            var q = builder.Query<ProductionTriggerAssembly>();
+            q.ToView("PTL_ASSEMBLIES_VIEW_EF");
+            q.Property(e => e.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(e => e.AssemblyNumber).HasColumnName("ASSEMBLY_NUMBER").HasMaxLength(14);
+            q.Property(e => e.NettSalesOrders).HasColumnName("NETT_SALES_ORDERS");
+            q.Property(e => e.QtyUsed).HasColumnName("QTY_USED");
+            q.Property(e => e.QtyBeingBuilt).HasColumnName("QTY_BEING_BUILT");
+            q.Property(e => e.ReqtForInternalAndTriggerLevelBT).HasColumnName("BT");
+            q.Property(e => e.BomLevel).HasColumnName("BOM_LEVEL");
+            q.Property(e => e.ReqtForPriorityBuildBE).HasColumnName("BE");
+            q.Property(e => e.RemainingBuild).HasColumnName("REMAINING_BUILD");
         }
     }
 }
