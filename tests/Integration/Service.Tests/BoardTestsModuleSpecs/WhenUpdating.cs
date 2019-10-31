@@ -1,29 +1,32 @@
-﻿namespace Linn.Production.Service.Tests.BoardFailTypesModuleSpecs
+﻿namespace Linn.Production.Service.Tests.BoardTestsModuleSpecs
 {
     using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Resources;
+
     using Nancy;
     using Nancy.Testing;
+
     using NSubstitute;
+
     using NUnit.Framework;
 
-    public class WhenAddingBoardFailType : ContextBase
+    public class WhenUpdatingBoardFailType : ContextBase
     {
         private BoardFailTypeResource requestResource;
 
         [SetUp]
         public void SetUp()
         {
-            this.requestResource = new BoardFailTypeResource { FailType = 1, Description = "Desc" };
-            var newSkill = new BoardFailType { Type = 1, Description = "Desc" };
+            this.requestResource = new BoardFailTypeResource { FailType = 1, Description = "New Desc" };
+            var a = new BoardFailType { Type = 1, Description = "New Desc" };
+            this.FacadeService.Update(1, Arg.Any<BoardFailTypeResource>())
+                .Returns(new SuccessResult<BoardFailType>(a));
 
-            this.FacadeService.Add(Arg.Any<BoardFailTypeResource>())
-                .Returns(new CreatedResult<BoardFailType>(newSkill));
-
-            this.Response = this.Browser.Post(
-                "/production/resources/board-fail-types",
+            this.Response = this.Browser.Put(
+                "/production/resources/board-fail-types/1",
                 with =>
                 {
                     with.Header("Accept", "application/json");
@@ -35,14 +38,14 @@
         [Test]
         public void ShouldReturnOk()
         {
-            this.Response.StatusCode.Should().Be(HttpStatusCode.Created);
+            this.Response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
         public void ShouldCallService()
         {
             this.FacadeService.Received()
-                .Add(Arg.Is<BoardFailTypeResource>(r => r.FailType == this.requestResource.FailType));
+                .Update(1, Arg.Is<BoardFailTypeResource>(r => r.FailType == this.requestResource.FailType));
         }
 
         [Test]
@@ -50,7 +53,7 @@
         {
             var resource = this.Response.Body.DeserializeJson<BoardFailTypeResource>();
             resource.FailType.Should().Be(1);
-            resource.Description.Should().Be("Desc");
+            resource.Description.Should().Be("New Desc");
         }
     }
 }

@@ -1,14 +1,19 @@
-﻿namespace Linn.Production.Service.Tests.BoardFailTypesModuleSpecs
+﻿namespace Linn.Production.Service.Tests.BoardTestsModuleSpecs
 {
     using System.Collections.Generic;
     using System.Linq;
+
     using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Resources;
+
     using Nancy;
     using Nancy.Testing;
+
     using NSubstitute;
+
     using NUnit.Framework;
 
     public class WhenGettingBoardFailTypes : ContextBase

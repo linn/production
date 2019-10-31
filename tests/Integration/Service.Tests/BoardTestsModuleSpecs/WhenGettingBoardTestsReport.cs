@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.BoardFailTypesModuleSpecs
+﻿namespace Linn.Production.Service.Tests.BoardTestsModuleSpecs
 {
     using System.Linq;
 
@@ -11,7 +11,9 @@
 
     using Nancy;
     using Nancy.Testing;
+
     using NSubstitute;
+
     using NUnit.Framework;
 
     public class WhenGettingBoardTestsReport : ContextBase

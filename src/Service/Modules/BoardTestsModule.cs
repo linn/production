@@ -9,13 +9,13 @@
     using Nancy;
     using Nancy.ModelBinding;
 
-    public sealed class BoardFailTypesModule : NancyModule
+    public sealed class BoardTestsModule : NancyModule
     {
         private readonly IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource> facadeService;
 
         private readonly IBoardTestReportFacadeService boardTestReportFacadeService;
 
-        public BoardFailTypesModule(
+        public BoardTestsModule(
             IFacadeService<BoardFailType, int, BoardFailTypeResource, BoardFailTypeResource> facadeService,
             IBoardTestReportFacadeService boardTestReportFacadeService)
         {

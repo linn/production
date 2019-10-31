@@ -1,7 +1,8 @@
-﻿namespace Linn.Production.Service.Tests.BoardFailTypesModuleSpecs
+﻿namespace Linn.Production.Service.Tests.BoardTestsModuleSpecs
 {
     using System.Collections.Generic;
     using System.Security.Claims;
+
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.BoardTests;
@@ -12,7 +13,9 @@
     using Linn.Production.Service.ResponseProcessors;
 
     using Nancy.Testing;
+
     using NSubstitute;
+
     using NUnit.Framework;
 
     public class ContextBase : NancyContextBase
@@ -36,7 +39,7 @@
                     with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<BoardFailType>>>(
                         new BoardFailTypesResourceBuilder());
-                    with.Module<BoardFailTypesModule>();
+                    with.Module<BoardTestsModule>();
                     with.ResponseProcessor<BoardFailTypeResponseProcessor>();
                     with.ResponseProcessor<BoardFailTypesResponseProcessor>();
                     with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
