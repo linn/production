@@ -1,12 +1,12 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { TypeAheadTable } from '@linn-it/linn-form-components-library';
+import { TypeaheadTable } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function WorksOrdersBatchNotes({ items, fetchItems, loading, clearSearch, history }) {
     const formatDate = date => `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-    const columnNames = ['Works Order', 'Part', 'Qty', 'Date Raised'];
+    const columnNames = ['Works Order', 'Part', 'Qty', 'Qty Built', 'Date Raised'];
 
     const table = {
         totalItemCount: items.length,
@@ -16,6 +16,7 @@ function WorksOrdersBatchNotes({ items, fetchItems, loading, clearSearch, histor
                 { id: `${i}-0`, value: `${item.orderNumber}` },
                 { id: `${i}-1`, value: item.partNumber },
                 { id: `${i}-2`, value: `${item.quantity}` },
+                { id: `${i}-£`, value: item.quantityBuilt?.toString() },
                 { id: `${i}-4`, value: formatDate(new Date(item.dateRaised)) }
             ],
             links: item.links
@@ -26,7 +27,7 @@ function WorksOrdersBatchNotes({ items, fetchItems, loading, clearSearch, histor
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <TypeAheadTable
+                    <TypeaheadTable
                         table={table}
                         columnNames={columnNames}
                         fetchItems={fetchItems}
