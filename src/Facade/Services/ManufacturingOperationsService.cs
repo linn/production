@@ -7,9 +7,9 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>
+    public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int,
+        ManufacturingOperationResource, ManufacturingOperationResource>
     {
-
         public ManufacturingOperationsService(
             IRepository<ManufacturingOperation, int> repository,
             ITransactionManager transactionManager)
