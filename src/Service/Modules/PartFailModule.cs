@@ -30,10 +30,10 @@
             this.errorTypeService = errorTypeService;
             this.faultCodeService = faultCodeService;
 
-            this.Get("/production/quality/part-fails/{id*}", parameters => this.GetById(parameters.id));
+            this.Get("/production/quality/part-fails/{id}", parameters => this.GetById(parameters.id));
             this.Post("/production/quality/part-fails", _ => this.Add());
             this.Get("/production/quality/part-fails", _ => this.Search());
-            this.Put("/production/quality/part-fails/{id*}", parameters => this.Update(parameters.id));
+            this.Put("/production/quality/part-fails/{id}", parameters => this.Update(parameters.id));
 
             this.Get("/production/quality/part-fail-error-types", _ => this.GetErrorTypes());
             this.Get("/production/quality/part-fail-error-types/{type*}", parameters => this.GetErrorType(parameters.type));

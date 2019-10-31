@@ -92,7 +92,7 @@ export const worksOrder = new ItemType('worksOrder', 'WORKS_ORDER', '/production
 
 export const worksOrders = new ItemType('worksOrders', 'WORKS_ORDERS', '/production/works-orders');
 
-export const worksOrdersBathcNotes = new ItemType(
+export const worksOrdersBatchNotes = new ItemType(
     'worksOrders',
     'WORKS_ORDERS',
     '/production/works-orders-for-part'

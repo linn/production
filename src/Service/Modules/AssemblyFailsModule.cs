@@ -22,10 +22,10 @@
          {
              this.faultCodeService = faultCodeService;
              this.assemblyFailService = assemblyFailService;
-             this.Get("/production/quality/assembly-fails/{id*}", parameters => this.GetById(parameters.id));
+             this.Get("/production/quality/assembly-fails/{id}", parameters => this.GetById(parameters.id));
              this.Post("/production/quality/assembly-fails", _ => this.Add());
              this.Get("/production/quality/assembly-fails", _ => this.Search());
-             this.Put("/production/quality/assembly-fails/{id*}", parameters => this.Update(parameters.id));
+             this.Put("/production/quality/assembly-fails/{id}", parameters => this.Update(parameters.id));
              this.Get("/production/quality/assembly-fail-fault-codes", _ => this.GetFaultCodes());
              this.Get(
                  "/production/quality/assembly-fail-fault-codes/{id*}",

@@ -4,9 +4,9 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new FetchApiActions(
-    itemTypes.worksOrdersBathcNotes.item,
-    itemTypes.worksOrdersBathcNotes.actionType,
-    itemTypes.worksOrdersBathcNotes.uri,
+    itemTypes.worksOrdersBatchNotes.item,
+    itemTypes.worksOrdersBatchNotes.actionType,
+    itemTypes.worksOrdersBatchNotes.uri,
     actionTypes,
     config.appRoot
 );

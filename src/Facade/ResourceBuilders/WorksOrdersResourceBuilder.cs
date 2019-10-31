@@ -15,7 +15,7 @@
         public IEnumerable<WorksOrderResource> Build(IEnumerable<WorksOrder> worksOrders)
         {
             return worksOrders
-                .OrderBy(w => w.OrderNumber)
+                .OrderByDescending(w => w.OrderNumber)
                 .Select(w => this.worksOrderResourceBuilder.Build(w));
         }
 
