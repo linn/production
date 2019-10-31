@@ -70,6 +70,7 @@ import PartFailErrorType from '../containers/partFails/PartFailErrorType';
 import CreatePartFailErrorType from '../containers/partFails/CreatePartFailErrorType';
 import CreatePartFailFaultCode from '../containers/partFails/CreatePartFailFaultCode';
 import PartFailFaultCode from '../containers/partFails/PartFailFaultCode';
+import WorksOrderBatchNotes from '../containers/worksOrders/WorksOrderBatchNotes';
 import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
 import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
 import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
@@ -130,6 +131,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/works-orders"
                                         component={WorksOrder}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/works-orders-batch-notes"
+                                        component={WorksOrderBatchNotes}
                                     />
                                     <Route
                                         exact
