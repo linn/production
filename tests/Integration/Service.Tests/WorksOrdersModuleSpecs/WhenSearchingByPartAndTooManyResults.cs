@@ -32,7 +32,7 @@
                 results.Add(new WorksOrder { OrderNumber = i, Part = new Part { PartNumber = "part1" } });
             }
 
-            this.WorksOrdersService.SearchByPartNumber(this.searchTerm)
+            this.WorksOrdersService.SearchByBoardNumber(this.searchTerm)
                 .Returns(new BadRequestResult<IEnumerable<WorksOrder>>("Message"));
 
             this.Response = this.Browser.Get(
@@ -53,7 +53,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.WorksOrdersService.Received().SearchByPartNumber(this.searchTerm);
+            this.WorksOrdersService.Received().SearchByBoardNumber(this.searchTerm);
         }
     }
 }

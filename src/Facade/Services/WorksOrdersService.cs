@@ -112,13 +112,13 @@
             return new SuccessResult<WorksOrder>(worksOrder);
         }
 
-        public IResult<IEnumerable<WorksOrder>> SearchByPartNumber(string partNumber)
+        public IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(string boardNumber)
         {
-            var result = this.worksOrderRepository.FilterBy(w => w.Part.PartNumber.Contains(partNumber.ToUpper()));
+            var result = this.worksOrderRepository.FilterBy(w => w.Part.IsBoardPart() && w.Part.PartNumber.Contains(boardNumber.ToUpper()));
 
-            if (result.Count() > 500)
+            if (result.Count() > 1000)
             {
-                return new BadRequestResult<IEnumerable<WorksOrder>>($"Please refine Search, {result.Count()} matches were returned.");
+                result = result.Take(1000);
             }
 
             return new SuccessResult<IEnumerable<WorksOrder>>(result);

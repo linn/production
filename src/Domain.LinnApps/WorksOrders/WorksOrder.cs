@@ -68,5 +68,10 @@
         {
             this.Quantity = quantity;
         }
+
+        public bool IsBoardPart()
+        {
+            return this.PartNumber.StartsWith("PCAS") || this.PartNumber.StartsWith("PCSM");
+        }
     }
 }
