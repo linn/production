@@ -6,6 +6,6 @@
 
     public interface IBoardTestReports
     {
-        ResultsModel GetBoardTestReport(DateTime fromDate, DateTime toDate);
+        ResultsModel GetBoardTestReport(DateTime fromDate, DateTime toDate, string boardId);
     }
 }

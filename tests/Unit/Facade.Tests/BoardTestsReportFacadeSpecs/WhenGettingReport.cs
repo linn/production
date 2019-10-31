@@ -5,7 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
 
     using NSubstitute;
 
@@ -13,27 +13,31 @@
 
     public class WhenGettingReport : ContextBase
     {
-        private FromToDateRequestResource resource;
+        private BoardTestRequestResource resource;
 
         private IResult<ResultsModel> result;
 
         [SetUp]
         public void SetUp()
         {
-            this.resource = new FromToDateRequestResource
+            this.resource = new BoardTestRequestResource
                                 {
                                     FromDate = 1.May(2020).ToString("o"),
                                     ToDate = 31.May(2020).ToString("o"),
+                                    BoardId = "AB12"
                                 };
-            this.BoardTestReports.GetBoardTestReport(1.May(2020), 31.May(2020))
+            this.BoardTestReports.GetBoardTestReport(1.May(2020), 31.May(2020), "AB12")
                 .Returns(new ResultsModel { ReportTitle = new NameModel("name") });
-            this.result = this.Sut.GetBoardTestReport(this.resource.FromDate, this.resource.ToDate);
+            this.result = this.Sut.GetBoardTestReport(
+                this.resource.FromDate,
+                this.resource.ToDate,
+                this.resource.BoardId);
         }
 
         [Test]
         public void ShouldGetReport()
         {
-            this.BoardTestReports.Received().GetBoardTestReport(1.May(2020), 31.May(2020));
+            this.BoardTestReports.Received().GetBoardTestReport(1.May(2020), 31.May(2020), "AB12");
         }
 
         [Test]

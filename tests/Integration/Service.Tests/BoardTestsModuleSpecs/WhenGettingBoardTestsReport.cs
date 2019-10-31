@@ -22,7 +22,7 @@
         public void SetUp()
         {
             var results = new ResultsModel { ReportTitle = new NameModel("title") };
-            this.BoardTestReportFacadeService.GetBoardTestReport(Arg.Any<string>(), Arg.Any<string>())
+            this.BoardTestReportFacadeService.GetBoardTestReport(Arg.Any<string>(), Arg.Any<string>(), "xyz")
                 .Returns(new SuccessResult<ResultsModel>(results));
 
             this.Response = this.Browser.Get(
@@ -32,6 +32,7 @@
                         with.Header("Accept", "application/json");
                         with.Query("fromDate", 1.July(2020).ToString("o"));
                         with.Query("toDate", 1.July(2021).ToString("o"));
+                        with.Query("boardId", "xyz");
                     }).Result;
         }
 
@@ -46,7 +47,8 @@
         {
             this.BoardTestReportFacadeService.Received().GetBoardTestReport(
                 1.July(2020).ToString("o"),
-                1.July(2021).ToString("o"));
+                1.July(2021).ToString("o"),
+                "xyz");
         }
 
         [Test]

@@ -4,6 +4,7 @@
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Models;
 
     using Nancy;
@@ -31,8 +32,8 @@
 
         private object GetBoardTestsReport()
         {
-            var resource = this.Bind<FromToDateRequestResource>();
-            var result = this.boardTestReportFacadeService.GetBoardTestReport(resource.FromDate, resource.ToDate);
+            var resource = this.Bind<BoardTestRequestResource>();
+            var result = this.boardTestReportFacadeService.GetBoardTestReport(resource.FromDate, resource.ToDate, resource.BoardId);
 
             return this.Negotiate
                 .WithModel(result)

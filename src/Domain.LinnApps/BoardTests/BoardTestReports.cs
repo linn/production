@@ -19,7 +19,7 @@
             this.reportingHelper = reportingHelper;
         }
 
-        public ResultsModel GetBoardTestReport(DateTime fromDate, DateTime toDate)
+        public ResultsModel GetBoardTestReport(DateTime fromDate, DateTime toDate, string boardId)
         {
             var results = new ResultsModel { ReportTitle = new NameModel("Board Tests") };
             var columns = new List<AxisDetailsModel>
@@ -35,6 +35,11 @@
             results.AddSortedColumns(columns);
 
             var tests = this.repository.FilterBy(a => a.DateTested >= fromDate && a.DateTested.Date <= toDate).ToList();
+            if (!string.IsNullOrEmpty(boardId))
+            {
+                tests = tests.Where(t => t.BoardSerialNumber.ToLower().Contains(boardId.ToLower())).ToList();
+            }
+
             if (tests.Count == 0)
             {
                 return results;
