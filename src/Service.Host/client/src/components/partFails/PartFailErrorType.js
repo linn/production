@@ -59,7 +59,6 @@ function PartFailErrorType({
     };
 
     const handleFieldChange = (propertyName, newValue) => {
-        console.log(newValue);
         if (viewing()) {
             setEditStatus('edit');
         }
@@ -131,7 +130,7 @@ function PartFailErrorType({
                 )}
                 <Grid item xs={12}>
                     <SaveBackCancelButtons
-                        saveDisabled={viewing()}
+                        saveDisabled={viewing() || !partFailErrorType.errorType}
                         saveClick={handleSaveClick}
                         cancelClick={handleCancelClick}
                         backClick={handleBackClick}
