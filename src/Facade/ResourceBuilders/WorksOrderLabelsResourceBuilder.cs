@@ -7,7 +7,7 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
-    public class WorksOrderLabelsBuilder : IResourceBuilder<IEnumerable<WorksOrderLabel>>
+    public class WorksOrderLabelsResourceBuilder : IResourceBuilder<IEnumerable<WorksOrderLabel>>
     {
         private readonly WorksOrderLabelResourceBuilder resourceBuilder = new WorksOrderLabelResourceBuilder();
 
