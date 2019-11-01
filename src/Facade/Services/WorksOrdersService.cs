@@ -25,7 +25,7 @@
         public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
-            IWorksOrderFactory worksOrderFactory,
+            IWorksOrderFactory worksOrderFactory, 
             IWorksOrderUtilities worksOrderUtilities)
             : base(worksOrderRepository, transactionManager)
         {

@@ -31,6 +31,8 @@
 
         public List<WorksOrder> WorksOrders { get; set; }
 
+        public IEnumerable<WorksOrderLabel> WorksOrderLabels { get; set; }
+
         public bool IsPhantomPart()
         {
             return this.BomType == "P";

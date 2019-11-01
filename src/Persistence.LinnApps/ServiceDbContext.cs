@@ -50,6 +50,8 @@
 
         public DbSet<WorksOrder> WorksOrders { get; set; }
 
+        public DbSet<WorksOrderLabel> WorksOrderLabels { get; set; }
+
         public DbSet<Part> Parts { get; set; }
 
         public DbSet<AssemblyFailFaultCode> AssemblyFailFaultCodes { get; set; }
@@ -165,7 +167,7 @@
             this.QueryPartFailLogs(builder);
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
-
+            this.BuildWorksOrdersLabels(builder);
             base.OnModelCreating(builder);
         }
 
@@ -242,6 +244,15 @@
             q.Property(e => e.Outstanding).HasColumnName("OUTSTANDING").HasMaxLength(1);
             q.Property(e => e.ZoneName).HasColumnName("ZONE_NAME").HasMaxLength(20);
             q.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
+        }
+
+        private void BuildWorksOrdersLabels(ModelBuilder builder)
+        {
+            var e = builder.Entity<WorksOrderLabel>().ToTable("WO_LABELS");
+            e.HasKey(l => new { l.Sequence, l.PartNumber });
+            e.Property(l => l.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(l => l.LabelText).HasColumnName("LABEL_TEXT");
+            e.Property(l => l.Sequence).HasColumnName("SEQ");
         }
 
         private void BuildAte(ModelBuilder builder)
