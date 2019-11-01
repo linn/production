@@ -6,5 +6,7 @@
     public interface IBoardTestReportFacadeService
     {
         IResult<ResultsModel> GetBoardTestReport(string fromDate, string toDate, string boardId);
+
+        IResult<ResultsModel> GetBoardTestDetailsReport(string boardId);
     }
 }

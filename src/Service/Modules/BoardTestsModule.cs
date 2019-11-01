@@ -24,10 +24,22 @@
             this.facadeService = facadeService;
 
             this.Get("/production/reports/board-tests-report", _ => this.GetBoardTestsReport());
+            this.Get("/production/reports/board-test-details-report", _ => this.GetBoardTestDetailsReport());
             this.Get("/production/resources/board-fail-types", _ => this.GetAll());
             this.Get("/production/resources/board-fail-types/{type*}", parameters => this.GetById(parameters.type));
             this.Put("/production/resources/board-fail-types/{type*}", parameters => this.Update(parameters.type));
             this.Post("/production/resources/board-fail-types", parameters => this.Add());
+        }
+
+        private object GetBoardTestDetailsReport()
+        {
+            var resource = this.Bind<BoardTestRequestResource>();
+            var result = this.boardTestReportFacadeService.GetBoardTestDetailsReport(resource.BoardId);
+
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetBoardTestsReport()

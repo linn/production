@@ -22,5 +22,11 @@
             var result = this.boardTestReports.GetBoardTestReport(startDate, endDate, boardId);
             return new SuccessResult<ResultsModel>(result);
         }
+
+        public IResult<ResultsModel> GetBoardTestDetailsReport(string boardId)
+        {
+            var result = this.boardTestReports.GetBoardTestDetailsReport(boardId);
+            return new SuccessResult<ResultsModel>(result);
+        }
     }
 }

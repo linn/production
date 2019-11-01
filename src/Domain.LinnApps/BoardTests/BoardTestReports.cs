@@ -1,11 +1,10 @@
 ﻿namespace Linn.Production.Domain.LinnApps.BoardTests
 {
+    using Linn.Common.Persistence;
+    using Linn.Common.Reporting.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
-    using Linn.Common.Persistence;
-    using Linn.Common.Reporting.Models;
 
     public class BoardTestReports : IBoardTestReports
     {
@@ -64,6 +63,47 @@
 
             this.reportingHelper.AddResultsToModel(results, models, CalculationValueModelType.Quantity, true);
             this.reportingHelper.SortRowsByTextColumnValues(results, 0, 1);
+            return results;
+        }
+
+        public ResultsModel GetBoardTestDetailsReport(string boardId)
+        {
+            var results = new ResultsModel { ReportTitle = new NameModel($"Board Test Details for Board Id {boardId}") };
+            var columns = new List<AxisDetailsModel>
+                              {
+                                  new AxisDetailsModel("Board Name", GridDisplayType.TextValue) { SortOrder = 0, AllowWrap = false },
+                                  new AxisDetailsModel("Board Serial Number", "Board SN", GridDisplayType.TextValue) { SortOrder = 1, AllowWrap = false },
+                                  new AxisDetailsModel("Sequence", "Seq", GridDisplayType.TextValue) { SortOrder = 2, AllowWrap = false },
+                                  new AxisDetailsModel("Test Machine", GridDisplayType.TextValue) { SortOrder = 4 },
+                                  new AxisDetailsModel("Test Date", "Test Date", GridDisplayType.TextValue) { SortOrder = 3, AllowWrap = false },
+                                  new AxisDetailsModel("Time Tested", GridDisplayType.TextValue) { SortOrder = 5 },
+                                  new AxisDetailsModel("Status", GridDisplayType.TextValue) { SortOrder = 6 },
+                                  new AxisDetailsModel("Fail Type", GridDisplayType.TextValue) { SortOrder = 7 }
+                              };
+            results.AddSortedColumns(columns);
+
+            var tests = this.repository.FilterBy(a => a.BoardSerialNumber.ToLower() == boardId.ToLower()).ToList();
+            if (tests.Count == 0)
+            {
+                return results;
+            }
+
+            var models = new List<CalculationValueModel>();
+            foreach (var test in tests)
+            {
+                var rowId = $"{test.BoardSerialNumber}/{test.Seq}";
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board Name", TextDisplay = test.BoardName });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board Serial Number", TextDisplay = test.BoardSerialNumber });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Sequence", TextDisplay = test.Seq.ToString() });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Test Machine", TextDisplay = test.TestMachine });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Test Date", TextDisplay = test.DateTested.ToString("dd-MMM-yyyy") });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Time Tested", TextDisplay = test.TimeTested });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Status", TextDisplay = test.Status });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Fail Type", TextDisplay = $"{test.FailType?.Type}-{test.FailType?.Description}" });
+            }
+
+            this.reportingHelper.AddResultsToModel(results, models, CalculationValueModelType.Quantity, true);
+            this.reportingHelper.SortRowsByTextColumnValues(results, results.ColumnIndex("Sequence"));
             return results;
         }
     }

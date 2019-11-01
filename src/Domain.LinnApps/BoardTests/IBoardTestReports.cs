@@ -7,5 +7,7 @@
     public interface IBoardTestReports
     {
         ResultsModel GetBoardTestReport(DateTime fromDate, DateTime toDate, string boardId);
+
+        ResultsModel GetBoardTestDetailsReport(string boardId);
     }
 }
