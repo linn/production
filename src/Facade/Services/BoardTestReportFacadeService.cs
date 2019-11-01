@@ -15,11 +15,17 @@
             this.boardTestReports = boardTestReports;
         }
 
-        public IResult<ResultsModel> GetBoardTestReport(string fromDate, string toDate)
+        public IResult<ResultsModel> GetBoardTestReport(string fromDate, string toDate, string boardId)
         {
             DateTime.TryParse(fromDate, out var startDate);
             DateTime.TryParse(toDate, out var endDate);
-            var result = this.boardTestReports.GetBoardTestReport(startDate, endDate);
+            var result = this.boardTestReports.GetBoardTestReport(startDate, endDate, boardId);
+            return new SuccessResult<ResultsModel>(result);
+        }
+
+        public IResult<ResultsModel> GetBoardTestDetailsReport(string boardId)
+        {
+            var result = this.boardTestReports.GetBoardTestDetailsReport(boardId);
             return new SuccessResult<ResultsModel>(result);
         }
     }

@@ -15,7 +15,7 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingReport : ContextBase
+    public class WhenGettingDetailsReport : ContextBase
     {
         private ResultsModel results;
 
@@ -31,8 +31,9 @@
                                              Seq = 1,
                                              TestMachine = "G1",
                                              Status = "FAIL",
+                                             TimeTested = "12:43:34",
                                              DateTested = 1.April(2021),
-                                             FailType = new BoardFailType { Type = 1 }
+                                             FailType = new BoardFailType { Type = 1, Description = "Bad Fail" }
                                          },
                                      new BoardTest
                                          {
@@ -52,20 +53,11 @@
                                              TestMachine = "G1",
                                              Status = "PASS",
                                              DateTested = 2.April(2021)
-                                         },
-                                     new BoardTest
-                                         {
-                                             BoardSerialNumber = "2",
-                                             BoardName = "B1",
-                                             Seq = 1,
-                                             TestMachine = "G2",
-                                             Status = "PASS",
-                                             DateTested = 2.April(2021)
                                          }
                                  };
             this.BoardTestRepository.FilterBy(Arg.Any<Expression<Func<BoardTest, bool>>>())
                 .Returns(boardTests.AsQueryable());
-            this.results = this.Sut.GetBoardTestReport(1.May(2020), 31.May(2020), null);
+            this.results = this.Sut.GetBoardTestDetailsReport("1");
         }
 
         [Test]
@@ -77,22 +69,20 @@
         [Test]
         public void ShouldReturnResults()
         {
-            this.results.Rows.Should().HaveCount(2);
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Name")).Should().Be("A2");
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Serial Number")).Should().Be("1");
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("First Test Date")).Should().Be("01-Apr-2021");
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Last Test Date")).Should().Be("02-Apr-2021");
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("No Of Tests")).Should().Be("3");
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Passed At Test")).Should().Be("3");
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Status")).Should().Be("PASS");
-
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Board Name")).Should().Be("B1");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Board Serial Number")).Should().Be("2");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("First Test Date")).Should().Be("02-Apr-2021");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Last Test Date")).Should().Be("02-Apr-2021");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("No Of Tests")).Should().Be("1");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Passed At Test")).Should().Be("1");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Status")).Should().Be("PASS");
+            this.results.Rows.Should().HaveCount(3);
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Board Name")).Should().Be("A1");
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Board Serial Number")).Should().Be("1");
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Sequence")).Should().Be("1");
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Test Machine")).Should().Be("G1");
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Test Date")).Should().Be("01-Apr-2021");
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Time Tested")).Should().Be("12:43:34");
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Status")).Should().Be("FAIL");
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Fail Type")).Should().Be("1 - Bad Fail");
+            this.results.GetGridTextValue(this.results.RowIndex("1/2"), this.results.ColumnIndex("Board Name")).Should().Be("A2");
+            this.results.GetGridTextValue(this.results.RowIndex("1/2"), this.results.ColumnIndex("Test Date")).Should().Be("01-Apr-2021");
+            this.results.GetGridTextValue(this.results.RowIndex("1/3"), this.results.ColumnIndex("Board Name")).Should().Be("A2");
+            this.results.GetGridTextValue(this.results.RowIndex("1/3"), this.results.ColumnIndex("Test Date")).Should().Be("02-Apr-2021");
+            this.results.GetGridTextValue(this.results.RowIndex("1/3"), this.results.ColumnIndex("Status")).Should().Be("PASS");
         }
     }
 }

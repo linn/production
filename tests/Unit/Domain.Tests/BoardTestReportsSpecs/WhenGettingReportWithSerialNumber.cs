@@ -15,7 +15,7 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingReport : ContextBase
+    public class WhenGettingReportWithSerialNumber : ContextBase
     {
         private ResultsModel results;
 
@@ -65,7 +65,7 @@
                                  };
             this.BoardTestRepository.FilterBy(Arg.Any<Expression<Func<BoardTest, bool>>>())
                 .Returns(boardTests.AsQueryable());
-            this.results = this.Sut.GetBoardTestReport(1.May(2020), 31.May(2020), null);
+            this.results = this.Sut.GetBoardTestReport(1.May(2020), 31.May(2020), "1");
         }
 
         [Test]
@@ -77,7 +77,7 @@
         [Test]
         public void ShouldReturnResults()
         {
-            this.results.Rows.Should().HaveCount(2);
+            this.results.Rows.Should().HaveCount(1);
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Name")).Should().Be("A2");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Serial Number")).Should().Be("1");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("First Test Date")).Should().Be("01-Apr-2021");
@@ -85,14 +85,6 @@
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("No Of Tests")).Should().Be("3");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Passed At Test")).Should().Be("3");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Status")).Should().Be("PASS");
-
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Board Name")).Should().Be("B1");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Board Serial Number")).Should().Be("2");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("First Test Date")).Should().Be("02-Apr-2021");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Last Test Date")).Should().Be("02-Apr-2021");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("No Of Tests")).Should().Be("1");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Passed At Test")).Should().Be("1");
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Status")).Should().Be("PASS");
         }
     }
 }

@@ -95,3 +95,9 @@ export const boardTestsReport = new ItemType(
     'BOARD_TESTS_REPORT',
     '/production/reports/board-tests-report'
 );
+
+export const boardTestDetailsReport = new ItemType(
+    'boardTestDetailsReport',
+    'BOARD_TEST_DETAILS_REPORT',
+    '/production/reports/board-test-details-report'
+);

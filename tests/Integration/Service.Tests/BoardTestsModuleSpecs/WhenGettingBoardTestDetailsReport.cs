@@ -3,7 +3,6 @@
     using System.Linq;
 
     using FluentAssertions;
-    using FluentAssertions.Extensions;
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
@@ -16,23 +15,21 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingBoardTestsReport : ContextBase
+    public class WhenGettingBoardTestDetailsReport : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
             var results = new ResultsModel { ReportTitle = new NameModel("title") };
-            this.BoardTestReportFacadeService.GetBoardTestReport(Arg.Any<string>(), Arg.Any<string>(), "xyz")
+            this.BoardTestReportFacadeService.GetBoardTestDetailsReport("123xyz")
                 .Returns(new SuccessResult<ResultsModel>(results));
 
             this.Response = this.Browser.Get(
-                "/production/reports/board-tests-report",
+                "/production/reports/board-test-details-report",
                 with =>
                     {
                         with.Header("Accept", "application/json");
-                        with.Query("fromDate", 1.July(2020).ToString("o"));
-                        with.Query("toDate", 1.July(2021).ToString("o"));
-                        with.Query("boardId", "xyz");
+                        with.Query("boardId", "123xyz");
                     }).Result;
         }
 
@@ -45,10 +42,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BoardTestReportFacadeService.Received().GetBoardTestReport(
-                1.July(2020).ToString("o"),
-                1.July(2021).ToString("o"),
-                "xyz");
+            this.BoardTestReportFacadeService.Received().GetBoardTestDetailsReport("123xyz");
         }
 
         [Test]
