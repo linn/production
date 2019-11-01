@@ -32,6 +32,7 @@
             {
                 results.Add(new WorksOrder { OrderNumber = i, Part = new Part { PartNumber = "part" } });
             }
+
             this.part = "part";
             this.WorksOrderRepository.FilterBy(Arg.Any<Expression<Func<WorksOrder, bool>>>())
                 .Returns(results.AsQueryable());
