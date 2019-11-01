@@ -1,21 +1,17 @@
 ﻿namespace Linn.Production.Service.Tests.WorksOrdersModuleSpecs
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using FluentAssertions;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.WorksOrders;
-    using Linn.Production.Resources;
-
-    using Nancy;
-    using Nancy.Testing;
-
     using NSubstitute;
 
     using NUnit.Framework;
+
+    using HttpStatusCode = System.Net.HttpStatusCode;
 
     public class WhenSearchingByPartAndTooManyResults : ContextBase
     {
@@ -33,7 +29,7 @@
             }
 
             this.WorksOrdersService.SearchByBoardNumber(this.searchTerm)
-                .Returns(new BadRequestResult<IEnumerable<WorksOrder>>("Message"));
+                .Returns(new SuccessResult<IEnumerable<WorksOrder>>(results));
 
             this.Response = this.Browser.Get(
                 "/production/works-orders-for-part",
@@ -45,9 +41,9 @@
         }
 
         [Test]
-        public void ShouldReturnBadRequest()
+        public void ShouldReturnSuccess()
         {
-            this.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            this.Response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]

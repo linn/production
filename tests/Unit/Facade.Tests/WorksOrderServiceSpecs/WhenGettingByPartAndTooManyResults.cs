@@ -40,7 +40,7 @@
         }
 
         [Test]
-        public void ShouldGetWorksOrder()
+        public void ShouldGetWorksOrders()
         {
             this.WorksOrderRepository.Received().FilterBy(Arg.Any<Expression<Func<WorksOrder, bool>>>());
         }
@@ -49,6 +49,13 @@
         public void ShouldReturnSuccess()
         {
             this.result.Should().BeOfType<SuccessResult<IEnumerable<WorksOrder>>>();
+            var dataResult = ((SuccessResult<IEnumerable<WorksOrder>>)this.result).Data;
+            dataResult.Count().Should().Be(1000);
+        }
+
+        [Test]
+        public void ShouldLimitResults()
+        {
             var dataResult = ((SuccessResult<IEnumerable<WorksOrder>>)this.result).Data;
             dataResult.Count().Should().Be(1000);
         }
