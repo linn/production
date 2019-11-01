@@ -110,7 +110,7 @@
         {
             var resource = this.Bind<SearchRequestResource>();
 
-            var worksOrders = this.worksOrdersService.SearchByPartNumber(resource.SearchTerm);
+            var worksOrders = this.worksOrdersService.SearchByBoardNumber(resource.SearchTerm);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");

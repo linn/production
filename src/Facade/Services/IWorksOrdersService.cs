@@ -12,7 +12,7 @@
 
         IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource);
 
-        IResult<IEnumerable<WorksOrder>> SearchByPartNumber(string partNumber);
+        IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(string boardNumber);
 
         IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber);
     }

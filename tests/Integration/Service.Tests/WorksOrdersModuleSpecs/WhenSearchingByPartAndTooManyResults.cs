@@ -1,17 +1,14 @@
 ﻿namespace Linn.Production.Service.Tests.WorksOrdersModuleSpecs
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using FluentAssertions;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.WorksOrders;
-    using Linn.Production.Resources;
 
     using Nancy;
-    using Nancy.Testing;
 
     using NSubstitute;
 
@@ -32,8 +29,8 @@
                 results.Add(new WorksOrder { OrderNumber = i, Part = new Part { PartNumber = "part1" } });
             }
 
-            this.WorksOrdersService.SearchByPartNumber(this.searchTerm)
-                .Returns(new BadRequestResult<IEnumerable<WorksOrder>>("Message"));
+            this.WorksOrdersService.SearchByBoardNumber(this.searchTerm)
+                .Returns(new SuccessResult<IEnumerable<WorksOrder>>(results));
 
             this.Response = this.Browser.Get(
                 "/production/works-orders-for-part",
@@ -45,15 +42,15 @@
         }
 
         [Test]
-        public void ShouldReturnBadRequest()
+        public void ShouldReturnSuccess()
         {
-            this.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            this.Response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
         public void ShouldCallService()
         {
-            this.WorksOrdersService.Received().SearchByPartNumber(this.searchTerm);
+            this.WorksOrdersService.Received().SearchByBoardNumber(this.searchTerm);
         }
     }
 }
