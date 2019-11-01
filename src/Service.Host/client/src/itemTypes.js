@@ -200,3 +200,15 @@ export const purchaseOrders = new ItemType(
     'PURCHASE_ORDERS',
     '/production/resources/purchase-orders'
 );
+
+export const worksOrderLabel = new ItemType(
+    'worksOrderLabel',
+    'WORKS_ORDER_LABEL',
+    '/production/works-orders/labels'
+);
+
+export const worksOrderLabels = new ItemType(
+    'worksOrderLabels',
+    'WORKS_ORDER_LABELS',
+    '/production/works-orders/labels'
+);

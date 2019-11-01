@@ -186,3 +186,10 @@ export const printAllLabelsForProductActionTypes = makeProcessActionTypes(
 export const boardTestsReportActionTypes = makeReportActionTypes(
     reportTypes.boardTestsReport.actionType
 );
+
+export const worksOrderLabelActionTypes = makeActionTypes(
+    itemTypes.worksOrderLabel.actionType,
+    true
+);
+
+export const worksOrderLabelsActionTypes = makeActionTypes(itemTypes.worksOrderLabels.actionType);

@@ -74,6 +74,7 @@ import WorksOrderBatchNotes from '../containers/worksOrders/WorksOrderBatchNotes
 import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
 import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
 import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
+import WorksOrderLabels from '../containers/worksOrders/WorksOrderLabels';
 
 const Root = ({ store }) => (
     <div>
@@ -136,6 +137,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/works-orders-batch-notes"
                                         component={WorksOrderBatchNotes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/works-orders/labels"
+                                        component={WorksOrderLabels}
                                     />
                                     <Route
                                         exact
@@ -411,17 +417,17 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/resources/manufacturing-routes/create"
                                         component={CreateManufacturingRoute}
-                                            />
-                                            <Route
+                                    />
+                                    <Route
                                         exact
                                         path="/production/resources/manufacturing-routes/:id"
                                         component={ManufacturingRoute}
-                                            />
-                                            <Route
+                                    />
+                                    <Route
                                         exact
                                         path="/production/resources/manufacturing-routes"
                                         component={ManufacturingRoutes}
-                                            />
+                                    />
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>

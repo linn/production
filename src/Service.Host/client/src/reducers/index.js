@@ -36,6 +36,8 @@ import manufacturingRoutes from './manufacturingRoutes/manufacturingRoutes';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 import worksOrderDetails from './worksOrders/worksOrderDetails';
+import worksOrderLabel from './worksOrders/worksOrderLabel';
+import worksOrderLabels from './worksOrders/worksOrderLabels';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
 import smtShifts from './smtShifts';
@@ -127,6 +129,8 @@ const rootReducer = combineReducers({
     partFailFaultCode,
     manufacturingRoute,
     manufacturingRoutes,
+    worksOrderLabel,
+    worksOrderLabels,
     ...sharedLibraryReducers
 });
 
