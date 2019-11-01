@@ -22,12 +22,20 @@
     {
         protected IOutstandingWorksOrdersReportFacade OutstandingWorksOrdersReportFacade { get; private set; }
 
+        protected IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource> LabelService
+        {
+            get;
+            private set;
+        }
+
         protected IWorksOrdersService WorksOrdersService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
             this.OutstandingWorksOrdersReportFacade = Substitute.For<IOutstandingWorksOrdersReportFacade>();
+            this.LabelService = Substitute
+                .For<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             this.WorksOrdersService = Substitute.For<IWorksOrdersService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
@@ -35,6 +43,7 @@
                     {
                         with.Dependency(this.OutstandingWorksOrdersReportFacade);
                         with.Dependency(this.WorksOrdersService);
+                        with.Dependency(this.LabelService);
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(

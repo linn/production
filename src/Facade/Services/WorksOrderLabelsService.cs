@@ -27,7 +27,7 @@
 
         protected override Expression<Func<WorksOrderLabel, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return l => l.PartNumber.Contains(searchTerm.ToUpper());
         }
     }
 }

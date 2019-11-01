@@ -18,7 +18,8 @@
 
         public WorksOrderLabel FindById(WorksOrderLabelKey key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.WorksOrderLabels
+                .Where(w => w.PartNumber == key.PartNumber && w.Sequence == key.Sequence).ToList().FirstOrDefault();
         }
 
         public IQueryable<WorksOrderLabel> FindAll()
