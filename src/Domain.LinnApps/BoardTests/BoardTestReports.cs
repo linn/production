@@ -1,10 +1,11 @@
 ﻿namespace Linn.Production.Domain.LinnApps.BoardTests
 {
-    using Linn.Common.Persistence;
-    using Linn.Common.Reporting.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    using Linn.Common.Persistence;
+    using Linn.Common.Reporting.Models;
 
     public class BoardTestReports : IBoardTestReports
     {
@@ -61,6 +62,12 @@
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Status", TextDisplay = board.First(a => a.Seq == board.Max(b => b.Seq)).Status });
             }
 
+            results.ValueDrillDownTemplates.Add(
+                new DrillDownModel(
+                    "Details",
+                    "/production/reports/board-test-details-report?boardId={rowId}",
+                    null,
+                    results.ColumnIndex("Board Serial Number")));
             this.reportingHelper.AddResultsToModel(results, models, CalculationValueModelType.Quantity, true);
             this.reportingHelper.SortRowsByTextColumnValues(results, 0, 1);
             return results;
@@ -73,10 +80,10 @@
                               {
                                   new AxisDetailsModel("Board Name", GridDisplayType.TextValue) { SortOrder = 0, AllowWrap = false },
                                   new AxisDetailsModel("Board Serial Number", "Board SN", GridDisplayType.TextValue) { SortOrder = 1, AllowWrap = false },
-                                  new AxisDetailsModel("Sequence", "Seq", GridDisplayType.TextValue) { SortOrder = 2, AllowWrap = false },
-                                  new AxisDetailsModel("Test Machine", GridDisplayType.TextValue) { SortOrder = 4 },
-                                  new AxisDetailsModel("Test Date", "Test Date", GridDisplayType.TextValue) { SortOrder = 3, AllowWrap = false },
-                                  new AxisDetailsModel("Time Tested", GridDisplayType.TextValue) { SortOrder = 5 },
+                                  new AxisDetailsModel("Sequence", "Seq", GridDisplayType.TextValue) { SortOrder = 2 },
+                                  new AxisDetailsModel("Test Machine", GridDisplayType.TextValue) { SortOrder = 3 },
+                                  new AxisDetailsModel("Test Date", "Test Date", GridDisplayType.TextValue) { SortOrder = 4, AllowWrap = false },
+                                  new AxisDetailsModel("Time Tested", GridDisplayType.TextValue) { SortOrder = 5, AllowWrap = false },
                                   new AxisDetailsModel("Status", GridDisplayType.TextValue) { SortOrder = 6 },
                                   new AxisDetailsModel("Fail Type", GridDisplayType.TextValue) { SortOrder = 7 }
                               };
@@ -99,7 +106,7 @@
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Test Date", TextDisplay = test.DateTested.ToString("dd-MMM-yyyy") });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Time Tested", TextDisplay = test.TimeTested });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Status", TextDisplay = test.Status });
-                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Fail Type", TextDisplay = $"{test.FailType?.Type}-{test.FailType?.Description}" });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Fail Type", TextDisplay = $"{test.FailType?.Type} - {test.FailType?.Description}" });
             }
 
             this.reportingHelper.AddResultsToModel(results, models, CalculationValueModelType.Quantity, true);

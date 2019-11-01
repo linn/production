@@ -77,7 +77,7 @@
             this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Test Date")).Should().Be("01-Apr-2021");
             this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Time Tested")).Should().Be("12:43:34");
             this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Status")).Should().Be("FAIL");
-            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Fail Type")).Should().Be("1-Bad Fail");
+            this.results.GetGridTextValue(this.results.RowIndex("1/1"), this.results.ColumnIndex("Fail Type")).Should().Be("1 - Bad Fail");
             this.results.GetGridTextValue(this.results.RowIndex("1/2"), this.results.ColumnIndex("Board Name")).Should().Be("A2");
             this.results.GetGridTextValue(this.results.RowIndex("1/2"), this.results.ColumnIndex("Test Date")).Should().Be("01-Apr-2021");
             this.results.GetGridTextValue(this.results.RowIndex("1/3"), this.results.ColumnIndex("Board Name")).Should().Be("A2");

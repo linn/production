@@ -25,6 +25,7 @@
 
             this.Get("/production/reports/board-tests-report", _ => this.GetBoardTestsReport());
             this.Get("/production/reports/board-test-details-report", _ => this.GetBoardTestDetailsReport());
+            this.Get("/production/reports/board-tests-report/report", _ => this.GetApp());
             this.Get("/production/resources/board-fail-types", _ => this.GetAll());
             this.Get("/production/resources/board-fail-types/{type*}", parameters => this.GetById(parameters.type));
             this.Put("/production/resources/board-fail-types/{type*}", parameters => this.Update(parameters.type));
@@ -91,6 +92,11 @@
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
+        }
+
+        private object GetApp()
+        {
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
     }
 }

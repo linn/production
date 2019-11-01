@@ -186,3 +186,6 @@ export const printAllLabelsForProductActionTypes = makeProcessActionTypes(
 export const boardTestsReportActionTypes = makeReportActionTypes(
     reportTypes.boardTestsReport.actionType
 );
+export const boardTestDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.boardTestDetailsReport.actionType
+);

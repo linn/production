@@ -52,6 +52,7 @@ import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstan
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 import BoardTestsReportOptions from '../containers/reports/BoardTestsReportOptions';
 import BoardTestsReport from '../containers/reports/BoardTestsReport';
+import BoardTestDetailsReport from '../containers/reports/BoardTestDetailsReport';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 import PartFail from '../containers/partFails/PartFail';
 import PartFails from '../containers/partFails/PartFails';
@@ -334,6 +335,11 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/board-test-details-report"
+                                        component={BoardTestDetailsReport}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/maintenance/production-trigger-levels-settings"
                                         component={PtlSettings}
                                     />
@@ -411,17 +417,17 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/resources/manufacturing-routes/create"
                                         component={CreateManufacturingRoute}
-                                            />
-                                            <Route
+                                    />
+                                    <Route
                                         exact
                                         path="/production/resources/manufacturing-routes/:id"
                                         component={ManufacturingRoute}
-                                            />
-                                            <Route
+                                    />
+                                    <Route
                                         exact
                                         path="/production/resources/manufacturing-routes"
                                         component={ManufacturingRoutes}
-                                            />
+                                    />
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>
