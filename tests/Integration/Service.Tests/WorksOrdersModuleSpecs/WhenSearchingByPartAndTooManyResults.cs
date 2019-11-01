@@ -7,11 +7,12 @@
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.WorksOrders;
+
+    using Nancy;
+
     using NSubstitute;
 
     using NUnit.Framework;
-
-    using HttpStatusCode = System.Net.HttpStatusCode;
 
     public class WhenSearchingByPartAndTooManyResults : ContextBase
     {
