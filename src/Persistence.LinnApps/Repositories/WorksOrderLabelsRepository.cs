@@ -44,7 +44,7 @@
 
         public IQueryable<WorksOrderLabel> FilterBy(Expression<Func<WorksOrderLabel, bool>> expression)
         {
-            return this.serviceDbContext.WorksOrderLabels.Where(expression);
+            return this.serviceDbContext.WorksOrderLabels.Where(expression).OrderBy(l => l.Sequence);
         }
     }
 }

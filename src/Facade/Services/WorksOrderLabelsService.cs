@@ -10,9 +10,15 @@
 
     public class WorksOrderLabelsService : FacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>
     {
-        public WorksOrderLabelsService(IRepository<WorksOrderLabel, WorksOrderLabelKey> repository, ITransactionManager transactionManager)
+        private readonly IWorksOrderUtilities utilities;
+
+        public WorksOrderLabelsService(
+            IRepository<WorksOrderLabel, WorksOrderLabelKey> repository, 
+            ITransactionManager transactionManager,
+            IWorksOrderUtilities utilities)
             : base(repository, transactionManager)
         {
+            this.utilities = utilities;
         }
 
         protected override WorksOrderLabel CreateFromResource(WorksOrderLabelResource resource)
@@ -20,7 +26,7 @@
             return new WorksOrderLabel
                        {
                            PartNumber = resource.PartNumber,
-                           Sequence = resource.Sequence,
+                           Sequence = this.utilities.GetNextLabelSeqForPart(resource.PartNumber),
                            LabelText = resource.LabelText
                        };
         }
