@@ -125,6 +125,7 @@
             {
                 return this.labelService.FilterBy(l => l.PartNumber == partNumber).Select(l => l.Sequence).Max() + 1;
             }
+
             return 1;
         }
 
