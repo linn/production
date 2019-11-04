@@ -22,7 +22,7 @@
 
         protected override void UpdateFromResource(WorksOrderLabel entity, WorksOrderLabelResource updateResource)
         {
-            throw new NotImplementedException();
+            entity.LabelText = updateResource.LabelText;
         }
 
         protected override Expression<Func<WorksOrderLabel, bool>> SearchExpression(string searchTerm)

@@ -35,6 +35,7 @@
             this.outstandingWorksOrdersReportFacade = outstandingWorksOrdersReportFacade;
 
             this.Get("/production/works-orders", _ => this.GetWorksOrders());
+            this.Put("/production/works-orders/labels/{seq}/{part*}", _ => this.UpdateWorksOrderLabel());
             this.Get("/production/works-orders/labels", _ => this.GetWorksOrderLabelsForPart());
             this.Get("/production/works-orders/labels/{seq}/{part*}", parameters => this.GetWorksOrderLabel(parameters.part, parameters.seq));
             this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
@@ -142,6 +143,22 @@
             var labels = this.labelService.GetById(new WorksOrderLabelKey { PartNumber = part, Sequence = seq });
             return this.Negotiate.WithModel(labels).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
+        }
+
+        private object UpdateWorksOrderLabel()
+        {
+            this.RequiresAuthentication();
+
+            var resource = this.Bind<WorksOrderLabelResource>();
+            var result =
+                this.labelService.Update(
+                    new WorksOrderLabelKey
+                        {
+                            Sequence = resource.Sequence, PartNumber = resource.PartNumber
+                        }, 
+                    resource);
+            return this.Negotiate.WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
     }
 }

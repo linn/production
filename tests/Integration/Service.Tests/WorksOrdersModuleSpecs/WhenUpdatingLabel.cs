@@ -13,18 +13,26 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingLabelById : ContextBase
+    public class WhenUpdatingLabel : ContextBase
     {
+        private WorksOrderLabelResource requestResource;
+
         [SetUp]
         public void SetUp()
         {
-            var l = new WorksOrderLabel { Sequence = 1, PartNumber = "PART", LabelText = "hello" };
+            var l = new WorksOrderLabel { Sequence = 1, PartNumber = "PART", LabelText = "text" };
 
-            this.LabelService.GetById(Arg.Any<WorksOrderLabelKey>()).Returns(new SuccessResult<WorksOrderLabel>(l));
+            this.requestResource = new WorksOrderLabelResource { Sequence = 1, PartNumber = "PART", LabelText = "new text" };
 
-            this.Response = this.Browser.Get(
+            this.LabelService.Update(Arg.Any<WorksOrderLabelKey>(), Arg.Any<WorksOrderLabelResource>()).Returns(new SuccessResult<WorksOrderLabel>(l));
+
+            this.Response = this.Browser.Put(
                 "/production/works-orders/labels/1/PART",
-                with => { with.Header("Accept", "application/json"); }).Result;
+                with =>
+                    {
+                        with.Header("Accept", "application/json");
+                        with.JsonBody(this.requestResource);
+                    }).Result;
         }
 
         [Test]
@@ -36,7 +44,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.LabelService.Received().GetById(Arg.Any<WorksOrderLabelKey>());
+            this.LabelService.Received().Update(Arg.Any<WorksOrderLabelKey>(), Arg.Any<WorksOrderLabelResource>());
         }
 
         [Test]
