@@ -8,7 +8,8 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
-    TableWithInlineEditing
+    TableWithInlineEditing,
+    utilities
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -34,6 +35,7 @@ function ManufacturingRoute({
     const creating = () => editStatus === 'create';
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
+    const allowedToEdit = item ? utilities.getHref(item, 'edit') !== null : false;
 
     useEffect(() => {
         if (item) {
@@ -141,7 +143,7 @@ function ManufacturingRoute({
                 content={manufacturingRoute.operations}
                 updateContent={updateOp}
                 editStatus={editStatus}
-                allowedToEdit
+                allowedToEdit={allowedToEdit}
             />
         );
     };

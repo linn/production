@@ -1,21 +1,16 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using System;
+    using System.Linq.Expressions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    using System;
-    using System.Linq;
-    using System.Linq.Expressions;
-
-    using Linn.Production.Facade.ResourceBuilders;
-
     public class ManufacturingRouteService : FacadeService<ManufacturingRoute, string, ManufacturingRouteResource,
         ManufacturingRouteResource>
     {
         private readonly IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationService;
-        private readonly ManufacturingOperationResourceBuilder manufacturingOperationResourceBuilder = new ManufacturingOperationResourceBuilder();
 
         public ManufacturingRouteService(
             IRepository<ManufacturingRoute, string> repository,
@@ -39,14 +34,14 @@
 
             foreach (var operation in updateResource.Operations)
             {
-              if (operation.ManufacturingId > 0)
-              {
-                  this.manufacturingOperationService.Update(operation.ManufacturingId, operation);
-              }
-              else
-              {
-                  this.manufacturingOperationService.Add(operation);
-              }
+                if (operation.ManufacturingId > 0)
+                {
+                    this.manufacturingOperationService.Update(operation.ManufacturingId, operation);
+                }
+                else
+                {
+                    this.manufacturingOperationService.Add(operation);
+                }
             }
         }
 

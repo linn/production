@@ -5,5 +5,7 @@
         public const string PtlSettingsUpdate = "production-trigger-levels.admin";
 
         public const string StartTriggerRun = "production-trigger-levels.admin";
+
+        public const string ManufacturingRouteUpdate = "manufacturing-routes.admin";
     }
 }

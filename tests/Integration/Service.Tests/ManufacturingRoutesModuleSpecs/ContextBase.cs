@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Security.Claims;
+
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.ResourceBuilders;
@@ -16,7 +18,7 @@
     public abstract class ContextBase : NancyContextBase
     {
         protected IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> ManufacturingRouteService { get; private set; }
-
+        protected IAuthorisationService AuthorisationService;
         [SetUp]
         public void EstablishContext()
         {
@@ -26,7 +28,7 @@
                 with =>
                 {
                     with.Dependency(this.ManufacturingRouteService);
-                    with.Dependency<IResourceBuilder<ManufacturingRoute>>(new ManufacturingRouteResourceBuilder());
+                    with.Dependency<IResourceBuilder<ManufacturingRoute>>(ManufacturingRouteResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<ManufacturingRoute>>>(
                         new ManufacturingRoutesResourceBuilder());
                     with.Module<ManufacturingRoutesModule>();
