@@ -10,10 +10,10 @@ function WorksOrderLabels({ items, fetchItems, loading, clearSearch, history }) 
     const table = {
         totalItemCount: items.length,
         rows: items.map((item, i) => ({
-            id: `${item.orderNumber}`,
+            id: `${item.partNumber}-${item.sequence}`,
             values: [
                 { id: `${i}-0`, value: `${item.partNumber}` },
-                { id: `${i}-1`, value: item.sequence },
+                { id: `${i}-1`, value: `${item.sequence}` },
                 { id: `${i}-2`, value: `${item.labelText}` }
             ],
             links: item.links
