@@ -120,7 +120,12 @@
 
         public int GetNextLabelSeqForPart(string partNumber)
         {
-            return this.labelService.FilterBy(l => l.PartNumber == partNumber).Select(l => l.Sequence).Max() + 1;
+            var labels = this.labelService.FilterBy(l => l.PartNumber == partNumber);
+            if (labels.Any())
+            {
+                return this.labelService.FilterBy(l => l.PartNumber == partNumber).Select(l => l.Sequence).Max() + 1;
+            }
+            return 1;
         }
 
         private string GetAuditDisclaimer(string partNumber)
