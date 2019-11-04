@@ -18,11 +18,8 @@
         [SetUp]
         public void SetUp()
         {
-            var labels = new List<WorksOrderLabel>
-                              {
-                              };
-
-            this.LabelRepository.FilterBy(Arg.Any<Expression<Func<WorksOrderLabel, bool>>>()).Returns(labels.AsQueryable());
+            this.LabelRepository.FilterBy(Arg.Any<Expression<Func<WorksOrderLabel, bool>>>()).Returns(
+                new List<WorksOrderLabel>().AsQueryable());
         }
 
         [Test]
