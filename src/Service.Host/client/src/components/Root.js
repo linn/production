@@ -75,6 +75,7 @@ import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingR
 import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
 import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
 import WorksOrderLabels from '../containers/worksOrders/WorksOrderLabels';
+import WorksOrderLabel from '../containers/worksOrders/WorksOrderLabel';
 
 const Root = ({ store }) => (
     <div>
@@ -142,6 +143,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/works-orders/labels"
                                         component={WorksOrderLabels}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/works-orders/labels/:id+"
+                                        component={WorksOrderLabel}
                                     />
                                     <Route
                                         exact

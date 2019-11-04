@@ -21,7 +21,7 @@
 
         public string GetLocation(WorksOrderLabel model)
         {
-            return $"/production/works-orders/labels/{model.PartNumber}/{model.Sequence}";
+            return $"/production/works-orders/labels/{model.Sequence}/{model.PartNumber}";
         }
 
         object IResourceBuilder<WorksOrderLabel>.Build(WorksOrderLabel worksOrder) => this.Build(worksOrder);
