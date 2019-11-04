@@ -50,12 +50,17 @@
                             new WorksOrdersResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(new WorksOrdersResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrderPartDetails>>(new WorksOrderPartDetailsResourceBuilder());
+                        with.Dependency<IResourceBuilder<WorksOrderLabel>>(new WorksOrderLabelResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrderLabel>>>(new WorksOrderLabelsResourceBuilder());
+
                         with.Module<WorksOrdersModule>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                         with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
                         with.ResponseProcessor<WorksOrderResponseProcessor>();
                         with.ResponseProcessor<WorksOrdersResponseProcessor>();
                         with.ResponseProcessor<WorksOrderPartDetailsResponseProcessor>();
+                        with.ResponseProcessor<WorksOrderLabelResponseProcessor>();
+                        with.ResponseProcessor<WorksOrderLabelsResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>

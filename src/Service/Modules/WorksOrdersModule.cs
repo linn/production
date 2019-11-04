@@ -36,7 +36,6 @@
 
             this.Get("/production/works-orders", _ => this.GetWorksOrders());
             this.Get("/production/works-orders/labels", _ => this.GetWorksOrderLabelsForPart());
-            this.Get("/production/works-orders/labels", _ => this.GetWorksOrderLabelsForPart());
             this.Get("/production/works-orders/labels/{seq}/{part*}", parameters => this.GetWorksOrderLabel(parameters.part, parameters.seq));
             this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
             this.Post("/production/works-orders", _ => this.AddWorksOrder());
