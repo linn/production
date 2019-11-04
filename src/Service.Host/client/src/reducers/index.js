@@ -64,6 +64,7 @@ import overdueOrders from './overdueOrdersReport';
 import partFailErrorType from './partFailErrorType';
 import partFailFaultCode from './partFailFaultCode';
 import boardTestsReport from './boardTestsReport';
+import boardTestDetailsReport from './boardTestDetailsReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -84,6 +85,7 @@ const rootReducer = combineReducers({
     ateFaultCodes,
     boardFailType,
     boardFailTypes,
+    boardTestDetailsReport,
     boardTestsReport,
     buildsDetailReport,
     buildsSummaryReport,

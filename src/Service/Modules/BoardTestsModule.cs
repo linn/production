@@ -4,6 +4,7 @@
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Models;
 
     using Nancy;
@@ -23,16 +24,29 @@
             this.facadeService = facadeService;
 
             this.Get("/production/reports/board-tests-report", _ => this.GetBoardTestsReport());
+            this.Get("/production/reports/board-test-details-report", _ => this.GetBoardTestDetailsReport());
+            this.Get("/production/reports/board-tests-report/report", _ => this.GetApp());
             this.Get("/production/resources/board-fail-types", _ => this.GetAll());
             this.Get("/production/resources/board-fail-types/{type*}", parameters => this.GetById(parameters.type));
             this.Put("/production/resources/board-fail-types/{type*}", parameters => this.Update(parameters.type));
             this.Post("/production/resources/board-fail-types", parameters => this.Add());
         }
 
+        private object GetBoardTestDetailsReport()
+        {
+            var resource = this.Bind<BoardTestRequestResource>();
+            var result = this.boardTestReportFacadeService.GetBoardTestDetailsReport(resource.BoardId);
+
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
         private object GetBoardTestsReport()
         {
-            var resource = this.Bind<FromToDateRequestResource>();
-            var result = this.boardTestReportFacadeService.GetBoardTestReport(resource.FromDate, resource.ToDate);
+            var resource = this.Bind<BoardTestRequestResource>();
+            var result = this.boardTestReportFacadeService.GetBoardTestReport(resource.FromDate, resource.ToDate, resource.BoardId);
 
             return this.Negotiate
                 .WithModel(result)
@@ -78,6 +92,11 @@
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
+        }
+
+        private object GetApp()
+        {
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
     }
 }

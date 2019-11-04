@@ -193,3 +193,7 @@ export const worksOrderLabelActionTypes = makeActionTypes(
 );
 
 export const worksOrderLabelsActionTypes = makeActionTypes(itemTypes.worksOrderLabels.actionType);
+
+export const boardTestDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.boardTestDetailsReport.actionType
+);

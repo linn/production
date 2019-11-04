@@ -52,6 +52,7 @@ import SmtOutstandingWOPartsReportOptions from '../containers/reports/SmtOutstan
 import SmtOutstandingWOPartsReport from '../containers/reports/SmtOutstandingWOPartsReport';
 import BoardTestsReportOptions from '../containers/reports/BoardTestsReportOptions';
 import BoardTestsReport from '../containers/reports/BoardTestsReport';
+import BoardTestDetailsReport from '../containers/reports/BoardTestDetailsReport';
 import PtlSettings from '../containers/productionTriggerLevels/PtlSettings';
 import PartFail from '../containers/partFails/PartFail';
 import PartFails from '../containers/partFails/PartFails';
@@ -349,6 +350,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/board-tests-report"
                                         component={BoardTestsReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/board-test-details-report"
+                                        component={BoardTestDetailsReport}
                                     />
                                     <Route
                                         exact

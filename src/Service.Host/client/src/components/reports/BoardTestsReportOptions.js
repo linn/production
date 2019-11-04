@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { DatePicker, Title } from '@linn-it/linn-form-components-library';
+import { DatePicker, Title, InputField } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
@@ -12,11 +12,12 @@ function BoardTestsReportOptions({ history }) {
     defaultStartDate.setMonth(defaultStartDate.getMonth() - 3);
     const [fromDate, setFromDate] = useState(defaultStartDate);
     const [toDate, setToDate] = useState(new Date());
+    const [boardId, setBoardId] = useState('');
 
     const handleClick = () =>
         history.push({
             pathname: `/production/reports/board-tests-report/report`,
-            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}`
+            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&boardId=${boardId}`
         });
 
     const useStyles = makeStyles(theme => ({
@@ -25,6 +26,10 @@ function BoardTestsReportOptions({ history }) {
         }
     }));
     const classes = useStyles();
+
+    const handleFieldChange = (_, newValue) => {
+        setBoardId(newValue);
+    };
 
     return (
         <Page>
@@ -47,6 +52,16 @@ function BoardTestsReportOptions({ history }) {
                     />
                 </Grid>
                 <Grid item xs={6} />
+                <Grid item xs={3}>
+                    <InputField
+                        label="Board Id (Null for all)"
+                        maxLength={14}
+                        value={boardId}
+                        onChange={handleFieldChange}
+                        propertyName="boardId"
+                    />
+                </Grid>
+                <Grid item xs={9} />
                 <Grid item xs={12}>
                     <Button color="primary" variant="contained" onClick={handleClick}>
                         Run Report
