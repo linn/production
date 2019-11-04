@@ -32,6 +32,8 @@
 
         protected IRepository<Cit, string> CitRepository { get; private set; }
 
+        protected IRepository<WorksOrderLabel, WorksOrderLabelKey> LabelRepository { get; private set; }
+
         protected ISalesArticleService SalesArticleService { get; private set; }
 
         [SetUp]
@@ -45,6 +47,7 @@
             this.SernosPack = Substitute.For<ISernosPack>();
             this.DepartmentRepository = Substitute.For<IRepository<Department, string>>();
             this.CitRepository = Substitute.For<IRepository<Cit, string>>();
+            this.LabelRepository = Substitute.For<IRepository<WorksOrderLabel, WorksOrderLabelKey>>();
             this.SalesArticleService = Substitute.For<ISalesArticleService>();
 
             this.Sut = new WorksOrderUtilities(
@@ -55,7 +58,8 @@
                 this.SernosPack,
                 this.CitRepository,
                 this.DepartmentRepository,
-                this.SalesArticleService);
+                this.SalesArticleService, 
+                this.LabelRepository);
         }
     }
 }
