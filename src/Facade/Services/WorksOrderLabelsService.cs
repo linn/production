@@ -17,7 +17,12 @@
 
         protected override WorksOrderLabel CreateFromResource(WorksOrderLabelResource resource)
         {
-            throw new NotImplementedException();
+            return new WorksOrderLabel
+                       {
+                           PartNumber = resource.PartNumber,
+                           Sequence = resource.Sequence,
+                           LabelText = resource.LabelText
+                       };
         }
 
         protected override void UpdateFromResource(WorksOrderLabel entity, WorksOrderLabelResource updateResource)

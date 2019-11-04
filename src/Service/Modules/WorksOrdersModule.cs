@@ -36,6 +36,7 @@
 
             this.Get("/production/works-orders", _ => this.GetWorksOrders());
             this.Put("/production/works-orders/labels/{seq}/{part*}", _ => this.UpdateWorksOrderLabel());
+            this.Post("production/works-orders/labels", _ => this.AddWorksOrderLabel());
             this.Get("/production/works-orders/labels", _ => this.GetWorksOrderLabelsForPart());
             this.Get("/production/works-orders/labels/{seq}/{part*}", parameters => this.GetWorksOrderLabel(parameters.part, parameters.seq));
             this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
@@ -158,6 +159,16 @@
                         }, 
                     resource);
             return this.Negotiate.WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+        }
+
+        private object AddWorksOrderLabel()
+        {
+            this.RequiresAuthentication();
+
+            var resource = this.Bind<WorksOrderLabelResource>();
+
+            return this.Negotiate.WithModel(this.labelService.Add(resource))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
     }

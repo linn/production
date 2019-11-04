@@ -29,7 +29,7 @@
 
         public void Add(WorksOrderLabel entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.WorksOrderLabels.Add(entity);
         }
 
         public void Remove(WorksOrderLabel entity)
