@@ -92,6 +92,12 @@ export const worksOrder = new ItemType('worksOrder', 'WORKS_ORDER', '/production
 
 export const worksOrders = new ItemType('worksOrders', 'WORKS_ORDERS', '/production/works-orders');
 
+export const worksOrdersBatchNotes = new ItemType(
+    'worksOrders',
+    'WORKS_ORDERS',
+    '/production/works-orders-for-part'
+);
+
 export const worksOrderDetails = new ItemType(
     'worksOrderDetails',
     'WORKS_ORDER_DETAILS',
@@ -193,4 +199,16 @@ export const purchaseOrders = new ItemType(
     'purchaseOrders',
     'PURCHASE_ORDERS',
     '/production/resources/purchase-orders'
+);
+
+export const worksOrderLabel = new ItemType(
+    'worksOrderLabel',
+    'WORKS_ORDER_LABEL',
+    '/production/works-orders/labels'
+);
+
+export const worksOrderLabels = new ItemType(
+    'worksOrderLabels',
+    'WORKS_ORDER_LABELS',
+    '/production/works-orders/labels'
 );

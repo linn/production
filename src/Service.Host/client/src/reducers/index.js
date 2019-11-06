@@ -36,6 +36,8 @@ import manufacturingRoutes from './manufacturingRoutes/manufacturingRoutes';
 import assemblyFailsMeasures from './assemblyFailsMeasures';
 import assemblyFailsDetails from './assemblyFailsDetails';
 import worksOrderDetails from './worksOrders/worksOrderDetails';
+import worksOrderLabel from './worksOrders/worksOrderLabel';
+import worksOrderLabels from './worksOrders/worksOrderLabels';
 import smtOutstandingWorkOrderParts from './smtOutstandingWorkOrderParts';
 import parts from './parts';
 import smtShifts from './smtShifts';
@@ -61,6 +63,8 @@ import printMACLabels from './printMACLabels';
 import overdueOrders from './overdueOrdersReport';
 import partFailErrorType from './partFailErrorType';
 import partFailFaultCode from './partFailFaultCode';
+import boardTestsReport from './boardTestsReport';
+import boardTestDetailsReport from './boardTestDetailsReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -81,6 +85,8 @@ const rootReducer = combineReducers({
     ateFaultCodes,
     boardFailType,
     boardFailTypes,
+    boardTestDetailsReport,
+    boardTestsReport,
     buildsDetailReport,
     buildsSummaryReport,
     cits,
@@ -125,6 +131,8 @@ const rootReducer = combineReducers({
     partFailFaultCode,
     manufacturingRoute,
     manufacturingRoutes,
+    worksOrderLabel,
+    worksOrderLabels,
     ...sharedLibraryReducers
 });
 

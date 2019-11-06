@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import initialiseOnMount from '../initialiseOnMount';
 import AssemblyFailsDetails from '../../components/reports/AssemblyFailsDetails';
 import actions from '../../actions/assemblyFailsDetailsActions';
 import config from '../../config';

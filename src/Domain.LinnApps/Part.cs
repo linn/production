@@ -21,15 +21,26 @@
 
         public string SernosSequence { get; set; }
 
+        public decimal? BaseUnitPrice { get; set; }
+
+        public int? PreferredSupplier { get; set; }
+
         public List<PartFail> Fails { get; set; }
 
         public List<AssemblyFail> AssemblyFails { get; set; }
 
         public List<WorksOrder> WorksOrders { get; set; }
 
+        public IEnumerable<WorksOrderLabel> WorksOrderLabels { get; set; }
+
         public bool IsPhantomPart()
         {
             return this.BomType == "P";
+        }
+
+        public bool IsBoardPart()
+        {
+            return this.PartNumber.StartsWith("PCAS") || this.PartNumber.StartsWith("PCSM");
         }
     }
 }

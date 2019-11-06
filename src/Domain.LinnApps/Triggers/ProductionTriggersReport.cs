@@ -18,7 +18,7 @@
             this.PtlMaster = ptlMaster.LastFullRunJobref == jobref ? ptlMaster : null;
             this.Cit = cit;
 
-            this.Triggers = repository.FilterBy(t => t.Jobref == jobref && t.Citcode == cit.Code).OrderBy(t => t.SortOrder).ThenBy(t => t.EarliestRequestedDate);
+            this.Triggers = repository.FilterBy(t => t.Jobref == jobref && t.Citcode == cit.Code).OrderBy(t => t.SortOrder).ThenBy(t => t.EarliestRequestedDate).ThenBy(t => t.PartNumber);
         }
 
         public PtlMaster PtlMaster { get; set; }

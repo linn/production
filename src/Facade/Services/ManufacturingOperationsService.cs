@@ -8,7 +8,8 @@
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
 
-    public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>
+    public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int,
+        ManufacturingOperationResource, ManufacturingOperationResource>
     {
         private readonly IDatabaseService databaseService;
         public ManufacturingOperationsService(

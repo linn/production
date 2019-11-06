@@ -7,6 +7,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BackOrders;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
@@ -67,11 +68,16 @@
             builder.RegisterType<MCDLineRepository>().As<IQueryRepository<MCDLine>>();
             builder.RegisterType<ProductDataRepository>().As<IRepository<ProductData, int>>();
             builder.RegisterType<OverdueOrderLineRepository>().As<IQueryRepository<OverdueOrderLine>>();
+            builder.RegisterType<BoardTestRepository>().As<IRepository<BoardTest, BoardTestKey>>();
+            builder.RegisterType<PartFailLogRepository>().As<IQueryRepository<PartFailLog>>();
+            builder.RegisterType<EmployeeDepartmentViewRepository>().As<IQueryRepository<EmployeeDepartmentView>>();
+            builder.RegisterType<WorksOrderLabelsRepository>().As<IRepository<WorksOrderLabel, WorksOrderLabelKey>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
-            builder.RegisterType<ProductionTriggerQueryRepository>().As<Common.Persistence.IQueryRepository<ProductionTrigger>>();
-            builder.RegisterType<ProductionBackOrderQueryRepository>().As<Common.Persistence.IQueryRepository<ProductionBackOrder>>();
+            builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
+            builder.RegisterType<ProductionTriggerAssemblyRepository>().As<IQueryRepository<ProductionTriggerAssembly>>();
+            builder.RegisterType<ProductionBackOrderQueryRepository>().As<IQueryRepository<ProductionBackOrder>>();
             builder.RegisterType<BomDetailExplodedPhantomPartViewRepository>().As<IRepository<BomDetailExplodedPhantomPartView, int>>();
         }
     }

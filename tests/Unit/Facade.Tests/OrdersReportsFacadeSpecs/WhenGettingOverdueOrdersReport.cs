@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Facade.Tests.OrdersReportsFacadeSpecs
 {
-    using System;
-
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -15,13 +13,9 @@
     {
         private IResult<ResultsModel> result;
 
-        private string testDate;
-
         [SetUp]
         public void SetUp()
         {
-            this.testDate = DateTime.UnixEpoch.ToString("d");
-
             this.OverdueOrdersService.OverdueOrdersReport("RB", "DM")
                 .Returns(new ResultsModel { ReportTitle = new NameModel("title") });
 

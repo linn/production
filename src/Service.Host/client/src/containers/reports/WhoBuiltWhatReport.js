@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import initialiseOnMount from '../initialiseOnMount';
 import WhoBuiltWhatReport from '../../components/reports/WhoBuiltWhatReport';
 import actions from '../../actions/whoBuiltWhatReportActions';
 import config from '../../config';

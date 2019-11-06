@@ -6,6 +6,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BackOrders;
+    using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
@@ -49,6 +50,8 @@
 
         public DbSet<WorksOrder> WorksOrders { get; set; }
 
+        public DbSet<WorksOrderLabel> WorksOrderLabels { get; set; }
+
         public DbSet<Part> Parts { get; set; }
 
         public DbSet<AssemblyFailFaultCode> AssemblyFailFaultCodes { get; set; }
@@ -75,6 +78,8 @@
 
         public DbQuery<ProductionBackOrder> ProductionBackOrders { get; set; }
 
+        public DbQuery<ProductionTriggerAssembly> ProductionTriggerAssemblies { get; set; }
+
         public DbSet<LinnWeek> LinnWeeks { get; set; }
 
         public DbSet<PtlSettings> PtlSettings { get; set; }
@@ -91,19 +96,27 @@
 
         public DbSet<PartFail> PartFails { get; set; }
 
-        public DbSet<PartFailErrorType> PartFailErrorTypes { get; set;  }
+        public DbSet<PartFailErrorType> PartFailErrorTypes { get; set; }
 
         public DbSet<PartFailFaultCode> PartFailFaultCodes { get; set; }
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
+        public DbQuery<PartFailLog> PartFailLogs { get; set; }
+
+        public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
+        
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public DbSet<ProductData> ProductData { get; set; }
 
+        public DbSet<BoardTest> BoardTests { get; set; }
+
+        public DbSet<TestMachine> TestMachines { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
+        private DbQuery<PtlMaster> PtlMasterSet { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -122,6 +135,8 @@
             this.BuildManufacturingOperations(builder);
 
             this.BuildBoardFailTypes(builder);
+            this.BuildTestMachines(builder);
+            this.BuildBoardTests(builder);
             this.BuildAssemblyFails(builder);
             this.BuildWorkOrders(builder);
             this.BuildParts(builder);
@@ -146,10 +161,13 @@
             this.BuildPurchaseOrders(builder);
             this.QueryAccountingCompanies(builder);
             this.QueryProductionBackOrders(builder);
+            this.QueryProductionTriggerAssemblies(builder);
             this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
+            this.QueryPartFailLogs(builder);
+            this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
-
+            this.BuildWorksOrdersLabels(builder);
             base.OnModelCreating(builder);
         }
 
@@ -228,6 +246,15 @@
             q.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
+        private void BuildWorksOrdersLabels(ModelBuilder builder)
+        {
+            var e = builder.Entity<WorksOrderLabel>().ToTable("WO_LABELS");
+            e.HasKey(l => new { l.Sequence, l.PartNumber });
+            e.Property(l => l.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(l => l.LabelText).HasColumnName("LABEL_TEXT");
+            e.Property(l => l.Sequence).HasColumnName("SEQ");
+        }
+
         private void BuildAte(ModelBuilder builder)
         {
             builder.Entity<AteFaultCode>().ToTable("ATE_TEST_FAULT_CODES");
@@ -282,7 +309,29 @@
             builder.Entity<BoardFailType>().ToTable("BOARD_FAIL_TYPES");
             builder.Entity<BoardFailType>().HasKey(t => t.Type);
             builder.Entity<BoardFailType>().Property(t => t.Type).HasColumnName("FAIL_TYPE");
-            builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION");
+            builder.Entity<BoardFailType>().Property(t => t.Description).HasColumnName("FAIL_DESCRIPTION").HasMaxLength(300);
+        }
+
+        private void BuildTestMachines(ModelBuilder builder)
+        {
+            builder.Entity<TestMachine>().ToTable("TEST_MACHINES");
+            builder.Entity<TestMachine>().HasKey(t => t.MachineCode);
+            builder.Entity<TestMachine>().Property(t => t.MachineCode).HasColumnName("MACHINE_CODE");
+            builder.Entity<TestMachine>().Property(t => t.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void BuildBoardTests(ModelBuilder builder)
+        {
+            builder.Entity<BoardTest>().ToTable("BOARD_TESTS");
+            builder.Entity<BoardTest>().HasKey(t => new { t.BoardSerialNumber, t.Seq });
+            builder.Entity<BoardTest>().Property(t => t.BoardName).HasColumnName("BOARD_NAME").HasMaxLength(14);
+            builder.Entity<BoardTest>().Property(t => t.BoardSerialNumber).HasColumnName("BOARD_SN").HasMaxLength(20);
+            builder.Entity<BoardTest>().Property(t => t.Seq).HasColumnName("SEQ");
+            builder.Entity<BoardTest>().Property(t => t.DateTested).HasColumnName("DATE_TESTED");
+            builder.Entity<BoardTest>().Property(t => t.TimeTested).HasColumnName("TIME_TESTED");
+            builder.Entity<BoardTest>().Property(t => t.Status).HasColumnName("STATUS").HasMaxLength(10);
+            builder.Entity<BoardTest>().Property(t => t.TestMachine).HasColumnName("TEST_MACHINE").HasMaxLength(30);
+            builder.Entity<BoardTest>().HasOne<BoardFailType>(f => f.FailType).WithMany(o => o.BoardTests).HasForeignKey("FAIL_TYPE");
         }
 
         private void BuildWorkStations(ModelBuilder builder)
@@ -372,6 +421,30 @@
             builder.Query<MCDLine>().Property(t => t.OrderLineCompleted).HasColumnName("COMPLETE");
             builder.Query<MCDLine>().Property(t => t.Reason).HasColumnName("REASON");
             builder.Query<MCDLine>().Property(t => t.CouldGo).HasColumnName("COULD_GO");
+        }
+
+        private void QueryEmployeeDepartmentView(ModelBuilder builder)
+        {
+            var q = builder.Query<EmployeeDepartmentView>();
+            q.ToView("EMP_DEPT_VIEW");
+            q.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
+            q.Property(t => t.DepartmentCode).HasColumnName("DEPARTMENT_CODE");
+        }
+
+        private void QueryPartFailLogs(ModelBuilder builder)
+        {
+            var q = builder.Query<PartFailLog>();
+            q.ToView("PART_FAIL_LOG");
+            q.Property(t => t.Id).HasColumnName("ID");
+            q.Property(t => t.DateCreated).HasColumnName("DATE_CREATED");
+            q.Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
+            q.Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
+            q.Property(t => t.Story).HasColumnName("STORY");
+            q.Property(t => t.Quantity).HasColumnName("QTY");
+            q.Property(t => t.MinutesWasted).HasColumnName("MINUTES_WASTED");
+            q.Property(t => t.ErrorType).HasColumnName("ERROR_TYPE");
+            q.Property(t => t.Batch).HasColumnName("BATCH");
+            q.Property(t => t.EnteredBy).HasColumnName("ENTERED_BY");
         }
 
         private void QueryOverdueOrderLines(ModelBuilder builder)
@@ -532,6 +605,8 @@
             e.Property(p => p.BomId).HasColumnName("BOM_ID");
             e.Property(p => p.SernosSequence).HasColumnName("SERNOS_SEQUENCE").HasMaxLength(10);
             e.Property(p => p.AccountingCompany).HasColumnName("ACCOUNTING_COMPANY").HasMaxLength(10);
+            e.Property(p => p.BaseUnitPrice).HasColumnName("BASE_UNIT_PRICE");
+            e.Property(p => p.PreferredSupplier).HasColumnName("PREFERRED_SUPPLIER");
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)
@@ -776,6 +851,22 @@
             builder.Entity<ProductData>().Property(o => o.ProductId).HasColumnName("PRODUCT_ID");
             builder.Entity<ProductData>().Property(o => o.MACAddress).HasColumnName("MAC_ADDRESS").HasMaxLength(20);
             builder.Entity<ProductData>().Property(o => o.ProductGroup).HasColumnName("PRODUCT_GROUP").HasMaxLength(10);
+        }
+
+        private void QueryProductionTriggerAssemblies(ModelBuilder builder)
+        {
+            var q = builder.Query<ProductionTriggerAssembly>();
+            q.ToView("PTL_ASSEMBLIES_VIEW_EF");
+            q.Property(e => e.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(e => e.AssemblyNumber).HasColumnName("ASSEMBLY_NUMBER").HasMaxLength(14);
+            q.Property(e => e.NettSalesOrders).HasColumnName("NETT_SALES_ORDERS");
+            q.Property(e => e.QtyUsed).HasColumnName("QTY_USED");
+            q.Property(e => e.QtyBeingBuilt).HasColumnName("QTY_BEING_BUILT");
+            q.Property(e => e.ReqtForInternalAndTriggerLevelBT).HasColumnName("BT");
+            q.Property(e => e.BomLevel).HasColumnName("BOM_LEVEL");
+            q.Property(e => e.ReqtForPriorityBuildBE).HasColumnName("BE");
+            q.Property(e => e.RemainingBuild).HasColumnName("REMAINING_BUILD");
         }
     }
 }

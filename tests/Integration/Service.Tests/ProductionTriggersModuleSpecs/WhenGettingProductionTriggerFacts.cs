@@ -20,7 +20,8 @@
             var facts = new ProductionTriggerFacts(new ProductionTrigger { PartNumber = "KYLEGUARD", Description = "A product", Priority = "1" })
             {
                 OutstandingWorksOrders = new List<WorksOrder>(),
-                OutstandingSalesOrders = new List<ProductionBackOrder>()
+                OutstandingSalesOrders = new List<ProductionBackOrder>(),
+                WhereUsedAssemblies = new List<ProductionTriggerAssembly>()
             };
 
             this.ProductionTriggersFacadeService.GetProductionTriggerFacts("CJCAIH", "KYLEGUARD")

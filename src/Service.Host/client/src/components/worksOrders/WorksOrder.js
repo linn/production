@@ -124,7 +124,7 @@ function WorksOrder({
 
     const handleBackClick = () => {
         setEditStatus('view');
-        history.push('/production/works-orders');
+        history.push('/production/works-orders-batch-notes');
     };
 
     const handlePartSelect = part => {

@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -24,7 +25,7 @@
         public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
-            IWorksOrderFactory worksOrderFactory,
+            IWorksOrderFactory worksOrderFactory, 
             IWorksOrderUtilities worksOrderUtilities)
             : base(worksOrderRepository, transactionManager)
         {
@@ -109,6 +110,18 @@
             this.transactionManager.Commit();
 
             return new SuccessResult<WorksOrder>(worksOrder);
+        }
+
+        public IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(string boardNumber)
+        {
+            var result = this.worksOrderRepository.FilterBy(w => w.Part.IsBoardPart() && w.Part.PartNumber.Contains(boardNumber.ToUpper()));
+
+            if (result.Count() > 1000)
+            {
+                result = result.Take(1000);
+            }
+
+            return new SuccessResult<IEnumerable<WorksOrder>>(result);
         }
 
         public IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber)
