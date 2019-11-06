@@ -58,7 +58,6 @@
             this.result.Should().BeOfType<CreatedResult<ManufacturingOperation>>();
             var dataResult = ((CreatedResult<ManufacturingOperation>)this.result).Data;
             dataResult.RouteCode.Should().Be(this.manufacturingOperation.RouteCode);
-            //dataResult.ManufacturingId.Should().Be(this.manufacturingOperation.ManufacturingId);
             dataResult.Description.Should().Be(this.manufacturingOperation.Description);
             dataResult.SkillCode.Should().Be(this.manufacturingOperation.SkillCode);
             dataResult.ResourceCode.Should().Be(this.manufacturingOperation.ResourceCode);

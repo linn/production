@@ -17,11 +17,7 @@
         {
             var route = new ManufacturingRoute("TESTCODE", "desc", "a note");
             route.Operations = new List<ManufacturingOperation>();
-
-
-            //this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, Arg.Any<List<string>>())
-            //    .Returns(true);
-
+            
             this.ManufacturingRouteService.GetById("TESTCODE", Arg.Any<List<string>>())
                 .Returns(new SuccessResult<ResponseModel<ManufacturingRoute>>(new ResponseModel<ManufacturingRoute>(route, new List<string>())));
 

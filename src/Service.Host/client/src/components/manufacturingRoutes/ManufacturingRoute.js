@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect } from 'react';
+﻿import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -31,24 +31,27 @@ function ManufacturingRoute({
 }) {
     const [manufacturingRoute, setManufacturingRoute] = useState({});
     const [prevManufacturingRoute, setPrevManufacturingRoute] = useState({});
+    const [allowedToEdit, setAllowedToEdit] = useState(false);
 
-    const creating = () => editStatus === 'create';
+    const creating = useCallback(() => editStatus === 'create', [editStatus]);
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
-    const allowedToEdit = item ? utilities.getHref(item, 'edit') !== null : false;
 
     useEffect(() => {
-        if (item && !(editStatus === 'create')) {
+        if (item && !creating()) {
             const operationsWithIds = [...item.operations];
             item.operations.forEach((operation, index) => {
                 operationsWithIds[index].id = `${operation.manufacturingId}`;
             });
         }
+
         if (item !== prevManufacturingRoute) {
             setManufacturingRoute(item);
             setPrevManufacturingRoute(item);
         }
-    }, [item, prevManufacturingRoute, editStatus]);
+
+        setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
+    }, [item, prevManufacturingRoute, editStatus, creating]);
 
     const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
     const descriptionInvalid = () => !manufacturingRoute.description;
