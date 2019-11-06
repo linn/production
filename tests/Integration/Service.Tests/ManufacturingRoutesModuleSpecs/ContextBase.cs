@@ -18,20 +18,21 @@
     public abstract class ContextBase : NancyContextBase
     {
         protected IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> ManufacturingRouteService { get; private set; }
-        protected IAuthorisationService AuthorisationService;
+        protected IAuthorisationService AuthorisationService { get; private set; }
         [SetUp]
         public void EstablishContext()
         {
             this.ManufacturingRouteService = Substitute.For<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
-
+            this.AuthorisationService = Substitute.For<IAuthorisationService>();
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.ManufacturingRouteService);
-                    with.Dependency<IResourceBuilder<ManufacturingRoute>>(ManufacturingRouteResourceBuilder());
-                    with.Dependency<IResourceBuilder<IEnumerable<ManufacturingRoute>>>(
-                        new ManufacturingRoutesResourceBuilder());
+                    with.Dependency<IResourceBuilder<ResponseModel<ManufacturingRoute>>>(new ManufacturingRouteResourceBuilder(this.AuthorisationService));
+                    with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<ManufacturingRoute>>>>(
+                        new ManufacturingRoutesResourceBuilder(this.AuthorisationService));
                     with.Module<ManufacturingRoutesModule>();
+                    with.Dependency(this.AuthorisationService);
                     with.ResponseProcessor<ManufacturingRoutesResponseProcessor>();
                     with.ResponseProcessor<ManufacturingRouteResponseProcessor>();
                     with.RequestStartup(

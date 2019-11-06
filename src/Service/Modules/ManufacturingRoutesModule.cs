@@ -34,7 +34,9 @@
         private object Search()
         {
             var resource = this.Bind<SearchRequestResource>();
-            var result = this.manufacturingRouteService.Search(resource.SearchTerm);
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            var result = this.manufacturingRouteService.Search(resource.SearchTerm, privileges);
 
             return this.Negotiate
                 .WithModel(result)
@@ -44,7 +46,9 @@
 
         private object GetById(string routeCode)
         {
-            var result = this.manufacturingRouteService.GetById(routeCode);
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            var result = this.manufacturingRouteService.GetById(routeCode, privileges);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -61,7 +65,7 @@
                 {
                     var resource = this.Bind<ManufacturingRouteResource>();
 
-                    var result = this.manufacturingRouteService.Update(routeCode, resource);
+                    var result = this.manufacturingRouteService.Update(routeCode, resource, privileges);
                     return this.Negotiate
                         .WithModel(result)
                         .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -80,14 +84,29 @@
 
         private object AddManufacturingRoute()
         {
-            var resource = this.Bind<ManufacturingRouteResource>();
+            this.RequiresAuthentication();
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+            if (this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, privileges))
+            {
+                try
+                {
+                    var resource = this.Bind<ManufacturingRouteResource>();
 
-            var result = this.manufacturingRouteService.Add(resource);
-            return this.Negotiate
+                    var result = this.manufacturingRouteService.Add(resource, privileges);
+                    return this.Negotiate
                         .WithModel(result)
                         .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                         .WithView("Index");
-            
+                }
+                catch (Exception e)
+                {
+                    return this.Negotiate.WithModel(new BadRequestResult<Error>(e.Message));
+                }
+            }
+            else
+            {
+                return HttpStatusCode.Forbidden;
+            }
         }
     }
 }

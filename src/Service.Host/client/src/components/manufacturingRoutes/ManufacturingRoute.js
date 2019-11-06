@@ -38,7 +38,7 @@ function ManufacturingRoute({
     const allowedToEdit = item ? utilities.getHref(item, 'edit') !== null : false;
 
     useEffect(() => {
-        if (item) {
+        if (item && !(editStatus === 'create')) {
             const operationsWithIds = [...item.operations];
             item.operations.forEach((operation, index) => {
                 operationsWithIds[index].id = `${operation.manufacturingId}`;
@@ -48,7 +48,7 @@ function ManufacturingRoute({
             setManufacturingRoute(item);
             setPrevManufacturingRoute(item);
         }
-    }, [item, prevManufacturingRoute]);
+    }, [item, prevManufacturingRoute, editStatus]);
 
     const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
     const descriptionInvalid = () => !manufacturingRoute.description;
@@ -188,7 +188,7 @@ function ManufacturingRoute({
                                 }
                                 required
                                 onChange={handleResourceFieldChange}
-                                propertyName="RouteCode"
+                                propertyName="routeCode"
                             />
                         </Grid>
                         <Grid item xs={8}>

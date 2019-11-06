@@ -40,6 +40,7 @@
                 }
                 else
                 {
+                    operation.RouteCode = updateResource.RouteCode;
                     this.manufacturingOperationService.Add(operation);
                 }
             }
