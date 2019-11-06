@@ -35,8 +35,6 @@ const BoardFailTypes = ({ loading, itemError, history, items }) => {
     });
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
 
-    const classes = useStyles();
-
     useEffect(() => {
         const rows = items
             ? items.map(el => ({
@@ -50,10 +48,12 @@ const BoardFailTypes = ({ loading, itemError, history, items }) => {
             setRowsToDisplay([]);
         } else {
             setRowsToDisplay(
-                rows.slice(
-                    pageOptions.currentPage * pageOptions.rowsPerPage,
-                    pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
-                )
+                rows
+                    .slice(
+                        pageOptions.currentPage * pageOptions.rowsPerPage,
+                        pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
+                    )
+                    .map(r => ({ ...r, id: r.type }))
             );
         }
     }, [
@@ -79,19 +79,20 @@ const BoardFailTypes = ({ loading, itemError, history, items }) => {
                 <Loading />
             ) : (
                 <Fragment>
-                    <Fragment className={classes.actionsContainer}>
+                    <Fragment>
                         <CreateButton createUrl="/production/resources/board-fail-types/create" />
                     </Fragment>
-
-                    <PaginatedTable
-                        columns={columns}
-                        sortable
-                        handleRowLinkClick={handleRowLinkClick}
-                        rows={rowsToDisplay}
-                        pageOptions={pageOptions}
-                        setPageOptions={setPageOptions}
-                        totalItemCount={items ? items.length : 0}
-                    />
+                    {rowsToDisplay.length > 0 && (
+                        <PaginatedTable
+                            columns={columns}
+                            sortable
+                            handleRowLinkClick={handleRowLinkClick}
+                            rows={rowsToDisplay}
+                            pageOptions={pageOptions}
+                            setPageOptions={setPageOptions}
+                            totalItemCount={items ? items.length : 0}
+                        />
+                    )}
                 </Fragment>
             )}
         </Page>
