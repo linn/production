@@ -7,5 +7,7 @@
         WorksOrderPartDetails GetWorksOrderDetails(string partNumber);
 
         Department GetDepartment(string partNumber);
+
+        int GetNextLabelSeqForPart(string partNumber);
     }
 }

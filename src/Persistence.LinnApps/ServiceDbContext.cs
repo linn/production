@@ -668,8 +668,7 @@
         {
             var e = builder.Entity<ManufacturingOperation>();
             e.ToTable("MFG_OPERATIONS");
-            e.HasKey(s => s.RouteCode);
-            e.HasKey(s => s.ManufacturingId);
+            builder.Entity<ManufacturingOperation>().HasKey(d => new { d.ManufacturingId, d.RouteCode });
             e.Property(s => s.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(20);
             e.Property(s => s.ManufacturingId).HasColumnName("MFG_ID").HasMaxLength(8);
             e.Property(s => s.OperationNumber).HasColumnName("OPERATION_NUMBER").HasMaxLength(38);

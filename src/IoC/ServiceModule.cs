@@ -102,6 +102,8 @@
                 .As<IFacadeService<BoardTest, BoardTestKey, BoardTestResource, BoardTestResource>>();
             builder.RegisterType<BoardTestReportFacadeService>().As<IBoardTestReportFacadeService>();
             builder.RegisterType<WwdResultFacadeService>().As<IWwdResultFacadeService>();
+            builder.RegisterType<WorksOrderLabelsService>()
+                .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
