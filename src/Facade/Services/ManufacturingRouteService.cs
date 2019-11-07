@@ -35,14 +35,15 @@
 
             foreach (var operation in updateResource.Operations)
             {
-              if (operation.ManufacturingId > 0)
-              {
-                  this.manufacturingOperationService.Update(operation.ManufacturingId, operation);
-              }
-              else
-              {
-                  this.manufacturingOperationService.Add(operation);
-              }
+                if (operation.ManufacturingId > 0)
+                {
+                    this.manufacturingOperationService.Update(operation.ManufacturingId, operation);
+                }
+                else
+                {
+                    operation.RouteCode = updateResource.RouteCode;
+                    this.manufacturingOperationService.Add(operation);
+                }
             }
         }
 

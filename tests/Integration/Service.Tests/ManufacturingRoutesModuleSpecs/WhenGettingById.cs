@@ -17,8 +17,9 @@
         {
             var route = new ManufacturingRoute("TESTCODE", "desc", "a note");
             route.Operations = new List<ManufacturingOperation>();
-            this.ManufacturingRouteService.GetById("TESTCODE")
-                .Returns(new SuccessResult<ManufacturingRoute>(route));
+            
+            this.ManufacturingRouteService.GetById("TESTCODE", Arg.Any<List<string>>())
+                .Returns(new SuccessResult<ResponseModel<ManufacturingRoute>>(new ResponseModel<ManufacturingRoute>(route, new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/resources/manufacturing-routes/TESTCODE",
@@ -34,7 +35,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingRouteService.Received().GetById("TESTCODE");
+            this.ManufacturingRouteService.Received().GetById("TESTCODE", Arg.Any<List<string>>());
         }
 
         [Test]

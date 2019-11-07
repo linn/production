@@ -1,26 +1,34 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
-    public class ManufacturingRoutesResourceBuilder : IResourceBuilder<IEnumerable<ManufacturingRoute>>
+    public class ManufacturingRoutesResourceBuilder : IResourceBuilder<ResponseModel<IEnumerable<ManufacturingRoute>>>
     {
-        private readonly ManufacturingRouteResourceBuilder manufacturingRouteResourceBuilder = new ManufacturingRouteResourceBuilder();
+        private readonly ManufacturingRouteResourceBuilder manufacturingRouteResourceBuilder;
 
-        public IEnumerable<ManufacturingRouteResource> Build(IEnumerable<ManufacturingRoute> manufacturingRoutes)
+        public ManufacturingRoutesResourceBuilder(IAuthorisationService authorisationService)
         {
-            return manufacturingRoutes
-                .OrderBy(b => b.RouteCode)
-                .Select(a => this.manufacturingRouteResourceBuilder.Build(a));
+            this.manufacturingRouteResourceBuilder = new ManufacturingRouteResourceBuilder(authorisationService);
         }
 
-        object IResourceBuilder<IEnumerable<ManufacturingRoute>>.Build(IEnumerable<ManufacturingRoute> manufacturingRoutes) => this.Build(manufacturingRoutes);
+        public IEnumerable<ManufacturingRouteResource> Build(ResponseModel<IEnumerable<ManufacturingRoute>> model)
+        {
+            var manufacturingRoutes = model.ResponseData;
 
-        public string GetLocation(IEnumerable<ManufacturingRoute> manufacturingRoutes)
+            return manufacturingRoutes
+                .OrderBy(b => b.RouteCode)
+                .Select(a => this.manufacturingRouteResourceBuilder.Build(new ResponseModel<ManufacturingRoute>(a, model.Privileges)));
+        }
+
+        object IResourceBuilder<ResponseModel<IEnumerable<ManufacturingRoute>>>.Build(ResponseModel<IEnumerable<ManufacturingRoute>> manufacturingRoutes) => this.Build(manufacturingRoutes);
+
+        public string GetLocation(ResponseModel<IEnumerable<ManufacturingRoute>> manufacturingRoutes)
         {
             throw new NotImplementedException();
         }

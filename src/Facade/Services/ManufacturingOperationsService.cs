@@ -5,23 +5,27 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Proxy;
     using Linn.Production.Resources;
 
     public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int,
         ManufacturingOperationResource, ManufacturingOperationResource>
     {
+        private readonly IDatabaseService databaseService;
         public ManufacturingOperationsService(
             IRepository<ManufacturingOperation, int> repository,
-            ITransactionManager transactionManager)
+            ITransactionManager transactionManager,
+            IDatabaseService databaseService)
             : base(repository, transactionManager)
         {
+            this.databaseService = databaseService;
         }
 
         protected override ManufacturingOperation CreateFromResource(ManufacturingOperationResource resource)
         {
             return new ManufacturingOperation(
                 resource.RouteCode,
-                resource.ManufacturingId,
+                this.databaseService.GetIdSequence("AN_ARBITRARY_SEQUENCE"),
                 resource.OperationNumber,
                 resource.Description,
                 resource.SkillCode,
