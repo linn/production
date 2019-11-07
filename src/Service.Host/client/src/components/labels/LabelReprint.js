@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function LabelReprint({
-    itemErrors,
+    printMACLabelsErrorDetail,
+    serialNumberErrorDetail,
     fetchSerialNumbers,
     serialNumbers,
     serialNumbersLoading,
@@ -37,7 +38,6 @@ function LabelReprint({
     setPrintMACLabelsActionsMessageVisible,
     printMACLabels,
     printAllLabelsForProductErrorDetail,
-    printMACLabelsErrorDetail,
     clearMacLabelErrors,
     clearAllLabelErrors
 }) {
@@ -121,17 +121,17 @@ function LabelReprint({
                     onClose={() => setPrintAllLabelsForProductActionsMessageVisible(false)}
                     message={printAllLabelsForProductMessageText}
                 />
-                {itemErrors &&
-                    itemErrors.map(itemError => (
-                        <Grid item xs={12}>
-                            <ErrorCard
-                                errorMessage={`${printMACLabelsErrorDetail ||
-                                    printAllLabelsForProductErrorDetail ||
-                                    itemError.statusText ||
-                                    ''} `}
-                            />
-                        </Grid>
-                    ))}
+                <Grid item xs={12}>
+                    {printMACLabelsErrorDetail && (
+                        <ErrorCard errorMessage={printMACLabelsErrorDetail} />
+                    )}
+                    {serialNumberErrorDetail && (
+                        <ErrorCard errorMessage={serialNumberErrorDetail} />
+                    )}
+                    {printAllLabelsForProductErrorDetail && (
+                        <ErrorCard errorMessage={printAllLabelsForProductErrorDetail} />
+                    )}
+                </Grid>
                 <Grid item xs={3}>
                     <SearchInputField
                         label="Search by Serial Number"
@@ -204,9 +204,8 @@ function LabelReprint({
 }
 
 LabelReprint.propTypes = {
-    itemErrors: PropTypes.shape({}),
     fetchSerialNumbers: PropTypes.func.isRequired,
-    serialNumbers: PropTypes.shape({}),
+    serialNumbers: PropTypes.arrayOf(PropTypes.shape({})),
     serialNumbersLoading: PropTypes.bool,
     setPrintAllLabelsForProductActionsMessageVisible: PropTypes.func.isRequired,
     setPrintMACLabelsActionsMessageVisible: PropTypes.func.isRequired,
@@ -219,11 +218,11 @@ LabelReprint.propTypes = {
     printAllLabelsForProductMessageText: PropTypes.string,
     printMACLabelsMessageText: PropTypes.string,
     printMACLabelsErrorDetail: PropTypes.string,
-    printAllLabelsForProductErrorDetail: PropTypes.string
+    printAllLabelsForProductErrorDetail: PropTypes.string,
+    serialNumberErrorDetail: PropTypes.string
 };
 
 LabelReprint.defaultProps = {
-    itemErrors: null,
     serialNumbers: null,
     serialNumbersLoading: false,
     printAllLabelsForProductMessageVisible: false,
@@ -231,7 +230,8 @@ LabelReprint.defaultProps = {
     printAllLabelsForProductMessageText: '',
     printMACLabelsMessageText: '',
     printMACLabelsErrorDetail: '',
-    printAllLabelsForProductErrorDetail: ''
+    printAllLabelsForProductErrorDetail: '',
+    serialNumberErrorDetail: ''
 };
 
 export default LabelReprint;

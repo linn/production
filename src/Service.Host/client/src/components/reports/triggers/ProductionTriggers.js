@@ -23,7 +23,7 @@ function ProductionTriggers({
     itemError
 }) {
     const [reportFormat, setReportFormat] = useState('BRIEF');
-    const [citOptions, setCitOptions] = useState([]);
+    const [citOptions, setCitOptions] = useState(['']);
     const [jobref, setJobref] = useState('');
 
     function excludeInvalidCits(cit) {

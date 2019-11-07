@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import ContextMenu from './ContextMenu';
 import NotesPopover from './NotesPopover';
 
-function TriggersList({ triggers, jobref, reportFormat }) {
+function TriggersList({ triggers, jobref }) {
     return (
         <Table size="small">
             <TableHead>
@@ -28,8 +28,9 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {triggers.map(m => (
-                    <TableRow>
+                {triggers.map((m, i) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <TableRow key={i}>
                         <TableCell>{m.partNumber}</TableCell>
                         <TableCell>{m.description}</TableCell>
                         <TableCell>
@@ -45,7 +46,7 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                         <TableCell>{m.priority}</TableCell>
                         <TableCell>
                             <Link to={`/production/reports/wwd?part-number=${m.partNumber}`}>
-                                {m.canBuild}
+                                {m.canBuild ? m.canBuild : 0}
                             </Link>
                         </TableCell>
                         <TableCell>{m.kanbanSize}</TableCell>
@@ -80,8 +81,7 @@ function TriggersList({ triggers, jobref, reportFormat }) {
 }
 
 TriggersList.propTypes = {
-    triggers: PropTypes.shape({}),
-    reportFormat: PropTypes.string.isRequired,
+    triggers: PropTypes.arrayOf(PropTypes.shape({})),
     jobref: PropTypes.string.isRequired
 };
 
