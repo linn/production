@@ -52,7 +52,6 @@
                 PtlJobref = ptlJobref
             };
 
-
             result.WwdJobId = this.wwdTrigFunction.WwdTriggerRun(partNumber, (int) qty);
 
             if (result.WwdJobId == 0)
