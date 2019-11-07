@@ -14,11 +14,8 @@
 
         public ManufacturingRoutesResourceBuilder(IAuthorisationService authorisationService)
         {
-            this.AuthorisationService = authorisationService;
-            this.manufacturingRouteResourceBuilder = new ManufacturingRouteResourceBuilder(this.AuthorisationService);
+            this.manufacturingRouteResourceBuilder = new ManufacturingRouteResourceBuilder(authorisationService);
         }
-
-        protected IAuthorisationService AuthorisationService { get; }
 
         public IEnumerable<ManufacturingRouteResource> Build(ResponseModel<IEnumerable<ManufacturingRoute>> model)
         {
