@@ -18,6 +18,24 @@
             {
                 CommandType = CommandType.StoredProcedure
             };
+
+            if (typeof(T) == typeof(string))
+            {
+                this.result = new OracleParameter(null, OracleDbType.Varchar2)
+                {
+                    Direction = ParameterDirection.ReturnValue,
+                    Size = 2000
+                };
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                this.result = new OracleParameter(null, OracleDbType.Int32)
+                {
+                    Direction = ParameterDirection.ReturnValue,
+                };
+            }
+
+            this.cmd.Parameters.Add(result);
         }
 
         public void AddParameter(string paramName, string value, int size)
@@ -41,24 +59,6 @@
 
         public T Execute()
         {
-            if (typeof(T) == typeof(string))
-            {
-                this.result = new OracleParameter(null, OracleDbType.Varchar2)
-                {
-                    Direction = ParameterDirection.ReturnValue,
-                    Size = 2000
-                };
-            }
-            else if (typeof(T) == typeof(int))
-            {
-                this.result = new OracleParameter(null, OracleDbType.Int32)
-                {
-                    Direction = ParameterDirection.ReturnValue,
-                };
-            }
-
-            this.cmd.Parameters.Add(result);
-
             this.connection.Open();
             this.cmd.ExecuteNonQuery();
             this.connection.Close();

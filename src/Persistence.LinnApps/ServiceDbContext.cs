@@ -118,6 +118,8 @@
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; } 
 
+        public DbQuery<WwdDetail> WwdDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -168,6 +170,7 @@
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
+            this.QueryWwdDetails(builder);
             base.OnModelCreating(builder);
         }
 
@@ -868,6 +871,23 @@
             q.Property(e => e.BomLevel).HasColumnName("BOM_LEVEL");
             q.Property(e => e.ReqtForPriorityBuildBE).HasColumnName("BE");
             q.Property(e => e.RemainingBuild).HasColumnName("REMAINING_BUILD");
+        }
+
+        private void QueryWwdDetails(ModelBuilder builder)
+        {
+            var q = builder.Query<WwdDetail>();
+            q.ToView("WWD_EF_VIEW");
+            q.Property(e => e.WwdJobId).HasColumnName("JOB_ID");
+            q.Property(e => e.PtlJobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(e => e.QtyKitted).HasColumnName("QTY_KITTED");
+            q.Property(e => e.QtyAtLocation).HasColumnName("QTY_AT_LOCATION");
+            q.Property(e => e.QtyReserved).HasColumnName("QTY_RESERVED");
+            q.Property(e => e.LocationId).HasColumnName("LOCATION_ID");
+            q.Property(e => e.PalletNumber).HasColumnName("PALLET_NUMBER");
+            q.Property(e => e.Remarks).HasColumnName("REMARKS").HasMaxLength(200);
+            q.Property(e => e.StoragePlace).HasColumnName("STORAGE_PLACE").HasMaxLength(41);
         }
     }
 }

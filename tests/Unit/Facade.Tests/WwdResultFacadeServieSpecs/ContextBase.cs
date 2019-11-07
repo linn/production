@@ -15,13 +15,16 @@
 
         protected IRepository<ProductionTriggerLevel, string> ProductionTriggerLevelRepository { get; set; }
 
+        protected IQueryRepository<WwdDetail> WwdDetailRepository { get; set; }
+
         [SetUp]
         public void SetUpContext()
         {
             this.WwdTrigFunction = Substitute.For<IWwdTrigFunction>();
             this.ProductionTriggerLevelRepository = Substitute.For<IRepository<ProductionTriggerLevel, string>>();
+            this.WwdDetailRepository = Substitute.For<IQueryRepository<WwdDetail>>();
 
-            this.Sut = new WwdResultFacadeService(this.WwdTrigFunction, this.ProductionTriggerLevelRepository);
+            this.Sut = new WwdResultFacadeService(this.WwdTrigFunction, this.ProductionTriggerLevelRepository, this.WwdDetailRepository);
         }
     }
 }

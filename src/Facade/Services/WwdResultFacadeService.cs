@@ -11,10 +11,13 @@
 
         private readonly IRepository<ProductionTriggerLevel, string> productionTriggerLevelRepository;
 
-        public WwdResultFacadeService(IWwdTrigFunction wwdTrigFunction, IRepository<ProductionTriggerLevel, string> productionTriggerLevelRepository)
+        private readonly IQueryRepository<WwdDetail> wwdDetailRepository;
+
+        public WwdResultFacadeService(IWwdTrigFunction wwdTrigFunction, IRepository<ProductionTriggerLevel, string> productionTriggerLevelRepository, IQueryRepository<WwdDetail> wwdDetailRepository)
         {
             this.wwdTrigFunction = wwdTrigFunction;
             this.productionTriggerLevelRepository = productionTriggerLevelRepository;
+            this.wwdDetailRepository = wwdDetailRepository;
         }
 
         public IResult<WwdResult> GenerateWwdResultForTrigger(string partNumber, int? qty, string ptlJobref)
@@ -45,7 +48,8 @@
             {
                 PartNumber = partNumber,
                 Qty = (int) qty,
-                WorkStationCode = triggerLevel.WsName
+                WorkStationCode = triggerLevel.WsName,
+                PtlJobref = ptlJobref
             };
 
 
@@ -55,6 +59,9 @@
             {
                 return new NotFoundResult<WwdResult>("Could not generate wwd work");
             }
+
+            result.WwdDetails =
+                this.wwdDetailRepository.FilterBy(d => d.WwdJobId == result.WwdJobId && d.PtlJobref == ptlJobref);
 
             return new SuccessResult<WwdResult>(result);
         }
