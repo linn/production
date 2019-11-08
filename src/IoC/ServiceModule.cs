@@ -101,6 +101,7 @@
             builder.RegisterType<BoardTestsService>()
                 .As<IFacadeService<BoardTest, BoardTestKey, BoardTestResource, BoardTestResource>>();
             builder.RegisterType<BoardTestReportFacadeService>().As<IBoardTestReportFacadeService>();
+            builder.RegisterType<WwdResultFacadeService>().As<IWwdResultFacadeService>();
             builder.RegisterType<WorksOrderLabelsService>()
                 .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
 
@@ -120,6 +121,7 @@
             builder.RegisterType<TriggerRunPack>().As<ITriggerRunPack>();
             builder.RegisterType<BartenderLabelPack>().As<IBartenderLabelPack>();
             builder.RegisterType<LabelPack>().As<ILabelPack>();
+            builder.RegisterType<WwdTrigProxy>().As<IWwdTrigFunction>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();

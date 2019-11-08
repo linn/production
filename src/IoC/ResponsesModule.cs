@@ -102,6 +102,7 @@
             builder.RegisterType<PurchaseOrdersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PurchaseOrder>>>();
             builder.RegisterType<ManufacturingCommitDateResourceBuilder>().As<IResourceBuilder<ManufacturingCommitDateResults>>();
+            builder.RegisterType<WwdResultResourceBuilder>().As<IResourceBuilder<WwdResult>>();
 
             builder.RegisterType<WorksOrderLabelResourceBuilder>().As<IResourceBuilder<WorksOrderLabel>>();
             builder.RegisterType<WorksOrderLabelsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderLabel>>>();
