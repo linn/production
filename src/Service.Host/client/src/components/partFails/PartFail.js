@@ -64,22 +64,6 @@ function PartFail({
     const editing = () => editStatus === 'edit';
     const inputInvalid = () => !partFail.partNumber || !partFail.faultCode || !partFail.errorType;
 
-    const errorTypeOptions = () =>
-        errorTypes.length > 0
-            ? [''].concat(errorTypes.filter(t => t.dateInvalid == null)?.map(p => p.errorType))
-            : ['loading...'];
-    const errorTypeValue = () =>
-        errorTypes.length > 0
-            ? errorTypes.find(p => p.errorType === partFail.errorType)?.errorType
-            : 'loading...';
-
-    const faultCodeOptions = () =>
-        faultCodes.length > 0 ? [''].concat(faultCodes.map(p => p.faultCode)) : ['loading...'];
-    const faultCodeValue = () =>
-        faultCodes.length > 0
-            ? faultCodes.find(p => p.faultCode === partFail.faultCode)?.faultCode
-            : 'loading...';
-
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevPartFail) {
             setPartFail(item);
@@ -157,8 +141,7 @@ function PartFail({
         },
         closeButton: {
             height: theme.spacing(4.5),
-            marginTop: theme.spacing(4.5),
-            marginLeft: theme.spacing(-1)
+            marginTop: theme.spacing(3)
         }
     }));
 
@@ -309,9 +292,10 @@ function PartFail({
                                             <Dropdown
                                                 label="Fault Code"
                                                 propertyName="faultCode"
-                                                items={faultCodeOptions()}
+                                                items={faultCodes.map(c => c.faultCode)}
                                                 fullWidth
-                                                value={faultCodeValue()}
+                                                value={partFail.faultCode}
+                                                allowNoValue={false}
                                                 onChange={handleFieldChange}
                                                 required
                                             />
@@ -330,9 +314,10 @@ function PartFail({
                                             <Dropdown
                                                 label="Error Type"
                                                 propertyName="errorType"
-                                                items={errorTypeOptions()}
+                                                items={errorTypes.map(c => c.errorType)}
                                                 fullWidth
-                                                value={errorTypeValue()}
+                                                value={partFail.errorType}
+                                                allowNoValue={false}
                                                 onChange={handleFieldChange}
                                                 required
                                             />
@@ -456,7 +441,7 @@ function PartFail({
                                                 />
                                             </div>
                                         </Grid>
-                                        <Grid itemx xs={1}>
+                                        <Grid item xs={1}>
                                             <Tooltip title="Clear">
                                                 <span>
                                                     <Button
