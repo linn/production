@@ -10,11 +10,11 @@ import {
     SaveBackCancelButtons,
     DatePicker,
     DateTimePicker,
-    ValidatedInputDialog,
-    Dropdown
+    ValidatedInputDialog
 } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
+import Dropdown from './Dropdown';
 
 function AssemblyFail({
     editStatus,
@@ -50,6 +50,16 @@ function AssemblyFail({
         boardPartNumber: ''
     });
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
+
+    const uniquePcasRevisions = () =>
+        [...new Set(pcasRevisions.map(r => r.cref))]
+            .map(i => pcasRevisions.find(r => r.cref === i.cref))
+            .filter(i => i?.cref);
+
+    const boardPartDefaults = () =>
+        assemblyFail.boardPartNumber
+            ? [assemblyFail.boardPartNumber, '']
+            : [assemblyFail.boardPartNumber];
 
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
@@ -200,6 +210,19 @@ function AssemblyFail({
         }
     }));
     const classes = useStyles();
+
+    const employeesDropdownOptions = () =>
+        employees.length > 0
+            ? employees
+                  .filter(c => !!c.fullName)
+                  .map(c => ({
+                      id: c.id,
+                      displayText: c.fullName
+                  }))
+                  .concat({ id: '', displayText: '' })
+            : [{ id: '', displayText: '' }];
+
+    const returnedByDropdownValue = () => (employees.length > 0 ? assemblyFail.returnedBy : '');
 
     return (
         <Page showRequestErrors>
@@ -408,13 +431,15 @@ function AssemblyFail({
                                         />
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <Dropdown
+                                        {/* <Dropdown
                                             label="Fault Code"
                                             propertyName="faultCode"
                                             disabled={completed()}
                                             items={
                                                 faultCodes.length > 0
-                                                    ? [{ id: '', displayText: '' }].concat(
+                                                    ? [
+                                                          { id: 'placeholder', displayText: '' }
+                                                      ].concat(
                                                           faultCodes.map(c => ({
                                                               id: c.faultCode,
                                                               displayText: `${c.faultCode} - ${c.description}`
@@ -425,10 +450,10 @@ function AssemblyFail({
                                             fullWidth
                                             value={assemblyFail.faultCode?.toString()}
                                             onChange={handleFieldChange}
-                                        />
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <Dropdown
+                                        {/* <Dropdown
                                             label="Shift"
                                             propertyName="shift"
                                             disabled={smtShifts?.length === 0 || completed()}
@@ -445,7 +470,7 @@ function AssemblyFail({
                                             fullWidth
                                             value={assemblyFail.shift}
                                             onChange={handleFieldChange}
-                                        />
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={3}>
                                         <InputField
@@ -458,7 +483,7 @@ function AssemblyFail({
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <Dropdown
+                                        {/* <Dropdown
                                             label="AOI Escape"
                                             propertyName="aoiEscape"
                                             disabled={completed()}
@@ -466,18 +491,20 @@ function AssemblyFail({
                                             fullWidth
                                             value={assemblyFail.aoiEscape?.toString()}
                                             onChange={handleFieldChange}
-                                        />
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <Dropdown
+                                        {/* <Dropdown
                                             label="Board Part"
                                             propertyName="boardPartNumber"
                                             disabled={completed()}
-                                            items={[''].concat(boardParts?.map(p => p.partNumber))}
+                                            items={boardPartDefaults().concat(
+                                                boardParts?.map(p => p.partNumber)
+                                            )}
                                             fullWidth
-                                            value={assemblyFail.boardPartNumber?.toString()}
+                                            value={assemblyFail.boardPartNumber}
                                             onChange={handleFieldChange}
-                                        />
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={3}>
                                         <InputField
@@ -490,27 +517,21 @@ function AssemblyFail({
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <Dropdown
+                                        {/* <Dropdown
                                             label="Circuit Ref"
                                             propertyName="circuitRef"
-                                            disabled={
-                                                (pcasRevisions && pcasRevisions.length === 0) ||
-                                                completed()
-                                            }
+                                            disabled={pcasRevisions?.length === 0 || completed()}
                                             items={
                                                 pcasRevisions
                                                     ? [''].concat(
-                                                          pcasRevisions.map(r => ({
-                                                              id: r.cref,
-                                                              displayText: `${r.cref}  -  ${r.partNumber}`
-                                                          }))
+                                                          uniquePcasRevisions(pcasRevisions)
                                                       )
                                                     : ['']
                                             }
                                             fullWidth
                                             value={assemblyFail.circuitRef?.toString()}
                                             onChange={handleFieldChange}
-                                        />
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={3}>
                                         <InputField
@@ -523,7 +544,7 @@ function AssemblyFail({
                                         />
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Dropdown
+                                        {/* <Dropdown
                                             label="CIT Responsible"
                                             propertyName="citResponsible"
                                             disabled={completed()}
@@ -544,10 +565,10 @@ function AssemblyFail({
                                             fullWidth
                                             value={assemblyFail.citResponsible?.toString()}
                                             onChange={handleFieldChange}
-                                        />
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={4}>
-                                        <Dropdown
+                                        {/* <Dropdown
                                             label="Person Responsible"
                                             type="number"
                                             propertyName="personResponsible"
@@ -569,7 +590,7 @@ function AssemblyFail({
                                             fullWidth
                                             value={assemblyFail.personResponsible?.toString()}
                                             onChange={handleFieldChange}
-                                        />
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={1} />
                                     <Grid item xs={4}>
@@ -587,7 +608,7 @@ function AssemblyFail({
                                         />
                                     </Grid>
                                     <Grid item xs={2}>
-                                        <Dropdown
+                                        {/* <Dropdown
                                             label="Completed By"
                                             propertyName="completedBy"
                                             type="number"
@@ -607,7 +628,7 @@ function AssemblyFail({
                                             fullWidth
                                             value={assemblyFail.completedBy?.toString()}
                                             onChange={handleFieldChange}
-                                        />
+                                        /> */}
                                     </Grid>
                                     <Grid item xs={2}>
                                         <InputField
@@ -626,20 +647,21 @@ function AssemblyFail({
                                             type="number"
                                             propertyName="returnedBy"
                                             disabled={completed()}
-                                            items={
-                                                employees
-                                                    ? [''].concat(
-                                                          employees
-                                                              .filter(c => !!c.fullName)
-                                                              .map(c => ({
-                                                                  id: c.id,
-                                                                  displayText: c.fullName
-                                                              }))
-                                                      )
-                                                    : ['']
-                                            }
                                             fullWidth
-                                            value={assemblyFail.returnedBy?.toString()}
+                                            items={employeesDropdownOptions()}
+                                            value={returnedByDropdownValue()}
+                                            // items={employees.length > 0 ?
+                                            //     employees.filter(c => !!c.fullName)
+                                            //     .map(c => ({
+                                            //         id: c.id,
+                                            //         displayText: c.fullName
+                                            //     })) : [{id: 'placeholder', displayText: ''}]}
+                                            // fullWidth
+                                            // value={
+                                            //     assemblyFail.returnedBy && employees
+                                            //         ? assemblyFail.returnedBy
+                                            //         : ''
+                                            // }
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
