@@ -47,12 +47,12 @@
             var result = new WwdResult
             {
                 PartNumber = partNumber,
-                Qty = (int) qty,
+                Qty = qty.Value,
                 WorkStationCode = triggerLevel.WsName,
                 PtlJobref = ptlJobref
             };
 
-            result.WwdJobId = this.wwdTrigFunction.WwdTriggerRun(partNumber, (int) qty);
+            result.WwdJobId = this.wwdTrigFunction.WwdTriggerRun(partNumber, qty.Value);
 
             if (result.WwdJobId == 0)
             {
