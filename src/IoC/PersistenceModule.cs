@@ -58,7 +58,7 @@
             builder.RegisterType<AccountingCompanyRepository>().As<IRepository<AccountingCompany, string>>();
             builder.RegisterType<LinnWeekRepository>().As<ILinnWeekRepository>();
             builder.RegisterType<SmtShiftsRepository>().As<IRepository<SmtShift, string>>();
-            builder.RegisterType<StoragePlaceRepository>().As<Common.Persistence.IQueryRepository<StoragePlace>>();
+            builder.RegisterType<StoragePlaceRepository>().As<IQueryRepository<StoragePlace>>();
             builder.RegisterType<PartFailFaultCodeRepository>().As<IRepository<PartFailFaultCode, string>>();
             builder.RegisterType<PartFailRepository>().As<IRepository<PartFail, int>>();
             builder.RegisterType<PartFailErrorTypeRepository>().As<IRepository<PartFailErrorType, string>>();
@@ -72,6 +72,7 @@
             builder.RegisterType<PartFailLogRepository>().As<IQueryRepository<PartFailLog>>();
             builder.RegisterType<EmployeeDepartmentViewRepository>().As<IQueryRepository<EmployeeDepartmentView>>();
             builder.RegisterType<WorksOrderLabelsRepository>().As<IRepository<WorksOrderLabel, WorksOrderLabelKey>>();
+            builder.RegisterType<SuppliersRepository>().As<IRepository<Supplier, int>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

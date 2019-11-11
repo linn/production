@@ -101,3 +101,9 @@ export const boardTestDetailsReport = new ItemType(
     'BOARD_TEST_DETAILS_REPORT',
     '/production/reports/board-test-details-report'
 );
+
+export const partFailDetailsReport = new ItemType(
+    'partFailDetailsReport',
+    'PART_FAIL_DETAILS_REPORT',
+    '/production/quality/part-fails/detail-report/report'
+);

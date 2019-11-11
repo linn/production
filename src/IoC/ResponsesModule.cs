@@ -102,6 +102,8 @@
             builder.RegisterType<PurchaseOrdersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PurchaseOrder>>>();
             builder.RegisterType<ManufacturingCommitDateResourceBuilder>().As<IResourceBuilder<ManufacturingCommitDateResults>>();
+            builder.RegisterType<SupplierResourceBuilder>().As<IResourceBuilder<Supplier>>();
+            builder.RegisterType<SuppliersResourceBuilder>().As<IResourceBuilder<IEnumerable<Supplier>>>();
         }
     }
 }

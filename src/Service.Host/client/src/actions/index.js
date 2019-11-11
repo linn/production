@@ -189,3 +189,7 @@ export const boardTestsReportActionTypes = makeReportActionTypes(
 export const boardTestDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.boardTestDetailsReport.actionType
 );
+
+export const partFailDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.partFailDetailsReport.actionType
+);

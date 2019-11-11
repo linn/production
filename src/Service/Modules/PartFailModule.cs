@@ -51,8 +51,8 @@
             this.Put("/production/quality/part-fail-fault-codes/{code*}", parameters => this.UpdateFaultCode(parameters.code));
             this.Post("/production/quality/part-fail-fault-codes", parameters => this.AddFaultCode());
 
+            this.Get("/production/quality/part-fails/detail-report/report", _ => this.GetPartFailDetailsReport());
             this.Get("/production/quality/part-fails/detail-report", _ => this.GetPartFailsDetailReportOptions());
-            this.Get("/production/quality/part-fails/detail-report/report", _ => this.GetPartFailsDetailReport());
         }
 
         private object GetById(int id)
@@ -201,7 +201,7 @@
             return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
 
-        private object GetPartFailsDetailReport()
+        private object GetPartFailDetailsReport()
         {
             var resource = this.Bind<PartFailDetailsReportRequestResource>();
             var results = this.partsReportFacadeService.GetPartFailDetailsReport(

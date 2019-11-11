@@ -114,6 +114,8 @@
 
         public DbSet<TestMachine> TestMachines { get; set; }
 
+        public DbQuery<Supplier> Suppliers { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; } 
@@ -168,6 +170,8 @@
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
+            this.QuerySuppliers(builder);
+
             base.OnModelCreating(builder);
         }
 
@@ -429,6 +433,15 @@
             q.ToView("EMP_DEPT_VIEW");
             q.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
             q.Property(t => t.DepartmentCode).HasColumnName("DEPARTMENT_CODE");
+        }
+
+        private void QuerySuppliers(ModelBuilder builder)
+        {
+            var q = builder.Query<Supplier>();
+            q.ToView("SUPPLIERS");
+            q.Property(t => t.SupplierId).HasColumnName("SUPPLIER_ID");
+            q.Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
+            q.Property(t => t.DateClosed).HasColumnName("DATE_CLOSED");
         }
 
         private void QueryPartFailLogs(ModelBuilder builder)

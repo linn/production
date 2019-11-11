@@ -63,6 +63,7 @@ import partFailErrorType from './partFailErrorType';
 import partFailFaultCode from './partFailFaultCode';
 import boardTestsReport from './boardTestsReport';
 import boardTestDetailsReport from './boardTestDetailsReport';
+import partFailDetailsReport from './partFailDetailsReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -91,13 +92,19 @@ const rootReducer = combineReducers({
     departments,
     employees,
     errors,
-    manufacturingSkills,
-    manufacturingSkill,
+    manufacturingCommitDate,
     manufacturingResources,
     manufacturingResource,
+    manufacturingRoute,
+    manufacturingRoutes,
+    manufacturingSkills,
+    manufacturingSkill,
     outstandingWorksOrdersReport,
     overdueOrders,
     parts,
+    partFailDetailsReport,
+    partFailErrorType,
+    partFailFaultCode,
     pcasRevisions,
     printAllLabelsForProduct,
     printMACLabels,
@@ -124,11 +131,6 @@ const rootReducer = combineReducers({
     worksOrder,
     worksOrders,
     worksOrderDetails,
-    manufacturingCommitDate,
-    partFailErrorType,
-    partFailFaultCode,
-    manufacturingRoute,
-    manufacturingRoutes,
     ...sharedLibraryReducers
 });
 
