@@ -11,9 +11,7 @@ const mapStateToProps = state => ({
     itemError: getItemError(state, itemTypes.manufacturingRoutes.item)
 });
 
-const initialise = () => () => {
-    // dispatch(manufacturingRoutesActions.fetch());
-};
+const initialise = () => () => {};
 
 const mapDispatchToProps = {
     initialise,

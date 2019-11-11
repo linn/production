@@ -9,6 +9,7 @@ import manufacturingResourcesActions from '../../actions/manufacturingResourcesA
 import manufacturingResourcesSelectors from '../../selectors/manufacturingResourcesSelectors';
 import citsActions from '../../actions/citsActions';
 import citsSelectors from '../../selectors/citsSelectors';
+import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = (state, { match }) => ({
     item: manufacturingRouteSelectors.getItem(state),
@@ -19,7 +20,7 @@ const mapStateToProps = (state, { match }) => ({
     manufacturingSkills: manufacturingSkillsSelectors.getItems(state),
     manufacturingResources: manufacturingResourcesSelectors.getItems(state),
     cits: citsSelectors.getItems(state),
-    itemErrors: getItemError(state)
+    itemErrors: getItemError(state, itemTypes.manufacturingRoute.item)
 });
 
 const initialise = ({ itemId }) => dispatch => {
