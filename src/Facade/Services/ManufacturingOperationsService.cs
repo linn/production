@@ -9,15 +9,18 @@
     using Linn.Production.Resources;
 
     public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int,
-        ManufacturingOperationResource, ManufacturingOperationResource>
+        ManufacturingOperationResource, ManufacturingOperationResource>, IManufacturingOperationsService
     {
         private readonly IDatabaseService databaseService;
+
+        private readonly IRepository<ManufacturingOperation, int> manufacturingOperationsRepository;
         public ManufacturingOperationsService(
             IRepository<ManufacturingOperation, int> repository,
             ITransactionManager transactionManager,
             IDatabaseService databaseService)
             : base(repository, transactionManager)
         {
+            this.manufacturingOperationsRepository = repository;
             this.databaseService = databaseService;
         }
 
@@ -53,6 +56,11 @@
         protected override Expression<Func<ManufacturingOperation, bool>> SearchExpression(string searchTerm)
         {
             throw new NotImplementedException();
+        }
+
+        public void RemoveOperation(ManufacturingOperation entity)
+        {
+            this.manufacturingOperationsRepository.Remove(entity);
         }
     }
 }
