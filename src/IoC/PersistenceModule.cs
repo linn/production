@@ -79,6 +79,7 @@
             builder.RegisterType<ProductionTriggerAssemblyRepository>().As<IQueryRepository<ProductionTriggerAssembly>>();
             builder.RegisterType<ProductionBackOrderQueryRepository>().As<IQueryRepository<ProductionBackOrder>>();
             builder.RegisterType<BomDetailExplodedPhantomPartViewRepository>().As<IRepository<BomDetailExplodedPhantomPartView, int>>();
+            builder.RegisterType<WwdDetailQueryRepository>().As<IQueryRepository<WwdDetail>>();
         }
     }
 }
