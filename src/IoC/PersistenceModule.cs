@@ -72,6 +72,7 @@
             builder.RegisterType<PartFailLogRepository>().As<IQueryRepository<PartFailLog>>();
             builder.RegisterType<EmployeeDepartmentViewRepository>().As<IQueryRepository<EmployeeDepartmentView>>();
             builder.RegisterType<WorksOrderLabelsRepository>().As<IRepository<WorksOrderLabel, WorksOrderLabelKey>>();
+            builder.RegisterType<LabelTypeRepository>().As<IRepository<LabelType, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

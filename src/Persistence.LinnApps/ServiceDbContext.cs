@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
     using System.Linq;
-
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
@@ -105,7 +104,7 @@
         public DbQuery<PartFailLog> PartFailLogs { get; set; }
 
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
-        
+
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public DbSet<ProductData> ProductData { get; set; }
@@ -114,11 +113,13 @@
 
         public DbSet<TestMachine> TestMachines { get; set; }
 
+        public DbQuery<WwdDetail> WwdDetails { get; set; }
+
+        public DbSet<LabelType> LabelTypes { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; } 
-
-        public DbQuery<WwdDetail> WwdDetails { get; set; }
+        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -172,6 +173,7 @@
             this.BuildWorksOrdersLabels(builder);
             this.QueryWwdDetails(builder);
             base.OnModelCreating(builder);
+            this.BuildLabelTypes(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -814,6 +816,7 @@
             builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
                 .HasForeignKey(d => d.OrderNumber);
         }
+
         private void BuildPurchaseOrderDetails(ModelBuilder builder)
         {
             builder.Entity<PurchaseOrderDetail>().ToTable("PL_ORDER_DETAILS");
@@ -821,7 +824,9 @@
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
-        }        private void QueryAccountingCompanies(ModelBuilder builder)
+        }
+
+        private void QueryAccountingCompanies(ModelBuilder builder)
         {
             var q = builder.Query<AccountingCompany>();
             q.ToView("ACCOUNTING_COMPANIES");
@@ -887,6 +892,23 @@
             q.Property(e => e.PalletNumber).HasColumnName("PALLET_NUMBER");
             q.Property(e => e.Remarks).HasColumnName("REMARKS").HasMaxLength(200);
             q.Property(e => e.StoragePlace).HasColumnName("STORAGE_PLACE").HasMaxLength(41);
+        }
+
+        private void BuildLabelTypes(ModelBuilder builder)
+        {
+            var e = builder.Entity<LabelType>();
+            e.ToTable("STORES_LABEL_TYPES");
+            e.HasKey(s => s.LabelTypeCode);
+            e.Property(s => s.LabelTypeCode).HasColumnName("LABEL_TYPE_CODE").HasMaxLength(16);
+            e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(s => s.Filename).HasColumnName("FILENAME").HasMaxLength(50);
+            e.Property(s => s.BarcodePrefix).HasColumnName("BARCODE_PREFIX").HasMaxLength(2);
+            e.Property(s => s.DefaultPrinter).HasColumnName("DEFAULT_PRINTER").HasMaxLength(50);
+            e.Property(s => s.NSBarcodePrefix).HasColumnName("BARCODE_PREFIX_NS").HasMaxLength(2);
+            e.Property(s => s.CommandFilename).HasColumnName("CMD_FILENAME").HasMaxLength(50);
+            e.Property(s => s.TestFilename).HasColumnName("TEST_FILENAME").HasMaxLength(50);
+            e.Property(s => s.TestPrinter).HasColumnName("TEST_PRINTER").HasMaxLength(50);
+            e.Property(s => s.TestCommandFilename).HasColumnName("TEST_CMD_FILENAME").HasMaxLength(50);
         }
     }
 }
