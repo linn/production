@@ -193,3 +193,8 @@ export const boardTestDetailsReportActionTypes = makeReportActionTypes(
 export const partFailDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.partFailDetailsReport.actionType
 );
+
+export const partFailSuppliersActionTypes = makeActionTypes(
+    itemTypes.partFailSuppliers.actionType,
+    true
+);

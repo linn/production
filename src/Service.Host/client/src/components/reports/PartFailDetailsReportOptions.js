@@ -42,11 +42,14 @@ export default function PartFailDetailsReportOptions({
     departments,
     departmentsLoading,
     searchParts,
-    clearPartsSearch
+    clearPartsSearch,
+    suppliers,
+    suppliersLoading
 }) {
     const [errorTypeOptions, setErrorTypes] = useState(['All']);
     const [faultCodeOptions, setFaultCodes] = useState(['All']);
     const [departmentOptions, setDepartmentList] = useState(['All']);
+    const [suppliersOptions, setSuppliers] = useState(['All']);
     // TODO get appropriate from and end week defaults
     const [reportOptions, setReportOptions] = useState({
         supplierId: 'All',
@@ -58,24 +61,6 @@ export default function PartFailDetailsReportOptions({
         partDescription: '',
         department: 'All'
     });
-
-    const handleRunClick = () => {
-        const fromString = reportOptions.fromWeek.toISOString();
-        const toString = reportOptions.toWeek.toISOString();
-
-        const searchString = `?errorType=${reportOptions.errorType}&fromWeek=${fromString}&toWeek=${toString}&faultCode=${reportOptions.faultCode}&partNumber=${reportOptions.partNumber}&department=${reportOptions.department}`;
-
-        history.push({
-            pathname: '/production/quality/part-fails/detail-report/report',
-            search: `${
-                reportOptions.supplierId === 'All'
-                    ? searchString
-                    : `${searchString}&supplierId=${reportOptions.supplierId}`
-            }`
-        });
-    };
-
-    const supplierOptions = ['All', ''];
 
     const classes = useStyles();
 
@@ -100,7 +85,7 @@ export default function PartFailDetailsReportOptions({
             ]);
             return;
         }
-        setErrorTypes(list);
+        setFaultCodes(list);
     }, [partFailFaultCodes]);
 
     useEffect(() => {
@@ -115,8 +100,23 @@ export default function PartFailDetailsReportOptions({
             ]);
             return;
         }
-        setErrorTypes(list);
+        setDepartmentList(list);
     }, [departments]);
+
+    useEffect(() => {
+        const list = [{ id: 'All', displayText: 'All' }];
+        if (suppliers) {
+            setSuppliers([
+                ...list,
+                ...suppliers.map(supplier => ({
+                    id: supplier.supplierId,
+                    displayText: supplier.supplierName
+                }))
+            ]);
+            return;
+        }
+        setSuppliers(list);
+    }, [suppliers]);
 
     const handleFieldChange = (propertyName, newValue) => {
         if (propertyName === 'department' || propertyName === 'faultCode') {
@@ -140,10 +140,29 @@ export default function PartFailDetailsReportOptions({
         });
     };
 
+    const handleRunClick = () => {
+        const fromString = reportOptions.fromWeek.toISOString();
+        const toString = reportOptions.toWeek.toISOString();
+
+        const searchString = `?errorType=${reportOptions.errorType}&fromWeek=${fromString}&toWeek=${toString}&faultCode=${reportOptions.faultCode}&partNumber=${reportOptions.partNumber}&department=${reportOptions.department}`;
+
+        history.push({
+            pathname: '/production/quality/part-fails/detail-report/report',
+            search: `${
+                reportOptions.supplierId === 'All'
+                    ? searchString
+                    : `${searchString}&supplierId=${reportOptions.supplierId}`
+            }`
+        });
+    };
+
     return (
         <Page>
             <Title text="Part Fail Details Report" />
-            {partFailErrorTypesLoading || partFailFaultCodesLoading || departmentsLoading ? (
+            {partFailErrorTypesLoading ||
+            partFailFaultCodesLoading ||
+            departmentsLoading ||
+            suppliersLoading ? (
                 <Loading />
             ) : (
                 <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
@@ -170,7 +189,7 @@ export default function PartFailDetailsReportOptions({
                     <Grid item xs={4}>
                         <Dropdown
                             label="Supplier"
-                            items={supplierOptions}
+                            items={suppliersOptions}
                             fullWidth
                             value={reportOptions.supplierId}
                             onChange={handleFieldChange}

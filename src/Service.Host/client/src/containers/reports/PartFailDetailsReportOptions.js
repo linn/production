@@ -10,6 +10,8 @@ import departmentActions from '../../actions/departmentActions';
 import departmentsSelectors from '../../selectors/departmentsSelectors';
 import partsActions from '../../actions/partsActions';
 import partsSelectors from '../../selectors/partsSelectors';
+import partFailSuppliersActions from '../../actions/partFailSuppliersActions';
+import partFailSuppliersSelectors from '../../selectors/partFailSuppliersSelectors';
 import * as reportTypes from '../../reportTypes';
 
 const reportSelectors = new ReportSelectors(reportTypes.partFailDetailsReport.item);
@@ -25,7 +27,9 @@ const mapStateToProps = state => ({
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     departments: departmentsSelectors.getItems(state),
-    departmentsLoading: departmentsSelectors.getLoading(state)
+    departmentsLoading: departmentsSelectors.getLoading(state),
+    suppliers: partFailSuppliersSelectors.getItems(state),
+    suppliersLoading: partFailSuppliersSelectors.getLoading(state)
 });
 
 const initialise = () => dispatch => {
@@ -33,6 +37,7 @@ const initialise = () => dispatch => {
     dispatch(partFailFaultCodesActions.fetch());
     dispatch(partsActions.clearSearch());
     dispatch(departmentActions.fetch());
+    dispatch(partFailSuppliersActions.fetch());
 };
 
 const mapDispatchToProps = {

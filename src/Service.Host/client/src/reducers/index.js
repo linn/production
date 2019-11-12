@@ -64,6 +64,7 @@ import partFailFaultCode from './partFailFaultCode';
 import boardTestsReport from './boardTestsReport';
 import boardTestDetailsReport from './boardTestDetailsReport';
 import partFailDetailsReport from './partFailDetailsReport';
+import partFailSuppliers from './partFailSuppliers';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -105,6 +106,7 @@ const rootReducer = combineReducers({
     partFailDetailsReport,
     partFailErrorType,
     partFailFaultCode,
+    partFailSuppliers,
     pcasRevisions,
     printAllLabelsForProduct,
     printMACLabels,
