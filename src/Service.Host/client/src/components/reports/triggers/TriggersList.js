@@ -11,7 +11,21 @@ import PropTypes from 'prop-types';
 import ContextMenu from './ContextMenu';
 import NotesPopover from './NotesPopover';
 
-function TriggersList({ triggers, jobref, reportFormat }) {
+function TriggersList({ triggers, jobref, citcode }) {
+    function build(t) {
+        if (t.remainingBuild) {
+            return t.remainingBuild;
+        }
+        return t.reqtForInternalAndTriggerLevelBT;
+    }
+
+    function canBuildText(t) {
+        if (t.canBuild >= build(t) && build(t)) {
+            return 'Yes';
+        }
+        return t.canBuild;
+    }
+
     return (
         <Table size="small">
             <TableHead>
@@ -37,23 +51,18 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                                 component={RouterLink}
                                 to={`/production/reports/triggers/facts?jobref=${jobref}&part-number=${m.partNumber}`}
                             >
-                                {m.remainingBuild
-                                    ? m.remainingBuild
-                                    : m.reqtForInternalAndTriggerLevelBT}
+                                {build(m)}
                             </Link>
                         </TableCell>
                         <TableCell>{m.priority}</TableCell>
                         <TableCell>
                             <Link
+                                component={RouterLink}
                                 to={`/production/reports/wwd?part-number=${
                                     m.partNumber
-                                }&ptlJobref=${jobref}&qty=${
-                                    m.remainingBuild
-                                        ? m.remainingBuild
-                                        : m.reqtForInternalAndTriggerLevelBT
-                                }`}
+                                }&ptlJobref=${jobref}&qty=${build(m)}&citcode=${citcode}`}
                             >
-                                {m.canBuild}
+                                {canBuildText(m)}
                             </Link>
                         </TableCell>
                         <TableCell>{m.kanbanSize}</TableCell>
@@ -89,12 +98,13 @@ function TriggersList({ triggers, jobref, reportFormat }) {
 
 TriggersList.propTypes = {
     triggers: PropTypes.shape({}),
-    reportFormat: PropTypes.string.isRequired,
+    citcode: PropTypes.string,
     jobref: PropTypes.string.isRequired
 };
 
 TriggersList.defaultProps = {
-    triggers: null
+    triggers: null,
+    citcode: null
 };
 
 export default TriggersList;

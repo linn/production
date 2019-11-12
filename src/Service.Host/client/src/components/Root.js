@@ -194,13 +194,13 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/triggers/facts"
-                                        component={ProductionTriggersFacts}
+                                        path="/production/reports/wwd"
+                                        component={WwdTriggerReport}
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/wwd"
-                                        component={WwdTriggerReport}
+                                        path="/production/reports/triggers/facts"
+                                        component={ProductionTriggersFacts}
                                     />
                                     <Route
                                         exact
