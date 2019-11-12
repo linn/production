@@ -206,3 +206,15 @@ export const partFailSuppliers = new ItemType(
     'PART_FAIL_SUPPLIERS',
     '/production/quality/part-fails/suppliers'
 );
+
+export const worksOrderLabel = new ItemType(
+    'worksOrderLabel',
+    'WORKS_ORDER_LABEL',
+    '/production/works-orders/labels'
+);
+
+export const worksOrderLabels = new ItemType(
+    'worksOrderLabels',
+    'WORKS_ORDER_LABELS',
+    '/production/works-orders/labels'
+);

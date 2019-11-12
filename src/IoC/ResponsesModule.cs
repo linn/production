@@ -35,9 +35,9 @@
             builder.RegisterType<ManufacturingSkillResourceBuilder>().As<IResourceBuilder<ManufacturingSkill>>();
             builder.RegisterType<ManufacturingSkillsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingSkill>>>();
-            builder.RegisterType<ManufacturingRouteResourceBuilder>().As<IResourceBuilder<ManufacturingRoute>>();
+            builder.RegisterType<ManufacturingRouteResourceBuilder>().As<IResourceBuilder<ResponseModel<ManufacturingRoute>>>();
             builder.RegisterType<ManufacturingRoutesResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<ManufacturingRoute>>>();
+                .As<IResourceBuilder<ResponseModel<IEnumerable<ManufacturingRoute>>>>();
             builder.RegisterType<ManufacturingOperationResourceBuilder>().As<IResourceBuilder<ManufacturingOperation>>();
             builder.RegisterType<ManufacturingOperationsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<ManufacturingOperation>>>();
@@ -105,6 +105,10 @@
             builder.RegisterType<PurchaseOrdersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PurchaseOrder>>>();
             builder.RegisterType<ManufacturingCommitDateResourceBuilder>().As<IResourceBuilder<ManufacturingCommitDateResults>>();
+            builder.RegisterType<WwdResultResourceBuilder>().As<IResourceBuilder<WwdResult>>();
+
+            builder.RegisterType<WorksOrderLabelResourceBuilder>().As<IResourceBuilder<WorksOrderLabel>>();
+            builder.RegisterType<WorksOrderLabelsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderLabel>>>();
         }
     }
 }
