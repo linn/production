@@ -18,7 +18,8 @@
 
         public WorksOrderLabel FindById(WorksOrderLabelKey key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.WorksOrderLabels
+                .Where(w => w.PartNumber == key.PartNumber && w.Sequence == key.Sequence).ToList().FirstOrDefault();
         }
 
         public IQueryable<WorksOrderLabel> FindAll()
@@ -28,7 +29,7 @@
 
         public void Add(WorksOrderLabel entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.WorksOrderLabels.Add(entity);
         }
 
         public void Remove(WorksOrderLabel entity)
@@ -43,7 +44,7 @@
 
         public IQueryable<WorksOrderLabel> FilterBy(Expression<Func<WorksOrderLabel, bool>> expression)
         {
-            return this.serviceDbContext.WorksOrderLabels.Where(expression);
+            return this.serviceDbContext.WorksOrderLabels.Where(expression).OrderBy(l => l.Sequence);
         }
     }
 }

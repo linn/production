@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.WorksOrders
 {
+    using System.Linq;
+
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Exceptions;
@@ -26,6 +28,8 @@
 
         private readonly ISernosPack sernosPack;
 
+        private readonly IRepository<WorksOrderLabel, WorksOrderLabelKey> labelService;
+
         public WorksOrderUtilities(
             IRepository<Part, string> partsRepository,
             IRepository<PcasBoardForAudit, string> pcasBoardsForAuditRepository,
@@ -34,7 +38,8 @@
             ISernosPack sernosPack,
             IRepository<Cit, string> citRepository,
             IRepository<Department, string> departmentRepository,
-            ISalesArticleService salesArticleService)
+            ISalesArticleService salesArticleService,
+            IRepository<WorksOrderLabel, WorksOrderLabelKey> labelService)
         {
             this.partsRepository = partsRepository;
             this.pcasBoardsForAuditRepository = pcasBoardsForAuditRepository;
@@ -44,6 +49,7 @@
             this.citRepository = citRepository;
             this.departmentRepository = departmentRepository;
             this.salesArticleService = salesArticleService;
+            this.labelService = labelService;
         }
 
         public void IssueSerialNumber(
@@ -110,6 +116,17 @@
             }
 
             return department;
+        }
+
+        public int GetNextLabelSeqForPart(string partNumber)
+        {
+            var labels = this.labelService.FilterBy(l => l.PartNumber == partNumber);
+            if (labels.Any())
+            {
+                return this.labelService.FilterBy(l => l.PartNumber == partNumber).Select(l => l.Sequence).Max() + 1;
+            }
+
+            return 1;
         }
 
         private string GetAuditDisclaimer(string partNumber)

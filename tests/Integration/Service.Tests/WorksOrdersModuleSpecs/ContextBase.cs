@@ -22,12 +22,20 @@
     {
         protected IOutstandingWorksOrdersReportFacade OutstandingWorksOrdersReportFacade { get; private set; }
 
+        protected IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource> LabelService
+        {
+            get;
+            private set;
+        }
+
         protected IWorksOrdersService WorksOrdersService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
             this.OutstandingWorksOrdersReportFacade = Substitute.For<IOutstandingWorksOrdersReportFacade>();
+            this.LabelService = Substitute
+                .For<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             this.WorksOrdersService = Substitute.For<IWorksOrdersService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
@@ -35,18 +43,24 @@
                     {
                         with.Dependency(this.OutstandingWorksOrdersReportFacade);
                         with.Dependency(this.WorksOrdersService);
+                        with.Dependency(this.LabelService);
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(
                             new WorksOrdersResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(new WorksOrdersResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrderPartDetails>>(new WorksOrderPartDetailsResourceBuilder());
+                        with.Dependency<IResourceBuilder<WorksOrderLabel>>(new WorksOrderLabelResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrderLabel>>>(new WorksOrderLabelsResourceBuilder());
+
                         with.Module<WorksOrdersModule>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                         with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
                         with.ResponseProcessor<WorksOrderResponseProcessor>();
                         with.ResponseProcessor<WorksOrdersResponseProcessor>();
                         with.ResponseProcessor<WorksOrderPartDetailsResponseProcessor>();
+                        with.ResponseProcessor<WorksOrderLabelResponseProcessor>();
+                        with.ResponseProcessor<WorksOrderLabelsResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>

@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.ManufacturingRoutesModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -17,9 +19,13 @@
         public void SetUp()
         {
             this.requestResource = new ManufacturingRouteResource() { RouteCode = "MYTEST", Description = "Desc1", Notes = "extra info" };
-            var skill = new ManufacturingRoute("MYTEST", "Desc1", "extra info");
-            this.ManufacturingRouteService.Update("MYTEST", Arg.Any<ManufacturingRouteResource>())
-                .Returns(new SuccessResult<ManufacturingRoute>(skill));
+            var route = new ManufacturingRoute("MYTEST", "Desc1", "extra info");
+
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, Arg.Any<List<string>>())
+                .Returns(true);
+
+            this.ManufacturingRouteService.Update("MYTEST", Arg.Any<ManufacturingRouteResource>(), Arg.Any<List<string>>())
+                .Returns(new SuccessResult<ResponseModel<ManufacturingRoute>>(new ResponseModel<ManufacturingRoute>(route, new List<string>())));
 
             this.Response = this.Browser.Put(
                 "/production/resources/manufacturing-routes/MYTEST",
@@ -41,7 +47,7 @@
         public void ShouldCallService()
         {
             this.ManufacturingRouteService.Received()
-                .Update("MYTEST", Arg.Is<ManufacturingRouteResource>(r => r.RouteCode == this.requestResource.RouteCode));
+                .Update("MYTEST", Arg.Is<ManufacturingRouteResource>(r => r.RouteCode == this.requestResource.RouteCode), Arg.Any<List<string>>());
         }
 
         [Test]

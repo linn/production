@@ -5,9 +5,9 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps;
 
-    public class ManufacturingRoutesResponseProcessor : JsonResponseProcessor<IEnumerable<ManufacturingRoute>>
+    public class ManufacturingRoutesResponseProcessor : JsonResponseProcessor<ResponseModel<IEnumerable<ManufacturingRoute>>>
     {
-        public ManufacturingRoutesResponseProcessor(IResourceBuilder<IEnumerable<ManufacturingRoute>> resourceBuilder)
+        public ManufacturingRoutesResponseProcessor(IResourceBuilder<ResponseModel<IEnumerable<ManufacturingRoute>>> resourceBuilder)
             : base(resourceBuilder, "manufacturing-routes", 1)
         {
         }

@@ -21,8 +21,10 @@
             a.Operations = new List<ManufacturingOperation>();
             b.Operations = new List<ManufacturingOperation>();
 
-            this.ManufacturingRouteService.Search("code")
-                .Returns(new SuccessResult<IEnumerable<ManufacturingRoute>>(new List<ManufacturingRoute> { a, b }));
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, Arg.Any<List<string>>())
+                .Returns(true);
+            this.ManufacturingRouteService.Search("code", Arg.Any<List<string>>())
+                .Returns(new SuccessResult<ResponseModel<IEnumerable<ManufacturingRoute>>>(new ResponseModel<IEnumerable<ManufacturingRoute>>(new List<ManufacturingRoute> { a, b }, new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/resources/manufacturing-routes",
@@ -38,7 +40,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingRouteService.Received().Search("code");
+            this.ManufacturingRouteService.Received().Search("code", Arg.Any<List<string>>());
         }
 
         [Test]
