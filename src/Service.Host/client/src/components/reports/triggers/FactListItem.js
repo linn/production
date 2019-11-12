@@ -27,8 +27,7 @@ function FactListItem({ children, header, secondary, avatar }) {
             <ListItem button onClick={handleClick}>
                 <ListItemAvatar>
                     <Fragment>
-                        {children ? !open ? <ExpandLess /> : <ExpandMore /> : <Fragment />}
-                        {showAvatar(avatar) ? avatar : <Fragment />}{' '}
+                        {showAvatar(avatar) ? <Avatar>{avatar}</Avatar> : <Fragment />}
                     </Fragment>
                 </ListItemAvatar>
                 <ListItemText primary={header} secondary={secondary} />
