@@ -295,7 +295,7 @@ function PartFail({
                                                 items={faultCodes.map(c => c.faultCode)}
                                                 fullWidth
                                                 value={partFail.faultCode}
-                                                allowNoValue={false}
+                                                allowNoValue={creating()}
                                                 onChange={handleFieldChange}
                                                 required
                                             />
@@ -317,7 +317,7 @@ function PartFail({
                                                 items={errorTypes.map(c => c.errorType)}
                                                 fullWidth
                                                 value={partFail.errorType}
-                                                allowNoValue={false}
+                                                allowNoValue={creating()}
                                                 onChange={handleFieldChange}
                                                 required
                                             />
