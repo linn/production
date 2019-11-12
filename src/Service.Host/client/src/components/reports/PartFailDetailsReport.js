@@ -12,7 +12,7 @@ export default function PartFailDetailsReport({ reportData, loading, options, er
             {console.log(options)}
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Title text="Part Fail Detials Report" />
+                    <Title text="Part Fail Details Report" />
                 </Grid>
                 {error && (
                     <Grid item xs={12}>

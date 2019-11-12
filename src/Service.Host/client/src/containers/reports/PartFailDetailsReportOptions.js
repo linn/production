@@ -12,12 +12,8 @@ import partsActions from '../../actions/partsActions';
 import partsSelectors from '../../selectors/partsSelectors';
 import partFailSuppliersActions from '../../actions/partFailSuppliersActions';
 import partFailSuppliersSelectors from '../../selectors/partFailSuppliersSelectors';
-import * as reportTypes from '../../reportTypes';
-
-const reportSelectors = new ReportSelectors(reportTypes.partFailDetailsReport.item);
 
 const mapStateToProps = state => ({
-    prevOptions: reportSelectors.getReportOptions(state),
     partFailErrorTypes: partFailErrorTypesSelectors.getItems(state),
     partFailErrorTypesLoading: partFailErrorTypesSelectors.getLoading(state),
     partFailFaultCodes: partFailFaultCodesSelectors.getItems(state),

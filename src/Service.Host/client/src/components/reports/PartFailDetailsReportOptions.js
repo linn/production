@@ -6,13 +6,13 @@ import {
     Title,
     Loading,
     InputField,
-    TypeaheadDialog
+    TypeaheadDialog,
+    LinnWeekPicker
 } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Page from '../../containers/Page';
-import LinnWeekDatePicker from '../LinnWeekDatePicker';
 
 const useStyles = makeStyles(theme => ({
     marginTop: {
@@ -32,7 +32,6 @@ const getWeekStartDate = date => {
 
 export default function PartFailDetailsReportOptions({
     history,
-    prevOptions,
     partFailErrorTypes,
     partFailErrorTypesLoading,
     partFailFaultCodes,
@@ -50,10 +49,10 @@ export default function PartFailDetailsReportOptions({
     const [faultCodeOptions, setFaultCodes] = useState(['All']);
     const [departmentOptions, setDepartmentList] = useState(['All']);
     const [suppliersOptions, setSuppliers] = useState(['All']);
-    // TODO get appropriate from and end week defaults
+
     const [reportOptions, setReportOptions] = useState({
         supplierId: 'All',
-        fromWeek: getWeekStartDate(moment().subtract(1, 'month')),
+        fromWeek: getWeekStartDate(moment().subtract(10, 'weeks')),
         toWeek: getWeekStartDate(moment()),
         errorType: 'All',
         faultCode: 'All',
@@ -167,7 +166,7 @@ export default function PartFailDetailsReportOptions({
             ) : (
                 <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
                     <Grid item xs={4}>
-                        <LinnWeekDatePicker
+                        <LinnWeekPicker
                             weekStartDate={reportOptions.fromWeek}
                             setWeekStartDate={handleFieldChange}
                             propertyName="fromWeek"
@@ -177,12 +176,11 @@ export default function PartFailDetailsReportOptions({
                     </Grid>
                     <Grid item xs={8} />
                     <Grid item xs={4}>
-                        <LinnWeekDatePicker
+                        <LinnWeekPicker
                             weekStartDate={reportOptions.toWeek}
                             setWeekStartDate={handleFieldChange}
                             propertyName="toWeek"
                             label="To Week Starting"
-                            required={false}
                         />
                     </Grid>
                     <Grid item xs={8} />
@@ -276,3 +274,32 @@ export default function PartFailDetailsReportOptions({
         </Page>
     );
 }
+
+PartFailDetailsReportOptions.propTypes = {
+    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    partFailErrorTypes: PropTypes.arrayOf(PropTypes.shape({})),
+    partFailErrorTypesLoading: PropTypes.bool,
+    partFailFaultCodes: PropTypes.arrayOf(PropTypes.shape({})),
+    partFailFaultCodesLoading: PropTypes.bool,
+    partsSearchLoading: PropTypes.bool,
+    partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    departments: PropTypes.arrayOf(PropTypes.shape({})),
+    departmentsLoading: PropTypes.bool,
+    searchParts: PropTypes.func.isRequired,
+    clearPartsSearch: PropTypes.func.isRequired,
+    suppliers: PropTypes.arrayOf(PropTypes.shape({})),
+    suppliersLoading: PropTypes.bool
+};
+
+PartFailDetailsReportOptions.defaultProps = {
+    partFailErrorTypes: [],
+    partFailErrorTypesLoading: false,
+    partFailFaultCodes: [],
+    partFailFaultCodesLoading: false,
+    partsSearchLoading: false,
+    partsSearchResults: [],
+    departments: [],
+    departmentsLoading: false,
+    suppliers: [],
+    suppliersLoading: false
+};
