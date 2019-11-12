@@ -134,7 +134,6 @@ function ManufacturingRoute({
                 type: 'number'
             }
         ];
-
         return (
             <TableWithInlineEditing
                 columnsInfo={columnsInfo}

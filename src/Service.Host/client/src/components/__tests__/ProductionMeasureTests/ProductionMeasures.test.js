@@ -9,7 +9,7 @@ describe('<ProductionMeasures />', () => {
 
     const defaultProps = {
         loading: false,
-        citsData: null,
+        citsData: [],
         infoData: null,
         config: {
             approot: 'app.linn.co.uk'
@@ -25,7 +25,7 @@ describe('<ProductionMeasures />', () => {
 
     describe('When Not Loading', () => {
         it('should not display spinner', () => {
-            const cits = [{ citName: 'A' }];
+            const cits = [{ citName: 'A', citCode: 'A' }];
             const info = { lastPtlJobref: 'AAAAAA' };
             const { queryByRole } = render(
                 <ProductionMeasures {...defaultProps} citsData={cits} infoData={info} />
@@ -43,7 +43,7 @@ describe('<ProductionMeasures />', () => {
 
     describe('When citsData', () => {
         it('should display table', () => {
-            const cits = [{ citName: 'A' }];
+            const cits = [{ citName: 'A', citCode: 'A' }];
             const info = { lastPtlJobref: 'AAAAAA' };
             const { getAllByRole } = render(
                 <ProductionMeasures {...defaultProps} citsData={cits} infoData={info} />

@@ -27,7 +27,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                     ''
                 )}
                 {itemError ? (
-                    <ErrorCard errorMessage={itemError.details?.message} />
+                    <ErrorCard errorMessage={itemError.statusText} />
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
@@ -38,7 +38,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     to={`/production/reports/triggers?jobref=${reportData.jobref}&citCode=${reportData.citcode}`}
                                 >
                                     From jobref {reportData.jobref} CIT {reportData.citName}
-                                </Link>                                
+                                </Link>
                                 <FactList>
                                     <FactListItem
                                         header={reportData.partNumber}
@@ -47,7 +47,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     <FactListItem
                                         header="Qty Free"
                                         secondary="Good stock available to use"
-                                        avatar={reportData.qtyFree}
+                                        avatar={<span> reportData.qtyFree </span>}
                                     >
                                         <FactListDetails
                                             details={[
@@ -72,7 +72,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     <FactListItem
                                         header="Qty Being Built"
                                         secondary="Outstanding works order qty"
-                                        avatar={reportData.qtyBeingBuilt}
+                                        avatar={<span> reportData.qtyBeingBuilt </span>}
                                     >
                                         <WorksOrderList
                                             worksOrders={reportData.outstandingWorksOrders}
@@ -81,19 +81,19 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     <FactListItem
                                         header="Back-Order Requirement"
                                         secondary="Required for sales customers back orders"
-                                        avatar={reportData.reqtForSalesOrdersBE}
+                                        avatar={<span> reportData.reqtForSalesOrdersBE </span>}
                                     >
-                                        <Fragment>
+                                        <span>
                                             <SalesOrderList
                                                 salesOrders={reportData.productionBackOrders}
                                             />
-                                        </Fragment>
+                                        </span>
                                     </FactListItem>
                                     <FactListItem
                                         header="Required for Internal Customers"
                                         secondary="Required to satisfy all your internal customers"
-                                        avatar={reportData.reqtForInternalCustomersGBI}
-                                        >
+                                        avatar={<span>reportData.reqtForInternalCustomersGBI</span>}
+                                    >
                                         <WhereUsedAssembliesList
                                             assemblies={reportData.whereUsedAssemblies}
                                         />
@@ -101,7 +101,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     <FactListItem
                                         header="Trigger Level"
                                         secondary={`You should have at least this in stock after customers have been satisfied. ${reportData.triggerLevelText}`}
-                                        avatar={reportData.effectiveTriggerLevel}
+                                        avatar={<span> reportData.effectiveTriggerLevel </span>}
                                     >
                                         <FactListDetails
                                             details={[
@@ -123,19 +123,23 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     <FactListItem
                                         header="Kanban Size"
                                         secondary="You must always build in multiples of this"
-                                        avatar={reportData.kanbanSize}
+                                        avatar={<span> reportData.kanbanSize </span>}
                                     />
                                     {reportData.remainingBuild ? (
                                         <FactListItem
                                             header="Remaining Fixed Build"
                                             secondary="The fixed build for the next 7 days minus what has already been built"
-                                            avatar={reportData.remainingBuild}
+                                            avatar={<span> reportData.remainingBuild </span>}
                                         />
                                     ) : (
                                         <FactListItem
                                             header="Build"
                                             secondary="Build this to satisfy internal and external customers, and trigger level"
-                                            avatar={reportData.reqtForInternalAndTriggerLevelBT}
+                                            avatar={
+                                                <span>
+                                                    reportData.reqtForInternalAndTriggerLevelBT
+                                                </span>
+                                            }
                                         >
                                             <FactListDetails
                                                 details={[
@@ -154,7 +158,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     <FactListItem
                                         header="Priority"
                                         secondary={priorityText(reportData.priority)}
-                                        avatar={reportData.priority}
+                                        avatar={<span> reportData.priority </span>}
                                     >
                                         <FactListDetails
                                             details={[

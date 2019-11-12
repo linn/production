@@ -8,9 +8,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
 function FactListItem({ children, header, secondary, avatar }) {
-
-    function showAvatar(avatar) {
-        if (avatar === 0) return true;
+    function showAvatar() {
+        if (avatar === 0) return '0';
         return avatar;
     }
 
@@ -27,10 +26,13 @@ function FactListItem({ children, header, secondary, avatar }) {
         <Fragment>
             <ListItem button onClick={handleClick}>
                 <ListItemAvatar>
-                    {showAvatar(avatar) ? <Avatar>{avatar}</Avatar> : ''}
+                    <Fragment>
+                        {children ? !open ? <ExpandLess /> : <ExpandMore /> : <Fragment />}
+                        {showAvatar(avatar) ? avatar : <Fragment />}{' '}
+                    </Fragment>
                 </ListItemAvatar>
                 <ListItemText primary={header} secondary={secondary} />
-                {children ? !open ? <ExpandLess /> : <ExpandMore /> : ''}
+                {children ? !open ? <ExpandLess /> : <ExpandMore /> : <Fragment />}
             </ListItem>
             <Collapse in={!open} timeout="auto" unmountOnExit>
                 {children}

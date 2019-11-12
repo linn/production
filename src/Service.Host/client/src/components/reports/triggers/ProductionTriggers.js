@@ -26,21 +26,16 @@ function ProductionTriggers({
     const [citOptions, setCitOptions] = useState(['']);
     const [jobref, setJobref] = useState('');
 
+    const citsFormatted = () => cits.filter(excludeInvalidCits).map(cit => ({
+        id: cit.code,
+        displayText: cit.name
+    }));
+
     function excludeInvalidCits(cit) {
         return !cit.dateInvalid;
     }
 
-    useEffect(() => {
-        if (cits !== null) {
-            const citsFormatted = cits.filter(excludeInvalidCits).map(cit => ({
-                id: cit.code,
-                displayText: cit.name
-            }));
-
-            setCitOptions([{ id: '', displayText: '' }, ...citsFormatted]);
-        }
-    }, [cits]);
-
+   
     const handleLengthChange = (propertyName, newValue) => {
         setReportFormat(newValue);
     };
@@ -100,9 +95,10 @@ function ProductionTriggers({
                                         <Dropdown
                                             label="CIT"
                                             propertyName="cit"
-                                            items={citOptions}
+                                            items={citsFormatted()}
                                             value={reportData.citCode || ''}
                                             onChange={handleCitChange}
+                                            allowNoValue
                                         />
                                     </Grid>
                                     <Grid item xs={2}>

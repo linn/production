@@ -33,7 +33,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
     }
 
     return (
-        <Grid xs={12}>
+        <Grid item xs={12}>
             <Table size="small">
                 <TableHead>
                     <TableRow>
@@ -64,29 +64,29 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                         <TabCell index={0} value={tabValue} />
                         <TabCell index={0} value={tabValue} />
                         <TabCell index={0} value={tabValue} />
-                        <TabCell index={0} value={tabValue} align="centre" colSpan={2}>
+                        <TabCell index={0} value={tabValue} align="center" colSpan={2}>
                             Days
                         </TabCell>
-                        <TabCell index={0} value={tabValue} align="centre" colSpan={2}>
+                        <TabCell index={0} value={tabValue} align="center" colSpan={2}>
                             Can Do
                         </TabCell>
                         <TabCell index={0} value={tabValue} />
                         <TabCell index={0} value={tabValue} />
-                        <TabCell index={1} value={tabValue} align="centre" colSpan={2}>
+                        <TabCell index={1} value={tabValue} align="center" colSpan={2}>
                             Delivery Perf%
                         </TabCell>
                         <TabCell index={1} value={tabValue} />
-                        <TabCell index={2} value={tabValue} align="centre" colSpan={4}>
+                        <TabCell index={2} value={tabValue} align="center" colSpan={4}>
                             No of shortages (1/2s)
                         </TabCell>
-                        <TabCell index={3} value={tabValue} align="centre" colSpan={3}>
+                        <TabCell index={3} value={tabValue} align="center" colSpan={3}>
                             Production Back Orders
                         </TabCell>
-                        <TabCell index={4} value={tabValue} align="centre" colSpan={2}>
+                        <TabCell index={4} value={tabValue} align="center" colSpan={2}>
                             Built This Week
                         </TabCell>
                         <TabCell index={4} value={tabValue} />
-                        <TabCell index={5} value={tabValue} align="centre" colSpan={3}>
+                        <TabCell index={5} value={tabValue} align="center" colSpan={3}>
                             Stock
                         </TabCell>
                     </TableRow>
@@ -167,7 +167,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                 </TableHead>
                 <TableBody>
                     {citsData.map(m => (
-                        <TableRow>
+                        <TableRow key={m.citCode}>
                             <TableCell>{m.citName}</TableCell>
                             <LinkTabCell
                                 index={0}
@@ -354,12 +354,12 @@ function ProductionMeasuresCits({ citsData, infoData }) {
 }
 
 ProductionMeasuresCits.propTypes = {
-    citsData: PropTypes.shape({}),
+    citsData: PropTypes.arrayOf(PropTypes.shape({})),
     infoData: PropTypes.shape({})
 };
 
 ProductionMeasuresCits.defaultProps = {
-    citsData: null,
+    citsData: [],
     infoData: null
 };
 

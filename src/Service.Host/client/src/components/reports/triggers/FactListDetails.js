@@ -24,7 +24,7 @@ function FactListDetails({ details }) {
 }
 
 FactListDetails.propTypes = {
-    details: PropTypes.shape([{}])
+    details: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 FactListDetails.defaultProps = {
