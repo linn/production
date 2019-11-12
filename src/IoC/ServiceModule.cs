@@ -101,8 +101,7 @@
             builder.RegisterType<BoardTestsService>()
                 .As<IFacadeService<BoardTest, BoardTestKey, BoardTestResource, BoardTestResource>>();
             builder.RegisterType<BoardTestReportFacadeService>().As<IBoardTestReportFacadeService>();
-            builder.RegisterType<SupplierService>()
-                .As<IFacadeService<Supplier, int, SupplierResource, SupplierResource>>();
+            builder.RegisterType<PartFailSupplierService>().As<IPartFailSupplierService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

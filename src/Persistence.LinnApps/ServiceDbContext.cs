@@ -105,7 +105,7 @@
         public DbQuery<PartFailLog> PartFailLogs { get; set; }
 
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
-        
+
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public DbSet<ProductData> ProductData { get; set; }
@@ -114,7 +114,7 @@
 
         public DbSet<TestMachine> TestMachines { get; set; }
 
-        public DbQuery<Supplier> Suppliers { get; set; }
+        public DbQuery<PartFailSupplierView> PartFailSuppliersView { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
@@ -170,7 +170,7 @@
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
-            this.QuerySuppliers(builder);
+            this.QueryPartFailSuppliersView(builder);
 
             base.OnModelCreating(builder);
         }
@@ -435,13 +435,12 @@
             q.Property(t => t.DepartmentCode).HasColumnName("DEPARTMENT_CODE");
         }
 
-        private void QuerySuppliers(ModelBuilder builder)
+        private void QueryPartFailSuppliersView(ModelBuilder builder)
         {
-            var q = builder.Query<Supplier>();
-            q.ToView("SUPPLIERS");
+            var q = builder.Query<PartFailSupplierView>();
+            q.ToView("V_PART_FAIL_SUPPLIERS");
             q.Property(t => t.SupplierId).HasColumnName("SUPPLIER_ID");
             q.Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
-            q.Property(t => t.DateClosed).HasColumnName("DATE_CLOSED");
         }
 
         private void QueryPartFailLogs(ModelBuilder builder)
@@ -825,6 +824,7 @@
             builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
                 .HasForeignKey(d => d.OrderNumber);
         }
+
         private void BuildPurchaseOrderDetails(ModelBuilder builder)
         {
             builder.Entity<PurchaseOrderDetail>().ToTable("PL_ORDER_DETAILS");
@@ -832,7 +832,9 @@
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
-        }        private void QueryAccountingCompanies(ModelBuilder builder)
+        }
+
+        private void QueryAccountingCompanies(ModelBuilder builder)
         {
             var q = builder.Query<AccountingCompany>();
             q.ToView("ACCOUNTING_COMPANIES");

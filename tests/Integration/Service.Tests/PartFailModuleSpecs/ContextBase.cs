@@ -6,7 +6,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Measures;
-
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
@@ -29,6 +29,8 @@
 
         protected IPartsReportFacadeService PartsReportFacadeService { get; private set; }
 
+        protected IPartFailSupplierService PartFailSupplierService { get; private set; }
+
         [SetUp]
         public void EstablishContext()
         {
@@ -41,6 +43,7 @@
                 Substitute
                     .For<IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource>>();
             this.PartsReportFacadeService = Substitute.For<IPartsReportFacadeService>();
+            this.PartFailSupplierService = Substitute.For<IPartFailSupplierService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
@@ -49,6 +52,7 @@
                     with.Dependency(this.FaultCodeService);
                     with.Dependency(this.ErrorTypeService);
                     with.Dependency(this.PartsReportFacadeService);
+                    with.Dependency(this.PartFailSupplierService);
                     with.Dependency<IResourceBuilder<PartFail>>(new PartFailResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<PartFail>>>(new PartFailsResourceBuilder());
                     with.Dependency<IResourceBuilder<PartFailErrorType>>(new PartFailErrorTypeResourceBuilder());
@@ -58,6 +62,9 @@
                     with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<ResultsModel>>>(
                         new ResultsModelsResourceBuilder());
+                    with.Dependency<IResourceBuilder<PartFailSupplierView>>(new PartFailSupplierResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<PartFailSupplierView>>>(
+                        new PartFailSuppliersResourceBuilder());
                     with.Module<PartFailsModule>();
                     with.ResponseProcessor<PartFailResponseProcessor>();
                     with.ResponseProcessor<PartFailsResponseProcessor>();
@@ -67,6 +74,8 @@
                     with.ResponseProcessor<PartFailFaultCodesResponseProcessor>();
                     with.ResponseProcessor<ResultsModelsJsonResponseProcessor>();
                     with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
+                    with.ResponseProcessor<PartFailSupplierResponseProcessor>();
+                    with.ResponseProcessor<PartFailSuppliersResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {
