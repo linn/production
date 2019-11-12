@@ -44,7 +44,15 @@ function TriggersList({ triggers, jobref, reportFormat }) {
                         </TableCell>
                         <TableCell>{m.priority}</TableCell>
                         <TableCell>
-                            <Link to={`/production/reports/wwd?part-number=${m.partNumber}`}>
+                            <Link
+                                to={`/production/reports/wwd?part-number=${
+                                    m.partNumber
+                                }&ptlJobref=${jobref}&qty=${
+                                    m.remainingBuild
+                                        ? m.remainingBuild
+                                        : m.reqtForInternalAndTriggerLevelBT
+                                }`}
+                            >
                                 {m.canBuild}
                             </Link>
                         </TableCell>

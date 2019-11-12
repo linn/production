@@ -42,6 +42,7 @@ import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
 import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetailsReport';
 import ProductionTriggersReport from '../containers/reports/triggers/ProductionTriggersReport';
 import ProductionTriggersFacts from '../containers/reports/triggers/ProductionTriggersFacts';
+import WwdTriggerReport from '../containers/reports/wwd/WwdTriggerReport';
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
@@ -195,6 +196,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/triggers/facts"
                                         component={ProductionTriggersFacts}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/wwd"
+                                        component={WwdTriggerReport}
                                     />
                                     <Route
                                         exact
