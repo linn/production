@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
 import {
     Loading,
     CreateButton,
@@ -9,22 +8,6 @@ import {
     PaginatedTable
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '90%'
-    },
-    button: {
-        marginTop: theme.spacing(1),
-        marginRight: theme.spacing(1)
-    },
-    actionsContainer: {
-        marginBottom: theme.spacing(2)
-    },
-    resetContainer: {
-        padding: theme.spacing(3)
-    }
-}));
 
 const BoardFailTypes = ({ loading, itemError, history, items }) => {
     const [pageOptions, setPageOptions] = useState({
