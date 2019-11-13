@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
-import { ReportSelectors, getItemErrorDetailMessage } from '@linn-it/linn-form-components-library';
+import {
+    ReportSelectors,
+    getItemErrorDetailMessage,
+    initialiseOnMount
+} from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import initialiseOnMount from '../initialiseOnMount';
 import PartFailDetailsReport from '../../components/reports/PartFailDetailsReport';
 import actions from '../../actions/partFailDetailsReportActions';
 import config from '../../config';

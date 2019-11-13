@@ -9,7 +9,6 @@ import Page from '../../containers/Page';
 export default function PartFailDetailsReport({ reportData, loading, options, error }) {
     return (
         <Page>
-            {console.log(options)}
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <Title text="Part Fail Details Report" />
