@@ -101,6 +101,7 @@
             builder.RegisterType<BoardTestsService>()
                 .As<IFacadeService<BoardTest, BoardTestKey, BoardTestResource, BoardTestResource>>();
             builder.RegisterType<BoardTestReportFacadeService>().As<IBoardTestReportFacadeService>();
+            builder.RegisterType<PartFailSupplierService>().As<IPartFailSupplierService>();
             builder.RegisterType<WwdResultFacadeService>().As<IWwdResultFacadeService>();
             builder.RegisterType<WorksOrderLabelsService>()
                 .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
