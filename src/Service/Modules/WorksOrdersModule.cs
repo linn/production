@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Service.Modules
 {
-    using System;
-
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.WorksOrders;
@@ -12,7 +10,6 @@
 
     using Nancy;
     using Nancy.ModelBinding;
-    using Nancy.Routing;
     using Nancy.Security;
 
     public sealed class WorksOrdersModule : NancyModule

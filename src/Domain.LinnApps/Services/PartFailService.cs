@@ -43,7 +43,7 @@
             {
                 var purchaseOrder = this.purchaseOrderRepository.FindById((int)candidate.PurchaseOrderNumber) 
                     ?? throw new InvalidPurchaseOrderException("Invalid Purchase Order Number Supplied");
-                
+
                 if (!purchaseOrder.ContainsPart(candidate.Part?.PartNumber))
                 {
                     throw new InvalidPurchaseOrderException("Part Number supplied does not match Purchase Order");
