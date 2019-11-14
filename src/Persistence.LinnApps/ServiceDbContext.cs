@@ -115,6 +115,8 @@
 
         public DbSet<LabelType> LabelTypes { get; set; }
 
+        public DbQuery<WwdDetail> WwdDetails { get; set; }
+
         public DbQuery<PartFailSupplierView> PartFailSuppliersView { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
