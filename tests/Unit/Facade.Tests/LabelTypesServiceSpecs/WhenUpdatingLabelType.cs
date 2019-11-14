@@ -39,7 +39,7 @@
                                      TestPrinter = "testprintr"
                                  };
 
-            this.resource = new LabelTypeResource()
+            this.resource = new LabelTypeResource
                                 {
                                     LabelTypeCode = "newTcode",
                                     BarcodePrefix = "pf",
