@@ -3,8 +3,8 @@
     using System;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;
@@ -25,15 +25,19 @@
 
         private readonly IPartsReportFacadeService partsReportFacadeService;
 
+        private readonly IPartFailSupplierService partFailSupplierService;
+
         public PartFailsModule(
             IFacadeService<PartFail, int, PartFailResource, PartFailResource> partFailService, 
             IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource> faultCodeService, 
             IFacadeService<PartFailErrorType, string, PartFailErrorTypeResource, PartFailErrorTypeResource> errorTypeService,
-            IPartsReportFacadeService partsReportFacadeService)
+            IPartsReportFacadeService partsReportFacadeService,
+            IPartFailSupplierService partFailSupplierService)
         {
             this.partFailService = partFailService;
             this.errorTypeService = errorTypeService;
             this.partsReportFacadeService = partsReportFacadeService;
+            this.partFailSupplierService = partFailSupplierService;
             this.faultCodeService = faultCodeService;
 
             this.Get("/production/quality/part-fails/{id}", parameters => this.GetById(parameters.id));
@@ -51,8 +55,10 @@
             this.Put("/production/quality/part-fail-fault-codes/{code*}", parameters => this.UpdateFaultCode(parameters.code));
             this.Post("/production/quality/part-fail-fault-codes", parameters => this.AddFaultCode());
 
+            this.Get("/production/quality/part-fails/detail-report/report", _ => this.GetPartFailDetailsReport());
             this.Get("/production/quality/part-fails/detail-report", _ => this.GetPartFailsDetailReportOptions());
-            this.Get("/production/quality/part-fails/detail-report/report", _ => this.GetPartFailsDetailReport());
+
+            this.Get("/production/quality/part-fails/suppliers", _ => this.GetPartFailSuppliers());
         }
 
         private object GetById(int id)
@@ -201,7 +207,7 @@
             return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
 
-        private object GetPartFailsDetailReport()
+        private object GetPartFailDetailsReport()
         {
             var resource = this.Bind<PartFailDetailsReportRequestResource>();
             var results = this.partsReportFacadeService.GetPartFailDetailsReport(
@@ -212,6 +218,15 @@
                 resource.FaultCode,
                 resource.PartNumber,
                 resource.Department);
+            return this.Negotiate
+                .WithModel(results)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object GetPartFailSuppliers()
+        {
+            var results = this.partFailSupplierService.GetAll();
             return this.Negotiate
                 .WithModel(results)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

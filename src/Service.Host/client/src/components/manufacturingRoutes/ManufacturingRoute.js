@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect } from 'react';
+﻿import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -8,7 +8,8 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
-    TableWithInlineEditing
+    TableWithInlineEditing,
+    utilities
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -30,8 +31,9 @@ function ManufacturingRoute({
 }) {
     const [manufacturingRoute, setManufacturingRoute] = useState({});
     const [prevManufacturingRoute, setPrevManufacturingRoute] = useState({});
+    const [allowedToEdit, setAllowedToEdit] = useState(false);
 
-    const creating = () => editStatus === 'create';
+    const creating = useCallback(() => editStatus === 'create', [editStatus]);
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
 
@@ -40,7 +42,9 @@ function ManufacturingRoute({
             setManufacturingRoute(item);
             setPrevManufacturingRoute(item);
         }
-    }, [item, prevManufacturingRoute]);
+
+        setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
+    }, [item, prevManufacturingRoute, editStatus, creating]);
 
     const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
     const descriptionInvalid = () => !manufacturingRoute.description;
@@ -134,7 +138,7 @@ function ManufacturingRoute({
                 content={manufacturingRoute.operations.map(o => ({ ...o, id: o.manufacturingId }))}
                 updateContent={updateOp}
                 editStatus={editStatus}
-                allowedToEdit
+                allowedToEdit={allowedToEdit}
             />
         );
     };
@@ -179,7 +183,7 @@ function ManufacturingRoute({
                                 }
                                 required
                                 onChange={handleResourceFieldChange}
-                                propertyName="RouteCode"
+                                propertyName="routeCode"
                             />
                         </Grid>
                         <Grid item xs={8}>

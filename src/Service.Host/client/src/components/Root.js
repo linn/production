@@ -75,6 +75,8 @@ import WorksOrderBatchNotes from '../containers/worksOrders/WorksOrderBatchNotes
 import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
 import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
 import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
+import PartFailDetailsReportOptions from '../containers/reports/PartFailDetailsReportOptions';
+import PartFailDetailsReport from '../containers/reports/PartFailDetailsReport';
 import WorksOrderLabels from '../containers/worksOrders/WorksOrderLabels';
 import WorksOrderLabel from '../containers/worksOrders/WorksOrderLabel';
 import CreateWorksOrderLabel from '../containers/worksOrders/CreateWorksOrderLabel';
@@ -370,6 +372,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/quality/part-fails/create"
                                         component={CreatePartFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/detail-report/report"
+                                        component={PartFailDetailsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/detail-report"
+                                        component={PartFailDetailsReportOptions}
                                     />
                                     <Route
                                         exact

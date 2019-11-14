@@ -105,7 +105,7 @@
         public DbQuery<PartFailLog> PartFailLogs { get; set; }
 
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
-        
+
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public DbSet<ProductData> ProductData { get; set; }
@@ -114,9 +114,13 @@
 
         public DbSet<TestMachine> TestMachines { get; set; }
 
+        public DbQuery<PartFailSupplierView> PartFailSuppliersView { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; } 
+
+        public DbQuery<WwdDetail> WwdDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -168,6 +172,8 @@
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
+            this.QueryPartFailSuppliersView(builder);
+            this.QueryWwdDetails(builder);
             base.OnModelCreating(builder);
         }
 
@@ -431,6 +437,14 @@
             q.Property(t => t.DepartmentCode).HasColumnName("DEPARTMENT_CODE");
         }
 
+        private void QueryPartFailSuppliersView(ModelBuilder builder)
+        {
+            var q = builder.Query<PartFailSupplierView>();
+            q.ToView("V_PART_FAIL_SUPPLIERS");
+            q.Property(t => t.SupplierId).HasColumnName("SUPPLIER_ID");
+            q.Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
+        }
+
         private void QueryPartFailLogs(ModelBuilder builder)
         {
             var q = builder.Query<PartFailLog>();
@@ -665,8 +679,7 @@
         {
             var e = builder.Entity<ManufacturingOperation>();
             e.ToTable("MFG_OPERATIONS");
-            e.HasKey(s => s.RouteCode);
-            e.HasKey(s => s.ManufacturingId);
+            builder.Entity<ManufacturingOperation>().HasKey(d => new { d.ManufacturingId, d.RouteCode });
             e.Property(s => s.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(20);
             e.Property(s => s.ManufacturingId).HasColumnName("MFG_ID").HasMaxLength(8);
             e.Property(s => s.OperationNumber).HasColumnName("OPERATION_NUMBER").HasMaxLength(38);
@@ -812,6 +825,7 @@
             builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
                 .HasForeignKey(d => d.OrderNumber);
         }
+
         private void BuildPurchaseOrderDetails(ModelBuilder builder)
         {
             builder.Entity<PurchaseOrderDetail>().ToTable("PL_ORDER_DETAILS");
@@ -819,7 +833,9 @@
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
-        }        private void QueryAccountingCompanies(ModelBuilder builder)
+        }
+
+        private void QueryAccountingCompanies(ModelBuilder builder)
         {
             var q = builder.Query<AccountingCompany>();
             q.ToView("ACCOUNTING_COMPANIES");
@@ -868,6 +884,23 @@
             q.Property(e => e.BomLevel).HasColumnName("BOM_LEVEL");
             q.Property(e => e.ReqtForPriorityBuildBE).HasColumnName("BE");
             q.Property(e => e.RemainingBuild).HasColumnName("REMAINING_BUILD");
+        }
+
+        private void QueryWwdDetails(ModelBuilder builder)
+        {
+            var q = builder.Query<WwdDetail>();
+            q.ToView("WWD_EF_VIEW");
+            q.Property(e => e.WwdJobId).HasColumnName("JOB_ID");
+            q.Property(e => e.PtlJobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(e => e.QtyKitted).HasColumnName("QTY_KITTED");
+            q.Property(e => e.QtyAtLocation).HasColumnName("QTY_AT_LOCATION");
+            q.Property(e => e.QtyReserved).HasColumnName("QTY_RESERVED");
+            q.Property(e => e.LocationId).HasColumnName("LOCATION_ID");
+            q.Property(e => e.PalletNumber).HasColumnName("PALLET_NUMBER");
+            q.Property(e => e.Remarks).HasColumnName("REMARKS").HasMaxLength(200);
+            q.Property(e => e.StoragePlace).HasColumnName("STORAGE_PLACE").HasMaxLength(41);
         }
     }
 }
