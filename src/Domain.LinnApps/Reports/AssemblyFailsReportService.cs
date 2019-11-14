@@ -344,12 +344,12 @@
 
         private string GenerateValueDrillDown(AssemblyFailGroupBy groupBy, DateTime fromDate, DateTime toDate)
         {
-            return $"/production/reports/assembly-fails-details?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
+            return $"/production/reports/assembly-fails-details/report?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
         }
 
         private string GenerateColumnDrillDown(AssemblyFailGroupBy groupBy, DateTime fromDate, DateTime toDate)
         {
-            return $"/production/reports/assembly-fails-details?parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
+            return $"/production/reports/assembly-fails-details/report?parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
         }
 
         private string GenerateReportTitle(AssemblyFailGroupBy groupBy)
