@@ -14,7 +14,7 @@ import SalesOrderList from './SalesOrderList';
 import WhereUsedAssembliesList from './WhereUsedAssembliesList';
 import priorityText from './priorityText';
 
-function ProductionTriggerFacts({ reportData, loading, options, history, itemError }) {
+function ProductionTriggerFacts({ reportData, loading, itemError }) {
     return (
         <Page>
             <Grid container spacing={3} justify="center">
@@ -203,13 +203,16 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
 ProductionTriggerFacts.propTypes = {
     reportData: PropTypes.shape({}),
     loading: PropTypes.bool,
-    config: PropTypes.shape({})
+    config: PropTypes.shape({}),
+    history: PropTypes.shape({}).isRequired,
+    itemError: PropTypes.shape({})
 };
 
 ProductionTriggerFacts.defaultProps = {
     reportData: null,
     config: null,
-    loading: false
+    loading: false,
+    itemError: null
 };
 
 export default ProductionTriggerFacts;

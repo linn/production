@@ -16,4 +16,10 @@ TabCell.propTypes = {
     value: PropTypes.number
 };
 
+TabCell.defaultProps = {
+    children: null,
+    index: null,
+    value: null
+};
+
 export default TabCell;

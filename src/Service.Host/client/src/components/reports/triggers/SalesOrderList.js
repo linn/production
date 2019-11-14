@@ -38,8 +38,7 @@ function SalesOrderList({ salesOrders }) {
 }
 
 SalesOrderList.propTypes = {
-    details: PropTypes.arrayOf(PropTypes.shape({}))
-
+    salesOrders: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 SalesOrderList.defaultProps = {
@@ -47,4 +46,3 @@ SalesOrderList.defaultProps = {
 };
 
 export default SalesOrderList;
-
