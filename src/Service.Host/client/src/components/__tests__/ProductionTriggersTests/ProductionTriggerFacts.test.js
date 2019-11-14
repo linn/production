@@ -28,11 +28,19 @@ describe('<ProductionTriggerFacts />', () => {
             citName: 'A CIT',
             triggerLevel: 0,
             nettSalesOrders: 0,
+            reqtForInternalAndTriggerLevelBT: 1,
+            qtyFree: 0,
+            qtyBeingBuilt: 1,
             priority: '1',
+            reqtForSalesOrdersBE: 1,
+            reqtForInternalCustomersGBI: 1,
+            effectiveTriggerLevel: 1,
+            kanbanSize: 10,
             outstandingWorksOrders: [],
+            remainingBuild: 1,
             productionBackOrders: [],
             whereUsedAssemblies: []
-        }
+        };
 
         it('should not display spinner', () => {
             const { queryByRole } = render(
@@ -43,7 +51,7 @@ describe('<ProductionTriggerFacts />', () => {
 
         describe('When facts', () => {
             it('should display facts', () => {
-                const { getByText, queryByText } = render(
+                const { getByText } = render(
                     <ProductionTriggerFacts {...defaultProps} reportData={defaultReportData} />
                 );
                 const akubPart = getByText('AKUB/B');
@@ -51,4 +59,4 @@ describe('<ProductionTriggerFacts />', () => {
             });
         });
     });
-}); 
+});

@@ -18,6 +18,7 @@ import assemblyFailFaultCodesSelectors from '../../selectors/assemblyFailFaultCo
 import getProfile from '../../selectors/userSelectors';
 import smtShiftsSelectors from '../../selectors/smtShiftsSelectors';
 import smtShiftsActions from '../../actions/smtShiftsActions';
+import assemblyFailFaultCodeSelectors from '../../selectors/assemblyFailFaultCodeSelectors';
 
 const mapStateToProps = (state, { match }) => ({
     item: assemblyFailSelectors.getItem(state),
@@ -37,9 +38,13 @@ const mapStateToProps = (state, { match }) => ({
     pcasRevisions: pcasRevisionsSelectors.getItems(state),
     pcasRevisionsLoading: pcasRevisionsSelectors.getLoading(state),
     employees: employeesSelectors.getItems(state),
+    employeesLoading: employeesSelectors.getLoading(state),
     cits: citsSelectors.getItems(state),
+    citsLoading: citsSelectors.getLoading(state),
     smtShifts: smtShiftsSelectors.getItems(state),
-    faultCodes: assemblyFailFaultCodesSelectors.getItems(state)
+    smtShiftsLoading: smtShiftsSelectors.getLoading(state),
+    faultCodes: assemblyFailFaultCodesSelectors.getItems(state),
+    faultCodesLoading: assemblyFailFaultCodeSelectors.getLoading(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {
