@@ -1,9 +1,11 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Collections.Generic;
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
+    using Linn.Common.Reporting.Resources.Extensions;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Extensions;
     using Linn.Production.Resources.RequestResources;
@@ -73,6 +75,24 @@
                     resource.CitCode,
                     resource.Board,
                     resource.Person));
+        }
+
+        public IResult<IEnumerable<IEnumerable<string>>> GetAssemblyFailsDetailsReportExport(AssemblyFailsDetailsReportRequestResource resource)
+        {
+            DateTime from;
+            DateTime to;
+            try
+            {
+                from = DateTime.Parse(resource.FromDate);
+                to = DateTime.Parse(resource.ToDate);
+            }
+            catch (Exception)
+            {
+                return new BadRequestResult<IEnumerable<IEnumerable<string>>>("Invalid dates supplied to assembly fails details report");
+            }
+
+            return new SuccessResult<IEnumerable<IEnumerable<string>>>(
+                this.reportService.GetAssemblyFailsDetailsReportExport(from, to).ConvertToCsvList());
         }
     }
 }
