@@ -113,9 +113,9 @@
 
         public DbSet<TestMachine> TestMachines { get; set; }
 
-        public DbQuery<WwdDetail> WwdDetails { get; set; }
-
         public DbSet<LabelType> LabelTypes { get; set; }
+
+        public DbQuery<PartFailSupplierView> PartFailSuppliersView { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
@@ -171,6 +171,7 @@
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
+            this.QueryPartFailSuppliersView(builder);
             this.QueryWwdDetails(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
@@ -434,6 +435,14 @@
             q.ToView("EMP_DEPT_VIEW");
             q.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
             q.Property(t => t.DepartmentCode).HasColumnName("DEPARTMENT_CODE");
+        }
+
+        private void QueryPartFailSuppliersView(ModelBuilder builder)
+        {
+            var q = builder.Query<PartFailSupplierView>();
+            q.ToView("V_PART_FAIL_SUPPLIERS");
+            q.Property(t => t.SupplierId).HasColumnName("SUPPLIER_ID");
+            q.Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
         }
 
         private void QueryPartFailLogs(ModelBuilder builder)
