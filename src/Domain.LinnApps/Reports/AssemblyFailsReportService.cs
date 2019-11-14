@@ -169,6 +169,8 @@
 
             reportLayout.SetGridData(values);
             var model = reportLayout.GetResultsModel();
+            model.RowDrillDownTemplates.Add(new DrillDownModel("Id", "/production/quality/assembly-fails/{rowId}"));
+            model.RowHeader = "Id";
 
             return model;
         }
