@@ -131,7 +131,7 @@ function PartFail({
     };
 
     const handleBackClick = () => {
-        history.push('/production/quality/part-fails');
+        history.goBack();
     };
 
     const useStyles = makeStyles(theme => ({
