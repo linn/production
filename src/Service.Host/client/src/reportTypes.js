@@ -1,13 +1,13 @@
 import { ItemType } from '@linn-it/linn-form-components-library';
 
 export const buildsSummaryReport = new ItemType(
-    'buildsSummary',
+    'buildsSummaryReport',
     'BUILDS_SUMMARY_REPORT',
     '/production/reports/builds-summary'
 );
 
 export const buildsDetailReport = new ItemType(
-    'buildsDetail',
+    'buildsDetailReport',
     'BUILDS_DETAIL_REPORT',
     '/production/reports/builds-detail'
 );
