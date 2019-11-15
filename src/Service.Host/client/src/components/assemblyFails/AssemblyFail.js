@@ -30,12 +30,18 @@ function AssemblyFail({
     worksOrdersSearchLoading,
     clearWorksOrdersSearch,
     boardParts,
+    boardPartsLoading,
     pcasRevisions,
+    pcasRevisionsLoading,
     fetchPcasRevisionsForBoardPart,
     cits,
+    citsLoading,
     smtShifts,
+    smtShiftsLoading,
     employees,
+    employeesLoading,
     faultCodes,
+    faultCodesLoading,
     addItem,
     updateItem,
     itemId,
@@ -51,10 +57,15 @@ function AssemblyFail({
     });
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
 
+    const uniquePcasRevisions = () =>
+        [...new Set(pcasRevisions.map(r => r.cref))]
+            .map(i => pcasRevisions.find(r => r.cref === i.cref))
+            .filter(i => i?.cref);
+
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
-    const aoiEscapeValues = ['', 'Y', 'N'];
+    const aoiEscapeValues = ['Y', 'N'];
     const inputInvalid = () => !assemblyFail.worksOrderNumber;
     const completed = () => !!item?.dateTimeComplete;
 
@@ -412,19 +423,14 @@ function AssemblyFail({
                                             label="Fault Code"
                                             propertyName="faultCode"
                                             disabled={completed()}
-                                            items={
-                                                faultCodes.length > 0
-                                                    ? [{ id: '', displayText: '' }].concat(
-                                                          faultCodes.map(c => ({
-                                                              id: c.faultCode,
-                                                              displayText: `${c.faultCode} - ${c.description}`
-                                                          }))
-                                                      )
-                                                    : ['']
-                                            }
+                                            items={faultCodes.map(c => ({
+                                                id: c.faultCode,
+                                                displayText: `${c.faultCode} - ${c.description}`
+                                            }))}
                                             fullWidth
-                                            value={assemblyFail.faultCode?.toString()}
+                                            value={assemblyFail.faultCode || ''}
                                             onChange={handleFieldChange}
+                                            optionsLoading={faultCodesLoading}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
@@ -432,19 +438,14 @@ function AssemblyFail({
                                             label="Shift"
                                             propertyName="shift"
                                             disabled={smtShifts?.length === 0 || completed()}
-                                            items={
-                                                smtShifts
-                                                    ? [''].concat(
-                                                          smtShifts.map(s => ({
-                                                              id: s.shift,
-                                                              displayText: `${s.shift}  -  ${s.description}`
-                                                          }))
-                                                      )
-                                                    : ['']
-                                            }
+                                            items={smtShifts.map(s => ({
+                                                id: s.shift,
+                                                displayText: `${s.shift}  -  ${s.description}`
+                                            }))}
                                             fullWidth
-                                            value={assemblyFail.shift}
+                                            value={assemblyFail.shift || ''}
                                             onChange={handleFieldChange}
+                                            optionsLoading={smtShiftsLoading}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
@@ -464,7 +465,7 @@ function AssemblyFail({
                                             disabled={completed()}
                                             items={aoiEscapeValues}
                                             fullWidth
-                                            value={assemblyFail.aoiEscape?.toString()}
+                                            value={assemblyFail.aoiEscape || ''}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -473,10 +474,14 @@ function AssemblyFail({
                                             label="Board Part"
                                             propertyName="boardPartNumber"
                                             disabled={completed()}
-                                            items={[''].concat(boardParts?.map(p => p.partNumber))}
+                                            items={boardParts.map(p => ({
+                                                id: p.partNumber,
+                                                displayText: p.partNumber
+                                            }))}
                                             fullWidth
-                                            value={assemblyFail.boardPartNumber?.toString()}
+                                            value={assemblyFail.boardPartNumber || ''}
                                             onChange={handleFieldChange}
+                                            optionsLoading={boardPartsLoading}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
@@ -493,23 +498,15 @@ function AssemblyFail({
                                         <Dropdown
                                             label="Circuit Ref"
                                             propertyName="circuitRef"
-                                            disabled={
-                                                (pcasRevisions && pcasRevisions.length === 0) ||
-                                                completed()
-                                            }
-                                            items={
-                                                pcasRevisions
-                                                    ? [''].concat(
-                                                          pcasRevisions.map(r => ({
-                                                              id: r.cref,
-                                                              displayText: `${r.cref}  -  ${r.partNumber}`
-                                                          }))
-                                                      )
-                                                    : ['']
-                                            }
+                                            disabled={pcasRevisions?.length === 0 || completed()}
+                                            items={pcasRevisions.map(p => ({
+                                                id: p.cref,
+                                                displayText: p.cref
+                                            }))}
                                             fullWidth
-                                            value={assemblyFail.circuitRef?.toString()}
+                                            value={assemblyFail.circuitRef || ''}
                                             onChange={handleFieldChange}
+                                            optionsLoading={pcasRevisionsLoading}
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
@@ -527,22 +524,16 @@ function AssemblyFail({
                                             label="CIT Responsible"
                                             propertyName="citResponsible"
                                             disabled={completed()}
-                                            items={
-                                                cits
-                                                    ? [''].concat(
-                                                          Array.from(
-                                                              new Set(
-                                                                  cits.map(c => ({
-                                                                      id: c.code,
-                                                                      displayText: `${c.code} - ${c.name}`
-                                                                  }))
-                                                              )
-                                                          )
-                                                      )
-                                                    : ['']
-                                            }
+                                            items={[
+                                                ...new Set(
+                                                    cits.map(c => ({
+                                                        id: c.code,
+                                                        displayText: `${c.code} - ${c.name}`
+                                                    }))
+                                                )
+                                            ]}
                                             fullWidth
-                                            value={assemblyFail.citResponsible?.toString()}
+                                            value={assemblyFail.citResponsible || ''}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -552,22 +543,14 @@ function AssemblyFail({
                                             type="number"
                                             propertyName="personResponsible"
                                             disabled={completed()}
-                                            items={
-                                                employees
-                                                    ? [''].concat(
-                                                          Array.from(
-                                                              new Set(
-                                                                  employees.map(c => ({
-                                                                      id: c.id,
-                                                                      displayText: c.fullName
-                                                                  }))
-                                                              )
-                                                          )
-                                                      )
-                                                    : ['']
-                                            }
+                                            items={employees
+                                                .filter(c => !!c.fullName)
+                                                .map(c => ({
+                                                    id: c.id,
+                                                    displayText: c.fullName
+                                                }))}
                                             fullWidth
-                                            value={assemblyFail.personResponsible?.toString()}
+                                            value={assemblyFail.personResponsible || ''}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -592,20 +575,14 @@ function AssemblyFail({
                                             propertyName="completedBy"
                                             type="number"
                                             disabled={completed()}
-                                            items={
-                                                employees
-                                                    ? [''].concat(
-                                                          employees
-                                                              .filter(c => !!c.fullName)
-                                                              .map(c => ({
-                                                                  id: c.id,
-                                                                  displayText: c.fullName
-                                                              }))
-                                                      )
-                                                    : ['']
-                                            }
+                                            items={employees
+                                                .filter(c => !!c.fullName)
+                                                .map(c => ({
+                                                    id: c.id,
+                                                    displayText: c.fullName
+                                                }))}
                                             fullWidth
-                                            value={assemblyFail.completedBy?.toString()}
+                                            value={assemblyFail.completedBy || ''}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -626,20 +603,15 @@ function AssemblyFail({
                                             type="number"
                                             propertyName="returnedBy"
                                             disabled={completed()}
-                                            items={
-                                                employees
-                                                    ? [''].concat(
-                                                          employees
-                                                              .filter(c => !!c.fullName)
-                                                              .map(c => ({
-                                                                  id: c.id,
-                                                                  displayText: c.fullName
-                                                              }))
-                                                      )
-                                                    : ['']
-                                            }
                                             fullWidth
-                                            value={assemblyFail.returnedBy?.toString()}
+                                            items={employees
+                                                .filter(c => !!c.fullName)
+                                                .map(c => ({
+                                                    id: c.id,
+                                                    displayText: c.fullName
+                                                }))}
+                                            value={assemblyFail.returnedBy}
+                                            optionsLoading={employeesLoading}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>

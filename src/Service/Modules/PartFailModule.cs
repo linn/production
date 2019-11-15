@@ -4,7 +4,6 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;

@@ -1,9 +1,8 @@
 ﻿import { connect } from 'react-redux';
-import { getItemError } from '@linn-it/linn-form-components-library';
+import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import PtlSettings from '../../components/productionTriggerLevels/PtlSettings';
 import ptlSettingsActions from '../../actions/ptlSettingsActions';
 import ptlSettingsSelectors from '../../selectors/ptlSettingsSelectors';
-import initialiseOnMount from '../initialiseOnMount';
 import startTriggerRunActions from '../../actions/startTriggerRunActions';
 import startTriggerRunSelectors from '../../selectors/startTriggerRunSelectors';
 import * as itemTypes from '../../itemTypes';

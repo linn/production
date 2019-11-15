@@ -15,7 +15,7 @@ function WorksOrderList({ worksOrders }) {
             <TableHead>
                 <TableRow>
                     <TableCell colSpan="4">Works Orders</TableCell>
-                </TableRow>                
+                </TableRow>
                 <TableRow>
                     <TableCell>Order Number</TableCell>
                     <TableCell>Qty</TableCell>
@@ -27,7 +27,7 @@ function WorksOrderList({ worksOrders }) {
                 {worksOrders.map(o => (
                     <TableRow>
                         <TableCell>
-                        <Link
+                            <Link
                                 component={RouterLink}
                                 to={`/production/works-orders/${o.orderNumber}`}
                             >
@@ -45,7 +45,7 @@ function WorksOrderList({ worksOrders }) {
 }
 
 WorksOrderList.propTypes = {
-    worksOrders: PropTypes.shape([{}])
+    worksOrders: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 WorksOrderList.defaultProps = {

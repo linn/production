@@ -20,5 +20,9 @@
             string citCode,
             string board,
             int? person);
+
+        ResultsModel GetAssemblyFailsDetailsReportExport(
+            DateTime fromDate,
+            DateTime toDate);
     }
 }

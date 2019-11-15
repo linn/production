@@ -104,7 +104,7 @@ function BoardFailType({
                                     fullWidth
                                     disabled={!creating()}
                                     value={boardFailType.failType}
-                                    label="Skill Code"
+                                    label="Fail Type"
                                     maxLength={10}
                                     helperText={
                                         !creating()
@@ -148,7 +148,7 @@ function BoardFailType({
 
 BoardFailType.propTypes = {
     item: PropTypes.shape({
-        failType: PropTypes.string,
+        failType: PropTypes.number,
         description: PropTypes.string,
         hourlyRate: PropTypes.number
     }),

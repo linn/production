@@ -47,8 +47,7 @@
             var from = DateTime.Parse(resource.FromDate);
             var to = DateTime.Parse(resource.ToDate);
             return this.Negotiate
-                .WithModel(this.service.GetBuildsDetailExport(from, to, resource.Department, resource.QuantityOrValue,
-                    resource.Monthly))
+                .WithModel(this.service.GetBuildsDetailExport(from, to, resource.Department, resource.QuantityOrValue, resource.Monthly))
                 .WithAllowedMediaRange("text/csv")
                 .WithView("Index");
         }

@@ -22,7 +22,11 @@ const defaultProps = {
     editStatus: 'view',
     addItem: addManufacturingSkillMock,
     updateItem: updateManufacturingSkillMock,
-    setEditStatus: setEditStatusMock
+    setEditStatus: setEditStatusMock,
+    history: {
+        push: jest.fn()
+    },
+    setSnackbarVisible: jest.fn()
 };
 
 describe('When Loading', () => {

@@ -5,6 +5,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import configureMockStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 // eslint-disable-next-line react/prop-types
 const Providers = ({ children }) => {
@@ -14,7 +16,11 @@ const Providers = ({ children }) => {
         <Provider store={store}>
             <SnackbarProvider dense maxSnack={5}>
                 <MuiThemeProvider theme={createMuiTheme()}>
-                    <MemoryRouter>{children}</MemoryRouter>
+                    <MemoryRouter>
+                        <MuiPickersUtilsProvider utils={MomentUtils}>
+                            {children}
+                        </MuiPickersUtilsProvider>
+                    </MemoryRouter>
                 </MuiThemeProvider>
             </SnackbarProvider>
         </Provider>

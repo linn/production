@@ -12,8 +12,14 @@ function TabCell(props) {
 
 TabCell.propTypes = {
     children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired
+    index: PropTypes.number,
+    value: PropTypes.number
+};
+
+TabCell.defaultProps = {
+    children: null,
+    index: null,
+    value: null
 };
 
 export default TabCell;

@@ -169,6 +169,60 @@
 
             reportLayout.SetGridData(values);
             var model = reportLayout.GetResultsModel();
+            model.RowDrillDownTemplates.Add(new DrillDownModel("Id", "/production/quality/assembly-fails/{rowId}"));
+            model.RowHeader = "Id";
+
+            return model;
+        }
+
+        public ResultsModel GetAssemblyFailsDetailsReportExport(DateTime fromDate, DateTime toDate)
+        {
+            var weeks = this.linnWeekService.GetWeeks(fromDate, toDate).ToList();
+
+            var reportLayout = new SimpleGridLayout(
+                this.reportingHelper,
+                CalculationValueModelType.TextValue,
+                null,
+                this.GenerateDetailsReportTitle(null, fromDate, toDate, null, null, null, null));
+
+            reportLayout.AddColumnComponent(
+                null,
+                new List<AxisDetailsModel>
+                    {
+                        new AxisDetailsModel("Week", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Date Found", GridDisplayType.TextValue) { AllowWrap = false },
+                        new AxisDetailsModel("PartNumber", "Part Number", GridDisplayType.TextValue) { AllowWrap = false },
+                        new AxisDetailsModel("BoardPartNumber", "Board Part Number", GridDisplayType.TextValue) { AllowWrap = false },
+                        new AxisDetailsModel("Fails", GridDisplayType.TextValue),
+                        new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number", GridDisplayType.TextValue) { AllowWrap = false },
+                        new AxisDetailsModel("FaultCode", "Fault Code", GridDisplayType.TextValue),
+                        new AxisDetailsModel("ReportedFault", "Reported Fault", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Analysis", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Cit", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Entered By", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Completed By", GridDisplayType.TextValue)
+                    });
+
+            var filterQueries = this.GetAssemblyFailDataQueries(
+                fromDate,
+                toDate,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+            var fails = this.GetFails(filterQueries);
+
+            var values = new List<CalculationValueModel>();
+            foreach (var assemblyFail in fails)
+            {
+                this.ExtractExportDetails(values, assemblyFail, weeks);
+            }
+
+            reportLayout.SetGridData(values);
+            var model = reportLayout.GetResultsModel();
+            model.RowHeader = "Id";
 
             return model;
         }
@@ -231,6 +285,35 @@
             }
 
             return assemblyFails?.OrderBy(a => a.Id).ToList() ?? new List<AssemblyFail>();
+        }
+
+        private void ExtractExportDetails(
+            ICollection<CalculationValueModel> values,
+            AssemblyFail assemblyFail,
+            IEnumerable<LinnWeek> weeks)
+        {
+            this.ExtractDetails(values, assemblyFail, weeks);
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "Date Found",
+                        TextDisplay = assemblyFail.DateTimeFound.ToString("dd-MMM-yyyy")
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "Entered By",
+                        TextDisplay = assemblyFail.EnteredBy?.FullName
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "Completed By",
+                        TextDisplay = assemblyFail.CompletedBy?.FullName
+                    });
         }
 
         private void ExtractDetails(
@@ -344,12 +427,12 @@
 
         private string GenerateValueDrillDown(AssemblyFailGroupBy groupBy, DateTime fromDate, DateTime toDate)
         {
-            return $"/production/reports/assembly-fails-details?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
+            return $"/production/reports/assembly-fails-details/report?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
         }
 
         private string GenerateColumnDrillDown(AssemblyFailGroupBy groupBy, DateTime fromDate, DateTime toDate)
         {
-            return $"/production/reports/assembly-fails-details?parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
+            return $"/production/reports/assembly-fails-details/report?parentGroupBy={groupBy.ParseOption()}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
         }
 
         private string GenerateReportTitle(AssemblyFailGroupBy groupBy)

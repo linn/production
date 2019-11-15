@@ -10,7 +10,7 @@ const addBoardFailTypeMock = jest.fn();
 const updateBoardFailTypeMock = jest.fn();
 const setEditStatusMock = jest.fn();
 const failType = {
-    failType: '1',
+    failType: 1,
     description: 'description',
     dateInvalid: null
 };
@@ -86,7 +86,7 @@ describe('When Editing', () => {
 
     test('Should have save button disabled and no description', () => {
         const noDescription = {
-            failType: '1',
+            failType: 1,
             description: ''
         };
 
