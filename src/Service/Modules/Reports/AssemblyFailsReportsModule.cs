@@ -16,7 +16,9 @@
             this.reportService = reportService;
             this.Get("/production/reports/assembly-fails-waiting-list", _ => this.GetWaitingListReport());
             this.Get("/production/reports/assembly-fails-measures/report", _ => this.GetMeasuresReport());
-            this.Get("/production/reports/assembly-fails-details", _ => this.GetDetailsReport());
+            this.Get("/production/reports/assembly-fails-details", _ => this.GetApp());
+            this.Get("/production/reports/assembly-fails-details/report/export", _ => this.GetDetailsReportExport());
+            this.Get("/production/reports/assembly-fails-details/report", _ => this.GetDetailsReport());
         }
 
         private object GetDetailsReport()
@@ -27,6 +29,18 @@
             return this.Negotiate
                 .WithModel(results)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object GetDetailsReportExport()
+        {
+            var resource = this.Bind<AssemblyFailsDetailsReportRequestResource>();
+
+            var result = this.reportService.GetAssemblyFailsDetailsReportExport(resource);
+
+            return this.Negotiate
+                .WithModel(result)
+                .WithAllowedMediaRange("text/csv")
                 .WithView("Index");
         }
 
@@ -48,6 +62,11 @@
                 .WithModel(results)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
+        }
+
+        private object GetApp()
+        {
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
     }
 }

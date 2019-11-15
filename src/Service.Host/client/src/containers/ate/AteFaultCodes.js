@@ -1,6 +1,5 @@
 ﻿import { connect } from 'react-redux';
-import { getItemError } from '@linn-it/linn-form-components-library';
-import initialiseOnMount from '../initialiseOnMount';
+import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import AteFaultCodes from '../../components/ate/AteFaultCodes';
 import ateFaultCodesActions from '../../actions/ateFaultCodesActions';
 import ateFaultCodesSelectors from '../../selectors/ateFaultCodesSelectors';

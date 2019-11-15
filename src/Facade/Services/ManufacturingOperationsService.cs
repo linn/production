@@ -12,6 +12,7 @@
         ManufacturingOperationResource, ManufacturingOperationResource>
     {
         private readonly IDatabaseService databaseService;
+
         public ManufacturingOperationsService(
             IRepository<ManufacturingOperation, int> repository,
             ITransactionManager transactionManager,
@@ -56,4 +57,3 @@
         }
     }
 }
-

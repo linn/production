@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import initialiseOnMount from '../initialiseOnMount';
 import BuildsDetailReport from '../../components/buildsbyDepartment/BuildsDetailReport';
 import actions from '../../actions/buildsDetailReportActions';
 import config from '../../config';
+import * as reportTypes from '../../reportTypes';
 
-const reportSelectors = new ReportSelectors('buildsDetailReport');
+const reportSelectors = new ReportSelectors(reportTypes.buildsDetailReport.item);
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);

@@ -35,7 +35,7 @@
                         });
 
             this.Response = this.Browser.Get(
-                "/production/reports/assembly-fails-details",
+                "/production/reports/assembly-fails-details/report",
                 with =>
                     {
                         with.Header("Accept", "application/json");

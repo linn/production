@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
-import { getItemErrorDetailMessage } from '@linn-it/linn-form-components-library';
-import initialiseOnMount from '../initialiseOnMount';
+import {
+    getItemErrorDetailMessage,
+    initialiseOnMount
+} from '@linn-it/linn-form-components-library';
 import AssemblyFailFaultCodes from '../../components/assemblyFails/AssemblyFailFaultCodes';
 import assemblyFailFaultCodesSelectors from '../../selectors/assemblyFailFaultCodesSelectors';
 import assemblyFailFaultCodesActions from '../../actions/assemblyFailFaultCodesActions';

@@ -43,10 +43,10 @@
         public IResult<OsrInfo> GetOsrInfo()
         {
             var info = new OsrInfo
-            {
-               RunMaster = this.osrRunMasterRepository.GetRecord(),
-               PtlMaster = this.ptlMasterRepository.GetRecord()
-            };
+                           {
+                              RunMaster = this.osrRunMasterRepository.GetRecord(),
+                              PtlMaster = this.ptlMasterRepository.GetRecord()
+                           };
 
             return new SuccessResult<OsrInfo>(info);
         }
