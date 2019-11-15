@@ -5,6 +5,8 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Exceptions;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
@@ -30,6 +32,8 @@
 
         protected IWorksOrdersService WorksOrdersService { get; private set; }
 
+        protected IWorksOrderLabelPack WorksOrderLabelPack { get; private set; }
+
         [SetUp]
         public void EstablishContext()
         {
@@ -37,6 +41,7 @@
             this.LabelService = Substitute
                 .For<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             this.WorksOrdersService = Substitute.For<IWorksOrdersService>();
+            this.WorksOrderLabelPack = Substitute.For<IWorksOrderLabelPack>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
@@ -44,6 +49,7 @@
                         with.Dependency(this.OutstandingWorksOrdersReportFacade);
                         with.Dependency(this.WorksOrdersService);
                         with.Dependency(this.LabelService);
+                        with.Dependency(this.WorksOrderLabelPack);
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(
@@ -52,6 +58,7 @@
                         with.Dependency<IResourceBuilder<WorksOrderPartDetails>>(new WorksOrderPartDetailsResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrderLabel>>(new WorksOrderLabelResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrderLabel>>>(new WorksOrderLabelsResourceBuilder());
+                        with.Dependency<IResourceBuilder<Error>>(new ErrorResourceBuilder());
 
                         with.Module<WorksOrdersModule>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
@@ -61,6 +68,7 @@
                         with.ResponseProcessor<WorksOrderPartDetailsResponseProcessor>();
                         with.ResponseProcessor<WorksOrderLabelResponseProcessor>();
                         with.ResponseProcessor<WorksOrderLabelsResponseProcessor>();
+                        with.ResponseProcessor<ErrorResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>

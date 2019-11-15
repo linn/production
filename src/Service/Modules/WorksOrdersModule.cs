@@ -2,17 +2,20 @@
 {
     using System;
 
+    using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps.Exceptions;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Extensions;
     using Linn.Production.Service.Models;
 
     using Nancy;
     using Nancy.ModelBinding;
-    using Nancy.Routing;
     using Nancy.Security;
 
     public sealed class WorksOrdersModule : NancyModule
@@ -25,12 +28,16 @@
             IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>
             labelService;
 
+        private readonly IWorksOrderLabelPack worksOrderLabelPack;
+
         public WorksOrdersModule(
             IOutstandingWorksOrdersReportFacade outstandingWorksOrdersReportFacade,
             IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource> labelService, 
-            IWorksOrdersService worksOrdersService)
+            IWorksOrdersService worksOrdersService,
+            IWorksOrderLabelPack worksOrderLabelPack)
         {
             this.worksOrdersService = worksOrdersService;
+            this.worksOrderLabelPack = worksOrderLabelPack;
             this.labelService = labelService;
             this.outstandingWorksOrdersReportFacade = outstandingWorksOrdersReportFacade;
 
@@ -42,6 +49,10 @@
             this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
             this.Post("/production/works-orders", _ => this.AddWorksOrder());
             this.Put("/production/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
+            
+            this.Post("/production/works-orders/print-labels", _ => this.PrintWorksOrderLabels());
+            this.Post("/production/works-orders/print-aio-labels", _ => this.PrintWorksOrderAioLabels());
+
             this.Get(
                 "/production/works-orders/get-part-details/{partNumber*}",
                 parameters => this.GetWorksOrderPartDetails(parameters.partNumber));
@@ -89,6 +100,38 @@
 
             return this.Negotiate.WithModel(this.worksOrdersService.AddWorksOrder(resource))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+        }
+
+        private object PrintWorksOrderLabels()
+        {
+            var resource = this.Bind<WorksOrderLabelPrintRequestResource>();
+
+            try
+            {
+                this.worksOrderLabelPack.PrintLabels(resource.OrderNumber, resource.PrinterGroup);
+            }
+            catch (Exception exception)
+            {
+                return this.Negotiate.WithModel(new BadRequestResult<Error>(exception.Message));
+            }
+
+            return HttpStatusCode.OK;
+        }
+
+        private object PrintWorksOrderAioLabels()
+        {
+            var resource = this.Bind<WorksOrderLabelPrintRequestResource>();
+
+            try
+            {
+                this.worksOrderLabelPack.PrintAioLabels(resource.OrderNumber);
+            }
+            catch (Exception exception)
+            {
+                return this.Negotiate.WithModel(new BadRequestResult<Error>(exception.Message));
+            }
+
+            return HttpStatusCode.OK;
         }
 
         private object GetWorksOrderPartDetails(string partNumber)
