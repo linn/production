@@ -1,8 +1,5 @@
 ﻿import { connect } from 'react-redux';
-import {
-    getItemErrorDetailMessage,
-    initialiseOnMount
-} from '@linn-it/linn-form-components-library';
+import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import ManufacturingRoute from '../../components/manufacturingRoutes/ManufacturingRoute';
 import manufacturingRouteActions from '../../actions/manufacturingRouteActions';
 import manufacturingRouteSelectors from '../../selectors/manufacturingRouteSelectors';

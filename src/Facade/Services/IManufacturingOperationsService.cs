@@ -7,6 +7,6 @@
     public interface IManufacturingOperationsService : IFacadeService<ManufacturingOperation, int,
         ManufacturingOperationResource, ManufacturingOperationResource>
     {
-        void RemoveOperation(ManufacturingOperation entity);
+        IResult<ManufacturingOperation> RemoveOperation(ManufacturingOperation entity);
     }
 }

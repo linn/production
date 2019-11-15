@@ -49,8 +49,22 @@ function ManufacturingRoute({
     const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
     const descriptionInvalid = () => !manufacturingRoute.description;
     const notesInvalid = () => !manufacturingRoute.notes;
+    const operationsComplete = () =>
+        creating() ||
+        manufacturingRoute.operations.every(
+            x =>
+                x.operationNumber &&
+                x.description &&
+                x.cITCode &&
+                x.skillCode &&
+                x.setAndCleanTime >= 0 &&
+                x.resourceCode &&
+                x.cycleTime &&
+                x.labourPercentage
+        );
 
-    const inputInvalid = () => RouteCodeInvalid() || descriptionInvalid() || notesInvalid();
+    const inputInvalid = () =>
+        RouteCodeInvalid() || descriptionInvalid() || notesInvalid() || !operationsComplete();
 
     const handleSaveClick = () => {
         if (editing()) {
