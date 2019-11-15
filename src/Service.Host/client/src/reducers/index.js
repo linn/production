@@ -67,6 +67,8 @@ import boardTestsReport from './boardTestsReport';
 import boardTestDetailsReport from './boardTestDetailsReport';
 import partFailDetailsReport from './partFailDetailsReport';
 import partFailSuppliers from './partFailSuppliers';
+import printWorksOrderLabels from './printWorksOrderLabels';
+import printWorksOrderAioLabels from './printWorksOrderAioLabels';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -116,6 +118,8 @@ const rootReducer = combineReducers({
     pcasRevisions,
     printAllLabelsForProduct,
     printMACLabels,
+    printWorksOrderLabels,
+    printWorksOrderAioLabels,
     productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,

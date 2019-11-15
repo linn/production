@@ -206,3 +206,11 @@ export const partFailSuppliersActionTypes = makeActionTypes(
     itemTypes.partFailSuppliers.actionType,
     true
 );
+
+export const printWorksOrderLabelsActionTypes = makeProcessActionTypes(
+    processTypes.printWorksOrderLabels.actionType
+);
+
+export const printWorksOrderAioLabelsActionTypes = makeProcessActionTypes(
+    processTypes.printWorksOrderAioLabels.actionType
+);
