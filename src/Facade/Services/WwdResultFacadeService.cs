@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using System;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
@@ -49,7 +50,8 @@
                 PartNumber = partNumber,
                 Qty = qty.Value,
                 WorkStationCode = triggerLevel.WsName,
-                PtlJobref = ptlJobref
+                PtlJobref = ptlJobref,
+                WwdRunTime = DateTime.Now
             };
 
             result.WwdJobId = this.wwdTrigFunction.WwdTriggerRun(partNumber, qty.Value);

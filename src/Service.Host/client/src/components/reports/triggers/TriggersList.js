@@ -60,7 +60,8 @@ function TriggersList({ triggers, jobref, citcode }) {
                                 component={RouterLink}
                                 to={`/production/reports/wwd?part-number=${
                                     m.partNumber
-                                }&ptlJobref=${jobref}&qty=${build(m)}&citcode=${citcode}`}
+                                }&ptlJobref=${jobref}&qty=${build(m) +
+                                    m.qtyBeingBuilt}&citcode=${citcode}`}
                             >
                                 {canBuildText(m)}
                             </Link>

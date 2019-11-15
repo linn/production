@@ -4,27 +4,39 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Link from '@material-ui/core/Link';
-import { Link as RouterLink } from 'react-router-dom';
+import WarningIcon from '@material-ui/icons/Warning';
+import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
 function WwdDetailsTable({ details }) {
+    function remarksIcon(d) {
+        if (d.remarks.includes('totally SHORT')) {
+            return (
+                <Tooltip title={`${d.partNumber} is totally Short`}>
+                    <WarningIcon color="error" />
+                </Tooltip>
+            );
+        }
+        return '';
+    }
+
     return (
         <Table size="small">
             <TableHead>
                 <TableRow>
+                    <TableCell />
                     <TableCell>Part Number</TableCell>
                     <TableCell>Description</TableCell>
                     <TableCell>Qty Kitted</TableCell>
                     <TableCell>Reserved</TableCell>
                     <TableCell>Workstation Storage Place</TableCell>
                     <TableCell>Qty At Work Station</TableCell>
-                    <TableCell />
                 </TableRow>
             </TableHead>
             <TableBody>
                 {details.map(m => (
-                    <TableRow>
+                    <TableRow key={m.partNumber}>
+                        <TableCell>{remarksIcon(m)}</TableCell>
                         <TableCell>{m.partNumber}</TableCell>
                         <TableCell>{m.description}</TableCell>
                         <TableCell>{m.qtyKitted}</TableCell>
@@ -40,7 +52,7 @@ function WwdDetailsTable({ details }) {
 }
 
 WwdDetailsTable.propTypes = {
-    details: PropTypes.shape({})
+    details: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 WwdDetailsTable.defaultProps = {

@@ -2,12 +2,26 @@ import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
 import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/styles';
 import { Link as RouterLink } from 'react-router-dom';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import Page from '../../../containers/Page';
 import WwdDetailsTable from './WwdDetailsTable';
 
+const useStyles = makeStyles(theme => ({
+    padtop: {
+        paddingTop: theme.spacing(6)
+    },
+    padbottom: {
+        paddingBottom: theme.spacing(2)
+    }
+}));
+
 function WwdTriggerReport({ reportData, loading, itemError, options }) {
+    const classes = useStyles();
+
     return (
         <Page>
             <Grid container spacing={3} justify="center">
@@ -26,18 +40,32 @@ function WwdTriggerReport({ reportData, loading, itemError, options }) {
                         {reportData ? (
                             <Fragment>
                                 <Title text="What Will Decrement From A Workstation" />
-                                <span>{`${reportData.qty} x ${reportData.partNumber} from workstation ${reportData.workStationCode} `}</span>
-                                {options.ptlJobref ? (
-                                    <Link
-                                        component={RouterLink}
-                                        to={`/production/reports/triggers?jobref=${options.ptlJobref}&citCode=${options.citcode}`}
-                                    >
-                                        From trigger run {options.ptlJobref}
-                                    </Link>
-                                ) : (
-                                    ''
-                                )}
+                                <div className={classes.padbottom}>
+                                    <span>
+                                        {`${reportData.qty} x ${reportData.partNumber} from workstation ${reportData.workStationCode} `}
+                                    </span>
+                                    {options.ptlJobref ? (
+                                        <Link
+                                            component={RouterLink}
+                                            to={`/production/reports/triggers?jobref=${options.ptlJobref}&citCode=${options.citcode}`}
+                                        >
+                                            From trigger run {options.ptlJobref}
+                                        </Link>
+                                    ) : (
+                                        ''
+                                    )}
+                                </div>
+
                                 <WwdDetailsTable details={reportData.wwdDetails} />
+                                <Typography
+                                    className={classes.padtop}
+                                    variant="caption"
+                                    display="block"
+                                    gutterBottom
+                                >
+                                    Based on run at {moment(reportData.wwdRunDatetime).format('DD-MMM HH:mm')} id{' '}
+                                    {reportData.wwdJobId}
+                                </Typography>
                             </Fragment>
                         ) : (
                             ''
