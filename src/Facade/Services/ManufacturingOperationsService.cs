@@ -9,9 +9,10 @@
     using Linn.Production.Resources;
 
     public class ManufacturingOperationsService : FacadeService<ManufacturingOperation, int,
-        ManufacturingOperationResource, ManufacturingOperationResource>
+        ManufacturingOperationResource, ManufacturingOperationResource>, IManufacturingOperationsService
     {
         private readonly IDatabaseService databaseService;
+        private readonly IRepository<ManufacturingOperation, int> manufacturingOperationsRepository;
 
         public ManufacturingOperationsService(
             IRepository<ManufacturingOperation, int> repository,
@@ -19,7 +20,14 @@
             IDatabaseService databaseService)
             : base(repository, transactionManager)
         {
+            this.manufacturingOperationsRepository = repository;
             this.databaseService = databaseService;
+        }
+
+        public IResult<ManufacturingOperation> RemoveOperation(ManufacturingOperation entity)
+        {
+            this.manufacturingOperationsRepository.Remove(entity);
+            return new SuccessResult<ManufacturingOperation>(entity);
         }
 
         protected override ManufacturingOperation CreateFromResource(ManufacturingOperationResource resource)

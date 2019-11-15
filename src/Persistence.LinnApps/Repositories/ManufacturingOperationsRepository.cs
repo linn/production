@@ -33,7 +33,7 @@
 
         public void Remove(ManufacturingOperation entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.ManufacturingOperations.Remove(entity);
         }
 
         public ManufacturingOperation FindBy(Expression<Func<ManufacturingOperation, bool>> expression)
