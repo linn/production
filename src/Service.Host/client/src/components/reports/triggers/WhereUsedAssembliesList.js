@@ -45,7 +45,8 @@ function WhereUsedAssembliesList({ assemblies }) {
 }
 
 WhereUsedAssembliesList.propTypes = {
-    assemblies: PropTypes.shape([{}])
+    assemblies: PropTypes.arrayOf(PropTypes.shape({}))
+
 };
 
 WhereUsedAssembliesList.defaultProps = {

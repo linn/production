@@ -25,7 +25,8 @@ const defaultProps = {
     editStatus: 'view',
     addItem: addMock,
     updateItem: updateMock,
-    setEditStatus: setEditStatusMock
+    setEditStatus: setEditStatusMock,
+    history: { push: jest.fn() }
 };
 
 describe('When Loading', () => {

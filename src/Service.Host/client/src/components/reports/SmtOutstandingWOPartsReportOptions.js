@@ -87,8 +87,8 @@ function SmtOutstandingWOPartsReportOptions({
                         onChange={handleDropdownChange}
                     />
                 </Grid>
-                <Grid xs={6} />
-                <Grid xs={12}>
+                <Grid item xs={6} />
+                <Grid item xs={12}>
                     <Typography variant="subtitle2">
                         Components to show on report - Leave blank to show all parts
                     </Typography>
@@ -103,7 +103,7 @@ function SmtOutstandingWOPartsReportOptions({
                         propertyName="part"
                     />
                 </Grid>
-                <Grid xs={1}>
+                <Grid item xs={1}>
                     <div className={classes.marginTop}>
                         <TypeaheadDialog
                             title="Search For Part"
@@ -115,7 +115,7 @@ function SmtOutstandingWOPartsReportOptions({
                         />
                     </div>
                 </Grid>
-                <Grid xs={1}>
+                <Grid item xs={1}>
                     <Tooltip title="Add part from input field">
                         <IconButton
                             className={classes.marginTop}
@@ -126,15 +126,15 @@ function SmtOutstandingWOPartsReportOptions({
                         </IconButton>
                     </Tooltip>
                 </Grid>
-                <Grid xs={1} />
-                <Grid xs={2}>
+                <Grid item xs={1} />
+                <Grid item xs={2}>
                     <SelectedItemsList
                         title="Components selected"
                         items={parts}
                         removeItem={removePart}
                     />
                 </Grid>
-                <Grid xs={4} />
+                <Grid item xs={4} />
                 <Grid item xs={12}>
                     <Button color="primary" variant="contained" onClick={handleClick}>
                         Run Report

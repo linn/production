@@ -81,6 +81,9 @@
             builder.RegisterType<ProductionTriggersFactsResourceBuilder>().As<IResourceBuilder<ProductionTriggerFacts>>();
             builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<Part>>();
             builder.RegisterType<PartsResourceBuilder>().As<IResourceBuilder<IEnumerable<Part>>>();
+            builder.RegisterType<PartFailSupplierResourceBuilder>().As<IResourceBuilder<PartFailSupplierView>>();
+            builder.RegisterType<PartFailSuppliersResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<PartFailSupplierView>>>();
 
             builder.RegisterType<SmtShiftResourceBuilder>().As<IResourceBuilder<SmtShift>>();
             builder.RegisterType<SmtShiftsResourceBuilder>().As<IResourceBuilder<IEnumerable<SmtShift>>>();
@@ -103,9 +106,10 @@
                 .As<IResourceBuilder<IEnumerable<PurchaseOrder>>>();
             builder.RegisterType<ManufacturingCommitDateResourceBuilder>().As<IResourceBuilder<ManufacturingCommitDateResults>>();
             builder.RegisterType<WwdResultResourceBuilder>().As<IResourceBuilder<WwdResult>>();
-
             builder.RegisterType<WorksOrderLabelResourceBuilder>().As<IResourceBuilder<WorksOrderLabel>>();
             builder.RegisterType<WorksOrderLabelsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderLabel>>>();
+            builder.RegisterType<LabelTypeResourceBuilder>().As<IResourceBuilder<LabelType>>();
+            builder.RegisterType<LabelTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<LabelType>>>();
         }
     }
 }

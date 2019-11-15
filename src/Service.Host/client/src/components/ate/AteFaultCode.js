@@ -1,6 +1,5 @@
 ﻿import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import {
     SaveBackCancelButtons,
@@ -8,7 +7,8 @@ import {
     Loading,
     Title,
     ErrorCard,
-    SnackbarMessage
+    SnackbarMessage,
+    DatePicker
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -132,17 +132,16 @@ function AteFaultCode({
                                 />
                             </Grid>
                             <Grid item xs={8}>
-                                <InputField
+                                <DatePicker
+                                    label="Date Invalid"
                                     value={
                                         ateFaultCode.dateInvalid
-                                            ? moment(ateFaultCode.dateInvalid).format('YYYY-MM-DD')
-                                            : ''
+                                            ? ateFaultCode.dateInvalid.toString()
+                                            : null
                                     }
-                                    label="Date Invalid"
-                                    fullWidth
-                                    onChange={handleFieldChange}
-                                    propertyName="dateInvalid"
-                                    type="date"
+                                    onChange={value => {
+                                        handleFieldChange('dateInvalid', value);
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>

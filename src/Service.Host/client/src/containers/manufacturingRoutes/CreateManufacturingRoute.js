@@ -1,5 +1,8 @@
 ﻿import { connect } from 'react-redux';
-import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import {
+    getItemErrorDetailMessage,
+    initialiseOnMount
+} from '@linn-it/linn-form-components-library';
 import ManufacturingRoute from '../../components/manufacturingRoutes/ManufacturingRoute';
 import manufacturingRouteActions from '../../actions/manufacturingRouteActions';
 import manufacturingRouteSelectors from '../../selectors/manufacturingRouteSelectors';
@@ -19,7 +22,7 @@ const mapStateToProps = state => ({
     manufacturingSkills: manufacturingSkillsSelectors.getItems(state),
     manufacturingResources: manufacturingResourcesSelectors.getItems(state),
     cits: citsSelectors.getItems(state),
-    itemError: getItemError(state, itemTypes.manufacturingRoute.item)
+    itemErrors: getItemError(state, itemTypes.manufacturingRoute.item)
 });
 
 const initialise = () => dispatch => {
