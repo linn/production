@@ -9,7 +9,8 @@ describe('<ProductionTriggerFacts />', () => {
 
     const defaultProps = {
         reportData: null,
-        loading: false
+        loading: false,
+        history: { push: jest.fn() }
     };
 
     describe('When Loading', () => {
