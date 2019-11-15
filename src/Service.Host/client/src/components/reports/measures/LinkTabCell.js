@@ -33,22 +33,21 @@ function LinkTabCell(props) {
     return (
         <TabCell
             className={href === hoverHref ? classes.hover : classes.link}
-            component="a"
             href={href}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             {...other}
         >
-            {children}
+            <a href={href}> {children} </a>
         </TabCell>
     );
 }
 
 LinkTabCell.propTypes = {
     children: PropTypes.node,
-    href: PropTypes.string.isRequired,
-    hoverHref: PropTypes.string.isRequired,
-    setHoverHref: PropTypes.func.isRequired
+    href: PropTypes.string,
+    hoverHref: PropTypes.string,
+    setHoverHref: PropTypes.func
 };
 
 export default LinkTabCell;

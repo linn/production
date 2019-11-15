@@ -1,7 +1,10 @@
 import { connect } from 'react-redux';
-import { ReportSelectors, getItemError } from '@linn-it/linn-form-components-library';
+import {
+    ReportSelectors,
+    getItemError,
+    initialiseOnMount
+} from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import initialiseOnMount from '../../initialiseOnMount';
 import ProductionTriggers from '../../../components/reports/triggers/ProductionTriggers';
 import actions from '../../../actions/productionTriggersReport';
 import citsActions from '../../../actions/citsActions';

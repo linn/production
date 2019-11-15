@@ -45,7 +45,7 @@ function WorksOrderList({ worksOrders }) {
 }
 
 WorksOrderList.propTypes = {
-    worksOrders: PropTypes.shape([{}])
+    worksOrders: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 WorksOrderList.defaultProps = {

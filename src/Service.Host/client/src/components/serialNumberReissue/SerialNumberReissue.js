@@ -135,6 +135,13 @@ function SerialNumberReissue({
         history.push('/production/quality/ate/fault-codes/');
     };
 
+    const handleCancelClick = () => {
+        setSelectedSerialNumber(reissuedSerialNumber);
+        setSelectedSernosGroup('');
+        setSearchTerm('');
+        setEditStatus('view');
+    };
+
     return (
         <Page showRequestErrors>
             <Grid container spacing={3}>
@@ -270,7 +277,7 @@ function SerialNumberReissue({
                                         <SaveBackCancelButtons
                                             saveDisabled={viewing()}
                                             saveClick={handleSaveClick}
-                                            cancelClick={handleBackClick}
+                                            cancelClick={handleCancelClick}
                                             backClick={handleBackClick}
                                         />
                                     </Grid>
@@ -289,7 +296,7 @@ function SerialNumberReissue({
 
 SerialNumberReissue.propTypes = {
     addItem: PropTypes.func.isRequired,
-    editStatus: PropTypes.func.isRequired,
+    editStatus: PropTypes.string.isRequired,
     itemErrors: PropTypes.shape({}),
     fetchSerialNumbers: PropTypes.func.isRequired,
     fetchSalesArticle: PropTypes.func.isRequired,
@@ -297,11 +304,11 @@ SerialNumberReissue.propTypes = {
     loading: PropTypes.bool,
     salesArticle: PropTypes.shape({}),
     setEditStatus: PropTypes.func.isRequired,
-    serialNumbers: PropTypes.shape({}),
+    serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
     serialNumbersLoading: PropTypes.bool,
     snackbarVisible: PropTypes.bool,
     setSnackbarVisible: PropTypes.func.isRequired,
-    salesArticleSearchResults: PropTypes.shape({}),
+    salesArticleSearchResults: PropTypes.arrayOf(PropTypes.shape()),
     salesArticlesSearchLoading: PropTypes.bool,
     clearSalesArticlesSearch: PropTypes.func.isRequired,
     searchSalesArticles: PropTypes.func.isRequired,
@@ -312,10 +319,10 @@ SerialNumberReissue.defaultProps = {
     itemErrors: null,
     loading: false,
     salesArticle: null,
-    serialNumbers: null,
+    serialNumbers: [],
     serialNumbersLoading: false,
     snackbarVisible: false,
-    salesArticleSearchResults: null,
+    salesArticleSearchResults: [],
     salesArticlesSearchLoading: false,
     reissuedSerialNumber: null
 };

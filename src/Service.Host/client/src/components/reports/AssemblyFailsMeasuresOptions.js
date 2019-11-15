@@ -39,13 +39,17 @@ function AssemblyFailsMeasuresOptions({ history, prevOptions }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                    <DatePicker label="From Date" value={fromDate} onChange={setFromDate} />
+                    <DatePicker
+                        label="From Date"
+                        value={fromDate.toString()}
+                        onChange={setFromDate}
+                    />
                 </Grid>
                 <Grid item xs={3}>
                     <DatePicker
                         label="To Date"
-                        value={toDate}
-                        minDate={fromDate}
+                        value={toDate.toString()}
+                        minDate={fromDate.toString()}
                         onChange={setToDate}
                     />
                 </Grid>
@@ -54,6 +58,7 @@ function AssemblyFailsMeasuresOptions({ history, prevOptions }) {
                     <Dropdown
                         label="Group By"
                         propertyName="groupBy"
+                        allowNoValue={false}
                         items={[
                             { id: 'board-part-number', displayText: 'Board Part Number' },
                             { id: 'board', displayText: 'Board' },

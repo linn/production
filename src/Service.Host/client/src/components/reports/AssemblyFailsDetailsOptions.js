@@ -2,30 +2,29 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { DatePicker, Dropdown, Title } from '@linn-it/linn-form-components-library';
+import { DatePicker, Title } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function WhoBuiltWhatReportOptions({ history }) {
+function AssemblyFailsDetailsOptions({ history, prevOptions }) {
     const defaultStartDate = new Date();
-    defaultStartDate.setDate(defaultStartDate.getDate() - 7);
-    const [fromDate, setFromDate] = useState(defaultStartDate);
-    const [toDate, setToDate] = useState(new Date());
-    const [citCode, setCitCode] = useState('S');
+    defaultStartDate.setDate(defaultStartDate.getDate() - 90);
+    const [fromDate, setFromDate] = useState(
+        prevOptions.fromDate ? new Date(prevOptions.fromDate) : defaultStartDate
+    );
+    const [toDate, setToDate] = useState(
+        prevOptions.toDate ? new Date(prevOptions.toDate) : new Date()
+    );
 
     const handleClick = () =>
         history.push({
-            pathname: `/production/reports/who-built-what/report`,
-            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&citCode=${citCode}`
+            pathname: `/production/reports/assembly-fails-details/report`,
+            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}`
         });
-
-    const handleCitChange = (_field, newValue) => {
-        setCitCode(newValue);
-    };
 
     return (
         <Page>
-            <Title text="Who Built What Report" />
+            <Title text="Assembly Fails Details" />
             <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
                 <Grid item xs={12}>
                     <Typography variant="h6" gutterBottom>
@@ -48,20 +47,6 @@ function WhoBuiltWhatReportOptions({ history }) {
                     />
                 </Grid>
                 <Grid item xs={6} />
-                <Grid item xs={6}>
-                    <Dropdown
-                        label="Cit"
-                        propertyName="citCode"
-                        items={[
-                            { id: 'S', displayText: 'Final Assembly' },
-                            { id: 'W', displayText: 'FA Modules' },
-                            { id: 'UP', displayText: 'FA Upgrades' }
-                        ]}
-                        value={citCode}
-                        onChange={handleCitChange}
-                    />
-                </Grid>
-                <Grid item xs={6} />
                 <Grid item xs={12}>
                     <Button
                         color="primary"
@@ -77,7 +62,7 @@ function WhoBuiltWhatReportOptions({ history }) {
     );
 }
 
-WhoBuiltWhatReportOptions.propTypes = {
+AssemblyFailsDetailsOptions.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
@@ -85,4 +70,4 @@ WhoBuiltWhatReportOptions.propTypes = {
     }).isRequired
 };
 
-export default WhoBuiltWhatReportOptions;
+export default AssemblyFailsDetailsOptions;

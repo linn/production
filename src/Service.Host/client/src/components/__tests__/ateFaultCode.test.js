@@ -54,7 +54,10 @@ describe('When viewing', () => {
     });
 
     test('Should display form fields', () => {
-        const { getByDisplayValue } = render(<AteFaultCode {...defaultProps} />);
+        const { getByDisplayValue } = render(
+
+                <AteFaultCode {...defaultProps} /> 
+            );
         const item = getByDisplayValue('F');
         expect(item).toBeInTheDocument();
     });

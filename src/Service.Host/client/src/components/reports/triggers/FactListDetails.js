@@ -10,7 +10,7 @@ function FactListDetails({ details }) {
         <Table size="small">
             <TableBody>
                 {details.map(d => (
-                    <TableRow>
+                    <TableRow key={d.header}>
                         <TableCell>{d.header}</TableCell>
                         <TableCell>{d.value}</TableCell>
                         <TableCell>{d.notes}</TableCell>
@@ -22,7 +22,7 @@ function FactListDetails({ details }) {
 }
 
 FactListDetails.propTypes = {
-    details: PropTypes.shape([{}])
+    details: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 FactListDetails.defaultProps = {

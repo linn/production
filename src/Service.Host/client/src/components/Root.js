@@ -44,6 +44,7 @@ import ProductionTriggersReport from '../containers/reports/triggers/ProductionT
 import ProductionTriggersFacts from '../containers/reports/triggers/ProductionTriggersFacts';
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
+import AssemblyFailsDetailsOptions from '../containers/reports/AssemblyFailsDetailsOptions';
 import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
 import WorksOrder from '../containers/worksOrders/WorksOrder';
 import CreateWorksOrder from '../containers/worksOrders/CreateWorksOrder';
@@ -142,7 +143,7 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/works-orders-batch-notes"
+                                        path="/production/works-orders/batch-notes"
                                         component={WorksOrderBatchNotes}
                                     />
                                     <Route
@@ -332,8 +333,13 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/assembly-fails-details"
+                                        path="/production/reports/assembly-fails-details/report"
                                         component={AssemblyFailsDetails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/assembly-fails-details"
+                                        component={AssemblyFailsDetailsOptions}
                                     />
                                     <Route
                                         exact

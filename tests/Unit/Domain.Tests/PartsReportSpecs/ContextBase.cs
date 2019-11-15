@@ -27,7 +27,6 @@
 
         protected IReportingHelper ReportingHelper { get; private set; }
 
-        protected ILinnWeekPack LinnWeekPack { get; private set; }
 
         protected List<PartFailLog> PartFailLogs { get; private set; }
 
@@ -40,14 +39,12 @@
             this.EmployeeDepartmentViewRepository = Substitute.For<IQueryRepository<EmployeeDepartmentView>>();
             this.PartRepository = Substitute.For<IRepository<Part, string>>();
             this.ReportingHelper = new ReportingHelper();
-            this.LinnWeekPack = Substitute.For<ILinnWeekPack>();
 
             this.Sut = new PartsReportService(
                 this.PartFailLogRepository,
                 this.EmployeeDepartmentViewRepository,
                 this.PartRepository,
-                this.ReportingHelper,
-                this.LinnWeekPack);
+                this.ReportingHelper);
 
             this.Parts = new List<Part>
                              {
@@ -66,7 +63,7 @@
                                                 Quantity = 1,
                                                 FaultCode = "CODE1",
                                                 ErrorType = "TYPE1",
-                                                Id = 1,
+                                                Id = 0,
                                                 MinutesWasted = 1,
                                                 Story = "STORY"
                                             },
@@ -88,11 +85,11 @@
                                                 Batch = "BATCH",
                                                 DateCreated = new DateTime(2019, 10, 28),
                                                 EnteredBy = 33067,
-                                                PartNumber = "PART1",
+                                                PartNumber = "PART3",
                                                 Quantity = 1,
                                                 FaultCode = "CODE2",
                                                 ErrorType = "TYPE1",
-                                                Id = 1,
+                                                Id = 2,
                                                 MinutesWasted = 1,
                                                 Story = "STORY"
                                             },
@@ -101,11 +98,11 @@
                                                 Batch = "BATCH",
                                                 DateCreated = new DateTime(2019, 10, 28),
                                                 EnteredBy = 33067,
-                                                PartNumber = "PART1",
+                                                PartNumber = "PART4",
                                                 Quantity = 1,
                                                 FaultCode = "CODE1",
                                                 ErrorType = "TYPE2",
-                                                Id = 1,
+                                                Id = 3,
                                                 MinutesWasted = 1,
                                                 Story = "STORY"
                                             }
