@@ -513,6 +513,7 @@ function WorksOrder({
                                             value={printerGroup}
                                             onChange={handleFieldChange}
                                             propertyName="printer"
+                                            allowNoValue={false}
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
