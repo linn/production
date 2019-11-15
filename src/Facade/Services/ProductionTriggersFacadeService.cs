@@ -57,7 +57,10 @@
             ProductionTriggerReportType triggerReportType;
 
             // if no cit then just pick the first production one you can find
-            var cit = string.IsNullOrEmpty(citCode) ? this.citRepository.FilterBy(c => c.BuildGroup == "PP" && c.DateInvalid == null).ToList().OrderBy(c => c.SortOrder).FirstOrDefault() : this.citRepository.FindById(citCode);
+            var cit = string.IsNullOrEmpty(citCode)
+                          ? this.citRepository.FilterBy(c => c.BuildGroup == "PP" && c.DateInvalid == null).ToList()
+                              .OrderBy(c => c.SortOrder).FirstOrDefault()
+                          : this.citRepository.FindById(citCode);
 
             if (cit == null)
             {
@@ -88,11 +91,15 @@
                 return new NotFoundResult<ProductionTriggerFacts>("No facts found for that jobref and part number");
             }
 
-            var facts = new ProductionTriggerFacts(trigger);
-            facts.OutstandingWorksOrders = trigger.QtyBeingBuilt > 0
-                ? this.worksOrderRepository.FilterBy(w =>
-                    w.PartNumber == partNumber & w.DateCancelled == null & w.Quantity > w.QuantityBuilt).ToList()
-                : new List<WorksOrder>();
+            var facts = new ProductionTriggerFacts(trigger)
+                            {
+                                OutstandingWorksOrders =
+                                    trigger.QtyBeingBuilt > 0
+                                        ? this.worksOrderRepository.FilterBy(
+                                            w => w.PartNumber == partNumber & w.DateCancelled == null
+                                                                            & w.Quantity > w.QuantityBuilt).ToList()
+                                        : new List<WorksOrder>()
+                            };
 
             if (trigger.ReqtForSalesOrdersBE > 0)
             {
@@ -110,7 +117,6 @@
             {
                 var parentAssemblies = this.productionTriggerAssemblyRepository.FilterBy(a => a.Jobref == trigger.Jobref && a.PartNumber == trigger.PartNumber);
                 facts.WhereUsedAssemblies = parentAssemblies.ToList().Where(a => a.HasReqt());
-
             }
             else
             {

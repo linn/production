@@ -9,7 +9,6 @@ import manufacturingResourcesActions from '../../actions/manufacturingResourcesA
 import manufacturingResourcesSelectors from '../../selectors/manufacturingResourcesSelectors';
 import citsActions from '../../actions/citsActions';
 import citsSelectors from '../../selectors/citsSelectors';
-import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     item: {},

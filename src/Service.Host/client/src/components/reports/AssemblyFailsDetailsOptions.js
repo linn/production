@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { DatePicker, Title, Dropdown } from '@linn-it/linn-form-components-library';
+import { DatePicker, Title } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function AssemblyFailsMeasuresOptions({ history, prevOptions }) {
+function AssemblyFailsDetailsOptions({ history, prevOptions }) {
     const defaultStartDate = new Date();
     defaultStartDate.setDate(defaultStartDate.getDate() - 90);
     const [fromDate, setFromDate] = useState(
@@ -15,23 +15,16 @@ function AssemblyFailsMeasuresOptions({ history, prevOptions }) {
     const [toDate, setToDate] = useState(
         prevOptions.toDate ? new Date(prevOptions.toDate) : new Date()
     );
-    const [groupBy, setGroupBy] = useState(
-        prevOptions.groupBy ? prevOptions.groupBy : 'board-part-number'
-    );
 
     const handleClick = () =>
         history.push({
-            pathname: `/production/reports/assembly-fails-measures/report`,
-            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&groupBy=${groupBy}`
+            pathname: `/production/reports/assembly-fails-details/report`,
+            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}`
         });
-
-    const handleGroupByChange = (_field, value) => {
-        setGroupBy(value);
-    };
 
     return (
         <Page>
-            <Title text="Assembly Fails Measures" />
+            <Title text="Assembly Fails Details" />
             <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
                 <Grid item xs={12}>
                     <Typography variant="h6" gutterBottom>
@@ -54,24 +47,6 @@ function AssemblyFailsMeasuresOptions({ history, prevOptions }) {
                     />
                 </Grid>
                 <Grid item xs={6} />
-                <Grid item xs={3}>
-                    <Dropdown
-                        label="Group By"
-                        propertyName="groupBy"
-                        allowNoValue={false}
-                        items={[
-                            { id: 'board-part-number', displayText: 'Board Part Number' },
-                            { id: 'board', displayText: 'Board' },
-                            { id: 'fault', displayText: 'Fault' },
-                            { id: 'circuit-part-number', displayText: 'Circuit Part Number' },
-                            { id: 'cit', displayText: 'Cit' },
-                            { id: 'person', displayText: 'Person Responsible' }
-                        ]}
-                        value={groupBy}
-                        onChange={handleGroupByChange}
-                    />
-                </Grid>
-                <Grid item xs={9} />
                 <Grid item xs={12}>
                     <Button
                         color="primary"
@@ -87,7 +62,7 @@ function AssemblyFailsMeasuresOptions({ history, prevOptions }) {
     );
 }
 
-AssemblyFailsMeasuresOptions.propTypes = {
+AssemblyFailsDetailsOptions.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
@@ -95,4 +70,4 @@ AssemblyFailsMeasuresOptions.propTypes = {
     }).isRequired
 };
 
-export default AssemblyFailsMeasuresOptions;
+export default AssemblyFailsDetailsOptions;

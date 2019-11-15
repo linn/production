@@ -55,6 +55,7 @@
                                             {
                                                 Id = 1,
                                                 DateTimeFound = 1.June(2020),
+                                                EnteredBy = new Employee { Id = 66, FullName = "Jane Assembler" },
                                                 BoardPartNumber = "Board 1/1",
                                                 NumberOfFails = 1,
                                                 FaultCode = new AssemblyFailFaultCode { FaultCode = "F1", Description = "Fault 1" },
@@ -63,7 +64,8 @@
                                                 WorksOrder = new WorksOrder { OrderNumber = 24, PartNumber = "W O Part" },
                                                 ReportedFault = "report",
                                                 Analysis = "analysis",
-                                                PersonResponsible = new Employee { Id = 1, FullName = "Name" }
+                                                PersonResponsible = new Employee { Id = 1, FullName = "Name" },
+                                                CompletedBy = new Employee { Id = 34, FullName = "John Engineer" }
                                             },
                                         new AssemblyFail
                                             {
