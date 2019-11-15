@@ -12,7 +12,6 @@ import manufacturingResourcesActions from '../../actions/manufacturingResourcesA
 import manufacturingResourcesSelectors from '../../selectors/manufacturingResourcesSelectors';
 import citsActions from '../../actions/citsActions';
 import citsSelectors from '../../selectors/citsSelectors';
-import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     item: {},
@@ -22,7 +21,7 @@ const mapStateToProps = state => ({
     snackbarVisible: manufacturingRouteSelectors.getSnackbarVisible(state),
     manufacturingSkills: manufacturingSkillsSelectors.getItems(state),
     manufacturingResources: manufacturingResourcesSelectors.getItems(state),
-    cits: citsSelectors.getItems(state),
+    cits: citsSelectors.getItems(state)
 });
 
 const initialise = () => dispatch => {

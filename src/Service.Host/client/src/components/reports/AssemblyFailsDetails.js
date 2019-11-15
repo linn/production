@@ -58,7 +58,8 @@ AssemblyFailsDetails.propTypes = {
     reportData: PropTypes.shape({}),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
-    options: PropTypes.shape({})
+    options: PropTypes.shape({}),
+    config: PropTypes.shape({ appRoot: PropTypes.string }).isRequired
 };
 
 AssemblyFailsDetails.defaultProps = {

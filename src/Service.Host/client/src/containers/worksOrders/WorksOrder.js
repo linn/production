@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
-import { getItemErrorDetailMessage } from '@linn-it/linn-form-components-library';
-import initialiseOnMount from '../initialiseOnMount';
+import {
+    getItemErrorDetailMessage,
+    initialiseOnMount
+} from '@linn-it/linn-form-components-library';
 import WorksOrder from '../../components/worksOrders/WorksOrder';
 import worksOrderSelectors from '../../selectors/worksOrderSelectors';
 import worksOrderActions from '../../actions/worksOrderActions';
@@ -27,6 +29,7 @@ const initialise = ({ orderNumber }) => dispatch => {
     if (orderNumber) {
         dispatch(worksOrderActions.fetch(orderNumber));
     }
+
     dispatch(employeesActions.fetch());
     dispatch(worksOrderDetailsActions.reset());
 };

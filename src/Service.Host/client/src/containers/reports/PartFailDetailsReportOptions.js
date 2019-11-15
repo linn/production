@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import { initialiseOnMount } from '@linn-it/linn-form-components-library';
 import PartFailDetailsReportOptions from '../../components/reports/PartFailDetailsReportOptions';
 import partFailErrorTypesActions from '../../actions/partFailErrorTypesActions';
 import partFailErrorTypesSelectors from '../../selectors/partFailErrorTypesSelectors';
