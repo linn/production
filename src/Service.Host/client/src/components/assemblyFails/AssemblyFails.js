@@ -19,7 +19,7 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
                         <CreateButton createUrl="/production/quality/assembly-fails/create" />
                     </Fragment>
                     <Typeahead
-                        items={forecastItems}
+                        items={forecastItems.map(i => ({ ...i, name: i.name.toString() }))}
                         fetchItems={fetchItems}
                         clearSearch={clearSearch}
                         loading={loading}

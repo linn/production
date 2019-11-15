@@ -22,8 +22,9 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                             ).format('DD-MMM-YYYY')}`}
                         />
                     </Grid>
-                    {reportData.results.map(result => (
-                        <Fragment>
+                    {reportData.results.map((result, i) => (
+                        // eslint-disable-next-line
+                        <Fragment key={i}>
                             <Grid item xs={12}>
                                 <Typography variant="h5">
                                     Product Type: {result.productType ? result.productType : 'None'}

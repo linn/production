@@ -124,7 +124,7 @@ function WorksOrder({
 
     const handleBackClick = () => {
         setEditStatus('view');
-        history.push('/production/works-orders-batch-notes');
+        history.push('/production');
     };
 
     const handlePartSelect = part => {
@@ -471,18 +471,8 @@ WorksOrder.propTypes = {
     item: PropTypes.shape({}),
     worksOrderDetails: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
-    worksOrderDetailsError: PropTypes.shape({
-        status: PropTypes.number,
-        statusText: PropTypes.string,
-        details: PropTypes.shape({}),
-        item: PropTypes.string
-    }),
-    worksOrderError: PropTypes.shape({
-        status: PropTypes.number,
-        statusText: PropTypes.string,
-        details: PropTypes.shape({}),
-        item: PropTypes.string
-    }),
+    worksOrderDetailsError: PropTypes.string,
+    worksOrderError: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     loading: PropTypes.bool,
     setSnackbarVisible: PropTypes.func.isRequired,
@@ -492,8 +482,8 @@ WorksOrder.propTypes = {
     updateItem: PropTypes.func.isRequired,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     fetchWorksOrder: PropTypes.func.isRequired,
-    searchParts: PropTypes.func.isRequired,
-    clearPartsSearch: PropTypes.func.isRequired,
+    searchParts: PropTypes.func,
+    clearPartsSearch: PropTypes.func,
     employees: PropTypes.arrayOf(PropTypes.shape({})),
     employeesLoading: PropTypes.bool,
     partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
@@ -510,7 +500,9 @@ WorksOrder.defaultProps = {
     employees: null,
     employeesLoading: false,
     partsSearchResults: null,
-    partsSearchLoading: false
+    partsSearchLoading: false,
+    searchParts: null,
+    clearPartsSearch: null
 };
 
 export default WorksOrder;

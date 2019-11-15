@@ -14,7 +14,7 @@ import SalesOrderList from './SalesOrderList';
 import WhereUsedAssembliesList from './WhereUsedAssembliesList';
 import priorityText from './priorityText';
 
-function ProductionTriggerFacts({ reportData, loading, options, history, itemError }) {
+function ProductionTriggerFacts({ reportData, loading, itemError }) {
     return (
         <Page>
             <Grid container spacing={3} justify="center">
@@ -27,7 +27,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                     ''
                 )}
                 {itemError ? (
-                    <ErrorCard errorMessage={itemError.details?.message} />
+                    <ErrorCard errorMessage={itemError.statusText} />
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
@@ -38,7 +38,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     to={`/production/reports/triggers?jobref=${reportData.jobref}&citCode=${reportData.citcode}`}
                                 >
                                     From jobref {reportData.jobref} CIT {reportData.citName}
-                                </Link>                                
+                                </Link>
                                 <FactList>
                                     <FactListItem
                                         header={reportData.partNumber}
@@ -93,7 +93,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                         header="Required for Internal Customers"
                                         secondary="Required to satisfy all your internal customers"
                                         avatar={reportData.reqtForInternalCustomersGBI}
-                                        >
+                                    >
                                         <WhereUsedAssembliesList
                                             assemblies={reportData.whereUsedAssemblies}
                                         />
@@ -203,13 +203,16 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
 ProductionTriggerFacts.propTypes = {
     reportData: PropTypes.shape({}),
     loading: PropTypes.bool,
-    config: PropTypes.shape({})
+    config: PropTypes.shape({}),
+    history: PropTypes.shape({}).isRequired,
+    itemError: PropTypes.shape({})
 };
 
 ProductionTriggerFacts.defaultProps = {
     reportData: null,
     config: null,
-    loading: false
+    loading: false,
+    itemError: null
 };
 
 export default ProductionTriggerFacts;

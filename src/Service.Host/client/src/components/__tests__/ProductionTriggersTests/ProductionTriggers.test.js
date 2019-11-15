@@ -9,6 +9,7 @@ describe('<ProductionTriggers />', () => {
 
     const defaultProps = {
         reportData: null,
+        reportFormat: 'FULL',
         loading: false,
         cits: [{ code: 'A', name: 'A CIT' }],
         options: null
@@ -55,8 +56,7 @@ describe('<ProductionTriggers />', () => {
                     priority: 5,
                     canBuild: 0,
                     kanbanSize: 1,
-                    qtyBeingBuilt: 0,
-                    reportFormat: 'FULL'
+                    qtyBeingBuilt: 0
                 }
             ]
         }

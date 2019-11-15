@@ -37,14 +37,14 @@ function ProductionMeasures({ loading, citsData, infoData, config }) {
 }
 
 ProductionMeasures.propTypes = {
-    citsData: PropTypes.shape({}),
+    citsData: PropTypes.arrayOf(PropTypes.shape({})),
     infoData: PropTypes.shape({}),
     loading: PropTypes.bool,
     config: PropTypes.shape({})
 };
 
 ProductionMeasures.defaultProps = {
-    citsData: null,
+    citsData: [],
     infoData: null,
     config: null,
     loading: false

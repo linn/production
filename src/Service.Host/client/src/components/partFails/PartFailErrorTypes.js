@@ -52,10 +52,12 @@ const PartFailErrorTypes = ({ loading, itemError, history, items }) => {
             setRowsToDisplay([]);
         } else {
             setRowsToDisplay(
-                rows.slice(
-                    pageOptions.currentPage * pageOptions.rowsPerPage,
-                    pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
-                )
+                rows
+                    .slice(
+                        pageOptions.currentPage * pageOptions.rowsPerPage,
+                        pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
+                    )
+                    .map(t => ({ ...t, id: t.type }))
             );
         }
     }, [
@@ -81,7 +83,7 @@ const PartFailErrorTypes = ({ loading, itemError, history, items }) => {
                 <Loading />
             ) : (
                 <Fragment>
-                    <Fragment className={classes.actionsContainer}>
+                    <Fragment>
                         <CreateButton createUrl="/production/quality/part-fail-error-types/create" />
                     </Fragment>
 

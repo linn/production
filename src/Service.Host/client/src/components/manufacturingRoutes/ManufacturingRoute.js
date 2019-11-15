@@ -38,13 +38,6 @@ function ManufacturingRoute({
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
-        if (item && !creating()) {
-            const operationsWithIds = [...item.operations];
-            item.operations.forEach((operation, index) => {
-                operationsWithIds[index].id = `${operation.manufacturingId}`;
-            });
-        }
-
         if (item !== prevManufacturingRoute) {
             setManufacturingRoute(item);
             setPrevManufacturingRoute(item);
@@ -139,11 +132,10 @@ function ManufacturingRoute({
                 type: 'number'
             }
         ];
-
         return (
             <TableWithInlineEditing
                 columnsInfo={columnsInfo}
-                content={manufacturingRoute.operations}
+                content={manufacturingRoute.operations.map(o => ({ ...o, id: o.manufacturingId }))}
                 updateContent={updateOp}
                 editStatus={editStatus}
                 allowedToEdit={allowedToEdit}
@@ -258,18 +250,18 @@ ManufacturingRoute.propTypes = {
             skillCode: PropTypes.string,
             description: PropTypes.string
         })
-    ).isRequired,
+    ),
     manufacturingResources: PropTypes.arrayOf(
         PropTypes.shape({
             skillCode: PropTypes.string,
             description: PropTypes.string
         })
-    ).isRequired,
+    ),
     cits: PropTypes.arrayOf(
         PropTypes.shape({
             code: PropTypes.string
         })
-    ).isRequired
+    )
 };
 
 ManufacturingRoute.defaultProps = {
@@ -279,7 +271,10 @@ ManufacturingRoute.defaultProps = {
     updateItem: null,
     loading: null,
     itemError: null,
-    itemId: null
+    itemId: null,
+    cits: [],
+    manufacturingResources: [],
+    manufacturingSkills: []
 };
 
 export default ManufacturingRoute;

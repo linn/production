@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
 import {
     Loading,
     CreateButton,
@@ -10,22 +9,6 @@ import {
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        width: '90%'
-    },
-    button: {
-        marginTop: theme.spacing(1),
-        marginRight: theme.spacing(1)
-    },
-    actionsContainer: {
-        marginBottom: theme.spacing(2)
-    },
-    resetContainer: {
-        padding: theme.spacing(3)
-    }
-}));
-
 const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
@@ -34,8 +17,6 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
         rowsPerPage: 10
     });
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
-
-    const classes = useStyles();
 
     useEffect(() => {
         const rows = items
@@ -50,10 +31,12 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
             setRowsToDisplay([]);
         } else {
             setRowsToDisplay(
-                rows.slice(
-                    pageOptions.currentPage * pageOptions.rowsPerPage,
-                    pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
-                )
+                rows
+                    .slice(
+                        pageOptions.currentPage * pageOptions.rowsPerPage,
+                        pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
+                    )
+                    .map(r => ({ ...r, id: r.faultCode }))
             );
         }
     }, [
@@ -79,7 +62,7 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
                 <Loading />
             ) : (
                 <Fragment>
-                    <Fragment className={classes.actionsContainer}>
+                    <Fragment>
                         <CreateButton createUrl="/production/quality/part-fail-fault-codes/create" />
                     </Fragment>
                     <PaginatedTable

@@ -141,7 +141,7 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/works-orders-batch-notes"
+                                        path="/production/works-orders/batch-notes"
                                         component={WorksOrderBatchNotes}
                                     />
                                     <Route
