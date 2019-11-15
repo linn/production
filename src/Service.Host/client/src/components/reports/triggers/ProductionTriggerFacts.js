@@ -38,7 +38,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                     to={`/production/reports/triggers?jobref=${reportData.jobref}&citCode=${reportData.citcode}`}
                                 >
                                     From jobref {reportData.jobref} CIT {reportData.citName}
-                                </Link>                                
+                                </Link>
                                 <FactList>
                                     <FactListItem
                                         header={reportData.partNumber}
@@ -93,7 +93,7 @@ function ProductionTriggerFacts({ reportData, loading, options, history, itemErr
                                         header="Required for Internal Customers"
                                         secondary="Required to satisfy all your internal customers"
                                         avatar={reportData.reqtForInternalCustomersGBI}
-                                        >
+                                    >
                                         <WhereUsedAssembliesList
                                             assemblies={reportData.whereUsedAssemblies}
                                         />

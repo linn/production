@@ -13,9 +13,7 @@ function FactListDetails({ details }) {
                     <TableRow>
                         <TableCell>{d.header}</TableCell>
                         <TableCell>{d.value}</TableCell>
-                        <TableCell>
-                            {d.notes}
-                        </TableCell>
+                        <TableCell>{d.notes}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>

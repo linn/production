@@ -67,6 +67,8 @@ import boardTestsReport from './boardTestsReport';
 import boardTestDetailsReport from './boardTestDetailsReport';
 import partFailDetailsReport from './partFailDetailsReport';
 import partFailSuppliers from './partFailSuppliers';
+import labelType from './labelTypes/labelType';
+import labelTypes from './labelTypes/labelTypes';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -137,6 +139,8 @@ const rootReducer = combineReducers({
     worksOrderDetails,
     worksOrderLabel,
     worksOrderLabels,
+    labelType,
+    labelTypes,
     ...sharedLibraryReducers
 });
 

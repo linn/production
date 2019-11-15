@@ -206,3 +206,7 @@ export const partFailSuppliersActionTypes = makeActionTypes(
     itemTypes.partFailSuppliers.actionType,
     true
 );
+
+export const labelTypeActionTypes = makeActionTypes(itemTypes.labelType.actionType);
+
+export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.actionType, false);
