@@ -80,7 +80,7 @@
             builder.RegisterType<ManufacturingRouteService>()
                 .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
             builder.RegisterType<ManufacturingOperationsService>()
-                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
+                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>, IManufacturingOperationsService>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
             builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
             builder.RegisterType<SmtShiftsService>()
@@ -101,9 +101,12 @@
             builder.RegisterType<BoardTestsService>()
                 .As<IFacadeService<BoardTest, BoardTestKey, BoardTestResource, BoardTestResource>>();
             builder.RegisterType<BoardTestReportFacadeService>().As<IBoardTestReportFacadeService>();
+            builder.RegisterType<PartFailSupplierService>().As<IPartFailSupplierService>();
             builder.RegisterType<WwdResultFacadeService>().As<IWwdResultFacadeService>();
             builder.RegisterType<WorksOrderLabelsService>()
                 .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
+            builder.RegisterType<LabelTypeService>()
+                .As<IFacadeService<LabelType, string, LabelTypeResource, LabelTypeResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -122,6 +125,7 @@
             builder.RegisterType<BartenderLabelPack>().As<IBartenderLabelPack>();
             builder.RegisterType<LabelPack>().As<ILabelPack>();
             builder.RegisterType<WwdTrigProxy>().As<IWwdTrigFunction>();
+            builder.RegisterType<WorksOrderLabelPack>().As<IWorksOrderLabelPack>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();

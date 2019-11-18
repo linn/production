@@ -13,12 +13,24 @@ function App() {
                 <ListItem component={Link} to="/production/quality/ate/fault-codes/" button>
                     <Typography color="primary">ATE Fault Codes</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/quality/assembly-fails" button>
+                    <Typography color="primary">Assembly Fails Utility</Typography>
+                </ListItem>
                 <ListItem
                     component={Link}
                     to="/production/quality/assembly-fail-fault-codes"
                     button
                 >
                     <Typography color="primary">Assembly Fail Fault Codes Utility</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/quality/part-fails" button>
+                    <Typography color="primary">Part Fail Log</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/quality/part-fail-fault-codes" button>
+                    <Typography color="primary">Part Fail Fault Codes</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/quality/part-fail-error-types" button>
+                    <Typography color="primary">Part Fail Error Types</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/resources/board-fail-types/" button>
                     <Typography color="primary">Board Fail Types</Typography>
@@ -46,6 +58,12 @@ function App() {
                 <ListItem component={Link} to="/production/works-orders/" button>
                     <Typography color="primary">Works Orders Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/works-orders/labels" button>
+                    <Typography color="primary">Works Orders Labels Utility</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/works-orders/batch-notes" button>
+                    <Typography color="primary">Works Orders Batch Notes</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/maintenance/labels/reprint" button>
                     <Typography color="primary">Label Reprint</Typography>
                 </ListItem>
@@ -54,6 +72,9 @@ function App() {
             <List>
                 <ListItem component={Link} to="/production/reports/assembly-fails-measures" button>
                     <Typography color="primary">Assembly Fails Measures</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/assembly-fails-details" button>
+                    <Typography color="primary">Assembly Fails Details Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/builds-detail/options" button>
                     <Typography color="primary">Builds Detail Report</Typography>

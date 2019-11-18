@@ -28,7 +28,7 @@ function ManufacturingCommitDateReportOptions({ history }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                    <DatePicker label="Date" value={date} onChange={setDate} />
+                    <DatePicker label="Date" value={date.toString()} onChange={setDate} />
                 </Grid>
                 <Grid item xs={9} />
                 <Grid item xs={12}>

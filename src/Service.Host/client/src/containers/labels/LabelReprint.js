@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getItemErrors, getItemErrorDetailMessage } from '@linn-it/linn-form-components-library';
+import { getItemErrorDetailMessage } from '@linn-it/linn-form-components-library';
 import LabelReprint from '../../components/labels/LabelReprint';
 import serialNumberActions from '../../actions/serialNumberActions';
 import serialNumberSelectors from '../../selectors/serialNumberSelectors';
@@ -8,14 +8,15 @@ import printAllLabelsForProductSelectors from '../../selectors/printAllLabelsFor
 import printMACLabelsActions from '../../actions/printMACLabelsActions';
 import printMACLabelsSelectors from '../../selectors/printMACLabelsSelectors';
 import * as processTypes from '../../processTypes';
+import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
-    itemErrors: getItemErrors(state),
     printAllLabelsForProductErrorDetail: getItemErrorDetailMessage(
         state,
         processTypes.printAllLabelsForProduct.item
     ),
     printMACLabelsErrorDetail: getItemErrorDetailMessage(state, processTypes.printMACLabels.item),
+    serialNumberErrorDetail: getItemErrorDetailMessage(state, itemTypes.serialNumbers),
     serialNumbers: serialNumberSelectors.getItems(state),
     serialNumbersLoading: serialNumberSelectors.getLoading(state),
     printAllLabelsForProductMessageVisible: printAllLabelsForProductSelectors.getMessageVisible(

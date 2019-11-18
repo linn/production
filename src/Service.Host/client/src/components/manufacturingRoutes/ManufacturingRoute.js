@@ -15,7 +15,7 @@ import Page from '../../containers/Page';
 
 function ManufacturingRoute({
     editStatus,
-    itemError,
+    itemErrors,
     history,
     itemId,
     item,
@@ -38,13 +38,6 @@ function ManufacturingRoute({
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
-        if (item && !creating()) {
-            const operationsWithIds = [...item.operations];
-            item.operations.forEach((operation, index) => {
-                operationsWithIds[index].id = `${operation.manufacturingId}`;
-            });
-        }
-
         if (item !== prevManufacturingRoute) {
             setManufacturingRoute(item);
             setPrevManufacturingRoute(item);
@@ -56,8 +49,22 @@ function ManufacturingRoute({
     const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
     const descriptionInvalid = () => !manufacturingRoute.description;
     const notesInvalid = () => !manufacturingRoute.notes;
+    const operationsComplete = () =>
+        creating() ||
+        manufacturingRoute.operations.every(
+            x =>
+                x.operationNumber &&
+                x.description &&
+                x.cITCode &&
+                x.skillCode &&
+                x.setAndCleanTime >= 0 &&
+                x.resourceCode &&
+                x.cycleTime &&
+                x.labourPercentage
+        );
 
-    const inputInvalid = () => RouteCodeInvalid() || descriptionInvalid() || notesInvalid();
+    const inputInvalid = () =>
+        RouteCodeInvalid() || descriptionInvalid() || notesInvalid() || !operationsComplete();
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -139,14 +146,15 @@ function ManufacturingRoute({
                 type: 'number'
             }
         ];
-
         return (
             <TableWithInlineEditing
                 columnsInfo={columnsInfo}
-                content={manufacturingRoute.operations}
+                content={manufacturingRoute.operations.map(o => ({ ...o, id: o.manufacturingId }))}
                 updateContent={updateOp}
                 editStatus={editStatus}
                 allowedToEdit={allowedToEdit}
+                allowedToCreate={allowedToEdit}
+                allowedToDelete={allowedToEdit}
             />
         );
     };
@@ -161,9 +169,9 @@ function ManufacturingRoute({
                         <Title text="Manufacturing Route" />
                     )}
                 </Grid>
-                {itemError && (
+                {itemErrors && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemError.statusText} />
+                        <ErrorCard errorMessage={itemErrors.statusText} />
                     </Grid>
                 )}
                 {loading || !manufacturingRoute ? (
@@ -245,7 +253,7 @@ ManufacturingRoute.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    itemError: PropTypes.shape({}),
+    itemErrors: PropTypes.shape({}),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -258,18 +266,18 @@ ManufacturingRoute.propTypes = {
             skillCode: PropTypes.string,
             description: PropTypes.string
         })
-    ).isRequired,
+    ),
     manufacturingResources: PropTypes.arrayOf(
         PropTypes.shape({
             skillCode: PropTypes.string,
             description: PropTypes.string
         })
-    ).isRequired,
+    ),
     cits: PropTypes.arrayOf(
         PropTypes.shape({
             code: PropTypes.string
         })
-    ).isRequired
+    )
 };
 
 ManufacturingRoute.defaultProps = {
@@ -278,8 +286,11 @@ ManufacturingRoute.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    itemError: null,
-    itemId: null
+    itemErrors: null,
+    itemId: null,
+    cits: [],
+    manufacturingResources: [],
+    manufacturingSkills: []
 };
 
 export default ManufacturingRoute;

@@ -201,6 +201,12 @@ export const purchaseOrders = new ItemType(
     '/production/resources/purchase-orders'
 );
 
+export const partFailSuppliers = new ItemType(
+    'partFailSuppliers',
+    'PART_FAIL_SUPPLIERS',
+    '/production/quality/part-fails/suppliers'
+);
+
 export const worksOrderLabel = new ItemType(
     'worksOrderLabel',
     'WORKS_ORDER_LABEL',

@@ -1,5 +1,10 @@
 import React from 'react';
-import { Loading, ReportTable, BackButton } from '@linn-it/linn-form-components-library';
+import {
+    Loading,
+    ReportTable,
+    BackButton,
+    ExportButton
+} from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
@@ -15,9 +20,18 @@ const handleBackClick = (history, options) => {
     history.push(uri);
 };
 
-const AssemblyFailsDetails = ({ reportData, loading, history, options }) => (
+const AssemblyFailsDetails = ({ reportData, loading, history, options, config }) => (
     <Page>
         <Grid container spacing={3} justify="center">
+            <Grid item xs={12}>
+                {!loading && reportData ? (
+                    <ExportButton
+                        href={`${config.appRoot}/production/reports/assembly-fails-details/report/export?fromDate=${options.fromDate}&toDate=${options.toDate}`}
+                    />
+                ) : (
+                    ''
+                )}
+            </Grid>
             <Grid item xs={12}>
                 {loading || !reportData ? (
                     <Loading />
@@ -44,7 +58,8 @@ AssemblyFailsDetails.propTypes = {
     reportData: PropTypes.shape({}),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
-    options: PropTypes.shape({})
+    options: PropTypes.shape({}),
+    config: PropTypes.shape({ appRoot: PropTypes.string }).isRequired
 };
 
 AssemblyFailsDetails.defaultProps = {

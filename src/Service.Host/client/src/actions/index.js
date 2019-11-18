@@ -201,3 +201,20 @@ export const worksOrderLabelsActionTypes = makeActionTypes(itemTypes.worksOrderL
 export const boardTestDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.boardTestDetailsReport.actionType
 );
+
+export const partFailDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.partFailDetailsReport.actionType
+);
+
+export const partFailSuppliersActionTypes = makeActionTypes(
+    itemTypes.partFailSuppliers.actionType,
+    true
+);
+
+export const printWorksOrderLabelsActionTypes = makeProcessActionTypes(
+    processTypes.printWorksOrderLabels.actionType
+);
+
+export const printWorksOrderAioLabelsActionTypes = makeProcessActionTypes(
+    processTypes.printWorksOrderAioLabels.actionType
+);

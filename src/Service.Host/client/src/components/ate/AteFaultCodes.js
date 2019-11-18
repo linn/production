@@ -51,6 +51,7 @@ function AteFaultCodes({ loading, itemError, history, items }) {
                         pageOptions.currentPage * pageOptions.rowsPerPage,
                         pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
                     )
+                    .map(r => ({ ...r, id: r.faultCode }))
             );
         }
     }, [
@@ -74,15 +75,18 @@ function AteFaultCodes({ loading, itemError, history, items }) {
             ) : (
                 <Fragment>
                     <CreateButton createUrl="/production/quality/ate/fault-codes/create" />
-                    <PaginatedTable
-                        columns={columns}
-                        sortable
-                        handleRowLinkClick={handleRowLinkClick}
-                        rows={rowsToDisplay}
-                        pageOptions={pageOptions}
-                        setPageOptions={setPageOptions}
-                        totalItemCount={items ? items.length : 0}
-                    />
+
+                    {rowsToDisplay.length > 0 && (
+                        <PaginatedTable
+                            columns={columns}
+                            sortable
+                            handleRowLinkClick={handleRowLinkClick}
+                            rows={rowsToDisplay}
+                            pageOptions={pageOptions}
+                            setPageOptions={setPageOptions}
+                            totalItemCount={items ? items.length : 0}
+                        />
+                    )}
                 </Fragment>
             )}
         </Page>

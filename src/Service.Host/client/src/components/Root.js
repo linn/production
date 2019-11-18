@@ -45,6 +45,7 @@ import ProductionTriggersFacts from '../containers/reports/triggers/ProductionTr
 import WwdTriggerReport from '../containers/reports/wwd/WwdTriggerReport';
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
+import AssemblyFailsDetailsOptions from '../containers/reports/AssemblyFailsDetailsOptions';
 import AssemblyFailsDetails from '../containers/reports/AssemblyFailsDetails';
 import WorksOrder from '../containers/worksOrders/WorksOrder';
 import CreateWorksOrder from '../containers/worksOrders/CreateWorksOrder';
@@ -76,6 +77,8 @@ import WorksOrderBatchNotes from '../containers/worksOrders/WorksOrderBatchNotes
 import ManufacturingRoute from '../containers/manufacturingRoutes/ManufacturingRoute';
 import ManufacturingRoutes from '../containers/manufacturingRoutes/ManufacturingRoutes';
 import CreateManufacturingRoute from '../containers/manufacturingRoutes/CreateManufacturingRoute';
+import PartFailDetailsReportOptions from '../containers/reports/PartFailDetailsReportOptions';
+import PartFailDetailsReport from '../containers/reports/PartFailDetailsReport';
 import WorksOrderLabels from '../containers/worksOrders/WorksOrderLabels';
 import WorksOrderLabel from '../containers/worksOrders/WorksOrderLabel';
 import CreateWorksOrderLabel from '../containers/worksOrders/CreateWorksOrderLabel';
@@ -139,7 +142,7 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/works-orders-batch-notes"
+                                        path="/production/works-orders/batch-notes"
                                         component={WorksOrderBatchNotes}
                                     />
                                     <Route
@@ -334,8 +337,13 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/assembly-fails-details"
+                                        path="/production/reports/assembly-fails-details/report"
                                         component={AssemblyFailsDetails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/assembly-fails-details"
+                                        component={AssemblyFailsDetailsOptions}
                                     />
                                     <Route
                                         exact
@@ -376,6 +384,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/quality/part-fails/create"
                                         component={CreatePartFail}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/detail-report/report"
+                                        component={PartFailDetailsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/part-fails/detail-report"
+                                        component={PartFailDetailsReportOptions}
                                     />
                                     <Route
                                         exact

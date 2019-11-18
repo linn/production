@@ -1,8 +1,8 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Linq;
     using System.Linq.Expressions;
-
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
@@ -11,12 +11,12 @@
     public class ManufacturingRouteService : FacadeService<ManufacturingRoute, string, ManufacturingRouteResource,
         ManufacturingRouteResource>
     {
-        private readonly IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationService;
+        private readonly IManufacturingOperationsService manufacturingOperationService;
 
         public ManufacturingRouteService(
             IRepository<ManufacturingRoute, string> repository,
             ITransactionManager transactionManager,
-            IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationService)
+            IManufacturingOperationsService manufacturingOperationService)
             : base(repository, transactionManager)
         {
             this.manufacturingOperationService = manufacturingOperationService;
@@ -32,6 +32,13 @@
             entity.RouteCode = updateResource.RouteCode;
             entity.Description = updateResource.Description;
             entity.Notes = updateResource.Notes;
+
+            var operationsForDeletion = entity.Operations.Where(x => !updateResource.Operations.Any(z => z.ManufacturingId == x.ManufacturingId));
+
+            foreach (var operation in operationsForDeletion)
+            {
+                this.manufacturingOperationService.RemoveOperation(operation);
+            }
 
             foreach (var operation in updateResource.Operations)
             {

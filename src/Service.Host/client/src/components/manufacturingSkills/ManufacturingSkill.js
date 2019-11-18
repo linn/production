@@ -60,7 +60,7 @@ function ManufacturingSkill({
     };
 
     const handleBackClick = () => {
-        history.push('/production/resources/manufacturing-skills/');
+        history.push('/production/resources');
     };
 
     const handleFieldChange = (propertyName, newValue) => {

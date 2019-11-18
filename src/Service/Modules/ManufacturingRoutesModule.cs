@@ -18,13 +18,14 @@
     {
         private readonly IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> manufacturingRouteService;
 
-        private readonly IAuthorisationService AuthorisationService;
+        private readonly IAuthorisationService authorisationService;
 
-        public ManufacturingRoutesModule(IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> manufacturingRouteService, 
-                                         IAuthorisationService authorisationService)
+        public ManufacturingRoutesModule(
+            IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> manufacturingRouteService,
+            IAuthorisationService authorisationService)
         {
             this.manufacturingRouteService = manufacturingRouteService;
-            this.AuthorisationService = authorisationService;
+            this.authorisationService = authorisationService;
             this.Get("/production/resources/manufacturing-routes", _ => this.Search());
             this.Get("/production/resources/manufacturing-routes/{routeCode*}", parameters => this.GetById(parameters.routeCode));
             this.Put("/production/resources/manufacturing-routes/{routeCode*}", parameters => this.UpdateManufacturingRoute(parameters.routeCode));
@@ -59,7 +60,7 @@
         {
             this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-            if (this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, privileges))
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, privileges))
             {
                 try
                 {
@@ -86,7 +87,7 @@
         {
             this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-            if (this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, privileges))
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, privileges))
             {
                 try
                 {

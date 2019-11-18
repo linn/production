@@ -1,13 +1,13 @@
 import { ItemType } from '@linn-it/linn-form-components-library';
 
 export const buildsSummaryReport = new ItemType(
-    'buildsSummary',
+    'buildsSummaryReport',
     'BUILDS_SUMMARY_REPORT',
     '/production/reports/builds-summary'
 );
 
 export const buildsDetailReport = new ItemType(
-    'buildsDetail',
+    'buildsDetailReport',
     'BUILDS_DETAIL_REPORT',
     '/production/reports/builds-detail'
 );
@@ -75,7 +75,7 @@ export const assemblyFailsMeasures = new ItemType(
 export const assemblyFailsDetails = new ItemType(
     'assemblyFailsDetails',
     'ASSEMBLY_FAILS_DETAILS_REPORT',
-    '/production/reports/assembly-fails-details'
+    '/production/reports/assembly-fails-details/report'
 );
 
 export const smtOutstandingWorkOrderParts = new ItemType(
@@ -106,4 +106,10 @@ export const boardTestDetailsReport = new ItemType(
     'boardTestDetailsReport',
     'BOARD_TEST_DETAILS_REPORT',
     '/production/reports/board-test-details-report'
+);
+
+export const partFailDetailsReport = new ItemType(
+    'partFailDetailsReport',
+    'PART_FAIL_DETAILS_REPORT',
+    '/production/quality/part-fails/detail-report/report'
 );

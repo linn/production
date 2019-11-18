@@ -46,8 +46,9 @@ function TriggersList({ triggers, jobref, citcode }) {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {triggers.map(m => (
-                    <TableRow>
+                {triggers.map((m, i) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <TableRow key={i}>
                         <TableCell>{m.partNumber}</TableCell>
                         <TableCell>{m.description}</TableCell>
                         <TableCell>

@@ -41,13 +41,17 @@ function BoardTestsReportOptions({ history }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                    <DatePicker label="From Date" value={fromDate} onChange={setFromDate} />
+                    <DatePicker
+                        label="From Date"
+                        value={fromDate.toString()}
+                        onChange={setFromDate}
+                    />
                 </Grid>
                 <Grid item xs={3}>
                     <DatePicker
                         label="To Date"
-                        value={toDate}
-                        minDate={fromDate}
+                        value={toDate.toString()}
+                        minDate={fromDate.toString()}
                         onChange={setToDate}
                     />
                 </Grid>

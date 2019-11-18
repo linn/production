@@ -55,6 +55,7 @@ const ViewManufacturingRoutes = ({ loading, itemError, history, items, fetchItem
                         pageOptions.currentPage * pageOptions.rowsPerPage,
                         pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
                     )
+                    .map(r => ({ ...r, id: r.routeCode }))
             );
         }
     }, [
@@ -103,14 +104,16 @@ const ViewManufacturingRoutes = ({ loading, itemError, history, items, fetchItem
                 <Loading />
             ) : (
                 <Fragment>
-                    <PaginatedTable
-                        columns={columns}
-                        handleRowLinkClick={handleRowLinkClick}
-                        rows={rowsToDisplay}
-                        pageOptions={pageOptions}
-                        setPageOptions={setPageOptions}
-                        totalItemCount={items ? items.length : 0}
-                    />
+                    {rowsToDisplay.length > 0 && (
+                        <PaginatedTable
+                            columns={columns}
+                            handleRowLinkClick={handleRowLinkClick}
+                            rows={rowsToDisplay}
+                            pageOptions={pageOptions}
+                            setPageOptions={setPageOptions}
+                            totalItemCount={items ? items.length : 0}
+                        />
+                    )}
                 </Fragment>
             )}
         </Page>

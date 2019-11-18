@@ -19,7 +19,8 @@ const routeOperations = [
         setAndCleanTime: 13,
         resourceCode: 'resource1',
         cycleTime: 4,
-        labourPercentage: 87
+        labourPercentage: 87,
+        manufacturingId: 0
     },
     {
         operationNumber: 222,
@@ -29,7 +30,8 @@ const routeOperations = [
         setAndCleanTime: 22,
         resourceCode: 'resource2',
         cycleTime: 8,
-        labourPercentage: 16
+        labourPercentage: 16,
+        manufacturingId: 1
     }
 ];
 const manufacturingRoute = {
