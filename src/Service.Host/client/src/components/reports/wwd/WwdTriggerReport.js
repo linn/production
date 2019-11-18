@@ -41,9 +41,9 @@ function WwdTriggerReport({ reportData, loading, itemError, options }) {
                             <Fragment>
                                 <Title text="What Will Decrement From A Workstation" />
                                 <div className={classes.padbottom}>
-                                    <span>
+                                    <Typography>
                                         {`${reportData.qty} x ${reportData.partNumber} from workstation ${reportData.workStationCode} `}
-                                    </span>
+                                    </Typography>
                                     {options.ptlJobref ? (
                                         <Link
                                             component={RouterLink}

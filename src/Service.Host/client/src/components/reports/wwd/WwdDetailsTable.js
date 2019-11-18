@@ -10,20 +10,20 @@ import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
 function WwdDetailsTable({ details }) {
-    function remarksIcon(d) {
-        if (d.remarks) {
-            if (d.remarks.includes('totally SHORT')) {
+    function remarksIcon(detail) {
+        if (detail.remarks) {
+            if (detail.remarks.includes('totally SHORT')) {
                 return (
-                    <Tooltip title={`${d.partNumber} is totally Short`}>
+                    <Tooltip title={`${detail.partNumber} is totally Short`}>
                         <WarningIcon color="error" />
                     </Tooltip>
                 );
             }
         }
 
-        if (d.qtyReserved) {
+        if (detail.qtyReserved) {
             return (
-                <Tooltip title={`${d.partNumber} has ${d.qtyReserved} reserved`}>
+                <Tooltip title={`${detail.partNumber} has ${detail.qtyReserved} reserved`}>
                     <ErrorOutlineIcon color="primary" />
                 </Tooltip>
             );

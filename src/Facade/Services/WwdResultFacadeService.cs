@@ -51,7 +51,7 @@
                 Qty = qty.Value,
                 WorkStationCode = triggerLevel.WsName,
                 PtlJobref = ptlJobref,
-                WwdRunTime = DateTime.Now
+                WwdRunTime = DateTime.UtcNow
             };
 
             result.WwdJobId = this.wwdTrigFunction.WwdTriggerRun(partNumber, qty.Value);

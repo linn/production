@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
-import { ReportSelectors, getItemError } from '@linn-it/linn-form-components-library';
+import {
+    ReportSelectors,
+    initialiseOnMount,
+    getItemError
+} from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import initialiseOnMount from '../../initialiseOnMount';
 import WwdTriggerReport from '../../../components/reports/wwd/WwdTriggerReport';
 import actions from '../../../actions/wwdTriggerReportActions';
 import * as reportTypes from '../../../reportTypes';
-
+ 
 import config from '../../../config';
 
 const reportSelectors = new ReportSelectors(reportTypes.wwdTriggerReport.item);
