@@ -1,8 +1,5 @@
-﻿import { connect } from './node_modules/react-redux';
-import {
-    getItemError,
-    initialiseOnMount
-} from './node_modules/@linn-it/linn-form-components-library';
+﻿import { connect } from 'react-redux';
+import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import LabelType from '../../components/labelTypes/LabelType';
 import labelTypeActions from '../../actions/labelTypeActions';
 import labelTypeSelectors from '../../selectors/labelTypeSelectors';

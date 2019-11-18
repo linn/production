@@ -58,6 +58,12 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
             skillCode: el.skillCode,
             description: el.description,
             hourlyRate: el.hourlyRate,
+
+
+
+
+
+
             links: el.links
         }));
 
@@ -84,9 +90,16 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
     const handleRowLinkClick = href => history.push(href);
 
     const columns = {
-        skillCode: 'Skill Code',
+        labelTypeCode: 'Skill Code',
         description: 'Description',
-        hourlyRate: 'Hourly Rate'
+        barcodePrefix: 'Barcode Prefix',
+        nSBarcodePrefix: 'NS Barcode Prefix',
+        filename: 'Filename',
+        defaultPrinter: 'Default Printer',
+        commandFilename: 'Command Filename',
+        testFilename: 'Test Filename',
+        testPrinter: 'Test Printer',
+        testCommandFilename: 'Test Command Filename'
     };
 
     return (
@@ -98,7 +111,7 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
             ) : (
                 <Fragment>
                     <Fragment className={classes.actionsContainer}>
-                        <CreateButton createUrl="/production/resources/manufacturing-skills/create" />
+                        <CreateButton createUrl="/production/resources/label-types/create" />
                     </Fragment>
 
                     <PaginatedTable
