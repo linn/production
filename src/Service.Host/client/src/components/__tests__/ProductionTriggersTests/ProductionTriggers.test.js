@@ -59,7 +59,7 @@ describe('<ProductionTriggers />', () => {
                     qtyBeingBuilt: 0
                 }
             ]
-        }
+        };
 
         it('should not display spinner', () => {
             const { queryByRole } = render(
@@ -79,6 +79,64 @@ describe('<ProductionTriggers />', () => {
                 expect(secondPart).toBeInTheDocument();
                 expect(queryByText('MAJIK THING')).toBeNull();
             });
+        });
+    });
+
+    describe('When Can Build from trigger build', () => {
+        const defaultReportData = {
+            citCode: 'A',
+            ptlJobref: 'AAAAAA',
+            ptlRunDateTime: new Date(),
+            triggers: [
+                {
+                    partNumber: 'SERIES K',
+                    description: 'SERIES K CONTROLLERNATOR',
+                    reqtForInternalAndTriggerLevelBT: 4,
+                    priority: 1,
+                    canBuild: 4,
+                    kanbanSize: 1,
+                    qtyBeingBuilt: 0,
+                    story: 'Neverending story',
+                    reportFormat: 'BRIEF'
+                }
+            ]
+        };
+
+        it('should display Yes', () => {
+            const { getByText, queryByText } = render(
+                <ProductionTriggers {...defaultProps} reportData={defaultReportData} />
+            );
+            const yes = getByText('Yes');
+            expect(yes).toBeInTheDocument();
+        });
+    });
+
+    describe('When Can Build from being built', () => {
+        const defaultReportData = {
+            citCode: 'A',
+            ptlJobref: 'AAAAAA',
+            ptlRunDateTime: new Date(),
+            triggers: [
+                {
+                    partNumber: 'SERIES K',
+                    description: 'SERIES K CONTROLLERNATOR',
+                    reqtForInternalAndTriggerLevelBT: 0,
+                    priority: 1,
+                    canBuild: 4,
+                    kanbanSize: 1,
+                    qtyBeingBuilt: 4,
+                    story: 'Neverending story',
+                    reportFormat: 'BRIEF'
+                }
+            ]
+        };
+
+        it('should display Yes', () => {
+            const { getByText, queryByText } = render(
+                <ProductionTriggers {...defaultProps} reportData={defaultReportData} />
+            );
+            const yes = getByText('Yes');
+            expect(yes).toBeInTheDocument();
         });
     });
 });

@@ -85,6 +85,10 @@ export const productionTriggerFactsTypes = makeReportActionTypes(
     reportTypes.productionTriggerFacts.actionType
 );
 
+export const wwdTriggerReportTypes = makeReportActionTypes(
+    reportTypes.wwdTriggerReport.actionType
+);
+
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );
