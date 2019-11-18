@@ -11,12 +11,16 @@
 
         private readonly IOverdueOrdersService overdueOrdersService;
 
+        private readonly IProductionBackOrdersReportService productionBackOrdersReportService;
+
         public OrdersReportsFacadeService(
             IManufacturingCommitDateReport manufacturingCommitDateReportService,
-            IOverdueOrdersService overdueOrdersService)
+            IOverdueOrdersService overdueOrdersService,
+            IProductionBackOrdersReportService productionBackOrdersReportService)
         {
             this.manufacturingCommitDateReportService = manufacturingCommitDateReportService;
             this.overdueOrdersService = overdueOrdersService;
+            this.productionBackOrdersReportService = productionBackOrdersReportService;
         }
 
         public IResult<ManufacturingCommitDateResults> ManufacturingCommitDateReport(string date)
@@ -32,6 +36,11 @@
                 this.overdueOrdersService.OverdueOrdersReport(
                     reportBy,
                     daysMethod));
+        }
+
+        public IResult<ResultsModel> ProductionBackOrdersReport(string citCode)
+        {
+            return new SuccessResult<ResultsModel>(this.productionBackOrdersReportService.ProductionBackOrders(citCode));
         }
     }
 }

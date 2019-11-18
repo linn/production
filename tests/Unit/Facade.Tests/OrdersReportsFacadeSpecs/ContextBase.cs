@@ -15,12 +15,18 @@
 
         protected IOverdueOrdersService OverdueOrdersService { get; private set; }
 
+        protected IProductionBackOrdersReportService ProductionBackOrdersReportService { get; private set; }
+
         [SetUp]
         public void SetUpContext()
         {
             this.ManufacturingCommitDateReport = Substitute.For<IManufacturingCommitDateReport>();
             this.OverdueOrdersService = Substitute.For<IOverdueOrdersService>();
-            this.Sut = new OrdersReportsFacadeService(this.ManufacturingCommitDateReport, this.OverdueOrdersService);
+            this.ProductionBackOrdersReportService = Substitute.For<IProductionBackOrdersReportService>();
+            this.Sut = new OrdersReportsFacadeService(
+                this.ManufacturingCommitDateReport,
+                this.OverdueOrdersService,
+                this.ProductionBackOrdersReportService);
         }
     }
 }

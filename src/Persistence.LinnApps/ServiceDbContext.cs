@@ -119,6 +119,8 @@
 
         public DbQuery<PartFailSupplierView> PartFailSuppliersView { get; set; }
 
+        public DbQuery<ProductionBackOrdersView> ProductionBackOrdersView { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -174,6 +176,7 @@
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
             this.QueryPartFailSuppliersView(builder);
+            this.QueryProductionBackOrdersView(builder);
             this.QueryWwdDetails(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
@@ -445,6 +448,19 @@
             q.ToView("V_PART_FAIL_SUPPLIERS");
             q.Property(t => t.SupplierId).HasColumnName("SUPPLIER_ID");
             q.Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
+        }
+
+        private void QueryProductionBackOrdersView(ModelBuilder builder)
+        {
+            builder.Query<ProductionBackOrdersView>().ToView("PRODUCTION_BACK_ORDERS_VIEW");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.InvoiceDescription).HasColumnName("INVOICE_DESCRIPTION");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.OrderQuantity).HasColumnName("ORDER_QTY");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.OrderValue).HasColumnName("ORDER_VALUE");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.OldestDate).HasColumnName("OLDEST_DATE");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildQuantity).HasColumnName("CAN_BUILD_QTY");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildValue).HasColumnName("CAN_BUILD_VALUE");
         }
 
         private void QueryPartFailLogs(ModelBuilder builder)
