@@ -81,6 +81,7 @@ import PartFailDetailsReport from '../containers/reports/PartFailDetailsReport';
 import WorksOrderLabels from '../containers/worksOrders/WorksOrderLabels';
 import WorksOrderLabel from '../containers/worksOrders/WorksOrderLabel';
 import CreateWorksOrderLabel from '../containers/worksOrders/CreateWorksOrderLabel';
+import ProductionBackOrdersReport from '../containers/reports/ProductionBackOrdersReport';
 
 const Root = ({ store }) => (
     <div>
@@ -448,6 +449,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/overdue-orders"
                                         component={OverdueOrdersReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/production-back-orders"
+                                        component={ProductionBackOrdersReport}
                                     />
                                     <Route
                                         exact

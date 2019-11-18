@@ -11,5 +11,7 @@
         IResult<ResultsModel> GetOverdueOrdersReport(
             string reportBy,
             string daysMethod);
+
+        IResult<ResultsModel> ProductionBackOrdersReport(string citCode);
     }
 }

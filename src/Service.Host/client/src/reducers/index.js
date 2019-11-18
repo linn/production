@@ -69,6 +69,7 @@ import partFailDetailsReport from './partFailDetailsReport';
 import partFailSuppliers from './partFailSuppliers';
 import printWorksOrderLabels from './printWorksOrderLabels';
 import printWorksOrderAioLabels from './printWorksOrderAioLabels';
+import productionBackOrdersReport from './productionBackOrdersReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -120,6 +121,7 @@ const rootReducer = combineReducers({
     printMACLabels,
     printWorksOrderLabels,
     printWorksOrderAioLabels,
+    productionBackOrdersReport,
     productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,

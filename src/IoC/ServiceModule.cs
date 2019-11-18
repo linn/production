@@ -44,6 +44,7 @@
             builder.RegisterType<PartsReportService>().As<IPartsReportService>();
             builder.RegisterType<LabelService>().As<ILabelService>();
             builder.RegisterType<BoardTestReports>().As<IBoardTestReports>();
+            builder.RegisterType<ProductionBackOrdersReportService>().As<IProductionBackOrdersReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
