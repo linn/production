@@ -16,6 +16,7 @@ import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
 import productionTriggersReport from './productionTriggersReport';
 import productionTriggerFacts from './productionTriggerFacts';
+import wwdTriggerReport from './wwdTriggerReport';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
 import cits from './cits';
@@ -126,6 +127,7 @@ const rootReducer = combineReducers({
     productionMeasures,
     productionTriggersReport,
     productionTriggerFacts,
+    wwdTriggerReport,
     ptlSettings,
     salesArticle,
     salesArticles,
