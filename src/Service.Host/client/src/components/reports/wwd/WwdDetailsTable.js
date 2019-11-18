@@ -5,18 +5,30 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import WarningIcon from '@material-ui/icons/Warning';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import Tooltip from '@material-ui/core/Tooltip';
 import PropTypes from 'prop-types';
 
 function WwdDetailsTable({ details }) {
     function remarksIcon(d) {
-        if (d.remarks.includes('totally SHORT')) {
+        if (d.remarks) {
+            if (d.remarks.includes('totally SHORT')) {
+                return (
+                    <Tooltip title={`${d.partNumber} is totally Short`}>
+                        <WarningIcon color="error" />
+                    </Tooltip>
+                );
+            }
+        }
+
+        if (d.qtyReserved) {
             return (
-                <Tooltip title={`${d.partNumber} is totally Short`}>
-                    <WarningIcon color="error" />
+                <Tooltip title={`${d.partNumber} has ${d.qtyReserved} reserved`}>
+                    <ErrorOutlineIcon color="primary" />
                 </Tooltip>
             );
         }
+
         return '';
     }
 

@@ -23,6 +23,10 @@ function TriggersList({ triggers, jobref, citcode }) {
         if (t.canBuild >= build(t) && build(t)) {
             return 'Yes';
         }
+
+        if (!build(t) && t.canBuild >= t.qtyBeingBuilt) {
+            return 'Yes';
+        }
         return t.canBuild;
     }
 
