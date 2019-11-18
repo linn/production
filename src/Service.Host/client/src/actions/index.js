@@ -214,3 +214,7 @@ export const printWorksOrderLabelsActionTypes = makeProcessActionTypes(
 export const printWorksOrderAioLabelsActionTypes = makeProcessActionTypes(
     processTypes.printWorksOrderAioLabels.actionType
 );
+
+export const productionBackOrdersReportActionTypes = makeReportActionTypes(
+    reportTypes.productionBackOrdersReport.actionType
+);

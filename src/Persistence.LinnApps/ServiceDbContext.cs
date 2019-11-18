@@ -454,6 +454,7 @@
         {
             builder.Query<ProductionBackOrdersView>().ToView("PRODUCTION_BACK_ORDERS_VIEW");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<ProductionBackOrdersView>().Property(p => p.JobId).HasColumnName("JOB_ID");
             builder.Query<ProductionBackOrdersView>().Property(p => p.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
             builder.Query<ProductionBackOrdersView>().Property(p => p.InvoiceDescription).HasColumnName("INVOICE_DESCRIPTION");
             builder.Query<ProductionBackOrdersView>().Property(p => p.OrderQuantity).HasColumnName("ORDER_QTY");

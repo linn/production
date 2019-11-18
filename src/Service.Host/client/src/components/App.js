@@ -125,6 +125,9 @@ function App() {
                 <ListItem component={Link} to="/production/reports/board-tests-report" button>
                     <Typography color="primary">Board Tests Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/reports/production-back-orders" button>
+                    <Typography color="primary">Production Back Orders Report</Typography>
+                </ListItem>
             </List>
         </Page>
     );

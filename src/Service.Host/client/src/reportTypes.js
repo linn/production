@@ -107,3 +107,9 @@ export const partFailDetailsReport = new ItemType(
     'PART_FAIL_DETAILS_REPORT',
     '/production/quality/part-fails/detail-report/report'
 );
+
+export const productionBackOrdersReport = new ItemType(
+    'productionBackOrdersReport',
+    'PRODUCTION_BACK_ORDERS_REPORT',
+    '/production/reports/production-back-orders'
+);
