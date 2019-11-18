@@ -14,7 +14,7 @@
         protected IPartsReportService PartsReportService { get; private set; }
 
         [SetUp]
-        public void SetUp()
+        public void SetUpContext()
         {
             this.PartsReportService = Substitute.For<IPartsReportService>();
             this.Sut = new PartsReportFacadeService(this.PartsReportService);

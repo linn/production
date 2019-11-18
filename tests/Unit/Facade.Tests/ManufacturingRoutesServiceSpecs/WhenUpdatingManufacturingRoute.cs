@@ -1,13 +1,17 @@
 ﻿namespace Linn.Production.Facade.Tests.ManufacturingRoutesServiceSpecs
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
+
     using NSubstitute;
+
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class WhenUpdatingManufacturingRoute : ContextBase
     {
@@ -54,42 +58,44 @@
                                                };
             this.manufacturingRoute.Operations = this.manufacturingOperations;
 
-            this.opResources = new List<ManufacturingOperationResource> {
-                new ManufacturingOperationResource {
-                    RouteCode = this.routeCode,
-                    ManufacturingId = 77,
-                    OperationNumber = 15,
-                    Description = "descrip of op",
-                    SkillCode = "codeOfOperation",
-                    ResourceCode = "res Code",
-                    SetAndCleanTime = 27,
-                    CycleTime = 54,
-                    LabourPercentage = 5,
-                    CITCode = "cit code test"
-                },
-               new ManufacturingOperationResource {
-                    RouteCode = this.routeCode,
-                    ManufacturingId = 78,
-                    OperationNumber = 16,
-                    Description = "descripop",
-                    SkillCode = "sklcode",
-                    ResourceCode = "rescd",
-                    SetAndCleanTime = 28,
-                    CycleTime = 55,
-                    LabourPercentage = 6,
-                    CITCode = "code test"
-                }
-             };
+            this.opResources = new List<ManufacturingOperationResource>
+                                   {
+                                       new ManufacturingOperationResource
+                                           {
+                                               RouteCode = this.routeCode,
+                                               ManufacturingId = 77,
+                                               OperationNumber = 15,
+                                               Description = "descrip of op",
+                                               SkillCode = "codeOfOperation",
+                                               ResourceCode = "res Code",
+                                               SetAndCleanTime = 27,
+                                               CycleTime = 54,
+                                               LabourPercentage = 5,
+                                               CITCode = "cit code test"
+                                           },
+                                       new ManufacturingOperationResource
+                                           {
+                                               RouteCode = this.routeCode,
+                                               ManufacturingId = 78,
+                                               OperationNumber = 16,
+                                               Description = "descripop",
+                                               SkillCode = "sklcode",
+                                               ResourceCode = "rescd",
+                                               SetAndCleanTime = 28,
+                                               CycleTime = 55,
+                                               LabourPercentage = 6,
+                                               CITCode = "code test"
+                                           }
+                                   };
             this.resource = new ManufacturingRouteResource
-            {
-                RouteCode = this.routeCode,
-                Description = "wood chuck chuck",
-                Notes = "noted",
-                Operations = this.opResources
-            };
+                                {
+                                    RouteCode = this.routeCode,
+                                    Description = "wood chuck chuck",
+                                    Notes = "noted",
+                                    Operations = this.opResources
+                                };
 
-            this.ManufacturingRouteRepository.FindById(this.routeCode)
-                .Returns(this.manufacturingRoute);
+            this.ManufacturingRouteRepository.FindById(this.routeCode).Returns(this.manufacturingRoute);
 
             this.ManufacturingOperationRepository.FindById(77)
                 .Returns(this.manufacturingOperations.First(x => x.ManufacturingId == 77));

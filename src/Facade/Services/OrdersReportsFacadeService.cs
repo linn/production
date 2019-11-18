@@ -1,5 +1,8 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using System.Collections;
+    using System.Collections.Generic;
+
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Models;
@@ -38,9 +41,9 @@
                     daysMethod));
         }
 
-        public IResult<ResultsModel> ProductionBackOrdersReport(string citCode)
+        public IResult<IEnumerable<ResultsModel>> ProductionBackOrdersReport(string citCode)
         {
-            return new SuccessResult<ResultsModel>(this.productionBackOrdersReportService.ProductionBackOrders(citCode));
+            return new SuccessResult<IEnumerable<ResultsModel>>(this.productionBackOrdersReportService.ProductionBackOrders(citCode));
         }
     }
 }

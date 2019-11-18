@@ -1,5 +1,8 @@
 ﻿namespace Linn.Production.Facade.Tests.OrdersReportsFacadeSpecs
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -11,13 +14,13 @@
 
     public class WhenGettingProductionBackOrdersReport : ContextBase
     {
-        private IResult<ResultsModel> result;
+        private IResult<IEnumerable<ResultsModel>> result;
 
         [SetUp]
         public void SetUp()
         {
             this.ProductionBackOrdersReportService.ProductionBackOrders("B")
-                .Returns(new ResultsModel { ReportTitle = new NameModel("Title") });
+                .Returns(new List<ResultsModel> { new ResultsModel { ReportTitle = new NameModel("Title") } });
 
             this.result = this.Sut.ProductionBackOrdersReport("B");
         }
@@ -31,9 +34,9 @@
         [Test]
         public void ShouldReturnSuccess()
         {
-            this.result.Should().BeOfType<SuccessResult<ResultsModel>>();
-            var dataResult = ((SuccessResult<ResultsModel>)this.result).Data;
-            dataResult.ReportTitle.DisplayValue.Should().Be("Title");
+            this.result.Should().BeOfType<SuccessResult<IEnumerable<ResultsModel>>>();
+            var dataResult = ((SuccessResult<IEnumerable<ResultsModel>>)this.result).Data;
+            dataResult.First().ReportTitle.DisplayValue.Should().Be("Title");
         }
     }
 }

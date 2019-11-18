@@ -11,14 +11,14 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingProductionBackOrdersReport : ContextBase
+    public class WhenGettingProductionBackOrdersReportForCit : ContextBase
     {
         private IEnumerable<ResultsModel> result;
 
         [SetUp]
         public void SetUp()
         {
-            this.result = this.Sut.ProductionBackOrders(null);
+            this.result = this.Sut.ProductionBackOrders("S");
         }
 
         [Test]
@@ -28,13 +28,16 @@
         }
 
         [Test]
+        public void ShouldGetReportTitle()
+        {
+            this.result.First().ReportTitle.DisplayValue.Should().Be("Production Back Orders For Cit S - Production");
+        }
+
+        [Test]
         public void ShouldSetReportValues()
         {
-            this.result.Should().HaveCount(2);
+            this.result.Should().HaveCount(1);
             var cit1 = this.result.First();
-            cit1.ReportTitle.DisplayValue.Should().Be("Production Back Orders For Cit S - Production");
-            var cit2 = this.result.Last();
-            cit2.ReportTitle.DisplayValue.Should().Be("Production Back Orders For Cit T - Turning");
             cit1.Rows.Should().HaveCount(2);
             cit1.GetGridTextValue(cit1.RowIndex("A"), cit1.ColumnIndex("Article Number"))
                 .Should().Be("A");
@@ -66,22 +69,6 @@
                 .Should().Be(2);
             cit1.GetGridValue(cit1.RowIndex("B"), cit1.ColumnIndex("Can Build Value"))
                 .Should().Be(1126.46m);
-
-            cit2.GetGridTextValue(cit2.RowIndex("C"), cit2.ColumnIndex("Article Number"))
-                .Should().Be("C");
-            cit2.GetGridTextValue(cit2.RowIndex("C"), cit2.ColumnIndex("Description"))
-                .Should().Be("C Desc");
-            cit2.GetGridValue(cit2.RowIndex("C"), cit2.ColumnIndex("Order Qty"))
-                .Should().Be(
-                    1);
-            cit2.GetGridValue(cit2.RowIndex("C"), cit2.ColumnIndex("Order Value"))
-                .Should().Be(100m);
-            cit2.GetGridTextValue(cit2.RowIndex("C"), cit2.ColumnIndex("Oldest Date"))
-                .Should().Be("01-Aug-2020");
-            cit2.GetGridValue(cit2.RowIndex("C"), cit2.ColumnIndex("Can Build Qty"))
-                .Should().Be(1);
-            cit2.GetGridValue(cit2.RowIndex("C"), cit2.ColumnIndex("Can Build Value"))
-                .Should().Be(100m);
         }
     }
 }
