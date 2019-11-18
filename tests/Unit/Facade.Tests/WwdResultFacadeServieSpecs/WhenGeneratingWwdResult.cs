@@ -26,8 +26,26 @@
 
             var details = new List<WwdDetail>()
             {
-                new WwdDetail { PartNumber = "AKUB SPKR", Description = "SOUND MAKING BIT", QtyAtLocation = 1, QtyKitted = 0, QtyReserved = 0, StoragePlace = "P666", Remarks = ""},
-                new WwdDetail { PartNumber = "AKUB PYRO", Description = "NO PYRO NO PARTY", QtyAtLocation = 0, QtyKitted = 0, QtyReserved = 0, StoragePlace = "E-FA-STANDS", Remarks = "Remember kids fireworks are dangerous"}
+                new WwdDetail
+                    {
+                        PartNumber = "AKUB SPKR",
+                        Description = "SOUND MAKING BIT",
+                        QtyAtLocation = 1,
+                        QtyKitted = 0,
+                        QtyReserved = 0,
+                        StoragePlace = "P666",
+                        Remarks = string.Empty
+                    },
+                new WwdDetail
+                    {
+                        PartNumber = "AKUB PYRO",
+                        Description = "NO PYRO NO PARTY",
+                        QtyAtLocation = 0,
+                        QtyKitted = 0,
+                        QtyReserved = 0,
+                        StoragePlace = "E-FA-STANDS",
+                        Remarks = "Remember kids fireworks are dangerous"
+                    }
             };
             this.WwdDetailRepository.FilterBy(Arg.Any<Expression<Func<WwdDetail, bool>>>()).Returns(details.AsQueryable());
 
