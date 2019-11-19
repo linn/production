@@ -42,9 +42,9 @@
                 .Returns(new AccountingCompany { LatestSosJobId = 1234, Name = "LINN" });
 
             this.CitsRepository.FindById("S")
-                .Returns(new Cit { Name = "Production" });
+                .Returns(new Cit { Name = "Production", SortOrder = 10 });
             this.CitsRepository.FindById("T")
-                .Returns(new Cit { Name = "Turning" });
+                .Returns(new Cit { Name = "Turning", SortOrder = 20 });
 
             this.ProductionBackOrdersViewRepository
                 .FilterBy(Arg.Any<Expression<Func<ProductionBackOrdersView, bool>>>()).Returns(
@@ -58,7 +58,7 @@
                                     InvoiceDescription = "A Desc",
                                     CanBuildQuantity = 3,
                                     CanBuildValue = 400.34m,
-                                    OldestDate = 1.December(2020),
+                                    OldestDate = 1.July(2020),
                                     JobId = 1234,
                                     CitCode = "S"
                                 },
@@ -70,7 +70,7 @@
                                     InvoiceDescription = "B Desc",
                                     CanBuildQuantity = 2,
                                     CanBuildValue = 1126.46m,
-                                    OldestDate = 1.July(2020),
+                                    OldestDate = 1.December(2020),
                                     JobId = 1234,
                                     CitCode = "S"
                                 },
