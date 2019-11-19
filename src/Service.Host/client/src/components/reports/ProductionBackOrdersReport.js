@@ -33,7 +33,7 @@ export default function ProductionBackOrdersReport({ reportData, loading, error 
 }
 
 ProductionBackOrdersReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.arrayOf(PropTypes.shape({})),
     loading: PropTypes.bool,
     error: PropTypes.string
 };
