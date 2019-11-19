@@ -55,8 +55,12 @@
 
             foreach (var cit in orders.OrderBy(a => a.CitCode).GroupBy(g => g.CitCode))
             {
-                var citName = this.citRepository.FindById(cit.Key)?.Name;
-                var resultsModel = new ResultsModel { ReportTitle = new NameModel($"Production Back Orders For Cit {cit.Key} - {citName}") };
+                var citDetails = this.citRepository.FindById(cit.Key);
+                var resultsModel = new ResultsModel
+                                       {
+                                           ReportTitle = new NameModel($"Cit {cit.Key} - {citDetails?.Name}"),
+                                           DisplaySequence = citDetails?.SortOrder
+                                       };
                 resultsModel.AddSortedColumns(columns);
 
                 var values = this.ExtractValues(cit);
@@ -70,47 +74,49 @@
         private IEnumerable<CalculationValueModel> ExtractValues(IEnumerable<ProductionBackOrdersView> orders)
         {
             var models = new List<CalculationValueModel>();
-            foreach (var productionBackOrdersView in orders)
+            var sortOrder = 0;
+            foreach (var productionBackOrdersView in orders.OrderBy(o => o.OldestDate))
             {
+                var rowId = sortOrder++;
                 models.Add(new CalculationValueModel
                                {
-                                   RowId = productionBackOrdersView.ArticleNumber,
+                                   RowId = rowId.ToString(),
                                    ColumnId = "Article Number",
-                                   TextDisplay = productionBackOrdersView.ArticleNumber
+                                   TextDisplay = productionBackOrdersView.ArticleNumber,
                                });
                 models.Add(new CalculationValueModel
                                {
-                                   RowId = productionBackOrdersView.ArticleNumber,
+                                   RowId = rowId.ToString(),
                                    ColumnId = "Description",
                                    TextDisplay = productionBackOrdersView.InvoiceDescription
                                });
                 models.Add(new CalculationValueModel
                                {
-                                   RowId = productionBackOrdersView.ArticleNumber,
+                                   RowId = rowId.ToString(),
                                    ColumnId = "Order Qty",
                                    Value = productionBackOrdersView.OrderQuantity
                                });
                 models.Add(new CalculationValueModel
                                {
-                                   RowId = productionBackOrdersView.ArticleNumber,
+                                   RowId = rowId.ToString(),
                                    ColumnId = "Order Value",
                                    Value = productionBackOrdersView.OrderValue
                                });
                 models.Add(new CalculationValueModel
                                {
-                                   RowId = productionBackOrdersView.ArticleNumber,
+                                   RowId = rowId.ToString(),
                                    ColumnId = "Oldest Date",
                                    TextDisplay = productionBackOrdersView.OldestDate.ToString("dd-MMM-yyyy")
                                });
                 models.Add(new CalculationValueModel
                                {
-                                   RowId = productionBackOrdersView.ArticleNumber,
+                                   RowId = rowId.ToString(),
                                    ColumnId = "Can Build Qty",
                                    Value = productionBackOrdersView.CanBuildQuantity
                                });
                 models.Add(new CalculationValueModel
                                {
-                                   RowId = productionBackOrdersView.ArticleNumber,
+                                   RowId = rowId.ToString(),
                                    ColumnId = "Can Build Value",
                                    Value = productionBackOrdersView.CanBuildValue
                                });
