@@ -39,9 +39,11 @@
             this.partFailSupplierService = partFailSupplierService;
             this.faultCodeService = faultCodeService;
 
-            this.Get("/production/quality/part-fails/{id}", parameters => this.GetById(parameters.id));
             this.Post("/production/quality/part-fails", _ => this.Add());
             this.Get("/production/quality/part-fails", _ => this.Search());
+            this.Get("/production/quality/part-fails/create", _ => this.GetApp());
+            this.Get("/production/quality/part-fails/{id}", parameters => this.GetById(parameters.id));
+
             this.Put("/production/quality/part-fails/{id}", parameters => this.Update(parameters.id));
 
             this.Get("/production/quality/part-fail-error-types", _ => this.GetErrorTypes());
@@ -58,6 +60,11 @@
             this.Get("/production/quality/part-fails/detail-report", _ => this.GetPartFailsDetailReportOptions());
 
             this.Get("/production/quality/part-fails/suppliers", _ => this.GetPartFailSuppliers());
+        }
+
+        private object GetApp()
+        {
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
 
         private object GetById(int id)
