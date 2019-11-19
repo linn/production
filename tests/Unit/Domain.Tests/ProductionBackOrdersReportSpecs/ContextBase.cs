@@ -10,6 +10,7 @@
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
@@ -25,6 +26,8 @@
 
         protected IRepository<AccountingCompany, string> AccountingCompaniesRepository { get; private set; }
 
+        protected IRepository<Cit, string> CitsRepository { get; private set; }
+
         protected IReportingHelper ReportingHelper { get; private set; }
 
         [SetUp]
@@ -32,10 +35,16 @@
         {
             this.ProductionBackOrdersViewRepository = Substitute.For<IQueryRepository<ProductionBackOrdersView>>();
             this.AccountingCompaniesRepository = Substitute.For<IRepository<AccountingCompany, string>>();
+            this.CitsRepository = Substitute.For<IRepository<Cit, string>>();
             this.ReportingHelper = new ReportingHelper();
 
             this.AccountingCompaniesRepository.FindById("LINN")
                 .Returns(new AccountingCompany { LatestSosJobId = 1234, Name = "LINN" });
+
+            this.CitsRepository.FindById("S")
+                .Returns(new Cit { Name = "Production" });
+            this.CitsRepository.FindById("T")
+                .Returns(new Cit { Name = "Turning" });
 
             this.ProductionBackOrdersViewRepository
                 .FilterBy(Arg.Any<Expression<Func<ProductionBackOrdersView, bool>>>()).Returns(
@@ -50,7 +59,8 @@
                                     CanBuildQuantity = 3,
                                     CanBuildValue = 400.34m,
                                     OldestDate = 1.December(2020),
-                                    JobId = 1234
+                                    JobId = 1234,
+                                    CitCode = "S"
                                 },
                             new ProductionBackOrdersView
                                 {
@@ -61,13 +71,27 @@
                                     CanBuildQuantity = 2,
                                     CanBuildValue = 1126.46m,
                                     OldestDate = 1.July(2020),
-                                    JobId = 1234
+                                    JobId = 1234,
+                                    CitCode = "S"
+                                },
+                            new ProductionBackOrdersView
+                                {
+                                    ArticleNumber = "C",
+                                    OrderQuantity = 1,
+                                    OrderValue = 100m,
+                                    InvoiceDescription = "C Desc",
+                                    CanBuildQuantity = 1,
+                                    CanBuildValue = 100m,
+                                    OldestDate = 1.August(2020),
+                                    JobId = 1234,
+                                    CitCode = "T"
                                 }
                         }.AsQueryable());
 
             this.Sut = new ProductionBackOrdersReportService(
                 this.ProductionBackOrdersViewRepository,
                 this.AccountingCompaniesRepository,
+                this.CitsRepository,
                 this.ReportingHelper);
         }
     }

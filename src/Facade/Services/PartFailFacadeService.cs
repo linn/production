@@ -49,24 +49,24 @@
         protected override PartFail CreateFromResource(PartFailResource resource)
         {
             var candidate = new PartFail
-                       {
-                           Id = this.databaseService.GetNextVal("PART_FAIL_LOG_SEQ"),
-                           EnteredBy = this.employeeRepository.FindById(resource.EnteredBy),
-                           Batch = resource.Batch,
-                           DateCreated = DateTime.Parse(resource.DateCreated),
-                           Part = new Part { PartNumber = resource.PartNumber },
-                           Quantity = resource.Quantity,
-                           FaultCode = this.faultCodeRepository.FindById(resource.FaultCode),
-                           ErrorType = this.errorTypeRepository.FindById(resource.ErrorType),
-                           Story = resource.Story,
-                           WorksOrder = resource.WorksOrderNumber != null 
-                           ? new WorksOrder { OrderNumber = (int)resource.WorksOrderNumber }
-                           : null,
-                           StorageLocation = this.storageLocationRepository
-                               .FindBy(s => s.LocationCode == resource.StoragePlace),
-                           PurchaseOrderNumber = resource.PurchaseOrderNumber,
-                           MinutesWasted = resource.MinutesWasted
-                       };
+                                {
+                                    Id = this.databaseService.GetNextVal("PART_FAIL_LOG_SEQ"),
+                                    EnteredBy = this.employeeRepository.FindById(resource.EnteredBy),
+                                    Batch = resource.Batch,
+                                    DateCreated = DateTime.Parse(resource.DateCreated),
+                                    Part = new Part { PartNumber = resource.PartNumber },
+                                    Quantity = resource.Quantity,
+                                    FaultCode = this.faultCodeRepository.FindById(resource.FaultCode),
+                                    ErrorType = this.errorTypeRepository.FindById(resource.ErrorType),
+                                    Story = resource.Story,
+                                    WorksOrder = resource.WorksOrderNumber != null 
+                                    ? new WorksOrder { OrderNumber = (int)resource.WorksOrderNumber }
+                                    : null,
+                                    StorageLocation = this.storageLocationRepository
+                                        .FindBy(s => s.LocationCode == resource.StoragePlace),
+                                    PurchaseOrderNumber = resource.PurchaseOrderNumber,
+                                    MinutesWasted = resource.MinutesWasted
+                                };
 
             return this.partFailService.Create(candidate);
         }
