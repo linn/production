@@ -89,6 +89,11 @@
 
         private object GetFaultCode(string id)
         {
+            if (id.ToLower().Equals("create"))
+            {
+                return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
+            }
+
             var result = this.faultCodeService.GetById(id);
             return this.Negotiate
                 .WithModel(result)
