@@ -85,9 +85,7 @@ export const productionTriggerFactsTypes = makeReportActionTypes(
     reportTypes.productionTriggerFacts.actionType
 );
 
-export const wwdTriggerReportTypes = makeReportActionTypes(
-    reportTypes.wwdTriggerReport.actionType
-);
+export const wwdTriggerReportTypes = makeReportActionTypes(reportTypes.wwdTriggerReport.actionType);
 
 export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
@@ -222,3 +220,7 @@ export const printWorksOrderAioLabelsActionTypes = makeProcessActionTypes(
 export const productionBackOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.productionBackOrdersReport.actionType
 );
+
+export const SELECT_DEFAULT_WORKS_ORDER_PRINTER = 'SELECT_DEFAULT_WORKS_ORDER_PRINTER';
+
+export const SET_DEFAULT_WORKS_ORDER_PRINTER = 'SET_DEFAULT_WORKS_ORDER_PRINTER';

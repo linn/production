@@ -42,7 +42,8 @@ const defaultProps = {
     setPrintWorksOrderAioLabelsMessageVisible: jest.fn(),
     clearPrintWorksOrderAioLabelsErrors: clearPrintWorksOrderAioLabelErrorsMock,
     printWorksOrderAioLabels: printWorksOrderAioLabelsMock,
-    printWorksOrderLabels: printWorksOrderLabelsMock
+    printWorksOrderLabels: printWorksOrderLabelsMock,
+    setDefaultWorksOrderPrinter: jest.fn()
 };
 
 const employees = [

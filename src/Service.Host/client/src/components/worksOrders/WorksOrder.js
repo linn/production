@@ -61,7 +61,9 @@ function WorksOrder({
     setPrintWorksOrderLabelsMessageVisible,
     printWorksOrderAioLabels,
     clearPrintWorksOrderAioLabelsErrors,
-    setPrintWorksOrderAioLabelsMessageVisible
+    setPrintWorksOrderAioLabelsMessageVisible,
+    setDefaultWorksOrderPrinter,
+    defaultWorksOrderPrinter
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
@@ -155,6 +157,7 @@ function WorksOrder({
     const handleFieldChange = (propertyName, newValue) => {
         if (propertyName === 'printer') {
             setPrinterGroup(newValue);
+            setDefaultWorksOrderPrinter(newValue);
             return;
         }
 
@@ -510,10 +513,10 @@ function WorksOrder({
                                             fullWidth
                                             items={printerGroups}
                                             label="Label Printer Group"
-                                            value={printerGroup}
+                                            value={defaultWorksOrderPrinter || 'Prod'}
                                             onChange={handleFieldChange}
                                             propertyName="printer"
-                                            allowNoValue={false}
+                                            allowNoValue
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
@@ -585,7 +588,9 @@ WorksOrder.propTypes = {
     setPrintWorksOrderLabelsMessageVisible: PropTypes.func.isRequired,
     printWorksOrderAioLabels: PropTypes.func.isRequired,
     clearPrintWorksOrderAioLabelsErrors: PropTypes.func.isRequired,
-    setPrintWorksOrderAioLabelsMessageVisible: PropTypes.func.isRequired
+    setPrintWorksOrderAioLabelsMessageVisible: PropTypes.func.isRequired,
+    setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
+    defaultWorksOrderPrinter: PropTypes.string
 };
 
 WorksOrder.defaultProps = {
@@ -607,7 +612,8 @@ WorksOrder.defaultProps = {
     printWorksOrderAioLabelsMessageVisible: false,
     printWorksOrderAioLabelsMessageText: '',
     searchParts: null,
-    clearPartsSearch: null
+    clearPartsSearch: null,
+    defaultWorksOrderPrinter: 'Prod'
 };
 
 export default WorksOrder;
