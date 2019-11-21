@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Typography from '@material-ui/core/Typography';
 import Page from '../../containers/Page';
-import '../printStyles.css';
 
 const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
     if (loading) {
@@ -14,7 +13,7 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
 
     if (reportData) {
         return (
-            <div className="pageContainer">
+            <Fragment>
                 <Page>
                     <Grid container spacing={3} justify="center">
                         <Grid item xs={12}>
@@ -99,7 +98,7 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                         <Grid item xs={6} />
                     </Grid>
                 </Page>
-            </div>
+            </Fragment>
         );
     }
 

@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { ReportTable, Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
-import '../printStyles.css';
 
 export default function OverdueOrdersReport({ reportData, loading, options, error }) {
     return (
-        <div className="pageContainer">
+        <Fragment>
             <Page width="xl">
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
@@ -43,7 +42,7 @@ export default function OverdueOrdersReport({ reportData, loading, options, erro
                     </Grid>
                 </Grid>
             </Page>
-        </div>
+        </Fragment>
     );
 }
 

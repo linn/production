@@ -7,8 +7,8 @@ import { linnTheme } from '@linn-it/linn-form-components-library';
 import configureStore from './configureStore';
 import Root from './components/Root';
 import userManager from './helpers/userManager';
-
 import 'typeface-roboto';
+import '../assets/printStyles.css';
 
 const initialState = {};
 const store = configureStore(initialState);
@@ -19,7 +19,9 @@ const render = Component => {
         <ThemeProvider theme={linnTheme}>
             <SnackbarProvider dense maxSnack={5}>
                 <AppContainer>
-                    <Component store={store} />
+                    <div className="pageContainer">
+                        <Component store={store} />
+                    </div>
                 </AppContainer>
             </SnackbarProvider>
         </ThemeProvider>,
