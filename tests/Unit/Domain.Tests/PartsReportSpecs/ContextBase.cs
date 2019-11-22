@@ -27,10 +27,11 @@
 
         protected IReportingHelper ReportingHelper { get; private set; }
 
-
         protected List<PartFailLog> PartFailLogs { get; private set; }
 
         protected List<Part> Parts { get; private set; }
+
+        protected ILinnWeekPack LinnWeekPack { get; private set; }
 
         [SetUp]
         public void SetUpContext()
@@ -39,12 +40,14 @@
             this.EmployeeDepartmentViewRepository = Substitute.For<IQueryRepository<EmployeeDepartmentView>>();
             this.PartRepository = Substitute.For<IRepository<Part, string>>();
             this.ReportingHelper = new ReportingHelper();
+            this.LinnWeekPack = Substitute.For<ILinnWeekPack>();
 
             this.Sut = new PartsReportService(
                 this.PartFailLogRepository,
                 this.EmployeeDepartmentViewRepository,
                 this.PartRepository,
-                this.ReportingHelper);
+                this.ReportingHelper,
+                this.LinnWeekPack);
 
             this.Parts = new List<Part>
                              {
