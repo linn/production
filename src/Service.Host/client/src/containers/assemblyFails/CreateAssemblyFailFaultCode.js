@@ -19,7 +19,4 @@ const mapDispatchToProps = {
     updateItem: assemblyFailFaultCodeActions.update
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AssemblyFailFaultCode);
+export default connect(mapStateToProps, mapDispatchToProps)(AssemblyFailFaultCode);

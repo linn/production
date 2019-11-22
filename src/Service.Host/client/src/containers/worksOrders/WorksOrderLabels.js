@@ -14,7 +14,4 @@ const mapDispatchToProps = {
     clearErrors: worksOrderLabelsLabelsActions.clearErrors
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(WorksOrderLabels);
+export default connect(mapStateToProps, mapDispatchToProps)(WorksOrderLabels);

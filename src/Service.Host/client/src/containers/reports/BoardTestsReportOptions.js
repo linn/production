@@ -12,7 +12,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {};
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withRouter(BoardTestsReportOptions));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BoardTestsReportOptions));

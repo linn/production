@@ -75,7 +75,4 @@ const mapDispatchToProps = {
     clearErrors: worksOrderActions.clearErrorsForItem
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(WorksOrder));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WorksOrder));

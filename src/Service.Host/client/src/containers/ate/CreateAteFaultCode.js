@@ -25,7 +25,4 @@ const mapDispatchToProps = {
     setSnackbarVisible: ateFaultCodeActions.setSnackbarVisible
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(AteFaultCode));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(AteFaultCode));

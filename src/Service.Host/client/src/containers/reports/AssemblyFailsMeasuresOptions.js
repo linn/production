@@ -9,7 +9,4 @@ const mapStateToProps = state => ({
     prevOptions: reportSelectors.getReportOptions(state)
 });
 
-export default connect(
-    mapStateToProps,
-    null
-)(withRouter(AssemblyFailsMeasuresOptions));
+export default connect(mapStateToProps, null)(withRouter(AssemblyFailsMeasuresOptions));
