@@ -79,7 +79,4 @@ const mapDispatchToProps = {
     setDefaultWorksOrderPrinter
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(WorksOrder));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WorksOrder));

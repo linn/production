@@ -8,7 +8,7 @@ import queryString from 'query-string';
 import WwdTriggerReport from '../../../components/reports/wwd/WwdTriggerReport';
 import actions from '../../../actions/wwdTriggerReportActions';
 import * as reportTypes from '../../../reportTypes';
- 
+
 import config from '../../../config';
 
 const reportSelectors = new ReportSelectors(reportTypes.wwdTriggerReport.item);
@@ -34,7 +34,4 @@ const mapDispatchToProps = {
     initialise
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(WwdTriggerReport));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WwdTriggerReport));

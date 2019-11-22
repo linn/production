@@ -43,7 +43,8 @@ const defaultProps = {
     clearPrintWorksOrderAioLabelsErrors: clearPrintWorksOrderAioLabelErrorsMock,
     printWorksOrderAioLabels: printWorksOrderAioLabelsMock,
     printWorksOrderLabels: printWorksOrderLabelsMock,
-    setDefaultWorksOrderPrinter: jest.fn()
+    setDefaultWorksOrderPrinter: jest.fn(),
+    clearErrors: jest.fn()
 };
 
 const employees = [

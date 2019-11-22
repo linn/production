@@ -37,7 +37,4 @@ const mapDispatchToProps = {
     setSnackbarVisible: manufacturingRouteActions.setSnackbarVisible
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(ManufacturingRoute));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(ManufacturingRoute));
