@@ -75,6 +75,7 @@ const mapDispatchToProps = {
     printWorksOrderAioLabels: printWorksOrderAioLabelActions.requestProcessStart,
     clearPrintWorksOrderAioLabelsErrors: printWorksOrderAioLabelActions.clearErrorsForItem,
     setPrintWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelActions.setMessageVisible,
+    clearErrors: worksOrderActions.clearErrorsForItem,
     setDefaultWorksOrderPrinter
 };
 

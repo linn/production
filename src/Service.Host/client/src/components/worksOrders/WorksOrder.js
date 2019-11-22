@@ -63,7 +63,8 @@ function WorksOrder({
     clearPrintWorksOrderAioLabelsErrors,
     setPrintWorksOrderAioLabelsMessageVisible,
     setDefaultWorksOrderPrinter,
-    defaultWorksOrderPrinter
+    defaultWorksOrderPrinter,
+    clearErrors
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
@@ -167,6 +168,7 @@ function WorksOrder({
 
         if (propertyName === 'searchTerm') {
             setSearchTerm(newValue);
+            clearErrors();
             return;
         }
 
@@ -589,6 +591,7 @@ WorksOrder.propTypes = {
     printWorksOrderAioLabels: PropTypes.func.isRequired,
     clearPrintWorksOrderAioLabelsErrors: PropTypes.func.isRequired,
     setPrintWorksOrderAioLabelsMessageVisible: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
     setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
     defaultWorksOrderPrinter: PropTypes.string
 };
