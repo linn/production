@@ -9,6 +9,6 @@
         public string Description { get; set; }
 
         // entity framework
-        public IEnumerable<BoardTest> BoardTests { get; set; }
+        public IEnumerable<BoardTest> BoardTests { get; protected set; }
     }
 }

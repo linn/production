@@ -121,6 +121,8 @@
 
         public DbQuery<ProductionBackOrdersView> ProductionBackOrdersView { get; set; }
 
+        public DbSet<LabelReprint> LabelReprints { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -164,6 +166,7 @@
             this.BuildPartFailFaultCodes(builder);
             this.BuildPartFails(builder);
             this.BuildPartFailErrorTypes(builder);
+            this.BuildLabelReprints(builder);
             this.BuildStorageLocations(builder);
             this.BuildPurchaseOrders(builder);
             this.QueryAccountingCompanies(builder);
@@ -797,6 +800,24 @@
             e.Property(l => l.LocationId).HasColumnName("LOCATION_ID");
             e.Property(l => l.LocationCode).HasColumnName("LOCATION_CODE");
             e.Property(l => l.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void BuildLabelReprints(ModelBuilder builder)
+        {
+            builder.Entity<LabelReprint>().ToTable("LABEL_REPRINTS");
+            builder.Entity<LabelReprint>().HasKey(c => c.LabelReprintId);
+            builder.Entity<LabelReprint>().Property(c => c.LabelReprintId).HasColumnName("LABEL_REP_ID");
+            builder.Entity<LabelReprint>().Property(c => c.DateIssued).HasColumnName("DATE_ISSUED");
+            builder.Entity<LabelReprint>().Property(c => c.RequestedBy).HasColumnName("REQUESTED_BY");
+            builder.Entity<LabelReprint>().Property(c => c.Reason).HasColumnName("REASON").HasMaxLength(200);
+            builder.Entity<LabelReprint>().Property(c => c.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            builder.Entity<LabelReprint>().Property(c => c.SerialNumber).HasColumnName("SERIAL_NUMBER");
+            builder.Entity<LabelReprint>().Property(c => c.DocumentType).HasColumnName("DOC_TYPE").HasMaxLength(6);
+            builder.Entity<LabelReprint>().Property(c => c.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+            builder.Entity<LabelReprint>().Property(c => c.LabelTypeCode).HasColumnName("LABEL_TYPE_CODE");
+            builder.Entity<LabelReprint>().Property(c => c.NumberOfProducts).HasColumnName("NUMBER_OF_PRODUCTS");
+            builder.Entity<LabelReprint>().Property(c => c.ReprintType).HasColumnName("REPRINT_TYPE").HasMaxLength(10);
+            builder.Entity<LabelReprint>().Property(c => c.NewPartNumber).HasColumnName("NEW_PART_NUMBER").HasMaxLength(14);
         }
 
         private void BuildPartFailFaultCodes(ModelBuilder builder)

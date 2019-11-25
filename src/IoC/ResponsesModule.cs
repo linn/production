@@ -84,7 +84,6 @@
             builder.RegisterType<PartFailSupplierResourceBuilder>().As<IResourceBuilder<PartFailSupplierView>>();
             builder.RegisterType<PartFailSuppliersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PartFailSupplierView>>>();
-
             builder.RegisterType<SmtShiftResourceBuilder>().As<IResourceBuilder<SmtShift>>();
             builder.RegisterType<SmtShiftsResourceBuilder>().As<IResourceBuilder<IEnumerable<SmtShift>>>();
             builder.RegisterType<PtlSettingsResourceBuilder>().As<IResourceBuilder<ResponseModel<PtlSettings>>>();
@@ -110,6 +109,7 @@
             builder.RegisterType<WorksOrderLabelsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderLabel>>>();
             builder.RegisterType<LabelTypeResourceBuilder>().As<IResourceBuilder<LabelType>>();
             builder.RegisterType<LabelTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<LabelType>>>();
+            builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<LabelReprint>>();
         }
     }
 }

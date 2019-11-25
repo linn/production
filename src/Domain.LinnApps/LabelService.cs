@@ -38,7 +38,8 @@
             {
                 macAddress = this.GetMACAddress(serialNumber);
             }
-            catch (DomainException) {
+            catch (DomainException)
+            {
                 // Still print the other labels if the product does not have a MAC address
             }
 
@@ -49,6 +50,21 @@
 
             this.PrintBoxLabel(serialNumber, labelData);
             this.PrintProductLabel(serialNumber, labelData);
+        }
+
+        public LabelReprint CreateLabelReprint(
+            string requestedBy,
+            string reason,
+            string partNumber,
+            int serialNumber,
+            string documentType,
+            int documentNumber,
+            string labelTypeCode,
+            int numberOfProducts,
+            string reprintType,
+            string newPartNumber)
+        {
+            throw new System.NotImplementedException();
         }
 
         private void PrintProductLabel(int serialNumber, string labelData)

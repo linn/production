@@ -74,6 +74,7 @@
             builder.RegisterType<WorksOrderLabelsRepository>().As<IRepository<WorksOrderLabel, WorksOrderLabelKey>>();
             builder.RegisterType<PartFailSuppliersViewRepository>().As<IQueryRepository<PartFailSupplierView>>();
             builder.RegisterType<LabelTypeRepository>().As<IRepository<LabelType, string>>();
+            builder.RegisterType<LabelReprintRepository>().As<IRepository<LabelReprint, int>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
