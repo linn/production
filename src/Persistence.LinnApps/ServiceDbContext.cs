@@ -121,6 +121,8 @@
 
         public DbQuery<ProductionBackOrdersView> ProductionBackOrdersView { get; set; }
 
+        public DbSet<BuildPlan> BuildPlans { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -178,6 +180,8 @@
             this.QueryPartFailSuppliersView(builder);
             this.QueryProductionBackOrdersView(builder);
             this.QueryWwdDetails(builder);
+            this.BuildBuildPlans(builder);
+
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
         }
@@ -937,6 +941,20 @@
             e.Property(s => s.TestFilename).HasColumnName("TEST_FILENAME").HasMaxLength(50);
             e.Property(s => s.TestPrinter).HasColumnName("TEST_PRINTER").HasMaxLength(50);
             e.Property(s => s.TestCommandFilename).HasColumnName("TEST_CMD_FILENAME").HasMaxLength(50);
+        }
+
+        private void BuildBuildPlans(ModelBuilder builder)
+        {
+            var e = builder.Entity<BuildPlan>();
+            e.ToTable("BUILD_PLANS");
+            e.HasKey(b => b.BuildPlanName);
+            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME").HasMaxLength(10);
+            e.Property(b => b.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(b => b.DateCreated).HasColumnName("DATE_CREATED");
+            e.Property(b => b.DateInvalid).HasColumnName("DATE_INVALID");
+            e.Property(b => b.LastMrpJobRef).HasColumnName("LAST_MRP_JOBREF").HasMaxLength(6);
+            e.Property(b => b.LastMrpDateStarted).HasColumnName("LAST_MRP_DATE_STARTED");
+            e.Property(b => b.LastMrpDateFinished).HasColumnName("LAST_MRP_DATE_FINISHED");
         }
     }
 }
