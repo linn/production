@@ -6,6 +6,8 @@
     {
         public int WwdJobId { get; set; }
 
+        public string WwdRunDatetime { get; set; }
+
         public string PartNumber { get; set; }
 
         public int Qty { get; set; }

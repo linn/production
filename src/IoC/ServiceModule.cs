@@ -44,6 +44,7 @@
             builder.RegisterType<PartsReportService>().As<IPartsReportService>();
             builder.RegisterType<LabelService>().As<ILabelService>();
             builder.RegisterType<BoardTestReports>().As<IBoardTestReports>();
+            builder.RegisterType<ProductionBackOrdersReportService>().As<IProductionBackOrdersReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -80,7 +81,7 @@
             builder.RegisterType<ManufacturingRouteService>()
                 .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
             builder.RegisterType<ManufacturingOperationsService>()
-                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
+                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>, IManufacturingOperationsService>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
             builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
             builder.RegisterType<SmtShiftsService>()
@@ -125,6 +126,7 @@
             builder.RegisterType<BartenderLabelPack>().As<IBartenderLabelPack>();
             builder.RegisterType<LabelPack>().As<ILabelPack>();
             builder.RegisterType<WwdTrigProxy>().As<IWwdTrigFunction>();
+            builder.RegisterType<WorksOrderLabelPack>().As<IWorksOrderLabelPack>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();

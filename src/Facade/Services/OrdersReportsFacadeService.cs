@@ -1,5 +1,8 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using System.Collections;
+    using System.Collections.Generic;
+
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Models;
@@ -11,12 +14,16 @@
 
         private readonly IOverdueOrdersService overdueOrdersService;
 
+        private readonly IProductionBackOrdersReportService productionBackOrdersReportService;
+
         public OrdersReportsFacadeService(
             IManufacturingCommitDateReport manufacturingCommitDateReportService,
-            IOverdueOrdersService overdueOrdersService)
+            IOverdueOrdersService overdueOrdersService,
+            IProductionBackOrdersReportService productionBackOrdersReportService)
         {
             this.manufacturingCommitDateReportService = manufacturingCommitDateReportService;
             this.overdueOrdersService = overdueOrdersService;
+            this.productionBackOrdersReportService = productionBackOrdersReportService;
         }
 
         public IResult<ManufacturingCommitDateResults> ManufacturingCommitDateReport(string date)
@@ -32,6 +39,11 @@
                 this.overdueOrdersService.OverdueOrdersReport(
                     reportBy,
                     daysMethod));
+        }
+
+        public IResult<IEnumerable<ResultsModel>> ProductionBackOrdersReport(string citCode)
+        {
+            return new SuccessResult<IEnumerable<ResultsModel>>(this.productionBackOrdersReportService.ProductionBackOrders(citCode));
         }
     }
 }

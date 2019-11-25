@@ -30,7 +30,4 @@ const mapDispatchToProps = {
     startTriggerRun: startTriggerRunActions.requestProcessStart
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(PtlSettings));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(PtlSettings));

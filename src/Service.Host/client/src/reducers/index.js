@@ -16,6 +16,7 @@ import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
 import productionTriggersReport from './productionTriggersReport';
 import productionTriggerFacts from './productionTriggerFacts';
+import wwdTriggerReport from './wwdTriggerReport';
 import manufacturingSkills from './manufacturingSkills/manufacturingSkills';
 import manufacturingSkill from './manufacturingSkills/manufacturingSkill';
 import cits from './cits';
@@ -67,6 +68,10 @@ import boardTestsReport from './boardTestsReport';
 import boardTestDetailsReport from './boardTestDetailsReport';
 import partFailDetailsReport from './partFailDetailsReport';
 import partFailSuppliers from './partFailSuppliers';
+import printWorksOrderLabels from './printWorksOrderLabels';
+import printWorksOrderAioLabels from './printWorksOrderAioLabels';
+import productionBackOrdersReport from './productionBackOrdersReport';
+import localStorage from './localStorage';
 import labelType from './labelTypes/labelType';
 import labelTypes from './labelTypes/labelTypes';
 
@@ -97,6 +102,7 @@ const rootReducer = combineReducers({
     departments,
     employees,
     errors,
+    localStorage,
     manufacturingCommitDate,
     manufacturingResources,
     manufacturingResource,
@@ -118,10 +124,14 @@ const rootReducer = combineReducers({
     pcasRevisions,
     printAllLabelsForProduct,
     printMACLabels,
+    printWorksOrderLabels,
+    printWorksOrderAioLabels,
+    productionBackOrdersReport,
     productionTriggerLevels,
     productionMeasures,
     productionTriggersReport,
     productionTriggerFacts,
+    wwdTriggerReport,
     ptlSettings,
     salesArticle,
     salesArticles,

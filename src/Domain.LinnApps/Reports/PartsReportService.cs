@@ -19,13 +19,17 @@
 
         private readonly IReportingHelper reportingHelper;
 
+        private readonly ILinnWeekPack linnWeekPack;
+
         public PartsReportService(
             IQueryRepository<PartFailLog> partFailLogRepository,
             IQueryRepository<EmployeeDepartmentView> employeeDepartmentViewRepository,
             IRepository<Part, string> partRepository,
-            IReportingHelper reportingHelper)
+            IReportingHelper reportingHelper,
+            ILinnWeekPack linnWeekPack)
         {
             this.reportingHelper = reportingHelper;
+            this.linnWeekPack = linnWeekPack;
             this.partFailLogRepository = partFailLogRepository;
             this.employeeDepartmentViewRepository = employeeDepartmentViewRepository;
             this.partRepository = partRepository;
@@ -82,7 +86,11 @@
 
             fails = fails.OrderBy(f => f.PartNumber);
 
-            var model = new ResultsModel { ReportTitle = new NameModel("Part Fail - Detail") };
+            var model = new ResultsModel
+                            {
+                                ReportTitle = new NameModel(
+                                    $"Part Fail - Details for weeks {this.linnWeekPack.Wwsyy(fromDate)} - {this.linnWeekPack.Wwsyy(toDate)}")
+                            };
 
             var columns = this.ModelColumns();
 

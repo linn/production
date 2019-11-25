@@ -10,6 +10,10 @@ const addItemMock = jest.fn();
 const updateItemMock = jest.fn();
 const setEditStatusMock = jest.fn();
 const fetchWorksOrderDetailsMock = jest.fn();
+const printWorksOrderLabelsMock = jest.fn();
+const printWorksOrderAioLabelsMock = jest.fn();
+const clearPrintWorksOrderLabelErrorsMock = jest.fn();
+const clearPrintWorksOrderAioLabelErrorsMock = jest.fn();
 
 const worksOrder = {
     orderNumber: 827436,
@@ -32,7 +36,15 @@ const defaultProps = {
     history: { push: jest.fn() },
     fetchWorksOrder: jest.fn(),
     searchParts: jest.fn(),
-    clearPartsSearch: jest.fn()
+    clearPartsSearch: jest.fn(),
+    setPrintWorksOrderLabelsMessageVisible: jest.fn(),
+    clearPrintWorksOrderLabelsErrors: clearPrintWorksOrderLabelErrorsMock,
+    setPrintWorksOrderAioLabelsMessageVisible: jest.fn(),
+    clearPrintWorksOrderAioLabelsErrors: clearPrintWorksOrderAioLabelErrorsMock,
+    printWorksOrderAioLabels: printWorksOrderAioLabelsMock,
+    printWorksOrderLabels: printWorksOrderLabelsMock,
+    setDefaultWorksOrderPrinter: jest.fn(),
+    clearErrors: jest.fn()
 };
 
 const employees = [
@@ -128,6 +140,39 @@ describe('when viewing', () => {
             target: { value: '6' }
         });
         expect(setEditStatusMock).toHaveBeenCalledWith('edit');
+    });
+
+    it('should print labels', () => {
+        const { getByText } = render(<WorksOrder {...defaultProps} item={worksOrder} />);
+
+        fireEvent(
+            getByText('Print Labels'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        expect(printWorksOrderLabelsMock).toHaveBeenCalledWith({
+            orderNumber: 827436,
+            printerGroup: 'Prod'
+        });
+    });
+
+    it('should print AIO labels', () => {
+        const { getByText } = render(<WorksOrder {...defaultProps} item={worksOrder} />);
+
+        fireEvent(
+            getByText('Print AIO Labels'),
+            new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true
+            })
+        );
+
+        expect(printWorksOrderAioLabelsMock).toHaveBeenCalledWith({
+            orderNumber: 827436
+        });
     });
 });
 

@@ -1,13 +1,13 @@
 import { ItemType } from '@linn-it/linn-form-components-library';
 
 export const buildsSummaryReport = new ItemType(
-    'buildsSummary',
+    'buildsSummaryReport',
     'BUILDS_SUMMARY_REPORT',
     '/production/reports/builds-summary'
 );
 
 export const buildsDetailReport = new ItemType(
-    'buildsDetail',
+    'buildsDetailReport',
     'BUILDS_DETAIL_REPORT',
     '/production/reports/builds-detail'
 );
@@ -40,6 +40,12 @@ export const productionTriggerFacts = new ItemType(
     'productionTriggerFacts',
     'PRODUCTION_TRIGGER_FACTS_REPORT',
     '/production/reports/triggers/facts'
+);
+
+export const wwdTriggerReport = new ItemType(
+    'wwdTriggerReport',
+    'WWD_TRIGGER_REPORT',
+    '/production/reports/wwd'
 );
 
 export const assemblyFailsWaitingList = new ItemType(
@@ -106,4 +112,10 @@ export const partFailDetailsReport = new ItemType(
     'partFailDetailsReport',
     'PART_FAIL_DETAILS_REPORT',
     '/production/quality/part-fails/detail-report/report'
+);
+
+export const productionBackOrdersReport = new ItemType(
+    'productionBackOrdersReport',
+    'PRODUCTION_BACK_ORDERS_REPORT',
+    '/production/reports/production-back-orders'
 );

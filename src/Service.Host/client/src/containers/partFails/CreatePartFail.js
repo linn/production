@@ -73,7 +73,4 @@ const mapDispatchToProps = {
     clearPartFailErrors: partFailActions.clearErrorsForItem
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(PartFail));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(PartFail));

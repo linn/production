@@ -14,7 +14,4 @@ const mapDispatchToProps = {
     clearErrors: worksOrdersBatchNotesActions.clearErrors
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(WorksOrdersBatchNotes);
+export default connect(mapStateToProps, mapDispatchToProps)(WorksOrdersBatchNotes);

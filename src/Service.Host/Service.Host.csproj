@@ -5,7 +5,6 @@
     <RootNamespace>Linn.Production.Service.Host</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="client\assets\" />
     <Folder Include="Properties\" />
     <Compile Remove="client\build\**" />
     <Compile Remove="client\coverage\**" />

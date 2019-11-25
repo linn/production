@@ -14,6 +14,7 @@ import {
     CreateButton,
     SaveBackCancelButtons,
     SearchInputField,
+    Dropdown,
     useSearch
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
@@ -21,6 +22,9 @@ import Page from '../../containers/Page';
 const useStyles = makeStyles(theme => ({
     marginTop: {
         marginTop: theme.spacing(2)
+    },
+    printButton: {
+        paddingRight: theme.spacing(2)
     }
 }));
 
@@ -44,13 +48,32 @@ function WorksOrder({
     setEditStatus,
     fetchWorksOrder,
     searchParts,
-    clearPartsSearch
+    clearPartsSearch,
+    itemErrors,
+    printWorksOrderLabelsErrorDetail,
+    printWorksOrderLabelsMessageVisible,
+    printWorksOrderLabelsMessageText,
+    printWorksOrderAioLabelsErrorDetail,
+    printWorksOrderAioLabelsMessageVisible,
+    printWorksOrderAioLabelsMessageText,
+    printWorksOrderLabels,
+    clearPrintWorksOrderLabelsErrors,
+    setPrintWorksOrderLabelsMessageVisible,
+    printWorksOrderAioLabels,
+    clearPrintWorksOrderAioLabelsErrors,
+    setPrintWorksOrderAioLabelsMessageVisible,
+    setDefaultWorksOrderPrinter,
+    defaultWorksOrderPrinter,
+    clearErrors
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
     const [raisedByEmployee, setRaisedByEmployee] = useState(null);
     const [cancelledByEmployee, setCancelledByEmployee] = useState(null);
     const [searchTerm, setSearchTerm] = useState(null);
+    const [printerGroup, setPrinterGroup] = useState('Prod');
+
+    const printerGroups = ['Prod', 'DSM', 'Flexible', 'Kiko', 'LP12', 'Metalwork', 'SpeakerCover'];
 
     useSearch(fetchWorksOrder, searchTerm, null);
 
@@ -133,12 +156,19 @@ function WorksOrder({
     };
 
     const handleFieldChange = (propertyName, newValue) => {
+        if (propertyName === 'printer') {
+            setPrinterGroup(newValue);
+            setDefaultWorksOrderPrinter(newValue);
+            return;
+        }
+
         if (viewing()) {
             setEditStatus('edit');
         }
 
         if (propertyName === 'searchTerm') {
             setSearchTerm(newValue);
+            clearErrors();
             return;
         }
 
@@ -159,9 +189,29 @@ function WorksOrder({
 
     const updateValid = () => editing() && (worksOrder.reasonCancelled || worksOrder.quantity);
 
+    const handlePrintWorksOrderLabelsClick = () => {
+        clearPrintWorksOrderLabelsErrors();
+        printWorksOrderLabels({ orderNumber: worksOrder.orderNumber, printerGroup });
+    };
+
+    const handlePrintWorksOrderAioLabelsClick = () => {
+        clearPrintWorksOrderAioLabelsErrors();
+        printWorksOrderAioLabels({ orderNumber: worksOrder.orderNumber });
+    };
+
     return (
         <Page>
             <Grid container spacing={3}>
+                <SnackbarMessage
+                    visible={printWorksOrderLabelsMessageVisible}
+                    onClose={() => setPrintWorksOrderLabelsMessageVisible(false)}
+                    message={printWorksOrderLabelsMessageText}
+                />
+                <SnackbarMessage
+                    visible={printWorksOrderAioLabelsMessageVisible}
+                    onClose={() => setPrintWorksOrderAioLabelsMessageVisible(false)}
+                    message={printWorksOrderAioLabelsMessageText}
+                />
                 <Grid item xs={12}>
                     {creating() ? (
                         <Fragment>
@@ -182,6 +232,17 @@ function WorksOrder({
                         </Fragment>
                     )}
                 </Grid>
+                {itemErrors &&
+                    itemErrors.map(itemError => (
+                        <Grid item xs={12}>
+                            <ErrorCard
+                                errorMessage={`${printWorksOrderLabelsErrorDetail ||
+                                    printWorksOrderAioLabelsErrorDetail ||
+                                    itemError.statusText ||
+                                    ''} `}
+                            />
+                        </Grid>
+                    ))}
                 {worksOrderError && (
                     <Grid item xs={12}>
                         <ErrorCard errorMessage={worksOrderError} />
@@ -449,9 +510,38 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
+                                    <Grid item xs={4}>
+                                        <Dropdown
+                                            fullWidth
+                                            items={printerGroups}
+                                            label="Label Printer Group"
+                                            value={defaultWorksOrderPrinter || 'Prod'}
+                                            onChange={handleFieldChange}
+                                            propertyName="printer"
+                                            allowNoValue
+                                        />
+                                    </Grid>
+                                    <Grid item xs={8} />
                                 </Fragment>
                             )}
                             <Grid item xs={12}>
+                                {!creating() && (
+                                    <Fragment>
+                                        <Button
+                                            className={classes.printButton}
+                                            onClick={handlePrintWorksOrderLabelsClick}
+                                            variant="outlined"
+                                        >
+                                            Print Labels
+                                        </Button>
+                                        <Button
+                                            onClick={handlePrintWorksOrderAioLabelsClick}
+                                            variant="outlined"
+                                        >
+                                            Print AIO Labels
+                                        </Button>
+                                    </Fragment>
+                                )}
                                 <SaveBackCancelButtons
                                     saveDisabled={viewing() || !(createValid() || updateValid())}
                                     saveClick={handleSaveClick}
@@ -487,7 +577,23 @@ WorksOrder.propTypes = {
     employees: PropTypes.arrayOf(PropTypes.shape({})),
     employeesLoading: PropTypes.bool,
     partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
-    partsSearchLoading: PropTypes.bool
+    partsSearchLoading: PropTypes.bool,
+    itemErrors: PropTypes.arrayOf(PropTypes.shape({})),
+    printWorksOrderLabelsErrorDetail: PropTypes.string,
+    printWorksOrderLabelsMessageVisible: PropTypes.bool,
+    printWorksOrderLabelsMessageText: PropTypes.string,
+    printWorksOrderAioLabelsErrorDetail: PropTypes.string,
+    printWorksOrderAioLabelsMessageVisible: PropTypes.bool,
+    printWorksOrderAioLabelsMessageText: PropTypes.string,
+    printWorksOrderLabels: PropTypes.func.isRequired,
+    clearPrintWorksOrderLabelsErrors: PropTypes.func.isRequired,
+    setPrintWorksOrderLabelsMessageVisible: PropTypes.func.isRequired,
+    printWorksOrderAioLabels: PropTypes.func.isRequired,
+    clearPrintWorksOrderAioLabelsErrors: PropTypes.func.isRequired,
+    setPrintWorksOrderAioLabelsMessageVisible: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
+    setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
+    defaultWorksOrderPrinter: PropTypes.string
 };
 
 WorksOrder.defaultProps = {
@@ -501,8 +607,16 @@ WorksOrder.defaultProps = {
     employeesLoading: false,
     partsSearchResults: null,
     partsSearchLoading: false,
+    itemErrors: null,
+    printWorksOrderLabelsErrorDetail: '',
+    printWorksOrderLabelsMessageVisible: false,
+    printWorksOrderLabelsMessageText: '',
+    printWorksOrderAioLabelsErrorDetail: '',
+    printWorksOrderAioLabelsMessageVisible: false,
+    printWorksOrderAioLabelsMessageText: '',
     searchParts: null,
-    clearPartsSearch: null
+    clearPartsSearch: null,
+    defaultWorksOrderPrinter: 'Prod'
 };
 
 export default WorksOrder;

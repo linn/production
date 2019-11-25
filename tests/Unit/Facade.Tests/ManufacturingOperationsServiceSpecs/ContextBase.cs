@@ -16,6 +16,7 @@
         protected IRepository<ManufacturingOperation, int> ManufacturingOperationRepository { get; private set; }
 
         protected ITransactionManager TransactionManager { get; private set; }
+
         protected IDatabaseService databaseService { get; set; }
 
         [SetUp]

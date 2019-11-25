@@ -42,6 +42,7 @@ import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
 import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetailsReport';
 import ProductionTriggersReport from '../containers/reports/triggers/ProductionTriggersReport';
 import ProductionTriggersFacts from '../containers/reports/triggers/ProductionTriggersFacts';
+import WwdTriggerReport from '../containers/reports/wwd/WwdTriggerReport';
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import AssemblyFailsDetailsOptions from '../containers/reports/AssemblyFailsDetailsOptions';
@@ -81,6 +82,7 @@ import PartFailDetailsReport from '../containers/reports/PartFailDetailsReport';
 import WorksOrderLabels from '../containers/worksOrders/WorksOrderLabels';
 import WorksOrderLabel from '../containers/worksOrders/WorksOrderLabel';
 import CreateWorksOrderLabel from '../containers/worksOrders/CreateWorksOrderLabel';
+import ProductionBackOrdersReport from '../containers/reports/ProductionBackOrdersReport';
 import LabelTypes from '../containers/labelTypes/LabelTypes';
 import LabelType from '../containers/labelTypes/LabelType';
 
@@ -195,6 +197,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/builds-summary/options"
                                         component={BuildsSummaryReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/wwd"
+                                        component={WwdTriggerReport}
                                     />
                                     <Route
                                         exact
@@ -450,6 +457,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/overdue-orders"
                                         component={OverdueOrdersReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/production-back-orders"
+                                        component={ProductionBackOrdersReport}
                                     />
                                     <Route
                                         exact

@@ -135,7 +135,7 @@ function ProductionTriggers({
                                 <TriggersList
                                     triggers={reportData.triggers.filter(showInReport)}
                                     jobref={reportData.ptlJobref}
-                                    reportFormat={reportFormat}
+                                    citcode={reportData.citCode}
                                 />
                             </Fragment>
                         ) : (

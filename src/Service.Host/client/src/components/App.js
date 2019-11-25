@@ -92,6 +92,9 @@ function App() {
                 >
                     <Typography color="primary">Outstanding Works Orders Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/quality/part-fails/detail-report" button>
+                    <Typography color="primary">Part Fail Details Report</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/reports/overdue-orders" button>
                     <Typography color="primary">Overdue Orders Report</Typography>
                 </ListItem>
@@ -124,6 +127,9 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/board-tests-report" button>
                     <Typography color="primary">Board Tests Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/production-back-orders" button>
+                    <Typography color="primary">Production Back Orders Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/resources/label-types/" button>
                     <Typography color="primary">Label Types Utility</Typography>

@@ -13,7 +13,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.ProductionTriggerLevelRepository.FindById(Arg.Any<string>()).Returns((ProductionTriggerLevel) null);
+            this.ProductionTriggerLevelRepository.FindById(Arg.Any<string>()).Returns((ProductionTriggerLevel)null);
             this.result = this.Sut.GenerateWwdResultForTrigger("AKUB PARTY", 1, string.Empty);
         }
 
