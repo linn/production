@@ -35,6 +35,12 @@ function App() {
                 <ListItem component={Link} to="/production/resources/board-fail-types/" button>
                     <Typography color="primary">Board Fail Types</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/maintenance/labels/reprint" button>
+                    <Typography color="primary">Label Reprint</Typography>
+                </ListItem> 
+                <ListItem component={Link} to="/production/resources/label-types/" button>
+                <Typography color="primary">Label Types Utility</Typography>
+                </ListItem>
                 <ListItem
                     component={Link}
                     to="/production/resources/manufacturing-resources/"
@@ -64,12 +70,6 @@ function App() {
                 <ListItem component={Link} to="/production/works-orders/batch-notes" button>
                     <Typography color="primary">Works Orders Batch Notes</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/maintenance/labels/reprint" button>
-                    <Typography color="primary">Label Reprint</Typography>
-                </ListItem>
-                <ListItem component={Link} to="/production/resources/label-types/" button>
-                    <Typography color="primary">Label Types Utility</Typography>
-                </ListItem>
             </List>
             <Typography variant="h6">Reports</Typography>
             <List>
@@ -79,11 +79,21 @@ function App() {
                 <ListItem component={Link} to="/production/reports/assembly-fails-details" button>
                     <Typography color="primary">Assembly Fails Details Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/reports/board-tests-report" button>
+                    <Typography color="primary">Board Tests Report</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/reports/builds-detail/options" button>
                     <Typography color="primary">Builds Detail Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/builds-summary/options" button>
                     <Typography color="primary">Builds Summary Report</Typography>
+                </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/reports/manufacturing-commit-date"
+                    button
+                >
+                    <Typography color="primary">Manufacturing Commit Date Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/measures" button>
                     <Typography color="primary">Operations Status Report (OSR)</Typography>
@@ -97,6 +107,9 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/quality/part-fails/detail-report" button>
                     <Typography color="primary">Part Fail Details Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/production-back-orders" button>
+                    <Typography color="primary">Production Back Orders Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/overdue-orders" button>
                     <Typography color="primary">Overdue Orders Report</Typography>
@@ -120,19 +133,6 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/who-built-what" button>
                     <Typography color="primary">Who Built What Report</Typography>
-                </ListItem>
-                <ListItem
-                    component={Link}
-                    to="/production/reports/manufacturing-commit-date"
-                    button
-                >
-                    <Typography color="primary">Manufacturing Commit Date Report</Typography>
-                </ListItem>
-                <ListItem component={Link} to="/production/reports/board-tests-report" button>
-                    <Typography color="primary">Board Tests Report</Typography>
-                </ListItem>
-                <ListItem component={Link} to="/production/reports/production-back-orders" button>
-                    <Typography color="primary">Production Back Orders Report</Typography>
                 </ListItem>
             </List>
         </Page>
