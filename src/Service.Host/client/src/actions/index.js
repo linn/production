@@ -224,3 +224,7 @@ export const productionBackOrdersReportActionTypes = makeReportActionTypes(
 export const SELECT_DEFAULT_WORKS_ORDER_PRINTER = 'SELECT_DEFAULT_WORKS_ORDER_PRINTER';
 
 export const SET_DEFAULT_WORKS_ORDER_PRINTER = 'SET_DEFAULT_WORKS_ORDER_PRINTER';
+
+export const labelTypeActionTypes = makeActionTypes(itemTypes.labelType.actionType);
+
+export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.actionType, false);

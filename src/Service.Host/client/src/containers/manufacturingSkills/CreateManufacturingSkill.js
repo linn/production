@@ -7,7 +7,7 @@ import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     item: {},
-    editStatus: 'create',
+    editStatus: manufacturingSkillSelectors.getEditStatus(state),
     itemError: getItemError(state, itemTypes.manufacturingSkill.item),
     loading: manufacturingSkillSelectors.getLoading(state),
     snackbarVisible: manufacturingSkillSelectors.getSnackbarVisible(state)
