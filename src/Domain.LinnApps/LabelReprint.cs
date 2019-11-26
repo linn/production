@@ -20,7 +20,7 @@
 
         public int DocumentNumber { get; set; }
 
-        public LabelType LabelTypeCode { get; set; }
+        public string LabelTypeCode { get; set; }
 
         public int NumberOfProducts { get; set; }
 

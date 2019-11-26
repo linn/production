@@ -22,7 +22,7 @@
             var labelReprint = new LabelReprint
                                    {
                                        LabelReprintId = 2,
-                                       LabelTypeCode = new LabelType { LabelTypeCode = "BOX" },
+                                       LabelTypeCode = "BOX",
                                        DocumentType = "W",
                                        NewPartNumber = "N",
                                        PartNumber = "P",

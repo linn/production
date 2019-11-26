@@ -1,7 +1,10 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
+    using System;
+
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
@@ -13,16 +16,28 @@
 
         private readonly IRepository<ProductData, int> productDataRepository;
 
+        private readonly IRepository<SerialNumber, int> serialNumberRepository;
+
+        private readonly ISernosPack sernosPack;
+
+        private readonly IRepository<LabelType, string> labelTypeRepository;
+
         private string message;
 
         public LabelService(
             IBartenderLabelPack bartenderLabelPack,
             ILabelPack labelPack,
-            IRepository<ProductData, int> productDataRepository)
+            IRepository<ProductData, int> productDataRepository,
+            IRepository<SerialNumber, int> serialNumberRepository,
+            ISernosPack sernosPack,
+            IRepository<LabelType, string> labelTypeRepository)
         {
             this.labelPack = labelPack;
             this.bartenderLabelPack = bartenderLabelPack;
             this.productDataRepository = productDataRepository;
+            this.serialNumberRepository = serialNumberRepository;
+            this.sernosPack = sernosPack;
+            this.labelTypeRepository = labelTypeRepository;
         }
 
         public void PrintMACLabel(int serialNumber)
@@ -32,7 +47,7 @@
 
         public void PrintAllLabels(int serialNumber, string articleNumber)
         {
-            var labelData = this.labelPack.GetLabelData("BOX", serialNumber, articleNumber, "B");
+            var labelData = this.labelPack.GetLabelData("BOX", serialNumber, articleNumber);
             string macAddress = null;
             try
             {
@@ -53,7 +68,7 @@
         }
 
         public LabelReprint CreateLabelReprint(
-            string requestedBy,
+            int requestedByUserNumber,
             string reason,
             string partNumber,
             int serialNumber,
@@ -64,7 +79,69 @@
             string reprintType,
             string newPartNumber)
         {
-            throw new System.NotImplementedException();
+            if (reprintType == "REISSUE")
+            {
+                this.sernosPack.ReIssueSernos(partNumber, newPartNumber, serialNumber);
+            }
+            else if (reprintType == "REBUILD")
+            {
+                this.RebuildSerialNumber(newPartNumber ?? partNumber, serialNumber, requestedByUserNumber);
+            }
+
+            this.PrintTheLabels(
+                labelTypeCode,
+                newPartNumber ?? partNumber,
+                serialNumber,
+                numberOfProducts);
+
+            var labelReprint = new LabelReprint
+                                   {
+                                       LabelTypeCode = labelTypeCode,
+                                       SerialNumber = serialNumber,
+                                       DateIssued = DateTime.UtcNow,
+                                       DocumentNumber = documentNumber,
+                                       DocumentType = documentType,
+                                       NewPartNumber = newPartNumber,
+                                       NumberOfProducts = numberOfProducts,
+                                       PartNumber = partNumber,
+                                       Reason = reason,
+                                       ReprintType = reprintType,
+                                       RequestedBy = requestedByUserNumber
+                                   };
+            return labelReprint;
+        }
+
+        private void PrintTheLabels(
+            string labelTypeCode,
+            string partNumber,
+            int serialNumber,
+            int numberOfProducts)
+        {
+            var labelData = this.labelPack.GetLabelData(labelTypeCode, serialNumber, partNumber);
+            var labelType = this.labelTypeRepository.FindById(labelTypeCode);
+
+            this.bartenderLabelPack.PrintLabels(
+                $"LabelReprint{serialNumber}",
+                labelType.DefaultPrinter,
+                numberOfProducts,
+                labelType.Filename,
+                labelData,
+                ref this.message);
+        }
+
+        private void RebuildSerialNumber(string partNumber, int serialNumber, int requestedBy)
+        {
+            var productGroup = this.sernosPack.GetProductGroup(partNumber);
+            if (string.IsNullOrEmpty(productGroup))
+            {
+                throw new ProductGroupNotFoundException($"Could not find product group by {partNumber}");
+            }
+
+            var newSerialNumber = new SerialNumber(productGroup, "REBUILD", partNumber)
+                                      {
+                                          SernosNumber = serialNumber, CreatedBy = requestedBy
+                                      };
+            this.serialNumberRepository.Add(newSerialNumber);
         }
 
         private void PrintProductLabel(int serialNumber, string labelData)

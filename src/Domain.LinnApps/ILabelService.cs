@@ -7,7 +7,7 @@
         void PrintAllLabels(int serialNumber, string articleNumber);
 
         LabelReprint CreateLabelReprint(
-            string requestedBy,
+            int requestedByUserNumber,
             string reason,
             string partNumber,
             int serialNumber,

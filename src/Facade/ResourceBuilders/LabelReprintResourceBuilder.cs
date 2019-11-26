@@ -21,7 +21,7 @@
                            NewPartNumber = model.NewPartNumber,
                            Reason = model.Reason,
                            NumberOfProducts = model.NumberOfProducts,
-                           LabelTypeCode = model.LabelTypeCode.LabelTypeCode,
+                           LabelTypeCode = model.LabelTypeCode,
                            SerialNumber = model.SerialNumber,
                            PartNumber = model.PartNumber,
                            ReprintType = model.ReprintType,

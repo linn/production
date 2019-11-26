@@ -12,5 +12,9 @@
             int createdBy,
             int quantity,
             int? firstSernosNumber);
+
+        void ReIssueSernos(string originalPartNumber, string newPartNumber, int serialNumber);
+
+        string GetProductGroup(string partNumber);
     }
 }

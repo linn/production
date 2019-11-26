@@ -7,6 +7,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Facade.Extensions;
     using Linn.Production.Resources;
 
     public class LabelReprintFacadeService : FacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource>
@@ -25,7 +26,7 @@
         protected override LabelReprint CreateFromResource(LabelReprintResource resource)
         {
             return this.labelService.CreateLabelReprint(
-                resource.Links.First(a => a.Rel == "requested-by").Href,
+                resource.Links.First(a => a.Rel == "requested-by").Href.ParseId(),
                 resource.Reason,
                 resource.PartNumber,
                 resource.SerialNumber,

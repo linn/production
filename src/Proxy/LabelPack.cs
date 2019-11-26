@@ -8,7 +8,7 @@
 
     public class LabelPack : ILabelPack
     {
-        public string GetLabelData(string labelTypeCode, int serialNumber, string articleNumber, string labelType)
+        public string GetLabelData(string labelTypeCode, int serialNumber, string articleNumber)
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
 
@@ -47,7 +47,7 @@
             cmd.Parameters.Add(new OracleParameter("p_label_type", OracleDbType.Varchar2)
                                    {
                                        Direction = ParameterDirection.Input,
-                                       Value = labelType,
+                                       Value = string.Empty,
                                        Size = 30
                                    });
 

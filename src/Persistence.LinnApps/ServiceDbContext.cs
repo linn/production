@@ -123,6 +123,8 @@
 
         public DbSet<LabelReprint> LabelReprints { get; set; }
 
+        public DbSet<SerialNumber> SerialNumbers { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -181,6 +183,7 @@
             this.QueryPartFailSuppliersView(builder);
             this.QueryProductionBackOrdersView(builder);
             this.QueryWwdDetails(builder);
+            this.BuildSerialNumbers(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
         }
@@ -199,6 +202,28 @@
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
+        }
+
+        private void BuildSerialNumbers(ModelBuilder builder)
+        {
+            builder.Entity<SerialNumber>().ToTable("SERNOS");
+            builder.Entity<SerialNumber>().HasKey(s => s.SernosTRef);
+            builder.Entity<SerialNumber>().HasAlternateKey(r => new { r.SernosGroup, r.SernosNumber, r.TransCode });
+            builder.Entity<SerialNumber>().Property(s => s.SernosTRef).HasColumnName("SERNOS_TREF");
+            builder.Entity<SerialNumber>().Property(s => s.SernosGroup).HasColumnName("SERNOS_GROUP").HasMaxLength(10);
+            builder.Entity<SerialNumber>().Property(s => s.SernosNumber).HasColumnName("SERNOS_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.SernosDate).HasColumnName("SERNOS_DATE");
+            builder.Entity<SerialNumber>().Property(s => s.DocumentType).HasColumnName("DOCUMENT_TYPE").HasMaxLength(2);
+            builder.Entity<SerialNumber>().Property(s => s.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.DocumentLine).HasColumnName("DOCUMENT_LINE");
+            builder.Entity<SerialNumber>().Property(s => s.DatePostedToVax).HasColumnName("DATE_POSTED_TO_VAX");
+            builder.Entity<SerialNumber>().Property(s => s.OutletNumber).HasColumnName("OUTLET_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.PrevSernosNumber).HasColumnName("PREV_SERNOS_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.OutletNumber).HasColumnName("OUTLET_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.AccountId).HasColumnName("ACCOUNT_ID");
+            builder.Entity<SerialNumber>().Property(s => s.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Entity<SerialNumber>().Property(s => s.TransCode).HasColumnName("TRANS_CODE").HasMaxLength(10);
+            builder.Entity<SerialNumber>().Property(s => s.ArticleNumber).HasColumnName("ARTICLE_NUMBER").HasMaxLength(14);
         }
 
         private void BuildPtlSettings(ModelBuilder builder)
@@ -814,7 +839,7 @@
             builder.Entity<LabelReprint>().Property(c => c.SerialNumber).HasColumnName("SERIAL_NUMBER");
             builder.Entity<LabelReprint>().Property(c => c.DocumentType).HasColumnName("DOC_TYPE").HasMaxLength(6);
             builder.Entity<LabelReprint>().Property(c => c.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
-            builder.Entity<LabelReprint>().Property(c => c.LabelTypeCode).HasColumnName("LABEL_TYPE_CODE");
+            builder.Entity<LabelReprint>().Property(c => c.LabelTypeCode).HasColumnName("LABEL_TYPE_CODE").HasMaxLength(16);
             builder.Entity<LabelReprint>().Property(c => c.NumberOfProducts).HasColumnName("NUMBER_OF_PRODUCTS");
             builder.Entity<LabelReprint>().Property(c => c.ReprintType).HasColumnName("REPRINT_TYPE").HasMaxLength(10);
             builder.Entity<LabelReprint>().Property(c => c.NewPartNumber).HasColumnName("NEW_PART_NUMBER").HasMaxLength(14);

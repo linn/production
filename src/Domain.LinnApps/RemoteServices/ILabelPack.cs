@@ -2,6 +2,6 @@
 {
     public interface ILabelPack
     {
-        string GetLabelData(string labelTypeCode, int serialNumber, string articleNumber, string labelType);
+        string GetLabelData(string labelTypeCode, int serialNumber, string articleNumber);
     }
 }

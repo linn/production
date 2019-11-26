@@ -27,7 +27,7 @@
                                     Links = new[] { new LinkResource("requested-by", "/employees/1234") }
                                 };
             this.LabelService.CreateLabelReprint(
-                    Arg.Any<string>(),
+                    Arg.Any<int>(),
                     Arg.Any<string>(),
                     Arg.Any<string>(),
                     Arg.Any<int>(),
@@ -45,7 +45,7 @@
         public void ShouldCallService()
         {
             this.LabelService.Received().CreateLabelReprint(
-                Arg.Any<string>(),
+                Arg.Any<int>(),
                 Arg.Any<string>(),
                 Arg.Any<string>(),
                 Arg.Any<int>(),
