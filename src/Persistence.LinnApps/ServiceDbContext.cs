@@ -123,6 +123,10 @@
 
         public DbSet<BuildPlan> BuildPlans { get; set; }
 
+        public DbQuery<BuildPlanDetailsReportLine> BuildPlanDetailsReportLines { get; set; }
+
+        public DbQuery<BuildPlanDetail> BuildPlanDetails { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -181,6 +185,8 @@
             this.QueryProductionBackOrdersView(builder);
             this.QueryWwdDetails(builder);
             this.BuildBuildPlans(builder);
+            this.QueryBuildPlanDetailsReportLines(builder);
+            this.QueryBuildPlanDetails(builder);
 
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
@@ -779,6 +785,32 @@
             q.ToView("SMT_SHIFTS");
             q.Property(e => e.Shift).HasColumnName("SHIFT");
             q.Property(e => e.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void QueryBuildPlanDetailsReportLines(ModelBuilder builder)
+        {
+            var q = builder.Query<BuildPlanDetailsReportLine>();
+            q.ToView("V_BUILD_PLAN_REPORT");
+            q.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER");
+            q.Property(e => e.CitName).HasColumnName("CIT_NAME");
+            q.Property(e => e.LinnWeekNumber).HasColumnName("LINN_WEEK_NUMBER");
+            q.Property(e => e.LinnWeek).HasColumnName("LINN_WEEK");
+            q.Property(e => e.DDMon).HasColumnName("DDMON");
+            q.Property(e => e.FixedBuild).HasColumnName("FIXED_BUILD");
+            q.Property(e => e.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
+        }
+
+        private void QueryBuildPlanDetails(ModelBuilder builder)
+        {
+            var q = builder.Query<BuildPlanDetail>();
+            q.ToView("BUILD_PLAN_DETAILS");
+            q.Property(e => e.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER");
+            q.Property(e => e.FromLinnWeekNumber).HasColumnName("FROM_LINN_WEEK_NUMBER");
+            q.Property(e => e.ToLinnWeekNumber).HasColumnName("TO_LINN_WEEK_NUMBER");
+            q.Property(e => e.RuleCode).HasColumnName("RULE_CODE");
+            q.Property(e => e.Quantity).HasColumnName("QUANTITY");
         }
 
         private void QueryStoragePlaces(ModelBuilder builder)

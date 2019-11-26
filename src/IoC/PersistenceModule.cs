@@ -74,6 +74,8 @@
             builder.RegisterType<PartFailSuppliersViewRepository>().As<IQueryRepository<PartFailSupplierView>>();
             builder.RegisterType<LabelTypeRepository>().As<IRepository<LabelType, string>>();
             builder.RegisterType<BuildPlanRepository>().As<IRepository<BuildPlan, string>>();
+            builder.RegisterType<BuildPlanDetailsReportLineRepository>().As<IQueryRepository<BuildPlanDetailsReportLine>>();
+            builder.RegisterType<BuildPlanDetailRepository>().As<IQueryRepository<BuildPlanDetail>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

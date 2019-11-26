@@ -7,7 +7,6 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    // TODO IoC list resource builder and response processor
     public class BuildPlanResourceBuilder : IResourceBuilder<BuildPlan>
     {
         public BuildPlanResource Build(BuildPlan buildPlan)

@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.BuildPlansModule
+﻿namespace Linn.Production.Service.Tests.BuildPlansModuleSpecs
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -16,17 +16,16 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingBuildPlans : ContextBase
+    public class WhenGettingAllBuildPlans : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
-            var buildPlans = new List<BuildPlan>
-                                 {
-                                     new BuildPlan { BuildPlanName = "B1" }, new BuildPlan { BuildPlanName = "B2" }
-                                 };
+            var a = new BuildPlan { BuildPlanName = "a" };
+            var b = new BuildPlan { BuildPlanName = "b" };
 
-            this.BuildPlanService.GetAll().Returns(new SuccessResult<IEnumerable<BuildPlan>>(buildPlans));
+            this.BuildPlanFacadeService.GetAll()
+                .Returns(new SuccessResult<IEnumerable<BuildPlan>>(new List<BuildPlan> { a, b }));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/build-plans",
@@ -42,16 +41,16 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanService.Received().GetAll();
+            this.BuildPlanFacadeService.Received().GetAll();
         }
 
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<IEnumerable<BuildPlanResource>>().ToList();
-            resource.Should().HaveCount(2);
-            resource.Should().Contain(b => b.BuildPlanName == "B1");
-            resource.Should().Contain(b => b.BuildPlanName == "B2");
+            var resources = this.Response.Body.DeserializeJson<IEnumerable<BuildPlanResource>>().ToList();
+            resources.Should().HaveCount(2);
+            resources.Should().Contain(r => r.BuildPlanName == "a");
+            resources.Should().Contain(r => r.BuildPlanName == "b");
         }
     }
 }
