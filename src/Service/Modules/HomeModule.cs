@@ -15,11 +15,6 @@
             this.Get("/production/resources", args => new RedirectResponse("/production/maintenance"));
             this.Get("/production/maintenance", _ => this.GetApp());
             this.Get("/production/reports/measures", _ => this.GetApp());
-
-            this.Get("/production/quality/(.*)/create", _ => this.GetApp());
-            this.Get("/production/reports/(.*)/create", _ => this.GetApp());
-            this.Get("/production/resources/(.*)/create", _ => this.GetApp());
-            this.Get("/production/maintenance/(.*)/create", _ => this.GetApp());
             this.Get("/production/(.*)/create", _ => this.GetApp());
 
             this.Get("/production/maintenance/signin-oidc-client", _ => this.GetApp());
