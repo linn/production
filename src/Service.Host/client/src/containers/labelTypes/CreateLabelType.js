@@ -7,7 +7,7 @@ import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     item: {},
-    editStatus: 'create',
+    editStatus: labelTypeSelectors.getEditStatus(state),
     itemError: getItemError(state, itemTypes.labelType.item),
     loading: labelTypeSelectors.getLoading(state),
     snackbarVisible: labelTypeSelectors.getSnackbarVisible(state)

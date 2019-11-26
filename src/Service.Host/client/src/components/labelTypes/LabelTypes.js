@@ -118,7 +118,7 @@ const ViewLabelTypes = ({ loading, itemError, history, items }) => {
                     <PaginatedTable
                         columns={columns}
                         handleRowLinkClick={handleRowLinkClick}
-                        rows={rowsToDisplay}
+                        rows={rowsToDisplay.map(row => ({ ...row, id: row.labelTypeCode }))}
                         pageOptions={pageOptions}
                         setPageOptions={setPageOptions}
                         totalItemCount={items ? items.length : 0}
