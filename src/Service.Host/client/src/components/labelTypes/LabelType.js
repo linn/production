@@ -40,26 +40,16 @@ function LabelType({
 
     const labelTypeCodeInvalid = () => !labelType.labelTypeCode;
     const descriptionInvalid = () => !labelType.description;
-    const barcodePrefixInvalid = () => !labelType.barcodePrefix;
-    const nSBarcodePrefixInvalid = () => !labelType.nSBarcodePrefix;
     const filenameInvalid = () => !labelType.filename;
     const defaultPrinterInvalid = () => !labelType.defaultPrinter;
     const commandFilenameInvalid = () => !labelType.commandFilename;
-    const testFilenameInvalid = () => !labelType.testFilename;
-    const testPrinterInvalid = () => !labelType.testPrinter;
-    const testCommandFilenameInvalid = () => !labelType.testCommandFilename;
 
     const inputInvalid = () =>
         labelTypeCodeInvalid() ||
         descriptionInvalid() ||
-        barcodePrefixInvalid() ||
-        nSBarcodePrefixInvalid() ||
         filenameInvalid() ||
         defaultPrinterInvalid() ||
-        commandFilenameInvalid() ||
-        testFilenameInvalid() ||
-        testPrinterInvalid() ||
-        testCommandFilenameInvalid();
+        commandFilenameInvalid();
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -162,12 +152,6 @@ function LabelType({
                                                     label="Barcode Prefix"
                                                     maxLength={2}
                                                     fullWidth
-                                                    helperText={
-                                                        barcodePrefixInvalid()
-                                                            ? 'This field is required'
-                                                            : ''
-                                                    }
-                                                    required
                                                     onChange={handleFieldChange}
                                                     propertyName="barcodePrefix"
                                                 />
@@ -180,12 +164,6 @@ function LabelType({
                                                     label="NSBarcodePrefix"
                                                     maxLength={2}
                                                     fullWidth
-                                                    helperText={
-                                                        nSBarcodePrefixInvalid()
-                                                            ? 'This field is required'
-                                                            : ''
-                                                    }
-                                                    required
                                                     onChange={handleFieldChange}
                                                     propertyName="nSBarcodePrefix"
                                                 />
@@ -245,12 +223,6 @@ function LabelType({
                                                 label="Test Filename"
                                                 maxLength={50}
                                                 fullWidth
-                                                helperText={
-                                                    testFilenameInvalid()
-                                                        ? 'This field is required'
-                                                        : ''
-                                                }
-                                                required
                                                 onChange={handleFieldChange}
                                                 propertyName="testFilename"
                                             />
@@ -261,12 +233,6 @@ function LabelType({
                                                 label="Test Printer"
                                                 maxLength={50}
                                                 fullWidth
-                                                helperText={
-                                                    testPrinterInvalid()
-                                                        ? 'This field is required'
-                                                        : ''
-                                                }
-                                                required
                                                 onChange={handleFieldChange}
                                                 propertyName="testPrinter"
                                             />
@@ -277,12 +243,6 @@ function LabelType({
                                                 label="Test Command Filename"
                                                 maxLength={50}
                                                 fullWidth
-                                                helperText={
-                                                    testCommandFilenameInvalid()
-                                                        ? 'This field is required'
-                                                        : ''
-                                                }
-                                                required
                                                 onChange={handleFieldChange}
                                                 propertyName="testCommandFilename"
                                             />
