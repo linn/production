@@ -6,16 +6,10 @@
     using Linn.Production.Resources;
     using NSubstitute;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class WhenAddingManufacturingRoute : ContextBase
     {
         private ManufacturingRouteResource resource;
-
-        private ManufacturingOperation manufacturingOperation;
-
-        private ManufacturingOperationResource opResource;
 
         private ManufacturingRoute manufacturingRoute;
 
@@ -26,8 +20,10 @@
         {
             this.manufacturingRoute = new ManufacturingRoute("code red", "wood chuck chuck", "noted");
 
-            this.resource = new ManufacturingRouteResource { RouteCode = "code red", Description = "wood chuck chuck", Notes = "noted" };
-
+            this.resource = new ManufacturingRouteResource
+                                {
+                                    RouteCode = "code red", Description = "wood chuck chuck", Notes = "noted"
+                                };
 
             this.result = this.Sut.Add(this.resource);
         }

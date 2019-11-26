@@ -63,7 +63,8 @@ function WwdTriggerReport({ reportData, loading, itemError, options }) {
                                     display="block"
                                     gutterBottom
                                 >
-                                    Based on run at {moment(reportData.wwdRunDatetime).format('DD-MMM HH:mm')} id{' '}
+                                    Based on run at{' '}
+                                    {moment(reportData.wwdRunDatetime).format('DD-MMM HH:mm')} id{' '}
                                     {reportData.wwdJobId}
                                 </Typography>
                             </Fragment>

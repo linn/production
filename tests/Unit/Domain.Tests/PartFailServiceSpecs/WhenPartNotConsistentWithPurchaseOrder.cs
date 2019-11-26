@@ -7,7 +7,6 @@
     using Linn.Production.Domain.LinnApps.Measures;
 
     using NSubstitute;
-    using NSubstitute.ReturnsExtensions;
 
     using NUnit.Framework;
 

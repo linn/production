@@ -14,7 +14,4 @@ const mapDispatchToProps = {
     classes: {}
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(PartFails);
+export default connect(mapStateToProps, mapDispatchToProps)(PartFails);

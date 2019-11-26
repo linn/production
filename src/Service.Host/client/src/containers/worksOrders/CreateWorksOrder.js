@@ -71,10 +71,8 @@ const mapDispatchToProps = {
     setPrintWorksOrderLabelsMessageVisible: printWorksOrderLabelActions.setMessageVisible,
     printWorksOrderAioLabels: printWorksOrderAioLabelActions.requestProcessStart,
     clearPrintWorksOrderAioLabelsErrors: printWorksOrderAioLabelActions.clearErrorsForItem,
-    setPrintWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelActions.setMessageVisible
+    setPrintWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelActions.setMessageVisible,
+    clearErrors: worksOrderActions.clearErrorsForItem
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(WorksOrder));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WorksOrder));

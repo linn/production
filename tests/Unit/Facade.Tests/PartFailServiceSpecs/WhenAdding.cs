@@ -5,7 +5,6 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Resources;
@@ -39,10 +38,8 @@
                                     FaultCode = "Fault"
                                 };
 
-            this.PartFailService.Create(Arg.Any<PartFail>()).Returns(new PartFail
-                                                                         {
-                                                                             Id = 1
-                                                                         });
+            this.PartFailService.Create(Arg.Any<PartFail>())
+                .Returns(new PartFail { Id = 1 });
 
             this.result = this.Sut.Add(this.resource);
         }

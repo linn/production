@@ -19,7 +19,4 @@ const mapDispatchToProps = {
     initialise
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(BoardFailTypes));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(BoardFailTypes));

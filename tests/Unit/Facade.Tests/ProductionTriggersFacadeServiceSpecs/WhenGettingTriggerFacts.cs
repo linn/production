@@ -38,7 +38,6 @@
         [Test]
         public void ShouldNotCallWorksOrderRepository()
         {
-
             this.WorksOrderRepository.DidNotReceive().FilterBy(Arg.Any<Expression<Func<WorksOrder, bool>>>());
         }
     }

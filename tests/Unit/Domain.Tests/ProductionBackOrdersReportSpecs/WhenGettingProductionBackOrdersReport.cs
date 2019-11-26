@@ -1,5 +1,8 @@
 ﻿namespace Linn.Production.Domain.Tests.ProductionBackOrdersReportSpecs
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using FluentAssertions;
 
     using Linn.Common.Reporting.Models;
@@ -10,7 +13,7 @@
 
     public class WhenGettingProductionBackOrdersReport : ContextBase
     {
-        private ResultsModel result;
+        private IEnumerable<ResultsModel> result;
 
         [SetUp]
         public void SetUp()
@@ -25,45 +28,60 @@
         }
 
         [Test]
-        public void ShouldGetReportTitle()
-        {
-            this.result.ReportTitle.DisplayValue.Should().Be("Production Back Orders");
-        }
-
-        [Test]
         public void ShouldSetReportValues()
         {
-            this.result.Rows.Should().HaveCount(2);
-            this.result.GetGridTextValue(this.result.RowIndex("A"), this.result.ColumnIndex("Article Number"))
+            this.result.Should().HaveCount(2);
+            var cit1 = this.result.First();
+            cit1.ReportTitle.DisplayValue.Should().Be("Cit S - Production");
+            var cit2 = this.result.Last();
+            cit2.ReportTitle.DisplayValue.Should().Be("Cit T - Turning");
+            cit1.Rows.Should().HaveCount(2);
+            cit1.GetGridTextValue(cit1.RowIndex("0"), cit1.ColumnIndex("Article Number"))
                 .Should().Be("A");
-            this.result.GetGridTextValue(this.result.RowIndex("A"), this.result.ColumnIndex("Description"))
+            cit1.GetGridTextValue(cit1.RowIndex("0"), cit1.ColumnIndex("Description"))
                 .Should().Be("A Desc");
-            this.result.GetGridValue(this.result.RowIndex("A"), this.result.ColumnIndex("Order Qty"))
+            cit1.GetGridValue(cit1.RowIndex("0"), cit1.ColumnIndex("Order Qty"))
                 .Should().Be(3);
-            this.result.GetGridValue(this.result.RowIndex("A"), this.result.ColumnIndex("Order Value"))
+            cit1.GetGridValue(cit1.RowIndex("0"), cit1.ColumnIndex("Order Value"))
                 .Should().Be(400.34m);
-            this.result.GetGridTextValue(this.result.RowIndex("A"), this.result.ColumnIndex("Oldest Date"))
-                .Should().Be("01-Dec-2020");
-            this.result.GetGridValue(this.result.RowIndex("A"), this.result.ColumnIndex("Can Build Qty"))
+            cit1.GetGridTextValue(cit1.RowIndex("0"), cit1.ColumnIndex("Oldest Date"))
+                .Should().Be("01-Jul-2020");
+            cit1.GetGridValue(cit1.RowIndex("0"), cit1.ColumnIndex("Can Build Qty"))
                 .Should().Be(3);
-            this.result.GetGridValue(this.result.RowIndex("A"), this.result.ColumnIndex("Can Build Value"))
+            cit1.GetGridValue(cit1.RowIndex("0"), cit1.ColumnIndex("Can Build Value"))
                 .Should().Be(400.34m);
 
-            this.result.GetGridTextValue(this.result.RowIndex("B"), this.result.ColumnIndex("Article Number"))
+            cit1.GetGridTextValue(cit1.RowIndex("1"), cit1.ColumnIndex("Article Number"))
                 .Should().Be("B");
-            this.result.GetGridTextValue(this.result.RowIndex("B"), this.result.ColumnIndex("Description"))
+            cit1.GetGridTextValue(cit1.RowIndex("1"), cit1.ColumnIndex("Description"))
                 .Should().Be("B Desc");
-            this.result.GetGridValue(this.result.RowIndex("B"), this.result.ColumnIndex("Order Qty"))
+            cit1.GetGridValue(cit1.RowIndex("1"), cit1.ColumnIndex("Order Qty"))
                 .Should().Be(
                     4);
-            this.result.GetGridValue(this.result.RowIndex("B"), this.result.ColumnIndex("Order Value"))
+            cit1.GetGridValue(cit1.RowIndex("1"), cit1.ColumnIndex("Order Value"))
                 .Should().Be(2252.92m);
-            this.result.GetGridTextValue(this.result.RowIndex("B"), this.result.ColumnIndex("Oldest Date"))
-                .Should().Be("01-Jul-2020");
-            this.result.GetGridValue(this.result.RowIndex("B"), this.result.ColumnIndex("Can Build Qty"))
+            cit1.GetGridTextValue(cit1.RowIndex("1"), cit1.ColumnIndex("Oldest Date"))
+                .Should().Be("01-Dec-2020");
+            cit1.GetGridValue(cit1.RowIndex("1"), cit1.ColumnIndex("Can Build Qty"))
                 .Should().Be(2);
-            this.result.GetGridValue(this.result.RowIndex("B"), this.result.ColumnIndex("Can Build Value"))
+            cit1.GetGridValue(cit1.RowIndex("1"), cit1.ColumnIndex("Can Build Value"))
                 .Should().Be(1126.46m);
+
+            cit2.GetGridTextValue(cit2.RowIndex("0"), cit2.ColumnIndex("Article Number"))
+                .Should().Be("C");
+            cit2.GetGridTextValue(cit2.RowIndex("0"), cit2.ColumnIndex("Description"))
+                .Should().Be("C Desc");
+            cit2.GetGridValue(cit2.RowIndex("0"), cit2.ColumnIndex("Order Qty"))
+                .Should().Be(
+                    1);
+            cit2.GetGridValue(cit2.RowIndex("0"), cit2.ColumnIndex("Order Value"))
+                .Should().Be(100m);
+            cit2.GetGridTextValue(cit2.RowIndex("0"), cit2.ColumnIndex("Oldest Date"))
+                .Should().Be("01-Aug-2020");
+            cit2.GetGridValue(cit2.RowIndex("0"), cit2.ColumnIndex("Can Build Qty"))
+                .Should().Be(1);
+            cit2.GetGridValue(cit2.RowIndex("0"), cit2.ColumnIndex("Can Build Value"))
+                .Should().Be(100m);
         }
     }
 }

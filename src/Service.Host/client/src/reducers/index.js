@@ -71,6 +71,9 @@ import partFailSuppliers from './partFailSuppliers';
 import printWorksOrderLabels from './printWorksOrderLabels';
 import printWorksOrderAioLabels from './printWorksOrderAioLabels';
 import productionBackOrdersReport from './productionBackOrdersReport';
+import localStorage from './localStorage';
+import labelType from './labelTypes/labelType';
+import labelTypes from './labelTypes/labelTypes';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -99,6 +102,7 @@ const rootReducer = combineReducers({
     departments,
     employees,
     errors,
+    localStorage,
     manufacturingCommitDate,
     manufacturingResources,
     manufacturingResource,
@@ -145,6 +149,8 @@ const rootReducer = combineReducers({
     worksOrderDetails,
     worksOrderLabel,
     worksOrderLabels,
+    labelType,
+    labelTypes,
     ...sharedLibraryReducers
 });
 

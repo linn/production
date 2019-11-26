@@ -12,9 +12,10 @@
     public abstract class ContextBase
     {
         protected ManufacturingRouteService Sut { get; set; }
-        protected ManufacturingOperationsService ManufacturingOperationsService { get; set; }
-        protected IRepository<ManufacturingOperation, int> ManufacturingOperationRepository { get; private set; }
 
+        protected ManufacturingOperationsService ManufacturingOperationsService { get; private set; }
+
+        protected IRepository<ManufacturingOperation, int> ManufacturingOperationRepository { get; private set; }
 
         protected IRepository<ManufacturingRoute, string> ManufacturingRouteRepository { get; private set; }
 
@@ -29,8 +30,14 @@
             this.ManufacturingOperationRepository = Substitute.For<IRepository<ManufacturingOperation, int>>();
             this.TransactionManager = Substitute.For<ITransactionManager>();
             this.databaseService = Substitute.For<IDatabaseService>();
-            this.ManufacturingOperationsService = new ManufacturingOperationsService(this.ManufacturingOperationRepository, this.TransactionManager, this.databaseService);
-            this.Sut = new ManufacturingRouteService(this.ManufacturingRouteRepository, this.TransactionManager, this.ManufacturingOperationsService);
+            this.ManufacturingOperationsService = new ManufacturingOperationsService(
+                this.ManufacturingOperationRepository,
+                this.TransactionManager,
+                this.databaseService);
+            this.Sut = new ManufacturingRouteService(
+                this.ManufacturingRouteRepository,
+                this.TransactionManager,
+                this.ManufacturingOperationsService);
         }
     }
 }

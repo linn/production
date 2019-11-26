@@ -3,7 +3,7 @@
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Triggers;
+
     using NUnit.Framework;
 
     public class WhenGeneratingWwdResultWithNoPartNumber : ContextBase

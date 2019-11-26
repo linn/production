@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { ReportTable, Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
+import { MultiReportTable, Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
@@ -20,7 +20,11 @@ export default function ProductionBackOrdersReport({ reportData, loading, error 
                     {loading ? (
                         <Loading />
                     ) : (
-                        <ReportTable reportData={reportData} showTotals showTitle={false} />
+                        <MultiReportTable
+                            reportData={reportData}
+                            showRowTitles={false}
+                            showTotals
+                        />
                     )}
                 </Grid>
             </Grid>

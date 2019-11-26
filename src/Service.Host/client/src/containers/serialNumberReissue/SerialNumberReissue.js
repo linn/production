@@ -36,7 +36,4 @@ const mapDispatchToProps = {
     setSnackbarVisible: serialNumberReissueActions.setSnackbarVisible
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SerialNumberReissue);
+export default connect(mapStateToProps, mapDispatchToProps)(SerialNumberReissue);

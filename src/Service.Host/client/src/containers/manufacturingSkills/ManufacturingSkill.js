@@ -25,7 +25,4 @@ const mapDispatchToProps = {
     setSnackbarVisible: manufacturingSkillActions.setSnackbarVisible
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(ManufacturingSkill));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(ManufacturingSkill));

@@ -218,3 +218,15 @@ export const worksOrderLabels = new ItemType(
     'WORKS_ORDER_LABELS',
     '/production/works-orders/labels'
 );
+
+export const labelType = new ItemType(
+    'labelType',
+    'LABEL_TYPE',
+    '/production/resources/label-types'
+);
+
+export const labelTypes = new ItemType(
+    'labelTypes',
+    'LABEL_TYPES',
+    '/production/resources/label-types'
+);

@@ -14,7 +14,10 @@
 
         private readonly IQueryRepository<WwdDetail> wwdDetailRepository;
 
-        public WwdResultFacadeService(IWwdTrigFunction wwdTrigFunction, IRepository<ProductionTriggerLevel, string> productionTriggerLevelRepository, IQueryRepository<WwdDetail> wwdDetailRepository)
+        public WwdResultFacadeService(
+            IWwdTrigFunction wwdTrigFunction,
+            IRepository<ProductionTriggerLevel, string> productionTriggerLevelRepository,
+            IQueryRepository<WwdDetail> wwdDetailRepository)
         {
             this.wwdTrigFunction = wwdTrigFunction;
             this.productionTriggerLevelRepository = productionTriggerLevelRepository;
@@ -33,7 +36,7 @@
                 return new BadRequestResult<WwdResult>("No qty supplied.");
             }
 
-            var triggerLevel = productionTriggerLevelRepository.FindById(partNumber);
+            var triggerLevel = this.productionTriggerLevelRepository.FindById(partNumber);
 
             if (triggerLevel == null)
             {
@@ -46,15 +49,15 @@
             }
 
             var result = new WwdResult
-            {
-                PartNumber = partNumber,
-                Qty = qty.Value,
-                WorkStationCode = triggerLevel.WsName,
-                PtlJobref = ptlJobref,
-                WwdRunTime = DateTime.UtcNow
-            };
+                             {
+                                 PartNumber = partNumber,
+                                 Qty = qty.Value,
+                                 WorkStationCode = triggerLevel.WsName,
+                                 PtlJobref = ptlJobref,
+                                 WwdRunTime = DateTime.UtcNow,
+                                 WwdJobId = this.wwdTrigFunction.WwdTriggerRun(partNumber, qty.Value)
+                             };
 
-            result.WwdJobId = this.wwdTrigFunction.WwdTriggerRun(partNumber, qty.Value);
 
             if (result.WwdJobId == 0)
             {
