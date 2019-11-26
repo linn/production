@@ -38,12 +38,7 @@
                  parameters => this.UpdateFaultCode(parameters.id));
          }
 
-        private object GetApp()
-        {
-            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
-        }
-
-        private object GetById(int id)
+         private object GetById(int id)
         {
             var result = this.assemblyFailService.GetById(id);
             return this.Negotiate
