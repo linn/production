@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
+const ViewLabelTypes = ({ loading, itemError, history, items }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -55,15 +55,16 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
         };
 
         const rows = items.map(el => ({
-            skillCode: el.skillCode,
+            labelTypeCode: el.labelTypeCode,
             description: el.description,
-            hourlyRate: el.hourlyRate,
-
-
-
-
-
-
+            barcodePrefix: el.barcodePrefix,
+            nSBarcodePrefix: el.nSBarcodePrefix,
+            filename: el.filename,
+            defaultPrinter: el.defaultPrinter,
+            commandFilename: el.commandFilename,
+            testFilename: el.testFilename,
+            testPrinter: el.testPrinter,
+            testCommandFilename: el.testCommandFilename,
             links: el.links
         }));
 
@@ -90,7 +91,7 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
     const handleRowLinkClick = href => history.push(href);
 
     const columns = {
-        labelTypeCode: 'Skill Code',
+        labelTypeCode: 'Label Type Code',
         description: 'Description',
         barcodePrefix: 'Barcode Prefix',
         nSBarcodePrefix: 'NS Barcode Prefix',
@@ -104,15 +105,15 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
 
     return (
         <Page>
-            <Title text="Manufacturing Skills" />
+            <Title text="Label Types" />
             {itemError && <ErrorCard errorMessage={itemError.status} />}
             {loading ? (
                 <Loading />
             ) : (
                 <Fragment>
-                    <Fragment className={classes.actionsContainer}>
+                    <div className={classes.actionsContainer}>
                         <CreateButton createUrl="/production/resources/label-types/create" />
-                    </Fragment>
+                    </div>
 
                     <PaginatedTable
                         columns={columns}
@@ -128,16 +129,16 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
     );
 };
 
-ViewManufacturingSkills.propTypes = {
+ViewLabelTypes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     itemError: PropTypes.shape({})
 };
 
-ViewManufacturingSkills.defaultProps = {
+ViewLabelTypes.defaultProps = {
     itemError: null,
     items: []
 };
 
-export default ViewManufacturingSkills;
+export default ViewLabelTypes;

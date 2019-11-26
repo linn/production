@@ -38,11 +38,28 @@ function LabelType({
         }
     }, [item, prevLabelType]);
 
-    const skillCodeInvalid = () => !labelType.skillCode;
+    const labelTypeCodeInvalid = () => !labelType.labelTypeCode;
     const descriptionInvalid = () => !labelType.description;
-    const hourlyRateInvalid = () => !labelType.hourlyRate;
+    const barcodePrefixInvalid = () => !labelType.barcodePrefix;
+    const nSBarcodePrefixInvalid = () => !labelType.nSBarcodePrefix;
+    const filenameInvalid = () => !labelType.filename;
+    const defaultPrinterInvalid = () => !labelType.defaultPrinter;
+    const commandFilenameInvalid = () => !labelType.commandFilename;
+    const testFilenameInvalid = () => !labelType.testFilename;
+    const testPrinterInvalid = () => !labelType.testPrinter;
+    const testCommandFilenameInvalid = () => !labelType.testCommandFilename;
 
-    const inputInvalid = () => skillCodeInvalid() || descriptionInvalid() || hourlyRateInvalid();
+    const inputInvalid = () =>
+        labelTypeCodeInvalid() ||
+        descriptionInvalid() ||
+        barcodePrefixInvalid() ||
+        nSBarcodePrefixInvalid() ||
+        filenameInvalid() ||
+        defaultPrinterInvalid() ||
+        commandFilenameInvalid() ||
+        testFilenameInvalid() ||
+        testPrinterInvalid() ||
+        testCommandFilenameInvalid();
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -71,87 +88,221 @@ function LabelType({
     };
 
     return (
-        <Page>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    {creating() ? <Title text="Create Label Type" /> : <Title text="Label Type" />}
-                </Grid>
-                {itemError && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemError.statusText} />
-                    </Grid>
-                )}
-                {loading ? (
-                    <Grid item xs={12}>
-                        <Loading />
-                    </Grid>
-                ) : (
-                    LabelType && (
-                        <Fragment>
-                            <SnackbarMessage
-                                visible={snackbarVisible}
-                                onClose={() => setSnackbarVisible(false)}
-                                message="Save Successful"
-                            />
-                            <Grid item xs={8}>
-                                <InputField
-                                    fullWidth
-                                    disabled={!creating()}
-                                    value={labelType.skillCode}
-                                    label="Skill Code"
-                                    maxLength={10}
-                                    helperText={
-                                        !creating()
-                                            ? 'This field cannot be changed'
-                                            : `${
-                                                  skillCodeInvalid() ? 'This field is required' : ''
-                                              }`
-                                    }
-                                    required
-                                    onChange={handleFieldChange}
-                                    propertyName="skillCode"
-                                />
-                            </Grid>
-                            <Grid item xs={8}>
-                                <InputField
-                                    value={labelType.description}
-                                    label="Description"
-                                    maxLength={50}
-                                    fullWidth
-                                    helperText={
-                                        descriptionInvalid() ? 'This field is required' : ''
-                                    }
-                                    required
-                                    onChange={handleFieldChange}
-                                    propertyName="description"
-                                />
-                            </Grid>
-                            <Grid item xs={8}>
-                                <InputField
-                                    value={labelType.hourlyRate}
-                                    label="Hourly Rate"
-                                    type="number"
-                                    maxLength={3}
-                                    fullWidth
-                                    helperText={hourlyRateInvalid() ? 'This field is required' : ''}
-                                    required
-                                    onChange={handleFieldChange}
-                                    propertyName="hourlyRate"
-                                />
-                            </Grid>
+        <Fragment>
+            <Grid container alignItems="center" justify="center">
+                <Grid xs={6} item>
+                    <Page>
+                        <Grid container spacing={3}>
                             <Grid item xs={12}>
-                                <SaveBackCancelButtons
-                                    saveDisabled={viewing() || inputInvalid()}
-                                    saveClick={handleSaveClick}
-                                    cancelClick={handleCancelClick}
-                                    backClick={handleBackClick}
-                                />
+                                {creating() ? (
+                                    <Title text="Create Label Type" />
+                                ) : (
+                                    <Title text="Label Type" />
+                                )}
                             </Grid>
-                        </Fragment>
-                    )
-                )}
+                            {itemError && (
+                                <Grid item xs={12}>
+                                    <ErrorCard errorMessage={itemError.statusText} />
+                                </Grid>
+                            )}
+                            {loading ? (
+                                <Grid item xs={12}>
+                                    <Loading />
+                                </Grid>
+                            ) : (
+                                labelType && (
+                                    <Fragment>
+                                        <SnackbarMessage
+                                            visible={snackbarVisible}
+                                            onClose={() => setSnackbarVisible(false)}
+                                            message="Save Successful"
+                                        />
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                fullWidth
+                                                disabled={!creating()}
+                                                value={labelType.labelTypeCode}
+                                                label="Label Type Code"
+                                                maxLength={16}
+                                                helperText={
+                                                    !creating()
+                                                        ? 'This field cannot be changed'
+                                                        : `${
+                                                              labelTypeCodeInvalid()
+                                                                  ? 'This field is required'
+                                                                  : ''
+                                                          }`
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="labelTypeCode"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                value={labelType.description}
+                                                label="Description"
+                                                maxLength={50}
+                                                fullWidth
+                                                helperText={
+                                                    descriptionInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="description"
+                                                rows={2}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Grid item xs={2}>
+                                                <InputField
+                                                    value={labelType.barcodePrefix}
+                                                    label="Barcode Prefix"
+                                                    maxLength={2}
+                                                    fullWidth
+                                                    helperText={
+                                                        barcodePrefixInvalid()
+                                                            ? 'This field is required'
+                                                            : ''
+                                                    }
+                                                    required
+                                                    onChange={handleFieldChange}
+                                                    propertyName="barcodePrefix"
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Grid item xs={2}>
+                                                <InputField
+                                                    value={labelType.nSBarcodePrefix}
+                                                    label="NSBarcodePrefix"
+                                                    maxLength={2}
+                                                    fullWidth
+                                                    helperText={
+                                                        nSBarcodePrefixInvalid()
+                                                            ? 'This field is required'
+                                                            : ''
+                                                    }
+                                                    required
+                                                    onChange={handleFieldChange}
+                                                    propertyName="nSBarcodePrefix"
+                                                />
+                                            </Grid>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                value={labelType.filename}
+                                                label="Filename"
+                                                maxLength={50}
+                                                fullWidth
+                                                helperText={
+                                                    filenameInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="filename"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                value={labelType.defaultPrinter}
+                                                label="Default Printer"
+                                                maxLength={50}
+                                                fullWidth
+                                                helperText={
+                                                    defaultPrinterInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="defaultPrinter"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                value={labelType.commandFilename}
+                                                label="Command Filename"
+                                                maxLength={50}
+                                                fullWidth
+                                                helperText={
+                                                    commandFilenameInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="commandFilename"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                value={labelType.testFilename}
+                                                label="Test Filename"
+                                                maxLength={50}
+                                                fullWidth
+                                                helperText={
+                                                    testFilenameInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="testFilename"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                value={labelType.testPrinter}
+                                                label="Test Printer"
+                                                maxLength={50}
+                                                fullWidth
+                                                helperText={
+                                                    testPrinterInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="testPrinter"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                value={labelType.testCommandFilename}
+                                                label="Test Command Filename"
+                                                maxLength={50}
+                                                fullWidth
+                                                helperText={
+                                                    testCommandFilenameInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="testCommandFilename"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <SaveBackCancelButtons
+                                                saveDisabled={viewing() || inputInvalid()}
+                                                saveClick={handleSaveClick}
+                                                cancelClick={handleCancelClick}
+                                                backClick={handleBackClick}
+                                            />
+                                        </Grid>
+                                    </Fragment>
+                                )
+                            )}
+                        </Grid>
+                    </Page>
+                </Grid>
             </Grid>
-        </Page>
+        </Fragment>
     );
 }
 

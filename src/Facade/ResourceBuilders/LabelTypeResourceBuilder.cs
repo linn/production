@@ -23,7 +23,8 @@
                 CommandFilename = labelType.CommandFilename,
                 TestFilename = labelType.TestFilename,
                 TestPrinter = labelType.TestPrinter,
-                TestCommandFilename = labelType.TestCommandFilename
+                TestCommandFilename = labelType.TestCommandFilename,
+                Links = this.BuildLinks(labelType).ToArray()
         };
         }
 

@@ -25,7 +25,4 @@ const mapDispatchToProps = {
     setSnackbarVisible: labelTypeActions.setSnackbarVisible
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(LabelType));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(LabelType));
