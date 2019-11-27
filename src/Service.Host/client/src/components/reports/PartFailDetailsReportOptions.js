@@ -167,7 +167,7 @@ export default function PartFailDetailsReportOptions({
                 <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
                     <Grid item xs={4}>
                         <LinnWeekPicker
-                            weekStartDate={reportOptions.fromWeek}
+                            selectedDate={reportOptions.fromWeek}
                             setWeekStartDate={handleFieldChange}
                             propertyName="fromWeek"
                             label="From Week Starting"
@@ -177,7 +177,7 @@ export default function PartFailDetailsReportOptions({
                     <Grid item xs={8} />
                     <Grid item xs={4}>
                         <LinnWeekPicker
-                            weekStartDate={reportOptions.toWeek}
+                            selectedDate={reportOptions.toWeek}
                             setWeekStartDate={handleFieldChange}
                             propertyName="toWeek"
                             label="To Week Starting"
