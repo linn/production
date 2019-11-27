@@ -27,6 +27,7 @@
             this.LabelPack.GetLabelData("BOX", 808808, "new part").Returns("data to be printed");
             this.LabelTypeRepository.FindById("BOX")
                 .Returns(new LabelType { DefaultPrinter = "printer 1", Filename = "file 1" });
+            this.SernosPack.GetProductGroup("part 1").Returns("product group");
 
             this.result = this.Sut.CreateLabelReprint(
                 101202,

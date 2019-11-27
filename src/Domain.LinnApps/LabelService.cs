@@ -99,25 +99,30 @@
 
             numberOfProducts = Math.Max(numberOfProducts, 1);
 
-            switch (reprintType)
+            if (reprintType == "REISSUE" || reprintType == "REBUILD")
             {
-                case "REISSUE":
-                    if (!serialNumber.HasValue)
-                    {
-                        throw new LabelReprintInvalidException("You must specify a serial number for serial numbered products");
-                    }
+                if (!serialNumber.HasValue)
+                {
+                    throw new LabelReprintInvalidException("You must specify a serial number for Reissues or Rebuilds");
+                }
 
-                    this.sernosPack.ReIssueSernos(partNumber, newPartNumber, serialNumber.Value);
-                    break;
-                case "REBUILD":
-                    if (!serialNumber.HasValue)
-                    {
-                        throw new LabelReprintInvalidException("You must specify a serial number for serial numbered products");
-                    }
+                var productGroup = this.sernosPack.GetProductGroup(partNumber);
+                if (string.IsNullOrEmpty(productGroup))
+                {
+                    throw new ProductGroupNotFoundException($"Could not find product group for {partNumber}");
+                }
 
-                    this.RebuildSerialNumber(newPartNumber ?? partNumber, serialNumber.Value, requestedByUserNumber);
-                    break;
+                switch (reprintType)
+                {
+                    case "REISSUE":
+                        this.sernosPack.ReIssueSernos(partNumber, newPartNumber, serialNumber.Value);
+                        break;
+                    case "REBUILD":
+                        this.RebuildSerialNumber(newPartNumber ?? partNumber, productGroup, serialNumber.Value, requestedByUserNumber);
+                        break;
+                }
             }
+
 
             this.PrintTheLabels(
                 labelTypeCode,
@@ -180,14 +185,8 @@
             }
         }
 
-        private void RebuildSerialNumber(string partNumber, int serialNumber, int requestedBy)
+        private void RebuildSerialNumber(string partNumber, string productGroup, int serialNumber, int requestedBy)
         {
-            var productGroup = this.sernosPack.GetProductGroup(partNumber);
-            if (string.IsNullOrEmpty(productGroup))
-            {
-                throw new ProductGroupNotFoundException($"Could not find product group by {partNumber}");
-            }
-
             var newSerialNumber = new SerialNumber(productGroup, "REBUILD", partNumber)
                                       {
                                           SernosNumber = serialNumber, CreatedBy = requestedBy

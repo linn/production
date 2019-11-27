@@ -42,7 +42,7 @@
         [Test]
         public void ShouldThrowException()
         {
-            this.action.Should().Throw<LabelReprintInvalidException>("You must specify a serial number for serial numbered products");
+            this.action.Should().Throw<LabelReprintInvalidException>();
         }
     }
 }
