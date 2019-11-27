@@ -125,6 +125,12 @@
 
         public DbSet<SerialNumber> SerialNumbers { get; set; }
 
+        public DbSet<BuildPlan> BuildPlans { get; set; }
+
+        public DbQuery<BuildPlanDetailsReportLine> BuildPlanDetailsReportLines { get; set; }
+
+        public DbQuery<BuildPlanDetail> BuildPlanDetails { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -184,6 +190,10 @@
             this.QueryProductionBackOrdersView(builder);
             this.QueryWwdDetails(builder);
             this.BuildSerialNumbers(builder);
+            this.BuildBuildPlans(builder);
+            this.QueryBuildPlanDetailsReportLines(builder);
+            this.QueryBuildPlanDetails(builder);
+
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
         }
@@ -805,6 +815,32 @@
             q.Property(e => e.Description).HasColumnName("DESCRIPTION");
         }
 
+        private void QueryBuildPlanDetailsReportLines(ModelBuilder builder)
+        {
+            var q = builder.Query<BuildPlanDetailsReportLine>();
+            q.ToView("V_BUILD_PLAN_REPORT");
+            q.Property(e => e.SortOrder).HasColumnName("SORT_ORDER");
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER");
+            q.Property(e => e.CitName).HasColumnName("CIT_NAME");
+            q.Property(e => e.LinnWeekNumber).HasColumnName("LINN_WEEK_NUMBER");
+            q.Property(e => e.LinnWeek).HasColumnName("LINN_WEEK");
+            q.Property(e => e.DDMon).HasColumnName("DDMON");
+            q.Property(e => e.FixedBuild).HasColumnName("FIXED_BUILD");
+            q.Property(e => e.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
+        }
+
+        private void QueryBuildPlanDetails(ModelBuilder builder)
+        {
+            var q = builder.Query<BuildPlanDetail>();
+            q.ToView("BUILD_PLAN_DETAILS");
+            q.Property(e => e.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
+            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER");
+            q.Property(e => e.FromLinnWeekNumber).HasColumnName("FROM_LINN_WEEK_NUMBER");
+            q.Property(e => e.ToLinnWeekNumber).HasColumnName("TO_LINN_WEEK_NUMBER");
+            q.Property(e => e.RuleCode).HasColumnName("RULE_CODE");
+            q.Property(e => e.Quantity).HasColumnName("QUANTITY");
+        }
+
         private void QueryStoragePlaces(ModelBuilder builder)
         {
             var q = builder.Query<StoragePlace>();
@@ -984,5 +1020,19 @@
             e.Property(s => s.TestPrinter).HasColumnName("TEST_PRINTER").HasMaxLength(50);
             e.Property(s => s.TestCommandFilename).HasColumnName("TEST_CMD_FILENAME").HasMaxLength(50);
         }
+
+        private void BuildBuildPlans(ModelBuilder builder)
+        {
+            var e = builder.Entity<BuildPlan>();
+            e.ToTable("BUILD_PLANS");
+            e.HasKey(b => b.BuildPlanName);
+            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME").HasMaxLength(10);
+            e.Property(b => b.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
+            e.Property(b => b.DateCreated).HasColumnName("DATE_CREATED");
+            e.Property(b => b.DateInvalid).HasColumnName("DATE_INVALID");
+            e.Property(b => b.LastMrpJobRef).HasColumnName("LAST_MRP_JOBREF").HasMaxLength(6);
+            e.Property(b => b.LastMrpDateStarted).HasColumnName("LAST_MRP_DATE_STARTED");
+            e.Property(b => b.LastMrpDateFinished).HasColumnName("LAST_MRP_DATE_FINISHED");
+    }
     }
 }

@@ -25,6 +25,7 @@
              this.Get("/production/quality/assembly-fails/{id}", parameters => this.GetById(parameters.id));
              this.Post("/production/quality/assembly-fails", _ => this.Add());
              this.Get("/production/quality/assembly-fails", _ => this.Search());
+             this.Get("/production/quality/assembly-fails/create", _ => this.GetApp());
              this.Put("/production/quality/assembly-fails/{id}", parameters => this.Update(parameters.id));
              this.Get("/production/quality/assembly-fail-fault-codes", _ => this.GetFaultCodes());
              this.Get("/production/quality/assembly-fail-fault-codes/create", _ => this.GetApp());

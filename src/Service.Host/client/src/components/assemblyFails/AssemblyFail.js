@@ -11,7 +11,9 @@ import {
     DatePicker,
     DateTimePicker,
     ValidatedInputDialog,
-    Dropdown
+    TypeaheadDialog,
+    Dropdown,
+    useSearch
 } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
@@ -29,13 +31,14 @@ function AssemblyFail({
     worksOrdersSearchResults,
     worksOrdersSearchLoading,
     clearWorksOrdersSearch,
-    boardParts,
-    boardPartsLoading,
+    boardPartsSearchResults,
+    boardPartsSearchLoading,
+    searchBoardParts,
+    clearBoardPartsSearch,
     pcasRevisions,
     pcasRevisionsLoading,
     fetchPcasRevisionsForBoardPart,
     cits,
-    citsLoading,
     smtShifts,
     smtShiftsLoading,
     employees,
@@ -47,6 +50,7 @@ function AssemblyFail({
     itemId,
     history
 }) {
+    // Hooks
     const [assemblyFail, setAssemblyFail] = useState({
         numberOfFails: 1,
         dateTimeFound: new Date().toISOString(),
@@ -57,18 +61,27 @@ function AssemblyFail({
     });
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
 
-    const uniquePcasRevisions = () =>
-        [...new Set(pcasRevisions.map(r => r.cref))]
-            .map(i => pcasRevisions.find(r => r.cref === i.cref))
-            .filter(i => i?.cref);
+    useSearch(searchBoardParts, assemblyFail.boardPartNumber, null);
 
+    const useStyles = makeStyles(theme => ({
+        marginTop: {
+            marginTop: theme.spacing(2),
+            marginLeft: theme.spacing(-3)
+        }
+    }));
+
+    // Render Constants
+    const classes = useStyles();
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
     const aoiEscapeValues = ['Y', 'N'];
-    const inputInvalid = () => !assemblyFail.worksOrderNumber;
     const completed = () => !!item?.dateTimeComplete;
+    const inputInvalid = () => !assemblyFail.worksOrderNumber;
 
+    // Effects
+
+    // initialisation
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevAssemblyFail) {
             setAssemblyFail(item);
@@ -76,10 +89,7 @@ function AssemblyFail({
         }
     }, [item, prevAssemblyFail, editStatus]);
 
-    useEffect(() => {
-        clearWorksOrdersSearch();
-    }, [clearWorksOrdersSearch]);
-
+    // gets enteredBy from current user
     useEffect(() => {
         if (editStatus === 'create' && profile) {
             setAssemblyFail(a => ({
@@ -90,28 +100,39 @@ function AssemblyFail({
         }
     }, [profile, editStatus]);
 
+    // gets pcas revisions list for board part when it changes
     useEffect(() => {
-        setAssemblyFail(a => ({
-            ...a,
-            circuitRef: '',
-            circuitPartNumber: ''
-        }));
         fetchPcasRevisionsForBoardPart(
             'searchTerm',
             assemblyFail.boardPartNumber ? assemblyFail.boardPartNumber : null
         );
     }, [assemblyFail.boardPartNumber, fetchPcasRevisionsForBoardPart]);
 
+    // sets boardDescription and clears circuitPart data when boardPart changes
     useEffect(() => {
-        if (assemblyFail.boardPartNumber) {
+        const exactMatch = boardPartsSearchResults.find(
+            p => p.partNumber === assemblyFail.boardPartNumber
+        );
+        setAssemblyFail(a => ({
+            ...a,
+            circuitRef: '',
+            circuitPartNumber: ''
+        }));
+        if (assemblyFail.boardPartNumber === '') {
             setAssemblyFail(a => ({
                 ...a,
-                boardDescription: boardParts.find(p => p.partNumber === a.boardPartNumber)
-                    ?.description
+                boardDescription: ''
             }));
         }
-    }, [assemblyFail.boardPartNumber, boardParts]);
+        if (exactMatch) {
+            setAssemblyFail(f => ({
+                ...f,
+                boardDescription: exactMatch.description
+            }));
+        }
+    }, [boardPartsSearchResults, assemblyFail.boardPartNumber]);
 
+    // sets circuitpartNumber when circuitRef changes
     useEffect(() => {
         if (assemblyFail.circuitRef) {
             setAssemblyFail(a => ({
@@ -121,6 +142,7 @@ function AssemblyFail({
         }
     }, [pcasRevisions, assemblyFail.circuitRef]);
 
+    // sets citResponsible when name is entered
     useEffect(() => {
         if (cits && assemblyFail.citResponsible) {
             setAssemblyFail(a => ({
@@ -130,6 +152,7 @@ function AssemblyFail({
         }
     }, [cits, assemblyFail.citResponsible]);
 
+    // sets person responsible when name is entered
     useEffect(() => {
         if (employees && assemblyFail.personResponsible) {
             setAssemblyFail(a => ({
@@ -141,6 +164,7 @@ function AssemblyFail({
         }
     }, [employees, assemblyFail.personResponsible]);
 
+    // sets returnedBy when name is entered
     useEffect(() => {
         if (employees && assemblyFail.returnedBy) {
             setAssemblyFail(a => ({
@@ -150,6 +174,7 @@ function AssemblyFail({
         }
     }, [employees, assemblyFail.returnedBy]);
 
+    // sets completedBy when name is entered
     useEffect(() => {
         if (employees && assemblyFail.completedBy) {
             setAssemblyFail(a => ({
@@ -161,6 +186,7 @@ function AssemblyFail({
         }
     }, [employees, assemblyFail.completedBy]);
 
+    // sets faultCode description when faultCode is entered
     useEffect(() => {
         if (faultCodes && assemblyFail.faultCode) {
             setAssemblyFail(a => ({
@@ -170,11 +196,16 @@ function AssemblyFail({
         }
     }, [faultCodes, assemblyFail.faultCode]);
 
+    // Event Handlers
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
         }
-        setAssemblyFail({ ...assemblyFail, [propertyName]: newValue });
+        if (propertyName === 'boardPartNumber') {
+            setAssemblyFail({ ...assemblyFail, [propertyName]: newValue.toUpperCase() });
+        } else {
+            setAssemblyFail({ ...assemblyFail, [propertyName]: newValue });
+        }
     };
 
     const handleSaveClick = () => {
@@ -201,16 +232,8 @@ function AssemblyFail({
     };
 
     const handleBackClick = () => {
-        history.push('/production/quality/assembly-fails');
+        history.push('/production/reports/assembly-fails-waiting-list');
     };
-
-    const useStyles = makeStyles(theme => ({
-        marginTop: {
-            marginTop: theme.spacing(2),
-            marginLeft: theme.spacing(-3)
-        }
-    }));
-    const classes = useStyles();
 
     return (
         <Page showRequestErrors>
@@ -470,25 +493,43 @@ function AssemblyFail({
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
-                                        <Dropdown
-                                            label="Board Part"
-                                            propertyName="boardPartNumber"
-                                            disabled={completed()}
-                                            items={boardParts.map(p => ({
-                                                id: p.partNumber,
-                                                displayText: p.partNumber
-                                            }))}
+                                        <InputField
                                             fullWidth
-                                            value={assemblyFail.boardPartNumber || ''}
+                                            disabled={completed()}
+                                            value={assemblyFail.boardPartNumber}
+                                            label="Board Part"
                                             onChange={handleFieldChange}
-                                            optionsLoading={boardPartsLoading}
+                                            propertyName="boardPartNumber"
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
+                                    <Grid item xs={1}>
+                                        <div className={classes.marginTop}>
+                                            <TypeaheadDialog
+                                                title="Search For Part"
+                                                onSelect={newValue => {
+                                                    setEditStatus('edit');
+                                                    setAssemblyFail(a => ({
+                                                        ...a,
+                                                        boardPartNumber: newValue.partNumber,
+                                                        partDescription: newValue.description
+                                                    }));
+                                                }}
+                                                searchItems={boardPartsSearchResults}
+                                                loading={boardPartsSearchLoading}
+                                                fetchItems={searchBoardParts}
+                                                clearSearch={clearBoardPartsSearch}
+                                            />
+                                        </div>
+                                    </Grid>
+                                    <Grid item xs={8}>
                                         <InputField
                                             fullWidth
                                             disabled
-                                            value={assemblyFail.boardDescription}
+                                            value={
+                                                boardPartsSearchLoading
+                                                    ? 'loading...'
+                                                    : assemblyFail.boardDescription
+                                            }
                                             label="Description"
                                             onChange={handleFieldChange}
                                             propertyName="boardDescription"
@@ -519,6 +560,7 @@ function AssemblyFail({
                                             propertyName="boardSerial"
                                         />
                                     </Grid>
+                                    <Grid item xs={6} />
                                     <Grid item xs={4}>
                                         <Dropdown
                                             label="CIT Responsible"
@@ -680,7 +722,7 @@ AssemblyFail.propTypes = {
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
-    boardParts: PropTypes.arrayOf(PropTypes.shape({})),
+    boardPartsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     item: PropTypes.shape({}),
     itemErrors: PropTypes.arrayOf(
         PropTypes.shape({
@@ -702,14 +744,21 @@ AssemblyFail.propTypes = {
     itemId: PropTypes.string,
     searchWorksOrders: PropTypes.func.isRequired,
     worksOrdersSearchLoading: PropTypes.bool,
-    clearWorksOrdersSearch: PropTypes.func.isRequired
+    clearWorksOrdersSearch: PropTypes.func.isRequired,
+    searchBoardParts: PropTypes.func.isRequired,
+    clearBoardPartsSearch: PropTypes.func.isRequired,
+    boardPartsSearchLoading: PropTypes.bool,
+    pcasRevisionsLoading: PropTypes.bool,
+    smtShiftsLoading: PropTypes.bool,
+    employeesLoading: PropTypes.bool,
+    faultCodesLoading: PropTypes.bool
 };
 
 AssemblyFail.defaultProps = {
     snackbarVisible: false,
     loading: null,
     profile: { employee: '', name: '' },
-    boardParts: [],
+    boardPartsSearchResults: [],
     item: null,
     itemErrors: [],
     pcasRevisions: [],
@@ -722,7 +771,12 @@ AssemblyFail.defaultProps = {
     smtShifts: [],
     employees: [],
     fetchPcasRevisionsForBoardPart: null,
-    worksOrdersSearchLoading: false
+    worksOrdersSearchLoading: false,
+    boardPartsSearchLoading: false,
+    pcasRevisionsLoading: false,
+    smtShiftsLoading: false,
+    employeesLoading: false,
+    faultCodesLoading: false
 };
 
 export default AssemblyFail;

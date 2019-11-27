@@ -49,7 +49,6 @@
             builder.RegisterType<AssemblyFailFaultCodeRepository>().As<IRepository<AssemblyFailFaultCode, string>>();
             builder.RegisterType<PtlMasterRepository>().As<ISingleRecordRepository<PtlMaster>>();
             builder.RegisterType<OsrRunMasterRepository>().As<ISingleRecordRepository<OsrRunMaster>>();
-            builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
             builder.RegisterType<WorkStationsRepository>().As<IRepository<WorkStation, string>>();
             builder.RegisterType<PcasBoardForAuditRepository>().As<IRepository<PcasBoardForAudit, string>>();
@@ -76,6 +75,9 @@
             builder.RegisterType<LabelTypeRepository>().As<IRepository<LabelType, string>>();
             builder.RegisterType<LabelReprintRepository>().As<IRepository<LabelReprint, int>>();
             builder.RegisterType<SerialNumberRepository>().As<IRepository<SerialNumber, int>>();
+            builder.RegisterType<BuildPlanRepository>().As<IRepository<BuildPlan, string>>();
+            builder.RegisterType<BuildPlanDetailsReportLineRepository>().As<IQueryRepository<BuildPlanDetailsReportLine>>();
+            builder.RegisterType<BuildPlanDetailRepository>().As<IQueryRepository<BuildPlanDetail>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

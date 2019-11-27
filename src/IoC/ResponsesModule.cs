@@ -58,10 +58,6 @@
                 .As<IResourceBuilder<PcasRevision>>();
             builder.RegisterType<PcasRevisionsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PcasRevision>>>();
-            builder.RegisterType<CitResourceBuilder>()
-                .As<IResourceBuilder<Cit>>();
-            builder.RegisterType<CitsResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<Cit>>>();
             builder.RegisterType<EmployeeResourceBuilder>()
                 .As<IResourceBuilder<Employee>>();
             builder.RegisterType<EmployeesResourceBuilder>()
@@ -110,6 +106,8 @@
             builder.RegisterType<LabelTypeResourceBuilder>().As<IResourceBuilder<LabelType>>();
             builder.RegisterType<LabelTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<LabelType>>>();
             builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<LabelReprint>>();
+            builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<BuildPlan>>();
+            builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();
         }
     }
 }
