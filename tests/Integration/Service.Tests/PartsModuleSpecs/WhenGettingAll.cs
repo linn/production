@@ -24,7 +24,7 @@
             var part1 = new Part { PartNumber = "1", Description = "desc1" };
             var part2 = new Part { PartNumber = "2", Description = "desc2" };
 
-            this.PartFacadeService.GetAll()
+            this.PartsFacadeService.GetAll()
                 .Returns(new SuccessResult<IEnumerable<Part>>(new List<Part> { part1, part2 }));
 
 
@@ -42,7 +42,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.PartFacadeService.Received().GetAll();
+            this.PartsFacadeService.Received().GetAll();
         }
 
         [Test]
