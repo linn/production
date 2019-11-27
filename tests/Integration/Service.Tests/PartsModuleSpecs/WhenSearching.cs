@@ -21,10 +21,10 @@
         [SetUp]
         public void SetUp()
         {
-            var part1 = new Part { PartNumber = "1", Description = "desc1" };
-            var part2 = new Part { PartNumber = "2", Description = "desc2" };
+            var part1 = new Part { PartNumber = "P1", Description = "desc1" };
+            var part2 = new Part { PartNumber = "P2", Description = "desc2" };
 
-            this.PartFacadeService.Search("desc")
+            this.PartsFacadeService.SearchParts("P")
                 .Returns(new SuccessResult<IEnumerable<Part>>(new List<Part> { part1, part2 }));
 
 
@@ -33,7 +33,7 @@
                 with =>
                     {
                         with.Header("Accept", "application/json");
-                        with.Query("searchTerm", "desc");
+                        with.Query("searchTerm", "P");
                     }).Result;
         }
 
@@ -46,7 +46,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.PartFacadeService.Received().Search("desc");
+            this.PartsFacadeService.Received().SearchParts("P");
         }
 
         [Test]
@@ -54,8 +54,8 @@
         {
             var resource = this.Response.Body.DeserializeJson<IEnumerable<PartResource>>().ToList();
             resource.Should().HaveCount(2);
-            resource.Should().Contain(a => a.PartNumber == "1");
-            resource.Should().Contain(a => a.PartNumber == "2");
+            resource.Should().Contain(a => a.PartNumber == "P1");
+            resource.Should().Contain(a => a.PartNumber == "P2");
         }
     }
 }

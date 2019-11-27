@@ -2,6 +2,7 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
@@ -10,11 +11,11 @@
 
     public sealed class PartsModule : NancyModule
     {
-         private readonly IFacadeService<Part, string, PartResource, PartResource> partFacadeService;
+        private readonly IPartsFacadeService partsFacadeService;
 
-         public PartsModule(IFacadeService<Part, string, PartResource, PartResource> partFacadeService)
+        public PartsModule(IPartsFacadeService partsFacadeService)
          {
-             this.partFacadeService = partFacadeService;
+             this.partsFacadeService = partsFacadeService;
              this.Get("/production/maintenance/parts", _ => this.GetParts());
          }
 
@@ -22,12 +23,12 @@
          {
              var resource = this.Bind<SearchRequestResource>();
              var results = string.IsNullOrEmpty(resource.SearchTerm)
-                                   ? this.partFacadeService.GetAll()
-                                   : this.partFacadeService.Search(resource.SearchTerm);
+                                   ? this.partsFacadeService.GetAll()
+                                   : this.partsFacadeService.SearchParts(resource.SearchTerm);
              return this.Negotiate
                  .WithModel(results)
                  .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                  .WithView("Index");
-        }
+         }
     }
 }
