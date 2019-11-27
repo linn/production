@@ -45,6 +45,7 @@
             builder.RegisterType<LabelService>().As<ILabelService>();
             builder.RegisterType<BoardTestReports>().As<IBoardTestReports>();
             builder.RegisterType<ProductionBackOrdersReportService>().As<IProductionBackOrdersReportService>();
+            builder.RegisterType<BuildPlansReportService>().As<IBuildPlansReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -108,6 +109,9 @@
                 .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             builder.RegisterType<LabelTypeService>()
                 .As<IFacadeService<LabelType, string, LabelTypeResource, LabelTypeResource>>();
+            builder.RegisterType<BuildPlanService>()
+                .As<IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource>>();
+            builder.RegisterType<BuildPlansReportFacadeService>().As<IBuildPlansReportFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
