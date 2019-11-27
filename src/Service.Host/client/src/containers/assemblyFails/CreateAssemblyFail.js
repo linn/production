@@ -23,7 +23,7 @@ import assemblyFailFaultCodeSelectors from '../../selectors/assemblyFailFaultCod
 const mapStateToProps = state => ({
     item: {},
     editStatus: 'create',
-    iloading: assemblyFailSelectors.getLoading(state),
+    loading: assemblyFailSelectors.getLoading(state),
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
     itemErrors: getItemErrors(state),
     profile: getProfile(state),
