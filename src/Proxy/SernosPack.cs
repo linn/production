@@ -8,13 +8,6 @@
 
     public class SernosPack : ISernosPack
     {
-        private readonly IDatabaseService db;
-
-        public SernosPack(IDatabaseService db)
-        {
-            this.db = db;
-        }
-
         public bool SerialNumbersRequired(string partNumber)
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
@@ -178,6 +171,40 @@
             connection.Close();
 
             return result.Value?.ToString();
+        }
+
+        public void GetSerialNumberBoxes(string partNumber, out int numberOfSerialNumbers, out int numberOfBoxes)
+        {
+            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+
+            var cmd = new OracleCommand("SERNOS_PACK_V2.GET_SERNOS_BOXES", connection)
+                          {
+                              CommandType = CommandType.StoredProcedure
+                          };
+
+            cmd.Parameters.Add(new OracleParameter("p_part_number", OracleDbType.Varchar2)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Size = 50,
+                                       Value = partNumber
+                                   });
+            var serialNumberQtyParameter = new OracleParameter(null, OracleDbType.Int32)
+                                               {
+                                                   Direction = ParameterDirection.InputOutput
+                                               };
+            cmd.Parameters.Add(serialNumberQtyParameter);
+            var boxesQtyParameter = new OracleParameter(null, OracleDbType.Int32)
+                                        {
+                                            Direction = ParameterDirection.InputOutput
+                                        };
+            cmd.Parameters.Add(boxesQtyParameter);
+
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+
+            numberOfSerialNumbers = int.Parse(serialNumberQtyParameter.Value.ToString());
+            numberOfBoxes = int.Parse(boxesQtyParameter.Value.ToString());
         }
     }
 }

@@ -79,6 +79,9 @@
             string reprintType,
             string newPartNumber)
         {
+            this.sernosPack.GetSerialNumberBoxes(partNumber, out var serialNumberQty, out var boxesQty);
+            numberOfProducts = Math.Max(numberOfProducts, 1);
+
             if (reprintType == "REISSUE")
             {
                 this.sernosPack.ReIssueSernos(partNumber, newPartNumber, serialNumber);
@@ -92,7 +95,9 @@
                 labelTypeCode,
                 newPartNumber ?? partNumber,
                 serialNumber,
-                numberOfProducts);
+                numberOfProducts,
+                serialNumberQty,
+                boxesQty);
 
             var labelReprint = new LabelReprint
                                    {
@@ -115,7 +120,9 @@
             string labelTypeCode,
             string partNumber,
             int serialNumber,
-            int numberOfProducts)
+            int numberOfProducts,
+            int numberOfSerialNumbers,
+            int numberOfBoxes)
         {
             var labelData = this.labelPack.GetLabelData(labelTypeCode, serialNumber, partNumber);
             var labelType = this.labelTypeRepository.FindById(labelTypeCode);
@@ -127,6 +134,22 @@
                 labelType.Filename,
                 labelData,
                 ref this.message);
+
+            if (numberOfBoxes == 2)
+            {
+                if (numberOfSerialNumbers == 2)
+                {
+                    labelData = this.labelPack.GetLabelData(labelTypeCode, serialNumber + 1, partNumber);
+                }
+
+                this.bartenderLabelPack.PrintLabels(
+                    $"LabelReprint{serialNumber}B",
+                    labelType.DefaultPrinter,
+                    numberOfProducts,
+                    labelType.Filename,
+                    labelData,
+                    ref this.message);
+            }
         }
 
         private void RebuildSerialNumber(string partNumber, int serialNumber, int requestedBy)
