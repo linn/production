@@ -72,6 +72,8 @@ import printWorksOrderLabels from './printWorksOrderLabels';
 import printWorksOrderAioLabels from './printWorksOrderAioLabels';
 import productionBackOrdersReport from './productionBackOrdersReport';
 import localStorage from './localStorage';
+import buildPlansReport from './buildPlansReport';
+import buildPlans from './buildPlans';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -95,6 +97,8 @@ const rootReducer = combineReducers({
     boardTestDetailsReport,
     boardTestsReport,
     buildsDetailReport,
+    buildPlans,
+    buildPlansReport,
     buildsSummaryReport,
     cits,
     departments,

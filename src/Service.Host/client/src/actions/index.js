@@ -221,6 +221,12 @@ export const productionBackOrdersReportActionTypes = makeReportActionTypes(
     reportTypes.productionBackOrdersReport.actionType
 );
 
+export const buildPlansReportActionTypes = makeReportActionTypes(
+    reportTypes.buildPlansReport.actionType
+);
+
+export const buildPlansActionTypes = makeActionTypes(itemTypes.buildPlans.actionType);
+
 export const SELECT_DEFAULT_WORKS_ORDER_PRINTER = 'SELECT_DEFAULT_WORKS_ORDER_PRINTER';
 
 export const SET_DEFAULT_WORKS_ORDER_PRINTER = 'SET_DEFAULT_WORKS_ORDER_PRINTER';

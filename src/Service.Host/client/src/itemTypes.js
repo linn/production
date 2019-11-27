@@ -218,3 +218,9 @@ export const worksOrderLabels = new ItemType(
     'WORKS_ORDER_LABELS',
     '/production/works-orders/labels'
 );
+
+export const buildPlans = new ItemType(
+    'buildPlans',
+    'BUILD_PLANS',
+    '/production/maintenance/build-plans'
+);

@@ -119,3 +119,9 @@ export const productionBackOrdersReport = new ItemType(
     'PRODUCTION_BACK_ORDERS_REPORT',
     '/production/reports/production-back-orders'
 );
+
+export const buildPlansReport = new ItemType(
+    'buildPlansReport',
+    'BUILD_PLANS_REPORT',
+    '/production/reports/build-plans/report'
+);
