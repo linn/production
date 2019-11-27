@@ -32,7 +32,7 @@
                                        DocumentType = "W",
                                        NewPartNumber = "N",
                                        PartNumber = "P",
-                                       DocumentNumber = 3,
+                                       WorksOrderNumber = 3,
                                        Reason = "Good",
                                        NumberOfProducts = 2,
                                        SerialNumber = 3,
@@ -77,7 +77,7 @@
             resource.DocumentType.Should().Be("W");
             resource.NewPartNumber.Should().Be("N");
             resource.PartNumber.Should().Be("P");
-            resource.DocumentNumber.Should().Be(3);
+            resource.WorksOrderNumber.Should().Be(3);
             resource.Reason.Should().Be("Good");
             resource.NumberOfProducts.Should().Be(2);
             resource.SerialNumber.Should().Be(3);

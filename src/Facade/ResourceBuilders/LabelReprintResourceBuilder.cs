@@ -17,7 +17,7 @@
                            DateIssued = model.DateIssued.ToString("o"),
                            LabelReprintId = model.LabelReprintId,
                            DocumentType = model.DocumentType,
-                           DocumentNumber = model.DocumentNumber,
+                           WorksOrderNumber = model.WorksOrderNumber,
                            NewPartNumber = model.NewPartNumber,
                            Reason = model.Reason,
                            NumberOfProducts = model.NumberOfProducts,

@@ -32,7 +32,6 @@
                 "A good reason",
                 "part 1",
                 null,
-                "WO",
                 45,
                 "BOX",
                 1,

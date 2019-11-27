@@ -36,7 +36,6 @@
                 "A good reason",
                 "part 1",
                 808807,
-                "WO",
                 45,
                 "BOX",
                 1,
@@ -81,7 +80,7 @@
             this.result.ReprintType.Should().Be("REPRINT");
             this.result.RequestedBy.Should().Be(101202);
             this.result.DocumentType.Should().Be("WO");
-            this.result.DocumentNumber.Should().Be(45);
+            this.result.WorksOrderNumber.Should().Be(45);
             this.result.DateIssued.Should().BeCloseTo(DateTime.UtcNow, 10000);
             this.result.NumberOfProducts.Should().Be(1);
         }

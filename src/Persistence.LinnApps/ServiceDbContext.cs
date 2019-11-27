@@ -838,7 +838,7 @@
             builder.Entity<LabelReprint>().Property(c => c.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             builder.Entity<LabelReprint>().Property(c => c.SerialNumber).HasColumnName("SERIAL_NUMBER");
             builder.Entity<LabelReprint>().Property(c => c.DocumentType).HasColumnName("DOC_TYPE").HasMaxLength(6);
-            builder.Entity<LabelReprint>().Property(c => c.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+            builder.Entity<LabelReprint>().Property(c => c.WorksOrderNumber).HasColumnName("DOCUMENT_NUMBER");
             builder.Entity<LabelReprint>().Property(c => c.LabelTypeCode).HasColumnName("LABEL_TYPE_CODE").HasMaxLength(16);
             builder.Entity<LabelReprint>().Property(c => c.NumberOfProducts).HasColumnName("NUMBER_OF_PRODUCTS");
             builder.Entity<LabelReprint>().Property(c => c.ReprintType).HasColumnName("REPRINT_TYPE").HasMaxLength(10);

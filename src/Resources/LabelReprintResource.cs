@@ -16,7 +16,7 @@
 
         public string DocumentType { get; set; }
 
-        public int? DocumentNumber { get; set; }
+        public int? WorksOrderNumber { get; set; }
 
         public string LabelTypeCode { get; set; }
 

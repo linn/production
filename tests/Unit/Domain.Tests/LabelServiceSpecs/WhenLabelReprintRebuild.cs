@@ -34,7 +34,6 @@
                 "A good reason",
                 "part 1",
                 808808,
-                "WO",
                 45,
                 "BOX",
                 1,

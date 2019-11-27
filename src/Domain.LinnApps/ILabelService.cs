@@ -11,7 +11,6 @@
             string reason,
             string partNumber,
             int? serialNumber,
-            string documentType,
             int? documentNumber,
             string labelTypeCode,
             int numberOfProducts,

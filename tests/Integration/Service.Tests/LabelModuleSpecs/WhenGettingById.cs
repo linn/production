@@ -26,7 +26,7 @@
                                        DocumentType = "W",
                                        NewPartNumber = "N",
                                        PartNumber = "P",
-                                       DocumentNumber = 3,
+                                       WorksOrderNumber = 3,
                                        Reason = "Good",
                                        NumberOfProducts = 2,
                                        SerialNumber = 3,
