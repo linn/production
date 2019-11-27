@@ -14,11 +14,11 @@
 
         public string PartNumber { get; set; }
 
-        public int SerialNumber { get; set; }
+        public int? SerialNumber { get; set; }
 
         public string DocumentType { get; set; }
 
-        public int DocumentNumber { get; set; }
+        public int? DocumentNumber { get; set; }
 
         public string LabelTypeCode { get; set; }
 

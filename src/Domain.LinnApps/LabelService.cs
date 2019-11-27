@@ -71,24 +71,53 @@
             int requestedByUserNumber,
             string reason,
             string partNumber,
-            int serialNumber,
+            int? serialNumber,
             string documentType,
-            int documentNumber,
+            int? documentNumber,
             string labelTypeCode,
             int numberOfProducts,
             string reprintType,
             string newPartNumber)
         {
+            if (string.IsNullOrEmpty(partNumber))
+            {
+                throw new LabelReprintInvalidException("No part number specified for label reprint");
+            }
+
             this.sernosPack.GetSerialNumberBoxes(partNumber, out var serialNumberQty, out var boxesQty);
+            if (serialNumberQty > 1 && serialNumber % 2 == 0)
+            {
+                throw new LabelReprintInvalidException("You must use the odd number serial number of a pair");
+            }
+
+            if (this.sernosPack.SerialNumbersRequired(partNumber))
+            {
+                if (!serialNumber.HasValue)
+                {
+                    throw new LabelReprintInvalidException("You must specify a serial number for serial numbered products");
+                }
+            }
+
             numberOfProducts = Math.Max(numberOfProducts, 1);
 
-            if (reprintType == "REISSUE")
+            switch (reprintType)
             {
-                this.sernosPack.ReIssueSernos(partNumber, newPartNumber, serialNumber);
-            }
-            else if (reprintType == "REBUILD")
-            {
-                this.RebuildSerialNumber(newPartNumber ?? partNumber, serialNumber, requestedByUserNumber);
+                case "REISSUE":
+                    if (!serialNumber.HasValue)
+                    {
+                        throw new LabelReprintInvalidException("You must specify a serial number for serial numbered products");
+                    }
+
+                    this.sernosPack.ReIssueSernos(partNumber, newPartNumber, serialNumber.Value);
+                    break;
+                case "REBUILD":
+                    if (!serialNumber.HasValue)
+                    {
+                        throw new LabelReprintInvalidException("You must specify a serial number for serial numbered products");
+                    }
+
+                    this.RebuildSerialNumber(newPartNumber ?? partNumber, serialNumber.Value, requestedByUserNumber);
+                    break;
             }
 
             this.PrintTheLabels(
@@ -119,7 +148,7 @@
         private void PrintTheLabels(
             string labelTypeCode,
             string partNumber,
-            int serialNumber,
+            int? serialNumber,
             int numberOfProducts,
             int numberOfSerialNumbers,
             int numberOfBoxes)

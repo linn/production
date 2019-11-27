@@ -8,7 +8,7 @@
 
     public class LabelPack : ILabelPack
     {
-        public string GetLabelData(string labelTypeCode, int serialNumber, string articleNumber)
+        public string GetLabelData(string labelTypeCode, int? serialNumber, string articleNumber)
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
 
