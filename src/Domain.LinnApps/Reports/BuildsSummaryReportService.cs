@@ -32,7 +32,7 @@
                                   new AxisDetailsModel("WeekEnd") { SortOrder = 0, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Department") { SortOrder = 1, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Value") { SortOrder = 2, GridDisplayType = GridDisplayType.Value },
-                                  new AxisDetailsModel("Days") { SortOrder = 3, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2 }
+                                  new AxisDetailsModel("Days") { SortOrder = 3, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 1 }
                               };
 
             var rowId = 0;

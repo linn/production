@@ -56,7 +56,7 @@
                 });
             }
 
-            return results.GroupBy(x => new
+            var r = results.GroupBy(x => new
                 {
                     x.DepartmentCode, x.WeekEnd, x.DepartmentDescription
                 }).Select(g => new BuildsSummary
@@ -66,7 +66,9 @@
                                        Value = g.Sum(x => x.Value),
                                        DaysToBuild = Math.Round((decimal)g.Sum(x => x.DaysToBuild), 1),
                                        WeekEnd = g.Key.WeekEnd
-                                   });
+                                   }).OrderBy(s => s.WeekEnd);
+
+            return r;
         }
     }
 }
