@@ -49,24 +49,25 @@
 
             foreach (var partGroup in partGroups)
             {
-                var partTotal = new decimal();
+                var partTotal = 0m;
                 results.AddRow(partGroup.Key.ToString());
                 results.SetGridTextValue(rowIndex, 0, partGroup.Key.ToString());
 
                 for (var i = 0; i < weeks.Count; i++)
                 {
                     var valueExistsThisWeek = partGroup.FirstOrDefault(g =>
-                                          ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i).ToShortDateString()) != null;
+                                          ((DateTime)g.ItemArray[4]).ToShortDateString() 
+                                          == weeks.ElementAt(i).ToShortDateString()) != null;
 
                     var val = valueExistsThisWeek
                                   ? ConvertFromDbVal<decimal>(
                                       partGroup.FirstOrDefault(
-                                          g => ((DateTime)g.ItemArray[4]).ToShortDateString()
-                                               == weeks.ElementAt(i).ToShortDateString())?.ItemArray[5])
+                                          g => ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i).ToShortDateString())
+                                          ?.ItemArray[quantityOrValue == "Mins" ? 6 : 5])
                                   : new decimal(0);
 
                 results.SetColumnType(i + 1, GridDisplayType.Value);
-                    results.SetGridValue(rowIndex, i + 1, val);
+                    results.SetGridValue(rowIndex, i + 1, val, decimalPlaces: 2);
 
                     if (!valueExistsThisWeek)
                     {
@@ -80,13 +81,14 @@
                         {
                             if (itemArray != null)
                             {
-                                partTotal += ConvertFromDbVal<decimal>(itemArray?[5]);
+                                partTotal += ConvertFromDbVal<decimal>(itemArray?[quantityOrValue == "Mins" ? 6 : 5]);
                             }
                         }
                 }
 
                 results.SetColumnType(weeks.Count, GridDisplayType.Value);
-                results.SetGridValue(rowIndex, weeks.Count + 1, partTotal);
+                
+                results.SetGridValue(rowIndex, weeks.Count + 1, partTotal, decimalPlaces: 2);
                 rowIndex++;
             }
 
