@@ -64,7 +64,7 @@ import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFault
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
 import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
 import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
-import LabelReprint from '../containers/labels/LabelReprint';
+import LabelPrint from '../containers/labels/LabelPrint';
 import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersReportOptions';
 import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
 import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
@@ -86,6 +86,8 @@ import ProductionBackOrdersReport from '../containers/reports/ProductionBackOrde
 import LabelTypes from '../containers/labelTypes/LabelTypes';
 import LabelType from '../containers/labelTypes/LabelType';
 import CreateLabelType from '../containers/labelTypes/CreateLabelType';
+import LabelReprint from '../containers/labelReprints/LabelReprint';
+import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
 
 const Root = ({ store }) => (
     <div>
@@ -243,6 +245,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/resources/manufacturing-skills/:id"
                                         component={ManufacturingSkill}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/reprint-reasons/create"
+                                        component={CreateLabelReprint}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/reprint-reasons/:id"
+                                        component={LabelReprint}
                                     />
                                     <Route
                                         exact
@@ -447,7 +459,7 @@ const Root = ({ store }) => (
                                     <Route
                                         exact
                                         path="/production/maintenance/labels/reprint"
-                                        component={LabelReprint}
+                                        component={LabelPrint}
                                     />
                                     <Route
                                         exact

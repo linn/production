@@ -33,7 +33,7 @@
 
         public string GetLocation(LabelReprint labelReprint)
         {
-            return $"/production/maintenance/labels/reprint-serial-number/{labelReprint.LabelReprintId}";
+            return $"/production/maintenance/labels/reprint-reasons/{labelReprint.LabelReprintId}";
         }
 
         private IEnumerable<LinkResource> BuildLinks(LabelReprint labelReprint)

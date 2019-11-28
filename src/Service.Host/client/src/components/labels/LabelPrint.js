@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function LabelReprint({
+function LabelPrint({
     printMACLabelsErrorDetail,
     serialNumberErrorDetail,
     fetchSerialNumbers,
@@ -76,7 +76,7 @@ function LabelReprint({
             setSelectedSernosGroup(sortedGroups[0] || '');
             selectSerialNumber(sortedGroups[0]);
         }
-    }, [serialNumbers, selectSerialNumber]);
+    }, [serialNumbers, selectSerialNumber, clearMacLabelErrors, clearAllLabelErrors]);
 
     const handleFieldChange = (propertyName, newValue) => {
         if (propertyName === 'searchTerm') {
@@ -203,7 +203,7 @@ function LabelReprint({
     );
 }
 
-LabelReprint.propTypes = {
+LabelPrint.propTypes = {
     fetchSerialNumbers: PropTypes.func.isRequired,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape({})),
     serialNumbersLoading: PropTypes.bool,
@@ -222,7 +222,7 @@ LabelReprint.propTypes = {
     serialNumberErrorDetail: PropTypes.string
 };
 
-LabelReprint.defaultProps = {
+LabelPrint.defaultProps = {
     serialNumbers: null,
     serialNumbersLoading: false,
     printAllLabelsForProductMessageVisible: false,
@@ -234,4 +234,4 @@ LabelReprint.defaultProps = {
     serialNumberErrorDetail: ''
 };
 
-export default LabelReprint;
+export default LabelPrint;

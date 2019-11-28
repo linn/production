@@ -228,3 +228,5 @@ export const SET_DEFAULT_WORKS_ORDER_PRINTER = 'SET_DEFAULT_WORKS_ORDER_PRINTER'
 export const labelTypeActionTypes = makeActionTypes(itemTypes.labelType.actionType);
 
 export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.actionType, false);
+
+export const labelReprintActionTypes = makeActionTypes(itemTypes.labelReprint.actionType);

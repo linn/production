@@ -45,7 +45,7 @@
                 .Returns(new CreatedResult<LabelReprint>(labelReprint));
 
             this.Response = this.Browser.Post(
-                "/production/maintenance/labels/reprint-serial-number",
+                "/production/maintenance/labels/reprint-reasons",
                 with =>
                     {
                         with.Header("Accept", "application/json");

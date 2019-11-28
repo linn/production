@@ -38,7 +38,7 @@
             this.LabelReprintFacadeService.GetById(2).Returns(new SuccessResult<LabelReprint>(labelReprint));
 
             this.Response = this.Browser.Get(
-                "/production/maintenance/labels/reprint-serial-number/2",
+                "/production/maintenance/labels/reprint-reasons/2",
                 with =>
                     {
                         with.Header("Accept", "application/json");
