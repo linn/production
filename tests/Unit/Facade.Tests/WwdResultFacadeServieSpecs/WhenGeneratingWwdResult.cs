@@ -20,7 +20,7 @@
             var trigger = new ProductionTriggerLevel
             {
                 PartNumber = "AKUB PARTY",
-                WsName = "AKUBSTATION"
+                WorkStation = "AKUBSTATION"
             };
             this.ProductionTriggerLevelRepository.FindById(Arg.Any<string>()).Returns(trigger);
 

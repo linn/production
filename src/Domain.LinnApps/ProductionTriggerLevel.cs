@@ -20,8 +20,16 @@
 
         public int? BomLevel { get; set; }
 
-        public string WsName { get; set; }
+        public string WorkStation { get; set; }
 
         public string FaZoneType { get; set; }
+
+        public string RouteCode { get; set; }
+
+        public char Temporary { get; set; }
+
+        public int EngineerId { get; set; }
+
+        public string Story { get; set; }
     }
 }

@@ -64,7 +64,7 @@
 
                 var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
 
-                if (productionTriggerLevel.WsName != worksOrderToBeRaised.WorkStationCode)
+                if (productionTriggerLevel.WorkStation != worksOrderToBeRaised.WorkStationCode)
                 {
                     throw new InvalidWorksOrderException($"{worksOrderToBeRaised.WorkStationCode} is not a possible work station for {partNumber}");
                 }

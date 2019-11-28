@@ -24,7 +24,11 @@
                            OverrideTriggerLevel = productionTriggerLevel.OverrideTriggerLevel,
                            TriggerLevel = productionTriggerLevel.TriggerLevel,
                            VariableTriggerLevel = productionTriggerLevel.VariableTriggerLevel,
-                           WsName = productionTriggerLevel.WsName,
+                           WorkStation = productionTriggerLevel.WorkStation,
+                           Temporary = productionTriggerLevel.Temporary,
+                           EngineerId = productionTriggerLevel.EngineerId,
+                           Story = productionTriggerLevel.Story,
+                           RouteCode = productionTriggerLevel.RouteCode,
                            Links = this.BuildLinks(productionTriggerLevel).ToArray()
                        };
         }

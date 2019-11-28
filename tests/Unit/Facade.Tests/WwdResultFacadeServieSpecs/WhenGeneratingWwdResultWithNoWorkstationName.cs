@@ -16,7 +16,7 @@
             var trigger = new ProductionTriggerLevel
             {
                 PartNumber = "AKUB PARTY",
-                WsName = string.Empty
+                WorkStation = string.Empty
             };
             this.ProductionTriggerLevelRepository.FindById(Arg.Any<string>()).Returns(trigger);
             this.result = this.Sut.GenerateWwdResultForTrigger("AKUB PARTY", 1, string.Empty);
