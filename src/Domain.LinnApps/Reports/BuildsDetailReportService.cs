@@ -49,7 +49,7 @@
 
             foreach (var partGroup in partGroups)
             {
-                var partTotal = new decimal(0);
+                var partTotal = 0m;
                 results.AddRow(partGroup.Key.ToString());
                 results.SetGridTextValue(rowIndex, 0, partGroup.Key.ToString());
 
