@@ -4,9 +4,10 @@
     using System.Security.Claims;
 
     using Linn.Common.Facade;
+    using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.ResourceBuilders;
-    using Linn.Production.Resources;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
 
@@ -18,17 +19,22 @@
 
     public class ContextBase : NancyContextBase
     {
-        protected IFacadeService<Part, string, PartResource, PartResource> PartFacadeService { get; private set; }
+        protected IPartsFacadeService PartsFacadeService;
+
+        protected IRepository<Part, string> PartRepository;
 
         [SetUp]
         public void EstablishContext()
         {
-            this.PartFacadeService = Substitute.For<IFacadeService<Part, string, PartResource, PartResource>>();
+            this.PartsFacadeService = Substitute.For<IPartsFacadeService>();
+
+            this.PartRepository = Substitute.For<IRepository<Part, string>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
-                    with.Dependency(this.PartFacadeService);
+                    with.Dependency(this.PartsFacadeService);
+                    with.Dependency(this.PartRepository);
                     with.Dependency<IResourceBuilder<Part>>(new PartResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<Part>>>(new PartsResourceBuilder());
                     with.Module<PartsModule>();

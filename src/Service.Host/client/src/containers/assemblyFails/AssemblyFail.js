@@ -44,12 +44,15 @@ const mapStateToProps = (state, { match }) => ({
     smtShifts: smtShiftsSelectors.getItems(state),
     smtShiftsLoading: smtShiftsSelectors.getLoading(state),
     faultCodes: assemblyFailFaultCodesSelectors.getItems(state),
-    faultCodesLoading: assemblyFailFaultCodeSelectors.getLoading(state)
+    faultCodesLoading: assemblyFailFaultCodeSelectors.getLoading(state),
+    boardPartsSearchResults: productionTriggerLevelsSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
+    boardPartsSearchLoading: productionTriggerLevelsSelectors.getSearchLoading(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {
     dispatch(assemblyFailActions.fetch(itemId));
-    dispatch(productionTriggerLevelsActions.fetchByQueryString('searchTerm', 'PCAS'));
     dispatch(employeesActions.fetch());
     dispatch(citsActions.fetch());
     dispatch(assemblyFailFaultCodes.fetch());
@@ -63,7 +66,9 @@ const mapDispatchToProps = {
     setSnackbarVisible: assemblyFailActions.setSnackbarVisible,
     searchWorksOrders: worksOrdersActions.search,
     fetchPcasRevisionsForBoardPart: pcasRevisionsActions.fetchByQueryString,
-    clearWorksOrdersSearch: worksOrdersActions.clearSearch
+    clearWorksOrdersSearch: worksOrdersActions.clearSearch,
+    searchBoardParts: productionTriggerLevelsActions.search,
+    clearBoardPartsSearch: productionTriggerLevelsActions.clearSearch
 };
 
 export default connect(

@@ -15,7 +15,4 @@ const mapDispatchToProps = {
     fetchItems: manufacturingRoutesActions.fetchByQueryString
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ViewManufacturingRoutes);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewManufacturingRoutes);

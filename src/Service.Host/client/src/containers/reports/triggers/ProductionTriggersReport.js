@@ -39,7 +39,4 @@ const mapDispatchToProps = {
     fetchTriggers: actions.fetchReport
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(ProductionTriggers));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(ProductionTriggers));

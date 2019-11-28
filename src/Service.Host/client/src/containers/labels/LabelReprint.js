@@ -38,7 +38,4 @@ const mapDispatchToProps = {
     clearAllLabelErrors: printAllLabelsForProductActions.clearErrorsForItem
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LabelReprint);
+export default connect(mapStateToProps, mapDispatchToProps)(LabelReprint);

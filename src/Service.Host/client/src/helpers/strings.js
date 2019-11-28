@@ -7,6 +7,4 @@ export const isUpperCase = str => {
     return str === str.toUpperCase();
 };
 
-export const isEmpty = str => {
-    return !str || str.trim().length === 0;
-};
+export const isEmpty = str => !str || str.trim().length === 0;

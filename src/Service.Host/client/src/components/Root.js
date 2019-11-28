@@ -85,6 +85,9 @@ import CreateWorksOrderLabel from '../containers/worksOrders/CreateWorksOrderLab
 import ProductionBackOrdersReport from '../containers/reports/ProductionBackOrdersReport';
 import BuildPlansReportOptions from '../containers/reports/BuildPlansReportOptions';
 import BuildPlansReport from '../containers/reports/BuildPlansReport';
+import LabelTypes from '../containers/labelTypes/LabelTypes';
+import LabelType from '../containers/labelTypes/LabelType';
+import CreateLabelType from '../containers/labelTypes/CreateLabelType';
 
 const Root = ({ store }) => (
     <div>
@@ -487,6 +490,21 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/build-plans"
                                         component={BuildPlansReportOptions}
+                                        />
+                                        <Route
+                                        exact
+                                        path="/production/resources/label-types/create"
+                                        component={CreateLabelType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/label-types/:id"
+                                        component={LabelType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/label-types"
+                                        component={LabelTypes}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

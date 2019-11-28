@@ -27,12 +27,14 @@ export default function PartFailDetailsReport({ reportData, loading, options, er
                     {loading ? (
                         <Loading />
                     ) : (
-                        <ReportTable
-                            reportData={reportData}
-                            showTotals={false}
-                            showTitle
-                            title={reportData.title.displayString}
-                        />
+                        reportData && (
+                            <ReportTable
+                                reportData={reportData}
+                                showTotals={false}
+                                showTitle
+                                title={reportData.title.displayString}
+                            />
+                        )
                     )}
                 </Grid>
             </Grid>

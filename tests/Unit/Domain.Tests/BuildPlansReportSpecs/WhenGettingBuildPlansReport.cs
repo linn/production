@@ -51,9 +51,12 @@
 
             this.LinnWeekService.GetWeek(Arg.Any<DateTime>()).Returns(
                 new LinnWeek
-                    {
-                        LinnWeekNumber = 20, StartDate = 1.June(2020), EndDate = 6.June(2020), WWSYY = "25/20"
-                    });
+                {
+                    LinnWeekNumber = 20,
+                    StartDate = 1.June(2020),
+                    EndDate = 6.June(2020),
+                    WWSYY = "25/20"
+                });
 
             this.result = this.Sut.BuildPlansReport("MASTER", 16, "ALL");
         }

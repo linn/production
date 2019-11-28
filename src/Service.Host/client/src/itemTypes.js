@@ -107,7 +107,7 @@ export const worksOrderDetails = new ItemType(
 export const productionTriggerLevels = new ItemType(
     'productionTriggerLevels',
     'PRODUCTION_TRIGGER_LEVELS',
-    '/production/maintenance/production-trigger-levels'
+    '/production/maintenance/parts'
 );
 
 export const pcasRevisions = new ItemType(
@@ -223,4 +223,16 @@ export const buildPlans = new ItemType(
     'buildPlans',
     'BUILD_PLANS',
     '/production/maintenance/build-plans'
+);
+
+export const labelType = new ItemType(
+    'labelType',
+    'LABEL_TYPE',
+    '/production/resources/label-types'
+);
+
+export const labelTypes = new ItemType(
+    'labelTypes',
+    'LABEL_TYPES',
+    '/production/resources/label-types'
 );

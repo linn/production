@@ -1,34 +1,29 @@
 ﻿namespace Linn.Production.Facade.Services
 {
-    using System;
-    using System.Linq.Expressions;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Resources;
 
-    public class PartsFacadeService : FacadeService<Part, string, PartResource, PartResource>
+    public class PartsFacadeService : IPartsFacadeService
     {
-        public PartsFacadeService(IRepository<Part, string> repository, ITransactionManager transactionManager)
-            : base(repository, transactionManager)
+        private readonly IRepository<Part, string> repository;
+
+        public PartsFacadeService(IRepository<Part, string> repository)
         {
+            this.repository = repository;
         }
 
-        protected override Part CreateFromResource(PartResource resource)
+        public SuccessResult<IEnumerable<Part>> SearchParts(string searchTerm)
         {
-            throw new NotImplementedException();
+            return new SuccessResult<IEnumerable<Part>>(this.repository.FilterBy(s => s.PartNumber.Contains(searchTerm.ToUpper())).Take(10));
         }
 
-        protected override void UpdateFromResource(Part entity, PartResource updateResource)
+        public SuccessResult<IEnumerable<Part>> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        protected override Expression<Func<Part, bool>> SearchExpression(string searchTerm)
-        {
-            return p => p.PartNumber.Contains(searchTerm.ToUpper())
-                        || p.Description.ToUpper().Contains(searchTerm.ToUpper());
+            return new SuccessResult<IEnumerable<Part>>(this.repository.FindAll());
         }
     }
 }

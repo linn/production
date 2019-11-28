@@ -17,7 +17,4 @@ const mapDispatchToProps = {
     clearSearch: worksOrdersActions.clearSearch
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TypeaheadDialog);
+export default connect(mapStateToProps, mapDispatchToProps)(TypeaheadDialog);

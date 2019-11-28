@@ -74,6 +74,8 @@ import productionBackOrdersReport from './productionBackOrdersReport';
 import localStorage from './localStorage';
 import buildPlansReport from './buildPlansReport';
 import buildPlans from './buildPlans';
+import labelType from './labelTypes/labelType';
+import labelTypes from './labelTypes/labelTypes';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -151,6 +153,8 @@ const rootReducer = combineReducers({
     worksOrderDetails,
     worksOrderLabel,
     worksOrderLabels,
+    labelType,
+    labelTypes,
     ...sharedLibraryReducers
 });
 

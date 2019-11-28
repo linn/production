@@ -10,9 +10,4 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = {};
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Page)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Page));

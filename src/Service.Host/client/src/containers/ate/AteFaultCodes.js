@@ -19,7 +19,4 @@ const mapDispatchToProps = {
     initialise
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(AteFaultCodes));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(AteFaultCodes));

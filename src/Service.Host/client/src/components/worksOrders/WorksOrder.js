@@ -238,16 +238,11 @@ function WorksOrder({
                             <ErrorCard
                                 errorMessage={`${printWorksOrderLabelsErrorDetail ||
                                     printWorksOrderAioLabelsErrorDetail ||
-                                    itemError.statusText ||
+                                    worksOrderError ||
                                     ''} `}
                             />
                         </Grid>
                     ))}
-                {worksOrderError && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={worksOrderError} />
-                    </Grid>
-                )}
                 {worksOrderDetailsError && (
                     <Grid item xs={12}>
                         <ErrorCard errorMessage={worksOrderDetailsError} />
