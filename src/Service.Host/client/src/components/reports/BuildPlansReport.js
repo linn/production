@@ -19,7 +19,7 @@ export default function BoardTestsReport({ reportData, loading, history, error }
         <Page>
             <Grid container spacing={3} justify="center">
                 <Grid item xs={12}>
-                    <Title text="Build Plans Report" />
+                    <Title text="Build Plan Report" />
                 </Grid>
                 {error && (
                     <Grid item xs={12}>

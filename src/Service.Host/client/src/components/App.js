@@ -86,7 +86,7 @@ function App() {
                     <Typography color="primary">Builds Detail Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/build-plans" button>
-                    <Typography color="primary">Build Plans Report</Typography>
+                    <Typography color="primary">Build Plan Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/builds-summary/options" button>
                     <Typography color="primary">Builds Summary Report</Typography>

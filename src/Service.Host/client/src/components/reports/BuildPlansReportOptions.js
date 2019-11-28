@@ -59,7 +59,7 @@ export default function BuildPlansReportOptions({
 
     return (
         <Page>
-            <Title text="Build Plans Report" />
+            <Title text="Build Plan Report" />
             {buildPlansLoading || citsLoading ? (
                 <Loading />
             ) : (
