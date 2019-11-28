@@ -71,6 +71,9 @@
         public void ShouldSetRows()
         {
             this.result.Rows.Should().HaveCount(3);
+            this.result.Rows.Should().Contain(r => r.RowTitle == "KLIMAX");
+            this.result.Rows.Should().Contain(r => r.RowTitle == "MAJIK");
+            this.result.Rows.Should().Contain(r => r.RowTitle == "PCAS");
         }
 
         [Test]

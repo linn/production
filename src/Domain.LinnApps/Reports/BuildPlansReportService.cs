@@ -4,7 +4,6 @@
     using System.Linq;
 
     using Linn.Common.Persistence;
-    using Linn.Common.Reporting.Layouts.BaseDataComponents;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Layouts;
     using Linn.Production.Domain.LinnApps.Services;
