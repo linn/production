@@ -37,14 +37,13 @@
 
             var allWeeks = this.linnWeekService.GetWeeks(DateTime.Now, DateTime.Now.AddDays(weeks * 7)).ToList();
 
-            var buildPlans = citName == "ALL"
-                                 ? this.buildPlanDetailsLineRepository.FilterBy(
-                                     b => b.BuildPlanName == buildPlanName && b.LinnWeekNumber >= from
-                                                                           && b.LinnWeekNumber <= to)
-                                 : this.buildPlanDetailsLineRepository.FilterBy(
-                                     b => b.BuildPlanName == buildPlanName && b.LinnWeekNumber >= from
-                                                                           && b.LinnWeekNumber <= to
-                                                                           && b.CitName == citName);
+            var buildPlans = this.buildPlanDetailsLineRepository.FilterBy(
+                b => b.BuildPlanName == buildPlanName && b.LinnWeekNumber >= from && b.LinnWeekNumber <= to);
+
+            if (citName.ToLower() != "all")
+            {
+                buildPlans = buildPlans.Where(b => b.CitName == citName);
+            }
 
             reportLayout.AddWeeks(
                 allWeeks.Select(
@@ -59,7 +58,7 @@
                              RowId = b.PartNumber,
                              RowTitle = b.PartNumber,
                              ColumnId = b.LinnWeekNumber.ToString(),
-                             TextDisplay = b.FixedBuild.ToString()
+                             Quantity = b.FixedBuild == null ? default(decimal) : (decimal)b.FixedBuild
                          });
 
             reportLayout.AddData(calculatedValues);
@@ -67,7 +66,7 @@
             var model = reportLayout.GetResultsModel();
 
             model.RowHeader = "Part Number";
-            
+
             this.reportingHelper.SortRowsByRowTitle(model);
 
             return model;

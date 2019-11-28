@@ -4,9 +4,9 @@ import * as itemTypes from '../itemTypes';
 import config from '../config';
 
 export default new FetchApiActions(
-    itemTypes.buildPlan.item,
-    itemTypes.buildPlan.actionType,
-    itemTypes.buildPlan.uri,
+    itemTypes.buildPlans.item,
+    itemTypes.buildPlans.actionType,
+    itemTypes.buildPlans.uri,
     actionTypes,
     config.appRoot
 );

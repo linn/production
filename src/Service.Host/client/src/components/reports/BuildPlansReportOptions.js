@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import {
-    Dropdown,
-    Title,
-    Loading,
-    InputField,
-    TypeaheadDialog,
-    LinnWeekPicker
-} from '@linn-it/linn-form-components-library';
-import { makeStyles } from '@material-ui/styles';
+import { Dropdown, Title, Loading } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
@@ -24,7 +16,7 @@ export default function BuildPlansReportOptions({
     const [citsOptions, setCitsOptions] = useState(['All']);
 
     const [reportOptions, setReportOptions] = useState({
-        buildPlan: '',
+        buildPlan: 'MASTER',
         cit: 'All',
         weeks: 16
     });
@@ -43,13 +35,12 @@ export default function BuildPlansReportOptions({
     useEffect(() => {
         const list = [{ id: '', displayText: '' }];
         if (buildPlans) {
-            setBuildPlansOptions([
-                ...list,
-                ...buildPlans.map(buildPlan => ({
+            setBuildPlansOptions(
+                buildPlans.map(buildPlan => ({
                     id: buildPlan.buildPlanName,
                     displayText: `${buildPlan.buildPlanName} - ${buildPlan.description}`
                 }))
-            ]);
+            );
             return;
         }
         setBuildPlansOptions(list);
@@ -60,13 +51,15 @@ export default function BuildPlansReportOptions({
     };
 
     const handleRunClick = () => {
-        console.log('RUN');
+        history.push({
+            pathname: '/production/reports/build-plans/report',
+            search: `?buildPlanName=${reportOptions.buildPlan}&weeks=${reportOptions.weeks}&citName=${reportOptions.cit}`
+        });
     };
 
     return (
         <Page>
             <Title text="Build Plans Report" />
-            {/* TODO errors */}
             {buildPlansLoading || citsLoading ? (
                 <Loading />
             ) : (
@@ -79,6 +72,7 @@ export default function BuildPlansReportOptions({
                             value={reportOptions.buildPlan}
                             onChange={handleFieldChange}
                             propertyName="buildPlan"
+                            required
                         />
                     </Grid>
                     <Grid item xs={8} />
@@ -119,3 +113,18 @@ export default function BuildPlansReportOptions({
         </Page>
     );
 }
+
+BuildPlansReportOptions.propTypes = {
+    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    buildPlans: PropTypes.arrayOf(PropTypes.shape({})),
+    cits: PropTypes.arrayOf(PropTypes.shape({})),
+    buildPlansLoading: PropTypes.bool,
+    citsLoading: PropTypes.bool
+};
+
+BuildPlansReportOptions.defaultProps = {
+    buildPlans: null,
+    cits: null,
+    buildPlansLoading: false,
+    citsLoading: false
+};

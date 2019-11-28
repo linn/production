@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
-import OverdueOrdersReportOptions from '../../components/reports/OverdueOrdersReportOptions';
+import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import BuildPlansReportOptions from '../../components/reports/BuildPlansReportOptions';
 import citsActions from '../../actions/citsActions';
 import buildPlansActions from '../../actions/buildPlansActions';
 import citsSelectors from '../../selectors/citsSelectors';
@@ -30,4 +30,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withRouter(OverdueOrdersReportOptions));
+)(withRouter(initialiseOnMount(BuildPlansReportOptions)));
