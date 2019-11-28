@@ -16,7 +16,7 @@ const handleBackClick = history => {
 
 export default function BoardTestsReport({ reportData, loading, history, error }) {
     return (
-        <Page>
+        <Page width="xl">
             <Grid container spacing={3} justify="center">
                 <Grid item xs={12}>
                     <Title text="Build Plan Report" />
