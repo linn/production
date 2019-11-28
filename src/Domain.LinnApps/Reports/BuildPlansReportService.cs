@@ -4,6 +4,7 @@
     using System.Linq;
 
     using Linn.Common.Persistence;
+    using Linn.Common.Reporting.Layouts.BaseDataComponents;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Layouts;
     using Linn.Production.Domain.LinnApps.Services;
@@ -29,8 +30,6 @@
 
         public ResultsModel BuildPlansReport(string buildPlanName, int weeks, string citName)
         {
-            var reportLayout = new ValuesByWeekLayout(this.reportingHelper, "Build Plan Report");
-
             var from = this.linnWeekService.GetWeek(DateTime.Now).LinnWeekNumber;
 
             var to = this.linnWeekService.GetWeek(DateTime.Now.AddDays(weeks * 7)).LinnWeekNumber;
@@ -38,12 +37,16 @@
             var allWeeks = this.linnWeekService.GetWeeks(DateTime.Now, DateTime.Now.AddDays(weeks * 7)).ToList();
 
             var buildPlans = this.buildPlanDetailsLineRepository.FilterBy(
-                b => b.BuildPlanName == buildPlanName && b.LinnWeekNumber >= from && b.LinnWeekNumber <= to);
+                b => b.BuildPlanName == buildPlanName && b.LinnWeekNumber >= from && b.LinnWeekNumber <= to && b.FixedBuild != null);
 
             if (citName.ToLower() != "all")
             {
                 buildPlans = buildPlans.Where(b => b.CitName == citName);
             }
+
+            var rows = buildPlans.Select(b => b.PartNumber).Distinct();
+
+            var reportLayout = new ValuesByWeekLayout(this.reportingHelper, "Build Plan Report", rows, false);
 
             reportLayout.AddWeeks(
                 allWeeks.Select(
