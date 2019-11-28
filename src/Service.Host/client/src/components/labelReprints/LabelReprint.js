@@ -7,7 +7,8 @@ import {
     Loading,
     Title,
     ErrorCard,
-    SnackbarMessage
+    SnackbarMessage,
+    Dropdown
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -22,7 +23,8 @@ function LabelReprint({
     addItem,
     updateItem,
     setEditStatus,
-    setSnackbarVisible
+    setSnackbarVisible,
+    labelTypes
 }) {
     const [labelReprint, setLabelReprint] = useState({});
     const [prevLabelReprint, setPrevLabelReprint] = useState({});
@@ -39,6 +41,7 @@ function LabelReprint({
     }, [item, prevLabelReprint]);
 
     const reasonInvalid = () => !labelReprint.reason;
+    const serialNumberInvalid = () => !labelReprint.serialNumber;
     const inputInvalid = () => reasonInvalid();
 
     const handleSaveClick = () => {
@@ -91,7 +94,7 @@ function LabelReprint({
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
-                            <Grid item xs={8}>
+                            <Grid item xs={2}>
                                 <InputField
                                     fullWidth
                                     disabled
@@ -101,6 +104,20 @@ function LabelReprint({
                                     propertyName="labelReprintId"
                                 />
                             </Grid>
+                            <Grid item xs={10} />
+                            <Grid item xs={2}>
+                                <Dropdown
+                                    fullWidth
+                                    label="Reprint Type"
+                                    propertyName="reprintType"
+                                    disabled={!creating()}
+                                    allowNoValue={false}
+                                    items={['REPRINT', 'REISSUE']}
+                                    value={labelReprint.reprintType}
+                                    onChange={handleFieldChange}
+                                />
+                            </Grid>
+                            <Grid item xs={10} />
                             <Grid item xs={8}>
                                 <InputField
                                     value={labelReprint.reason}
@@ -114,6 +131,49 @@ function LabelReprint({
                                     propertyName="reason"
                                 />
                             </Grid>
+                            <Grid item xs={4} />
+                            <Grid item xs={4}>
+                                <InputField
+                                    value={labelReprint.serialNumber}
+                                    disabled={!creating()}
+                                    label="Serial Number"
+                                    maxLength={50}
+                                    fullWidth
+                                    helperText={
+                                        serialNumberInvalid() ? 'This field is required' : ''
+                                    }
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="serialNumber"
+                                />
+                            </Grid>
+                            <Grid item xs={8} />
+                            <Grid item xs={12}>
+                                <Dropdown
+                                    label="Label Type"
+                                    propertyName="labelTypeCode"
+                                    disabled={!creating()}
+                                    items={labelTypes.map(s => ({
+                                        id: s.labelTypeCode,
+                                        displayText: `${s.labelTypeCode}`
+                                    }))}
+                                    value={labelReprint.labelTypeCode || ''}
+                                    onChange={handleFieldChange}
+                                    allowNoValue={false}
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    value={labelReprint.numberOfProducts}
+                                    disabled={!creating()}
+                                    label="No Of Products"
+                                    fullWidth
+                                    required
+                                    onChange={handleFieldChange}
+                                    propertyName="numberOfProducts"
+                                />
+                            </Grid>
+                            <Grid item xs={10} />
                             <Grid item xs={12}>
                                 <SaveBackCancelButtons
                                     saveDisabled={viewing() || inputInvalid()}
@@ -151,7 +211,8 @@ LabelReprint.propTypes = {
     addItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
-    setSnackbarVisible: PropTypes.func.isRequired
+    setSnackbarVisible: PropTypes.func.isRequired,
+    labelTypes: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 LabelReprint.defaultProps = {
@@ -161,7 +222,8 @@ LabelReprint.defaultProps = {
     updateItem: null,
     loading: null,
     itemError: null,
-    itemId: null
+    itemId: null,
+    labelTypes: []
 };
 
 export default LabelReprint;
