@@ -1,15 +1,11 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using System;
+    using System.Linq.Expressions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
-    using System;
-    using System.Linq.Expressions;
-
-    using Linn.Common.Authorisation;
-    using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class ProductionTriggerLevelService : FacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>
     {
@@ -17,20 +13,15 @@
         //private readonly IFacadeService<Cit, string, CitResource, CitResource> citService;
         //private readonly IFacadeService<Part, string, PartResource, PartResource> partService;
         //private readonly IFacadeService<Employee, int, EmployeeResource, EmployeeResource> employeeService;
-
         public ProductionTriggerLevelService(IRepository<ProductionTriggerLevel, string> repository,
                                              ITransactionManager transactionManager
-                                             //IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> manufacturingRouteService,
-                                             //IFacadeService<Cit, string, CitResource, CitResource> citService,
-                                             //IFacadeService<Part, string, PartResource, PartResource> partService,
-                                             //IFacadeService<Employee, int, EmployeeResource, EmployeeResource> employeeService
+            //IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> manufacturingRouteService,
+            //IFacadeService<Cit, string, CitResource, CitResource> citService,
+            //IFacadeService<Part, string, PartResource, PartResource> partService,
+            //IFacadeService<Employee, int, EmployeeResource, EmployeeResource> employeeService
             )
             : base(repository, transactionManager)
         {
-            //this.manufacturingRouteService = manufacturingRouteService;
-            //this.citService = citService;
-            //this.partService = partService;
-            //this.employeeService = employeeService;
         }
 
         protected override ProductionTriggerLevel CreateFromResource(ProductionTriggerLevelResource resource)
@@ -41,7 +32,7 @@
             //}
             //check dependencies - routecode, cit, engineer id and part number
             //maybe I don't need to do this actually
-             
+
             return new ProductionTriggerLevel
             {
                 PartNumber = resource.PartNumber,
@@ -61,7 +52,7 @@
                 RouteCode = resource.RouteCode
             };
         }
-
+        
         protected override void UpdateFromResource(ProductionTriggerLevel entity, ProductionTriggerLevelResource updateResource)
         {
             entity.PartNumber = updateResource.PartNumber;

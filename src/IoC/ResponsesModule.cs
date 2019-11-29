@@ -51,9 +51,9 @@
             builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
             builder.RegisterType<WorksOrdersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<WorksOrder>>>();
-            builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ProductionTriggerLevel>>();
+            builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ResponseModel<ProductionTriggerLevel>>>();
             builder.RegisterType<ProductionTriggerLevelsResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>();
+                .As<IResourceBuilder<ResponseModel<IEnumerable<ProductionTriggerLevel>>>>();
             builder.RegisterType<PcasRevisionResourceBuilder>()
                 .As<IResourceBuilder<PcasRevision>>();
             builder.RegisterType<PcasRevisionsResourceBuilder>()
