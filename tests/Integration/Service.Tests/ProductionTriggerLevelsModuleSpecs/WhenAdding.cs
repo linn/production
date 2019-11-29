@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Service.Tests.ProductionTriggerLevelsModuleSpecs
 {
+    using System.Collections.Generic;
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -8,9 +9,8 @@
     using Nancy.Testing;
     using NSubstitute;
     using NUnit.Framework;
-    using System.Collections.Generic;
 
-    public class WhenUpdating : ContextBase
+    public class WhenAdding: ContextBase
     {
         private ProductionTriggerLevelResource resource;
 
@@ -58,13 +58,12 @@
                 .Returns(true);
 
             this.ProductionTriggerLevelService
-                .Update(
-                    "part1",
+                .Add(
                     Arg.Any<ProductionTriggerLevelResource>(),
                     Arg.Any<List<string>>()).Returns(
                     new SuccessResult<ResponseModel<ProductionTriggerLevel>>(responseModel));
 
-            this.Response = this.Browser.Put(
+            this.Response = this.Browser.Post(
                 "/production/maintenance/production-trigger-levels",
                 with =>
                     {
@@ -82,7 +81,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ProductionTriggerLevelService.Received().Update("part1", Arg.Is<ProductionTriggerLevelResource>(r => r.PartNumber == "part1"), Arg.Any<List<string>>());
+            this.ProductionTriggerLevelService.Received().Add(Arg.Is<ProductionTriggerLevelResource>(r => r.PartNumber == "part1"), Arg.Any<List<string>>());
         }
 
         [Test]

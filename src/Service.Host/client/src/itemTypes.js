@@ -104,6 +104,12 @@ export const worksOrderDetails = new ItemType(
     '/production/works-orders/get-part-details'
 );
 
+export const productionTriggerLevel = new ItemType(
+    'productionTriggerLevel',
+    'PRODUCTION_TRIGGER_LEVEL',
+    '/production/maintenance/production-trigger-levels'
+);
+
 export const productionTriggerLevels = new ItemType(
     'productionTriggerLevels',
     'PRODUCTION_TRIGGER_LEVELS',

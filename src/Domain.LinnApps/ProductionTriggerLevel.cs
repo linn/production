@@ -29,7 +29,7 @@
 
         public string RouteCode { get; set; }
 
-        public char? Temporary { get; set; }
+        public string Temporary { get; set; }
 
         public int? EngineerId { get; set; }
 
