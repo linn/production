@@ -26,9 +26,9 @@
 
         public int? OverrideTriggerLevel { get; set; }
 
-        public char Temporary { get; set; }
+        public char? Temporary { get; set; }
 
-        public int EngineerId { get; set; }
+        public int? EngineerId { get; set; }
 
         public string Story { get; set; }
 

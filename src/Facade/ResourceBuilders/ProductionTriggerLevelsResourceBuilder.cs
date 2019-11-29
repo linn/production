@@ -4,24 +4,30 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class ProductionTriggerLevelsResourceBuilder : IResourceBuilder<IEnumerable<ProductionTriggerLevel>>
+    public class ProductionTriggerLevelsResourceBuilder : IResourceBuilder<ResponseModel<IEnumerable<ProductionTriggerLevel>>>
     {
-        private readonly ProductionTriggerLevelResourceBuilder productionTriggerLevelResourceBuilder = new ProductionTriggerLevelResourceBuilder();
+        private readonly ProductionTriggerLevelResourceBuilder productionTriggerLevelResourceBuilder; 
 
-        public IEnumerable<ProductionTriggerLevelResource> Build(IEnumerable<ProductionTriggerLevel> productionTriggerLevels)
+        public ProductionTriggerLevelsResourceBuilder(IAuthorisationService authorisationService)
         {
-            return productionTriggerLevels
-                .OrderBy(b => b.PartNumber)
-                .Select(a => this.productionTriggerLevelResourceBuilder.Build(a));
+            this.productionTriggerLevelResourceBuilder = new ProductionTriggerLevelResourceBuilder(authorisationService);
         }
 
-        object IResourceBuilder<IEnumerable<ProductionTriggerLevel>>.Build(IEnumerable<ProductionTriggerLevel> productionTriggerLevels) => this.Build(productionTriggerLevels);
+        public IEnumerable<ProductionTriggerLevelResource> Build(ResponseModel<IEnumerable<ProductionTriggerLevel>> model)
+        {
+            return model.ResponseData
+                .OrderBy(b => b.PartNumber)
+                .Select(a => this.productionTriggerLevelResourceBuilder.Build(new ResponseModel<ProductionTriggerLevel>(a, model.Privileges)));
+        }
 
-        public string GetLocation(IEnumerable<ProductionTriggerLevel> productionTriggerLevels)
+        object IResourceBuilder<ResponseModel<IEnumerable<ProductionTriggerLevel>>>.Build(ResponseModel<IEnumerable<ProductionTriggerLevel>> model) => this.Build(model);
+
+        public string GetLocation(ResponseModel<IEnumerable<ProductionTriggerLevel>> productionTriggerLevels)
         {
             throw new NotImplementedException();
         }

@@ -2,6 +2,9 @@
 {
     public class ProductionTriggerLevel
     {
+        public ProductionTriggerLevel()
+        {
+        }
         public string PartNumber { get; set; }
 
         public string Description { get; set; }
@@ -26,9 +29,9 @@
 
         public string RouteCode { get; set; }
 
-        public char Temporary { get; set; }
+        public char? Temporary { get; set; }
 
-        public int EngineerId { get; set; }
+        public int? EngineerId { get; set; }
 
         public string Story { get; set; }
     }

@@ -22,8 +22,11 @@
         {
             var ptl1 = new ProductionTriggerLevel { PartNumber = "pcas1", Description = "d1" };
             var ptl2 = new ProductionTriggerLevel { PartNumber = "pcas2", Description = "d2" };
-            this.ProductionTriggerLevelService.GetAll()
-                .Returns(new SuccessResult<IEnumerable<ProductionTriggerLevel>>(new List<ProductionTriggerLevel> { ptl1, ptl2 }));
+            this.ProductionTriggerLevelService.GetAll(Arg.Any<List<string>>())
+                .Returns(new SuccessResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>(
+                    new ResponseModel<IEnumerable<ProductionTriggerLevel>>(
+                    new List<ProductionTriggerLevel> { ptl1, ptl2 },
+                    new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/production-trigger-levels",
@@ -42,7 +45,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ProductionTriggerLevelService.Received().GetAll();
+            this.ProductionTriggerLevelService.Received().GetAll(Arg.Any<List<string>>());
         }
 
         [Test]
