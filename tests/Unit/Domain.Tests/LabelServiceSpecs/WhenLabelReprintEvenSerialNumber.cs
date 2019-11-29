@@ -20,7 +20,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.SernosPack.When(a => a.GetSerialNumberBoxes("part 1", out this.noOfSerialNumbers, out this.noOfBoxes))
+            this.SernosPack.When(a => a.GetSerialNumberBoxes("PART 1", out this.noOfSerialNumbers, out this.noOfBoxes))
                 .Do(a =>
                     {
                         a[1] = 2;

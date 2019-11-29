@@ -8,8 +8,10 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
-    Dropdown
+    Dropdown,
+    TypeaheadDialog
 } from '@linn-it/linn-form-components-library';
+import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
 
 function LabelReprint({
@@ -24,17 +26,26 @@ function LabelReprint({
     updateItem,
     setEditStatus,
     setSnackbarVisible,
-    labelTypes
+    labelTypes,
+    partsSearchResults,
+    partsSearchLoading,
+    searchParts,
+    clearPartsSearch,
+    clearErrors
 }) {
-    const [labelReprint, setLabelReprint] = useState({});
-    const [prevLabelReprint, setPrevLabelReprint] = useState({});
+    const [labelReprint, setLabelReprint] = useState({
+        numberOfProducts: 1,
+        labelTypeCode: 'BOX',
+        reprintType: 'REPRINT'
+    });
+    const [prevLabelReprint, setPrevLabelReprint] = useState(null);
 
     const creating = () => editStatus === 'create';
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
-        if (item !== prevLabelReprint) {
+        if (item && item !== prevLabelReprint) {
             setLabelReprint(item);
             setPrevLabelReprint(item);
         }
@@ -49,6 +60,7 @@ function LabelReprint({
             updateItem(itemId, labelReprint);
             setEditStatus('view');
         } else if (creating()) {
+            clearErrors();
             addItem(labelReprint);
             setEditStatus('view');
         }
@@ -60,7 +72,12 @@ function LabelReprint({
     };
 
     const handleBackClick = () => {
-        history.push('/production/maintenance/labels/reprint-reasons');
+        history.push('/production/maintenance/labels/reprint-reasons/create');
+    };
+
+    const setPart = field => newValue => {
+        setLabelReprint({ ...labelReprint, [field]: newValue.id });
+        clearPartsSearch();
     };
 
     const handleFieldChange = (propertyName, newValue) => {
@@ -70,6 +87,13 @@ function LabelReprint({
 
         setLabelReprint({ ...labelReprint, [propertyName]: newValue });
     };
+
+    const useStyles = makeStyles(theme => ({
+        marginTop: {
+            marginTop: theme.spacing(2)
+        }
+    }));
+    const classes = useStyles();
 
     return (
         <Page>
@@ -112,7 +136,7 @@ function LabelReprint({
                                     propertyName="reprintType"
                                     disabled={!creating()}
                                     allowNoValue={false}
-                                    items={['REPRINT', 'REISSUE']}
+                                    items={['REPRINT', 'REISSUE', 'RSN REPRINT', 'REBUILD']}
                                     value={labelReprint.reprintType}
                                     onChange={handleFieldChange}
                                 />
@@ -132,6 +156,48 @@ function LabelReprint({
                                 />
                             </Grid>
                             <Grid item xs={4} />
+                            <Grid item xs={3}>
+                                <InputField
+                                    label="Part Number"
+                                    maxLength={14}
+                                    fullWidth
+                                    value={labelReprint.partNumber}
+                                    onChange={handleFieldChange}
+                                    propertyName="partNumber"
+                                />
+                            </Grid>
+                            <Grid item xs={1} className={classes.marginTop}>
+                                <TypeaheadDialog
+                                    title="Search For Part"
+                                    onSelect={setPart('partNumber')}
+                                    searchItems={partsSearchResults}
+                                    loading={partsSearchLoading}
+                                    fetchItems={searchParts}
+                                    clearSearch={() => clearPartsSearch}
+                                />
+                            </Grid>
+                            <Grid item xs={8} />
+                            <Grid item xs={3}>
+                                <InputField
+                                    label="New Part Number"
+                                    maxLength={14}
+                                    fullWidth
+                                    value={labelReprint.newPartNumber}
+                                    onChange={handleFieldChange}
+                                    propertyName="newPartNumber"
+                                />
+                            </Grid>
+                            <Grid item xs={1} className={classes.marginTop}>
+                                <TypeaheadDialog
+                                    title="Search For Part"
+                                    onSelect={setPart('newPartNumber')}
+                                    searchItems={partsSearchResults}
+                                    loading={partsSearchLoading}
+                                    fetchItems={searchParts}
+                                    clearSearch={() => clearPartsSearch}
+                                />
+                            </Grid>
+                            <Grid item xs={8} />
                             <Grid item xs={4}>
                                 <InputField
                                     value={labelReprint.serialNumber}
@@ -139,6 +205,7 @@ function LabelReprint({
                                     label="Serial Number"
                                     maxLength={50}
                                     fullWidth
+                                    type="number"
                                     helperText={
                                         serialNumberInvalid() ? 'This field is required' : ''
                                     }
@@ -199,12 +266,15 @@ LabelReprint.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    itemError: PropTypes.shape({
-        status: PropTypes.number,
-        statusText: PropTypes.string,
-        details: PropTypes.shape({}),
-        item: PropTypes.string
-    }),
+    itemError: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+            status: PropTypes.number,
+            statusText: PropTypes.string,
+            details: PropTypes.shape({}),
+            item: PropTypes.string
+        })
+    ]),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -212,7 +282,12 @@ LabelReprint.propTypes = {
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
-    labelTypes: PropTypes.arrayOf(PropTypes.shape({}))
+    labelTypes: PropTypes.arrayOf(PropTypes.shape({})),
+    partsSearchLoading: PropTypes.bool,
+    partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    searchParts: PropTypes.func.isRequired,
+    clearPartsSearch: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired
 };
 
 LabelReprint.defaultProps = {
@@ -223,7 +298,9 @@ LabelReprint.defaultProps = {
     loading: null,
     itemError: null,
     itemId: null,
-    labelTypes: []
+    labelTypes: [],
+    partsSearchResults: [],
+    partsSearchLoading: false
 };
 
 export default LabelReprint;

@@ -18,5 +18,7 @@
         string GetProductGroup(string partNumber);
 
         void GetSerialNumberBoxes(string partNumber, out int numberOfSerialNumbers, out int numberOfBoxes);
+
+        bool SerialNumberExists(int serialNumber, string partNumber);
     }
 }

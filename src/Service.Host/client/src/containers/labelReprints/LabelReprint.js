@@ -9,6 +9,8 @@ import labelReprintSelectors from '../../selectors/labelReprintSelectors';
 import * as itemTypes from '../../itemTypes';
 import labelTypesActions from '../../actions/labelTypesActions';
 import labelTypesSelectors from '../../selectors/labelTypesSelectors';
+import partsActions from '../../actions/partsActions';
+import partsSelectors from '../../selectors/partsSelectors';
 
 const mapStateToProps = (state, { match }) => ({
     item: labelReprintSelectors.getItem(state),
@@ -17,7 +19,11 @@ const mapStateToProps = (state, { match }) => ({
     loading: labelReprintSelectors.getLoading(state),
     snackbarVisible: labelReprintSelectors.getSnackbarVisible(state),
     itemError: getItemErrorDetailMessage(state, itemTypes.labelReprint.item),
-    labelTypes: labelTypesSelectors.getItems(state)
+    labelTypes: labelTypesSelectors.getItems(state),
+    partsSearchLoading: partsSelectors.getSearchLoading(state),
+    partsSearchResults: partsSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.partNumber, name: s.partNumber }))
 });
 
 const initialise = ({ itemId }) => dispatch => {
@@ -29,7 +35,10 @@ const mapDispatchToProps = {
     initialise,
     updateItem: labelReprintActions.update,
     setEditStatus: labelReprintActions.setEditStatus,
-    setSnackbarVisible: labelReprintActions.setSnackbarVisible
+    setSnackbarVisible: labelReprintActions.setSnackbarVisible,
+    searchParts: partsActions.search,
+    clearPartsSearch: partsActions.clearSearch,
+    clearErrors: labelReprintActions.clearErrorsForItem
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(LabelReprint));

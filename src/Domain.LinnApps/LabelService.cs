@@ -83,6 +83,9 @@
                 throw new LabelReprintInvalidException("No part number specified for label reprint");
             }
 
+            partNumber = partNumber.ToUpper();
+            newPartNumber = newPartNumber?.ToUpper();
+
             this.sernosPack.GetSerialNumberBoxes(partNumber, out var serialNumberQty, out var boxesQty);
             if (serialNumberQty > 1 && serialNumber % 2 == 0)
             {
@@ -94,6 +97,14 @@
                 if (!serialNumber.HasValue)
                 {
                     throw new LabelReprintInvalidException("You must specify a serial number for serial numbered products");
+                }
+            }
+
+            if (serialNumber.HasValue)
+            {
+                if (!this.sernosPack.SerialNumberExists(serialNumber.Value, partNumber))
+                {
+                    throw new InvalidSerialNumberException($"No serial number {serialNumber.Value} exists for part {partNumber}");
                 }
             }
 

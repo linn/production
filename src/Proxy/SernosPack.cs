@@ -206,5 +206,40 @@
             numberOfSerialNumbers = int.Parse(serialNumberQtyParameter.Value.ToString());
             numberOfBoxes = int.Parse(boxesQtyParameter.Value.ToString());
         }
+
+        public bool SerialNumberExists(int serialNumber, string partNumber)
+        {
+            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+
+            var cmd = new OracleCommand("SERNOS_PACK_V2.serial_number_exists_sql", connection)
+                          {
+                              CommandType = CommandType.StoredProcedure
+                          };
+
+            var result = new OracleParameter(null, OracleDbType.Int32)
+                             {
+                                 Direction = ParameterDirection.ReturnValue
+                             };
+            cmd.Parameters.Add(result);
+
+            cmd.Parameters.Add(new OracleParameter("p_serial_number", OracleDbType.Int32)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Value = serialNumber
+                                   });
+
+            cmd.Parameters.Add(new OracleParameter("p_part_number", OracleDbType.Varchar2)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Size = 50,
+                                       Value = partNumber
+                                   });
+
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+
+            return result.Value.ToString() == "1";
+        }
     }
 }

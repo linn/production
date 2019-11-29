@@ -6,14 +6,18 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Proxy;
 
     public class LabelReprintRepository : IRepository<LabelReprint, int>
     {
         private readonly ServiceDbContext serviceDbContext;
 
-        public LabelReprintRepository(ServiceDbContext serviceDbContext)
+        private readonly IDatabaseService databaseService;
+
+        public LabelReprintRepository(ServiceDbContext serviceDbContext, IDatabaseService databaseService)
         {
             this.serviceDbContext = serviceDbContext;
+            this.databaseService = databaseService;
         }
 
         public LabelReprint FindById(int key)
@@ -28,6 +32,7 @@
 
         public void Add(LabelReprint entity)
         {
+            entity.LabelReprintId = this.databaseService.GetNextVal("LAB_REP_SEQ");
             this.serviceDbContext.LabelReprints.Add(entity);
         }
 

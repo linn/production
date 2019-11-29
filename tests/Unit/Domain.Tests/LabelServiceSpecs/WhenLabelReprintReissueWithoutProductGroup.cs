@@ -31,6 +31,7 @@
             this.LabelTypeRepository.FindById("BOX")
                 .Returns(new LabelType { DefaultPrinter = "printer 1", Filename = "file 1" });
             this.SernosPack.GetProductGroup("part 1").Returns((string)null);
+            this.SernosPack.SerialNumberExists(808808, "PART 1").Returns(true);
 
             this.action = () => this.Sut.CreateLabelReprint(
                 101202,

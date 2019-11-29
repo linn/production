@@ -10,7 +10,7 @@
 
     using NUnit.Framework;
 
-    public class WhenLabelReprintMissingSerialNumber : ContextBase
+    public class WhenLabelReprintSerialNumberDoesNotExist : ContextBase
     {
         private int noOfSerialNumbers;
         private int noOfBoxes;
@@ -27,12 +27,13 @@
                         a[2] = 1;
                     });
             this.SernosPack.SerialNumbersRequired("PART 1").Returns(true);
+            this.SernosPack.SerialNumberExists(808808, "PART 1").Returns(false);
 
             this.action = () => this.Sut.CreateLabelReprint(
                 101202,
                 "A good reason",
                 "part 1",
-                null,
+                808808,
                 45,
                 "BOX",
                 1,
@@ -43,7 +44,7 @@
         [Test]
         public void ShouldThrowException()
         {
-            this.action.Should().Throw<LabelReprintInvalidException>("You must specify a serial number for serial numbered products");
+            this.action.Should().Throw<InvalidSerialNumberException>();
         }
     }
 }
