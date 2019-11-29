@@ -101,12 +101,10 @@
             var resource = this.Bind<ProductionTriggerLevelResource>();
             this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-            //privilege should likely be changed to one specific 
+
             var result = this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, privileges)
                              ? this.productionTriggerLevelsService.Update(resource.PartNumber, resource, privileges)
                              : new UnauthorisedResult<ResponseModel<ProductionTriggerLevel>>("You are not authorised to update trigger level");
-
-           // var result = this.productionTriggerLevelsService.Update(resource.PartNumber, resource, new List<string>{ AuthorisedAction.ProductionTriggerLevelUpdate });
 
             return this.Negotiate.WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
