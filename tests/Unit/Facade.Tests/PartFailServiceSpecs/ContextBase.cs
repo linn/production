@@ -19,13 +19,13 @@
         protected IRepository<PartFailErrorType, string> ErrorTypeRepository { get; private set; }
 
         protected IRepository<PartFail, int> PartFailRepository { get; private set; }
-        
+
         protected IRepository<PartFailFaultCode, string> FaultCodeRepository { get; private set; }
 
-        protected IRepository<StorageLocation, int> StorageLocationRepository { get; private set; }  
-        
+        protected IRepository<StorageLocation, int> StorageLocationRepository { get; private set; }
+
         protected IRepository<Employee, int> EmployeeRepository { get; private set; }
-        
+
         protected IPartFailService PartFailService { get; private set; }
 
         protected IDatabaseService DbService { get; private set; }
@@ -50,7 +50,7 @@
             this.TransactionManager = Substitute.For<ITransactionManager>();
 
             this.DbService = Substitute.For<IDatabaseService>();
-            
+
             this.Sut = new PartFailFacadeService(
                     this.DbService,
                     this.PartFailService,

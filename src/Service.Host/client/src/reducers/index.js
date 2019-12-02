@@ -74,6 +74,7 @@ import productionBackOrdersReport from './productionBackOrdersReport';
 import localStorage from './localStorage';
 import labelType from './labelTypes/labelType';
 import labelTypes from './labelTypes/labelTypes';
+import labelReprint from './labelReprint';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -102,6 +103,9 @@ const rootReducer = combineReducers({
     departments,
     employees,
     errors,
+    labelReprint,
+    labelType,
+    labelTypes,
     localStorage,
     manufacturingCommitDate,
     manufacturingResources,
@@ -131,8 +135,8 @@ const rootReducer = combineReducers({
     productionMeasures,
     productionTriggersReport,
     productionTriggerFacts,
-    wwdTriggerReport,
     ptlSettings,
+    purchaseOrders,
     salesArticle,
     salesArticles,
     serialNumbers,
@@ -141,7 +145,6 @@ const rootReducer = combineReducers({
     smtOutstandingWorkOrderParts,
     startTriggerRun,
     storagePlaces,
-    purchaseOrders,
     whoBuiltWhat,
     whoBuiltWhatDetails,
     worksOrder,
@@ -149,8 +152,7 @@ const rootReducer = combineReducers({
     worksOrderDetails,
     worksOrderLabel,
     worksOrderLabels,
-    labelType,
-    labelTypes,
+    wwdTriggerReport,
     ...sharedLibraryReducers
 });
 

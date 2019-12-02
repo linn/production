@@ -20,9 +20,10 @@
         {
             var resource = this.Bind<WwdRequestResource>();
 
-            var results =
-                this.wwdResultFacadeService.GenerateWwdResultForTrigger(resource.PartNumber, resource.Qty,
-                    resource.PtlJobref);
+            var results = this.wwdResultFacadeService.GenerateWwdResultForTrigger(
+                resource.PartNumber,
+                resource.Qty,
+                resource.PtlJobref);
 
             return this.Negotiate
                 .WithModel(results)

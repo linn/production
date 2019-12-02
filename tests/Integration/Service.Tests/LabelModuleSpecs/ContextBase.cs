@@ -7,6 +7,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
 
@@ -18,19 +19,26 @@
 
     public class ContextBase : NancyContextBase
     {
-        protected ILabelService LabelService{ get; private set; }
+        protected ILabelService LabelService { get; private set; }
 
-        [SetUp]
+        protected IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource> LabelReprintFacadeService { get; private set; }
+
+
+    [SetUp]
         public void EstablishContext()
         {
             this.LabelService = Substitute.For<ILabelService>();
+            this.LabelReprintFacadeService = Substitute.For<IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource>>();
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.LabelService);
+                    with.Dependency(this.LabelReprintFacadeService);
                     with.Dependency<IResourceBuilder<Error>>(new ErrorResourceBuilder());
+                    with.Dependency<IResourceBuilder<LabelReprint>>(new LabelReprintResourceBuilder());
                     with.Module<LabelsModule>();
                     with.ResponseProcessor<ErrorResponseProcessor>();
+                    with.ResponseProcessor<LabelReprintResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

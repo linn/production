@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
+    using System.Collections.Generic;
+
     public class LabelType
     {
         public string LabelTypeCode { get; set; }
@@ -21,5 +23,8 @@
         public string TestPrinter { get; set; }
 
         public string TestCommandFilename { get; set; }
+
+        // for entity framework only
+        public IEnumerable<LabelReprint> LabelReprints { get; protected set; }
     }
 }

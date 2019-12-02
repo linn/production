@@ -109,6 +109,8 @@
                 .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             builder.RegisterType<LabelTypeService>()
                 .As<IFacadeService<LabelType, string, LabelTypeResource, LabelTypeResource>>();
+            builder.RegisterType<LabelReprintFacadeService>()
+                .As<IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource>>();
             builder.RegisterType<BuildPlanService>()
                 .As<IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource>>();
             builder.RegisterType<BuildPlansReportFacadeService>().As<IBuildPlansReportFacadeService>();
