@@ -86,6 +86,7 @@ import ProductionBackOrdersReport from '../containers/reports/ProductionBackOrde
 import LabelTypes from '../containers/labelTypes/LabelTypes';
 import LabelType from '../containers/labelTypes/LabelType';
 import CreateLabelType from '../containers/labelTypes/CreateLabelType';
+import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
 
 const Root = ({ store }) => (
     <div>
@@ -493,6 +494,21 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/resources/label-types"
                                         component={LabelTypes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels/create"
+                                        component={CreateLabelType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels/:id"
+                                        component={LabelType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels"
+                                        component={ProductionTriggerLevels}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

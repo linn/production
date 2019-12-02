@@ -39,9 +39,23 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
         };
         const rows = items
             ? items.map(el => ({
-                  routeCode: el.routeCode,
+                  partNumber: el.partNumber,
                   description: el.description,
+                  citCode: el.citCode,
                   links: el.links
+                //   bomLevel: el.bomLevel,
+                //   faZoneType: el.faZoneType,
+                //   kanbanSize: el.kanbanSize,
+                //   maximumKanbans: el.maximumKanbans,
+                //   overrideTriggerLevel: el.overrideTriggerLevel,
+                //   triggerLevel: el.triggerLevel,
+                //   variableTriggerLevel: el.variableTriggerLevel,
+                //   workStation: el.workStation,
+                //   temporary: el.temporary,
+                //   engineerId: el.engineerId,
+                //   story: el.story,
+                //   routeCode: el.routeCode
+                // links: el.links
               }))
             : [];
 
@@ -74,11 +88,16 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
         setSearchTerm(args[1]);
     };
 
-    const handleRowLinkClick = href => history.push(href);
+    const handleRowLinkClick = href => {
+        console.info(href);
+        console.info(history);
+        history.push(href);
+    };
 
     const columns = {
         partNumber: 'Part Number',
-        description: 'Description'
+        description: 'Description',
+        citCode: 'Cit'
     };
 
     return (
@@ -91,7 +110,7 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
             </Fragment>
             <Grid item xs={8}>
                 <SearchInputField
-                    label="Route Code"
+                    label="Part Number"
                     fullWidth
                     placeholder="search.."
                     onChange={handleSearchTermChange}
@@ -108,7 +127,7 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                         <PaginatedTable
                             columns={columns}
                             handleRowLinkClick={handleRowLinkClick}
-                            rows={rowsToDisplay}
+                            rows={rowsToDisplay.map(row => ({ ...row, id: row.labelTypeCode }))}
                             pageOptions={pageOptions}
                             setPageOptions={setPageOptions}
                             totalItemCount={items ? items.length : 0}
