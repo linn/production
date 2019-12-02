@@ -1033,6 +1033,6 @@
             e.Property(b => b.LastMrpJobRef).HasColumnName("LAST_MRP_JOBREF").HasMaxLength(6);
             e.Property(b => b.LastMrpDateStarted).HasColumnName("LAST_MRP_DATE_STARTED");
             e.Property(b => b.LastMrpDateFinished).HasColumnName("LAST_MRP_DATE_FINISHED");
-    }
+        }
     }
 }
