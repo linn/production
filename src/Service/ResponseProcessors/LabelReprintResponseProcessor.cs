@@ -7,7 +7,7 @@
     public class LabelReprintResponseProcessor : JsonResponseProcessor<LabelReprint>
     {
         public LabelReprintResponseProcessor(IResourceBuilder<LabelReprint> resourceBuilder)
-            : base(resourceBuilder)
+            : base(resourceBuilder, "label-reprint-reissue", 1)
         {
         }
     }
