@@ -1,10 +1,15 @@
 ﻿namespace Linn.Production.Service.Modules
 {
+    using System.Linq;
+
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
+    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Exceptions;
+    using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;
+    using Linn.Production.Service.Extensions;
     using Linn.Production.Service.Models;
 
     using Nancy;
@@ -14,12 +19,42 @@
     {
         private readonly ILabelService labelService;
 
-        public LabelsModule(ILabelService labelService)
+        private readonly IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource> labelReprintFacadeService;
+
+        public LabelsModule(
+            ILabelService labelService,
+            IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource> labelReprintFacadeService)
         {
             this.labelService = labelService;
+            this.labelReprintFacadeService = labelReprintFacadeService;
             this.Get("/production/maintenance/labels/reprint", _ => this.GetApp());
             this.Post("/production/maintenance/labels/reprint-mac-label", _ => this.ReprintMACLabel());
             this.Post("/production/maintenance/labels/reprint-all", _ => this.ReprintAllLabels());
+            this.Get("/production/maintenance/labels/reprint-reasons/create", _ => this.GetApp());
+            this.Get("/production/maintenance/labels/reprint-reasons/{id:int}", parameters => this.GetReprintReIssue(parameters.id));
+            this.Post("/production/maintenance/labels/reprint-reasons", _ => this.ReprintReIssue());
+        }
+
+        private object GetReprintReIssue(int id)
+        {
+            var result = this.labelReprintFacadeService.GetById(id);
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object ReprintReIssue()
+        {
+            var resource = this.Bind<LabelReprintResource>();
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            resource.Links = new[] { new LinkResource("requested-by", this.Context?.CurrentUser?.GetEmployeeUri()) };
+            var result = this.labelReprintFacadeService.Add(resource);
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object ReprintMACLabel()

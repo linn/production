@@ -1,10 +1,8 @@
 ﻿namespace Linn.Production.Proxy
 {
     using System;
-    using System.Data;
-    using Linn.Common.Proxy;
+
     using Linn.Production.Domain.LinnApps.RemoteServices;
-    using Oracle.ManagedDataAccess.Client;
 
     public class WwdTrigProxy : IWwdTrigFunction
     {

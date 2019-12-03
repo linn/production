@@ -8,13 +8,6 @@
 
     public class SernosPack : ISernosPack
     {
-        private readonly IDatabaseService db;
-
-        public SernosPack(IDatabaseService db)
-        {
-            this.db = db;
-        }
-
         public bool SerialNumbersRequired(string partNumber)
         {
             var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
@@ -116,6 +109,137 @@
             connection.Open();
             cmd.ExecuteNonQuery();
             connection.Close();
+        }
+
+        public void ReIssueSernos(string originalPartNumber, string newPartNumber, int serialNumber)
+        {
+            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+
+            var cmd = new OracleCommand("SERNOS_PACK_V2.reissue_sernos", connection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add(new OracleParameter("p_orig_part_number", OracleDbType.Varchar2)
+                                   {
+                                       Direction = ParameterDirection.Input, Value = originalPartNumber, Size = 14
+                                   });
+
+            cmd.Parameters.Add(new OracleParameter("p_new_part_number", OracleDbType.Varchar2)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Size = 14,
+                                       Value = newPartNumber
+                                   });
+
+            cmd.Parameters.Add(new OracleParameter("p_serial_number", OracleDbType.Int32)
+                                   {
+                                       Direction = ParameterDirection.InputOutput,
+                                       Value = serialNumber
+                                   });
+
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        public string GetProductGroup(string partNumber)
+        {
+            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+
+            var cmd = new OracleCommand("SERNOS_PACK_V2.get_product_group", connection)
+                          {
+                              CommandType = CommandType.StoredProcedure
+                          };
+
+            var result = new OracleParameter(null, OracleDbType.Varchar2)
+                             {
+                                 Direction = ParameterDirection.ReturnValue,
+                                 Size = 20
+                             };
+            cmd.Parameters.Add(result);
+
+            cmd.Parameters.Add(new OracleParameter("p_part_number", OracleDbType.Varchar2)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Size = 50,
+                                       Value = partNumber
+                                   });
+
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+
+            return result.Value?.ToString();
+        }
+
+        public void GetSerialNumberBoxes(string partNumber, out int numberOfSerialNumbers, out int numberOfBoxes)
+        {
+            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+
+            var cmd = new OracleCommand("SERNOS_PACK_V2.GET_SERNOS_BOXES", connection)
+                          {
+                              CommandType = CommandType.StoredProcedure
+                          };
+
+            cmd.Parameters.Add(new OracleParameter("p_part_number", OracleDbType.Varchar2)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Size = 50,
+                                       Value = partNumber
+                                   });
+            var serialNumberQtyParameter = new OracleParameter(null, OracleDbType.Int32)
+                                               {
+                                                   Direction = ParameterDirection.InputOutput
+                                               };
+            cmd.Parameters.Add(serialNumberQtyParameter);
+            var boxesQtyParameter = new OracleParameter(null, OracleDbType.Int32)
+                                        {
+                                            Direction = ParameterDirection.InputOutput
+                                        };
+            cmd.Parameters.Add(boxesQtyParameter);
+
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+
+            numberOfSerialNumbers = int.Parse(serialNumberQtyParameter.Value.ToString());
+            numberOfBoxes = int.Parse(boxesQtyParameter.Value.ToString());
+        }
+
+        public bool SerialNumberExists(int serialNumber, string partNumber)
+        {
+            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+
+            var cmd = new OracleCommand("SERNOS_PACK_V2.serial_number_exists_sql", connection)
+                          {
+                              CommandType = CommandType.StoredProcedure
+                          };
+
+            var result = new OracleParameter(null, OracleDbType.Int32)
+                             {
+                                 Direction = ParameterDirection.ReturnValue
+                             };
+            cmd.Parameters.Add(result);
+
+            cmd.Parameters.Add(new OracleParameter("p_serial_number", OracleDbType.Int32)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Value = serialNumber
+                                   });
+
+            cmd.Parameters.Add(new OracleParameter("p_part_number", OracleDbType.Varchar2)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Size = 50,
+                                       Value = partNumber
+                                   });
+
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+
+            return result.Value.ToString() == "1";
         }
     }
 }

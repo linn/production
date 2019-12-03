@@ -236,3 +236,9 @@ export const labelTypes = new ItemType(
     'LABEL_TYPES',
     '/production/resources/label-types'
 );
+
+export const labelReprint = new ItemType(
+    'labelReprint',
+    'LABEL_REPRINT',
+    '/production/maintenance/labels/reprint-reasons'
+);

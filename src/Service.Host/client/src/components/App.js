@@ -37,9 +37,12 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/maintenance/labels/reprint" button>
                     <Typography color="primary">Label Reprint</Typography>
-                </ListItem> 
+                </ListItem>
                 <ListItem component={Link} to="/production/resources/label-types/" button>
-                <Typography color="primary">Label Types Utility</Typography>
+                    <Typography color="primary">Label Types Utility</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/maintenance/labels/reprint-reasons/create" button>
+                    <Typography color="primary">Label Reprint Reissue Utility</Typography>
                 </ListItem>
                 <ListItem
                     component={Link}

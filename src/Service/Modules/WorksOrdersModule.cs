@@ -2,7 +2,6 @@
 {
     using System;
 
-    using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.Exceptions;
@@ -50,7 +49,7 @@
             this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
             this.Post("/production/works-orders", _ => this.AddWorksOrder());
             this.Put("/production/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
-            
+
             this.Post("/production/works-orders/print-labels", _ => this.PrintWorksOrderLabels());
             this.Post("/production/works-orders/print-aio-labels", _ => this.PrintWorksOrderAioLabels());
 
