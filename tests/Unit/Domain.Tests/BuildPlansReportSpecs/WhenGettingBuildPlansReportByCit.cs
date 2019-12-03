@@ -16,7 +16,7 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingBuildPlansReport : ContextBase
+    public class WhenGettingBuildPlansReportByCit : ContextBase
     {
         private ResultsModel result;
 
@@ -51,14 +51,14 @@
 
             this.LinnWeekService.GetWeek(Arg.Any<DateTime>()).Returns(
                 new LinnWeek
-                {
-                    LinnWeekNumber = 20,
-                    StartDate = 1.June(2020),
-                    EndDate = 6.June(2020),
-                    WWSYY = "25/20"
-                });
+                    {
+                        LinnWeekNumber = 20,
+                        StartDate = 1.June(2020),
+                        EndDate = 6.June(2020),
+                        WWSYY = "25/20"
+                    });
 
-            this.result = this.Sut.BuildPlansReport("MASTER", 16, "ALL");
+            this.result = this.Sut.BuildPlansReport("MASTER", 16, "c1");
         }
 
         [Test]
@@ -70,10 +70,7 @@
         [Test]
         public void ShouldSetRows()
         {
-            this.result.Rows.Should().HaveCount(3);
-            this.result.Rows.Should().Contain(r => r.RowTitle == "KLIMAX");
-            this.result.Rows.Should().Contain(r => r.RowTitle == "MAJIK");
-            this.result.Rows.Should().Contain(r => r.RowTitle == "PCAS");
+            this.result.Rows.Should().HaveCount(1);
         }
 
         [Test]

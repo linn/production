@@ -72,6 +72,8 @@ import printWorksOrderLabels from './printWorksOrderLabels';
 import printWorksOrderAioLabels from './printWorksOrderAioLabels';
 import productionBackOrdersReport from './productionBackOrdersReport';
 import localStorage from './localStorage';
+import buildPlansReport from './buildPlansReport';
+import buildPlans from './buildPlans';
 import labelType from './labelTypes/labelType';
 import labelTypes from './labelTypes/labelTypes';
 import labelReprint from './labelReprint';
@@ -98,6 +100,8 @@ const rootReducer = combineReducers({
     boardTestDetailsReport,
     boardTestsReport,
     buildsDetailReport,
+    buildPlans,
+    buildPlansReport,
     buildsSummaryReport,
     cits,
     departments,

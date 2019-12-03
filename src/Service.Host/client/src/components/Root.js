@@ -83,6 +83,8 @@ import WorksOrderLabels from '../containers/worksOrders/WorksOrderLabels';
 import WorksOrderLabel from '../containers/worksOrders/WorksOrderLabel';
 import CreateWorksOrderLabel from '../containers/worksOrders/CreateWorksOrderLabel';
 import ProductionBackOrdersReport from '../containers/reports/ProductionBackOrdersReport';
+import BuildPlansReportOptions from '../containers/reports/BuildPlansReportOptions';
+import BuildPlansReport from '../containers/reports/BuildPlansReport';
 import LabelTypes from '../containers/labelTypes/LabelTypes';
 import LabelType from '../containers/labelTypes/LabelType';
 import CreateLabelType from '../containers/labelTypes/CreateLabelType';
@@ -492,6 +494,16 @@ const Root = ({ store }) => (
                                         component={ManufacturingRoutes}
                                     />
                                     <Route
+                                        exact
+                                        path="/production/reports/build-plans/report"
+                                        component={BuildPlansReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/build-plans"
+                                        component={BuildPlansReportOptions}
+                                        />
+                                        <Route
                                         exact
                                         path="/production/resources/label-types/create"
                                         component={CreateLabelType}
