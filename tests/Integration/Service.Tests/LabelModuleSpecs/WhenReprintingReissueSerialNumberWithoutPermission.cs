@@ -41,8 +41,8 @@
                                        ReprintType = "RSN REISSUE"
                                    };
 
-            this.LabelReprintFacadeService.Add(Arg.Any<LabelReprintResource>())
-                .Returns(new CreatedResult<LabelReprint>(labelReprint));
+            this.LabelReprintFacadeService.Add(Arg.Any<LabelReprintResource>(), Arg.Any<IEnumerable<string>>())
+                .Returns(new CreatedResult<ResponseModel<LabelReprint>>(new ResponseModel<LabelReprint>(labelReprint, new List<string>())));
             this.AuthorisationService.HasPermissionFor("serial-number.reissue", Arg.Any<IEnumerable<string>>())
                 .Returns(false);
             this.Response = this.Browser.Post(

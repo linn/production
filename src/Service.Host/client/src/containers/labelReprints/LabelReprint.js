@@ -18,6 +18,7 @@ const mapStateToProps = (state, { match }) => ({
     editStatus: labelReprintSelectors.getEditStatus(state),
     loading: labelReprintSelectors.getLoading(state),
     snackbarVisible: labelReprintSelectors.getSnackbarVisible(state),
+    applicationState: labelReprintSelectors.getApplicationState(state),
     itemError: getItemErrorDetailMessage(state, itemTypes.labelReprint.item),
     labelTypes: labelTypesSelectors.getItems(state),
     partsSearchLoading: partsSelectors.getSearchLoading(state),

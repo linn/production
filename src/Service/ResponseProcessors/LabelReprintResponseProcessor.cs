@@ -4,9 +4,9 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps;
 
-    public class LabelReprintResponseProcessor : JsonResponseProcessor<LabelReprint>
+    public class LabelReprintResponseProcessor : JsonResponseProcessor<ResponseModel<LabelReprint>>
     {
-        public LabelReprintResponseProcessor(IResourceBuilder<LabelReprint> resourceBuilder)
+        public LabelReprintResponseProcessor(IResourceBuilder<ResponseModel<LabelReprint>> resourceBuilder)
             : base(resourceBuilder, "label-reprint-reissue", 1)
         {
         }

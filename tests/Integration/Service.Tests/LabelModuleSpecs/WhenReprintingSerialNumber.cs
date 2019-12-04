@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Service.Tests.LabelModuleSpecs
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using FluentAssertions;
@@ -41,8 +42,8 @@
                                        ReprintType = "RSN REISSUE"
                                    };
 
-            this.LabelReprintFacadeService.Add(Arg.Any<LabelReprintResource>())
-                .Returns(new CreatedResult<LabelReprint>(labelReprint));
+            this.LabelReprintFacadeService.Add(Arg.Any<LabelReprintResource>(), Arg.Any<IEnumerable<string>>())
+                .Returns(new CreatedResult<ResponseModel<LabelReprint>>(new ResponseModel<LabelReprint>(labelReprint, new List<string>())));
 
             this.Response = this.Browser.Post(
                 "/production/maintenance/labels/reprint-reasons",
@@ -65,7 +66,7 @@
         {
             this.LabelReprintFacadeService
                 .Received()
-                .Add(Arg.Any<LabelReprintResource>());
+                .Add(Arg.Any<LabelReprintResource>(), Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

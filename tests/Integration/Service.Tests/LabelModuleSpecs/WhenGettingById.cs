@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.LabelModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
     using FluentAssertions.Extensions;
 
@@ -35,7 +37,8 @@
                                        ReprintType = "RSN REISSUE"
                                    };
 
-            this.LabelReprintFacadeService.GetById(2).Returns(new SuccessResult<LabelReprint>(labelReprint));
+            this.LabelReprintFacadeService.GetById(2, Arg.Any<IEnumerable<string>>())
+                .Returns(new SuccessResult<ResponseModel<LabelReprint>>(new ResponseModel<LabelReprint>(labelReprint, new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/labels/reprint-reasons/2",
@@ -54,7 +57,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.LabelReprintFacadeService.Received().GetById(2);
+            this.LabelReprintFacadeService.Received().GetById(2, Arg.Any<IEnumerable<string>>());
         }
 
         [Test]
@@ -62,6 +65,16 @@
         {
             var resource = this.Response.Body.DeserializeJson<LabelReprintResource>();
             resource.LabelReprintId.Should().Be(2);
+        }
+
+        [Test]
+        public void ShouldContainLinks()
+        {
+            var resource = this.Response.Body.DeserializeJson<LabelReprintResource>();
+            resource.Links.Should().HaveCount(3);
+            resource.Links.Should().Contain(l => l.Rel == "self" && l.Href == "/production/maintenance/labels/reprint-reasons/2");
+            resource.Links.Should().Contain(l => l.Rel == "create" && l.Href == "/production/maintenance/labels/reprint-reasons");
+            resource.Links.Should().Contain(l => l.Rel == "requested-by");
         }
     }
 }

@@ -105,7 +105,7 @@
             builder.RegisterType<WorksOrderLabelsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderLabel>>>();
             builder.RegisterType<LabelTypeResourceBuilder>().As<IResourceBuilder<LabelType>>();
             builder.RegisterType<LabelTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<LabelType>>>();
-            builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<LabelReprint>>();
+            builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<ResponseModel<LabelReprint>>>();
             builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<BuildPlan>>();
             builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();
         }

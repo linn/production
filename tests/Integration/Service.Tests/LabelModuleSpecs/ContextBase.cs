@@ -26,7 +26,6 @@
 
         protected IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource> LabelReprintFacadeService { get; private set; }
 
-
     [SetUp]
         public void EstablishContext()
         {
@@ -40,10 +39,11 @@
                     with.Dependency(this.AuthorisationService);
                     with.Dependency(this.LabelReprintFacadeService);
                     with.Dependency<IResourceBuilder<Error>>(new ErrorResourceBuilder());
-                    with.Dependency<IResourceBuilder<LabelReprint>>(new LabelReprintResourceBuilder());
+                    with.Dependency<IResourceBuilder<ResponseModel<LabelReprint>>>(new LabelReprintResourceBuilder(this.AuthorisationService));
                     with.Module<LabelsModule>();
                     with.ResponseProcessor<ErrorResponseProcessor>();
                     with.ResponseProcessor<LabelReprintResponseProcessor>();
+                    with.ResponseProcessor<LabelReprintStateResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

@@ -9,7 +9,8 @@ import {
     ErrorCard,
     SnackbarMessage,
     Dropdown,
-    TypeaheadDialog
+    TypeaheadDialog,
+    utilities
 } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
@@ -31,7 +32,8 @@ function LabelReprint({
     partsSearchLoading,
     searchParts,
     clearPartsSearch,
-    clearErrors
+    clearErrors,
+    applicationState
 }) {
     const [labelReprint, setLabelReprint] = useState({
         numberOfProducts: 1,
@@ -95,6 +97,14 @@ function LabelReprint({
     }));
     const classes = useStyles();
 
+    const optionsAllowed = () => {
+        if (utilities.getHref(applicationState, 'create')) {
+            return ['REPRINT', 'REISSUE', 'RSN REPRINT', 'REBUILD'];
+        }
+
+        return ['REPRINT'];
+    };
+
     return (
         <Page>
             <Grid container spacing={3}>
@@ -136,7 +146,7 @@ function LabelReprint({
                                     propertyName="reprintType"
                                     disabled={!creating()}
                                     allowNoValue={false}
-                                    items={['REPRINT', 'REISSUE', 'RSN REPRINT', 'REBUILD']}
+                                    items={optionsAllowed()}
                                     value={labelReprint.reprintType}
                                     onChange={handleFieldChange}
                                 />
@@ -287,7 +297,8 @@ LabelReprint.propTypes = {
     partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     searchParts: PropTypes.func.isRequired,
     clearPartsSearch: PropTypes.func.isRequired,
-    clearErrors: PropTypes.func.isRequired
+    clearErrors: PropTypes.func.isRequired,
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) })
 };
 
 LabelReprint.defaultProps = {
@@ -300,7 +311,8 @@ LabelReprint.defaultProps = {
     itemId: null,
     labelTypes: [],
     partsSearchResults: [],
-    partsSearchLoading: false
+    partsSearchLoading: false,
+    applicationState: null
 };
 
 export default LabelReprint;
