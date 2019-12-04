@@ -110,6 +110,8 @@
             builder.RegisterType<WorksOrderLabelsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderLabel>>>();
             builder.RegisterType<LabelTypeResourceBuilder>().As<IResourceBuilder<LabelType>>();
             builder.RegisterType<LabelTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<LabelType>>>();
+            builder.RegisterType<WorkStationResourceBuilder>().As<IResourceBuilder<WorkStation>>();
+            builder.RegisterType<WorkStationsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorkStation>>>();
         }
     }
 }

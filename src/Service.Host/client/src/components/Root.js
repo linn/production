@@ -87,6 +87,8 @@ import LabelTypes from '../containers/labelTypes/LabelTypes';
 import LabelType from '../containers/labelTypes/LabelType';
 import CreateLabelType from '../containers/labelTypes/CreateLabelType';
 import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
+import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
+import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
 
 const Root = ({ store }) => (
     <div>
@@ -498,12 +500,12 @@ const Root = ({ store }) => (
                                     <Route
                                         exact
                                         path="/production/maintenance/production-trigger-levels/create"
-                                        component={CreateLabelType}
+                                        component={CreateProductionTriggerLevel}
                                     />
                                     <Route
                                         exact
                                         path="/production/maintenance/production-trigger-levels/:id"
-                                        component={LabelType}
+                                        component={ProductionTriggerLevel}
                                     />
                                     <Route
                                         exact

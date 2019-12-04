@@ -8,12 +8,12 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
-    TableWithInlineEditing,
-    utilities
+    utilities,
+    Dropdown
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-function ManufacturingRoute({
+function TriggerLevel({
     editStatus,
     itemErrors,
     history,
@@ -24,13 +24,14 @@ function ManufacturingRoute({
     addItem,
     updateItem,
     setEditStatus,
-    manufacturingSkills,
-    manufacturingResources,
+    parts,
+    manufacturingRoutes,
     cits,
-    setSnackbarVisible
+    setSnackbarVisible,
+    employees
 }) {
-    const [manufacturingRoute, setManufacturingRoute] = useState({});
-    const [prevManufacturingRoute, setPrevManufacturingRoute] = useState({});
+    const [triggerLevel, setTriggerLevel] = useState({});
+    const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
     const [allowedToEdit, setAllowedToEdit] = useState(false);
 
     const creating = useCallback(() => editStatus === 'create', [editStatus]);
@@ -38,47 +39,42 @@ function ManufacturingRoute({
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
-        if (item !== prevManufacturingRoute) {
-            setManufacturingRoute(item);
-            setPrevManufacturingRoute(item);
+        if (item !== prevTriggerLevel) {
+            setTriggerLevel(item);
+            setPrevTriggerLevel(item);
         }
 
         setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
-    }, [item, prevManufacturingRoute, editStatus, creating]);
+    }, [item, prevTriggerLevel, editStatus, creating]);
 
-    const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
-    const descriptionInvalid = () => !manufacturingRoute.description;
-    const notesInvalid = () => !manufacturingRoute.notes;
-    const operationsComplete = () =>
-        creating() ||
-        manufacturingRoute.operations.every(
-            x =>
-                x.operationNumber &&
-                x.description &&
-                x.cITCode &&
-                x.skillCode &&
-                x.setAndCleanTime >= 0 &&
-                x.resourceCode &&
-                x.cycleTime &&
-                x.labourPercentage
-        );
+    const partNumberInvalid = () => !triggerLevel.partNumber;
+    const descriptionInvalid = () => !triggerLevel.description;
+    const citCodeInvalid = () => !triggerLevel.citCode;
+    const kanbanSizeInvalid = () =>
+        !(triggerLevel.kanbanSize != null && triggerLevel.kanbanSize >= 0);
+    const maximumKanbansInvalid = () =>
+        !(triggerLevel.maximumKanbans != null && triggerLevel.maximumKanbans >= 0);
 
     const inputInvalid = () =>
-        RouteCodeInvalid() || descriptionInvalid() || notesInvalid() || !operationsComplete();
+        partNumberInvalid() ||
+        descriptionInvalid() ||
+        citCodeInvalid() ||
+        kanbanSizeInvalid() ||
+        maximumKanbansInvalid();
 
     const handleSaveClick = () => {
         if (editing()) {
-            updateItem(itemId, manufacturingRoute);
+            updateItem(itemId, triggerLevel);
             setEditStatus('view');
         } else if (creating()) {
-            addItem(manufacturingRoute);
+            addItem(triggerLevel);
             setEditStatus('view');
         }
     };
 
     const handleCancelClick = () => {
         setEditStatus('view');
-        setManufacturingRoute(item);
+        setTriggerLevel(item);
     };
 
     const handleBackClick = () => {
@@ -86,166 +82,243 @@ function ManufacturingRoute({
     };
 
     const handleResourceFieldChange = (propertyName, newValue) => {
-        setManufacturingRoute({ ...manufacturingRoute, [propertyName]: newValue });
+        setTriggerLevel({ ...triggerLevel, [propertyName]: newValue });
         if (viewing()) {
             setEditStatus('edit');
         }
     };
+    if (!creating()) {
+        const partNumbers = parts.map(part => part.partNumber);
+    }
 
-    const updateOp = ops => {
-        handleResourceFieldChange('operations', ops);
-    };
-
-    const OperationsTableAndInfo = () => {
-        const skillCodes = manufacturingSkills.map(skill => skill.skillCode);
-        const resourceCodes = manufacturingResources.map(resource => resource.resourceCode);
-        const citCodes = cits.map(cit => cit.code);
-
-        const columnsInfo = [
-            {
-                title: 'Operation Number',
-                key: 'operationNumber',
-                type: 'number'
-            },
-            {
-                title: 'Description',
-                key: 'description',
-                type: 'text'
-            },
-            {
-                title: 'CIT Code',
-                key: 'cITCode',
-                type: 'dropdown',
-                options: citCodes
-            },
-            {
-                title: 'Skill Code',
-                key: 'skillCode',
-                type: 'dropdown',
-                options: skillCodes
-            },
-            {
-                title: 'Set & Clean Time mins',
-                key: 'setAndCleanTime',
-                type: 'number'
-            },
-            {
-                title: 'Resource Code',
-                key: 'resourceCode',
-                type: 'dropdown',
-                options: resourceCodes
-            },
-            {
-                title: 'Cycle Time mins',
-                key: 'cycleTime',
-                type: 'number'
-            },
-            {
-                title: 'Labour Percentage',
-                key: 'labourPercentage',
-                type: 'number'
-            }
-        ];
-        return (
-            <TableWithInlineEditing
-                columnsInfo={columnsInfo}
-                content={manufacturingRoute.operations.map(o => ({ ...o, id: o.manufacturingId }))}
-                updateContent={updateOp}
-                editStatus={editStatus}
-                allowedToEdit={allowedToEdit}
-                allowedToCreate={allowedToEdit}
-                allowedToDelete={allowedToEdit}
-            />
-        );
-    };
+    const workStations = [];
+    const temporaryItems = [
+        { displayText: 'Yes', id: 'Y' },
+        { displayText: 'No', id: null }
+    ];
 
     return (
-        <Page>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    {creating() ? (
-                        <Title text="Create Manufacturing Route" />
-                    ) : (
-                        <Title text="Manufacturing Route" />
-                    )}
+        <Fragment>
+            <Grid container alignItems="center" justify="center">
+                <Grid xs={6} item>
+                    <Page>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                {creating() ? (
+                                    <Title text="Create Production Trigger Level" />
+                                ) : (
+                                    <Title text="Production Trigger Level" />
+                                )}
+                            </Grid>
+                            {itemErrors && (
+                                <Grid item xs={12}>
+                                    <ErrorCard errorMessage={itemErrors.statusText} />
+                                </Grid>
+                            )}
+                            {loading || !triggerLevel ? (
+                                <Grid item xs={12}>
+                                    <Loading />
+                                </Grid>
+                            ) : (
+                                <Fragment>
+                                    <SnackbarMessage
+                                        visible={snackbarVisible}
+                                        onClose={() => setSnackbarVisible(false)}
+                                        message="Save Successful"
+                                    />
+                                    <Grid item xs={6}>
+                                        <InputField
+                                            fullWidth
+                                            disabled={!creating()}
+                                            value={triggerLevel.partNumber}
+                                            label="Part Number"
+                                            maxLength={10}
+                                            helperText={
+                                                !creating()
+                                                    ? 'This field cannot be changed'
+                                                    : `${
+                                                          partNumberInvalid()
+                                                              ? 'This field is required'
+                                                              : ''
+                                                      }`
+                                            }
+                                            required
+                                            onChange={handleResourceFieldChange}
+                                            propertyName="partNumber"
+                                        />
+                                        {/*                      button with click event to show all part numbers to choose from?
+                            classic drilldown style?       
+                            partNumbers */}
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <InputField
+                                            value={triggerLevel.description}
+                                            label="Description"
+                                            maxLength={50}
+                                            fullWidth
+                                            helperText={
+                                                descriptionInvalid() ? 'This field is required' : ''
+                                            }
+                                            required
+                                            // rows={2}
+                                            onChange={handleResourceFieldChange}
+                                            propertyName="description"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Grid item xs={6}>
+                                            <Dropdown
+                                                onChange={handleResourceFieldChange}
+                                                items={cits.map(cit => ({
+                                                    ...cit,
+                                                    id: cit.code,
+                                                    displayText: `${cit.code} (${cit.name})`
+                                                }))}
+                                                value={triggerLevel.citCode}
+                                                propertyName="citCode"
+                                                helperText={
+                                                    citCodeInvalid() ? 'This field is required' : ''
+                                                }
+                                                required
+                                                fullWidth
+                                                label="cITCode"
+                                                allowNoValue={false}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <InputField
+                                            value={triggerLevel.variableTriggerLevel}
+                                            label="Variable Trigger Level"
+                                            type="number"
+                                            maxLength={2}
+                                            fullWidth
+                                            onChange={handleResourceFieldChange}
+                                            propertyName="variableTriggerLevel"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <InputField
+                                            value={triggerLevel.overrideTriggerLevel}
+                                            label="Override Trigger Level"
+                                            maxLength={2}
+                                            type="number"
+                                            fullWidth
+                                            onChange={handleResourceFieldChange}
+                                            propertyName="overrideTriggerLevel"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <InputField
+                                            value={triggerLevel.kanbanSize}
+                                            label="Kanban Size"
+                                            maxLength={2}
+                                            type="number"
+                                            fullWidth
+                                            helperText={
+                                                kanbanSizeInvalid() ? 'This field is required' : ''
+                                            }
+                                            required
+                                            onChange={handleResourceFieldChange}
+                                            propertyName="kanbanSize"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <InputField
+                                            value={triggerLevel.maximumKanbans}
+                                            label="Maximum Kanbans"
+                                            type="number"
+                                            maxLength={2}
+                                            fullWidth
+                                            helperText={
+                                                maximumKanbansInvalid()
+                                                    ? 'This field is required'
+                                                    : ''
+                                            }
+                                            required
+                                            onChange={handleResourceFieldChange}
+                                            propertyName="maximumKanbans"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Grid item xs={6}>
+                                            <Dropdown
+                                                items={manufacturingRoutes.map(
+                                                    route => route.routeCode
+                                                )}
+                                                propertyName="routeCode"
+                                                fullWidth
+                                                value={triggerLevel.routeCode}
+                                                label="Route Code"
+                                                allowNoValue
+                                                onChange={handleResourceFieldChange}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Dropdown
+                                            items={workStations}
+                                            propertyName="workStation"
+                                            fullWidth
+                                            value={triggerLevel.workStation}
+                                            label="Work Station"
+                                            allowNoValue
+                                            onChange={handleResourceFieldChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <Dropdown
+                                            items={employees.map(e => ({
+                                                displayText: `${e.fullName} (${e.id})`,
+                                                id: e.id
+                                            }))}
+                                            propertyName="engineerId"
+                                            fullWidth
+                                            value={triggerLevel.engineerId}
+                                            label="engineerId"
+                                            allowNoValue
+                                            onChange={handleResourceFieldChange}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={2}>
+                                        <Dropdown
+                                            items={temporaryItems}
+                                            propertyName="temporary"
+                                            fullWidth
+                                            value={triggerLevel.temporary}
+                                            label="temporary"
+                                            onChange={handleResourceFieldChange}
+                                            allowNoValue={false}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={10}>
+                                        <InputField
+                                            value={triggerLevel.story}
+                                            label="Story"
+                                            fullWidth
+                                            onChange={handleResourceFieldChange}
+                                            propertyName="story"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <SaveBackCancelButtons
+                                            saveDisabled={viewing() || inputInvalid()}
+                                            saveClick={handleSaveClick}
+                                            cancelClick={handleCancelClick}
+                                            backClick={handleBackClick}
+                                        />
+                                    </Grid>
+                                </Fragment>
+                            )}
+                        </Grid>
+                    </Page>
                 </Grid>
-                {itemErrors && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemErrors.statusText} />
-                    </Grid>
-                )}
-                {loading || !manufacturingRoute ? (
-                    <Grid item xs={12}>
-                        <Loading />
-                    </Grid>
-                ) : (
-                    <Fragment>
-                        <SnackbarMessage
-                            visible={snackbarVisible}
-                            onClose={() => setSnackbarVisible(false)}
-                            message="Save Successful"
-                        />
-                        <Grid item xs={8}>
-                            <InputField
-                                fullWidth
-                                disabled={!creating()}
-                                value={manufacturingRoute.routeCode}
-                                label="Route Code"
-                                maxLength={10}
-                                helperText={
-                                    !creating()
-                                        ? 'This field cannot be changed'
-                                        : `${RouteCodeInvalid() ? 'This field is required' : ''}`
-                                }
-                                required
-                                onChange={handleResourceFieldChange}
-                                propertyName="routeCode"
-                            />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={manufacturingRoute.description}
-                                label="Description"
-                                maxLength={50}
-                                fullWidth
-                                helperText={descriptionInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleResourceFieldChange}
-                                propertyName="description"
-                            />
-                        </Grid>
-                        <Grid item xs={8}>
-                            <InputField
-                                value={manufacturingRoute.notes}
-                                label="Notes"
-                                type="multiline"
-                                maxLength={300}
-                                fullWidth
-                                helperText={notesInvalid() ? 'This field is required' : ''}
-                                required
-                                onChange={handleResourceFieldChange}
-                                propertyName="notes"
-                            />
-                        </Grid>
-
-                        {!creating() && manufacturingRoute.operations && OperationsTableAndInfo()}
-
-                        <Grid item xs={12}>
-                            <SaveBackCancelButtons
-                                saveDisabled={viewing() || inputInvalid()}
-                                saveClick={handleSaveClick}
-                                cancelClick={handleCancelClick}
-                                backClick={handleBackClick}
-                            />
-                        </Grid>
-                    </Fragment>
-                )}
             </Grid>
-        </Page>
+        </Fragment>
     );
 }
 
-ManufacturingRoute.propTypes = {
+TriggerLevel.propTypes = {
     item: PropTypes.shape({
         routeCode: PropTypes.string,
         description: PropTypes.string,
@@ -261,36 +334,31 @@ ManufacturingRoute.propTypes = {
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
-    manufacturingSkills: PropTypes.arrayOf(
+    parts: PropTypes.arrayOf(
         PropTypes.shape({
-            skillCode: PropTypes.string,
-            description: PropTypes.string
+            partNumber: PropTypes.string
         })
-    ),
-    manufacturingResources: PropTypes.arrayOf(
+    ).isRequired,
+    manufacturingRoutes: PropTypes.arrayOf(
         PropTypes.shape({
-            skillCode: PropTypes.string,
-            description: PropTypes.string
+            routeCode: PropTypes.string
         })
-    ),
+    ).isRequired,
     cits: PropTypes.arrayOf(
         PropTypes.shape({
             code: PropTypes.string
         })
-    )
+    ).isRequired
 };
 
-ManufacturingRoute.defaultProps = {
+TriggerLevel.defaultProps = {
     item: {},
     snackbarVisible: false,
     addItem: null,
     updateItem: null,
     loading: null,
     itemErrors: null,
-    itemId: null,
-    cits: [],
-    manufacturingResources: [],
-    manufacturingSkills: []
+    itemId: null
 };
 
-export default ManufacturingRoute;
+export default TriggerLevel;

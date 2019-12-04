@@ -9,9 +9,6 @@ import manufacturingRoutesActions from '../../actions/manufacturingRoutesActions
 import manufacturingRoutesSelectors from '../../selectors/manufacturingRoutesSelectors';
 import citsActions from '../../actions/citsActions';
 import citsSelectors from '../../selectors/citsSelectors';
-
-import employeesActions from '../../actions/employeesActions';
-import employeesSelectors from '../../selectors/employeesSelectors';
 import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = (state, { match }) => ({
@@ -23,16 +20,14 @@ const mapStateToProps = (state, { match }) => ({
     parts: partsSelectors.getItems(state),
     manufacturingRoutes: manufacturingRoutesSelectors.getItems(state),
     cits: citsSelectors.getItems(state),
-    employees: employeesSelectors.getItems(state),
     itemErrors: getItemError(state, itemTypes.productionTriggerLevel.item)
 });
 
-const initialise = ({ itemId }) => dispatch => {
-    dispatch(productionTriggerLevelActions.fetch(itemId));
+const initialise = () => dispatch => {
+    dispatch(productionTriggerLevelActions.setEditStatus('create'));
     dispatch(partsActions.fetch());
-    dispatch(manufacturingRoutesActions.fetch(''));
+    dispatch(manufacturingRoutesActions.fetch());
     dispatch(citsActions.fetch());
-    dispatch(employeesActions.fetch());
 };
 
 const mapDispatchToProps = {

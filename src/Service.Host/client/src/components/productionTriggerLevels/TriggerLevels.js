@@ -43,19 +43,6 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                   description: el.description,
                   citCode: el.citCode,
                   links: el.links
-                //   bomLevel: el.bomLevel,
-                //   faZoneType: el.faZoneType,
-                //   kanbanSize: el.kanbanSize,
-                //   maximumKanbans: el.maximumKanbans,
-                //   overrideTriggerLevel: el.overrideTriggerLevel,
-                //   triggerLevel: el.triggerLevel,
-                //   variableTriggerLevel: el.variableTriggerLevel,
-                //   workStation: el.workStation,
-                //   temporary: el.temporary,
-                //   engineerId: el.engineerId,
-                //   story: el.story,
-                //   routeCode: el.routeCode
-                // links: el.links
               }))
             : [];
 
@@ -88,11 +75,7 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
         setSearchTerm(args[1]);
     };
 
-    const handleRowLinkClick = href => {
-        console.info(href);
-        console.info(history);
-        history.push(href);
-    };
+    const handleRowLinkClick = href => history.push(href);
 
     const columns = {
         partNumber: 'Part Number',

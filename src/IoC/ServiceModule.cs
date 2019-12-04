@@ -108,6 +108,8 @@
                 .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             builder.RegisterType<LabelTypeService>()
                 .As<IFacadeService<LabelType, string, LabelTypeResource, LabelTypeResource>>();
+            builder.RegisterType<WorkStationService>()
+                .As<IFacadeService<WorkStation, string, WorkStationResource, WorkStationResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

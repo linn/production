@@ -126,7 +126,7 @@
             this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.productionTriggerLevelsService.GetById(partNumber, new List<string>()))
+            return this.Negotiate.WithModel(this.productionTriggerLevelsService.GetById(partNumber, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
