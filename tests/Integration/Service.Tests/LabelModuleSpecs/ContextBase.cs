@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Security.Claims;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Exceptions;
@@ -21,6 +22,8 @@
     {
         protected ILabelService LabelService { get; private set; }
 
+        protected IAuthorisationService AuthorisationService { get; private set; }
+
         protected IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource> LabelReprintFacadeService { get; private set; }
 
 
@@ -28,11 +31,13 @@
         public void EstablishContext()
         {
             this.LabelService = Substitute.For<ILabelService>();
+            this.AuthorisationService = Substitute.For<IAuthorisationService>();
             this.LabelReprintFacadeService = Substitute.For<IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource>>();
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.LabelService);
+                    with.Dependency(this.AuthorisationService);
                     with.Dependency(this.LabelReprintFacadeService);
                     with.Dependency<IResourceBuilder<Error>>(new ErrorResourceBuilder());
                     with.Dependency<IResourceBuilder<LabelReprint>>(new LabelReprintResourceBuilder());
@@ -53,6 +58,8 @@
                         });
                 });
 
+            this.AuthorisationService.HasPermissionFor("serial-number.reissue", Arg.Any<IEnumerable<string>>())
+                .Returns(true);
             this.Browser = new Browser(bootstrapper);
         }
     }

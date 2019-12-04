@@ -2,6 +2,7 @@
 {
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
@@ -21,12 +22,16 @@
 
         private readonly IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource> labelReprintFacadeService;
 
+        private readonly IAuthorisationService authorisationService;
+
         public LabelsModule(
             ILabelService labelService,
-            IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource> labelReprintFacadeService)
+            IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource> labelReprintFacadeService,
+            IAuthorisationService authorisationService)
         {
             this.labelService = labelService;
             this.labelReprintFacadeService = labelReprintFacadeService;
+            this.authorisationService = authorisationService;
             this.Get("/production/maintenance/labels/reprint", _ => this.GetApp());
             this.Post("/production/maintenance/labels/reprint-mac-label", _ => this.ReprintMACLabel());
             this.Post("/production/maintenance/labels/reprint-all", _ => this.ReprintAllLabels());
@@ -48,6 +53,10 @@
         {
             var resource = this.Bind<LabelReprintResource>();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+            if (!this.authorisationService.HasPermissionFor("serial-number.reissue", privileges) && resource.ReprintType != "REPRINT")
+            {
+                return this.Negotiate.WithModel(new UnauthorisedResult<LabelReprint>("You are not authorised to reissue or rebuild serial numbers"));
+            }
 
             resource.Links = new[] { new LinkResource("requested-by", this.Context?.CurrentUser?.GetEmployeeUri()) };
             var result = this.labelReprintFacadeService.Add(resource);
