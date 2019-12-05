@@ -4,6 +4,7 @@ import {
     initialiseOnMount
 } from '@linn-it/linn-form-components-library';
 import labelReprintActions from '../../actions/labelReprintActions';
+import labelReprintStateActions from '../../actions/labelReprintStateActions';
 import LabelReprint from '../../components/labelReprints/LabelReprint';
 import labelReprintSelectors from '../../selectors/labelReprintSelectors';
 import * as itemTypes from '../../itemTypes';
@@ -18,6 +19,7 @@ const mapStateToProps = state => ({
     itemError: getItemErrorDetailMessage(state, itemTypes.labelReprint.item),
     loading: labelReprintSelectors.getLoading(state),
     snackbarVisible: labelReprintSelectors.getSnackbarVisible(state),
+    applicationState: labelReprintSelectors.getApplicationState(state),
     labelTypes: labelTypesSelectors.getItems(state),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     partsSearchResults: partsSelectors
@@ -28,6 +30,7 @@ const mapStateToProps = state => ({
 const initialise = () => dispatch => {
     dispatch(labelReprintActions.clearErrorsForItem());
     dispatch(labelTypesActions.fetch());
+    dispatch(labelReprintStateActions.fetchState());
 };
 
 const mapDispatchToProps = {

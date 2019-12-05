@@ -260,6 +260,18 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/maintenance/labels/reprint-reasons"
+                                        render={() => (
+                                            <Redirect to="/production/maintenance/labels/reprint-reasons/create" />
+                                        )}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels"
+                                        render={() => <Redirect to="/production/maintenance/" />}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/measures"
                                         component={ProductionMeasures}
                                     />

@@ -3,15 +3,24 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class LabelReprintResourceBuilder : IResourceBuilder<LabelReprint>
+    public class LabelReprintResourceBuilder : IResourceBuilder<ResponseModel<LabelReprint>>
     {
-        public LabelReprintResource Build(LabelReprint model)
+        private readonly IAuthorisationService authorisationService;
+
+        public LabelReprintResourceBuilder(IAuthorisationService authorisationService)
         {
+            this.authorisationService = authorisationService;
+        }
+
+        public LabelReprintResource Build(ResponseModel<LabelReprint> responseModel)
+        {
+            var model = responseModel.ResponseData;
             return new LabelReprintResource
                        {
                            DateIssued = model.DateIssued.ToString("o"),
@@ -25,22 +34,30 @@
                            SerialNumber = model.SerialNumber,
                            PartNumber = model.PartNumber,
                            ReprintType = model.ReprintType,
-                           Links = this.BuildLinks(model).ToArray()
+                           Links = this.BuildLinks(responseModel).ToArray()
                        };
         }
 
-        object IResourceBuilder<LabelReprint>.Build(LabelReprint labelReprint) => this.Build(labelReprint);
+        object IResourceBuilder<ResponseModel<LabelReprint>>.Build(ResponseModel<LabelReprint> labelReprint) => this.Build(labelReprint);
 
-        public string GetLocation(LabelReprint labelReprint)
+        public string GetLocation(ResponseModel<LabelReprint> labelReprint)
         {
-            return $"/production/maintenance/labels/reprint-reasons/{labelReprint.LabelReprintId}";
+            return $"/production/maintenance/labels/reprint-reasons/{labelReprint.ResponseData.LabelReprintId}";
         }
 
-        private IEnumerable<LinkResource> BuildLinks(LabelReprint labelReprint)
+        private IEnumerable<LinkResource> BuildLinks(ResponseModel<LabelReprint> labelReprint)
         {
-            yield return new LinkResource { Rel = "self", Href = this.GetLocation(labelReprint) };
+            if (labelReprint.ResponseData.LabelReprintId > 0)
+            {
+                yield return new LinkResource { Rel = "self", Href = this.GetLocation(labelReprint) };
 
-            yield return new LinkResource("requested-by", $"/employees/{labelReprint.RequestedBy}");
+                yield return new LinkResource("requested-by", $"/employees/{labelReprint.ResponseData.RequestedBy}");
+            }
+
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.SerialNumberReissueRebuild, labelReprint.Privileges))
+            {
+                yield return new LinkResource { Rel = "create", Href = "/production/maintenance/labels/reprint-reasons" };
+            }
         }
     }
 }

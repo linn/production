@@ -5,7 +5,8 @@ import * as itemTypes from '../itemTypes';
 const defaultState = {
     loading: false,
     item: null,
-    editStatus: 'view'
+    editStatus: 'view',
+    applicationState: { links: [] }
 };
 
 export default itemStoreFactory(itemTypes.labelReprint.actionType, actionTypes, defaultState);
