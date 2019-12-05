@@ -47,6 +47,8 @@ function TriggerLevel({
             if (item?.citCode) {
                 getWorkStationsForCit('searchTerm', item.citCode);
             }
+
+            setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
         }
 
         setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
@@ -142,7 +144,7 @@ function TriggerLevel({
                                         {!creating() && (
                                             <InputField
                                                 fullWidth
-                                                disabled={!creating()}
+                                                disabled={!creating() || !allowedToEdit}
                                                 value={triggerLevel.partNumber}
                                                 label="Part Number"
                                                 maxLength={10}
@@ -192,6 +194,7 @@ function TriggerLevel({
                                             // rows={2}
                                             onChange={handleResourceFieldChange}
                                             propertyName="description"
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -212,6 +215,7 @@ function TriggerLevel({
                                                 fullWidth
                                                 label="cITCode"
                                                 allowNoValue={false}
+                                                disabled={!allowedToEdit}
                                             />
                                         </Grid>
                                     </Grid>
@@ -224,6 +228,7 @@ function TriggerLevel({
                                             fullWidth
                                             onChange={handleResourceFieldChange}
                                             propertyName="variableTriggerLevel"
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -235,6 +240,7 @@ function TriggerLevel({
                                             fullWidth
                                             onChange={handleResourceFieldChange}
                                             propertyName="overrideTriggerLevel"
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -250,6 +256,7 @@ function TriggerLevel({
                                             required
                                             onChange={handleResourceFieldChange}
                                             propertyName="kanbanSize"
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -267,6 +274,7 @@ function TriggerLevel({
                                             required
                                             onChange={handleResourceFieldChange}
                                             propertyName="maximumKanbans"
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -281,6 +289,7 @@ function TriggerLevel({
                                                 label="Route Code"
                                                 allowNoValue
                                                 onChange={handleResourceFieldChange}
+                                                disabled={!allowedToEdit}
                                             />
                                         </Grid>
                                     </Grid>
@@ -297,6 +306,7 @@ function TriggerLevel({
                                             label="Work Station"
                                             allowNoValue
                                             onChange={handleResourceFieldChange}
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={6}>
@@ -311,6 +321,7 @@ function TriggerLevel({
                                             label="engineerId"
                                             allowNoValue
                                             onChange={handleResourceFieldChange}
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={2}>
@@ -322,6 +333,7 @@ function TriggerLevel({
                                             label="temporary"
                                             onChange={handleResourceFieldChange}
                                             allowNoValue={false}
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={10}>
@@ -331,11 +343,14 @@ function TriggerLevel({
                                             fullWidth
                                             onChange={handleResourceFieldChange}
                                             propertyName="story"
+                                            disabled={!allowedToEdit}
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <SaveBackCancelButtons
-                                            saveDisabled={viewing() || inputInvalid()}
+                                            saveDisabled={
+                                                viewing() || inputInvalid() || !allowedToEdit
+                                            }
                                             saveClick={handleSaveClick}
                                             cancelClick={handleCancelClick}
                                             backClick={handleBackClick}
