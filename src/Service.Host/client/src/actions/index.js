@@ -91,10 +91,7 @@ export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );
 
-export const productionTriggerLevel = makeActionTypes(
-    itemTypes.productionTriggerLevel.actionType,
-    false
-);
+export const productionTriggerLevel = makeActionTypes(itemTypes.productionTriggerLevel.actionType);
 
 export const productionTriggerLevels = makeActionTypes(
     itemTypes.productionTriggerLevels.actionType,
@@ -233,3 +230,5 @@ export const SET_DEFAULT_WORKS_ORDER_PRINTER = 'SET_DEFAULT_WORKS_ORDER_PRINTER'
 export const labelTypeActionTypes = makeActionTypes(itemTypes.labelType.actionType);
 
 export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.actionType, false);
+
+export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);

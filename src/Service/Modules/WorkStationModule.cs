@@ -1,18 +1,11 @@
 ﻿namespace Linn.Production.Service.Modules
 {
-    using System;
-    using System.Linq;
-
-    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Resources;
-    using Linn.Production.Service.Extensions;
     using Linn.Production.Service.Models;
     using Nancy;
     using Nancy.ModelBinding;
-    using Nancy.Security;
 
     public sealed class WorkStationModule : NancyModule
     {
@@ -30,8 +23,8 @@
             var resource = this.Bind<SearchRequestResource>();
 
             var result = string.IsNullOrEmpty(resource.SearchTerm) ?
-                             this.workStationService.GetAll() :
-                             this.workStationService.Search(resource.SearchTerm);
+                         this.workStationService.GetAll() :
+                         this.workStationService.Search(resource.SearchTerm);
 
             return this.Negotiate
                 .WithModel(result)

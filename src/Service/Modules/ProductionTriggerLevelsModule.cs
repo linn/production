@@ -39,7 +39,7 @@
 
             this.Get("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.GetProductionTriggerLevel(parameters.partNumber));
             this.Get("production/maintenance/production-trigger-levels", _ => this.GetProductionTriggerLevels());
-            this.Put("production/maintenance/production-trigger-levels", _ => this.UpdateTriggerLevel());
+            this.Put("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.UpdateTriggerLevel(parameters.partNumber));
             this.Post("production/maintenance/production-trigger-levels", _ => this.AddTriggerLevel());
             this.Get("production/maintenance/production-trigger-levels-settings", _ => this.GetProductionTriggerLevelsSettings());
             this.Put("production/maintenance/production-trigger-levels-settings", _ => this.UpdateProductionTriggerLevelsSettings());
@@ -96,14 +96,14 @@
                 .WithView("Index");
         }
         
-        private object UpdateTriggerLevel()
+        private object UpdateTriggerLevel(string partNumber)
         {
             var resource = this.Bind<ProductionTriggerLevelResource>();
             this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
             var result = this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, privileges)
-                             ? this.productionTriggerLevelsService.Update(resource.PartNumber, resource, privileges)
+                             ? this.productionTriggerLevelsService.Update(partNumber, resource, privileges)
                              : new UnauthorisedResult<ResponseModel<ProductionTriggerLevel>>("You are not authorised to update trigger level");
 
             return this.Negotiate.WithModel(result)

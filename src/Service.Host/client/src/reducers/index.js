@@ -75,6 +75,7 @@ import localStorage from './localStorage';
 import labelType from './labelTypes/labelType';
 import labelTypes from './labelTypes/labelTypes';
 import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
+import workStations from './workStations';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -153,6 +154,7 @@ const rootReducer = combineReducers({
     labelType,
     labelTypes,
     productionTriggerLevel,
+    workStations,
     ...sharedLibraryReducers
 });
 

@@ -147,6 +147,7 @@ export const manufacturingRoute = new ItemType(
     'MANUFACTURING_ROUTE',
     '/production/resources/manufacturing-routes'
 );
+
 export const manufacturingRoutes = new ItemType(
     'manufacturingRoutes',
     'MANUFACTURING_ROUTES',
@@ -235,4 +236,10 @@ export const labelTypes = new ItemType(
     'labelTypes',
     'LABEL_TYPES',
     '/production/resources/label-types'
+);
+
+export const workStations = new ItemType(
+    'workStations',
+    'WORK_STATIONS',
+    '/production/maintenance/work-stations'
 );

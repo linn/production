@@ -28,7 +28,9 @@ function TriggerLevel({
     manufacturingRoutes,
     cits,
     setSnackbarVisible,
-    employees
+    employees,
+    getWorkStationsForCit,
+    workStations
 }) {
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
@@ -42,10 +44,13 @@ function TriggerLevel({
         if (item !== prevTriggerLevel) {
             setTriggerLevel(item);
             setPrevTriggerLevel(item);
+            if (item?.citCode) {
+                getWorkStationsForCit('searchTerm', item.citCode);
+            }
         }
 
         setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
-    }, [item, prevTriggerLevel, editStatus, creating]);
+    }, [item, prevTriggerLevel, editStatus, creating, getWorkStationsForCit]);
 
     const partNumberInvalid = () => !triggerLevel.partNumber;
     const descriptionInvalid = () => !triggerLevel.description;
@@ -75,6 +80,7 @@ function TriggerLevel({
     const handleCancelClick = () => {
         setEditStatus('view');
         setTriggerLevel(item);
+        getWorkStationsForCit('searchTerm', item.citCode);
     };
 
     const handleBackClick = () => {
@@ -87,11 +93,17 @@ function TriggerLevel({
             setEditStatus('edit');
         }
     };
-    if (!creating()) {
-        const partNumbers = parts.map(part => part.partNumber);
+
+    const handleCitChange = (propertyName, newValue) => {
+        getWorkStationsForCit('searchTerm', newValue);
+        handleResourceFieldChange(propertyName, newValue);
+    };
+
+    let partNumbers = [];
+    if (creating()) {
+        partNumbers = parts.map(part => part.partNumber);
     }
 
-    const workStations = [];
     const temporaryItems = [
         { displayText: 'Yes', id: 'Y' },
         { displayText: 'No', id: null }
@@ -127,25 +139,42 @@ function TriggerLevel({
                                         message="Save Successful"
                                     />
                                     <Grid item xs={6}>
-                                        <InputField
-                                            fullWidth
-                                            disabled={!creating()}
-                                            value={triggerLevel.partNumber}
-                                            label="Part Number"
-                                            maxLength={10}
-                                            helperText={
-                                                !creating()
-                                                    ? 'This field cannot be changed'
-                                                    : `${
-                                                          partNumberInvalid()
-                                                              ? 'This field is required'
-                                                              : ''
-                                                      }`
-                                            }
-                                            required
-                                            onChange={handleResourceFieldChange}
-                                            propertyName="partNumber"
-                                        />
+                                        {!creating() && (
+                                            <InputField
+                                                fullWidth
+                                                disabled={!creating()}
+                                                value={triggerLevel.partNumber}
+                                                label="Part Number"
+                                                maxLength={10}
+                                                helperText={
+                                                    !creating()
+                                                        ? 'This field cannot be changed'
+                                                        : `${
+                                                              partNumberInvalid()
+                                                                  ? 'This field is required'
+                                                                  : ''
+                                                          }`
+                                                }
+                                                required
+                                                onChange={handleResourceFieldChange}
+                                                propertyName="partNumbers"
+                                            />
+                                        )}
+                                        {creating() && (
+                                            <Dropdown
+                                                onChange={handleCitChange}
+                                                items={partNumbers}
+                                                value={triggerLevel.citCode}
+                                                propertyName="citCode"
+                                                helperText={
+                                                    citCodeInvalid() ? 'This field is required' : ''
+                                                }
+                                                required
+                                                fullWidth
+                                                label="cITCode"
+                                                allowNoValue={false}
+                                            />
+                                        )}
                                         {/*                      button with click event to show all part numbers to choose from?
                             classic drilldown style?       
                             partNumbers */}
@@ -168,7 +197,7 @@ function TriggerLevel({
                                     <Grid item xs={12}>
                                         <Grid item xs={6}>
                                             <Dropdown
-                                                onChange={handleResourceFieldChange}
+                                                onChange={handleCitChange}
                                                 items={cits.map(cit => ({
                                                     ...cit,
                                                     id: cit.code,
@@ -257,7 +286,11 @@ function TriggerLevel({
                                     </Grid>
                                     <Grid item xs={6}>
                                         <Dropdown
-                                            items={workStations}
+                                            items={workStations.map(ws => ({
+                                                ...ws,
+                                                id: ws.workStationCode,
+                                                displayText: `${ws.workStationCode} - ${ws.description}`
+                                            }))}
                                             propertyName="workStation"
                                             fullWidth
                                             value={triggerLevel.workStation}
@@ -348,7 +381,18 @@ TriggerLevel.propTypes = {
         PropTypes.shape({
             code: PropTypes.string
         })
-    ).isRequired
+    ).isRequired,
+    employees: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.number,
+            fullName: PropTypes.string
+        })
+    ).isRequired,
+    getWorkStationsForCit: PropTypes.func.isRequired,
+    workStations: PropTypes.arrayOf({
+        workStationCode: PropTypes.string,
+        description: PropTypes.string
+    }).isRequired
 };
 
 TriggerLevel.defaultProps = {

@@ -65,7 +65,7 @@
                     new SuccessResult<ResponseModel<ProductionTriggerLevel>>(responseModel));
 
             this.Response = this.Browser.Put(
-                "/production/maintenance/production-trigger-levels",
+                "/production/maintenance/production-trigger-levels/part1",
                 with =>
                     {
                         with.Header("Accept", "application/json");

@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -42,7 +43,7 @@
 
         public string GetLocation(ResponseModel<ProductionTriggerLevel> model)
         {
-            return $"production/maintenance/production-trigger-levels/{model.ResponseData.PartNumber}";
+            return $"/production/maintenance/production-trigger-levels/{Uri.EscapeDataString(model.ResponseData.PartNumber)}";
         }
 
         object IResourceBuilder<ResponseModel<ProductionTriggerLevel>>.Build(ResponseModel<ProductionTriggerLevel> model) => this.Build(model);
