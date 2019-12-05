@@ -133,7 +133,10 @@
                         break;
                 }
             }
-
+            else
+            {
+                newPartNumber = null;
+            }
 
             this.PrintTheLabels(
                 labelTypeCode,
