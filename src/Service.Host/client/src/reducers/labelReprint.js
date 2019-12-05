@@ -1,7 +1,6 @@
-//import { itemStoreFactory } from '@linn-it/linn-form-components-library';
+import { itemStoreFactory } from '@linn-it/linn-form-components-library';
 import { labelReprintActionTypes as actionTypes } from '../actions';
 import * as itemTypes from '../itemTypes';
-import itemStoreFactory from './itemStoreFactory';
 
 const defaultState = {
     loading: false,

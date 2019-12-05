@@ -54,7 +54,7 @@
                 yield return new LinkResource("requested-by", $"/employees/{labelReprint.ResponseData.RequestedBy}");
             }
 
-            if (this.authorisationService.HasPermissionFor("serial-number.reissue", labelReprint.Privileges))
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.SerialNumberReissueRebuild, labelReprint.Privileges))
             {
                 yield return new LinkResource { Rel = "create", Href = "/production/maintenance/labels/reprint-reasons" };
             }

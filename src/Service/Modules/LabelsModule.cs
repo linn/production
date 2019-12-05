@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Service.Modules
 {
-    using System.Collections.Generic;
     using System.Linq;
 
     using Linn.Common.Authorisation;
@@ -56,7 +55,7 @@
         {
             var resource = this.Bind<LabelReprintResource>();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-            if (!this.authorisationService.HasPermissionFor("serial-number.reissue", privileges) && resource.ReprintType != "REPRINT")
+            if (!this.authorisationService.HasPermissionFor(AuthorisedAction.SerialNumberReissueRebuild, privileges) && resource.ReprintType != "REPRINT")
             {
                 return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<LabelReprint>>("You are not authorised to reissue or rebuild serial numbers"));
             }

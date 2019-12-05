@@ -1,4 +1,4 @@
-﻿import StateApiActions from './StateApiActions';
+﻿import { StateApiActions } from '@linn-it/linn-form-components-library';
 import { labelReprintActionTypes as actionTypes } from './index';
 import * as itemTypes from '../itemTypes';
 import config from '../config';

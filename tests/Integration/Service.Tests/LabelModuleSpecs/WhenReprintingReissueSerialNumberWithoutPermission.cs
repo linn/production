@@ -43,7 +43,7 @@
 
             this.LabelReprintFacadeService.Add(Arg.Any<LabelReprintResource>(), Arg.Any<IEnumerable<string>>())
                 .Returns(new CreatedResult<ResponseModel<LabelReprint>>(new ResponseModel<LabelReprint>(labelReprint, new List<string>())));
-            this.AuthorisationService.HasPermissionFor("serial-number.reissue", Arg.Any<IEnumerable<string>>())
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.SerialNumberReissueRebuild, Arg.Any<IEnumerable<string>>())
                 .Returns(false);
             this.Response = this.Browser.Post(
                 "/production/maintenance/labels/reprint-reasons",

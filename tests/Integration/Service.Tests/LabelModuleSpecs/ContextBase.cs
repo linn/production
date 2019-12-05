@@ -58,7 +58,7 @@
                         });
                 });
 
-            this.AuthorisationService.HasPermissionFor("serial-number.reissue", Arg.Any<IEnumerable<string>>())
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.SerialNumberReissueRebuild, Arg.Any<IEnumerable<string>>())
                 .Returns(true);
             this.Browser = new Browser(bootstrapper);
         }
