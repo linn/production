@@ -103,8 +103,10 @@
 
         private object GetApp()
         {
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
             return this.Negotiate
-                .WithModel(new SuccessResult<ResponseModel<LabelReprint>>(new ResponseModel<LabelReprint>(new LabelReprint(), new List<string>())))
+                .WithModel(new SuccessResult<ResponseModel<LabelReprint>>(new ResponseModel<LabelReprint>(new LabelReprint(), privileges)))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
