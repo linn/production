@@ -51,7 +51,9 @@ describe('When Snackbar Visible', () => {
 
 describe('When viewing', () => {
     it('should not display spinner', () => {
-        const { queryByRole } = render(<ProductionTriggerLevel {...defaultProps} loading={false} />);
+        const { queryByRole } = render(
+            <ProductionTriggerLevel {...defaultProps} loading={false} />
+        );
         expect(queryByRole('progressbar')).toBeNull();
     });
 
@@ -79,7 +81,9 @@ describe('When viewing', () => {
 
 describe('When Editing', () => {
     test('Should have save button enabled if input is Valid', () => {
-        const { getByText } = render(<ProductionTriggerLevel {...defaultProps} editStatus="edit" />);
+        const { getByText } = render(
+            <ProductionTriggerLevel {...defaultProps} editStatus="edit" />
+        );
         const item = getByText('Save');
         expect(item).toBeInTheDocument();
         expect(item.closest('button')).not.toHaveAttribute('disabled');
@@ -102,7 +106,9 @@ describe('When Editing', () => {
 
 describe('When updating', () => {
     test('Should call updateProductionTriggerLevel and change set edit status to view', () => {
-        const { getByText } = render(<ProductionTriggerLevel {...defaultProps} editStatus="edit" />);
+        const { getByText } = render(
+            <ProductionTriggerLevel {...defaultProps} editStatus="edit" />
+        );
         fireEvent(
             getByText('Save'),
             new MouseEvent('click', {
@@ -110,7 +116,10 @@ describe('When updating', () => {
                 cancelable: true
             })
         );
-        expect(updateProductionTriggerLevelMock).toHaveBeenCalledWith('test type code', productionTriggerLevel);
+        expect(updateProductionTriggerLevelMock).toHaveBeenCalledWith(
+            'test type code',
+            productionTriggerLevel
+        );
         expect(setEditStatusMock).toHaveBeenLastCalledWith('view');
     });
 });
