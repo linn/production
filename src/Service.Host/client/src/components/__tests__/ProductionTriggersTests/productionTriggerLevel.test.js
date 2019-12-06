@@ -166,7 +166,7 @@ describe('When creating', () => {
                 {...defaultProps}
                 parts={[
                     { partNumber: 'test partno', description: '' },
-                     { partNumber: '', description: '' }
+                    { partNumber: '', description: '' }
                 ]}
                 item={{
                     partNumber: 'test partno',
