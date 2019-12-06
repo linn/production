@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { getItemError, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import { getItemErrors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import AssemblyFail from '../../components/assemblyFails/AssemblyFail';
 import assemblyFailActions from '../../actions/assemblyFailActions';
 import assemblyFailSelectors from '../../selectors/assemblyFailSelectors';
@@ -18,30 +18,39 @@ import assemblyFailFaultCodes from '../../actions/assemblyFailFaultCodesActions'
 import assemblyFailFaultCodesSelectors from '../../selectors/assemblyFailFaultCodesSelectors';
 import smtShiftsSelectors from '../../selectors/smtShiftsSelectors';
 import smtShiftsActions from '../../actions/smtShiftsActions';
+import assemblyFailFaultCodeSelectors from '../../selectors/assemblyFailFaultCodeSelectors';
 
 const mapStateToProps = state => ({
     item: {},
     editStatus: 'create',
-    itemErrors: getItemError(state),
     loading: assemblyFailSelectors.getLoading(state),
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
+    itemErrors: getItemErrors(state),
     profile: getProfile(state),
     worksOrdersSearchResults: worksOrdersSelectors
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
     worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
+    clearWorksOrdersSearch: worksOrdersActions.clearSearch,
     boardParts: productionTriggerLevelsSelectors.getItems(state),
     boardPartsLoading: productionTriggerLevelsSelectors.getLoading(state),
     pcasRevisions: pcasRevisionsSelectors.getItems(state),
     pcasRevisionsLoading: pcasRevisionsSelectors.getLoading(state),
     employees: employeesSelectors.getItems(state),
+    employeesLoading: employeesSelectors.getLoading(state),
     cits: citsSelectors.getItems(state),
+    citsLoading: citsSelectors.getLoading(state),
+    smtShifts: smtShiftsSelectors.getItems(state),
+    smtShiftsLoading: smtShiftsSelectors.getLoading(state),
     faultCodes: assemblyFailFaultCodesSelectors.getItems(state),
-    smtShifts: smtShiftsSelectors.getItems(state)
+    faultCodesLoading: assemblyFailFaultCodeSelectors.getLoading(state),
+    boardPartsSearchResults: productionTriggerLevelsSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
+    boardPartsSearchLoading: productionTriggerLevelsSelectors.getSearchLoading(state)
 });
 
 const initialise = () => dispatch => {
-    dispatch(productionTriggerLevelsActions.fetchByQueryString('searchTerm', 'PCAS'));
     dispatch(employeesActions.fetch());
     dispatch(citsActions.fetch());
     dispatch(assemblyFailFaultCodes.fetch());
@@ -55,7 +64,9 @@ const mapDispatchToProps = {
     setSnackbarVisible: assemblyFailActions.setSnackbarVisible,
     searchWorksOrders: worksOrdersActions.search,
     fetchPcasRevisionsForBoardPart: pcasRevisionsActions.fetchByQueryString,
-    clearWorksOrdersSearch: worksOrdersActions.clearSearch
+    clearWorksOrdersSearch: worksOrdersActions.clearSearch,
+    searchBoardParts: productionTriggerLevelsActions.search,
+    clearBoardPartsSearch: productionTriggerLevelsActions.clearSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(AssemblyFail));

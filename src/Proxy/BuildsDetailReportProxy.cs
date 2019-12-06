@@ -22,12 +22,25 @@
             string department,
             bool monthly = false)
         {
+            if (quantityOrValue == "Mins")
+            {
+                quantityOrValue = "Days";
+            }
+
+            var formula = @",
+                round(lrp_pack.days_to_setup_kanban(a.part_number) 
+                * ceil(sum(QUANTITY) / decode(ptl.kanban_size, 0, 1, null, 1, kanban_size)) 
+                + lrp_pack.days_to_build_kanban(a.part_number) 
+                * (sum(QUANTITY) / decode(ptl.kanban_size, 0, 1, null, 1, kanban_size)), 2)";
+
             var totalBy = monthly ? "MONTH" : "WEEK";
             var sql =
                 $@"select a.cr_dept dept, d.description, a.part_number, decode(ptl.kanban_size, 0, 1, null, 1, kanban_size) kanban_size, 
             decode('{totalBy}', 'MONTH', last_day(TRUNC(bu_date)), 'WEEK', linn_week_pack.linn_week_end_date(bu_date))
             month_end, sum(decode('{quantityOrValue}', 'Value', round(material_price + labour_price, 0),
-                'Quantity', QUANTITY, 'Days', QUANTITY, null)) t_adj from v_builds a, linn_departments d, production_trigger_levels ptl
+                'Quantity', QUANTITY, 'Days', QUANTITY, null)) t_adj 
+            {(quantityOrValue == "Days" ? formula : string.Empty)}
+            from v_builds a, linn_departments d, production_trigger_levels ptl
             where a.cr_dept = d.department_code
             and bu_date between trunc(to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') ) 
             and trunc(to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) +1

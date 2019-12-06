@@ -45,6 +45,7 @@
             builder.RegisterType<LabelService>().As<ILabelService>();
             builder.RegisterType<BoardTestReports>().As<IBoardTestReports>();
             builder.RegisterType<ProductionBackOrdersReportService>().As<IProductionBackOrdersReportService>();
+            builder.RegisterType<BuildPlansReportService>().As<IBuildPlansReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -83,7 +84,7 @@
             builder.RegisterType<ManufacturingOperationsService>()
                 .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>, IManufacturingOperationsService>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
-            builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
+            builder.RegisterType<PartsFacadeService>().As<IPartsFacadeService>();
             builder.RegisterType<SmtShiftsService>()
                 .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
             builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
@@ -108,6 +109,11 @@
                 .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             builder.RegisterType<LabelTypeService>()
                 .As<IFacadeService<LabelType, string, LabelTypeResource, LabelTypeResource>>();
+            builder.RegisterType<LabelReprintFacadeService>()
+                .As<IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource>>();
+            builder.RegisterType<BuildPlanService>()
+                .As<IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource>>();
+            builder.RegisterType<BuildPlansReportFacadeService>().As<IBuildPlansReportFacadeService>();
             builder.RegisterType<WorkStationService>()
                 .As<IFacadeService<WorkStation, string, WorkStationResource, WorkStationResource>>();
 

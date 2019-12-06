@@ -25,7 +25,7 @@
         [Test]
         public void ShouldGetLabelData()
         {
-            this.LabelPack.Received().GetLabelData("BOX", 808, "article", "B");
+            this.LabelPack.Received().GetLabelData("BOX", 808, "article");
         }
 
         [Test]

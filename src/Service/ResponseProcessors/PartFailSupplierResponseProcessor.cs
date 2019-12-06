@@ -7,7 +7,7 @@
     public class PartFailSupplierResponseProcessor : JsonResponseProcessor<PartFailSupplierView>
     {
         public PartFailSupplierResponseProcessor(IResourceBuilder<PartFailSupplierView> resourceBuilder)
-            : base(resourceBuilder)
+            : base(resourceBuilder, "part-fail-supplier", 1)
         {
         }
     }

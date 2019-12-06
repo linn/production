@@ -37,9 +37,12 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/maintenance/labels/reprint" button>
                     <Typography color="primary">Label Reprint</Typography>
-                </ListItem> 
+                </ListItem>
                 <ListItem component={Link} to="/production/resources/label-types/" button>
-                <Typography color="primary">Label Types Utility</Typography>
+                    <Typography color="primary">Label Types Utility</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/maintenance/labels/reprint-reasons/create" button>
+                    <Typography color="primary">Label Reprint Reissue Utility</Typography>
                 </ListItem>
                 <ListItem
                     component={Link}
@@ -84,6 +87,9 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/builds-detail/options" button>
                     <Typography color="primary">Builds Detail Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/build-plans" button>
+                    <Typography color="primary">Build Plan Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/builds-summary/options" button>
                     <Typography color="primary">Builds Summary Report</Typography>

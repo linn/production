@@ -58,10 +58,6 @@
                 .As<IResourceBuilder<PcasRevision>>();
             builder.RegisterType<PcasRevisionsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PcasRevision>>>();
-            builder.RegisterType<CitResourceBuilder>()
-                .As<IResourceBuilder<Cit>>();
-            builder.RegisterType<CitsResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<Cit>>>();
             builder.RegisterType<EmployeeResourceBuilder>()
                 .As<IResourceBuilder<Employee>>();
             builder.RegisterType<EmployeesResourceBuilder>()
@@ -84,7 +80,6 @@
             builder.RegisterType<PartFailSupplierResourceBuilder>().As<IResourceBuilder<PartFailSupplierView>>();
             builder.RegisterType<PartFailSuppliersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PartFailSupplierView>>>();
-
             builder.RegisterType<SmtShiftResourceBuilder>().As<IResourceBuilder<SmtShift>>();
             builder.RegisterType<SmtShiftsResourceBuilder>().As<IResourceBuilder<IEnumerable<SmtShift>>>();
             builder.RegisterType<PtlSettingsResourceBuilder>().As<IResourceBuilder<ResponseModel<PtlSettings>>>();
@@ -112,6 +107,9 @@
             builder.RegisterType<LabelTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<LabelType>>>();
             builder.RegisterType<WorkStationResourceBuilder>().As<IResourceBuilder<WorkStation>>();
             builder.RegisterType<WorkStationsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorkStation>>>();
+            builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<ResponseModel<LabelReprint>>>();
+            builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<BuildPlan>>();
+            builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();
         }
     }
 }

@@ -72,8 +72,11 @@ import printWorksOrderLabels from './printWorksOrderLabels';
 import printWorksOrderAioLabels from './printWorksOrderAioLabels';
 import productionBackOrdersReport from './productionBackOrdersReport';
 import localStorage from './localStorage';
+import buildPlansReport from './buildPlansReport';
+import buildPlans from './buildPlans';
 import labelType from './labelTypes/labelType';
 import labelTypes from './labelTypes/labelTypes';
+import labelReprint from './labelReprint';
 import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
 import workStations from './workStations';
 
@@ -99,11 +102,16 @@ const rootReducer = combineReducers({
     boardTestDetailsReport,
     boardTestsReport,
     buildsDetailReport,
+    buildPlans,
+    buildPlansReport,
     buildsSummaryReport,
     cits,
     departments,
     employees,
     errors,
+    labelReprint,
+    labelType,
+    labelTypes,
     localStorage,
     manufacturingCommitDate,
     manufacturingResources,
@@ -133,8 +141,8 @@ const rootReducer = combineReducers({
     productionMeasures,
     productionTriggersReport,
     productionTriggerFacts,
-    wwdTriggerReport,
     ptlSettings,
+    purchaseOrders,
     salesArticle,
     salesArticles,
     serialNumbers,
@@ -143,7 +151,6 @@ const rootReducer = combineReducers({
     smtOutstandingWorkOrderParts,
     startTriggerRun,
     storagePlaces,
-    purchaseOrders,
     whoBuiltWhat,
     whoBuiltWhatDetails,
     worksOrder,
@@ -151,8 +158,7 @@ const rootReducer = combineReducers({
     worksOrderDetails,
     worksOrderLabel,
     worksOrderLabels,
-    labelType,
-    labelTypes,
+    wwdTriggerReport,
     productionTriggerLevel,
     workStations,
     ...sharedLibraryReducers
