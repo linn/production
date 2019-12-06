@@ -4,9 +4,9 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps;
 
-    public class ProductionTriggerLevelResponseProcessor : JsonResponseProcessor<ProductionTriggerLevel>
+    public class ProductionTriggerLevelResponseProcessor : JsonResponseProcessor<ResponseModel<ProductionTriggerLevel>>
     {
-        public ProductionTriggerLevelResponseProcessor(IResourceBuilder<ProductionTriggerLevel> resourceBuilder)
+        public ProductionTriggerLevelResponseProcessor(IResourceBuilder<ResponseModel<ProductionTriggerLevel>> resourceBuilder)
             : base(resourceBuilder, "production-trigger-level", 1)
         {
         }

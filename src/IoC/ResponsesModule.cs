@@ -51,9 +51,9 @@
             builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
             builder.RegisterType<WorksOrdersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<WorksOrder>>>();
-            builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ProductionTriggerLevel>>();
+            builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ResponseModel<ProductionTriggerLevel>>>();
             builder.RegisterType<ProductionTriggerLevelsResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>();
+                .As<IResourceBuilder<ResponseModel<IEnumerable<ProductionTriggerLevel>>>>();
             builder.RegisterType<PcasRevisionResourceBuilder>()
                 .As<IResourceBuilder<PcasRevision>>();
             builder.RegisterType<PcasRevisionsResourceBuilder>()
@@ -105,6 +105,8 @@
             builder.RegisterType<WorksOrderLabelsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderLabel>>>();
             builder.RegisterType<LabelTypeResourceBuilder>().As<IResourceBuilder<LabelType>>();
             builder.RegisterType<LabelTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<LabelType>>>();
+            builder.RegisterType<WorkStationResourceBuilder>().As<IResourceBuilder<WorkStation>>();
+            builder.RegisterType<WorkStationsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorkStation>>>();
             builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<ResponseModel<LabelReprint>>>();
             builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<BuildPlan>>();
             builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();

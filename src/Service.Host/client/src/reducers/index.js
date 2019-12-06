@@ -27,7 +27,7 @@ import boardFailType from './boardFailTypes/boardFailType';
 import assemblyFailsWaitingListReport from './assemblyFailsWaitingListReport';
 import worksOrder from './worksOrders/worksOrder';
 import worksOrders from './worksOrders/worksOrders';
-import productionTriggerLevels from './productionTriggerLevels';
+import productionTriggerLevels from './productionTriggerLevels/productionTriggerLevels';
 import pcasRevisions from './pcasRevisions';
 import employees from './employees';
 import whoBuiltWhat from './whoBuiltWhat';
@@ -45,7 +45,7 @@ import smtShifts from './smtShifts';
 import * as itemTypes from '../itemTypes';
 import * as reportTypes from '../reportTypes';
 import * as processTypes from '../processTypes';
-import ptlSettings from './ptlSettings';
+import ptlSettings from './productionTriggerLevels/ptlSettings';
 import startTriggerRun from './startTriggerRun';
 import partFail from './partFail';
 import partFails from './partFails';
@@ -77,6 +77,8 @@ import buildPlans from './buildPlans';
 import labelType from './labelTypes/labelType';
 import labelTypes from './labelTypes/labelTypes';
 import labelReprint from './labelReprint';
+import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
+import workStations from './workStations';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -157,6 +159,8 @@ const rootReducer = combineReducers({
     worksOrderLabel,
     worksOrderLabels,
     wwdTriggerReport,
+    productionTriggerLevel,
+    workStations,
     ...sharedLibraryReducers
 });
 

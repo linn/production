@@ -41,7 +41,11 @@ function App() {
                 <ListItem component={Link} to="/production/resources/label-types/" button>
                     <Typography color="primary">Label Types Utility</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/maintenance/labels/reprint-reasons/create" button>
+                <ListItem
+                    component={Link}
+                    to="/production/maintenance/labels/reprint-reasons/create"
+                    button
+                >
                     <Typography color="primary">Label Reprint Reissue Utility</Typography>
                 </ListItem>
                 <ListItem
@@ -122,6 +126,13 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/triggers" button>
                     <Typography color="primary">Production Triggers Report</Typography>
+                </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/maintenance/production-trigger-levels"
+                    button
+                >
+                    <Typography color="primary">Production Trigger Levels Utility</Typography>
                 </ListItem>
                 <ListItem
                     component={Link}

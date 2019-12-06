@@ -90,6 +90,9 @@ import LabelType from '../containers/labelTypes/LabelType';
 import CreateLabelType from '../containers/labelTypes/CreateLabelType';
 import LabelReprint from '../containers/labelReprints/LabelReprint';
 import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
+import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
+import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
+import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
 
 const Root = ({ store }) => (
     <div>
@@ -529,6 +532,21 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/resources/label-types"
                                         component={LabelTypes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels/create"
+                                        component={CreateProductionTriggerLevel}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels/:id"
+                                        component={ProductionTriggerLevel}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels"
+                                        component={ProductionTriggerLevels}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

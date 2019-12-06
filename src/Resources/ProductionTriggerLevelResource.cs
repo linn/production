@@ -18,12 +18,20 @@
 
         public int? BomLevel { get; set; }
 
-        public string WsName { get; set; }
+        public string WorkStationName { get; set; }
 
         public string FaZoneType { get; set; }
 
         public int? VariableTriggerLevel { get; set; }
 
         public int? OverrideTriggerLevel { get; set; }
+
+        public string Temporary { get; set; }
+
+        public int? EngineerId { get; set; }
+
+        public string Story { get; set; }
+
+        public string RouteCode { get; set; }
     }
 }

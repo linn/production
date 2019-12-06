@@ -408,10 +408,14 @@
             e.Property(p => p.MaximumKanbans).HasColumnName("MAXIMUM_KANBANS");
             e.Property(p => p.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
             e.Property(p => p.BomLevel).HasColumnName("BOM_LEVEL");
-            e.Property(p => p.WsName).HasColumnName("WS_NAME").HasMaxLength(16);
+            e.Property(p => p.WorkStationName).HasColumnName("WS_NAME").HasMaxLength(16);
             e.Property(p => p.FaZoneType).HasColumnName("FA_ZONE_TYPE").HasMaxLength(20);
             e.Property(p => p.VariableTriggerLevel).HasColumnName("VARIABLE_TRIGGER_LEVEL");
             e.Property(p => p.OverrideTriggerLevel).HasColumnName("OVERRIDE_TRIGGER_LEVEL");
+            e.Property(p => p.Temporary).HasColumnName("TEMPORARY").HasMaxLength(1);
+            e.Property(p => p.Story).HasColumnName("STORY").HasMaxLength(200);
+            e.Property(p => p.EngineerId).HasColumnName("PRODUCTION_ENGINEER").HasMaxLength(6);
+            e.Property(p => p.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(20);
         }
 
         private void BuildPcasBoardsForAudit(ModelBuilder builder)

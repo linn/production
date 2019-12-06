@@ -46,12 +46,13 @@
                     with.Dependency(this.PtlSettingsFacadeService);
                     with.Dependency(this.AuthorisationService);
                     with.Dependency(this.TriggerRunDispatcher);
-                    with.Dependency<IResourceBuilder<ProductionTriggerLevel>>(new ProductionTriggerLevelResourceBuilder());
                     with.Dependency<IResourceBuilder<Error>>(new ErrorResourceBuilder());
                     with.Dependency<IResourceBuilder<ResponseModel<PtlSettings>>>(new PtlSettingsResourceBuilder(this.AuthorisationService));
-                    with.Dependency<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>(
-                        new ProductionTriggerLevelsResourceBuilder());
+                    with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<ProductionTriggerLevel>>>>(
+                        new ProductionTriggerLevelsResourceBuilder(this.AuthorisationService));
                     with.Module<ProductionTriggerLevelsModule>();
+                    with.Dependency<IResourceBuilder<ResponseModel<ProductionTriggerLevel>>>(new ProductionTriggerLevelResourceBuilder(this.AuthorisationService));
+
                     with.ResponseProcessor<ProductionTriggerLevelResponseProcessor>();
                     with.ResponseProcessor<ProductionTriggerLevelsResponseProcessor>();
                     with.ResponseProcessor<ErrorResponseProcessor>();
