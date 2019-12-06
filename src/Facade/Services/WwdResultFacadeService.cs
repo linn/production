@@ -43,7 +43,7 @@
                 return new NotFoundResult<WwdResult>("No production trigger level found");
             }
 
-            if (string.IsNullOrEmpty(triggerLevel.WorkStation))
+            if (string.IsNullOrEmpty(triggerLevel.WorkStationName))
             {
                 return new NotFoundResult<WwdResult>("No work station found");
             }
@@ -52,7 +52,7 @@
                              {
                                  PartNumber = partNumber,
                                  Qty = qty.Value,
-                                 WorkStationCode = triggerLevel.WorkStation,
+                                 WorkStationCode = triggerLevel.WorkStationName,
                                  PtlJobref = ptlJobref,
                                  WwdRunTime = DateTime.UtcNow,
                                  WwdJobId = this.wwdTrigFunction.WwdTriggerRun(partNumber, qty.Value)

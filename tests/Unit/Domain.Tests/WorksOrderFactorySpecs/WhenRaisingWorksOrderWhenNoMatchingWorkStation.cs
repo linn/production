@@ -38,7 +38,7 @@
             this.WorksOrderService.CanRaiseWorksOrder(this.partNumber).Returns("SUCCESS");
 
             this.ProductionTriggerLevelsRepository.FindById(this.partNumber).Returns(
-                new ProductionTriggerLevel { PartNumber = this.partNumber, WorkStation = "OTHER" });
+                new ProductionTriggerLevel { PartNumber = this.partNumber, WorkStationName = "OTHER" });
 
             this.action = () => this.Sut.RaiseWorksOrder(new WorksOrder
                                                              {

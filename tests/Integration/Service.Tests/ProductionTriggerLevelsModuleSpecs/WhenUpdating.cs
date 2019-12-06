@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.ProductionTriggerLevelsModuleSpecs
 {
+    using System;
+
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -27,11 +29,11 @@
                 KanbanSize = 1,
                 MaximumKanbans = 2,
                 RouteCode = "pcas1",
-                WorkStation = "station1",
+                WorkStationName = "station1",
                 FaZoneType = "flex",
                 EngineerId = 33000,
                 Temporary = "Y",
-                Story = ""
+                Story = string.Empty
             };
             var triggerLevel = new ProductionTriggerLevel
             {
@@ -43,11 +45,11 @@
                 KanbanSize = 1,
                 MaximumKanbans = 2,
                 RouteCode = "pcas1",
-                WorkStation = "station1",
+                WorkStationName = "station1",
                 FaZoneType = "flex",
                 EngineerId = 33000,
                 Temporary = "Y",
-                Story = ""
+                Story = string.Empty
             };
 
             var responseModel = new ResponseModel<ProductionTriggerLevel>(
@@ -97,7 +99,7 @@
             resourceResult.KanbanSize.Should().Be(1);
             resourceResult.MaximumKanbans.Should().Be(2);
             resourceResult.RouteCode.Should().Be("pcas1");
-            resourceResult.WorkStation.Should().Be("station1");
+            resourceResult.WorkStationName.Should().Be("station1");
             resourceResult.FaZoneType.Should().Be("flex");
             resourceResult.EngineerId.Should().Be(33000);
             resourceResult.Temporary.Should().Be("Y");

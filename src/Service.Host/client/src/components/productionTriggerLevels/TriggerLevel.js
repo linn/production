@@ -101,15 +101,7 @@ function TriggerLevel({
         handleResourceFieldChange(propertyName, newValue);
     };
 
-    let partNumbers = [];
-    if (creating()) {
-        partNumbers = parts.map(part => part.partNumber);
-    }
-
-    const temporaryItems = [
-        { displayText: 'Yes', id: 'Y' },
-        { displayText: 'No', id: null }
-    ];
+    const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
 
     return (
         <Fragment>
@@ -148,38 +140,29 @@ function TriggerLevel({
                                                 value={triggerLevel.partNumber}
                                                 label="Part Number"
                                                 maxLength={10}
-                                                helperText={
-                                                    !creating()
-                                                        ? 'This field cannot be changed'
-                                                        : `${
-                                                              partNumberInvalid()
-                                                                  ? 'This field is required'
-                                                                  : ''
-                                                          }`
-                                                }
+                                                helperText="This field cannot be changed"
                                                 required
                                                 onChange={handleResourceFieldChange}
-                                                propertyName="partNumbers"
+                                                propertyName="partNumber"
                                             />
                                         )}
                                         {creating() && (
                                             <Dropdown
-                                                onChange={handleCitChange}
-                                                items={partNumbers}
-                                                value={triggerLevel.citCode}
-                                                propertyName="citCode"
+                                                onChange={handleResourceFieldChange}
+                                                items={parts.map(part => part.partNumber)}
+                                                value={triggerLevel.partNumber}
+                                                propertyName="partNumber"
                                                 helperText={
-                                                    citCodeInvalid() ? 'This field is required' : ''
+                                                    partNumberInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
                                                 }
                                                 required
                                                 fullWidth
-                                                label="cITCode"
+                                                label="Part Number"
                                                 allowNoValue={false}
                                             />
                                         )}
-                                        {/*                      button with click event to show all part numbers to choose from?
-                            classic drilldown style?       
-                            partNumbers */}
                                     </Grid>
                                     <Grid item xs={12}>
                                         <InputField
@@ -191,7 +174,6 @@ function TriggerLevel({
                                                 descriptionInvalid() ? 'This field is required' : ''
                                             }
                                             required
-                                            // rows={2}
                                             onChange={handleResourceFieldChange}
                                             propertyName="description"
                                             disabled={!allowedToEdit}
@@ -213,7 +195,7 @@ function TriggerLevel({
                                                 }
                                                 required
                                                 fullWidth
-                                                label="cITCode"
+                                                label="CIT Code"
                                                 allowNoValue={false}
                                                 disabled={!allowedToEdit}
                                             />
@@ -302,7 +284,7 @@ function TriggerLevel({
                                             }))}
                                             propertyName="workStation"
                                             fullWidth
-                                            value={triggerLevel.workStation}
+                                            value={triggerLevel.workStationName}
                                             label="Work Station"
                                             allowNoValue
                                             onChange={handleResourceFieldChange}
@@ -322,6 +304,7 @@ function TriggerLevel({
                                             allowNoValue
                                             onChange={handleResourceFieldChange}
                                             disabled={!allowedToEdit}
+                                            type="number"
                                         />
                                     </Grid>
                                     <Grid item xs={2}>
@@ -332,7 +315,7 @@ function TriggerLevel({
                                             value={triggerLevel.temporary}
                                             label="temporary"
                                             onChange={handleResourceFieldChange}
-                                            allowNoValue={false}
+                                            allowNoValue
                                             disabled={!allowedToEdit}
                                         />
                                     </Grid>
@@ -348,9 +331,7 @@ function TriggerLevel({
                                     </Grid>
                                     <Grid item xs={12}>
                                         <SaveBackCancelButtons
-                                            saveDisabled={
-                                                viewing() || inputInvalid() || !allowedToEdit
-                                            }
+                                            saveDisabled={viewing() || inputInvalid()}
                                             saveClick={handleSaveClick}
                                             cancelClick={handleCancelClick}
                                             backClick={handleBackClick}
@@ -368,9 +349,20 @@ function TriggerLevel({
 
 TriggerLevel.propTypes = {
     item: PropTypes.shape({
-        routeCode: PropTypes.string,
+        partNumber: PropTypes.string,
         description: PropTypes.string,
-        notes: PropTypes.string
+        citCode: PropTypes.string,
+        bomLevel: PropTypes.number,
+        kanbanSize: PropTypes.number,
+        maximumKanbans: PropTypes.number,
+        overrideTriggerLevel: PropTypes.number,
+        triggerLevel: PropTypes.number,
+        variableTriggerLevel: PropTypes.number,
+        workStationName: PropTypes.string,
+        temporary: PropTypes.string,
+        engineerId: PropTypes.number,
+        story: PropTypes.string,
+        routeCode: PropTypes.string
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
@@ -386,7 +378,7 @@ TriggerLevel.propTypes = {
         PropTypes.shape({
             partNumber: PropTypes.string
         })
-    ).isRequired,
+    ),
     manufacturingRoutes: PropTypes.arrayOf(
         PropTypes.shape({
             routeCode: PropTypes.string
@@ -404,20 +396,28 @@ TriggerLevel.propTypes = {
         })
     ).isRequired,
     getWorkStationsForCit: PropTypes.func.isRequired,
-    workStations: PropTypes.arrayOf({
-        workStationCode: PropTypes.string,
-        description: PropTypes.string
-    }).isRequired
+    workStations: PropTypes.arrayOf(
+        PropTypes.shape({
+            workStationCode: PropTypes.string,
+            description: PropTypes.string
+        })
+    ).isRequired
 };
 
 TriggerLevel.defaultProps = {
-    item: {},
+    item: {
+        partNumber: '',
+        description: '',
+        citCode: '',
+        temporary: null
+    },
     snackbarVisible: false,
     addItem: null,
     updateItem: null,
     loading: null,
     itemErrors: null,
-    itemId: null
+    itemId: null,
+    parts: [{ partNumber: '', description: '' }]
 };
 
 export default TriggerLevel;

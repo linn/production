@@ -9,30 +9,13 @@
 
     public class ProductionTriggerLevelService : FacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>
     {
-        //private readonly IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> manufacturingRouteService;
-        //private readonly IFacadeService<Cit, string, CitResource, CitResource> citService;
-        //private readonly IFacadeService<Part, string, PartResource, PartResource> partService;
-        //private readonly IFacadeService<Employee, int, EmployeeResource, EmployeeResource> employeeService;
-        public ProductionTriggerLevelService(IRepository<ProductionTriggerLevel, string> repository,
-                                             ITransactionManager transactionManager
-            //IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> manufacturingRouteService,
-            //IFacadeService<Cit, string, CitResource, CitResource> citService,
-            //IFacadeService<Part, string, PartResource, PartResource> partService,
-            //IFacadeService<Employee, int, EmployeeResource, EmployeeResource> employeeService
-            )
+        public ProductionTriggerLevelService(IRepository<ProductionTriggerLevel, string> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
         }
 
         protected override ProductionTriggerLevel CreateFromResource(ProductionTriggerLevelResource resource)
         {
-            //if (this.employeeService.GetById(resource.EngineerId) is NotFoundResult<Employee>)
-            //{
-            //    throw new Exc
-            //}
-            //check dependencies - routecode, cit, engineer id and part number
-            //maybe I don't need to do this actually
-
             return new ProductionTriggerLevel
             {
                 PartNumber = resource.PartNumber,
@@ -45,14 +28,14 @@
                 OverrideTriggerLevel = resource.OverrideTriggerLevel,
                 TriggerLevel = resource.TriggerLevel,
                 VariableTriggerLevel = resource.VariableTriggerLevel,
-                WorkStation = resource.WorkStation,
+                WorkStationName = resource.WorkStationName,
                 Temporary = resource.Temporary,
                 EngineerId = resource.EngineerId,
                 Story = resource.Story,
                 RouteCode = resource.RouteCode
             };
         }
-        
+
         protected override void UpdateFromResource(ProductionTriggerLevel entity, ProductionTriggerLevelResource updateResource)
         {
             entity.PartNumber = updateResource.PartNumber;
@@ -65,7 +48,7 @@
             entity.OverrideTriggerLevel = updateResource.OverrideTriggerLevel;
             entity.TriggerLevel = updateResource.TriggerLevel;
             entity.VariableTriggerLevel = updateResource.VariableTriggerLevel;
-            entity.WorkStation = updateResource.WorkStation;
+            entity.WorkStationName = updateResource.WorkStationName;
             entity.Temporary = updateResource.Temporary;
             entity.EngineerId = updateResource.EngineerId;
             entity.Story = updateResource.Story;

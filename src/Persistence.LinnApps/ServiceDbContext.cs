@@ -370,7 +370,7 @@
             e.Property(p => p.MaximumKanbans).HasColumnName("MAXIMUM_KANBANS");
             e.Property(p => p.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
             e.Property(p => p.BomLevel).HasColumnName("BOM_LEVEL");
-            e.Property(p => p.WorkStation).HasColumnName("WS_NAME").HasMaxLength(16);
+            e.Property(p => p.WorkStationName).HasColumnName("WS_NAME").HasMaxLength(16);
             e.Property(p => p.FaZoneType).HasColumnName("FA_ZONE_TYPE").HasMaxLength(20);
             e.Property(p => p.VariableTriggerLevel).HasColumnName("VARIABLE_TRIGGER_LEVEL");
             e.Property(p => p.OverrideTriggerLevel).HasColumnName("OVERRIDE_TRIGGER_LEVEL");

@@ -32,7 +32,7 @@
                            OverrideTriggerLevel = model.ResponseData.OverrideTriggerLevel,
                            TriggerLevel = model.ResponseData.TriggerLevel,
                            VariableTriggerLevel = model.ResponseData.VariableTriggerLevel,
-                           WorkStation = model.ResponseData.WorkStation,
+                           WorkStationName = model.ResponseData.WorkStationName,
                            Temporary = model.ResponseData.Temporary,
                            EngineerId = model.ResponseData.EngineerId,
                            Story = model.ResponseData.Story,

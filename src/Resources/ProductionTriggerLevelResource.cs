@@ -18,7 +18,7 @@
 
         public int? BomLevel { get; set; }
 
-        public string WorkStation { get; set; }
+        public string WorkStationName { get; set; }
 
         public string FaZoneType { get; set; }
 

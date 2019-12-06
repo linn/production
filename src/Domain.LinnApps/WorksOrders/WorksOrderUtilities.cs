@@ -158,7 +158,7 @@
         {
             var productionTriggerLevel = this.productionTriggerLevelsRepository.FindById(partNumber);
 
-            return productionTriggerLevel?.WorkStation;
+            return productionTriggerLevel?.WorkStationName;
         }
 
         private int GetQuantityToBuild(string partNumber)

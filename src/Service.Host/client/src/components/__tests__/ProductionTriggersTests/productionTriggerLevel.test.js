@@ -9,15 +9,28 @@ afterEach(cleanup);
 const addProductionTriggerLevelMock = jest.fn();
 const updateProductionTriggerLevelMock = jest.fn();
 const setEditStatusMock = jest.fn();
+const getWorkStationsMock = jest.fn();
 
 const productionTriggerLevel = {
     partNumber: 'test partno',
-    description: 'descrip yo'
+    description: 'descrip yo',
+    citCode: 'cit1',
+    bomLevel: null,
+    kanbanSize: 0,
+    maximumKanbans: 0,
+    overrideTriggerLevel: null,
+    triggerLevel: null,
+    variableTriggerLevel: null,
+    workStationName: '1',
+    temporary: 'Y',
+    engineerId: 1,
+    story: null,
+    routeCode: '1'
 };
 
 const defaultProps = {
     loading: false,
-    itemId: 'test type code',
+    itemId: 'test partno',
     item: productionTriggerLevel,
     editStatus: 'view',
     addItem: addProductionTriggerLevelMock,
@@ -26,7 +39,17 @@ const defaultProps = {
     history: {
         push: jest.fn()
     },
-    setSnackbarVisible: jest.fn()
+    setSnackbarVisible: jest.fn(),
+    cits: [
+        { code: '', name: '' },
+        { code: 'cit1', name: 'a' },
+        { code: 'cit2', name: 'b' }
+    ],
+    manufacturingRoutes: [{ routeCode: '1' }],
+    employees: [{ id: 1, fullName: '' }],
+    workStations: [{ workStationCode: '1', description: '' }],
+    getWorkStationsForCit: getWorkStationsMock,
+    itemErrors: { statusText: '' }
 };
 
 describe('When Loading', () => {
@@ -91,8 +114,20 @@ describe('When Editing', () => {
 
     test('Should have save button disabled when no description', () => {
         const noDescription = {
-            productionTriggerLevelCode: 'test partno',
-            description: ''
+            partNumber: 'test partno',
+            description: '',
+            citCode: 'cit1',
+            bomLevel: null,
+            kanbanSize: 0,
+            maximumKanbans: 0,
+            overrideTriggerLevel: null,
+            triggerLevel: null,
+            variableTriggerLevel: null,
+            workStationName: '1',
+            temporary: 'Y',
+            engineerId: 1,
+            story: null,
+            routeCode: '1'
         };
 
         const { getByText } = render(
@@ -117,7 +152,7 @@ describe('When updating', () => {
             })
         );
         expect(updateProductionTriggerLevelMock).toHaveBeenCalledWith(
-            'test type code',
+            'test partno',
             productionTriggerLevel
         );
         expect(setEditStatusMock).toHaveBeenLastCalledWith('view');
@@ -126,23 +161,32 @@ describe('When updating', () => {
 
 describe('When creating', () => {
     test('Should call addProductionTriggerLevel', () => {
-        const { getByText, getAllByDisplayValue } = render(
-            <ProductionTriggerLevel {...defaultProps} item={{}} editStatus="create" />
+        const { getByText } = render(
+            <ProductionTriggerLevel
+                {...defaultProps}
+                parts={[
+                    { partNumber: 'test partno', description: '' },
+                     { partNumber: '', description: '' }
+                ]}
+                item={{
+                    partNumber: 'test partno',
+                    description: 'descrip yo',
+                    citCode: 'cit1',
+                    bomLevel: null,
+                    kanbanSize: 0,
+                    maximumKanbans: 0,
+                    overrideTriggerLevel: null,
+                    triggerLevel: null,
+                    variableTriggerLevel: null,
+                    workStationName: '1',
+                    temporary: 'Y',
+                    engineerId: 1,
+                    story: null,
+                    routeCode: '1'
+                }}
+                editStatus="create"
+            />
         );
-
-        // we need to fill the inputs before we are allowed to click save
-        const inputs = getAllByDisplayValue('');
-        inputs.forEach(input => {
-            if (input.type !== 'number') {
-                fireEvent.change(input, {
-                    target: { value: 'tx' }
-                });
-            } else {
-                fireEvent.change(input, {
-                    target: { value: 1 }
-                });
-            }
-        });
 
         // now click save
         fireEvent(
