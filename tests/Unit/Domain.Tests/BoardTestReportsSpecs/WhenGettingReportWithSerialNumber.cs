@@ -31,7 +31,7 @@
                                              Seq = 1,
                                              TestMachine = "G1",
                                              Status = "FAIL",
-                                             DateTested = 1.April(2021),
+                                             DateTested = 1.May(2021),
                                              FailType = new BoardFailType { Type = 1 }
                                          },
                                      new BoardTest
@@ -41,7 +41,7 @@
                                              Seq = 2,
                                              TestMachine = "G1",
                                              Status = "FAIL",
-                                             DateTested = 1.April(2021),
+                                             DateTested = 1.May(2021),
                                              FailType = new BoardFailType { Type = 2 }
                                          },
                                      new BoardTest
@@ -51,16 +51,7 @@
                                              Seq = 3,
                                              TestMachine = "G1",
                                              Status = "PASS",
-                                             DateTested = 2.April(2021)
-                                         },
-                                     new BoardTest
-                                         {
-                                             BoardSerialNumber = "2",
-                                             BoardName = "B1",
-                                             Seq = 1,
-                                             TestMachine = "G2",
-                                             Status = "PASS",
-                                             DateTested = 2.April(2021)
+                                             DateTested = 2.May(2021)
                                          }
                                  };
             this.BoardTestRepository.FilterBy(Arg.Any<Expression<Func<BoardTest, bool>>>())
@@ -80,8 +71,8 @@
             this.results.Rows.Should().HaveCount(1);
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Name")).Should().Be("A2");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Serial Number")).Should().Be("1");
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("First Test Date")).Should().Be("01-Apr-2021");
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Last Test Date")).Should().Be("02-Apr-2021");
+            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("First Test Date")).Should().Be("01-May-2021");
+            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Last Test Date")).Should().Be("02-May-2021");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("No Of Tests")).Should().Be("3");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Passed At Test")).Should().Be("3");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Status")).Should().Be("PASS");
