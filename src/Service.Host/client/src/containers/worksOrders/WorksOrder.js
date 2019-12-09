@@ -19,6 +19,8 @@ import printWorksOrderAioLabelActions from '../../actions/printWorksOrderAioLabe
 import printWorksOrderLabelsSelectors from '../../selectors/printWorksOrderLabelsSelectors';
 import printWorksOrderAioLabelsSelectors from '../../selectors/printWorksOrderAioLabelsSelectors';
 import getWorksOrderDefaultPrinter from '../../selectors/localStorageSelectors';
+import serialNumberActions from '../../actions/serialNumberActions';
+import serialNumberSelectors from '../../selectors/serialNumberSelectors';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
 
@@ -48,7 +50,9 @@ const mapStateToProps = (state, { match }) => ({
         state
     ),
     printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state),
-    defaultWorksOrderPrinter: getWorksOrderDefaultPrinter(state)
+    defaultWorksOrderPrinter: getWorksOrderDefaultPrinter(state),
+    serialNumbers: serialNumberSelectors.getItems(state),
+    serialNumbersLoading: serialNumberSelectors.getLoading(state)
 });
 
 const initialise = ({ orderNumber }) => dispatch => {
@@ -76,7 +80,11 @@ const mapDispatchToProps = {
     clearPrintWorksOrderAioLabelsErrors: printWorksOrderAioLabelActions.clearErrorsForItem,
     setPrintWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelActions.setMessageVisible,
     clearErrors: worksOrderActions.clearErrorsForItem,
-    setDefaultWorksOrderPrinter
+    setDefaultWorksOrderPrinter,
+    fetchSerialNumbers: serialNumberActions.fetchByQueryString
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WorksOrder));
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(initialiseOnMount(WorksOrder));
