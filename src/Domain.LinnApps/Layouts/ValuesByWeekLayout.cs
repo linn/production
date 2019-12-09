@@ -16,9 +16,19 @@
 
         private readonly DataComponent<CalculationValueModel> dataComponent;
 
-        public ValuesByWeekLayout(IReportingHelper reportingHelper, string reportTitle)
+        private readonly IEnumerable<string> rowIds;
+
+        private readonly bool zeroPad;
+
+        public ValuesByWeekLayout(
+            IReportingHelper reportingHelper,
+            string reportTitle,
+            IEnumerable<string> rowIds = null,
+            bool zeroPad = true)
         {
             this.reportingHelper = reportingHelper;
+            this.zeroPad = zeroPad;
+            this.rowIds = rowIds;
             this.ReportTitle = reportTitle;
             this.weeksComponent = this.AddComponent<AxisDetailsModel>(
                 "Weeks",
@@ -51,8 +61,22 @@
                                  ResultDisplayedAs = ReportResultType.Quantity
                              };
             this.AddReportColumns();
+
+            if (this.rowIds != null)
+            {
+                foreach (var row in this.rowIds)
+                {
+                    this.Model.AddRow(row);
+                }
+            }
+
             this.CalculateQuantities();
-            this.reportingHelper.ZeroPad(this.Model);
+
+            if (this.zeroPad)
+            {
+                this.reportingHelper.ZeroPad(this.Model);
+            }
+
             this.reportingHelper.SetTotalColumn(
                 this.Model,
                 0,
@@ -73,7 +97,9 @@
 
         private void CalculateQuantities()
         {
-            this.reportingHelper.AddResultsToModel(this.Model, this.dataComponent.Data, CalculationValueModelType.Quantity, true);
+            var acceptNewRows = this.rowIds == null;
+
+            this.reportingHelper.AddResultsToModel(this.Model, this.dataComponent.Data, CalculationValueModelType.Quantity, acceptNewRows);
         }
     }
 }

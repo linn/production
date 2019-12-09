@@ -27,9 +27,9 @@
                 .Returns(
                     new List<BuildPlanDetailsReportLine>
                         {
-                            new BuildPlanDetailsReportLine { PartNumber = "MAJIK", LinnWeekNumber = 20 },
-                            new BuildPlanDetailsReportLine { PartNumber = "KLIMAX", LinnWeekNumber = 21 },
-                            new BuildPlanDetailsReportLine { PartNumber = "PCAS", LinnWeekNumber = 22 }
+                            new BuildPlanDetailsReportLine { PartNumber = "MAJIK", LinnWeekNumber = 20, CitName = "c1" },
+                            new BuildPlanDetailsReportLine { PartNumber = "KLIMAX", LinnWeekNumber = 21, CitName = "c2" },
+                            new BuildPlanDetailsReportLine { PartNumber = "PCAS", LinnWeekNumber = 22, CitName = "c3" }
                         }.AsQueryable());
 
             this.LinnWeekService.GetWeeks(Arg.Any<DateTime>(), Arg.Any<DateTime>()).Returns(
@@ -51,9 +51,12 @@
 
             this.LinnWeekService.GetWeek(Arg.Any<DateTime>()).Returns(
                 new LinnWeek
-                    {
-                        LinnWeekNumber = 20, StartDate = 1.June(2020), EndDate = 6.June(2020), WWSYY = "25/20"
-                    });
+                {
+                    LinnWeekNumber = 20,
+                    StartDate = 1.June(2020),
+                    EndDate = 6.June(2020),
+                    WWSYY = "25/20"
+                });
 
             this.result = this.Sut.BuildPlansReport("MASTER", 16, "ALL");
         }
@@ -68,6 +71,9 @@
         public void ShouldSetRows()
         {
             this.result.Rows.Should().HaveCount(3);
+            this.result.Rows.Should().Contain(r => r.RowTitle == "KLIMAX");
+            this.result.Rows.Should().Contain(r => r.RowTitle == "MAJIK");
+            this.result.Rows.Should().Contain(r => r.RowTitle == "PCAS");
         }
 
         [Test]

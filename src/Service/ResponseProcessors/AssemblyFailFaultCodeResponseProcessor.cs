@@ -7,7 +7,7 @@
     public class AssemblyFailFaultCodeResponseProcessor : JsonResponseProcessor<AssemblyFailFaultCode>
     {
         public AssemblyFailFaultCodeResponseProcessor(IResourceBuilder<AssemblyFailFaultCode> resourceBuilder)
-            : base(resourceBuilder)
+            : base(resourceBuilder, "assembly-fail-fault-code", 1)
         {
         }
     }

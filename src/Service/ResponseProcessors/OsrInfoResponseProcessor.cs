@@ -7,7 +7,7 @@
     public class OsrInfoResponseProcessor : JsonResponseProcessor<OsrInfo>
     {
         public OsrInfoResponseProcessor(IResourceBuilder<OsrInfo> resourceBuilder)
-            : base(resourceBuilder)
+            : base(resourceBuilder, "osr-information", 1)
         {
         }
     }

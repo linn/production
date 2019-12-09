@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.ProductionTriggerLevelsModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -18,8 +20,8 @@
         public void SetUp()
         {
             var ptl1 = new ProductionTriggerLevel { PartNumber = "P1", Description = "d1" };
-            this.ProductionTriggerLevelService.GetById("P1")
-                .Returns(new SuccessResult<ProductionTriggerLevel>(ptl1));
+            this.ProductionTriggerLevelService.GetById("P1", Arg.Any<List<string>>())
+                .Returns(new SuccessResult<ResponseModel<ProductionTriggerLevel>>(new ResponseModel<ProductionTriggerLevel>(ptl1, new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/production-trigger-levels/P1",
@@ -38,7 +40,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ProductionTriggerLevelService.Received().GetById("P1");
+            this.ProductionTriggerLevelService.Received().GetById("P1", Arg.Any<List<string>>());
         }
 
         [Test]

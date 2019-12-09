@@ -121,6 +121,10 @@
 
         public DbQuery<ProductionBackOrdersView> ProductionBackOrdersView { get; set; }
 
+        public DbSet<LabelReprint> LabelReprints { get; set; }
+
+        public DbSet<SerialNumber> SerialNumbers { get; set; }
+
         public DbSet<BuildPlan> BuildPlans { get; set; }
 
         public DbQuery<BuildPlanDetailsReportLine> BuildPlanDetailsReportLines { get; set; }
@@ -170,6 +174,7 @@
             this.BuildPartFailFaultCodes(builder);
             this.BuildPartFails(builder);
             this.BuildPartFailErrorTypes(builder);
+            this.BuildLabelReprints(builder);
             this.BuildStorageLocations(builder);
             this.BuildPurchaseOrders(builder);
             this.QueryAccountingCompanies(builder);
@@ -184,6 +189,7 @@
             this.QueryPartFailSuppliersView(builder);
             this.QueryProductionBackOrdersView(builder);
             this.QueryWwdDetails(builder);
+            this.BuildSerialNumbers(builder);
             this.BuildBuildPlans(builder);
             this.QueryBuildPlanDetailsReportLines(builder);
             this.QueryBuildPlanDetails(builder);
@@ -206,6 +212,28 @@
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
+        }
+
+        private void BuildSerialNumbers(ModelBuilder builder)
+        {
+            builder.Entity<SerialNumber>().ToTable("SERNOS");
+            builder.Entity<SerialNumber>().HasKey(s => s.SernosTRef);
+            builder.Entity<SerialNumber>().HasAlternateKey(r => new { r.SernosGroup, r.SernosNumber, r.TransCode });
+            builder.Entity<SerialNumber>().Property(s => s.SernosTRef).HasColumnName("SERNOS_TREF");
+            builder.Entity<SerialNumber>().Property(s => s.SernosGroup).HasColumnName("SERNOS_GROUP").HasMaxLength(10);
+            builder.Entity<SerialNumber>().Property(s => s.SernosNumber).HasColumnName("SERNOS_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.SernosDate).HasColumnName("SERNOS_DATE");
+            builder.Entity<SerialNumber>().Property(s => s.DocumentType).HasColumnName("DOCUMENT_TYPE").HasMaxLength(2);
+            builder.Entity<SerialNumber>().Property(s => s.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.DocumentLine).HasColumnName("DOCUMENT_LINE");
+            builder.Entity<SerialNumber>().Property(s => s.DatePostedToVax).HasColumnName("DATE_POSTED_TO_VAX");
+            builder.Entity<SerialNumber>().Property(s => s.OutletNumber).HasColumnName("OUTLET_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.PrevSernosNumber).HasColumnName("PREV_SERNOS_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.OutletNumber).HasColumnName("OUTLET_NUMBER");
+            builder.Entity<SerialNumber>().Property(s => s.AccountId).HasColumnName("ACCOUNT_ID");
+            builder.Entity<SerialNumber>().Property(s => s.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Entity<SerialNumber>().Property(s => s.TransCode).HasColumnName("TRANS_CODE").HasMaxLength(10);
+            builder.Entity<SerialNumber>().Property(s => s.ArticleNumber).HasColumnName("ARTICLE_NUMBER").HasMaxLength(14);
         }
 
         private void BuildPtlSettings(ModelBuilder builder)
@@ -380,10 +408,14 @@
             e.Property(p => p.MaximumKanbans).HasColumnName("MAXIMUM_KANBANS");
             e.Property(p => p.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
             e.Property(p => p.BomLevel).HasColumnName("BOM_LEVEL");
-            e.Property(p => p.WsName).HasColumnName("WS_NAME").HasMaxLength(16);
+            e.Property(p => p.WorkStationName).HasColumnName("WS_NAME").HasMaxLength(16);
             e.Property(p => p.FaZoneType).HasColumnName("FA_ZONE_TYPE").HasMaxLength(20);
             e.Property(p => p.VariableTriggerLevel).HasColumnName("VARIABLE_TRIGGER_LEVEL");
             e.Property(p => p.OverrideTriggerLevel).HasColumnName("OVERRIDE_TRIGGER_LEVEL");
+            e.Property(p => p.Temporary).HasColumnName("TEMPORARY").HasMaxLength(1);
+            e.Property(p => p.Story).HasColumnName("STORY").HasMaxLength(200);
+            e.Property(p => p.EngineerId).HasColumnName("PRODUCTION_ENGINEER").HasMaxLength(6);
+            e.Property(p => p.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(20);
         }
 
         private void BuildPcasBoardsForAudit(ModelBuilder builder)
@@ -833,6 +865,24 @@
             e.Property(l => l.LocationId).HasColumnName("LOCATION_ID");
             e.Property(l => l.LocationCode).HasColumnName("LOCATION_CODE");
             e.Property(l => l.Description).HasColumnName("DESCRIPTION");
+        }
+
+        private void BuildLabelReprints(ModelBuilder builder)
+        {
+            builder.Entity<LabelReprint>().ToTable("LABEL_REPRINTS");
+            builder.Entity<LabelReprint>().HasKey(c => c.LabelReprintId);
+            builder.Entity<LabelReprint>().Property(c => c.LabelReprintId).HasColumnName("LABEL_REP_ID");
+            builder.Entity<LabelReprint>().Property(c => c.DateIssued).HasColumnName("DATE_ISSUED");
+            builder.Entity<LabelReprint>().Property(c => c.RequestedBy).HasColumnName("REQUESTED_BY");
+            builder.Entity<LabelReprint>().Property(c => c.Reason).HasColumnName("REASON").HasMaxLength(200);
+            builder.Entity<LabelReprint>().Property(c => c.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            builder.Entity<LabelReprint>().Property(c => c.SerialNumber).HasColumnName("SERIAL_NUMBER");
+            builder.Entity<LabelReprint>().Property(c => c.DocumentType).HasColumnName("DOC_TYPE").HasMaxLength(6);
+            builder.Entity<LabelReprint>().Property(c => c.WorksOrderNumber).HasColumnName("DOCUMENT_NUMBER");
+            builder.Entity<LabelReprint>().Property(c => c.LabelTypeCode).HasColumnName("LABEL_TYPE_CODE").HasMaxLength(16);
+            builder.Entity<LabelReprint>().Property(c => c.NumberOfProducts).HasColumnName("NUMBER_OF_PRODUCTS");
+            builder.Entity<LabelReprint>().Property(c => c.ReprintType).HasColumnName("REPRINT_TYPE").HasMaxLength(10);
+            builder.Entity<LabelReprint>().Property(c => c.NewPartNumber).HasColumnName("NEW_PART_NUMBER").HasMaxLength(14);
         }
 
         private void BuildPartFailFaultCodes(ModelBuilder builder)

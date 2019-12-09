@@ -65,7 +65,7 @@ function SmtOutstandingWOPartsReportOptions({
 
     const useStyles = makeStyles(theme => ({
         marginTop: {
-            marginTop: theme.spacing(3)
+            marginTop: theme.spacing(2)
         }
     }));
     const classes = useStyles();

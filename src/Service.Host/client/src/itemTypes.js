@@ -104,10 +104,16 @@ export const worksOrderDetails = new ItemType(
     '/production/works-orders/get-part-details'
 );
 
+export const productionTriggerLevel = new ItemType(
+    'productionTriggerLevel',
+    'PRODUCTION_TRIGGER_LEVEL',
+    '/production/maintenance/production-trigger-levels'
+);
+
 export const productionTriggerLevels = new ItemType(
     'productionTriggerLevels',
     'PRODUCTION_TRIGGER_LEVELS',
-    '/production/maintenance/parts'
+    '/production/maintenance/production-trigger-levels'
 );
 
 export const pcasRevisions = new ItemType(
@@ -141,6 +147,7 @@ export const manufacturingRoute = new ItemType(
     'MANUFACTURING_ROUTE',
     '/production/resources/manufacturing-routes'
 );
+
 export const manufacturingRoutes = new ItemType(
     'manufacturingRoutes',
     'MANUFACTURING_ROUTES',
@@ -219,6 +226,12 @@ export const worksOrderLabels = new ItemType(
     '/production/works-orders/labels'
 );
 
+export const buildPlans = new ItemType(
+    'buildPlans',
+    'BUILD_PLANS',
+    '/production/maintenance/build-plans'
+);
+
 export const labelType = new ItemType(
     'labelType',
     'LABEL_TYPE',
@@ -229,4 +242,16 @@ export const labelTypes = new ItemType(
     'labelTypes',
     'LABEL_TYPES',
     '/production/resources/label-types'
+);
+
+export const labelReprint = new ItemType(
+    'labelReprint',
+    'LABEL_REPRINT',
+    '/production/maintenance/labels/reprint-reasons'
+);
+
+export const workStations = new ItemType(
+    'workStations',
+    'WORK_STATIONS',
+    '/production/maintenance/work-stations'
 );

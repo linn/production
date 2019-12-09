@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
-    using System;
     using System.Collections.Generic;
 
     using Linn.Production.Domain.LinnApps.Measures;

@@ -22,25 +22,24 @@
         {
             var dateSelect = monthly
                 ? "last_day(trunc(a.bu_date)),"
-                : "linn_week_pack.linn_week_end_date(trunc(bu_date)) week_end,";
+                : "linn_week_pack.linn_week_end_date(trunc(bu_date)) week_end";
 
             var groupByClause = monthly 
                 ? "last_day(TRUNC(bu_date))"
                 : "linn_week_pack.linn_week_end_date(trunc(bu_date)) ";
 
-            var sql = $@"select 
-                        d.description,
-                        a.CR_DEPT,
-                        {dateSelect}
-                        round(sum (material_price + labour_price ),1) value,
-                        round(sum(lrp_pack.days_to_build_part(a.part_number,a.QUANTITY )), 1) mins 
+           
+            var sql = $@"select d.description,
+                        a.cr_dept dept,
+                        {dateSelect},
+                        round(sum (material_price + labour_price), 10) t_adj,
+                        round(lrp_pack.days_to_build_part(a.part_number,sum(a.QUANTITY ) ), 10) mins 
                         from v_builds a,linn_departments d
-                        where a.cr_dept = d.DEPARTMENT_CODE
+                        where a.cr_dept=d.department_code
                         and bu_date between trunc(to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) 
                         and trunc(to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) + 1
-                        group by a.cr_dept,
-                        d.description,
-                        {groupByClause}
+                        group by a.cr_dept,a.part_number, 
+                        d.description, {groupByClause}
                         order by 2 asc";
 
             var table = this.db.ExecuteQuery(sql).Tables[0];
@@ -57,7 +56,19 @@
                 });
             }
 
-            return results.OrderBy(s => s.WeekEnd);
+            var r = results.GroupBy(x => new
+                {
+                    x.DepartmentCode, x.WeekEnd, x.DepartmentDescription
+                }).Select(g => new BuildsSummary
+                                   {
+                                       DepartmentCode = g.Key.DepartmentCode,
+                                       DepartmentDescription = g.Key.DepartmentDescription,
+                                       Value = g.Sum(x => x.Value),
+                                       DaysToBuild = Math.Round((decimal)g.Sum(x => x.DaysToBuild), 1),
+                                       WeekEnd = g.Key.WeekEnd
+                                   }).OrderBy(s => s.WeekEnd);
+
+            return r;
         }
     }
 }
