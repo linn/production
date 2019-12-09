@@ -23,6 +23,7 @@ const defaultProps = {
     errorMessage: 'there was an error',
     items: productionTriggerLevels,
     fetchItems,
+    cits: [],
     history: {}
 };
 
