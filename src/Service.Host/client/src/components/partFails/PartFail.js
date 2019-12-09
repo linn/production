@@ -217,7 +217,7 @@ function PartFail({
                                     />
                                 </Grid>
                                 <Grid item xs={6} />
-                                <Grid item xs={6}>
+                                <Grid item xs={3}>
                                     <Typeahead
                                         onSelect={newValue => {
                                             setEditStatus('edit');
@@ -251,6 +251,7 @@ function PartFail({
                                                 propertyName="partDescription"
                                             />
                                         </Grid>
+                                        <Grid item xs={3} />
                                         <Grid item xs={3}>
                                             <InputField
                                                 fullWidth
