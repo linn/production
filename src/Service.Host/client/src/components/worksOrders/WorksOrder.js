@@ -538,12 +538,14 @@ function WorksOrder({
                                             className={classes.printButton}
                                             onClick={handlePrintWorksOrderLabelsClick}
                                             variant="outlined"
+                                            color="primary"
                                         >
                                             Print Labels
                                         </Button>
                                         <Button
                                             onClick={handlePrintWorksOrderAioLabelsClick}
                                             variant="outlined"
+                                            color="primary"
                                         >
                                             Print AIO Labels
                                         </Button>
@@ -563,7 +565,7 @@ function WorksOrder({
                                     variant="outlined"
                                     disabled={!serialNumbers.length}
                                 >
-                                    Serial Numbers
+                                    View Serial Numbers
                                 </Button>
                             </Grid>
                             {viewSernos && (

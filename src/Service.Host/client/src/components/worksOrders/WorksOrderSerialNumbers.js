@@ -21,7 +21,7 @@ export default function WorksOrderSerialNumbers({ employees, serialNumbers }) {
                     <TableRow>
                         <TableCell>Serial Number</TableCell>
                         <TableCell>Issued</TableCell>
-                        <TableCell>Issued By</TableCell>
+                        <TableCell>By</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
