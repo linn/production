@@ -12,7 +12,7 @@ import {
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetchItems }) => {
+const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetchItems, cits }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -41,8 +41,9 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
             ? items.map(el => ({
                   partNumber: el.partNumber,
                   description: el.description,
-                  citCode: el.citCode,
-                  links: el.links
+                  citCode: `${el.citCode} - ${cits.find(x => x.code === el.citCode)?.name} `,
+                  links: el.links,
+                  id: el.partNumber
               }))
             : [];
 
@@ -56,7 +57,6 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                         pageOptions.currentPage * pageOptions.rowsPerPage,
                         pageOptions.currentPage * pageOptions.rowsPerPage + pageOptions.rowsPerPage
                     )
-                    .map(r => ({ ...r, id: r.routeCode }))
             );
         }
     }, [
@@ -64,7 +64,8 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
         pageOptions.rowsPerPage,
         pageOptions.orderBy,
         pageOptions.orderAscending,
-        items
+        items,
+        cits
     ]);
 
     const [searchTerm, setSearchTerm] = useState(null);
@@ -110,10 +111,11 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                         <PaginatedTable
                             columns={columns}
                             handleRowLinkClick={handleRowLinkClick}
-                            rows={rowsToDisplay.map(row => ({ ...row, id: row.labelTypeCode }))}
+                            rows={rowsToDisplay}
                             pageOptions={pageOptions}
                             setPageOptions={setPageOptions}
                             totalItemCount={items ? items.length : 0}
+                            expandable={false}
                         />
                     )}
                 </Fragment>
@@ -127,7 +129,13 @@ ViewProductionTriggerLevels.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     itemError: PropTypes.shape({}),
-    fetchItems: PropTypes.func.isRequired
+    fetchItems: PropTypes.func.isRequired,
+    cits: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string,
+            code: PropTypes.number
+        })
+    ).isRequired
 };
 
 ViewProductionTriggerLevels.defaultProps = {
