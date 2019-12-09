@@ -4,11 +4,6 @@ import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
 import {
     Title,
     ErrorCard,
@@ -22,6 +17,7 @@ import {
     Dropdown,
     useSearch
 } from '@linn-it/linn-form-components-library';
+import WorksOrderSerialNumbers from './WorksOrderSerialNumbers';
 import Page from '../../containers/Page';
 
 const useStyles = makeStyles(theme => ({
@@ -213,11 +209,6 @@ function WorksOrder({
 
     const handleViewSernosClick = () => {
         setViewsernos(!viewSernos);
-    };
-
-    const findEmployeeName = employeeId => {
-        const employee = employees.find(({ id }) => id === employeeId);
-        return employee ? employee.fullName : '';
     };
 
     return (
@@ -576,32 +567,10 @@ function WorksOrder({
                                 </Button>
                             </Grid>
                             {viewSernos && (
-                                <Grid item xs={12}>
-                                    <Table size="small">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Serial Number</TableCell>
-                                                <TableCell>Issued</TableCell>
-                                                <TableCell>Issued By</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {serialNumbers.map(sernos => (
-                                                <TableRow key={sernos.sernosNumber}>
-                                                    <TableCell>{sernos.sernosNumber}</TableCell>
-                                                    <TableCell>
-                                                        {moment(sernos.sernosDate).format(
-                                                            'DD-MM-YYYY'
-                                                        )}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {findEmployeeName(sernos.createdBy)}
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
-                                </Grid>
+                                <WorksOrderSerialNumbers
+                                    employees={employees}
+                                    serialNumbers={serialNumbers}
+                                />
                             )}
                         </Fragment>
                     )
