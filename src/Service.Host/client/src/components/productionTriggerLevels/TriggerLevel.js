@@ -204,7 +204,7 @@ function TriggerLevel({
                                     <Grid item xs={6}>
                                         <InputField
                                             value={triggerLevel.variableTriggerLevel}
-                                            label="Variable Trigger Level"
+                                            label="Auto Trigger Level"
                                             type="number"
                                             maxLength={2}
                                             fullWidth
