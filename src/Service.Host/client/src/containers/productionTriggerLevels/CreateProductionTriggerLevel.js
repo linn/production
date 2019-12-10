@@ -15,13 +15,11 @@ import workStationActions from '../../actions/workStationActions';
 import workStationSelectors from '../../selectors/workStationSelectors';
 import * as itemTypes from '../../itemTypes';
 
-const mapStateToProps = (state, { match }) => ({
-    item: productionTriggerLevelSelectors.getItem(state),
-    itemId: match.params.id,
+const mapStateToProps = state => ({
+    item: {},
     editStatus: productionTriggerLevelSelectors.getEditStatus(state),
     loading: productionTriggerLevelSelectors.getLoading(state),
     snackbarVisible: productionTriggerLevelSelectors.getSnackbarVisible(state),
-    parts: partsSelectors.getItems(state),
     manufacturingRoutes: manufacturingRoutesSelectors.getItems(state),
     cits: citsSelectors.getItems(state),
     employees: employeesSelectors.getItems(state),
@@ -35,7 +33,6 @@ const mapStateToProps = (state, { match }) => ({
 
 const initialise = () => dispatch => {
     dispatch(productionTriggerLevelActions.setEditStatus('create'));
-    dispatch(partsActions.fetch());
     dispatch(manufacturingRoutesActions.fetch(''));
     dispatch(citsActions.fetch());
     dispatch(employeesActions.fetch());

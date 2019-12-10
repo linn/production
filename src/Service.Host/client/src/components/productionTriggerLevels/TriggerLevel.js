@@ -25,7 +25,6 @@ function TriggerLevel({
     addItem,
     updateItem,
     setEditStatus,
-    parts,
     manufacturingRoutes,
     cits,
     setSnackbarVisible,
@@ -151,21 +150,21 @@ function TriggerLevel({
                                                 propertyName="partNumber"
                                             />
                                         )}
-                                        {creating() && (
-                                            <Typeahead
-                                                onSelect={handleResourceFieldChange}
-                                                propertyName="partNumber"
-                                                label="Part Number"
-                                                modal
-                                                items={partsSearchResults}
-                                                value={triggerLevel.partNumber}
-                                                loading={partsSearchLoading}
-                                                fetchItems={searchParts}
-                                                links={false}
-                                                clearSearch={() => clearPartsSearch}
-                                                placeholder="Search For Part Number"
-                                            />
-                                        )}
+                                        {/* {creating() && (
+                                            // <Typeahead
+                                            //     onSelect={handleResourceFieldChange}
+                                            //     propertyName="partNumber"
+                                            //     label="Part Number"
+                                            //     modal
+                                            //     items={partsSearchResults}
+                                            //     value={triggerLevel.partNumber}
+                                            //     loading={partsSearchLoading}
+                                            //     fetchItems={searchParts}
+                                            //     links={false}
+                                            //     clearSearch={() => clearPartsSearch}
+                                            //     placeholder="Search For Part Number"
+                                            // />
+                                        )} */}
                                     </Grid>
                                     <Grid item xs={12}>
                                         <InputField
@@ -366,7 +365,7 @@ TriggerLevel.propTypes = {
         engineerId: PropTypes.number,
         story: PropTypes.string,
         routeCode: PropTypes.string
-    }),
+    }).isRequired,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
     itemErrors: PropTypes.shape({}),
@@ -377,7 +376,7 @@ TriggerLevel.propTypes = {
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
-    parts: PropTypes.arrayOf(
+    partsSearchResults: PropTypes.arrayOf(
         PropTypes.shape({
             partNumber: PropTypes.string
         })
@@ -408,23 +407,16 @@ TriggerLevel.propTypes = {
 };
 
 TriggerLevel.defaultProps = {
-    item: {
-        partNumber: '',
-        description: '',
-        citCode: '',
-        temporary: null
-    },
     snackbarVisible: false,
     addItem: null,
     updateItem: null,
     loading: null,
     itemErrors: null,
     itemId: null,
-    parts: [{ partNumber: '', description: '' }],
+    partsSearchResults: [{ partNumber: '', description: '' }],
     workStations: [],
     cits: [],
     employees: []
-
 };
 
 export default TriggerLevel;
