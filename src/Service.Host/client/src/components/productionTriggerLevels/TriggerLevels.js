@@ -8,7 +8,8 @@ import {
     Title,
     PaginatedTable,
     useSearch,
-    SearchInputField
+    SearchInputField,
+    Dropdown
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -43,7 +44,9 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                   description: el.description,
                   citCode: `${el.citCode} - ${cits.find(x => x.code === el.citCode)?.name} `,
                   links: el.links,
-                  id: el.partNumber
+                  id: el.partNumber,
+                  overrideTriggerLevel: el.overrideTriggerLevel,
+                  VariableTriggerLevel: el.variableTriggerLevel
               }))
             : [];
 
@@ -69,11 +72,31 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
     ]);
 
     const [searchTerm, setSearchTerm] = useState(null);
+    const [partSearch, setPartSearch] = useState('');
+    const [citSearch, setCitSearch] = useState('');
+    const [overrideSearch, setOverrideSearch] = useState(null);
+    const [autoSearch, setAutoSearch] = useState(null);
 
     useSearch(fetchItems, searchTerm, null, 'searchTerm');
 
-    const handleSearchTermChange = (...args) => {
-        setSearchTerm(args[1]);
+    const handlePartSearchChange = (...args) => {
+        setPartSearch(args[1]);
+        setSearchTerm(`${args[1]};${citSearch};${overrideSearch};${autoSearch}`);
+    };
+
+    const handleCitSearchChange = (...args) => {
+        setCitSearch(args[1]);
+        setSearchTerm(`${partSearch};${args[1]};${overrideSearch};${autoSearch}`);
+    };
+
+    const handleOverrideSearchChange = (...args) => {
+        setOverrideSearch(args[1]);
+        setSearchTerm(`${partSearch};${citSearch};${args[1]};${autoSearch}`);
+    };
+
+    const handleAutoSearchChange = (...args) => {
+        setAutoSearch(args[1]);
+        setSearchTerm(`${partSearch};${citSearch};${overrideSearch};${args[1]}`);
     };
 
     const handleRowLinkClick = href => history.push(href);
@@ -81,7 +104,9 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
     const columns = {
         partNumber: 'Part Number',
         description: 'Description',
-        citCode: 'Cit'
+        citCode: 'Cit',
+        overrideTriggerLevel: 'Override Trigger Level',
+        VariableTriggerLevel: 'Auto Trigger Level'
     };
 
     return (
@@ -92,16 +117,59 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
             <Fragment>
                 <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
             </Fragment>
-            <Grid item xs={8}>
-                <SearchInputField
-                    label="Part Number"
-                    fullWidth
-                    placeholder="search.."
-                    onChange={handleSearchTermChange}
-                    propertyName="searchTerm"
-                    type="text"
-                    value={searchTerm}
-                />
+            <Grid item xs={12} container>
+                <Grid item xs={4}>
+                    <SearchInputField
+                        label="Part Number"
+                        fullWidth
+                        placeholder="search.."
+                        onChange={handlePartSearchChange}
+                        propertyName="partSearchTerm"
+                        type="text"
+                        value={partSearch}
+                    />
+                </Grid>
+                <Grid item xs={1} />
+                <Grid item xs={2}>
+                    <Dropdown
+                        onChange={handleCitSearchChange}
+                        items={cits.map(cit => ({
+                            ...cit,
+                            id: cit.code,
+                            displayText: `${cit.code} (${cit.name})`
+                        }))}
+                        value={citSearch}
+                        propertyName="citSearch"
+                        required
+                        fullWidth
+                        label="Cit"
+                        allowNoValue
+                    />
+                </Grid>
+                <Grid item xs={1} />
+                <Grid item xs={1}>
+                    <SearchInputField
+                        label="Override Trigger >"
+                        fullWidth
+                        // placeholder="search.."
+                        onChange={handleOverrideSearchChange}
+                        propertyName="overrideSearchTerm"
+                        type="number"
+                        value={overrideSearch}
+                    />
+                </Grid>
+                <Grid item xs={1} />
+                <Grid item xs={1}>
+                    <SearchInputField
+                        label="Auto Trigger >"
+                        fullWidth
+                        // placeholder="search.."
+                        onChange={handleAutoSearchChange}
+                        propertyName="autoSearchTerm"
+                        type="number"
+                        value={autoSearch}
+                    />
+                </Grid>
             </Grid>
             {loading ? (
                 <Loading />
@@ -133,7 +201,7 @@ ViewProductionTriggerLevels.propTypes = {
     cits: PropTypes.arrayOf(
         PropTypes.shape({
             name: PropTypes.string,
-            code: PropTypes.number
+            code: PropTypes.string
         })
     ).isRequired
 };

@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Linq;
     using System.Linq.Expressions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
@@ -57,7 +58,17 @@
 
         protected override Expression<Func<ProductionTriggerLevel, bool>> SearchExpression(string searchTerm)
         {
-            return w => w.PartNumber.ToUpper().Contains(searchTerm.ToUpper());
+            string[] searchTerms = searchTerm.Split(";").Select(str => str.Trim()).ToArray();
+            if (searchTerms.Length != 4)
+            {
+                return w => w.PartNumber.ToUpper().Contains(searchTerm.ToUpper());
+            }
+
+            return w =>
+                (string.IsNullOrWhiteSpace(searchTerms[0]) || w.PartNumber.ToUpper().Contains(searchTerms[0].ToUpper()))
+                && (string.IsNullOrWhiteSpace(searchTerms[1]) || w.CitCode == searchTerms[1])
+                && (searchTerms[2] == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms[2]))
+                && (searchTerms[3] == "null" || w.VariableTriggerLevel > int.Parse(searchTerms[3]));
         }
     }
 }

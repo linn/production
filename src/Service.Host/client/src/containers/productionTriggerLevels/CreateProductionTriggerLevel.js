@@ -26,7 +26,11 @@ const mapStateToProps = (state, { match }) => ({
     cits: citsSelectors.getItems(state),
     employees: employeesSelectors.getItems(state),
     itemErrors: getItemError(state, itemTypes.productionTriggerLevel.item),
-    workStations: workStationSelectors.getItems(state)
+    workStations: workStationSelectors.getItems(state),
+    partsSearchResults: partsSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
+    partsSearchLoading: partsSelectors.getSearchLoading(state)
 });
 
 const initialise = () => dispatch => {
@@ -42,7 +46,9 @@ const mapDispatchToProps = {
     addItem: productionTriggerLevelActions.add,
     setEditStatus: productionTriggerLevelActions.setEditStatus,
     setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
-    getWorkStationsForCit: workStationActions.fetchByQueryString
+    getWorkStationsForCit: workStationActions.fetchByQueryString,
+    searchParts: partsActions.search,
+    clearPartsSearch: partsActions.clearSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TriggerLevel));
