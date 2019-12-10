@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getItemErrors } from '@linn-it/linn-form-components-library';
+import queryString from 'query-string';
 import salesArticleActions from '../../actions/salesArticleActions';
 import salesArticleSelectors from '../../selectors/salesArticleSelectors';
 import SerialNumberReissue from '../../components/serialNumberReissue/SerialNumberReissue';
@@ -10,7 +11,12 @@ import salesArticlesSelectors from '../../selectors/salesArticlesSelectors';
 import serialNumberActions from '../../actions/serialNumberActions';
 import serialNumberSelectors from '../../selectors/serialNumberSelectors';
 
-const mapStateToProps = state => ({
+const getOptions = ownProps => {
+    const options = queryString.parse(ownProps.location.search);
+    return options;
+};
+
+const mapStateToProps = (state, ownProps) => ({
     editStatus: serialNumberReissueSelectors.getEditStatus(state),
     itemErrors: getItemErrors(state),
     item: serialNumberReissueSelectors.getItem(state),
@@ -23,7 +29,8 @@ const mapStateToProps = state => ({
     serialNumbers: serialNumberSelectors.getItems(state),
     serialNumbersLoading: serialNumberSelectors.getLoading(state),
     snackbarVisible: serialNumberReissueSelectors.getSnackbarVisible(state),
-    reissuedSerialNumber: serialNumberReissueSelectors.getItem(state)
+    reissuedSerialNumber: serialNumberReissueSelectors.getItem(state),
+    options: getOptions(ownProps)
 });
 
 const mapDispatchToProps = {
@@ -36,4 +43,7 @@ const mapDispatchToProps = {
     setSnackbarVisible: serialNumberReissueActions.setSnackbarVisible
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SerialNumberReissue);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SerialNumberReissue);

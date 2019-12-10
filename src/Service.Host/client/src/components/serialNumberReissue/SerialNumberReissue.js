@@ -45,7 +45,8 @@ function SerialNumberReissue({
     salesArticlesSearchLoading,
     clearSalesArticlesSearch,
     searchSalesArticles,
-    reissuedSerialNumber
+    reissuedSerialNumber,
+    options
 }) {
     const [searchTerm, setSearchTerm] = useState(null);
     const [sernosGroups, setSernosGroups] = useState([]);
@@ -66,6 +67,12 @@ function SerialNumberReissue({
         },
         [fetchSalesArticle, serialNumbers]
     );
+
+    useEffect(() => {
+        if (options.serialNumber) {
+            setSearchTerm(options.serialNumber);
+        }
+    }, [options]);
 
     useEffect(() => {
         if (serialNumbers && serialNumbers.length) {
@@ -176,7 +183,6 @@ function SerialNumberReissue({
                         <Fragment>
                             <Grid item xs={3} className={classes.marginTop}>
                                 <Dropdown
-                                    disabled={viewing() && !itemErrors}
                                     value={selectedSernosGroup || ''}
                                     label="Filter by Sernos Group"
                                     fullWidth
@@ -251,7 +257,6 @@ function SerialNumberReissue({
                                     <Grid item xs={3} />
                                     <Grid item xs={3}>
                                         <InputField
-                                            disabled={viewing() && !itemErrors}
                                             label="Comments"
                                             type="string"
                                             rows={2}
@@ -312,7 +317,8 @@ SerialNumberReissue.propTypes = {
     salesArticlesSearchLoading: PropTypes.bool,
     clearSalesArticlesSearch: PropTypes.func.isRequired,
     searchSalesArticles: PropTypes.func.isRequired,
-    reissuedSerialNumber: PropTypes.shape({})
+    reissuedSerialNumber: PropTypes.shape({}),
+    options: PropTypes.shape({})
 };
 
 SerialNumberReissue.defaultProps = {
@@ -324,7 +330,8 @@ SerialNumberReissue.defaultProps = {
     snackbarVisible: false,
     salesArticleSearchResults: [],
     salesArticlesSearchLoading: false,
-    reissuedSerialNumber: null
+    reissuedSerialNumber: null,
+    options: null
 };
 
 export default SerialNumberReissue;
