@@ -4,7 +4,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Nancy.Facade;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
 
     public class BuildPlansResponseProcessor : JsonResponseProcessor<IEnumerable<BuildPlan>>
     {

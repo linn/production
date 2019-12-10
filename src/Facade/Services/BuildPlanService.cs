@@ -5,7 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Resources;
 
     public class BuildPlanService : FacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource>

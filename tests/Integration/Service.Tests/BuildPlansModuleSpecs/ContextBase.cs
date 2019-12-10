@@ -5,7 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
