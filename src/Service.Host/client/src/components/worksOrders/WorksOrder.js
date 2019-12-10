@@ -17,6 +17,7 @@ import {
     Dropdown,
     useSearch
 } from '@linn-it/linn-form-components-library';
+import WorksOrderSerialNumbers from './WorksOrderSerialNumbers';
 import Page from '../../containers/Page';
 
 const useStyles = makeStyles(theme => ({
@@ -64,7 +65,9 @@ function WorksOrder({
     setPrintWorksOrderAioLabelsMessageVisible,
     setDefaultWorksOrderPrinter,
     defaultWorksOrderPrinter,
-    clearErrors
+    clearErrors,
+    serialNumbers,
+    fetchSerialNumbers
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
@@ -72,6 +75,7 @@ function WorksOrder({
     const [cancelledByEmployee, setCancelledByEmployee] = useState(null);
     const [searchTerm, setSearchTerm] = useState(null);
     const [printerGroup, setPrinterGroup] = useState('Prod');
+    const [viewSernos, setViewsernos] = useState(false);
 
     const printerGroups = ['Prod', 'DSM', 'Flexible', 'Kiko', 'LP12', 'Metalwork', 'SpeakerCover'];
 
@@ -100,8 +104,12 @@ function WorksOrder({
             if (item && item.partNumber) {
                 fetchWorksOrderDetails(encodeURI(item.partNumber));
             }
+
+            if (item && item.orderNumber) {
+                fetchSerialNumbers('documentNumber', item.orderNumber);
+            }
         }
-    }, [item, prevWorksOrder, fetchWorksOrderDetails, creating]);
+    }, [item, prevWorksOrder, fetchWorksOrderDetails, fetchSerialNumbers, creating]);
 
     useEffect(() => {
         if (worksOrder && employees && worksOrder.raisedBy) {
@@ -199,6 +207,10 @@ function WorksOrder({
         printWorksOrderAioLabels({ orderNumber: worksOrder.orderNumber });
     };
 
+    const handleViewSernosClick = () => {
+        setViewsernos(!viewSernos);
+    };
+
     return (
         <Page>
             <Grid container spacing={3}>
@@ -233,8 +245,9 @@ function WorksOrder({
                     )}
                 </Grid>
                 {itemErrors &&
-                    itemErrors.map(itemError => (
-                        <Grid item xs={12}>
+                    itemErrors.map((error, index) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <Grid item xs={12} key={index}>
                             <ErrorCard
                                 errorMessage={`${printWorksOrderLabelsErrorDetail ||
                                     printWorksOrderAioLabelsErrorDetail ||
@@ -526,12 +539,14 @@ function WorksOrder({
                                             className={classes.printButton}
                                             onClick={handlePrintWorksOrderLabelsClick}
                                             variant="outlined"
+                                            color="primary"
                                         >
                                             Print Labels
                                         </Button>
                                         <Button
                                             onClick={handlePrintWorksOrderAioLabelsClick}
                                             variant="outlined"
+                                            color="primary"
                                         >
                                             Print AIO Labels
                                         </Button>
@@ -544,6 +559,22 @@ function WorksOrder({
                                     backClick={handleBackClick}
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <Button
+                                    className={classes.printButton}
+                                    onClick={handleViewSernosClick}
+                                    variant="outlined"
+                                    disabled={!serialNumbers.length}
+                                >
+                                    View Serial Numbers
+                                </Button>
+                            </Grid>
+                            {viewSernos && (
+                                <WorksOrderSerialNumbers
+                                    employees={employees}
+                                    serialNumbers={serialNumbers}
+                                />
+                            )}
                         </Fragment>
                     )
                 )}
@@ -588,7 +619,9 @@ WorksOrder.propTypes = {
     setPrintWorksOrderAioLabelsMessageVisible: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
     setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
-    defaultWorksOrderPrinter: PropTypes.string
+    defaultWorksOrderPrinter: PropTypes.string,
+    fetchSerialNumbers: PropTypes.func.isRequired,
+    serialNumbers: PropTypes.arrayOf(PropTypes.shape())
 };
 
 WorksOrder.defaultProps = {
@@ -611,7 +644,8 @@ WorksOrder.defaultProps = {
     printWorksOrderAioLabelsMessageText: '',
     searchParts: null,
     clearPartsSearch: null,
-    defaultWorksOrderPrinter: 'Prod'
+    defaultWorksOrderPrinter: 'Prod',
+    serialNumbers: []
 };
 
 export default WorksOrder;
