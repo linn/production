@@ -71,4 +71,7 @@ const mapDispatchToProps = {
     clearBoardPartsSearch: productionTriggerLevelsActions.clearSearch
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(AssemblyFail));
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(initialiseOnMount(AssemblyFail));
