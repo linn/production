@@ -245,8 +245,9 @@ function WorksOrder({
                     )}
                 </Grid>
                 {itemErrors &&
-                    itemErrors.map(() => (
-                        <Grid item xs={12}>
+                    itemErrors.map((error, index) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <Grid item xs={12} key={index}>
                             <ErrorCard
                                 errorMessage={`${printWorksOrderLabelsErrorDetail ||
                                     printWorksOrderAioLabelsErrorDetail ||
