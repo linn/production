@@ -132,6 +132,8 @@
 
         public DbQuery<BuildPlanDetail> BuildPlanDetails { get; set; }
 
+        public DbQuery<BuildPlanRule> BuildPlanRules { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -194,6 +196,7 @@
             this.BuildBuildPlans(builder);
             this.QueryBuildPlanDetailsReportLines(builder);
             this.QueryBuildPlanDetails(builder);
+            this.QueryBuildPlanRules(builder);
 
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
@@ -844,6 +847,14 @@
             q.Property(e => e.ToLinnWeekNumber).HasColumnName("TO_LINN_WEEK_NUMBER");
             q.Property(e => e.RuleCode).HasColumnName("RULE_CODE");
             q.Property(e => e.Quantity).HasColumnName("QUANTITY");
+        }
+
+        private void QueryBuildPlanRules(ModelBuilder builder)
+        {
+            var q = builder.Query<BuildPlanRule>();
+            q.ToView("BUILD_PLAN_RULES");
+            q.Property(e => e.RuleCode).HasColumnName("RULE_CODE");
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION");
         }
 
         private void QueryStoragePlaces(ModelBuilder builder)

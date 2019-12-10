@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
@@ -19,7 +20,8 @@
                            Description = buildPlan.Description,
                            LastMrpDateFinished = buildPlan.LastMrpDateFinished?.ToString("o"),
                            LastMrpDateStarted = buildPlan.LastMrpDateStarted?.ToString("o"),
-                           LastMrpJobRef = buildPlan.LastMrpJobRef
+                           LastMrpJobRef = buildPlan.LastMrpJobRef,
+                           Links = this.BuildLinks(buildPlan).ToArray()
                        };
         }
 

@@ -15,15 +15,20 @@
 
         private readonly IBuildPlansReportFacadeService buildPlansReportService;
 
+        private readonly IBuildPlanRulesFacadeService buildPlanRulesService;
+
         public BuildPlansModule(
             IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource> buildPlanService,
-            IBuildPlansReportFacadeService buildPlansReportService)
+            IBuildPlansReportFacadeService buildPlansReportService,
+            IBuildPlanRulesFacadeService buildPlanRulesService)
         {
             this.buildPlanService = buildPlanService;
             this.buildPlansReportService = buildPlansReportService;
+            this.buildPlanRulesService = buildPlanRulesService;
             this.Get("/production/maintenance/build-plans", _ => this.GetBuildPlans());
             this.Get("/production/reports/build-plans", _ => this.GetBuildPlanReportOptions());
             this.Get("/production/reports/build-plans/report", _ => this.GetBuildPlanReport());
+            this.Get("/production/maintenance/build-plan-rules", _ => this.GetBuildPlanRules());
         }
 
         private object GetBuildPlans()
@@ -45,6 +50,13 @@
                     resource.BuildPlanName,
                     resource.Weeks,
                     resource.CitName));
+        }
+
+        // TODO route to get individual rule
+        private object GetBuildPlanRules()
+        {
+            return this.Negotiate.WithModel(this.buildPlanRulesService.GetAll())
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
     }
 }

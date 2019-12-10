@@ -111,6 +111,8 @@
             builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<ResponseModel<LabelReprint>>>();
             builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<BuildPlan>>();
             builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();
+            builder.RegisterType<BuildPlanRuleResourceBuilder>().As<IResourceBuilder<BuildPlanRule>>();
+            builder.RegisterType<BuildPlanRulesResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlanRule>>>();
         }
     }
 }
