@@ -572,7 +572,6 @@ function WorksOrder({
                                 <WorksOrderSerialNumbers
                                     employees={employees}
                                     serialNumbers={serialNumbers}
-                                    history={history}
                                 />
                             )}
                         </Fragment>
