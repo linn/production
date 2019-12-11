@@ -94,7 +94,6 @@ function TriggerLevel({
     };
 
     const handleResourceFieldChange = (propertyName, newValue) => {
-        console.log(`tryna set ${newValue} in ${propertyName}`);
         setTriggerLevel({ ...triggerLevel, [propertyName]: newValue });
         if (viewing()) {
             setEditStatus('edit');
@@ -423,13 +422,13 @@ TriggerLevel.defaultProps = {
     loading: null,
     itemErrors: null,
     itemId: null,
-    partsSearchResults: [{ partNumber: '', description: '' }],
+    partsSearchResults: null,
     workStations: [],
     cits: [],
     employees: [],
-    searchParts: () => {},
+    searchParts: null,
     partsSearchLoading: false,
-    clearPartsSearch: () => {}
+    clearPartsSearch: null
 };
 
 export default TriggerLevel;

@@ -151,7 +151,6 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                     <SearchInputField
                         label="Override Trigger >"
                         fullWidth
-                        // placeholder="search.."
                         onChange={handleOverrideSearchChange}
                         propertyName="overrideSearchTerm"
                         type="number"
@@ -163,7 +162,6 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                     <SearchInputField
                         label="Auto Trigger >"
                         fullWidth
-                        // placeholder="search.."
                         onChange={handleAutoSearchChange}
                         propertyName="autoSearchTerm"
                         type="number"

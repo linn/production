@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { cleanup, getByTestId } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import render from '../../../test-utils';
 import ProductionTriggerLevels from '../../productionTriggerLevels/TriggerLevels';
 
@@ -68,15 +68,6 @@ describe('When viewing', () => {
         const item = getByPlaceholderText('search..');
         expect(item).toBeInTheDocument();
     });
-
-    // test('should display cit dropdown', () => {
-    //     const { getByDisplayValue } = render(<ProductionTriggerLevels {...defaultProps} />);
-    //     // const item = queryByRole('select');
-    //     // expect(item).toBeInTheDocument();
-    //     expect(getByDisplayValue('Cit')).toBeInTheDocument();
-    // });
-    //cant get this to work no matter what I try to get the dropdown
-    //TODO - get help on this or get it working
 
     test('should display search boxes for override trigger and auto trigger', () => {
         const { getByText } = render(<ProductionTriggerLevels {...defaultProps} />);
