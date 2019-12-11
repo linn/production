@@ -78,7 +78,7 @@
             builder.RegisterType<SerialNumberRepository>().As<IRepository<SerialNumber, int>>();
             builder.RegisterType<BuildPlanRepository>().As<IRepository<BuildPlan, string>>();
             builder.RegisterType<BuildPlanDetailsReportLineRepository>().As<IQueryRepository<BuildPlanDetailsReportLine>>();
-            builder.RegisterType<BuildPlanDetailRepository>().As<IQueryRepository<BuildPlanDetail>>();
+            builder.RegisterType<BuildPlanDetailRepository>().As<IRepository<BuildPlanDetail, BuildPlanDetailKey>>();
             builder.RegisterType<BuildPlanRuleRepository>().As<IQueryRepository<BuildPlanRule>>();
 
             // linnapps views

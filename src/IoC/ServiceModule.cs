@@ -118,6 +118,8 @@
             builder.RegisterType<WorkStationService>()
                 .As<IFacadeService<WorkStation, string, WorkStationResource, WorkStationResource>>();
             builder.RegisterType<BuildPlanRulesFacadeService>().As<IBuildPlanRulesFacadeService>();
+            builder.RegisterType<BuildPlanDetailService>()
+                .As<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

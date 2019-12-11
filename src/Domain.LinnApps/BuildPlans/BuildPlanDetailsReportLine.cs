@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Domain.LinnApps.ViewModels
+﻿namespace Linn.Production.Domain.LinnApps.BuildPlans
 {
     public class BuildPlanDetailsReportLine
     {

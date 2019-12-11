@@ -5,7 +5,7 @@
     using System.Linq.Expressions;
 
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
 
     public class BuildPlanDetailsReportLineRepository : IQueryRepository<BuildPlanDetailsReportLine>
     {

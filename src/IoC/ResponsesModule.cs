@@ -113,6 +113,9 @@
             builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();
             builder.RegisterType<BuildPlanRuleResourceBuilder>().As<IResourceBuilder<BuildPlanRule>>();
             builder.RegisterType<BuildPlanRulesResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlanRule>>>();
+            builder.RegisterType<BuildPlanDetailResourceBuilder>().As<IResourceBuilder<BuildPlanDetail>>();
+            builder.RegisterType<BuildPlanDetailsResourceBuilder>()
+                .As<IResourceBuilder<IEnumerable<BuildPlanDetail>>>();
         }
     }
 }

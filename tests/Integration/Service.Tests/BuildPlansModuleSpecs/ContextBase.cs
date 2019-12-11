@@ -30,6 +30,12 @@
 
         protected IBuildPlanRulesFacadeService BuildPlanRulesFacadeService { get; private set; }
 
+        protected IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource> BuildPlanDetailsFacadeService
+        {
+            get;
+            private set;
+        }
+
         [SetUp]
         public void EstablishContext()
         {
@@ -37,6 +43,8 @@
                 Substitute.For<IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource>>();
             this.BuildPlansReportFacadeService = Substitute.For<IBuildPlansReportFacadeService>();
             this.BuildPlanRulesFacadeService = Substitute.For<IBuildPlanRulesFacadeService>();
+            this.BuildPlanDetailsFacadeService = Substitute
+                .For<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
@@ -44,16 +52,22 @@
                         with.Dependency(this.BuildPlanFacadeService);
                         with.Dependency(this.BuildPlansReportFacadeService);
                         with.Dependency(this.BuildPlanRulesFacadeService);
+                        with.Dependency(this.BuildPlanDetailsFacadeService);
                         with.Dependency<IResourceBuilder<BuildPlan>>(new BuildPlanResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<BuildPlan>>>(new BuildPlansResourceBuilder());
                         with.Dependency<IResourceBuilder<BuildPlanRule>>(new BuildPlanRuleResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<BuildPlanRule>>>(new BuildPlanRulesResourceBuilder());
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
+                        with.Dependency<IResourceBuilder<BuildPlanDetail>>(new BuildPlanDetailResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<BuildPlanDetail>>>(
+                            new BuildPlanDetailsResourceBuilder());
                         with.Module<BuildPlansModule>();
                         with.ResponseProcessor<BuildPlanResponseProcessor>();
                         with.ResponseProcessor<BuildPlansResponseProcessor>();
                         with.ResponseProcessor<BuildPlanRuleResponseProcessor>();
                         with.ResponseProcessor<BuildPlanRulesResponseProcessor>();
+                        with.ResponseProcessor<BuildPlanDetailResponseProcessor>();
+                        with.ResponseProcessor<BuildPlanDetailsResponseProcessor>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                         with.RequestStartup(
                             (container, pipelines, context) =>
