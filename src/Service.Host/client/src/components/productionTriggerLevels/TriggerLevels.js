@@ -82,21 +82,30 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
     const handlePartSearchChange = (...args) => {
         setPartSearch(args[1]);
         setSearchTerm(`${args[1]};${citSearch};${overrideSearch};${autoSearch}`);
+        setSearchTerm(
+            `${args[1]}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${autoSearch}`
+        );
     };
 
     const handleCitSearchChange = (...args) => {
         setCitSearch(args[1]);
-        setSearchTerm(`${partSearch};${args[1]};${overrideSearch};${autoSearch}`);
+        setSearchTerm(
+            `${partSearch}&citSearchTerm=${args[1]}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${autoSearch}`
+        );
     };
 
     const handleOverrideSearchChange = (...args) => {
         setOverrideSearch(args[1]);
-        setSearchTerm(`${partSearch};${citSearch};${args[1]};${autoSearch}`);
+        setSearchTerm(
+            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${args[1]}&autoSearchTerm=${autoSearch}`
+        );
     };
 
     const handleAutoSearchChange = (...args) => {
         setAutoSearch(args[1]);
-        setSearchTerm(`${partSearch};${citSearch};${overrideSearch};${args[1]}`);
+        setSearchTerm(
+            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${args[1]}`
+        );
     };
 
     const handleRowLinkClick = href => history.push(href);
@@ -133,11 +142,13 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                 <Grid item xs={2}>
                     <Dropdown
                         onChange={handleCitSearchChange}
-                        items={cits.map(cit => ({
-                            ...cit,
-                            id: cit.code,
-                            displayText: `${cit.code} (${cit.name})`
-                        }))}
+                        items={cits
+                            .map(cit => ({
+                                ...cit,
+                                id: cit.code,
+                                displayText: `${cit.code} (${cit.name})`
+                            }))
+                            .sort((a, b) => (a.code > b.code ? 1 : -1))}
                         value={citSearch}
                         propertyName="citSearch"
                         required
