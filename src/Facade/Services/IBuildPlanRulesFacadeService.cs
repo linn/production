@@ -8,5 +8,7 @@
     public interface IBuildPlanRulesFacadeService
     {
         SuccessResult<IEnumerable<BuildPlanRule>> GetAll();
+
+        SuccessResult<BuildPlanRule> GetById(string ruleCode);
     }
 }

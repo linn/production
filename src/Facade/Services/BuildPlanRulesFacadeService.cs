@@ -19,5 +19,10 @@
         {
             return new SuccessResult<IEnumerable<BuildPlanRule>>(this.repository.FindAll());
         }
+
+        public SuccessResult<BuildPlanRule> GetById(string ruleCode)
+        {
+            return new SuccessResult<BuildPlanRule>(this.repository.FindBy(b => b.RuleCode == ruleCode));
+        }
     }
 }

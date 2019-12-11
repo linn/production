@@ -29,6 +29,7 @@
             this.Get("/production/reports/build-plans", _ => this.GetBuildPlanReportOptions());
             this.Get("/production/reports/build-plans/report", _ => this.GetBuildPlanReport());
             this.Get("/production/maintenance/build-plan-rules", _ => this.GetBuildPlanRules());
+            this.Get("/production/maintenance/build-plan-rules/{ruleCode}", parameters => this.GetBuildPlanRule(parameters.ruleCode));
         }
 
         private object GetBuildPlans()
@@ -52,10 +53,15 @@
                     resource.CitName));
         }
 
-        // TODO route to get individual rule
         private object GetBuildPlanRules()
         {
             return this.Negotiate.WithModel(this.buildPlanRulesService.GetAll())
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+        }
+
+        private object GetBuildPlanRule(string ruleCode)
+        {
+            return this.Negotiate.WithModel(this.buildPlanRulesService.GetById(ruleCode))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
     }
