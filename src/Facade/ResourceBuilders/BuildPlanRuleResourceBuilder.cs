@@ -42,13 +42,6 @@
         private IEnumerable<LinkResource> BuildLinks(ResponseModel<BuildPlanRule> model)
         {
             yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
-
-            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanAdd, model.Privileges))
-            {
-                yield return new LinkResource { Rel = "create", Href = this.GetLocation(model) };
-
-                yield return new LinkResource { Rel = "edit", Href = this.GetLocation(model) };
-            }
         }
     }
 }

@@ -50,8 +50,11 @@
             if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanAdd, model.Privileges))
             {
                 yield return new LinkResource { Rel = "create", Href = this.GetLocation(model) };
+            }
 
-                yield return new LinkResource { Rel = "edit", Href = this.GetLocation(model) };
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanUpdate, model.Privileges))
+            {
+                yield return new LinkResource { Rel = "update", Href = this.GetLocation(model) };
             }
         }
     }

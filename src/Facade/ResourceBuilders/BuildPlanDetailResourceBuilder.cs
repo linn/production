@@ -47,11 +47,14 @@
         {
             yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
 
-            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanAdd, model.Privileges))
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailAdd, model.Privileges))
             {
                 yield return new LinkResource { Rel = "create", Href = this.GetLocation(model) };
+            }
 
-                yield return new LinkResource { Rel = "edit", Href = this.GetLocation(model) };
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailUpdate, model.Privileges))
+            {
+                yield return new LinkResource { Rel = "update", Href = this.GetLocation(model) };
             }
         }
     }
