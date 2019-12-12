@@ -34,7 +34,8 @@ function TriggerLevel({
     partsSearchResults,
     searchParts,
     partsSearchLoading,
-    clearPartsSearch
+    clearPartsSearch,
+    applicationState
 }) {
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
@@ -52,11 +53,15 @@ function TriggerLevel({
                 getWorkStationsForCit('searchTerm', item.citCode);
             }
 
-            setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
+            if (creating()) {
+                setAllowedToEdit(utilities.getHref(applicationState, 'edit') !== null);
+            } else {
+                setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
+            }
         }
 
         setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
-    }, [item, prevTriggerLevel, editStatus, creating, getWorkStationsForCit]);
+    }, [item, prevTriggerLevel, editStatus, creating, getWorkStationsForCit, applicationState]);
 
     const partNumberInvalid = () => !triggerLevel.partNumber;
     const descriptionInvalid = () => !triggerLevel.description;
@@ -150,7 +155,7 @@ function TriggerLevel({
                                                 propertyName="partNumber"
                                             />
                                         )}
-                                        {creating() && (
+                                        {creating() && allowedToEdit && (
                                             <Typeahead
                                                 onSelect={newValue => {
                                                     handleResourceFieldChange(
@@ -171,6 +176,11 @@ function TriggerLevel({
                                             />
                                         )}
                                     </Grid>
+                                    {!allowedToEdit && (
+                                        <Grid item xs={12}>
+                                            <ErrorCard errorMessage="You are not authorised to create trigger levels" />
+                                        </Grid>
+                                    )}
                                     <Grid item xs={12}>
                                         <InputField
                                             value={triggerLevel.description}
@@ -411,7 +421,8 @@ TriggerLevel.propTypes = {
     ),
     searchParts: PropTypes.func,
     partsSearchLoading: PropTypes.bool,
-    clearPartsSearch: PropTypes.func
+    clearPartsSearch: PropTypes.func,
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) })
 };
 
 TriggerLevel.defaultProps = {
@@ -428,7 +439,8 @@ TriggerLevel.defaultProps = {
     employees: [],
     searchParts: null,
     partsSearchLoading: false,
-    clearPartsSearch: null
+    clearPartsSearch: null,
+    applicationState: null
 };
 
 export default TriggerLevel;

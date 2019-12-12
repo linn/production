@@ -9,11 +9,20 @@ import {
     PaginatedTable,
     useSearch,
     SearchInputField,
-    Dropdown
+    Dropdown,
+    utilities
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetchItems, cits }) => {
+const ViewProductionTriggerLevels = ({
+    loading,
+    itemError,
+    history,
+    items,
+    fetchItems,
+    cits,
+    applicationState
+}) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -21,6 +30,7 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
         rowsPerPage: 10
     });
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
+    const [allowedToCreate, setAllowedToCreate] = useState(false);
 
     useEffect(() => {
         const compare = (field, orderAscending) => (a, b) => {
@@ -62,13 +72,16 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                     )
             );
         }
+
+        setAllowedToCreate(utilities.getHref(applicationState, 'edit'));
     }, [
         pageOptions.currentPage,
         pageOptions.rowsPerPage,
         pageOptions.orderBy,
         pageOptions.orderAscending,
         items,
-        cits
+        cits,
+        applicationState
     ]);
 
     const [searchTerm, setSearchTerm] = useState(null);
@@ -123,9 +136,12 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
             <Title text="Trigger Levels" />
             {itemError && <ErrorCard errorMessage={itemError.statusText} />}
 
-            <Fragment>
-                <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
-            </Fragment>
+            {allowedToCreate && (
+                <Fragment>
+                    <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
+                </Fragment>
+            )}
+
             <Grid item xs={12} container>
                 <Grid item xs={4}>
                     <SearchInputField
@@ -212,12 +228,14 @@ ViewProductionTriggerLevels.propTypes = {
             name: PropTypes.string,
             code: PropTypes.string
         })
-    ).isRequired
+    ).isRequired,
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) })
 };
 
 ViewProductionTriggerLevels.defaultProps = {
     itemError: null,
-    items: []
+    items: [],
+    applicationState: null
 };
 
 export default ViewProductionTriggerLevels;

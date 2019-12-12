@@ -14,6 +14,7 @@ import employeesSelectors from '../../selectors/employeesSelectors';
 import workStationActions from '../../actions/workStationActions';
 import workStationSelectors from '../../selectors/workStationSelectors';
 import * as itemTypes from '../../itemTypes';
+import productionTriggerLevelsStateActions from '../../actions/productionTriggerLevelsStateActions';
 
 const mapStateToProps = state => ({
     item: {},
@@ -28,7 +29,8 @@ const mapStateToProps = state => ({
     partsSearchResults: partsSelectors
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
-    partsSearchLoading: partsSelectors.getSearchLoading(state)
+    partsSearchLoading: partsSelectors.getSearchLoading(state),
+    applicationState: productionTriggerLevelSelectors.getApplicationState(state)
 });
 
 const initialise = () => dispatch => {
@@ -36,6 +38,7 @@ const initialise = () => dispatch => {
     dispatch(manufacturingRoutesActions.fetch(''));
     dispatch(citsActions.fetch());
     dispatch(employeesActions.fetch());
+    dispatch(productionTriggerLevelsStateActions.fetchState());
 };
 
 const mapDispatchToProps = {
