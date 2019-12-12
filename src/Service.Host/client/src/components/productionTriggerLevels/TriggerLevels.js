@@ -56,7 +56,7 @@ const ViewProductionTriggerLevels = ({
                   links: el.links,
                   id: el.partNumber,
                   overrideTriggerLevel: el.overrideTriggerLevel,
-                  VariableTriggerLevel: el.variableTriggerLevel
+                  variableTriggerLevel: el.variableTriggerLevel
               }))
             : [];
 
