@@ -28,7 +28,7 @@
 
         public int PcbOperator { get; set; }
 
-        public int MinutesSpent { get; set; }
+        public int? MinutesSpent { get; set; }
 
         public string Machine { get; set; }
 

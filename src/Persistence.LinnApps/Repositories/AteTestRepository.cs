@@ -7,6 +7,8 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.ATE;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class AteTestRepository : IRepository<AteTest, int>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -18,7 +20,10 @@
 
         public AteTest FindById(int key)
         {
-            return this.serviceDbContext.AteTests.Where(t => t.TestId == key).ToList().FirstOrDefault();
+            return this.serviceDbContext
+                .AteTests.Where(t => t.TestId == key)
+                .Include(t => t.Details)
+                .ToList().FirstOrDefault();
         }
 
         public IQueryable<AteTest> FindAll()

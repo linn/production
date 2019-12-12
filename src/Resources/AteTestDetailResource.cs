@@ -8,7 +8,7 @@
 
         public string PartNumber { get; set; }
 
-        public int NumberOfFails { get; set; }
+        public int? NumberOfFails { get; set; }
 
         public string CircuitRef { get; set; }
 
@@ -20,19 +20,19 @@
 
         public string BatchNumber { get; set; }
 
-        public int PcbOperator { get; set; }
+        public int? PcbOperator { get; set; }
 
         public string Comments { get; set; }
 
         public string Machine { get; set; }
 
-        public int BoardFailNumber { get; set; }
+        public int? BoardFailNumber { get; set; }
 
         public string AoiEscape { get; set; }
 
         public string CorrectiveAction { get; set; }
 
-        public int SmtFailId { get; set; }
+        public int? SmtFailId { get; set; }
 
         public string BoardSerialNumber { get; set; }
     }
