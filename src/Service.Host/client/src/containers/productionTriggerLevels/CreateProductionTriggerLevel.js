@@ -15,23 +15,24 @@ import workStationActions from '../../actions/workStationActions';
 import workStationSelectors from '../../selectors/workStationSelectors';
 import * as itemTypes from '../../itemTypes';
 
-const mapStateToProps = (state, { match }) => ({
-    item: productionTriggerLevelSelectors.getItem(state),
-    itemId: match.params.id,
+const mapStateToProps = state => ({
+    item: {},
     editStatus: productionTriggerLevelSelectors.getEditStatus(state),
     loading: productionTriggerLevelSelectors.getLoading(state),
     snackbarVisible: productionTriggerLevelSelectors.getSnackbarVisible(state),
-    parts: partsSelectors.getItems(state),
     manufacturingRoutes: manufacturingRoutesSelectors.getItems(state),
     cits: citsSelectors.getItems(state),
     employees: employeesSelectors.getItems(state),
     itemErrors: getItemError(state, itemTypes.productionTriggerLevel.item),
-    workStations: workStationSelectors.getItems(state)
+    workStations: workStationSelectors.getItems(state),
+    partsSearchResults: partsSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
+    partsSearchLoading: partsSelectors.getSearchLoading(state)
 });
 
 const initialise = () => dispatch => {
     dispatch(productionTriggerLevelActions.setEditStatus('create'));
-    dispatch(partsActions.fetch());
     dispatch(manufacturingRoutesActions.fetch(''));
     dispatch(citsActions.fetch());
     dispatch(employeesActions.fetch());
@@ -42,7 +43,9 @@ const mapDispatchToProps = {
     addItem: productionTriggerLevelActions.add,
     setEditStatus: productionTriggerLevelActions.setEditStatus,
     setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
-    getWorkStationsForCit: workStationActions.fetchByQueryString
+    getWorkStationsForCit: workStationActions.fetchByQueryString,
+    searchParts: partsActions.search,
+    clearPartsSearch: partsActions.clearSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TriggerLevel));
