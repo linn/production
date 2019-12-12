@@ -47,9 +47,8 @@ Parameters:
     Type: String
     AllowedValues:
       - ''
-      - -int
       - -sys
-    Description: Environment suffix e.g -int -sys
+    Description: Environment suffix e.g -sys
   TestClusterName:
     Type: AWS::SSM::Parameter::Value<String>
     Description: Name of test cluster
@@ -61,7 +60,6 @@ Parameters:
 
 Conditions:
   isTesting: !Or
-    - !Equals [!Ref environmentSuffix, "-int"]
     - !Equals [!Ref environmentSuffix, "-sys"]
 
 Resources:
