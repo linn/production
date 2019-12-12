@@ -40,7 +40,7 @@
 
             this.Get("production/maintenance/production-trigger-levels/create", _ => this.GetApp());
             this.Get("production/maintenance/production-trigger-levels/application-state", _ => this.GetApp());
-                        this.Get("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.GetProductionTriggerLevel(parameters.partNumber));
+            this.Get("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.GetProductionTriggerLevel(parameters.partNumber));
             this.Get("production/maintenance/production-trigger-levels", _ => this.GetProductionTriggerLevels());
             this.Put("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.UpdateTriggerLevel(parameters.partNumber));
             this.Post("production/maintenance/production-trigger-levels", _ => this.AddTriggerLevel());
