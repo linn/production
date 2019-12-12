@@ -110,6 +110,10 @@
             builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<ResponseModel<LabelReprint>>>();
             builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<BuildPlan>>();
             builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();
+            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
+            builder.RegisterType<AteTestsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTest>>>();
+            builder.RegisterType<AteTestDetailResourceBuilder>().As<IResourceBuilder<AteTestDetail>>();
+            builder.RegisterType<AteTestDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTestDetail>>>();
         }
     }
 }

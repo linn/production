@@ -116,6 +116,7 @@
             builder.RegisterType<BuildPlansReportFacadeService>().As<IBuildPlansReportFacadeService>();
             builder.RegisterType<WorkStationService>()
                 .As<IFacadeService<WorkStation, string, WorkStationResource, WorkStationResource>>();
+            builder.RegisterType<AteTestService>().As<IFacadeService<AteTest, int, AteTestResource, AteTestResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
