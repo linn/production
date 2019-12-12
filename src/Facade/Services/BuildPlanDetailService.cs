@@ -10,12 +10,9 @@
 
     public class BuildPlanDetailService : FacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>
     {
-        private IBuildPlanDetailFactory buildPlanDetailFactory;
-
-        public BuildPlanDetailService(IRepository<BuildPlanDetail, BuildPlanDetailKey> repository, ITransactionManager transactionManager, IBuildPlanDetailFactory buildPlanDetailFactory)
+        public BuildPlanDetailService(IRepository<BuildPlanDetail, BuildPlanDetailKey> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
-            this.buildPlanDetailFactory = buildPlanDetailFactory;
         }
 
         protected override BuildPlanDetail CreateFromResource(BuildPlanDetailResource resource)

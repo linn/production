@@ -24,7 +24,6 @@
 
         public string GetLocation(BuildPlanDetail buildPlanDetail)
         {
-            // TODO return with query string?
             return $"/production/maintenance/build-plan-rules";
         }
 
