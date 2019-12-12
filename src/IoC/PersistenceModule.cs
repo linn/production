@@ -78,6 +78,7 @@
             builder.RegisterType<BuildPlanRepository>().As<IRepository<BuildPlan, string>>();
             builder.RegisterType<BuildPlanDetailsReportLineRepository>().As<IQueryRepository<BuildPlanDetailsReportLine>>();
             builder.RegisterType<BuildPlanDetailRepository>().As<IQueryRepository<BuildPlanDetail>>();
+            builder.RegisterType<AteTestRepository>().As<IRepository<AteTest, int>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

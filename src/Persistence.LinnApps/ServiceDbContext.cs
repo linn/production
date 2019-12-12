@@ -14,6 +14,7 @@
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Logging;
 
     public class ServiceDbContext : DbContext
@@ -131,6 +132,10 @@
 
         public DbQuery<BuildPlanDetail> BuildPlanDetails { get; set; }
 
+        public DbSet<AteTest> AteTests { get; set; }
+
+        public DbSet<AteTestDetail> AteTestDetails { get; set; } 
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -193,7 +198,8 @@
             this.BuildBuildPlans(builder);
             this.QueryBuildPlanDetailsReportLines(builder);
             this.QueryBuildPlanDetails(builder);
-
+            this.BuildAteTests(builder);
+            this.BuildAteTestDetails(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
         }
@@ -1037,6 +1043,56 @@
             e.Property(b => b.LastMrpJobRef).HasColumnName("LAST_MRP_JOBREF").HasMaxLength(6);
             e.Property(b => b.LastMrpDateStarted).HasColumnName("LAST_MRP_DATE_STARTED");
             e.Property(b => b.LastMrpDateFinished).HasColumnName("LAST_MRP_DATE_FINISHED");
+        }
+
+        private void BuildAteTests(ModelBuilder builder)
+        {
+            var e = builder.Entity<AteTest>();
+            e.ToTable("ATE_TESTS");
+            e.HasKey(t => t.TestId);
+            e.Property(t => t.TestId).HasColumnName("ATE_TEST_ID");
+            e.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
+            e.Property(t => t.DateTested).HasColumnName("DATE_TESTED");
+            e.Property(t => t.WorksOrderNumber).HasColumnName("WORKS_ORDER_NUMBER");
+            e.Property(t => t.NumberTested).HasColumnName("NUMBER_TESTED");
+            e.Property(t => t.NumberOfSmtComponents).HasColumnName("NUMBER_SMT_COMPONENTS");
+            e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_SMT_FAILS");
+            e.Property(t => t.NumberOfPcbComponents).HasColumnName("NUMBER_PCB_COMPONENTS");
+            e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_PCB_FAILS");
+            e.Property(t => t.NumberOfPcbBoardFails).HasColumnName("NUMBER_PCB_BOARD_FAILS");
+            e.Property(t => t.NumberOfSmtBoardFails).HasColumnName("NUMBER_SMT_BOARD_FAILS");
+            e.Property(t => t.PcbOperator).HasColumnName("PCB_OPERATOR");
+            e.Property(t => t.MinutesSpent).HasColumnName("MINUTES_SPENT");
+            e.Property(t => t.Machine).HasColumnName("MACHINE");
+            e.Property(t => t.PlaceFound).HasColumnName("PLACE_FOUND");
+            e.Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
+            e.Property(t => t.FlowMachine).HasColumnName("FLOW_MACHINE");
+            e.Property(t => t.FlowSolderDate).HasColumnName("FLOW_SOLDER_DATE");
+            e.HasMany(t => t.Details).WithOne().HasForeignKey(d => d.TestId);
+        }
+
+        private void BuildAteTestDetails(ModelBuilder builder)
+        {
+            var e = builder.Entity<AteTestDetail>();
+            e.ToTable("ATE_TEST_DETAILS");
+            e.HasKey(d => new { d.ItemNumber, d.TestId });
+            e.Property(d => d.TestId).HasColumnName("ATE_TEST_ID");
+            e.Property(d => d.ItemNumber).HasColumnName("ITEM_NO");
+            e.Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(d => d.NumberOfFails).HasColumnName("NUMBER_FAILURES");
+            e.Property(d => d.CircuitRef).HasColumnName("CIRCUIT_REF");
+            e.Property(d => d.AteTestFaultCode).HasColumnName("ATE_TEST_FAULT_CODE");
+            e.Property(d => d.SmtOrPcb).HasColumnName("SMT_OR_PCB");
+            e.Property(d => d.Shift).HasColumnName("SHIFT");
+            e.Property(d => d.BatchNumber).HasColumnName("BATCH_NO");
+            e.Property(d => d.PcbOperator).HasColumnName("PCB_OPERATOR");
+            e.Property(d => d.Comments).HasColumnName("COMMENTS");
+            e.Property(d => d.Machine).HasColumnName("MACHINE");
+            e.Property(d => d.BoardFailNumber).HasColumnName("BOARD_FAIL_NUMBER");
+            e.Property(d => d.AoiEscape).HasColumnName("AOI_ESCAPE");
+            e.Property(d => d.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION");
+            e.Property(d => d.SmtFailId).HasColumnName("SMT_FAIL_ID");
+            e.Property(d => d.BoardSerialNumber).HasColumnName("BOARD_SERIAL_NUMBER");
         }
     }
 }

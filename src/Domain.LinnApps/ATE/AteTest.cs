@@ -19,7 +19,11 @@
 
         public int NumberOfSmtFails { get; set; }
 
+        public int NumberOfPcbComponents { get; set; }
+
         public int NumberOfPcbFails { get; set; }
+
+        public int NumberOfPcbBoardFails { get; set; }
 
         public int NumberOfSmtBoardFails { get; set; }
 
@@ -35,7 +39,7 @@
 
         public string FlowMachine { get; set; }
 
-        public DateTime FlowSolderDate { get; set; }
+        public DateTime? FlowSolderDate { get; set; }
 
         public IEnumerable<AteTestDetail> Details { get; set; }
     }
