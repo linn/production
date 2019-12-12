@@ -1,9 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import CloseIcon from '@material-ui/icons/Close';
-import Tooltip from '@material-ui/core/Tooltip';
 import {
     InputField,
     Loading,
@@ -12,6 +9,7 @@ import {
     SnackbarMessage,
     TypeaheadDialog,
     Dropdown,
+    Typeahead,
     SaveBackCancelButtons,
     DatePicker
 } from '@linn-it/linn-form-components-library';
@@ -98,7 +96,7 @@ function PartFail({
 
     useEffect(() => {
         clearPartFailErrors();
-    }, []);
+    }, [clearPartFailErrors]);
 
     const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
@@ -163,9 +161,7 @@ function PartFail({
                     itemErrors?.map(itemError => (
                         <Grid item xs={12}>
                             <ErrorCard
-                                errorMessage={`${itemError.item} ${itemError.statusText} - ${
-                                    itemError.details?.errors?.[0]
-                                }`}
+                                errorMessage={`${itemError.item} ${itemError.statusText} - ${itemError.details?.errors?.[0]}`}
                             />
                         </Grid>
                     ))}
@@ -221,40 +217,29 @@ function PartFail({
                                     />
                                 </Grid>
                                 <Grid item xs={6} />
-
-                                <Grid item xs={5}>
-                                    <InputField
-                                        label="Part (click search icon to change)"
-                                        maxLength={14}
-                                        fullWidth
+                                <Grid item xs={3}>
+                                    <Typeahead
+                                        onSelect={newValue => {
+                                            setEditStatus('edit');
+                                            setPartFail(a => ({
+                                                ...a,
+                                                partNumber: newValue.partNumber,
+                                                partDescription: newValue.description
+                                            }));
+                                        }}
+                                        label="Part"
+                                        modal
+                                        items={partsSearchResults}
                                         value={partFail.partNumber}
-                                        onChange={() => {}}
-                                        propertyName="partNumber"
-                                        required
+                                        loading={partsSearchLoading}
+                                        fetchItems={searchParts}
+                                        links={false}
+                                        clearSearch={() => clearPartsSearch}
+                                        placeholder="Search By Part Number"
                                     />
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <div className={classes.marginTop}>
-                                        <TypeaheadDialog
-                                            title="Search For Part"
-                                            onSelect={newValue => {
-                                                setEditStatus('edit');
-                                                setPartFail(a => ({
-                                                    ...a,
-                                                    partNumber: newValue.partNumber,
-                                                    partDescription: newValue.description
-                                                }));
-                                            }}
-                                            searchItems={partsSearchResults}
-                                            loading={partsSearchLoading}
-                                            fetchItems={searchParts}
-                                            clearSearch={() => clearPartsSearch}
-                                        />
-                                    </div>
                                 </Grid>
                                 {partFail.partNumber && (
                                     <Fragment>
-                                        <Grid item xs={6} />
                                         <Grid item xs={6}>
                                             <InputField
                                                 fullWidth
@@ -266,8 +251,7 @@ function PartFail({
                                                 propertyName="partDescription"
                                             />
                                         </Grid>
-                                        <Grid item xs={6} />
-
+                                        <Grid item xs={3} />
                                         <Grid item xs={3}>
                                             <InputField
                                                 fullWidth
@@ -407,7 +391,7 @@ function PartFail({
                                             </div>
                                         </Grid>
                                         <Grid item xs={5} />
-                                        <Grid item xs={4}>
+                                        <Grid item xs={5}>
                                             <InputField
                                                 label="Storage Place (click search icon to change)"
                                                 fullWidth
@@ -440,28 +424,6 @@ function PartFail({
                                                     clearSearch={clearStoragePlacesSearch}
                                                 />
                                             </div>
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                            <Tooltip title="Clear">
-                                                <span>
-                                                    <Button
-                                                        color="primary"
-                                                        aria-label="Clear"
-                                                        disabled={!partFail.storagePlace}
-                                                        onClick={() => {
-                                                            setPartFail(a => ({
-                                                                ...a,
-                                                                storagePlace: '',
-                                                                storagePlaceDescription: ''
-                                                            }));
-                                                        }}
-                                                        variant="outlined"
-                                                        className={classes.closeButton}
-                                                    >
-                                                        <CloseIcon />
-                                                    </Button>
-                                                </span>
-                                            </Tooltip>
                                         </Grid>
                                         <Grid item xs={6}>
                                             <InputField
