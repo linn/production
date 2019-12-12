@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.BuildPlansModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -20,7 +22,9 @@
         {
             var buildPlanRule = new BuildPlanRule { Description = "desc", RuleCode = "rule" };
 
-            this.BuildPlanRulesFacadeService.GetById("rule").Returns(new SuccessResult<BuildPlanRule>(buildPlanRule));
+            this.BuildPlanRulesFacadeService.GetById("rule", Arg.Any<IEnumerable<string>>()).Returns(
+                new SuccessResult<ResponseModel<BuildPlanRule>>(
+                    new ResponseModel<BuildPlanRule>(buildPlanRule, new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/build-plan-rules/rule",
@@ -36,7 +40,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanRulesFacadeService.Received().GetById("rule");
+            this.BuildPlanRulesFacadeService.Received().GetById("rule", Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

@@ -6,6 +6,7 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Resources;
 
@@ -24,8 +25,11 @@
             var a = new BuildPlanRule { Description = "d1", RuleCode = "r1" };
             var b = new BuildPlanRule { Description = "d2", RuleCode = "r2" };
 
-            this.BuildPlanRulesFacadeService.GetAll().Returns(
-                new SuccessResult<IEnumerable<BuildPlanRule>>(new List<BuildPlanRule> { a, b }));
+            this.BuildPlanRulesFacadeService.GetAll(Arg.Any<IEnumerable<string>>())
+                .Returns(new SuccessResult<ResponseModel<IEnumerable<BuildPlanRule>>>(
+                    new ResponseModel<IEnumerable<BuildPlanRule>>(
+                        new List<BuildPlanRule> { a, b },
+                        new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/build-plan-rules",
@@ -41,7 +45,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanRulesFacadeService.Received().GetAll();
+            this.BuildPlanRulesFacadeService.Received().GetAll(Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

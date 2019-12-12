@@ -7,8 +7,8 @@
 
     public interface IBuildPlanRulesFacadeService
     {
-        SuccessResult<IEnumerable<BuildPlanRule>> GetAll();
+        SuccessResult<ResponseModel<IEnumerable<BuildPlanRule>>> GetAll(IEnumerable<string> privileges);
 
-        SuccessResult<BuildPlanRule> GetById(string ruleCode);
+        SuccessResult<ResponseModel<BuildPlanRule>> GetById(string ruleCode, IEnumerable<string> privileges);
     }
 }

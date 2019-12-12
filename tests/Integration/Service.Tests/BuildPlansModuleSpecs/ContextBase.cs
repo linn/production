@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Security.Claims;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.BuildPlans;
@@ -36,6 +37,8 @@
             private set;
         }
 
+        protected IAuthorisationService AuthorisationService { get; private set; }
+
         [SetUp]
         public void EstablishContext()
         {
@@ -45,6 +48,7 @@
             this.BuildPlanRulesFacadeService = Substitute.For<IBuildPlanRulesFacadeService>();
             this.BuildPlanDetailsFacadeService = Substitute
                 .For<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
+            this.AuthorisationService = Substitute.For<IAuthorisationService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
@@ -53,14 +57,19 @@
                         with.Dependency(this.BuildPlansReportFacadeService);
                         with.Dependency(this.BuildPlanRulesFacadeService);
                         with.Dependency(this.BuildPlanDetailsFacadeService);
-                        with.Dependency<IResourceBuilder<BuildPlan>>(new BuildPlanResourceBuilder());
-                        with.Dependency<IResourceBuilder<IEnumerable<BuildPlan>>>(new BuildPlansResourceBuilder());
-                        with.Dependency<IResourceBuilder<BuildPlanRule>>(new BuildPlanRuleResourceBuilder());
-                        with.Dependency<IResourceBuilder<IEnumerable<BuildPlanRule>>>(new BuildPlanRulesResourceBuilder());
+                        with.Dependency<IResourceBuilder<ResponseModel<BuildPlan>>>(
+                            new BuildPlanResourceBuilder(this.AuthorisationService));
+                        with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<BuildPlan>>>>(
+                            new BuildPlansResourceBuilder(this.AuthorisationService));
+                        with.Dependency<IResourceBuilder<ResponseModel<BuildPlanRule>>>(
+                            new BuildPlanRuleResourceBuilder(this.AuthorisationService));
+                        with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanRule>>>>(
+                            new BuildPlanRulesResourceBuilder(this.AuthorisationService));
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
-                        with.Dependency<IResourceBuilder<BuildPlanDetail>>(new BuildPlanDetailResourceBuilder());
-                        with.Dependency<IResourceBuilder<IEnumerable<BuildPlanDetail>>>(
-                            new BuildPlanDetailsResourceBuilder());
+                        with.Dependency<IResourceBuilder<ResponseModel<BuildPlanDetail>>>(
+                            new BuildPlanDetailResourceBuilder(this.AuthorisationService));
+                        with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>>(
+                            new BuildPlanDetailsResourceBuilder(this.AuthorisationService));
                         with.Module<BuildPlansModule>();
                         with.ResponseProcessor<BuildPlanResponseProcessor>();
                         with.ResponseProcessor<BuildPlansResponseProcessor>();

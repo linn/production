@@ -24,8 +24,9 @@
             var a = new BuildPlan { BuildPlanName = "a" };
             var b = new BuildPlan { BuildPlanName = "b" };
 
-            this.BuildPlanFacadeService.GetAll()
-                .Returns(new SuccessResult<IEnumerable<BuildPlan>>(new List<BuildPlan> { a, b }));
+            this.BuildPlanFacadeService.GetAll(Arg.Any<IEnumerable<string>>()).Returns(
+                new SuccessResult<ResponseModel<IEnumerable<BuildPlan>>>(
+                    new ResponseModel<IEnumerable<BuildPlan>>(new List<BuildPlan> { a, b }, new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/build-plans",
@@ -41,7 +42,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanFacadeService.Received().GetAll();
+            this.BuildPlanFacadeService.Received().GetAll(Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

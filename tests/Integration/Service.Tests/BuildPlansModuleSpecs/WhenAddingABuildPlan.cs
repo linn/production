@@ -1,8 +1,11 @@
 ﻿namespace Linn.Production.Service.Tests.BuildPlansModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Resources;
 
@@ -22,8 +25,12 @@
 
             var buildPlan = new BuildPlan { BuildPlanName = "name" };
 
-            this.BuildPlanFacadeService.Add(Arg.Any<BuildPlanResource>())
-                .Returns(new CreatedResult<BuildPlan>(buildPlan));
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.BuildPlanAdd, Arg.Any<List<string>>())
+                .Returns(true);
+
+            this.BuildPlanFacadeService.Add(Arg.Any<BuildPlanResource>(), Arg.Any<IEnumerable<string>>()).Returns(
+                new CreatedResult<ResponseModel<BuildPlan>>(
+                    new ResponseModel<BuildPlan>(buildPlan, new List<string>())));
 
             this.Response = this.Browser.Post(
                 "/production/maintenance/build-plans",
@@ -44,7 +51,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanFacadeService.Received().Add(Arg.Any<BuildPlanResource>());
+            this.BuildPlanFacadeService.Received().Add(Arg.Any<BuildPlanResource>(), Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

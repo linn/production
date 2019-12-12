@@ -3,24 +3,32 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Resources;
 
-    public class BuildPlansResourceBuilder : IResourceBuilder<IEnumerable<BuildPlan>>
+    public class BuildPlansResourceBuilder : IResourceBuilder<ResponseModel<IEnumerable<BuildPlan>>>
     {
-        private readonly BuildPlanResourceBuilder buildPlanResourceBuilder = new BuildPlanResourceBuilder();
+        private readonly BuildPlanResourceBuilder buildPlanResourceBuilder;
 
-        public IEnumerable<BuildPlanResource> Build(IEnumerable<BuildPlan> buildPlans)
+        public BuildPlansResourceBuilder(IAuthorisationService authorisationService)
         {
-            return buildPlans.OrderByDescending(b => b.BuildPlanName)
-                .Select(b => this.buildPlanResourceBuilder.Build(b));
+            this.buildPlanResourceBuilder = new BuildPlanResourceBuilder(authorisationService);
         }
 
-        object IResourceBuilder<IEnumerable<BuildPlan>>.Build(IEnumerable<BuildPlan> buildPlans) =>
+        public IEnumerable<BuildPlanResource> Build(ResponseModel<IEnumerable<BuildPlan>> model)
+        {
+            var buildPlans = model.ResponseData;
+
+            return buildPlans.OrderByDescending(b => b.BuildPlanName).Select(
+                b => this.buildPlanResourceBuilder.Build(new ResponseModel<BuildPlan>(b, model.Privileges)));
+        }
+
+        object IResourceBuilder<ResponseModel<IEnumerable<BuildPlan>>>.Build(ResponseModel<IEnumerable<BuildPlan>> buildPlans) =>
             this.Build(buildPlans);
 
-        public string GetLocation(IEnumerable<BuildPlan> model)
+        public string GetLocation(ResponseModel<IEnumerable<BuildPlan>> model)
         {
             throw new System.NotImplementedException();
         }

@@ -6,9 +6,9 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps.BuildPlans;
 
-    public class BuildPlanDetailsResponseProcessor : JsonResponseProcessor<IEnumerable<BuildPlanDetail>>
+    public class BuildPlanDetailsResponseProcessor : JsonResponseProcessor<ResponseModel<IEnumerable<BuildPlanDetail>>>
     {
-        public BuildPlanDetailsResponseProcessor(IResourceBuilder<IEnumerable<BuildPlanDetail>> resourceBuilder)
+        public BuildPlanDetailsResponseProcessor(IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>> resourceBuilder)
             : base(resourceBuilder, "build-plan-details", 1)
         {
         }

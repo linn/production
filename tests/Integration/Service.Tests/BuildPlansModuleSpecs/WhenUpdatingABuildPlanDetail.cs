@@ -16,26 +16,29 @@
 
     using NUnit.Framework;
 
-    public class WhenAddingABuildPlanDetail : ContextBase
+    public class WhenUpdatingABuildPlanDetail : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
-            var requestResource =
+            BuildPlanDetailResource requestResource =
                 new BuildPlanDetailResource { BuildPlanName = "name", PartNumber = "part", FromLinnWeekNumber = 1 };
-
-            this.AuthorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailAdd, Arg.Any<List<string>>())
-                .Returns(true);
 
             var buildPlanDetail =
                 new BuildPlanDetail { BuildPlanName = "name", PartNumber = "part", FromLinnWeekNumber = 1 };
 
-            this.BuildPlanDetailsFacadeService.Add(Arg.Any<BuildPlanDetailResource>(), Arg.Any<IEnumerable<string>>())
-                .Returns(
-                    new CreatedResult<ResponseModel<BuildPlanDetail>>(
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailUpdate, Arg.Any<List<string>>())
+                .Returns(true);
+
+            this.BuildPlanDetailsFacadeService
+                .Update(
+                    Arg.Any<BuildPlanDetailKey>(),
+                    Arg.Any<BuildPlanDetailResource>(),
+                    Arg.Any<IEnumerable<string>>()).Returns(
+                    new SuccessResult<ResponseModel<BuildPlanDetail>>(
                         new ResponseModel<BuildPlanDetail>(buildPlanDetail, new List<string>())));
 
-            this.Response = this.Browser.Post(
+            this.Response = this.Browser.Put(
                 "/production/maintenance/build-plan-details",
                 with =>
                     {
@@ -46,15 +49,16 @@
         }
 
         [Test]
-        public void ShouldReturnCreated()
+        public void ShouldReturnSuccess()
         {
-            this.Response.StatusCode.Should().Be(HttpStatusCode.Created);
+            this.Response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanDetailsFacadeService.Received().Add(
+            this.BuildPlanDetailsFacadeService.Received().Update(
+                Arg.Any<BuildPlanDetailKey>(),
                 Arg.Any<BuildPlanDetailResource>(),
                 Arg.Any<IEnumerable<string>>());
         }

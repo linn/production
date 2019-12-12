@@ -23,8 +23,11 @@
             var b1 = new BuildPlanDetail { BuildPlanName = "name", PartNumber = "p1" };
             var b2 = new BuildPlanDetail { BuildPlanName = "name", PartNumber = "p2" };
 
-            this.BuildPlanDetailsFacadeService.Search("name").Returns(
-                new SuccessResult<IEnumerable<BuildPlanDetail>>(new List<BuildPlanDetail> { b1, b2 }));
+            this.BuildPlanDetailsFacadeService.Search("name", Arg.Any<IEnumerable<string>>()).Returns(
+                new SuccessResult<ResponseModel<IEnumerable<BuildPlanDetail>>>(
+                    new ResponseModel<IEnumerable<BuildPlanDetail>>(
+                        new List<BuildPlanDetail> { b1, b2 },
+                        new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/build-plan-details",
@@ -44,7 +47,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanDetailsFacadeService.Received().Search("name");
+            this.BuildPlanDetailsFacadeService.Received().Search("name", Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

@@ -109,13 +109,13 @@
             builder.RegisterType<WorkStationResourceBuilder>().As<IResourceBuilder<WorkStation>>();
             builder.RegisterType<WorkStationsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorkStation>>>();
             builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<ResponseModel<LabelReprint>>>();
-            builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<BuildPlan>>();
-            builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();
-            builder.RegisterType<BuildPlanRuleResourceBuilder>().As<IResourceBuilder<BuildPlanRule>>();
-            builder.RegisterType<BuildPlanRulesResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlanRule>>>();
-            builder.RegisterType<BuildPlanDetailResourceBuilder>().As<IResourceBuilder<BuildPlanDetail>>();
+            builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlan>>>();
+            builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlan>>>>();
+            builder.RegisterType<BuildPlanRuleResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanRule>>>();
+            builder.RegisterType<BuildPlanRulesResourceBuilder>().As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanRule>>>>();
+            builder.RegisterType<BuildPlanDetailResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanDetail>>>();
             builder.RegisterType<BuildPlanDetailsResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<BuildPlanDetail>>>();
+                .As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>>();
         }
     }
 }

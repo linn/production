@@ -49,7 +49,9 @@
 
         private object GetBuildPlans()
         {
-            return this.Negotiate.WithModel(this.buildPlanService.GetAll())
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            return this.Negotiate.WithModel(this.buildPlanService.GetAll(privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
@@ -57,14 +59,19 @@
         {
             var resource = this.Bind<BuildPlanResource>();
 
-            return this.Negotiate.WithModel(this.buildPlanService.Add(resource))
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            return this.Negotiate.WithModel(this.buildPlanService.Add(resource, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
         private object UpdateBuildPlan()
         {
             var resource = this.Bind<BuildPlanResource>();
-            return this.Negotiate.WithModel(this.buildPlanService.Update(resource.BuildPlanName, resource))
+
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            return this.Negotiate.WithModel(this.buildPlanService.Update(resource.BuildPlanName, resource, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
@@ -85,39 +92,51 @@
 
         private object GetBuildPlanRules()
         {
-            return this.Negotiate.WithModel(this.buildPlanRulesService.GetAll())
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+            
+            return this.Negotiate.WithModel(this.buildPlanRulesService.GetAll(privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
 
         private object GetBuildPlanRule(string ruleCode)
         {
-            return this.Negotiate.WithModel(this.buildPlanRulesService.GetById(ruleCode))
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+            
+            return this.Negotiate.WithModel(this.buildPlanRulesService.GetById(ruleCode, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
 
         private object GetBuildPlanDetails()
         {
             var resource = this.Bind<BuildPlanDetailsRequestResource>();
+
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
             if (string.IsNullOrEmpty(resource.BuildPlanName))
             {
-                return this.Negotiate.WithModel(this.buildPlanDetailService.GetAll())
+                return this.Negotiate.WithModel(this.buildPlanDetailService.GetAll(privileges))
                     .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
             }
 
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Search(resource.BuildPlanName))
+            return this.Negotiate.WithModel(this.buildPlanDetailService.Search(resource.BuildPlanName, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
 
         private object AddBuildPlanDetail()
         {
             var resource = this.Bind<BuildPlanDetailResource>();
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Add(resource))
+
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            return this.Negotiate.WithModel(this.buildPlanDetailService.Add(resource, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
 
         private object UpdateBuildPlanDetail()
         {
             var resource = this.Bind<BuildPlanDetailResource>();
+
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
             var key = new BuildPlanDetailKey
                           {
@@ -126,7 +145,7 @@
                               FromLinnWeekNumber = resource.FromLinnWeekNumber
                           };
 
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Update(key, resource))
+            return this.Negotiate.WithModel(this.buildPlanDetailService.Update(key, resource, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
     }

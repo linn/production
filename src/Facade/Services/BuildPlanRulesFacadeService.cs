@@ -15,14 +15,16 @@
             this.repository = repository;
         }
 
-        public SuccessResult<IEnumerable<BuildPlanRule>> GetAll()
+        public SuccessResult<ResponseModel<IEnumerable<BuildPlanRule>>> GetAll(IEnumerable<string> privileges)
         {
-            return new SuccessResult<IEnumerable<BuildPlanRule>>(this.repository.FindAll());
+            return new SuccessResult<ResponseModel<IEnumerable<BuildPlanRule>>>(
+                new ResponseModel<IEnumerable<BuildPlanRule>>(this.repository.FindAll(), privileges));
         }
 
-        public SuccessResult<BuildPlanRule> GetById(string ruleCode)
+        public SuccessResult<ResponseModel<BuildPlanRule>> GetById(string ruleCode, IEnumerable<string> privileges)
         {
-            return new SuccessResult<BuildPlanRule>(this.repository.FindBy(b => b.RuleCode == ruleCode));
+            return new SuccessResult<ResponseModel<BuildPlanRule>>(
+                new ResponseModel<BuildPlanRule>(this.repository.FindBy(b => b.RuleCode == ruleCode), privileges));
         }
     }
 }
