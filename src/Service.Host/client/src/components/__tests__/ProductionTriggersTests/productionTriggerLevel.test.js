@@ -164,6 +164,10 @@ describe('When creating', () => {
         const { getByText } = render(
             <ProductionTriggerLevel
                 {...defaultProps}
+                partsSearchResults={[{ partNumber: 'test partno', description: '', id: '1' }]}
+                searchParts={() => {}}
+                partsSearchLoading={false}
+                clearPartsSearch={() => {}}
                 parts={[
                     { partNumber: 'test partno', description: '' },
                     { partNumber: '', description: '' }

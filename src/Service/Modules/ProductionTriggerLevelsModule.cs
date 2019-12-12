@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps.Dispatchers;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Triggers;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Extensions;
     using Linn.Production.Service.Models;
@@ -18,8 +19,8 @@
 
     public sealed class ProductionTriggerLevelsModule : NancyModule
     {
-        private readonly IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource> productionTriggerLevelsService;
-
+        private readonly IProductionTriggerLevelsService productionTriggerLevelsService;
+         
         private readonly ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService;
 
         private readonly IAuthorisationService authorisationService;
@@ -27,8 +28,8 @@
         private readonly ITriggerRunDispatcher triggerRunDispatcher;
 
         public ProductionTriggerLevelsModule(
-            IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource> productionTriggerLevelsService,
-            ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService,
+           IProductionTriggerLevelsService productionTriggerLevelsService,
+           ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService,
             IAuthorisationService authorisationService,
             ITriggerRunDispatcher triggerRunDispatcher)
         {
@@ -133,14 +134,24 @@
 
         private object GetProductionTriggerLevels()
         {
-            var resource = this.Bind<SearchRequestResource>();
+            var resource = this.Bind<ProductionTriggerLevelsSearchRequestResource>();
 
             this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+            
+            IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> parts;
 
-            var parts = string.IsNullOrEmpty(resource.SearchTerm)
-                            ? this.productionTriggerLevelsService.GetAll(privileges)
-                            : this.productionTriggerLevelsService.Search(resource.SearchTerm, privileges);
+            if (!string.IsNullOrWhiteSpace(resource.SearchTerm)
+                || !string.IsNullOrWhiteSpace(resource.CitSearchTerm)
+                || (!string.IsNullOrWhiteSpace(resource.OverrideSearchTerm) && resource.OverrideSearchTerm != "null")
+                || (!string.IsNullOrWhiteSpace(resource.AutoSearchTerm) && resource.AutoSearchTerm != "null"))
+            {
+                parts = this.productionTriggerLevelsService.Search(resource, privileges);
+            }
+            else
+            {
+                parts = this.productionTriggerLevelsService.GetAll(privileges);
+            }
 
             return this.Negotiate.WithModel(parts).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");

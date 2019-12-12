@@ -9,7 +9,8 @@ import {
     ErrorCard,
     SnackbarMessage,
     utilities,
-    Dropdown
+    Dropdown,
+    Typeahead
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -24,13 +25,16 @@ function TriggerLevel({
     addItem,
     updateItem,
     setEditStatus,
-    parts,
     manufacturingRoutes,
     cits,
     setSnackbarVisible,
     employees,
     getWorkStationsForCit,
-    workStations
+    workStations,
+    partsSearchResults,
+    searchParts,
+    partsSearchLoading,
+    clearPartsSearch
 }) {
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
@@ -86,7 +90,7 @@ function TriggerLevel({
     };
 
     const handleBackClick = () => {
-        history.push('/production/resources/manufacturing-routes/');
+        history.push('/production/maintenance/production-trigger-levels/');
     };
 
     const handleResourceFieldChange = (propertyName, newValue) => {
@@ -147,20 +151,23 @@ function TriggerLevel({
                                             />
                                         )}
                                         {creating() && (
-                                            <Dropdown
-                                                onChange={handleResourceFieldChange}
-                                                items={parts.map(part => part.partNumber)}
-                                                value={triggerLevel.partNumber}
+                                            <Typeahead
+                                                onSelect={newValue => {
+                                                    handleResourceFieldChange(
+                                                        'partNumber',
+                                                        newValue.partNumber
+                                                    );
+                                                }}
                                                 propertyName="partNumber"
-                                                helperText={
-                                                    partNumberInvalid()
-                                                        ? 'This field is required'
-                                                        : ''
-                                                }
-                                                required
-                                                fullWidth
                                                 label="Part Number"
-                                                allowNoValue={false}
+                                                modal
+                                                items={partsSearchResults}
+                                                value={triggerLevel.partNumber}
+                                                loading={partsSearchLoading}
+                                                fetchItems={searchParts}
+                                                links={false}
+                                                clearSearch={() => clearPartsSearch}
+                                                placeholder="Search For Part Number"
                                             />
                                         )}
                                     </Grid>
@@ -204,7 +211,7 @@ function TriggerLevel({
                                     <Grid item xs={6}>
                                         <InputField
                                             value={triggerLevel.variableTriggerLevel}
-                                            label="Variable Trigger Level"
+                                            label="Auto Trigger Level"
                                             type="number"
                                             maxLength={2}
                                             fullWidth
@@ -374,7 +381,7 @@ TriggerLevel.propTypes = {
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
-    parts: PropTypes.arrayOf(
+    partsSearchResults: PropTypes.arrayOf(
         PropTypes.shape({
             partNumber: PropTypes.string
         })
@@ -388,36 +395,40 @@ TriggerLevel.propTypes = {
         PropTypes.shape({
             code: PropTypes.string
         })
-    ).isRequired,
+    ),
     employees: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number,
             fullName: PropTypes.string
         })
-    ).isRequired,
+    ),
     getWorkStationsForCit: PropTypes.func.isRequired,
     workStations: PropTypes.arrayOf(
         PropTypes.shape({
             workStationCode: PropTypes.string,
             description: PropTypes.string
         })
-    ).isRequired
+    ),
+    searchParts: PropTypes.func,
+    partsSearchLoading: PropTypes.bool,
+    clearPartsSearch: PropTypes.func
 };
 
 TriggerLevel.defaultProps = {
-    item: {
-        partNumber: '',
-        description: '',
-        citCode: '',
-        temporary: null
-    },
+    item: {},
     snackbarVisible: false,
     addItem: null,
     updateItem: null,
     loading: null,
     itemErrors: null,
     itemId: null,
-    parts: [{ partNumber: '', description: '' }]
+    partsSearchResults: null,
+    workStations: [],
+    cits: [],
+    employees: [],
+    searchParts: null,
+    partsSearchLoading: false,
+    clearPartsSearch: null
 };
 
 export default TriggerLevel;
