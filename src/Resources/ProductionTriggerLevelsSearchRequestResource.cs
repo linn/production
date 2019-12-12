@@ -3,9 +3,12 @@
     public class ProductionTriggerLevelsSearchRequestResource
     {
         public string SearchTerm { get; set; }
-        public string citSearchTerm { get; set; }
-        public string overrideSearchTerm { get; set; }
-        public string autoSearchTerm { get; set; }
+
+        public string CitSearchTerm { get; set; }
+
+        public string OverrideSearchTerm { get; set; }
+
+        public string AutoSearchTerm { get; set; }
 
     }
 }

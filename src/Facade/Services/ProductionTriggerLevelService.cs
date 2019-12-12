@@ -70,9 +70,9 @@
         {
             return w =>
                 (string.IsNullOrWhiteSpace(searchTerms.SearchTerm) || w.PartNumber.ToUpper().Contains(searchTerms.SearchTerm.ToUpper()))
-                && (string.IsNullOrWhiteSpace(searchTerms.citSearchTerm) || w.CitCode == searchTerms.citSearchTerm)
-                && (searchTerms.overrideSearchTerm == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms.overrideSearchTerm))
-                && (searchTerms.autoSearchTerm == "null" || w.VariableTriggerLevel > int.Parse(searchTerms.autoSearchTerm));
+                && (string.IsNullOrWhiteSpace(searchTerms.CitSearchTerm) || w.CitCode == searchTerms.CitSearchTerm)
+                && (searchTerms.OverrideSearchTerm == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms.OverrideSearchTerm))
+                && (searchTerms.AutoSearchTerm == "null" || w.VariableTriggerLevel > int.Parse(searchTerms.AutoSearchTerm));
         }
 
         public IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> Search(ProductionTriggerLevelsSearchRequestResource searchTerms, IEnumerable<string> privileges)

@@ -20,8 +20,7 @@
     public sealed class ProductionTriggerLevelsModule : NancyModule
     {
         private readonly IProductionTriggerLevelsService productionTriggerLevelsService;
-          //  IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource> productionTriggerLevelsService;
-
+         
         private readonly ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService;
 
         private readonly IAuthorisationService authorisationService;
@@ -29,7 +28,6 @@
         private readonly ITriggerRunDispatcher triggerRunDispatcher;
 
         public ProductionTriggerLevelsModule(
-           // IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource> productionTriggerLevelsService,
            IProductionTriggerLevelsService productionTriggerLevelsService,
            ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService,
             IAuthorisationService authorisationService,
@@ -144,9 +142,9 @@
             IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> parts;
 
             if (!string.IsNullOrWhiteSpace(resource.SearchTerm)
-                || !string.IsNullOrWhiteSpace(resource.citSearchTerm)
-                || resource.overrideSearchTerm != "null"
-                || resource.autoSearchTerm != "null")
+                || !string.IsNullOrWhiteSpace(resource.CitSearchTerm)
+                || (!string.IsNullOrWhiteSpace(resource.OverrideSearchTerm) && resource.OverrideSearchTerm != "null")
+                || (!string.IsNullOrWhiteSpace(resource.AutoSearchTerm) && resource.AutoSearchTerm != "null"))
             {
                 parts = this.productionTriggerLevelsService.Search(resource, privileges);
             }
