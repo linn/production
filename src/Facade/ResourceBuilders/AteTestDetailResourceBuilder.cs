@@ -30,7 +30,8 @@
                            AoiEscape = detail.AoiEscape,
                            CorrectiveAction = detail.CorrectiveAction,
                            SmtFailId = detail.SmtFailId,
-                           BoardSerialNumber = detail.BoardSerialNumber
+                           BoardSerialNumber = detail.BoardSerialNumber,
+                           DateInvalid = detail.DateInvalid?.ToString("o")
                        };
         }
 

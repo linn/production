@@ -1094,6 +1094,7 @@
             e.Property(d => d.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION");
             e.Property(d => d.SmtFailId).HasColumnName("SMT_FAIL_ID");
             e.Property(d => d.BoardSerialNumber).HasColumnName("BOARD_SN");
+            e.Property(d => d.DateInvalid).HasColumnName("DATE_INVALID");
         }
     }
 }

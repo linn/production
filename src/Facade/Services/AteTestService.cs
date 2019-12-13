@@ -17,7 +17,32 @@
 
         protected override AteTest CreateFromResource(AteTestResource resource)
         {
-            throw new NotImplementedException();
+            return new AteTest
+                       {
+                           TestId = resource.TestId,
+                           UserNumber = resource.UserNumber,
+                           DateTested = resource.DateTested != null
+                                            ? DateTime.Parse(resource.DateTested)
+                                            : (DateTime?)null,
+                           WorksOrderNumber = resource.WorksOrderNumber,
+                           NumberTested = resource.NumberTested,
+                           NumberOfSmtComponents = resource.NumberOfSmtComponents,
+                           NumberOfSmtFails = resource.NumberOfSmtFails,
+                           NumberOfPcbComponents = resource.NumberOfPcbComponents,
+                           NumberOfPcbFails = resource.NumberOfPcbFails,
+                           NumberOfPcbBoardFails = resource.NumberOfPcbBoardFails,
+                           PcbOperator = resource.PcbOperator,
+                           MinutesSpent = resource.MinutesSpent,
+                           Machine = resource.Machine,
+                           PlaceFound = resource.PlaceFound,
+                           DateInvalid = resource.DateInvalid != null
+                                             ? DateTime.Parse(resource.DateInvalid)
+                                             : (DateTime?)null,
+                           FlowMachine = resource.FlowMachine,
+                           FlowSolderDate = resource.FlowSolderDate != null
+                                                ? DateTime.Parse(resource.FlowSolderDate)
+                                                : (DateTime?)null,
+            };
         }
 
         protected override void UpdateFromResource(AteTest entity, AteTestResource updateResource)

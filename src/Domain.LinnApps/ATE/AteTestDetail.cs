@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.ATE
 {
+    using System;
+
     public class AteTestDetail
     {
         public int TestId { get; set; }
@@ -35,5 +37,7 @@
         public int? SmtFailId { get; set; }
 
         public string BoardSerialNumber { get; set; }
+
+        public DateTime? DateInvalid { get; set; }
     }
 }

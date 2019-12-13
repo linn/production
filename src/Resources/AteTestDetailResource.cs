@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Resources
 {
+    using System;
+
     public class AteTestDetailResource
     {
         public int TestId { get; set; }
@@ -35,5 +37,7 @@
         public int? SmtFailId { get; set; }
 
         public string BoardSerialNumber { get; set; }
+
+        public string DateInvalid { get; set; }
     }
 }

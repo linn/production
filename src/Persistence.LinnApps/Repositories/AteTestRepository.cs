@@ -22,7 +22,7 @@
         {
             return this.serviceDbContext
                 .AteTests.Where(t => t.TestId == key)
-                .Include(t => t.Details)
+                .Include(t => t.Details).Where(d => d.DateInvalid == null)
                 .ToList().FirstOrDefault();
         }
 
