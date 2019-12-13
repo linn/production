@@ -5,6 +5,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Layouts;
     using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.ViewModels;

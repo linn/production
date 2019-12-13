@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Domain.LinnApps.BuildPlans
 {
     using System;
 
