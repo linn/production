@@ -255,3 +255,33 @@ export const workStations = new ItemType(
     'WORK_STATIONS',
     '/production/maintenance/work-stations'
 );
+
+export const buildPlan = new ItemType(
+    'buildPlan',
+    'BUILD_PLAN',
+    '/production/maintenance/build-plans'
+);
+
+export const buildPlanDetail = new ItemType(
+    'buildPlanDetail',
+    'BUILD_PLAN_DETAIL',
+    '/production/maintenance/build-plan-details'
+);
+
+export const buildPlanDetails = new ItemType(
+    'buildPlanDetails',
+    'BUILD_PLAN_DETAILS',
+    '/production/maintenance/build-plan-details'
+);
+
+export const buildPlanRule = new ItemType(
+    'buildPlanRule',
+    'BUILD_PLAN_RULE',
+    '/production/maintenance/build-plan-rules'
+);
+
+export const buildPlanRules = new ItemType(
+    'buildPlanRules',
+    'BUILD_PLAN_RULES',
+    '/production/maintenance/build-plan-rules'
+);

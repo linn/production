@@ -240,3 +240,19 @@ export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.action
 export const labelReprintActionTypes = makeActionTypes(itemTypes.labelReprint.actionType);
 
 export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);
+
+export const buildPlanActionTypes = makeActionTypes(itemTypes.buildPlan.actionType);
+
+export const buildPlanDetailActionTypes = makeActionTypes(itemTypes.buildPlanDetail.actionType);
+
+export const buildPlanDetailsActionTypes = makeActionTypes(
+    itemTypes.buildPlanDetails.actionType,
+    false
+);
+
+export const buildPlanRuleActionTypes = makeActionTypes(itemTypes.buildPlanRule.actionType);
+
+export const buildPlanRulesActionTypes = makeActionTypes(
+    itemTypes.buildPlanRules.actionType,
+    false
+);
