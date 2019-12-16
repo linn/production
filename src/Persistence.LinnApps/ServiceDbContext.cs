@@ -130,9 +130,9 @@
 
         public DbQuery<BuildPlanDetailsReportLine> BuildPlanDetailsReportLines { get; set; }
 
-        public DbQuery<BuildPlanDetail> BuildPlanDetails { get; set; }
+        public DbSet<BuildPlanDetail> BuildPlanDetails { get; set; }
 
-        public DbSet<BuildPlanRule> BuildPlanRules { get; set; }
+        public DbQuery<BuildPlanRule> BuildPlanRules { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
