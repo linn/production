@@ -46,5 +46,10 @@
         {
             throw new NotImplementedException();
         }
+
+        public void Add(BuildPlanDetail entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
