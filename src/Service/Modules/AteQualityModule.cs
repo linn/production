@@ -14,12 +14,12 @@
 
         private readonly IFacadeService<AteTest, int, AteTestResource, AteTestResource> ateTestService;
 
-        private readonly IFacadeService<AteTestDetail, int, AteTestDetailResource, AteTestDetailResource> ateTestDetailService;
+        private readonly IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> ateTestDetailService;
 
         public AteQualityModule(
             IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource> ateFaultCodeService,
             IFacadeService<AteTest, int, AteTestResource, AteTestResource> ateTestService,
-            IFacadeService<AteTestDetail, int, AteTestDetailResource, AteTestDetailResource> ateTestDetailService)
+            IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> ateTestDetailService)
         {
             this.ateFaultCodeService = ateFaultCodeService;
             this.ateTestService = ateTestService;
@@ -113,7 +113,7 @@
         private object UpdateAteTestDetail(int id)
         {
             var resource = this.Bind<AteTestDetailResource>();
-            var result = this.ateTestDetailService.Update(id, resource);
+            var result = this.ateTestDetailService.Update(new AteTestDetailKey(), resource);
             return this.Negotiate.WithModel(result).WithMediaRangeModel("text/html", ApplicationSettings.Get);
         }
     }
