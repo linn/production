@@ -141,6 +141,11 @@ function TriggerLevel({
                                         onClose={() => setSnackbarVisible(false)}
                                         message="Save Successful"
                                     />
+                                    {!allowedToEdit && !creating() && (
+                                        <Grid item xs={12}>
+                                            <ErrorCard errorMessage="You are not authorised to update trigger levels" />
+                                        </Grid>
+                                    )}
                                     <Grid item xs={6}>
                                         {!creating() && (
                                             <InputField
@@ -176,7 +181,7 @@ function TriggerLevel({
                                             />
                                         )}
                                     </Grid>
-                                    {!allowedToEdit && (
+                                    {!allowedToEdit && creating() && (
                                         <Grid item xs={12}>
                                             <ErrorCard errorMessage="You are not authorised to create trigger levels" />
                                         </Grid>
