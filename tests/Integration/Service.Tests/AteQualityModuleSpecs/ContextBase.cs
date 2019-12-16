@@ -42,9 +42,11 @@
                     with.Dependency<IResourceBuilder<AteFaultCode>>(new AteFaultCodeResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<AteFaultCode>>>(
                         new AteFaultCodesResourceBuilder());
+                    with.Dependency<IResourceBuilder<AteTest>>(new AteTestResourceBuilder());
                     with.Module<AteQualityModule>();
                     with.ResponseProcessor<AteFaultCodeResponseProcessor>();
                     with.ResponseProcessor<AteFaultCodesResponseProcessor>();
+                    with.ResponseProcessor<AteTestResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {
