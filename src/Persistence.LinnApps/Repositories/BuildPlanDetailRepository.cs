@@ -5,15 +5,21 @@
     using System.Linq.Expressions;
 
     using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
-    public class BuildPlanDetailRepository : IQueryRepository<BuildPlanDetail>
+    public class BuildPlanDetailRepository : IRepository<BuildPlanDetail, BuildPlanDetailKey>
     {
         private readonly ServiceDbContext serviceDbContext;
 
         public BuildPlanDetailRepository(ServiceDbContext serviceDbContext)
         {
             this.serviceDbContext = serviceDbContext;
+        }
+
+        public void Remove(BuildPlanDetail entity)
+        {
+            throw new NotImplementedException();
         }
 
         public BuildPlanDetail FindBy(Expression<Func<BuildPlanDetail, bool>> expression)
@@ -26,7 +32,17 @@
             return this.serviceDbContext.BuildPlanDetails.Where(expression);
         }
 
+        public BuildPlanDetail FindById(BuildPlanDetailKey key)
+        {
+            throw new NotImplementedException();
+        }
+
         public IQueryable<BuildPlanDetail> FindAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(BuildPlanDetail entity)
         {
             throw new NotImplementedException();
         }
