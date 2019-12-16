@@ -59,8 +59,6 @@ function TriggerLevel({
                 setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
             }
         }
-
-        setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
     }, [item, prevTriggerLevel, editStatus, creating, getWorkStationsForCit, applicationState]);
 
     const partNumberInvalid = () => !triggerLevel.partNumber;

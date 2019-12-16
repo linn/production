@@ -73,7 +73,7 @@ const ViewProductionTriggerLevels = ({
             );
         }
 
-        setAllowedToCreate(utilities.getHref(applicationState, 'edit'));
+        setAllowedToCreate(utilities.getHref(applicationState, 'edit') !== null);
     }, [
         pageOptions.currentPage,
         pageOptions.rowsPerPage,
