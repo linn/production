@@ -10,6 +10,7 @@
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
@@ -23,7 +24,7 @@
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource> ProductionTriggerLevelService { get; private set; }
+        protected IProductionTriggerLevelsService ProductionTriggerLevelService { get; private set; }
 
         protected ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> PtlSettingsFacadeService { get; private set; }
 
@@ -34,7 +35,7 @@
         [SetUp]
         public void EstablishContext()
         {
-            this.ProductionTriggerLevelService = Substitute.For<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();
+            this.ProductionTriggerLevelService = Substitute.For<IProductionTriggerLevelsService>();
             this.PtlSettingsFacadeService = Substitute.For<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
             this.AuthorisationService = Substitute.For<IAuthorisationService>();
             this.TriggerRunDispatcher = Substitute.For<ITriggerRunDispatcher>();

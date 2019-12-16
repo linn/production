@@ -2,6 +2,7 @@
 {
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.Services;

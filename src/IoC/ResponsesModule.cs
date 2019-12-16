@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BoardTests;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Models;
@@ -108,9 +109,14 @@
             builder.RegisterType<WorkStationResourceBuilder>().As<IResourceBuilder<WorkStation>>();
             builder.RegisterType<WorkStationsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorkStation>>>();
             builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<ResponseModel<LabelReprint>>>();
-            builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<BuildPlan>>();
-            builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<IEnumerable<BuildPlan>>>();
-            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
+            builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlan>>>();
+            builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlan>>>>();
+            builder.RegisterType<BuildPlanRuleResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanRule>>>();
+            builder.RegisterType<BuildPlanRulesResourceBuilder>().As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanRule>>>>();
+            builder.RegisterType<BuildPlanDetailResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanDetail>>>();
+            builder.RegisterType<BuildPlanDetailsResourceBuilder>()
+                .As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>>();
+                            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
             builder.RegisterType<AteTestsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTest>>>();
             builder.RegisterType<AteTestDetailResourceBuilder>().As<IResourceBuilder<AteTestDetail>>();
             builder.RegisterType<AteTestDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTestDetail>>>();

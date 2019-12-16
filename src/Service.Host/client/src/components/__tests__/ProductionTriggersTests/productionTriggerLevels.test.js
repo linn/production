@@ -23,7 +23,7 @@ const defaultProps = {
     errorMessage: 'there was an error',
     items: productionTriggerLevels,
     fetchItems,
-    cits: [],
+    cits: [{ code: 'citcode1', name: 'citname1' }],
     history: {}
 };
 
@@ -63,9 +63,15 @@ describe('When viewing', () => {
         expect(input).toBeInTheDocument();
     });
 
-    test('should display search bar', () => {
+    test('should display part search bar', () => {
         const { getByPlaceholderText } = render(<ProductionTriggerLevels {...defaultProps} />);
         const item = getByPlaceholderText('search..');
         expect(item).toBeInTheDocument();
+    });
+
+    test('should display search boxes for override trigger and auto trigger', () => {
+        const { getByText } = render(<ProductionTriggerLevels {...defaultProps} />);
+        expect(getByText('Override Trigger >')).toBeInTheDocument();
+        expect(getByText('Auto Trigger >')).toBeInTheDocument();
     });
 });

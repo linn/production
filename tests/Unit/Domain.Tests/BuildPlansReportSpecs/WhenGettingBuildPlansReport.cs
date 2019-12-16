@@ -10,6 +10,7 @@
 
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
     using NSubstitute;

@@ -11,6 +11,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BoardTests;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
@@ -65,8 +66,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
             builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
-            builder.RegisterType<ProductionTriggerLevelService>()
-                .As<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();
+            builder.RegisterType<ProductionTriggerLevelService>().As<IProductionTriggerLevelsService>();
             builder.RegisterType<PcasRevisionService>()
                 .As<IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource>>();
             builder.RegisterType<EmployeeService>()
@@ -120,6 +120,9 @@
                 .As<IFacadeService<WorkStation, string, WorkStationResource, WorkStationResource>>();
             builder.RegisterType<AteTestService>().As<IFacadeService<AteTest, int, AteTestResource, AteTestResource>>();
             builder.RegisterType<AteTestDetailService>().As<IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource>>();
+            builder.RegisterType<BuildPlanRulesFacadeService>().As<IBuildPlanRulesFacadeService>();
+            builder.RegisterType<BuildPlanDetailService>()
+                .As<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

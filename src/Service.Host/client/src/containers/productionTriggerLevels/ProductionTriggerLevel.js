@@ -19,7 +19,7 @@ const mapStateToProps = (state, { match }) => ({
     editStatus: productionTriggerLevelSelectors.getEditStatus(state),
     loading: productionTriggerLevelSelectors.getLoading(state),
     snackbarVisible: productionTriggerLevelSelectors.getSnackbarVisible(state),
-    parts: [],
+    partsSearchResults: [],
     manufacturingRoutes: manufacturingRoutesSelectors.getItems(state),
     cits: citsSelectors.getItems(state),
     employees: employeesSelectors.getItems(state),

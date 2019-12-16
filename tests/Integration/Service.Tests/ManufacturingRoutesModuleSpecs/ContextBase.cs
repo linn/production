@@ -18,7 +18,9 @@
     public abstract class ContextBase : NancyContextBase
     {
         protected IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource> ManufacturingRouteService { get; private set; }
+
         protected IAuthorisationService AuthorisationService { get; private set; }
+
         [SetUp]
         public void EstablishContext()
         {
