@@ -6,6 +6,7 @@
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.BoardTests;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
@@ -129,7 +130,9 @@
 
         public DbQuery<BuildPlanDetailsReportLine> BuildPlanDetailsReportLines { get; set; }
 
-        public DbQuery<BuildPlanDetail> BuildPlanDetails { get; set; }
+        public DbSet<BuildPlanDetail> BuildPlanDetails { get; set; }
+
+        public DbQuery<BuildPlanRule> BuildPlanRules { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
@@ -193,6 +196,7 @@
             this.BuildBuildPlans(builder);
             this.QueryBuildPlanDetailsReportLines(builder);
             this.QueryBuildPlanDetails(builder);
+            this.QueryBuildPlanRules(builder);
 
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
@@ -835,14 +839,23 @@
 
         private void QueryBuildPlanDetails(ModelBuilder builder)
         {
-            var q = builder.Query<BuildPlanDetail>();
-            q.ToView("BUILD_PLAN_DETAILS");
-            q.Property(e => e.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
-            q.Property(e => e.PartNumber).HasColumnName("PART_NUMBER");
-            q.Property(e => e.FromLinnWeekNumber).HasColumnName("FROM_LINN_WEEK_NUMBER");
-            q.Property(e => e.ToLinnWeekNumber).HasColumnName("TO_LINN_WEEK_NUMBER");
+            var e = builder.Entity<BuildPlanDetail>();
+            e.ToTable("BUILD_PLAN_DETAILS");
+            e.HasKey(b => new { b.BuildPlanName, b.PartNumber, b.FromLinnWeekNumber });
+            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
+            e.Property(b => b.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(b => b.FromLinnWeekNumber).HasColumnName("FROM_LINN_WEEK_NUMBER");
+            e.Property(b => b.ToLinnWeekNumber).HasColumnName("TO_LINN_WEEK_NUMBER");
+            e.Property(b => b.RuleCode).HasColumnName("RULE_CODE");
+            e.Property(b => b.Quantity).HasColumnName("QUANTITY");
+        }
+
+        private void QueryBuildPlanRules(ModelBuilder builder)
+        {
+            var q = builder.Query<BuildPlanRule>();
+            q.ToView("BUILD_PLAN_RULES");
             q.Property(e => e.RuleCode).HasColumnName("RULE_CODE");
-            q.Property(e => e.Quantity).HasColumnName("QUANTITY");
+            q.Property(e => e.Description).HasColumnName("DESCRIPTION");
         }
 
         private void QueryStoragePlaces(ModelBuilder builder)

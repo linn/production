@@ -1,6 +1,8 @@
-﻿namespace Linn.Production.Domain.LinnApps.ViewModels
+﻿namespace Linn.Production.Resources
 {
-    public class BuildPlanDetail
+    using Linn.Common.Resources;
+
+    public class BuildPlanDetailResource : HypermediaResource
     {
         public string BuildPlanName { get; set; }
 
