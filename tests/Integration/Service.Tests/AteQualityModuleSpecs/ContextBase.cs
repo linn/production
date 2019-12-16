@@ -21,7 +21,7 @@
     {
         protected IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource> AteFaultCodeService { get; private set; }
 
-        protected IFacadeService<AteTestDetail, int, AteTestDetailResource, AteTestDetailResource> AteTestDetailService { get; private set; }
+        protected IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> AteTestDetailService { get; private set; }
 
 
         protected IFacadeService<AteTest, int, AteTestResource, AteTestResource> AteTestService { get; private set; }
@@ -31,7 +31,7 @@
         {
             this.AteFaultCodeService = Substitute.For<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
             this.AteTestService = Substitute.For<IFacadeService<AteTest, int, AteTestResource, AteTestResource>>();
-            this.AteTestDetailService = Substitute.For<IFacadeService<AteTestDetail, int, AteTestDetailResource, AteTestDetailResource>>();
+            this.AteTestDetailService = Substitute.For<IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
