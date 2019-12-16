@@ -57,7 +57,7 @@
 
             if (this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, model.Privileges))
             {
-                yield return new LinkResource { Rel = "edit", Href = this.GetLocation(model) };
+                yield return new LinkResource { Rel = "edit", Href = "/production/maintenance/production-trigger-levels/" };
             }
         }
     }
