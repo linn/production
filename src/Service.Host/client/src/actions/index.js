@@ -245,14 +245,8 @@ export const buildPlanActionTypes = makeActionTypes(itemTypes.buildPlan.actionTy
 
 export const buildPlanDetailActionTypes = makeActionTypes(itemTypes.buildPlanDetail.actionType);
 
-export const buildPlanDetailsActionTypes = makeActionTypes(
-    itemTypes.buildPlanDetails.actionType,
-    false
-);
+export const buildPlanDetailsActionTypes = makeActionTypes(itemTypes.buildPlanDetails.actionType);
 
 export const buildPlanRuleActionTypes = makeActionTypes(itemTypes.buildPlanRule.actionType);
 
-export const buildPlanRulesActionTypes = makeActionTypes(
-    itemTypes.buildPlanRules.actionType,
-    false
-);
+export const buildPlanRulesActionTypes = makeActionTypes(itemTypes.buildPlanRules.actionType);

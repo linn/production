@@ -79,6 +79,11 @@ import labelTypes from './labelTypes/labelTypes';
 import labelReprint from './labelReprint';
 import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
 import workStations from './workStations';
+import buildPlan from './buildPlan';
+import buildPlanDetails from './buildPlanDetails';
+import buildPlanDetail from './buildPlanDetail';
+import buildPlanRules from './buildPlanRules';
+import buildPlanRule from './buildPlanRule';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -102,7 +107,12 @@ const rootReducer = combineReducers({
     boardTestDetailsReport,
     boardTestsReport,
     buildsDetailReport,
+    buildPlan,
     buildPlans,
+    buildPlanDetail,
+    buildPlanDetails,
+    buildPlanRule,
+    buildPlanRules,
     buildPlansReport,
     buildsSummaryReport,
     cits,

@@ -8,5 +8,5 @@ export default new FetchApiActions(
     itemTypes.buildPlanDetails.actionType,
     itemTypes.buildPlanDetails.uri,
     actionTypes,
-    config.proxyRoot
+    config.appRoot
 );

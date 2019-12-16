@@ -39,7 +39,7 @@
 
         public IQueryable<BuildPlanDetail> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.BuildPlanDetails;
         }
 
         public void Add(BuildPlanDetail entity)
