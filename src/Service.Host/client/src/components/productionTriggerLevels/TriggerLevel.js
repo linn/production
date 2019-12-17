@@ -114,11 +114,6 @@ function TriggerLevel({
         }
     };
 
-    // const handleCitChange = (propertyName, newValue) => {
-    //     getWorkStationsForCit('searchTerm', newValue);
-    //     handleResourceFieldChange(propertyName, newValue);
-    // };
-
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
 
     return (
