@@ -38,6 +38,8 @@
             this.authorisationService = authorisationService;
             this.triggerRunDispatcher = triggerRunDispatcher;
 
+            this.Get("production/maintenance/production-trigger-levels/create", _ => this.GetApp());
+            this.Get("production/maintenance/production-trigger-levels/application-state", _ => this.GetApp());
             this.Get("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.GetProductionTriggerLevel(parameters.partNumber));
             this.Get("production/maintenance/production-trigger-levels", _ => this.GetProductionTriggerLevels());
             this.Put("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.UpdateTriggerLevel(parameters.partNumber));
@@ -154,6 +156,15 @@
             }
 
             return this.Negotiate.WithModel(parts).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+        private object GetApp()
+        {
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            return this.Negotiate
+                .WithModel(new SuccessResult<ResponseModel<ProductionTriggerLevel>>(new ResponseModel<ProductionTriggerLevel>(new ProductionTriggerLevel(), privileges)))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
     }

@@ -59,8 +59,7 @@ Parameters:
     Default: ProductionClusterName
 
 Conditions:
-  isTesting: !Or
-    - !Equals [!Ref environmentSuffix, "-sys"]
+  isTesting: !Equals [!Ref environmentSuffix, "-sys"]
 
 Resources:
   productionRole:
