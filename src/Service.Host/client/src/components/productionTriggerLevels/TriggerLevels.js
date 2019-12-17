@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import {
     Loading,
     CreateButton,
@@ -131,6 +132,11 @@ const ViewProductionTriggerLevels = ({
         VariableTriggerLevel: 'Auto Trigger Level'
     };
 
+    const handleBPClick = () => {
+        //TODO - when Build plans is implemented, uncomment the link below
+        // history.push('/production/maintenance/build-plans');
+    };
+
     return (
         <Page>
             <Title text="Trigger Levels" />
@@ -213,6 +219,18 @@ const ViewProductionTriggerLevels = ({
                     )}
                 </Fragment>
             )}
+            <Grid container>
+                <Grid item xs={12}>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={handleBPClick}
+                        style={{ float: 'right', marginTop: '20px' }}
+                    >
+                        Build Plans
+                    </Button>
+                </Grid>
+            </Grid>
         </Page>
     );
 };
