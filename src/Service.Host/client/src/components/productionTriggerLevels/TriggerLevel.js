@@ -46,20 +46,29 @@ function TriggerLevel({
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
+        if (creating()) {
+            setAllowedToEdit(utilities.getHref(applicationState, 'edit') !== null);
+        } else {
+            setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
+        }
+    }, [applicationState, item, creating]);
+
+    useEffect(() => {
         if (item !== prevTriggerLevel) {
             setTriggerLevel(item);
             setPrevTriggerLevel(item);
-            if (item?.citCode) {
-                getWorkStationsForCit('searchTerm', item.citCode);
-            }
-
-            if (creating()) {
-                setAllowedToEdit(utilities.getHref(applicationState, 'edit') !== null);
-            } else {
-                setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
-            }
         }
-    }, [item, prevTriggerLevel, editStatus, creating, getWorkStationsForCit, applicationState]);
+    }, [item, prevTriggerLevel]);
+
+    useEffect(() => {
+        if (
+            triggerLevel &&
+            triggerLevel.citCode &&
+            triggerLevel.citCode !== prevTriggerLevel.citCode
+        ) {
+            getWorkStationsForCit('searchTerm', triggerLevel.citCode);
+        }
+    }, [triggerLevel, prevTriggerLevel, getWorkStationsForCit]);
 
     const partNumberInvalid = () => !triggerLevel.partNumber;
     const descriptionInvalid = () => !triggerLevel.description;
@@ -87,7 +96,9 @@ function TriggerLevel({
     };
 
     const handleCancelClick = () => {
-        setEditStatus('view');
+        if (!creating()) {
+            setEditStatus('view');
+        }
         setTriggerLevel(item);
         getWorkStationsForCit('searchTerm', item.citCode);
     };
@@ -103,10 +114,10 @@ function TriggerLevel({
         }
     };
 
-    const handleCitChange = (propertyName, newValue) => {
-        getWorkStationsForCit('searchTerm', newValue);
-        handleResourceFieldChange(propertyName, newValue);
-    };
+    // const handleCitChange = (propertyName, newValue) => {
+    //     getWorkStationsForCit('searchTerm', newValue);
+    //     handleResourceFieldChange(propertyName, newValue);
+    // };
 
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
 
@@ -202,7 +213,7 @@ function TriggerLevel({
                                     <Grid item xs={12}>
                                         <Grid item xs={6}>
                                             <Dropdown
-                                                onChange={handleCitChange}
+                                                onChange={handleResourceFieldChange}
                                                 items={cits.map(cit => ({
                                                     ...cit,
                                                     id: cit.code,
@@ -302,7 +313,7 @@ function TriggerLevel({
                                                 id: ws.workStationCode,
                                                 displayText: `${ws.workStationCode} - ${ws.description}`
                                             }))}
-                                            propertyName="workStation"
+                                            propertyName="workStationName"
                                             fullWidth
                                             value={triggerLevel.workStationName}
                                             label="Work Station"

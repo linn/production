@@ -17,7 +17,6 @@ import * as itemTypes from '../../itemTypes';
 import productionTriggerLevelStateActions from '../../actions/productionTriggerLevelStateActions';
 
 const mapStateToProps = state => ({
-    item: {},
     editStatus: productionTriggerLevelSelectors.getEditStatus(state),
     loading: productionTriggerLevelSelectors.getLoading(state),
     snackbarVisible: productionTriggerLevelSelectors.getSnackbarVisible(state),
