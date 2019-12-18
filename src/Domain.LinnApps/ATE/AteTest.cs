@@ -1,7 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.ATE
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.Generic; 
 
     public class AteTest
     {
