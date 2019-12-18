@@ -15,7 +15,6 @@
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Logging;
 
     public class ServiceDbContext : DbContext
@@ -137,7 +136,7 @@
 
         public DbSet<AteTest> AteTests { get; set; }
 
-        public DbSet<AteTestDetail> AteTestDetails { get; set; } 
+        public DbSet<AteTestDetail> AteTestDetails { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 

@@ -47,6 +47,7 @@
             builder.RegisterType<BoardTestReports>().As<IBoardTestReports>();
             builder.RegisterType<ProductionBackOrdersReportService>().As<IProductionBackOrdersReportService>();
             builder.RegisterType<BuildPlansReportService>().As<IBuildPlansReportService>();
+            builder.RegisterType<AteReportsService>().As<IAteReportsService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -82,9 +83,7 @@
             builder.RegisterType<ManufacturingRouteService>()
                 .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
             builder.RegisterType<ManufacturingOperationsService>()
-                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource,
-                    ManufacturingOperationResource>, IServiceWithRemove<ManufacturingOperation, int,
-                    ManufacturingOperationResource, ManufacturingOperationResource>>();
+                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>, IServiceWithRemove<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
             builder.RegisterType<PartsFacadeService>().As<IPartsFacadeService>();
             builder.RegisterType<SmtShiftsService>()
@@ -123,6 +122,7 @@
             builder.RegisterType<BuildPlanRulesFacadeService>().As<IBuildPlanRulesFacadeService>();
             builder.RegisterType<BuildPlanDetailService>()
                 .As<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
+            builder.RegisterType<AteReportsFacadeService>().As<IAteReportsFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
