@@ -57,12 +57,6 @@ describe('When viewing', () => {
         expect(getByText('partno2')).toBeInTheDocument();
     });
 
-    test('should display create button', () => {
-        const { getByText } = render(<ProductionTriggerLevels {...defaultProps} />);
-        const input = getByText('Create');
-        expect(input).toBeInTheDocument();
-    });
-
     test('should display part search bar', () => {
         const { getByPlaceholderText } = render(<ProductionTriggerLevels {...defaultProps} />);
         const item = getByPlaceholderText('search..');

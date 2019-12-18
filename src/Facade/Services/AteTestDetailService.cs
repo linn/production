@@ -13,6 +13,7 @@
         public AteTestDetailService(IRepository<AteTestDetail, AteTestDetailKey> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
+            this.repo = repository;
         }
 
         protected override AteTestDetail CreateFromResource(AteTestDetailResource resource)

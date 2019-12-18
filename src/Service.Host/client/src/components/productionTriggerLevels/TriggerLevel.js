@@ -34,7 +34,8 @@ function TriggerLevel({
     partsSearchResults,
     searchParts,
     partsSearchLoading,
-    clearPartsSearch
+    clearPartsSearch,
+    applicationState
 }) {
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
@@ -45,18 +46,29 @@ function TriggerLevel({
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
+        if (creating()) {
+            setAllowedToEdit(utilities.getHref(applicationState, 'edit') !== null);
+        } else {
+            setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
+        }
+    }, [applicationState, item, creating]);
+
+    useEffect(() => {
         if (item !== prevTriggerLevel) {
             setTriggerLevel(item);
             setPrevTriggerLevel(item);
-            if (item?.citCode) {
-                getWorkStationsForCit('searchTerm', item.citCode);
-            }
-
-            setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
         }
+    }, [item, prevTriggerLevel]);
 
-        setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
-    }, [item, prevTriggerLevel, editStatus, creating, getWorkStationsForCit]);
+    useEffect(() => {
+        if (
+            triggerLevel &&
+            triggerLevel.citCode &&
+            triggerLevel.citCode !== prevTriggerLevel.citCode
+        ) {
+            getWorkStationsForCit('searchTerm', triggerLevel.citCode);
+        }
+    }, [triggerLevel, prevTriggerLevel, getWorkStationsForCit]);
 
     const partNumberInvalid = () => !triggerLevel.partNumber;
     const descriptionInvalid = () => !triggerLevel.description;
@@ -84,7 +96,9 @@ function TriggerLevel({
     };
 
     const handleCancelClick = () => {
-        setEditStatus('view');
+        if (!creating()) {
+            setEditStatus('view');
+        }
         setTriggerLevel(item);
         getWorkStationsForCit('searchTerm', item.citCode);
     };
@@ -98,11 +112,6 @@ function TriggerLevel({
         if (viewing()) {
             setEditStatus('edit');
         }
-    };
-
-    const handleCitChange = (propertyName, newValue) => {
-        getWorkStationsForCit('searchTerm', newValue);
-        handleResourceFieldChange(propertyName, newValue);
     };
 
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
@@ -136,6 +145,11 @@ function TriggerLevel({
                                         onClose={() => setSnackbarVisible(false)}
                                         message="Save Successful"
                                     />
+                                    {!allowedToEdit && !creating() && (
+                                        <Grid item xs={12}>
+                                            <ErrorCard errorMessage="You are not authorised to update trigger levels" />
+                                        </Grid>
+                                    )}
                                     <Grid item xs={6}>
                                         {!creating() && (
                                             <InputField
@@ -150,7 +164,7 @@ function TriggerLevel({
                                                 propertyName="partNumber"
                                             />
                                         )}
-                                        {creating() && (
+                                        {creating() && allowedToEdit && (
                                             <Typeahead
                                                 onSelect={newValue => {
                                                     handleResourceFieldChange(
@@ -171,6 +185,11 @@ function TriggerLevel({
                                             />
                                         )}
                                     </Grid>
+                                    {!allowedToEdit && creating() && (
+                                        <Grid item xs={12}>
+                                            <ErrorCard errorMessage="You are not authorised to create trigger levels" />
+                                        </Grid>
+                                    )}
                                     <Grid item xs={12}>
                                         <InputField
                                             value={triggerLevel.description}
@@ -189,7 +208,7 @@ function TriggerLevel({
                                     <Grid item xs={12}>
                                         <Grid item xs={6}>
                                             <Dropdown
-                                                onChange={handleCitChange}
+                                                onChange={handleResourceFieldChange}
                                                 items={cits.map(cit => ({
                                                     ...cit,
                                                     id: cit.code,
@@ -289,7 +308,7 @@ function TriggerLevel({
                                                 id: ws.workStationCode,
                                                 displayText: `${ws.workStationCode} - ${ws.description}`
                                             }))}
-                                            propertyName="workStation"
+                                            propertyName="workStationName"
                                             fullWidth
                                             value={triggerLevel.workStationName}
                                             label="Work Station"
@@ -411,7 +430,8 @@ TriggerLevel.propTypes = {
     ),
     searchParts: PropTypes.func,
     partsSearchLoading: PropTypes.bool,
-    clearPartsSearch: PropTypes.func
+    clearPartsSearch: PropTypes.func,
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) })
 };
 
 TriggerLevel.defaultProps = {
@@ -428,7 +448,8 @@ TriggerLevel.defaultProps = {
     employees: [],
     searchParts: null,
     partsSearchLoading: false,
-    clearPartsSearch: null
+    clearPartsSearch: null,
+    applicationState: null
 };
 
 export default TriggerLevel;
