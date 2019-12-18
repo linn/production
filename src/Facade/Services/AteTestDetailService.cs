@@ -10,12 +10,9 @@
 
     public class AteTestDetailService : FacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> 
     {
-        public IRepository<AteTestDetail, AteTestDetailKey> repo;
-
         public AteTestDetailService(IRepository<AteTestDetail, AteTestDetailKey> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
-            this.repo = repository;
         }
 
         protected override AteTestDetail CreateFromResource(AteTestDetailResource resource)
