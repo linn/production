@@ -65,8 +65,7 @@
                                  SortOrder = w.LinnWeekNumber
                              }));
 
-            var calculatedValues = this.CalculateValues(details, data, groupBy, weeks);
-            reportLayout.AddData(calculatedValues);
+            reportLayout.AddData(this.CalculateValues(details, data.ToList(), groupBy, weeks));
 
             var model = reportLayout.GetResultsModel();
             this.reportingHelper.SortRowsByRowTitle(model);
@@ -86,12 +85,20 @@
 
         private IEnumerable<CalculationValueModel> CalculateValues(
             IEnumerable<AteTestDetail> details,
-            IEnumerable<AteTest> tests,
+            IList<AteTest> tests,
             AteReportGroupBy groupBy,
             IReadOnlyCollection<LinnWeek> weeks)
         {
             switch (groupBy)
             {
+                case AteReportGroupBy.Component:
+                    return details.Select(
+                        f => new CalculationValueModel
+                                 {
+                                     RowId = f.PartNumber,
+                                     ColumnId = this.linnWeekService.GetWeek(tests.FirstOrDefault(t => t.TestId == f.TestId).DateTested.Value, weeks).LinnWeekNumber.ToString(),
+                                     Quantity = f.NumberOfFails ?? 0
+                                 });
                 case AteReportGroupBy.FaultCode:
                     return details.Select(
                         f => new CalculationValueModel
@@ -100,6 +107,14 @@
                             ColumnId = this.linnWeekService.GetWeek(tests.FirstOrDefault(t => t.TestId == f.TestId).DateTested.Value, weeks).LinnWeekNumber.ToString(),
                             Quantity = f.NumberOfFails ?? 0
                         });
+                case AteReportGroupBy.Board:
+                    return details.Select(
+                        f => new CalculationValueModel
+                                 {
+                                     RowId = tests.FirstOrDefault(t => t.TestId == f.TestId).WorksOrder.PartNumber ?? string.Empty,
+                                     ColumnId = this.linnWeekService.GetWeek(tests.FirstOrDefault(t => t.TestId == f.TestId).DateTested.Value, weeks).LinnWeekNumber.ToString(),
+                                     Quantity = f.NumberOfFails ?? 0
+                                 });
                 default:
                     throw new ArgumentOutOfRangeException(nameof(groupBy), groupBy, null);
             }

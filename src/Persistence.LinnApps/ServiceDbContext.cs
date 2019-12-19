@@ -1065,7 +1065,7 @@
             e.Property(t => t.TestId).HasColumnName("ATE_TEST_ID");
             e.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
             e.Property(t => t.DateTested).HasColumnName("DATE_TESTED");
-            e.Property(t => t.WorksOrderNumber).HasColumnName("WORKS_ORDER_NUMBER");
+            e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.AteTests).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(t => t.NumberTested).HasColumnName("NUMBER_TESTED");
             e.Property(t => t.NumberOfSmtComponents).HasColumnName("NUMBER_SMT_COMPONENTS");
             e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_SMT_FAILS");
@@ -1076,10 +1076,10 @@
             e.Property(t => t.NumberOfSmtBoardFails).HasColumnName("NUMBER_SMT_BOARD_FAILS");
             e.Property(t => t.PcbOperator).HasColumnName("PCB_OPERATOR");
             e.Property(t => t.MinutesSpent).HasColumnName("MINUTES_SPENT");
-            e.Property(t => t.Machine).HasColumnName("MACHINE");
-            e.Property(t => t.PlaceFound).HasColumnName("PLACE_FOUND");
+            e.Property(t => t.Machine).HasColumnName("MACHINE").HasMaxLength(10);
+            e.Property(t => t.PlaceFound).HasColumnName("PLACE_FOUND").HasMaxLength(10);
             e.Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
-            e.Property(t => t.FlowMachine).HasColumnName("FLOW_MACHINE");
+            e.Property(t => t.FlowMachine).HasColumnName("FLOW_MACHINE").HasMaxLength(16);
             e.Property(t => t.FlowSolderDate).HasColumnName("FLOW_SOLDER_DATE");
             e.HasMany(t => t.Details).WithOne().HasForeignKey(d => d.TestId);
         }
@@ -1091,21 +1091,21 @@
             e.HasKey(d => new { d.ItemNumber, d.TestId });
             e.Property(d => d.TestId).HasColumnName("ATE_TEST_ID");
             e.Property(d => d.ItemNumber).HasColumnName("ITEM_NO");
-            e.Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(d => d.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             e.Property(d => d.NumberOfFails).HasColumnName("NUMBER_FAILURES");
-            e.Property(d => d.CircuitRef).HasColumnName("CIRCUIT_REF");
-            e.Property(d => d.AteTestFaultCode).HasColumnName("ATE_TEST_FAULT_CODE");
-            e.Property(d => d.SmtOrPcb).HasColumnName("SMT_OR_PCB");
-            e.Property(d => d.Shift).HasColumnName("SHIFT");
-            e.Property(d => d.BatchNumber).HasColumnName("BATCH_NO");
+            e.Property(d => d.CircuitRef).HasColumnName("CIRCUIT_REF").HasMaxLength(8);
+            e.Property(d => d.AteTestFaultCode).HasColumnName("ATE_TEST_FAULT_CODE").HasMaxLength(10);
+            e.Property(d => d.SmtOrPcb).HasColumnName("SMT_OR_PCB").HasMaxLength(12);
+            e.Property(d => d.Shift).HasColumnName("SHIFT").HasMaxLength(10);
+            e.Property(d => d.BatchNumber).HasColumnName("BATCH_NO").HasMaxLength(6);
             e.Property(d => d.PcbOperator).HasColumnName("PCB_OPERATOR");
-            e.Property(d => d.Comments).HasColumnName("COMMENTS");
-            e.Property(d => d.Machine).HasColumnName("MACHINE");
+            e.Property(d => d.Comments).HasColumnName("COMMENTS").HasMaxLength(2000);
+            e.Property(d => d.Machine).HasColumnName("MACHINE").HasMaxLength(10);
             e.Property(d => d.BoardFailNumber).HasColumnName("BOARD_FAIL_NUMBER");
-            e.Property(d => d.AoiEscape).HasColumnName("AOI_ESCAPE");
-            e.Property(d => d.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION");
+            e.Property(d => d.AoiEscape).HasColumnName("AOI_ESCAPE").HasMaxLength(21);
+            e.Property(d => d.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION").HasMaxLength(2000);
             e.Property(d => d.SmtFailId).HasColumnName("SMT_FAIL_ID");
-            e.Property(d => d.BoardSerialNumber).HasColumnName("BOARD_SN");
+            e.Property(d => d.BoardSerialNumber).HasColumnName("BOARD_SN").HasMaxLength(20);
         }
     }
 }

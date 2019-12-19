@@ -13,6 +13,7 @@
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using NSubstitute;
 
@@ -56,6 +57,7 @@
                                                 TestId = 1,
                                                 DateTested = 1.June(2020),
                                                 PlaceFound = "ATE",
+                                                WorksOrder = new WorksOrder { PartNumber = "part 1" },
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -63,7 +65,8 @@
                                                                           TestId = 1,
                                                                           AteTestFaultCode = "fault 1",
                                                                           SmtOrPcb = "SMT",
-                                                                          NumberOfFails = 1
+                                                                          NumberOfFails = 1,
+                                                                          PartNumber = "comp 2"
                                                                       }
                                                               }
                                             },
@@ -72,6 +75,7 @@
                                                 TestId = 2,
                                                 DateTested = 9.June(2020),
                                                 PlaceFound = "ATE",
+                                                WorksOrder = new WorksOrder { PartNumber = "part 2" },
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -79,7 +83,8 @@
                                                                           TestId = 2,
                                                                           AteTestFaultCode = "fault 1",
                                                                           SmtOrPcb = "SMT",
-                                                                          NumberOfFails = 1
+                                                                          NumberOfFails = 1,
+                                                                          PartNumber = "comp 1"
                                                                       }
                                                               }
                                             },
@@ -88,6 +93,7 @@
                                                 TestId = 3,
                                                 DateTested = 20.June(2020),
                                                 PlaceFound = "ATE",
+                                                WorksOrder = new WorksOrder { PartNumber = "part 1" },
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -95,7 +101,26 @@
                                                                           TestId = 3,
                                                                           AteTestFaultCode = "fault 2",
                                                                           SmtOrPcb = "SMT",
-                                                                          NumberOfFails = 1
+                                                                          NumberOfFails = 1,
+                                                                          PartNumber = "comp 1"
+                                                                      }
+                                                              }
+                                            },
+                                        new AteTest
+                                            {
+                                                TestId = 4,
+                                                DateTested = 19.June(2020),
+                                                PlaceFound = "ATE",
+                                                WorksOrder = new WorksOrder { PartNumber = "part 1" },
+                                                Details = new List<AteTestDetail>
+                                                              {
+                                                                  new AteTestDetail
+                                                                      {
+                                                                          TestId = 4,
+                                                                          AteTestFaultCode = "fault 2",
+                                                                          SmtOrPcb = "SMT",
+                                                                          NumberOfFails = 2,
+                                                                          PartNumber = "comp 2"
                                                                       }
                                                               }
                                             }

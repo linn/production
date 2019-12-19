@@ -22,7 +22,9 @@
         {
             return this.serviceDbContext
                 .AteTests.Where(t => t.TestId == key)
-                .Include(t => t.Details).Where(d => d.DateInvalid == null)
+                .Include(w => w.WorksOrder)
+                .Include(t => t.Details)
+                .Where(d => d.DateInvalid == null)
                 .ToList().FirstOrDefault();
         }
 
@@ -48,7 +50,9 @@
 
         public IQueryable<AteTest> FilterBy(Expression<Func<AteTest, bool>> expression)
         {
-            return this.serviceDbContext.AteTests.Where(expression);
+            return this.serviceDbContext.AteTests
+                .Where(expression)
+                .Include(w => w.WorksOrder);
         }
     }
 }
