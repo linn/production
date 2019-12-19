@@ -121,6 +121,9 @@
             builder.RegisterType<AteTestDetailResourceBuilder>().As<IResourceBuilder<AteTestDetail>>();
             builder.RegisterType<AteTestDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTestDetail>>>();
             builder.RegisterType<LabelPrintResourceBuilder>().As<IResourceBuilder<LabelPrint>>();
+            builder.RegisterType<IdAndNameResourceBuilder>().As<IResourceBuilder<IdAndName>>();
+            builder.RegisterType<IdAndNameListResourceBuilder>().As<IResourceBuilder<IEnumerable<IdAndName>>>();
+
         }
     }
 }

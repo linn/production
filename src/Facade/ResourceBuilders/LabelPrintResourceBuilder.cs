@@ -12,11 +12,8 @@
 
     public class LabelPrintResourceBuilder : IResourceBuilder<LabelPrint>
     {
-        private readonly IAuthorisationService authorisationService;
-
-        public LabelPrintResourceBuilder(IAuthorisationService authorisationService)
+        public LabelPrintResourceBuilder()
         {
-            this.authorisationService = authorisationService;
         }
 
         public LabelPrintResource Build(LabelPrint model)

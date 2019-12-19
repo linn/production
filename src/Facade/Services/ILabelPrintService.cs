@@ -1,6 +1,9 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Facade
 {
     using System.Collections.Generic;
+
+    using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
 
     public interface ILabelPrintService
     {
@@ -18,8 +21,8 @@
             string reprintType,
             string newPartNumber);
 
-        IEnumerable<IdAndName> GetLabelTypes();
+        IResult<IEnumerable<IdAndName>> GetLabelTypes();
 
-        IEnumerable<IdAndName> GetPrinters();
+        IResult<IEnumerable<IdAndName>> GetPrinters();
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
+    using System.Collections.Generic;
+
     public class IdAndName
     {
         public IdAndName(int id, string name)

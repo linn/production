@@ -5,6 +5,7 @@
     using System.Collections.Generic;
 
     using Linn.Common.Domain.Exceptions;
+    using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Exceptions;
@@ -40,7 +41,7 @@
             this.labelTypeRepository = labelTypeRepository;
         }
 
-        public IEnumerable<IdAndName> GetPrinters()
+        public IResult<IEnumerable<IdAndName>> GetPrinters()
         {
             var printerList = new List<IdAndName>();
 
@@ -52,10 +53,10 @@
                 printerList.Add(new IdAndName(i, enumValue.GetDisplayName()));
             }
 
-            return printerList;
+            return new SuccessResult<IEnumerable<IdAndName>>(printerList);
         }
 
-        public IEnumerable<IdAndName> GetLabelTypes()
+        public IResult<IEnumerable<IdAndName>> GetLabelTypes()
         {
             var labelList = new List<IdAndName>();
 
@@ -67,7 +68,7 @@
                 labelList.Add(new IdAndName(i, enumValue.GetDisplayName()));
             }
 
-            return labelList;
+            return new SuccessResult<IEnumerable<IdAndName>>(labelList);
         }
 
         public void PrintLabel(int serialNumber, string articleNumber)
