@@ -48,7 +48,7 @@
 
         public IQueryable<AteTest> FilterBy(Expression<Func<AteTest, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.AteTests.Where(expression);
         }
     }
 }

@@ -37,7 +37,5 @@
         public int? SmtFailId { get; set; }
 
         public string BoardSerialNumber { get; set; }
-
-        public DateTime? DateInvalid { get; set; }
     }
 }

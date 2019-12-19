@@ -5,6 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Facade.Extensions;
 
     using NSubstitute;
 
@@ -21,13 +22,15 @@
                     1.May(2020),
                     1.July(2020),
                     "smt",
-                    "ate")
+                    "ate",
+                    "component".ParseAteReportOption())
                 .Returns(new ResultsModel { ReportTitle = new NameModel("name") });
             this.result = this.Sut.GetStatusReport(
                 1.May(2020).ToString("o"),
                 1.July(2020).ToString("o"),
                 "smt",
-                "ate");
+                "ate",
+                "component");
         }
 
         [Test]
@@ -37,7 +40,8 @@
                 1.May(2020),
                 1.July(2020),
                 "smt",
-                "ate");
+                "ate",
+                "component".ParseAteReportOption());
         }
 
         [Test]

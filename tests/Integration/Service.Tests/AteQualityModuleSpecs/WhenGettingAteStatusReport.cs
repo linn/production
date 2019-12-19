@@ -25,6 +25,7 @@
                     Arg.Any<string>(),
                     Arg.Any<string>(),
                     Arg.Any<string>(),
+                    Arg.Any<string>(),
                     Arg.Any<string>())
                 .Returns(new SuccessResult<ResultsModel>(report));
 
@@ -37,6 +38,7 @@
                         with.Query("toDate", "isoDate2");
                         with.Query("smtOrPcb", "smt");
                         with.Query("placeFound", "somewhere");
+                        with.Query("groupBy", "groupBy");
                     }).Result;
         }
 
@@ -53,7 +55,8 @@
                 "isoDate1",
                 "isoDate2",
                 "smt",
-                "somewhere");
+                "somewhere",
+                "groupBy");
         }
 
         [Test]

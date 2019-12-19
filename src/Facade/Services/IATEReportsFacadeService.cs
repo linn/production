@@ -6,10 +6,11 @@
     public interface IAteReportsFacadeService
     {
         IResult<ResultsModel> GetStatusReport(
-            string resourceFromDate,
-            string resourceToDate,
-            string resourceSmtOrPcb,
-            string resourcePlaceFound);
+            string fromDate,
+            string toDate,
+            string smtOrPcb,
+            string placeFound,
+            string groupBy);
 
         IResult<ResultsModel> GetDetailsReport(string fromDate, string toDate, string selectBy, string value);
     }

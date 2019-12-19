@@ -59,7 +59,8 @@
                 resource.FromDate,
                 resource.ToDate,
                 resource.SmtOrPcb,
-                resource.PlaceFound);
+                resource.PlaceFound,
+                resource.GroupBy);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

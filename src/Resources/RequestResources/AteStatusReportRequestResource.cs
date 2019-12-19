@@ -1,6 +1,6 @@
 ﻿namespace Linn.Production.Resources.RequestResources
 {
-    public class AteStatusReportRequestResource : FromToDateRequestResource
+    public class AteStatusReportRequestResource : FromToDateGroupByRequestResource
     {
         public string SmtOrPcb { get; set; }
 

@@ -6,6 +6,7 @@
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Exceptions;
+    using Linn.Production.Facade.Extensions;
 
     public class AteReportsFacadeService : IAteReportsFacadeService
     {
@@ -17,17 +18,18 @@
         }
 
         public IResult<ResultsModel> GetStatusReport(
-            string resourceFromDate,
-            string resourceToDate,
-            string resourceSmtOrPcb,
-            string resourcePlaceFound)
+            string fromDate,
+            string toDate,
+            string smtOrPcb,
+            string placeFound,
+            string groupBy)
         {
             DateTime from;
             DateTime to;
             try
             {
-                from = this.ConvertDate(resourceFromDate);
-                to = this.ConvertDate(resourceToDate);
+                from = this.ConvertDate(fromDate);
+                to = this.ConvertDate(toDate);
             }
             catch (InvalidDateException exception)
             {
@@ -35,7 +37,7 @@
             }
 
             return new SuccessResult<ResultsModel>(
-                this.ateReportsService.GetStatusReport(from, to, resourceSmtOrPcb, resourcePlaceFound));
+                this.ateReportsService.GetStatusReport(from, to, smtOrPcb, placeFound, groupBy.ParseAteReportOption()));
         }
 
         public IResult<ResultsModel> GetDetailsReport(string fromDate, string toDate, string selectBy, string value)
