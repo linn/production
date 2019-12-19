@@ -1,9 +1,10 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Resources
 {
-    using System;
     using System.Collections.Generic;
 
-    public class LabelPrint
+    using Linn.Common.Resources;
+
+    public class LabelPrintResource : HypermediaResource
     {
         public int LabelType { get; set; }
 

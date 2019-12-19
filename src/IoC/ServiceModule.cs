@@ -142,6 +142,7 @@
             builder.RegisterType<LabelPack>().As<ILabelPack>();
             builder.RegisterType<WwdTrigProxy>().As<IWwdTrigFunction>();
             builder.RegisterType<WorksOrderLabelPack>().As<IWorksOrderLabelPack>();
+            builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();

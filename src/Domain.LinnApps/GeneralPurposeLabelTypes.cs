@@ -1,24 +1,19 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
-    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
-    public class GeneralPurposeLabelTypes
+    public static class GeneralPurposeLabelTypes
     {
-
-        public const string LargeWeeText = "Large label (wee text)";
-
-        public const string LargeBigText = "Large label (big text)";
-
-        public const string Small = "Small";
-
-        public const string PCNumbers = "PC Numbers";
-
-        public const string AddressLabel = "Address Label";
-
-        public const string GoodsInLabel = "GoodsInLabel";
-
-        public const string SmallWeeText = "Small (wee text)";
-
-        public const string SmallBoldText = "Small (wee bold text)";
+        public enum Labels
+        {
+            [Display(Name = "Large label (wee text)")] LargeWeeText,
+            [Display(Name = "Large label (big text)")] LargeBigText,
+            [Display(Name = "Small")] Small,
+            [Display(Name = "PC Numbers")] PCNumbers,
+            [Display(Name = "Address Label")] AddressLabel,
+            [Display(Name = "Goods In Label")] GoodsInLabel,
+            [Display(Name = "Small (wee text)")] SmallWeeText,
+            [Display(Name = "Small (wee bold text)")] SmallBoldText
+        }
     }
 }
