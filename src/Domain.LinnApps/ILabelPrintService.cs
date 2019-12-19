@@ -18,8 +18,8 @@
             string reprintType,
             string newPartNumber);
 
-        IEnumerable<(int id, string name)> GetLabelTypes();
+        IEnumerable<IdAndName> GetLabelTypes();
 
-        IEnumerable<(int id, string name)> GetPrinters();
+        IEnumerable<IdAndName> GetPrinters();
     }
 }

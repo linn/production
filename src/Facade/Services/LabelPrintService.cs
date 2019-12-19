@@ -40,31 +40,31 @@
             this.labelTypeRepository = labelTypeRepository;
         }
 
-        public IEnumerable<(int id, string name)> GetPrinters()
+        public IEnumerable<IdAndName> GetPrinters()
         {
-            var printerList = new List<(int id, string name)>();
+            var printerList = new List<IdAndName>();
 
             var allPrinterValues = Enum.GetValues(typeof(LabelPrinters.Printers));
 
             for (int i = 0; i < allPrinterValues.Length; i++)
             {
                 var enumValue = (LabelPrinters.Printers)i;
-                printerList.Add((i, enumValue.GetDisplayName()));
+                printerList.Add(new IdAndName(i, enumValue.GetDisplayName()));
             }
 
             return printerList;
         }
 
-        public IEnumerable<(int id, string name)> GetLabelTypes()
+        public IEnumerable<IdAndName> GetLabelTypes()
         {
-            var labelList = new List<(int id, string name)>();
+            var labelList = new List<IdAndName>();
 
             var allLabelValues = Enum.GetValues(typeof(GeneralPurposeLabelTypes.Labels));
 
             for (int i = 0; i < allLabelValues.Length; i++)
             {
                 var enumValue = (GeneralPurposeLabelTypes.Labels)i;
-                labelList.Add((i, enumValue.GetDisplayName()));
+                labelList.Add(new IdAndName(i, enumValue.GetDisplayName()));
             }
 
             return labelList;
