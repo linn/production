@@ -62,7 +62,8 @@
                                                                       {
                                                                           TestId = 1,
                                                                           AteTestFaultCode = "fault 1",
-                                                                          SmtOrPcb = "SMT"
+                                                                          SmtOrPcb = "SMT",
+                                                                          NumberOfFails = 1
                                                                       }
                                                               }
                                             },
@@ -77,7 +78,8 @@
                                                                       {
                                                                           TestId = 2,
                                                                           AteTestFaultCode = "fault 1",
-                                                                          SmtOrPcb = "SMT"
+                                                                          SmtOrPcb = "SMT",
+                                                                          NumberOfFails = 1
                                                                       }
                                                               }
                                             },
@@ -92,7 +94,8 @@
                                                                       {
                                                                           TestId = 3,
                                                                           AteTestFaultCode = "fault 2",
-                                                                          SmtOrPcb = "SMT"
+                                                                          SmtOrPcb = "SMT",
+                                                                          NumberOfFails = 1
                                                                       }
                                                               }
                                             }

@@ -98,7 +98,7 @@
                         {
                             RowId = f.AteTestFaultCode ?? string.Empty,
                             ColumnId = this.linnWeekService.GetWeek(tests.FirstOrDefault(t => t.TestId == f.TestId).DateTested.Value, weeks).LinnWeekNumber.ToString(),
-                            Quantity = 1
+                            Quantity = f.NumberOfFails ?? 0
                         });
                 default:
                     throw new ArgumentOutOfRangeException(nameof(groupBy), groupBy, null);
