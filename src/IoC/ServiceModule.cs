@@ -82,7 +82,9 @@
             builder.RegisterType<ManufacturingRouteService>()
                 .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
             builder.RegisterType<ManufacturingOperationsService>()
-                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>, IManufacturingOperationsService>();
+                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource,
+                    ManufacturingOperationResource>, IServiceWithRemove<ManufacturingOperation, int,
+                    ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
             builder.RegisterType<PartsFacadeService>().As<IPartsFacadeService>();
             builder.RegisterType<SmtShiftsService>()
@@ -116,6 +118,8 @@
             builder.RegisterType<BuildPlansReportFacadeService>().As<IBuildPlansReportFacadeService>();
             builder.RegisterType<WorkStationService>()
                 .As<IFacadeService<WorkStation, string, WorkStationResource, WorkStationResource>>();
+            builder.RegisterType<AteTestService>().As<IFacadeService<AteTest, int, AteTestResource, AteTestResource>>();
+            builder.RegisterType<AteTestDetailService>().As<IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource>>();
             builder.RegisterType<BuildPlanRulesFacadeService>().As<IBuildPlanRulesFacadeService>();
             builder.RegisterType<BuildPlanDetailService>()
                 .As<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
