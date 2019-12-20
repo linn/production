@@ -210,7 +210,7 @@ function TriggerLevel({
                                                 required
                                                 fullWidth
                                                 label="CIT Code"
-                                                allowNoValue={false}
+                                                allowNoValue
                                                 disabled={!allowedToEdit}
                                             />
                                         </Grid>
