@@ -39,31 +39,7 @@
         {
             throw new NotImplementedException();
         }
-
-        //private object GetLabelPrint()
-        //{
-        //    var resource = this.Bind<LabelPrintSearchRequestResource>();
-
-        //    this.RequiresAuthentication();
-        //    var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-
-        //    IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> parts;
-
-        //    if (!string.IsNullOrWhiteSpace(resource.SearchTerm)
-        //        || !string.IsNullOrWhiteSpace(resource.CitSearchTerm)
-        //        || (!string.IsNullOrWhiteSpace(resource.OverrideSearchTerm) && resource.OverrideSearchTerm != "null")
-        //        || (!string.IsNullOrWhiteSpace(resource.AutoSearchTerm) && resource.AutoSearchTerm != "null"))
-        //    {
-        //        parts = this.labelPrintService.Search(resource, privileges);
-        //    }
-        //    else
-        //    {
-        //        parts = this.labelPrintService.GetAll(privileges);
-        //    }
-
-        //    return this.Negotiate.WithModel(parts).WithMediaRangeModel("text/html", ApplicationSettings.Get)
-        //        .WithView("Index");
-        //}
+       
         private object GetApp()
         {
             return this.Negotiate
