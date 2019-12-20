@@ -38,6 +38,7 @@ const initialise = () => dispatch => {
     dispatch(citsActions.fetch());
     dispatch(employeesActions.fetch());
     dispatch(productionTriggerLevelStateActions.fetchState());
+    dispatch(workStationActions.fetchByQueryString(''));
 };
 
 const mapDispatchToProps = {
@@ -45,7 +46,6 @@ const mapDispatchToProps = {
     addItem: productionTriggerLevelActions.add,
     setEditStatus: productionTriggerLevelActions.setEditStatus,
     setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
-    getWorkStationsForCit: workStationActions.fetchByQueryString,
     searchParts: partsActions.search,
     clearPartsSearch: partsActions.clearSearch
 };

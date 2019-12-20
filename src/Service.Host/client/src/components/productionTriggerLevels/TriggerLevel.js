@@ -29,7 +29,6 @@ function TriggerLevel({
     cits,
     setSnackbarVisible,
     employees,
-    getWorkStationsForCit,
     workStations,
     partsSearchResults,
     searchParts,
@@ -59,16 +58,6 @@ function TriggerLevel({
             setPrevTriggerLevel(item);
         }
     }, [item, prevTriggerLevel]);
-
-    useEffect(() => {
-        if (
-            triggerLevel &&
-            triggerLevel.citCode &&
-            triggerLevel.citCode !== prevTriggerLevel.citCode
-        ) {
-            getWorkStationsForCit('searchTerm', triggerLevel.citCode);
-        }
-    }, [triggerLevel, prevTriggerLevel, getWorkStationsForCit]);
 
     const partNumberInvalid = () => !triggerLevel.partNumber;
     const descriptionInvalid = () => !triggerLevel.description;
@@ -100,7 +89,6 @@ function TriggerLevel({
             setEditStatus('view');
         }
         setTriggerLevel(item);
-        getWorkStationsForCit('searchTerm', item.citCode);
     };
 
     const handleBackClick = () => {
@@ -421,7 +409,6 @@ TriggerLevel.propTypes = {
             fullName: PropTypes.string
         })
     ),
-    getWorkStationsForCit: PropTypes.func.isRequired,
     workStations: PropTypes.arrayOf(
         PropTypes.shape({
             workStationCode: PropTypes.string,
