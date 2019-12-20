@@ -93,6 +93,8 @@ import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
 import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
 import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
 import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
+import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
+import AteStatusReport from '../containers/reports/AteStatusReport';
 
 const Root = ({ store }) => (
     <div>
@@ -367,6 +369,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/assembly-fails-measures"
                                         component={AssemblyFailsMeasuresOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate/status/report"
+                                        component={AteStatusReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate/status"
+                                        component={AteStatusReportOptions}
                                     />
                                     <Route
                                         exact

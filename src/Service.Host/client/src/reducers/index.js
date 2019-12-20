@@ -79,6 +79,7 @@ import labelTypes from './labelTypes/labelTypes';
 import labelReprint from './labelReprint';
 import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
 import workStations from './workStations';
+import ateStatusReport from './ateStatusReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -97,6 +98,7 @@ const rootReducer = combineReducers({
     assemblyFailsWaitingListReport,
     ateFaultCode,
     ateFaultCodes,
+    ateStatusReport,
     boardFailType,
     boardFailTypes,
     boardTestDetailsReport,

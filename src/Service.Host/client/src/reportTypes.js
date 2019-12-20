@@ -125,3 +125,9 @@ export const buildPlansReport = new ItemType(
     'BUILD_PLANS_REPORT',
     '/production/reports/build-plans/report'
 );
+
+export const ateStatusReport = new ItemType(
+    'ateStatusReport',
+    'ATE_STATUS_REPORT',
+    '/production/reports/ate/status/report'
+);
