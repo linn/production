@@ -14,6 +14,12 @@
             string placeFound,
             AteReportGroupBy groupBy);
 
-        ResultsModel GetDetailsReport(DateTime fromDate, DateTime toDate, string selectBy, string value);
+        ResultsModel GetDetailsReport(
+            DateTime fromDate,
+            DateTime toDate,
+            string smtOrPcb,
+            string placeFound,
+            AteReportGroupBy selectBy,
+            string value);
     }
 }

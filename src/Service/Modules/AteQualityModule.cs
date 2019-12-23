@@ -48,7 +48,19 @@
 
         private object GetDetailsReport()
         {
-            throw new System.NotImplementedException();
+            var resource = this.Bind<AteDetailsReportRequestResource>();
+
+            var result = this.ateReportsFacadeService.GetDetailsReport(
+                resource.FromDate,
+                resource.ToDate,
+                resource.SmtOrPcb,
+                resource.PlaceFound,
+                resource.SelectBy,
+                resource.Value);
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetStatusReport()

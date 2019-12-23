@@ -40,9 +40,34 @@
                 this.ateReportsService.GetStatusReport(from, to, smtOrPcb, placeFound, groupBy.ParseAteReportOption()));
         }
 
-        public IResult<ResultsModel> GetDetailsReport(string fromDate, string toDate, string selectBy, string value)
+        public IResult<ResultsModel> GetDetailsReport(
+            string fromDate,
+            string toDate,
+            string smtOrPcb,
+            string placeFound,
+            string selectBy,
+            string value)
         {
-            throw new System.NotImplementedException();
+            DateTime from;
+            DateTime to;
+            try
+            {
+                from = this.ConvertDate(fromDate);
+                to = this.ConvertDate(toDate);
+            }
+            catch (InvalidDateException exception)
+            {
+                return new BadRequestResult<ResultsModel>(exception.Message);
+            }
+
+            return new SuccessResult<ResultsModel>(
+                this.ateReportsService.GetDetailsReport(
+                    from,
+                    to,
+                    smtOrPcb,
+                    placeFound,
+                    selectBy.ParseAteReportOption(),
+                    value));
         }
 
         private DateTime ConvertDate(string isoDate)

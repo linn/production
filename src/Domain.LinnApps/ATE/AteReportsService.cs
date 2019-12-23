@@ -73,7 +73,13 @@
             return model;
         }
 
-        public ResultsModel GetDetailsReport(DateTime fromDate, DateTime toDate, string selectBy, string value)
+        public ResultsModel GetDetailsReport(
+            DateTime fromDate,
+            DateTime toDate,
+            string smtOrPcb,
+            string placeFound,
+            AteReportGroupBy selectBy,
+            string value)
         {
             throw new NotImplementedException();
         }

@@ -11,37 +11,40 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingStatusReport : ContextBase
+    public class WhenGettingDetailsReport : ContextBase
     {
         private IResult<ResultsModel> result;
 
         [SetUp]
         public void SetUp()
         {
-            this.AteReportsService.GetStatusReport(
+            this.AteReportsService.GetDetailsReport(
                     1.May(2020),
                     1.July(2020),
                     "smt",
                     "ate",
-                    "component".ParseAteReportOption())
+                    "component".ParseAteReportOption(),
+                    "value")
                 .Returns(new ResultsModel { ReportTitle = new NameModel("name") });
-            this.result = this.Sut.GetStatusReport(
+            this.result = this.Sut.GetDetailsReport(
                 1.May(2020).ToString("o"),
                 1.July(2020).ToString("o"),
                 "smt",
                 "ate",
-                "component");
+                "component",
+                "value");
         }
 
         [Test]
         public void ShouldGetReport()
         {
-            this.AteReportsService.Received().GetStatusReport(
+            this.AteReportsService.Received().GetDetailsReport(
                 1.May(2020),
                 1.July(2020),
                 "smt",
                 "ate",
-                "component".ParseAteReportOption());
+                "component".ParseAteReportOption(),
+                "value");
         }
 
         [Test]

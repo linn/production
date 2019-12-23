@@ -12,6 +12,12 @@
             string placeFound,
             string groupBy);
 
-        IResult<ResultsModel> GetDetailsReport(string fromDate, string toDate, string selectBy, string value);
+        IResult<ResultsModel> GetDetailsReport(
+            string fromDate,
+            string toDate,
+            string smtOrPcb,
+            string placeFound,
+            string selectBy,
+            string value);
     }
 }

@@ -382,6 +382,11 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/ate"
+                                        render={() => <Redirect to="/production/maintenance" />}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/assembly-fails-details/report"
                                         component={AssemblyFailsDetails}
                                     />
@@ -529,8 +534,8 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/build-plans"
                                         component={BuildPlansReportOptions}
-                                        />
-                                        <Route
+                                    />
+                                    <Route
                                         exact
                                         path="/production/resources/label-types/create"
                                         component={CreateLabelType}
