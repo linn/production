@@ -27,6 +27,7 @@
                     Arg.Any<string>(),
                     Arg.Any<string>(),
                     Arg.Any<string>(),
+                    Arg.Any<string>(),
                     Arg.Any<string>())
                 .Returns(new SuccessResult<ResultsModel>(report));
 
@@ -39,8 +40,9 @@
                         with.Query("toDate", "isoDate2");
                         with.Query("smtOrPcb", "smt");
                         with.Query("placeFound", "somewhere");
-                        with.Query("selectBy", "selectBy");
-                        with.Query("value", "value");
+                        with.Query("board", "board");
+                        with.Query("component", "component");
+                        with.Query("faultCode", "fault code");
                     }).Result;
         }
 
@@ -58,8 +60,9 @@
                 "isoDate2",
                 "smt",
                 "somewhere",
-                "selectBy",
-                "value");
+                "board",
+                "component",
+                "fault code");
         }
 
         [Test]

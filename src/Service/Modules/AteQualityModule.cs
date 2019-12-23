@@ -55,8 +55,9 @@
                 resource.ToDate,
                 resource.SmtOrPcb,
                 resource.PlaceFound,
-                resource.SelectBy,
-                resource.Value);
+                resource.Board,
+                resource.Component,
+                resource.FaultCode);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

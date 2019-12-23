@@ -19,7 +19,8 @@
             DateTime toDate,
             string smtOrPcb,
             string placeFound,
-            AteReportGroupBy selectBy,
-            string value);
+            string board,
+            string component,
+            string faultCode);
     }
 }

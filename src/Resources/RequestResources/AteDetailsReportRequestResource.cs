@@ -1,13 +1,11 @@
 ﻿namespace Linn.Production.Resources.RequestResources
 {
-    public class AteDetailsReportRequestResource : FromToDateGroupByRequestResource
+    public class AteDetailsReportRequestResource : AteStatusReportRequestResource
     {
-        public string SmtOrPcb { get; set; }
+        public string Component { get; set; }
 
-        public string PlaceFound { get; set; }
+        public string Board { get; set; }
 
-        public string SelectBy { get; set; }
-
-        public string Value { get; set; }
+        public string FaultCode { get; set; }
     }
 }

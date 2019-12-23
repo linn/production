@@ -45,8 +45,9 @@
             string toDate,
             string smtOrPcb,
             string placeFound,
-            string selectBy,
-            string value)
+            string board,
+            string component,
+            string faultCode)
         {
             DateTime from;
             DateTime to;
@@ -66,8 +67,9 @@
                     to,
                     smtOrPcb,
                     placeFound,
-                    selectBy.ParseAteReportOption(),
-                    value));
+                    board,
+                    component,
+                    faultCode));
         }
 
         private DateTime ConvertDate(string isoDate)

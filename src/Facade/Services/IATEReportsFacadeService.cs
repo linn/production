@@ -17,7 +17,8 @@
             string toDate,
             string smtOrPcb,
             string placeFound,
-            string selectBy,
-            string value);
+            string board,
+            string component,
+            string faultCode);
     }
 }

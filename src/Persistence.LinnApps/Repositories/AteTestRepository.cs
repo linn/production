@@ -52,6 +52,7 @@
         {
             return this.serviceDbContext.AteTests
                 .Where(expression)
+                .Include(d => d.Details)
                 .Include(w => w.WorksOrder);
         }
     }

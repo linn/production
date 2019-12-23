@@ -3,11 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
+    using Linn.Common.Reporting.Layouts;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Layouts;
+    using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.Reports.OptionTypes;
     using Linn.Production.Domain.LinnApps.Services;
 
@@ -36,14 +39,7 @@
             string placeFound,
             AteReportGroupBy groupBy)
         {
-            var data = this.ateTestRepository.FilterBy(
-                a => a.DateTested != null
-                     && a.DateTested.Value.Date >= fromDate.Date
-                     && a.DateTested.Value.Date <= toDate.Date);
-            if (!string.IsNullOrEmpty(placeFound))
-            {
-                data = data.Where(d => d.PlaceFound == placeFound);
-            }
+            var data = this.GetAteTests(fromDate, toDate, placeFound);
 
             var details = data.SelectMany(a => a.Details).ToList();
 
@@ -65,7 +61,7 @@
                                  SortOrder = w.LinnWeekNumber
                              }));
 
-            reportLayout.AddData(this.CalculateValues(details, data.ToList(), groupBy, weeks));
+            reportLayout.AddData(this.CalculateStatusValues(details, data.ToList(), groupBy, weeks));
 
             var model = reportLayout.GetResultsModel();
             this.reportingHelper.SortRowsByRowTitle(model);
@@ -78,10 +74,95 @@
             DateTime toDate,
             string smtOrPcb,
             string placeFound,
-            AteReportGroupBy selectBy,
-            string value)
+            string board,
+            string component,
+            string faultCode)
         {
-            throw new NotImplementedException();
+            var reportLayout = new SimpleGridLayout(
+                this.reportingHelper,
+                CalculationValueModelType.TextValue,
+                null,
+                this.GenerateDetailsReportTitle(fromDate, toDate));
+
+            reportLayout.AddColumnComponent(
+                null,
+                new List<AxisDetailsModel>
+                    {
+                        new AxisDetailsModel("Test Id", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Board Part Number", GridDisplayType.TextValue) { AllowWrap = false },
+                        new AxisDetailsModel("Operator", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Item", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Batch Number", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Circuit Ref", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Part Number", GridDisplayType.TextValue) { AllowWrap = false },
+                        new AxisDetailsModel("Fault Code", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Fails"),
+                        new AxisDetailsModel("Smt Or Pcb", GridDisplayType.TextValue),
+                        new AxisDetailsModel("DetailOperator", "Operator", GridDisplayType.TextValue)
+                    });
+
+            var data = this.GetAteTests(fromDate, toDate, placeFound);
+            var allDetails = data.SelectMany(
+                a => a.Details,
+                (a, detail) => new AteTestReportDetail
+                                   {
+                                       TestId = a.TestId,
+                                       DateTested = a.DateTested ?? throw new ArgumentNullException(),
+                                       BoardPartNumber = a.WorksOrder.PartNumber,
+                                       NumberTested = a.NumberTested,
+                                       ItemNumber = detail.ItemNumber,
+                                       SmtOrPcb = detail.SmtOrPcb,
+                                       NumberOfFails = detail.NumberOfFails,
+                                       AteTestFaultCode = detail.AteTestFaultCode,
+                                       BatchNumber = detail.BatchNumber,
+                                       CircuitRef = detail.CircuitRef,
+                                       ComponentPartNumber = detail.PartNumber,
+                                   });
+            var reportDetails = this.SelectDetails(allDetails.AsQueryable(), smtOrPcb, board, component, faultCode);
+
+            reportLayout.SetGridData(this.CalculateDetailValues(reportDetails));
+
+            var model = reportLayout.GetResultsModel();
+            model.ValueDrillDownTemplates.Add(
+                new DrillDownModel(
+                    "Test",
+                    "/production/quality/ate-tests/{textValue}",
+                    null,
+                    model.ColumnIndex("Test Id")));
+
+            return model;
+        }
+
+        private IEnumerable<AteTestReportDetail> SelectDetails(
+            IQueryable<AteTestReportDetail> details,
+            string smtOrPcb,
+            string board,
+            string component,
+            string faultCode)
+        {
+            var expressions = new List<Expression<Func<AteTestReportDetail, bool>>>();
+
+            if (!string.IsNullOrEmpty(smtOrPcb))
+            {
+                expressions.Add(f => f.SmtOrPcb == smtOrPcb);
+            }
+
+            if (!string.IsNullOrEmpty(board))
+            {
+                expressions.Add(f => f.BoardPartNumber == component);
+            }
+
+            if (!string.IsNullOrEmpty(component))
+            {
+                expressions.Add(f => f.ComponentPartNumber == component);
+            }
+
+            if (!string.IsNullOrEmpty(faultCode))
+            {
+                expressions.Add(f => f.AteTestFaultCode == faultCode);
+            }
+
+            return expressions.Aggregate(details, (current, func) => current.Where(func));
         }
 
         private string GenerateReportTitle(AteReportGroupBy groupBy)
@@ -89,7 +170,13 @@
             return $"ATE Test Fails By {Regex.Replace(groupBy.ToString(), "(\\B[A-Z])", " $1")}";
         }
 
-        private IEnumerable<CalculationValueModel> CalculateValues(
+        private string GenerateDetailsReportTitle(DateTime fromDate, DateTime toDate)
+        {
+            var title = $"ATE Test Fails between {fromDate:dd-MMM-yyyy} and {toDate:dd-MMM-yyyy}. ";
+            return title;
+        }
+
+        private IEnumerable<CalculationValueModel> CalculateStatusValues(
             IEnumerable<AteTestDetail> details,
             IList<AteTest> tests,
             AteReportGroupBy groupBy,
@@ -124,6 +211,96 @@
                 default:
                     throw new ArgumentOutOfRangeException(nameof(groupBy), groupBy, null);
             }
+        }
+
+        private IList<CalculationValueModel> CalculateDetailValues(IEnumerable<AteTestReportDetail> details)
+        {
+            var models = new List<CalculationValueModel>();
+            foreach (var ateTestReportDetail in details)
+            {
+                var rowId = $"{ateTestReportDetail.TestId}/{ateTestReportDetail.ItemNumber:000}";
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Test Id",
+                                   TextDisplay = ateTestReportDetail.TestId.ToString()
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Board Part Number",
+                                   TextDisplay = ateTestReportDetail.BoardPartNumber
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Operator",
+                                   TextDisplay = string.Empty
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Item",
+                                   TextDisplay = ateTestReportDetail.ItemNumber.ToString()
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Batch Number",
+                                   TextDisplay = ateTestReportDetail.BatchNumber
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Circuit Ref",
+                                   TextDisplay = ateTestReportDetail.CircuitRef
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Part Number",
+                                   TextDisplay = ateTestReportDetail.ComponentPartNumber
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Fault Code",
+                                   TextDisplay = ateTestReportDetail.AteTestFaultCode
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Fails",
+                                   Quantity = ateTestReportDetail.NumberOfFails ?? 0
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "Smt Or Pcb",
+                                   TextDisplay = ateTestReportDetail.SmtOrPcb
+                               });
+                models.Add(new CalculationValueModel
+                               {
+                                   RowId = rowId,
+                                   ColumnId = "DetailOperator",
+                                   TextDisplay = string.Empty
+                               });
+            }
+
+            return models;
+        }
+
+        private IEnumerable<AteTest> GetAteTests(DateTime fromDate, DateTime toDate, string placeFound)
+        {
+            var data = this.ateTestRepository.FilterBy(
+                a => a.DateTested != null && a.DateTested.Value.Date >= fromDate.Date
+                                          && a.DateTested.Value.Date <= toDate.Date);
+            if (!string.IsNullOrEmpty(placeFound))
+            {
+                data = data.Where(d => d.PlaceFound == placeFound);
+            }
+
+            return data.ToList();
         }
     }
 }
