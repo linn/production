@@ -66,7 +66,8 @@
                                                                           AteTestFaultCode = "fault 1",
                                                                           SmtOrPcb = "SMT",
                                                                           NumberOfFails = 1,
-                                                                          PartNumber = "comp 2"
+                                                                          PartNumber = "comp 2",
+                                                                          ItemNumber = 1
                                                                       }
                                                               }
                                             },
@@ -84,7 +85,8 @@
                                                                           AteTestFaultCode = "fault 1",
                                                                           SmtOrPcb = "SMT",
                                                                           NumberOfFails = 1,
-                                                                          PartNumber = "comp 1"
+                                                                          PartNumber = "comp 1",
+                                                                          ItemNumber = 1
                                                                       }
                                                               }
                                             },
@@ -102,7 +104,10 @@
                                                                           AteTestFaultCode = "fault 2",
                                                                           SmtOrPcb = "SMT",
                                                                           NumberOfFails = 1,
-                                                                          PartNumber = "comp 1"
+                                                                          PartNumber = "comp 1",
+                                                                          ItemNumber = 1,
+                                                                          BatchNumber = "bn 1",
+                                                                          CircuitRef = "circuit 1"
                                                                       }
                                                               }
                                             },
@@ -120,7 +125,8 @@
                                                                           AteTestFaultCode = "fault 2",
                                                                           SmtOrPcb = "SMT",
                                                                           NumberOfFails = 2,
-                                                                          PartNumber = "comp 2"
+                                                                          PartNumber = "comp 2",
+                                                                          ItemNumber = 1
                                                                       }
                                                               }
                                             }

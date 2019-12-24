@@ -244,3 +244,7 @@ export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.ac
 export const ateStatusReportActionTypes = makeReportActionTypes(
     reportTypes.ateStatusReport.actionType
 );
+
+export const ateDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.ateDetailsReport.actionType
+);

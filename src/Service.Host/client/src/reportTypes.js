@@ -131,3 +131,9 @@ export const ateStatusReport = new ItemType(
     'ATE_STATUS_REPORT',
     '/production/reports/ate/status/report'
 );
+
+export const ateDetailsReport = new ItemType(
+    'ateDetailsReport',
+    'ATE_DETAILS_REPORT',
+    '/production/reports/ate/details/report'
+);

@@ -4,11 +4,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Net;
     using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Layouts;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Extensions;
     using Linn.Production.Domain.LinnApps.Layouts;
     using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.Reports.OptionTypes;
@@ -66,6 +68,11 @@
             var model = reportLayout.GetResultsModel();
             this.reportingHelper.SortRowsByRowTitle(model);
 
+            model.RowDrillDownTemplates.Add(
+                new DrillDownModel(
+                    "Details",
+                    this.GenerateValueDrillDown(groupBy, fromDate, toDate, smtOrPcb, placeFound)));
+
             return model;
         }
 
@@ -96,7 +103,7 @@
                         new AxisDetailsModel("Circuit Ref", GridDisplayType.TextValue),
                         new AxisDetailsModel("Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("Fault Code", GridDisplayType.TextValue),
-                        new AxisDetailsModel("Fails"),
+                        new AxisDetailsModel("Fails", GridDisplayType.TextValue),
                         new AxisDetailsModel("Smt Or Pcb", GridDisplayType.TextValue),
                         new AxisDetailsModel("DetailOperator", "Operator", GridDisplayType.TextValue)
                     });
@@ -149,7 +156,7 @@
 
             if (!string.IsNullOrEmpty(board))
             {
-                expressions.Add(f => f.BoardPartNumber == component);
+                expressions.Add(f => f.BoardPartNumber == board);
             }
 
             if (!string.IsNullOrEmpty(component))
@@ -174,6 +181,11 @@
         {
             var title = $"ATE Test Fails between {fromDate:dd-MMM-yyyy} and {toDate:dd-MMM-yyyy}. ";
             return title;
+        }
+
+        private string GenerateValueDrillDown(AteReportGroupBy groupBy, DateTime fromDate, DateTime toDate, string smtOrPcb, string placeFound)
+        {
+            return $"/production/reports/ate/details/report?{char.ToLowerInvariant(groupBy.ToString()[0]) + groupBy.ToString().Substring(1)}={{rowId}}&parentGroupBy={groupBy.ParseOption()}&placeFound={placeFound}&smtOrPcb={smtOrPcb}&fromDate={WebUtility.UrlEncode(fromDate.ToString("o"))}&toDate={WebUtility.UrlEncode(toDate.ToString("o"))}";
         }
 
         private IEnumerable<CalculationValueModel> CalculateStatusValues(
@@ -271,7 +283,7 @@
                                {
                                    RowId = rowId,
                                    ColumnId = "Fails",
-                                   Quantity = ateTestReportDetail.NumberOfFails ?? 0
+                                   TextDisplay = ateTestReportDetail.NumberOfFails.ToString() ?? string.Empty
                                });
                 models.Add(new CalculationValueModel
                                {
