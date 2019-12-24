@@ -45,7 +45,7 @@
             this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Fault Code")).Should().Be("fault 2");
             this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Smt Or Pcb")).Should().Be("SMT");
             this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("DetailOperator")).Should().Be(string.Empty);
-            this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Fails")).Should().Be("1");
+            this.result.GetGridValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Fails")).Should().Be(1);
         }
     }
 }

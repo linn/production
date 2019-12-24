@@ -85,14 +85,11 @@
             string component,
             string faultCode)
         {
-            var reportLayout = new SimpleGridLayout(
-                this.reportingHelper,
-                CalculationValueModelType.TextValue,
-                null,
-                this.GenerateDetailsReportTitle(fromDate, toDate));
-
-            reportLayout.AddColumnComponent(
-                null,
+            var resultsModel = new ResultsModel
+                                   {
+                                       ReportTitle = new NameModel(this.GenerateDetailsReportTitle(fromDate, toDate))
+                                   };
+            resultsModel.AddSortedColumns(
                 new List<AxisDetailsModel>
                     {
                         new AxisDetailsModel("Test Id", GridDisplayType.TextValue),
@@ -103,7 +100,7 @@
                         new AxisDetailsModel("Circuit Ref", GridDisplayType.TextValue),
                         new AxisDetailsModel("Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("Fault Code", GridDisplayType.TextValue),
-                        new AxisDetailsModel("Fails", GridDisplayType.TextValue),
+                        new AxisDetailsModel("Fails"),
                         new AxisDetailsModel("Smt Or Pcb", GridDisplayType.TextValue),
                         new AxisDetailsModel("DetailOperator", "Operator", GridDisplayType.TextValue)
                     });
@@ -127,17 +124,23 @@
                                    });
             var reportDetails = this.SelectDetails(allDetails.AsQueryable(), smtOrPcb, board, component, faultCode);
 
-            reportLayout.SetGridData(this.CalculateDetailValues(reportDetails));
-
-            var model = reportLayout.GetResultsModel();
-            model.ValueDrillDownTemplates.Add(
+            this.reportingHelper.AddResultsToModel(
+                resultsModel,
+                this.CalculateDetailValues(reportDetails),
+                CalculationValueModelType.Quantity,
+                true);
+            resultsModel.RowDrillDownTemplates.Add(
                 new DrillDownModel(
                     "Test",
                     "/production/quality/ate-tests/{textValue}",
                     null,
-                    model.ColumnIndex("Test Id")));
-
-            return model;
+                    resultsModel.ColumnIndex("Test Id")));
+            this.reportingHelper.SortRowsByRowTitle(resultsModel);
+            this.RemovedRepeatedValues(
+                resultsModel,
+                resultsModel.ColumnIndex("Test Id"),
+                new[] { resultsModel.ColumnIndex("Test Id"), resultsModel.ColumnIndex("Board Part Number") });
+            return resultsModel;
         }
 
         private IEnumerable<AteTestReportDetail> SelectDetails(
@@ -283,7 +286,7 @@
                                {
                                    RowId = rowId,
                                    ColumnId = "Fails",
-                                   TextDisplay = ateTestReportDetail.NumberOfFails.ToString() ?? string.Empty
+                                   Quantity = ateTestReportDetail.NumberOfFails ?? 0
                                });
                 models.Add(new CalculationValueModel
                                {
@@ -313,6 +316,36 @@
             }
 
             return data.ToList();
+        }
+
+        private void RemovedRepeatedValues(ResultsModel model, int columnToCheck, int[] columnsToRemove = null, bool preSorted = true)
+        {
+            var groups = model.Rows.GroupBy(a => model.GetGridTextValue(a.RowIndex, columnToCheck));
+            if (columnsToRemove == null || columnsToRemove.Length == 0)
+            {
+                columnsToRemove = new[] { columnToCheck };
+            }
+
+            if (!preSorted)
+            {
+                this.reportingHelper.SortRowsByTextColumnValues(model, columnToCheck);
+            }
+
+            foreach (var groupedSet in groups)
+            {
+                var newRowSortOrder = groupedSet.OrderBy(a => a.SortOrder)
+                                          .First(a => model.GetGridTextValue(a.RowIndex, columnToCheck) == groupedSet.Key)
+                                          .SortOrder ?? 0;
+
+                foreach (var rowModel in groupedSet.Where(g => g.SortOrder != newRowSortOrder))
+                {
+                    foreach (var columnToRemove in columnsToRemove)
+                    {
+                        model.SetGridValue(rowModel.RowIndex, columnToRemove, null);
+                        model.SetGridTextValue(rowModel.RowIndex, columnToRemove, string.Empty);
+                    }
+                }
+            }
         }
     }
 }
