@@ -87,7 +87,7 @@
         {
             var resultsModel = new ResultsModel
                                    {
-                                       ReportTitle = new NameModel(this.GenerateDetailsReportTitle(fromDate, toDate))
+                                       ReportTitle = new NameModel(this.GenerateDetailsReportTitle(fromDate, toDate, board, component, faultCode))
                                    };
             resultsModel.AddSortedColumns(
                 new List<AxisDetailsModel>
@@ -180,9 +180,12 @@
             return $"ATE Test Fails By {Regex.Replace(groupBy.ToString(), "(\\B[A-Z])", " $1")}";
         }
 
-        private string GenerateDetailsReportTitle(DateTime fromDate, DateTime toDate)
+        private string GenerateDetailsReportTitle(DateTime fromDate, DateTime toDate, string board, string component, string faultCode)
         {
-            var title = $"ATE Test Fails between {fromDate:dd-MMM-yyyy} and {toDate:dd-MMM-yyyy}. ";
+            var title = $"ATE Test Fails between {fromDate:dd-MMM-yyyy} and {toDate:dd-MMM-yyyy}";
+            title += !string.IsNullOrEmpty(board) ? $" for board {board}" : string.Empty;
+            title += !string.IsNullOrEmpty(component) ? $" for component {component}" : string.Empty;
+            title += !string.IsNullOrEmpty(faultCode) ? $" for fault code {faultCode}" : string.Empty;
             return title;
         }
 

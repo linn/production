@@ -27,7 +27,7 @@
         [Test]
         public void ShouldSetReportTitle()
         {
-            this.result.ReportTitle.DisplayValue.Should().Be("ATE Test Fails between 01-Jun-2020 and 30-Jun-2020. ");
+            this.result.ReportTitle.DisplayValue.Should().Be("ATE Test Fails between 01-Jun-2020 and 30-Jun-2020 for fault code fault 2");
         }
 
         [Test]

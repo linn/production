@@ -67,7 +67,9 @@
                                                                           SmtOrPcb = "SMT",
                                                                           NumberOfFails = 1,
                                                                           PartNumber = "comp 2",
-                                                                          ItemNumber = 1
+                                                                          ItemNumber = 1,
+                                                                          BatchNumber = "bn 1",
+                                                                          CircuitRef = "circuit 12"
                                                                       }
                                                               }
                                             },
@@ -86,7 +88,8 @@
                                                                           SmtOrPcb = "SMT",
                                                                           NumberOfFails = 1,
                                                                           PartNumber = "comp 1",
-                                                                          ItemNumber = 1
+                                                                          ItemNumber = 1,
+                                                                          BatchNumber = "bn 45"
                                                                       }
                                                               }
                                             },
@@ -126,7 +129,8 @@
                                                                           SmtOrPcb = "SMT",
                                                                           NumberOfFails = 2,
                                                                           PartNumber = "comp 2",
-                                                                          ItemNumber = 1
+                                                                          ItemNumber = 1,
+                                                                          CircuitRef = "circuit 1"
                                                                       }
                                                               }
                                             }
