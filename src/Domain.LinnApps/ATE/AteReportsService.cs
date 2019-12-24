@@ -8,7 +8,6 @@
     using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
-    using Linn.Common.Reporting.Layouts;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Extensions;
     using Linn.Production.Domain.LinnApps.Layouts;
@@ -41,9 +40,7 @@
             string placeFound,
             AteReportGroupBy groupBy)
         {
-            var data = this.GetAteTests(fromDate, toDate, placeFound);
-
-            var details = data.SelectMany(a => a.Details).ToList();
+            var details = this.GetAteTestDetails(fromDate, toDate, placeFound);
 
             if (!string.IsNullOrEmpty(smtOrPcb))
             {
@@ -63,7 +60,7 @@
                                  SortOrder = w.LinnWeekNumber
                              }));
 
-            reportLayout.AddData(this.CalculateStatusValues(details, data.ToList(), groupBy, weeks));
+            reportLayout.AddData(this.CalculateStatusValues(details, groupBy, weeks));
 
             var model = reportLayout.GetResultsModel();
             this.reportingHelper.SortRowsByRowTitle(model);
@@ -105,24 +102,8 @@
                         new AxisDetailsModel("DetailOperator", "Operator", GridDisplayType.TextValue)
                     });
 
-            var data = this.GetAteTests(fromDate, toDate, placeFound);
-            var allDetails = data.SelectMany(
-                a => a.Details,
-                (a, detail) => new AteTestReportDetail
-                                   {
-                                       TestId = a.TestId,
-                                       DateTested = a.DateTested ?? throw new ArgumentNullException(),
-                                       BoardPartNumber = a.WorksOrder.PartNumber,
-                                       NumberTested = a.NumberTested,
-                                       ItemNumber = detail.ItemNumber,
-                                       SmtOrPcb = detail.SmtOrPcb,
-                                       NumberOfFails = detail.NumberOfFails,
-                                       AteTestFaultCode = detail.AteTestFaultCode,
-                                       BatchNumber = detail.BatchNumber,
-                                       CircuitRef = detail.CircuitRef,
-                                       ComponentPartNumber = detail.PartNumber,
-                                   });
-            var reportDetails = this.SelectDetails(allDetails.AsQueryable(), smtOrPcb, board, component, faultCode);
+            var details = this.GetAteTestDetails(fromDate, toDate, placeFound);
+            var reportDetails = this.SelectDetails(details.AsQueryable(), smtOrPcb, board, component, faultCode);
 
             this.reportingHelper.AddResultsToModel(
                 resultsModel,
@@ -195,8 +176,7 @@
         }
 
         private IEnumerable<CalculationValueModel> CalculateStatusValues(
-            IEnumerable<AteTestDetail> details,
-            IList<AteTest> tests,
+            IEnumerable<AteTestReportDetail> details,
             AteReportGroupBy groupBy,
             IReadOnlyCollection<LinnWeek> weeks)
         {
@@ -206,8 +186,8 @@
                     return details.Select(
                         f => new CalculationValueModel
                                  {
-                                     RowId = f.PartNumber,
-                                     ColumnId = this.linnWeekService.GetWeek(tests.FirstOrDefault(t => t.TestId == f.TestId).DateTested.Value, weeks).LinnWeekNumber.ToString(),
+                                     RowId = f.ComponentPartNumber,
+                                     ColumnId = this.linnWeekService.GetWeek(f.DateTested, weeks).LinnWeekNumber.ToString(),
                                      Quantity = f.NumberOfFails ?? 0
                                  });
                 case AteReportGroupBy.FaultCode:
@@ -215,15 +195,15 @@
                         f => new CalculationValueModel
                         {
                             RowId = f.AteTestFaultCode ?? string.Empty,
-                            ColumnId = this.linnWeekService.GetWeek(tests.FirstOrDefault(t => t.TestId == f.TestId).DateTested.Value, weeks).LinnWeekNumber.ToString(),
+                            ColumnId = this.linnWeekService.GetWeek(f.DateTested, weeks).LinnWeekNumber.ToString(),
                             Quantity = f.NumberOfFails ?? 0
                         });
                 case AteReportGroupBy.Board:
                     return details.Select(
                         f => new CalculationValueModel
                                  {
-                                     RowId = tests.FirstOrDefault(t => t.TestId == f.TestId).WorksOrder.PartNumber ?? string.Empty,
-                                     ColumnId = this.linnWeekService.GetWeek(tests.FirstOrDefault(t => t.TestId == f.TestId).DateTested.Value, weeks).LinnWeekNumber.ToString(),
+                                     RowId = f.BoardPartNumber ?? string.Empty,
+                                     ColumnId = this.linnWeekService.GetWeek(f.DateTested, weeks).LinnWeekNumber.ToString(),
                                      Quantity = f.NumberOfFails ?? 0
                                  });
                 default:
@@ -308,7 +288,7 @@
             return models;
         }
 
-        private IEnumerable<AteTest> GetAteTests(DateTime fromDate, DateTime toDate, string placeFound)
+        private IEnumerable<AteTestReportDetail> GetAteTestDetails(DateTime fromDate, DateTime toDate, string placeFound)
         {
             var data = this.ateTestRepository.FilterBy(
                 a => a.DateTested != null && a.DateTested.Value.Date >= fromDate.Date
@@ -318,7 +298,24 @@
                 data = data.Where(d => d.PlaceFound == placeFound);
             }
 
-            return data.ToList();
+            var allDetails = data.ToList().SelectMany(
+                a => a.Details,
+                (a, detail) => new AteTestReportDetail
+                                   {
+                                       TestId = a.TestId,
+                                       DateTested = a.DateTested ?? throw new ArgumentNullException(),
+                                       BoardPartNumber = a.WorksOrder.PartNumber,
+                                       NumberTested = a.NumberTested,
+                                       ItemNumber = detail.ItemNumber,
+                                       SmtOrPcb = detail.SmtOrPcb,
+                                       NumberOfFails = detail.NumberOfFails,
+                                       AteTestFaultCode = detail.AteTestFaultCode,
+                                       BatchNumber = detail.BatchNumber,
+                                       CircuitRef = detail.CircuitRef,
+                                       ComponentPartNumber = detail.PartNumber,
+                                   });
+
+            return allDetails;
         }
 
         private void RemovedRepeatedValues(ResultsModel model, int columnToCheck, int[] columnsToRemove = null, bool preSorted = true)
