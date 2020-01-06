@@ -1,14 +1,10 @@
 ﻿namespace Linn.Production.Facade.Services
-
 {
     using System;
     using System.Collections.Generic;
-
-    using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.Extensions;

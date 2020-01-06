@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
@@ -17,23 +16,20 @@
             {
                 Id = idAndName.Id,
                 Name = idAndName.Name,
-                Links = this.BuildLinks(idAndName).ToArray()
+                Links = this.BuildLinks().ToArray()
             };
         }
 
         public string GetLocation(IdAndName idAndName)
         {
-            return string.Empty;
+            throw new NotImplementedException();
         }
 
         object IResourceBuilder<IdAndName>.Build(IdAndName idAndName) => this.Build(idAndName);
 
-        private IEnumerable<LinkResource> BuildLinks(IdAndName idAndName)
+        private IEnumerable<LinkResource> BuildLinks()
         {
-            return new List<LinkResource>
-                       {
-                           new LinkResource { Rel = "self", Href = this.GetLocation(idAndName) }
-                       };
+            return new List<LinkResource>();
         }
     }
 }

@@ -12,10 +12,6 @@
 
     public class LabelPrintResourceBuilder : IResourceBuilder<LabelPrint>
     {
-        public LabelPrintResourceBuilder()
-        {
-        }
-
         public LabelPrintResource Build(LabelPrint model)
         {
             return new LabelPrintResource
