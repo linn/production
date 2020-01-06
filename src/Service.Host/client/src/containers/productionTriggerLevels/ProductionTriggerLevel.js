@@ -32,14 +32,14 @@ const initialise = ({ itemId }) => dispatch => {
     dispatch(manufacturingRoutesActions.fetch(''));
     dispatch(citsActions.fetch());
     dispatch(employeesActions.fetch());
+    dispatch(workStationActions.fetchByQueryString(''));
 };
 
 const mapDispatchToProps = {
     initialise,
     updateItem: productionTriggerLevelActions.update,
     setEditStatus: productionTriggerLevelActions.setEditStatus,
-    setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
-    getWorkStationsForCit: workStationActions.fetchByQueryString
+    setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TriggerLevel));

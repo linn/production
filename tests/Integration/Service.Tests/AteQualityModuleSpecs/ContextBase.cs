@@ -21,21 +21,32 @@
     {
         protected IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource> AteFaultCodeService { get; private set; }
 
+        protected IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> AteTestDetailService { get; private set; }
+
+
+        protected IFacadeService<AteTest, int, AteTestResource, AteTestResource> AteTestService { get; private set; }
+
         [SetUp]
         public void EstablishContext()
         {
             this.AteFaultCodeService = Substitute.For<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
+            this.AteTestService = Substitute.For<IFacadeService<AteTest, int, AteTestResource, AteTestResource>>();
+            this.AteTestDetailService = Substitute.For<IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.AteFaultCodeService);
+                    with.Dependency(this.AteTestService);
+                    with.Dependency(this.AteTestDetailService);
                     with.Dependency<IResourceBuilder<AteFaultCode>>(new AteFaultCodeResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<AteFaultCode>>>(
                         new AteFaultCodesResourceBuilder());
+                    with.Dependency<IResourceBuilder<AteTest>>(new AteTestResourceBuilder());
                     with.Module<AteQualityModule>();
                     with.ResponseProcessor<AteFaultCodeResponseProcessor>();
                     with.ResponseProcessor<AteFaultCodesResponseProcessor>();
+                    with.ResponseProcessor<AteTestResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

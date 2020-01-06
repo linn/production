@@ -29,7 +29,7 @@
 
         public void Add(ProductionTriggerLevel entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.ProductionTriggerLevels.Add(entity);
         }
 
         public void Remove(ProductionTriggerLevel entity)

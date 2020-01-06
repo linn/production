@@ -80,7 +80,9 @@
             builder.RegisterType<BuildPlanDetailsReportLineRepository>().As<IQueryRepository<BuildPlanDetailsReportLine>>();
             builder.RegisterType<BuildPlanDetailRepository>().As<IRepository<BuildPlanDetail, BuildPlanDetailKey>>();
             builder.RegisterType<BuildPlanRuleRepository>().As<IQueryRepository<BuildPlanRule>>();
-
+            builder.RegisterType<AteTestRepository>().As<IRepository<AteTest, int>>();
+            builder.RegisterType<AteTestDetailRepository>().As<IRepository<AteTestDetail, AteTestDetailKey>>();
+                
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
             builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();

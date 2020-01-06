@@ -50,11 +50,14 @@
 
         private IEnumerable<LinkResource> BuildLinks(ResponseModel<ProductionTriggerLevel> model)
         {
-            yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
+            if (!string.IsNullOrWhiteSpace(model.ResponseData.PartNumber))
+            {
+                yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
+            }
 
             if (this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, model.Privileges))
             {
-                yield return new LinkResource { Rel = "edit", Href = this.GetLocation(model) };
+                yield return new LinkResource { Rel = "edit", Href = "/production/maintenance/production-trigger-levels/" };
             }
         }
     }
