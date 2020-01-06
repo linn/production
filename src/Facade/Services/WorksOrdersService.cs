@@ -114,7 +114,7 @@
 
         public IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(string boardNumber)
         {
-            var result = this.worksOrderRepository.FilterBy(w => w.Part.IsBoardPart() && w.Part.PartNumber.Contains(boardNumber.ToUpper()));
+            var result = this.worksOrderRepository.FilterBy(w => w.Part.IsBoardPart() && w.Part.PartNumber.Equals(boardNumber.ToUpper()));
 
             if (result.Count() > 1000)
             {
