@@ -158,6 +158,7 @@
             return this.Negotiate.WithModel(parts).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
+
         private object GetApp()
         {
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();

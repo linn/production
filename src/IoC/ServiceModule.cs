@@ -20,6 +20,7 @@
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
+    using Linn.Production.Facade;
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
@@ -142,6 +143,7 @@
             builder.RegisterType<LabelPack>().As<ILabelPack>();
             builder.RegisterType<WwdTrigProxy>().As<IWwdTrigFunction>();
             builder.RegisterType<WorksOrderLabelPack>().As<IWorksOrderLabelPack>();
+            builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
