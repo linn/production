@@ -14,6 +14,7 @@
     using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.Reports.OptionTypes;
     using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class AteReportsService : IAteReportsService
     {
@@ -23,14 +24,18 @@
 
         private readonly ILinnWeekService linnWeekService;
 
+        private readonly IRepository<Employee, int> employeeRepository;
+
         public AteReportsService(
             IRepository<AteTest, int> ateTestRepository,
             IReportingHelper reportingHelper,
-            ILinnWeekService linnWeekService)
+            ILinnWeekService linnWeekService,
+            IRepository<Employee, int> employeeRepository)
         {
             this.ateTestRepository = ateTestRepository;
             this.reportingHelper = reportingHelper;
             this.linnWeekService = linnWeekService;
+            this.employeeRepository = employeeRepository;
         }
 
         public ResultsModel GetStatusReport(
@@ -103,7 +108,7 @@
                     });
 
             var details = this.GetAteTestDetails(fromDate, toDate, placeFound);
-            var reportDetails = this.SelectDetails(details.AsQueryable(), smtOrPcb, board, component, faultCode);
+            var reportDetails = this.SelectDetails(details.AsQueryable(), smtOrPcb, board, component, faultCode).ToList();
 
             this.reportingHelper.AddResultsToModel(
                 resultsModel,
@@ -233,7 +238,7 @@
                                {
                                    RowId = rowId,
                                    ColumnId = "Operator",
-                                   TextDisplay = string.Empty
+                                   TextDisplay = this.employeeRepository.FindById(ateTestReportDetail.PcbOperatorNumber).FullName
                                });
                 models.Add(new CalculationValueModel
                                {
@@ -281,7 +286,9 @@
                                {
                                    RowId = rowId,
                                    ColumnId = "DetailOperator",
-                                   TextDisplay = string.Empty
+                                   TextDisplay = ateTestReportDetail.DetailPcbOperator.HasValue
+                                                     ? this.employeeRepository.FindById(ateTestReportDetail.DetailPcbOperator.Value).FullName
+                                                     : string.Empty
                                });
             }
 
@@ -313,6 +320,8 @@
                                        BatchNumber = detail.BatchNumber,
                                        CircuitRef = detail.CircuitRef,
                                        ComponentPartNumber = detail.PartNumber,
+                                       PcbOperatorNumber = a.PcbOperator,
+                                       DetailPcbOperator = detail.PcbOperator
                                    });
 
             return allDetails;

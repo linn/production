@@ -6,7 +6,6 @@
     using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.Services;
-    using Linn.Production.Domain.LinnApps.ViewModels;
 
     using NSubstitute;
 
@@ -25,7 +24,7 @@
         protected ILinnWeekRepository LinnWeekRepository { get; private set; }
 
         [SetUp]
-        public void SetUp()
+        public void SetUpContext()
         {
             this.BuildPlanDetailsLineRepository = Substitute.For<IQueryRepository<BuildPlanDetailsReportLine>>();
             this.LinnWeekRepository = Substitute.For<ILinnWeekRepository>();

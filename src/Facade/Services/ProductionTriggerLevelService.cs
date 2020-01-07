@@ -1,23 +1,36 @@
 ﻿namespace Linn.Production.Facade.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
 
     public class ProductionTriggerLevelService : FacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>,
                                                  IProductionTriggerLevelsService
     {
-        private IRepository<ProductionTriggerLevel, string> repository;
+        private readonly IRepository<ProductionTriggerLevel, string> repository;
 
         public ProductionTriggerLevelService(IRepository<ProductionTriggerLevel, string> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
             this.repository = repository;
+        }
+
+        public IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> Search(ProductionTriggerLevelsSearchRequestResource searchTerms, IEnumerable<string> privileges)
+        {
+            try
+            {
+                return new SuccessResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>(
+                    new ResponseModel<IEnumerable<ProductionTriggerLevel>>(this.repository.FilterBy(this.SearchExpression(searchTerms)), privileges));
+            }
+            catch (NotImplementedException)
+            {
+                return new BadRequestResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>("Search is not implemented");
+            }
         }
 
         protected override ProductionTriggerLevel CreateFromResource(ProductionTriggerLevelResource resource)
@@ -73,19 +86,6 @@
                 && (string.IsNullOrWhiteSpace(searchTerms.CitSearchTerm) || w.CitCode == searchTerms.CitSearchTerm)
                 && (searchTerms.OverrideSearchTerm == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms.OverrideSearchTerm))
                 && (searchTerms.AutoSearchTerm == "null" || w.VariableTriggerLevel > int.Parse(searchTerms.AutoSearchTerm));
-        }
-
-        public IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> Search(ProductionTriggerLevelsSearchRequestResource searchTerms, IEnumerable<string> privileges)
-        {
-            try
-            {
-                return new SuccessResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>(
-                        new ResponseModel<IEnumerable<ProductionTriggerLevel>>(this.repository.FilterBy(this.SearchExpression(searchTerms)), privileges));
-            }
-            catch (NotImplementedException ex)
-            {
-                return new BadRequestResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>("Search is not implemented");
-            }
         }
     }
 }

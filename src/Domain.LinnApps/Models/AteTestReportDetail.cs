@@ -25,5 +25,9 @@
         public string SmtOrPcb { get; set; }
 
         public string BatchNumber { get; set; }
+
+        public int PcbOperatorNumber { get; set; }
+
+        public int? DetailPcbOperator { get; set; }
     }
 }

@@ -37,19 +37,19 @@
             this.result.Columns.Should().HaveCount(11);
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Test Id")).Should().Be("1");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Board Part Number")).Should().Be("part 1");
-            this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Operator")).Should().Be(string.Empty);
+            this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Operator")).Should().Be("Emp 1");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Item")).Should().Be("1");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Batch Number")).Should().Be("bn 1");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Circuit Ref")).Should().Be("circuit 12");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Part Number")).Should().Be("comp 2");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Fault Code")).Should().Be("fault 1");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Smt Or Pcb")).Should().Be("SMT");
-            this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("DetailOperator")).Should().Be(string.Empty);
+            this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("DetailOperator")).Should().Be("Emp 2");
             this.result.GetGridValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Fails")).Should().Be(1);
 
             this.result.GetGridTextValue(this.result.RowIndex("4/001"), this.result.ColumnIndex("Test Id")).Should().Be("4");
             this.result.GetGridTextValue(this.result.RowIndex("4/001"), this.result.ColumnIndex("Board Part Number")).Should().Be("part 1");
-            this.result.GetGridTextValue(this.result.RowIndex("4/001"), this.result.ColumnIndex("Operator")).Should().Be(string.Empty);
+            this.result.GetGridTextValue(this.result.RowIndex("4/001"), this.result.ColumnIndex("Operator")).Should().Be("Emp 1");
             this.result.GetGridTextValue(this.result.RowIndex("4/001"), this.result.ColumnIndex("Item")).Should().Be("1");
             this.result.GetGridTextValue(this.result.RowIndex("4/001"), this.result.ColumnIndex("Batch Number")).Should().BeNull();
             this.result.GetGridTextValue(this.result.RowIndex("4/001"), this.result.ColumnIndex("Circuit Ref")).Should().Be("circuit 1");

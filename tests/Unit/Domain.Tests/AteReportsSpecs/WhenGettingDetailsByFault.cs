@@ -37,7 +37,7 @@
             this.result.Columns.Should().HaveCount(11);
             this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Test Id")).Should().Be("3");
             this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Board Part Number")).Should().Be("part 1");
-            this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Operator")).Should().Be(string.Empty);
+            this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Operator")).Should().Be("Emp 1");
             this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Item")).Should().Be("1");
             this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Batch Number")).Should().Be("bn 1");
             this.result.GetGridTextValue(this.result.RowIndex("3/001"), this.result.ColumnIndex("Circuit Ref")).Should().Be("circuit 1");

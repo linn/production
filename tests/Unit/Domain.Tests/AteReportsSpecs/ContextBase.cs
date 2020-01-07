@@ -13,6 +13,7 @@
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Repositories;
     using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using NSubstitute;
@@ -26,6 +27,8 @@
         protected IReportingHelper ReportingHelper { get; private set; }
 
         protected IRepository<AteTest, int> AteTestRepository { get; private set; }
+
+        protected IRepository<Employee, int> EmployeeRepository { get; private set; }
 
         protected List<AteTest> AteTests { get; set; }
 
@@ -42,6 +45,7 @@
             this.ReportingHelper = new ReportingHelper();
             this.LinnWeekRepository = Substitute.For<ILinnWeekRepository>();
             this.LinnWeekService = new LinnWeekService(this.LinnWeekRepository);
+            this.EmployeeRepository = Substitute.For<IRepository<Employee, int>>();
 
             this.Weeks = new List<LinnWeek>
                              {
@@ -58,6 +62,7 @@
                                                 DateTested = 1.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
+                                                PcbOperator = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -69,7 +74,8 @@
                                                                           PartNumber = "comp 2",
                                                                           ItemNumber = 1,
                                                                           BatchNumber = "bn 1",
-                                                                          CircuitRef = "circuit 12"
+                                                                          CircuitRef = "circuit 12",
+                                                                          PcbOperator = 2
                                                                       }
                                                               }
                                             },
@@ -79,6 +85,7 @@
                                                 DateTested = 9.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 2" },
+                                                PcbOperator = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -99,6 +106,7 @@
                                                 DateTested = 20.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
+                                                PcbOperator = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -120,6 +128,7 @@
                                                 DateTested = 19.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
+                                                PcbOperator = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -140,8 +149,13 @@
                 .Returns(this.AteTests.AsQueryable());
             this.LinnWeekService.GetWeeks(1.June(2020), 30.June(2020))
                 .Returns(this.Weeks.AsQueryable());
-
-            this.Sut = new AteReportsService(this.AteTestRepository, this.ReportingHelper, this.LinnWeekService);
+            this.EmployeeRepository.FindById(1).Returns(new Employee { Id = 1, FullName = "Emp 1" });
+            this.EmployeeRepository.FindById(2).Returns(new Employee { Id = 2, FullName = "Emp 2" });
+            this.Sut = new AteReportsService(
+                this.AteTestRepository,
+                this.ReportingHelper,
+                this.LinnWeekService,
+                this.EmployeeRepository);
         }
     }
 }

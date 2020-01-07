@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Domain.LinnApps.ATE
 {
-    using System;
-
     public class AteTestDetail
     {
         public int TestId { get; set; }
