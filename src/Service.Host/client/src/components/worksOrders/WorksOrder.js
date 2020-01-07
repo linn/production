@@ -624,7 +624,8 @@ WorksOrder.propTypes = {
     setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
     defaultWorksOrderPrinter: PropTypes.string,
     fetchSerialNumbers: PropTypes.func.isRequired,
-    serialNumbers: PropTypes.arrayOf(PropTypes.shape())
+    serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
+    previousPath: PropTypes.string.isRequired
 };
 
 WorksOrder.defaultProps = {
