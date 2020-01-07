@@ -34,7 +34,8 @@ function TriggerLevel({
     searchParts,
     partsSearchLoading,
     clearPartsSearch,
-    applicationState
+    applicationState,
+    appStateLoading
 }) {
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
@@ -122,7 +123,7 @@ function TriggerLevel({
                                     <ErrorCard errorMessage={itemErrors.statusText} />
                                 </Grid>
                             )}
-                            {loading || !triggerLevel ? (
+                            {loading || appStateLoading || !triggerLevel ? (
                                 <Grid item xs={12}>
                                     <Loading />
                                 </Grid>
@@ -418,7 +419,8 @@ TriggerLevel.propTypes = {
     searchParts: PropTypes.func,
     partsSearchLoading: PropTypes.bool,
     clearPartsSearch: PropTypes.func,
-    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) })
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) }),
+    appStateLoading: PropTypes.bool
 };
 
 TriggerLevel.defaultProps = {
@@ -436,7 +438,8 @@ TriggerLevel.defaultProps = {
     searchParts: null,
     partsSearchLoading: false,
     clearPartsSearch: null,
-    applicationState: null
+    applicationState: null,
+    appStateLoading: false
 };
 
 export default TriggerLevel;
