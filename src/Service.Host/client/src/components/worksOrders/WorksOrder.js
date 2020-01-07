@@ -77,7 +77,6 @@ function WorksOrder({
     const [searchTerm, setSearchTerm] = useState(null);
     const [printerGroup, setPrinterGroup] = useState('Prod');
     const [viewSernos, setViewsernos] = useState(false);
-    console.log(previousPath);
 
     const printerGroups = ['Prod', 'DSM', 'Flexible', 'Kiko', 'LP12', 'Metalwork', 'SpeakerCover'];
 
@@ -559,7 +558,6 @@ function WorksOrder({
                                     saveClick={handleSaveClick}
                                     cancelClick={handleCancelClick}
                                     backClick={() => {
-                                        console.log(previousPath);
                                         history.push(previousPath);
                                     }}
                                 />
