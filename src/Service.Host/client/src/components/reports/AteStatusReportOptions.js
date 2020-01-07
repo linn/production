@@ -51,14 +51,14 @@ function AteStatusReportOptions({ history, prevOptions }) {
                         Choose a date range:
                     </Typography>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                     <DatePicker
                         label="From Date"
                         value={fromDate.toString()}
                         onChange={setFromDate}
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={4}>
                     <DatePicker
                         label="To Date"
                         value={toDate.toString()}
@@ -66,7 +66,7 @@ function AteStatusReportOptions({ history, prevOptions }) {
                         onChange={setToDate}
                     />
                 </Grid>
-                <Grid item xs={6} />
+                <Grid item xs={4} />
                 <Grid item xs={3}>
                     <Dropdown
                         label="Group By"
