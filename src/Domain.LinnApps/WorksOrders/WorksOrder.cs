@@ -52,21 +52,24 @@
 
         public List<PartFail> PartFails { get; set; }
 
-        public void CancelWorksOrder(int? cancelledBy, string reasonCancelled)
+        public string BatchNotes { get; set; }
+
+        public void UpdateWorksOrder(int quantity, string batchNotes, int? cancelledBy, string reasonCancelled)
         {
-            if (cancelledBy == null || string.IsNullOrEmpty(reasonCancelled))
+            if (reasonCancelled != null)
             {
-                throw new InvalidWorksOrderException("You must provide a user number and reason when cancelling a works order");
+                if (cancelledBy == null || string.IsNullOrEmpty(reasonCancelled))
+                {
+                    throw new InvalidWorksOrderException("You must provide a user number and reason when cancelling a works order");
+                }
+
+                this.CancelledBy = cancelledBy;
+                this.ReasonCancelled = reasonCancelled;
+                this.DateCancelled = DateTime.UtcNow;
             }
 
-            this.CancelledBy = cancelledBy;
-            this.ReasonCancelled = reasonCancelled;
-            this.DateCancelled = DateTime.UtcNow;
-        }
-
-        public void UpdateWorksOrder(int quantity)
-        {
             this.Quantity = quantity;
+            this.BatchNotes = batchNotes;
         }
     }
 }

@@ -89,24 +89,14 @@
                 return new NotFoundResult<WorksOrder>();
             }
 
-            if (resource.ReasonCancelled != null)
+            try
             {
-                try
-                {
-                    worksOrder.CancelWorksOrder(resource.CancelledBy, resource.ReasonCancelled);
-                }
-                catch (DomainException exception)
-                {
-                    return new BadRequestResult<WorksOrder>(exception.Message);
-                }
-
-                this.transactionManager.Commit();
-
-                return new SuccessResult<WorksOrder>(worksOrder);
+                worksOrder.UpdateWorksOrder(resource.Quantity, resource.BatchNotes,resource.CancelledBy, resource.ReasonCancelled);
             }
-
-            this.UpdateFromResource(worksOrder, resource);
-
+            catch (DomainException exception)
+            {
+                return new BadRequestResult<WorksOrder>(exception.Message);
+            }
             this.transactionManager.Commit();
 
             return new SuccessResult<WorksOrder>(worksOrder);
@@ -166,7 +156,11 @@
 
         protected override void UpdateFromResource(WorksOrder worksOrder, WorksOrderResource updateResource)
         {
-            worksOrder.UpdateWorksOrder(updateResource.Quantity);
+            worksOrder.UpdateWorksOrder(
+                updateResource.Quantity, 
+                updateResource.BatchNotes, 
+                updateResource.CancelledBy, 
+                updateResource.ReasonCancelled);
         }
 
         protected override Expression<Func<WorksOrder, bool>> SearchExpression(string searchTerm)
