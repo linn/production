@@ -25,7 +25,7 @@
         [Test]
         public void ShouldGetLabelData()
         {
-            this.LabelPack.Received().GetLabelData("BOX", 808, "article", "B");
+            this.LabelPack.Received().GetLabelData("BOX", 808, "article");
         }
 
         [Test]
@@ -62,7 +62,7 @@
                 $"BoxReprint{808}",
                 "ProdLbl2",
                 1,
-                "c:\\lbl\\boxlbl_ean.btw",
+                "c:\\lbl\\boxlbl_08ean.btw",
                 Arg.Any<string>(),
                 ref value);
         }

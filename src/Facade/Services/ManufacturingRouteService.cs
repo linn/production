@@ -11,12 +11,13 @@
     public class ManufacturingRouteService : FacadeService<ManufacturingRoute, string, ManufacturingRouteResource,
         ManufacturingRouteResource>
     {
-        private readonly IManufacturingOperationsService manufacturingOperationService;
+        private readonly IServiceWithRemove<ManufacturingOperation, int, ManufacturingOperationResource,
+            ManufacturingOperationResource> manufacturingOperationService;
 
         public ManufacturingRouteService(
             IRepository<ManufacturingRoute, string> repository,
             ITransactionManager transactionManager,
-            IManufacturingOperationsService manufacturingOperationService)
+            IServiceWithRemove<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource> manufacturingOperationService)
             : base(repository, transactionManager)
         {
             this.manufacturingOperationService = manufacturingOperationService;
@@ -33,11 +34,11 @@
             entity.Description = updateResource.Description;
             entity.Notes = updateResource.Notes;
 
-            var operationsForDeletion = entity.Operations.Where(x => !updateResource.Operations.Any(z => z.ManufacturingId == x.ManufacturingId));
+            var operationsForDeletion = entity.Operations.Where(x => updateResource.Operations.All(z => z.ManufacturingId != x.ManufacturingId));
 
             foreach (var operation in operationsForDeletion)
             {
-                this.manufacturingOperationService.RemoveOperation(operation);
+                this.manufacturingOperationService.Remove(operation);
             }
 
             foreach (var operation in updateResource.Operations)

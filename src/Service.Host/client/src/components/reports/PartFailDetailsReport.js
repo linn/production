@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { ReportTable, Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
+import { ReportTable, Loading, ErrorCard } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Page from '../../containers/Page';
@@ -10,9 +10,6 @@ export default function PartFailDetailsReport({ reportData, loading, options, er
     return (
         <Page>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Title text="Part Fail Details Report" />
-                </Grid>
                 {error && (
                     <Grid item xs={12}>
                         <ErrorCard errorMessage={error} />
@@ -20,17 +17,24 @@ export default function PartFailDetailsReport({ reportData, loading, options, er
                 )}
                 <Grid item xs={12}>
                     <Typography variant="subtitle2">
-                        Error Type: {options.errorType}, Fault Code: {options.faultCode}, Part
-                        Number: {options.partNumber}, From:{' '}
-                        {moment(options.fromDate).format('DD-MMM-YYYY')}, To:{' '}
-                        {moment(options.toDate).format('DD-MMM-YYYY')}
+                        Options - Error Type: {options.errorType}, Fault Code: {options.faultCode},
+                        Part Number: {options.partNumber}, From:{' '}
+                        {moment(options.fromWeek).format('DD-MMM-YYYY')}, To:{' '}
+                        {moment(options.toWeek).format('DD-MMM-YYYY')}
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
                     {loading ? (
                         <Loading />
                     ) : (
-                        <ReportTable reportData={reportData} showTotals={false} showTitle={false} />
+                        reportData && (
+                            <ReportTable
+                                reportData={reportData}
+                                showTotals={false}
+                                showTitle
+                                title={reportData.title.displayString}
+                            />
+                        )
                     )}
                 </Grid>
             </Grid>

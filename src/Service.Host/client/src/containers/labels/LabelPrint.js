@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getItemErrorDetailMessage } from '@linn-it/linn-form-components-library';
-import LabelReprint from '../../components/labels/LabelReprint';
+import LabelPrint from '../../components/labels/LabelPrint';
 import serialNumberActions from '../../actions/serialNumberActions';
 import serialNumberSelectors from '../../selectors/serialNumberSelectors';
 import printAllLabelsForProductActions from '../../actions/printAllLabelsForProductActions';
@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
         processTypes.printAllLabelsForProduct.item
     ),
     printMACLabelsErrorDetail: getItemErrorDetailMessage(state, processTypes.printMACLabels.item),
-    serialNumberErrorDetail: getItemErrorDetailMessage(state, itemTypes.serialNumbers),
+    serialNumberErrorDetail: getItemErrorDetailMessage(state, itemTypes.serialNumbers.item),
     serialNumbers: serialNumberSelectors.getItems(state),
     serialNumbersLoading: serialNumberSelectors.getLoading(state),
     printAllLabelsForProductMessageVisible: printAllLabelsForProductSelectors.getMessageVisible(
@@ -38,7 +38,4 @@ const mapDispatchToProps = {
     clearAllLabelErrors: printAllLabelsForProductActions.clearErrorsForItem
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(LabelReprint);
+export default connect(mapStateToProps, mapDispatchToProps)(LabelPrint);

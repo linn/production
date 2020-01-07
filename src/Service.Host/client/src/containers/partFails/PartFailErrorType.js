@@ -30,7 +30,4 @@ const mapDispatchToProps = {
     setSnackbarVisible: partFailErrorTypeActions.setSnackbarVisible
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(partFailErrorType));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(partFailErrorType));

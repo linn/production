@@ -18,6 +18,17 @@
             this.Get("/production/reports/manufacturing-commit-date", _ => this.ManufacturingCommitDateReportOptions());
             this.Get("/production/reports/overdue-orders/report", _ => this.OverdueOrdersReport());
             this.Get("/production/reports/overdue-orders", _ => this.OverdueOrdersReportOptions());
+            this.Get("/production/reports/production-back-orders", _ => this.ProductionBackOrdersReport());
+        }
+
+        private object ProductionBackOrdersReport()
+        {
+            var resource = this.Bind<CitCodeRequestResource>();
+            var results = this.reportService.ProductionBackOrdersReport(resource.CitCode);
+            return this.Negotiate
+                .WithModel(results)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object ManufacturingCommitDateReportOptions()

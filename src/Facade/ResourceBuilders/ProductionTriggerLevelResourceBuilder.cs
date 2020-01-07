@@ -1,44 +1,64 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class ProductionTriggerLevelResourceBuilder : IResourceBuilder<ProductionTriggerLevel>
+    public class ProductionTriggerLevelResourceBuilder : IResourceBuilder<ResponseModel<ProductionTriggerLevel>>
     {
-        public ProductionTriggerLevelResource Build(ProductionTriggerLevel productionTriggerLevel)
+        private readonly IAuthorisationService authorisationService;
+
+        public ProductionTriggerLevelResourceBuilder(IAuthorisationService authorisationService)
+        {
+            this.authorisationService = authorisationService;
+        }
+        public ProductionTriggerLevelResource Build(ResponseModel<ProductionTriggerLevel> model)
         {
             return new ProductionTriggerLevelResource
                        {
-                           PartNumber = productionTriggerLevel.PartNumber,
-                           Description = productionTriggerLevel.Description,
-                           CitCode = productionTriggerLevel.CitCode,
-                           BomLevel = productionTriggerLevel.BomLevel,
-                           FaZoneType = productionTriggerLevel.FaZoneType,
-                           KanbanSize = productionTriggerLevel.KanbanSize,
-                           MaximumKanbans = productionTriggerLevel.MaximumKanbans,
-                           OverrideTriggerLevel = productionTriggerLevel.OverrideTriggerLevel,
-                           TriggerLevel = productionTriggerLevel.TriggerLevel,
-                           VariableTriggerLevel = productionTriggerLevel.VariableTriggerLevel,
-                           WsName = productionTriggerLevel.WsName,
-                           Links = this.BuildLinks(productionTriggerLevel).ToArray()
+                           PartNumber = model.ResponseData.PartNumber,
+                           Description = model.ResponseData.Description,
+                           CitCode = model.ResponseData.CitCode,
+                           BomLevel = model.ResponseData.BomLevel,
+                           FaZoneType = model.ResponseData.FaZoneType,
+                           KanbanSize = model.ResponseData.KanbanSize,
+                           MaximumKanbans = model.ResponseData.MaximumKanbans,
+                           OverrideTriggerLevel = model.ResponseData.OverrideTriggerLevel,
+                           TriggerLevel = model.ResponseData.TriggerLevel,
+                           VariableTriggerLevel = model.ResponseData.VariableTriggerLevel,
+                           WorkStationName = model.ResponseData.WorkStationName,
+                           Temporary = model.ResponseData.Temporary,
+                           EngineerId = model.ResponseData.EngineerId,
+                           Story = model.ResponseData.Story,
+                           RouteCode = model.ResponseData.RouteCode,
+                           Links = this.BuildLinks(model).ToArray()
                        };
         }
 
-        public string GetLocation(ProductionTriggerLevel productionTriggerLevel)
+        public string GetLocation(ResponseModel<ProductionTriggerLevel> model)
         {
-            return $"production/maintenance/production-trigger-levels/{productionTriggerLevel.PartNumber}";
+            return $"/production/maintenance/production-trigger-levels/{Uri.EscapeDataString(model.ResponseData.PartNumber)}";
         }
 
-        object IResourceBuilder<ProductionTriggerLevel>.Build(ProductionTriggerLevel productionTriggerLevel) => this.Build(productionTriggerLevel);
+        object IResourceBuilder<ResponseModel<ProductionTriggerLevel>>.Build(ResponseModel<ProductionTriggerLevel> model) => this.Build(model);
 
-        private IEnumerable<LinkResource> BuildLinks(ProductionTriggerLevel productionTriggerLevel)
+        private IEnumerable<LinkResource> BuildLinks(ResponseModel<ProductionTriggerLevel> model)
         {
-            yield return new LinkResource { Rel = "self", Href = this.GetLocation(productionTriggerLevel) };
+            if (!string.IsNullOrWhiteSpace(model.ResponseData.PartNumber))
+            {
+                yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
+            }
+
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, model.Privileges))
+            {
+                yield return new LinkResource { Rel = "edit", Href = "/production/maintenance/production-trigger-levels/" };
+            }
         }
     }
 }

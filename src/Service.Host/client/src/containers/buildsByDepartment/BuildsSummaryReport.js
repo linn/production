@@ -33,7 +33,4 @@ const mapDispatchToProps = {
     initialise
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(BuildsSummaryReport));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(BuildsSummaryReport));

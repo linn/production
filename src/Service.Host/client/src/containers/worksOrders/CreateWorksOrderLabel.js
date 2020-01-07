@@ -39,7 +39,4 @@ const mapDispatchToProps = {
     setSnackbarVisible: worksOrderLabelActions.setSnackbarVisible
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(WorksOrderLabel));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WorksOrderLabel));

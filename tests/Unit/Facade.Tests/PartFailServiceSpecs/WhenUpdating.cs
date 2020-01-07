@@ -34,7 +34,7 @@
                 DateCreated = new DateTime(),
                 ErrorType = new PartFailErrorType(),
                 FaultCode = new PartFailFaultCode()
-            }; 
+            };
 
             this.resource = new PartFailResource
             {

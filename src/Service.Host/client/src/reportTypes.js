@@ -42,6 +42,12 @@ export const productionTriggerFacts = new ItemType(
     '/production/reports/triggers/facts'
 );
 
+export const wwdTriggerReport = new ItemType(
+    'wwdTriggerReport',
+    'WWD_TRIGGER_REPORT',
+    '/production/reports/wwd'
+);
+
 export const assemblyFailsWaitingList = new ItemType(
     'assemblyFailsWaitingListReport',
     'ASSEMBLY_FAILS_WAITING_LIST_REPORT',
@@ -106,4 +112,16 @@ export const partFailDetailsReport = new ItemType(
     'partFailDetailsReport',
     'PART_FAIL_DETAILS_REPORT',
     '/production/quality/part-fails/detail-report/report'
+);
+
+export const productionBackOrdersReport = new ItemType(
+    'productionBackOrdersReport',
+    'PRODUCTION_BACK_ORDERS_REPORT',
+    '/production/reports/production-back-orders'
+);
+
+export const buildPlansReport = new ItemType(
+    'buildPlansReport',
+    'BUILD_PLANS_REPORT',
+    '/production/reports/build-plans/report'
 );

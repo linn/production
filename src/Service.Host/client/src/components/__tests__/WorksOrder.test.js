@@ -14,6 +14,7 @@ const printWorksOrderLabelsMock = jest.fn();
 const printWorksOrderAioLabelsMock = jest.fn();
 const clearPrintWorksOrderLabelErrorsMock = jest.fn();
 const clearPrintWorksOrderAioLabelErrorsMock = jest.fn();
+const fetchSerialNumbersMock = jest.fn();
 
 const worksOrder = {
     orderNumber: 827436,
@@ -42,7 +43,10 @@ const defaultProps = {
     setPrintWorksOrderAioLabelsMessageVisible: jest.fn(),
     clearPrintWorksOrderAioLabelsErrors: clearPrintWorksOrderAioLabelErrorsMock,
     printWorksOrderAioLabels: printWorksOrderAioLabelsMock,
-    printWorksOrderLabels: printWorksOrderLabelsMock
+    printWorksOrderLabels: printWorksOrderLabelsMock,
+    setDefaultWorksOrderPrinter: jest.fn(),
+    clearErrors: jest.fn(),
+    fetchSerialNumbers: fetchSerialNumbersMock
 };
 
 const employees = [
@@ -128,6 +132,11 @@ describe('when viewing', () => {
         const { getByText } = render(<WorksOrder {...defaultProps} item={worksOrder} />);
         const item = getByText('Save');
         expect(item.closest('button')).toHaveAttribute('disabled');
+    });
+
+    it('Should request serial numbers', () => {
+        render(<WorksOrder {...defaultProps} item={worksOrder} />);
+        expect(fetchSerialNumbersMock).toHaveBeenCalled();
     });
 
     it('should change to edit mode on input', () => {

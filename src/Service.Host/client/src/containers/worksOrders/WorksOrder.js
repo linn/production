@@ -6,7 +6,10 @@ import {
 } from '@linn-it/linn-form-components-library';
 import WorksOrder from '../../components/worksOrders/WorksOrder';
 import worksOrderSelectors from '../../selectors/worksOrderSelectors';
-import worksOrderActions from '../../actions/worksOrderActions';
+import worksOrderActions, {
+    getDefaultWorksOrderPrinter,
+    setDefaultWorksOrderPrinter
+} from '../../actions/worksOrderActions';
 import employeesSelectors from '../../selectors/employeesSelectors';
 import employeesActions from '../../actions/employeesActions';
 import worksOrderDetailsActions from '../../actions/worksOrderDetailsActions';
@@ -15,6 +18,9 @@ import printWorksOrderLabelActions from '../../actions/printWorksOrderLabelsActi
 import printWorksOrderAioLabelActions from '../../actions/printWorksOrderAioLabelsActions';
 import printWorksOrderLabelsSelectors from '../../selectors/printWorksOrderLabelsSelectors';
 import printWorksOrderAioLabelsSelectors from '../../selectors/printWorksOrderAioLabelsSelectors';
+import getWorksOrderDefaultPrinter from '../../selectors/localStorageSelectors';
+import serialNumberActions from '../../actions/serialNumberActions';
+import serialNumberSelectors from '../../selectors/serialNumberSelectors';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
 
@@ -43,7 +49,10 @@ const mapStateToProps = (state, { match }) => ({
     printWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelsSelectors.getMessageVisible(
         state
     ),
-    printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state)
+    printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state),
+    defaultWorksOrderPrinter: getWorksOrderDefaultPrinter(state),
+    serialNumbers: serialNumberSelectors.getItems(state),
+    serialNumbersLoading: serialNumberSelectors.getLoading(state)
 });
 
 const initialise = ({ orderNumber }) => dispatch => {
@@ -53,6 +62,7 @@ const initialise = ({ orderNumber }) => dispatch => {
 
     dispatch(employeesActions.fetch());
     dispatch(worksOrderDetailsActions.reset());
+    dispatch(getDefaultWorksOrderPrinter());
 };
 
 const mapDispatchToProps = {
@@ -68,7 +78,10 @@ const mapDispatchToProps = {
     setPrintWorksOrderLabelsMessageVisible: printWorksOrderLabelActions.setMessageVisible,
     printWorksOrderAioLabels: printWorksOrderAioLabelActions.requestProcessStart,
     clearPrintWorksOrderAioLabelsErrors: printWorksOrderAioLabelActions.clearErrorsForItem,
-    setPrintWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelActions.setMessageVisible
+    setPrintWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelActions.setMessageVisible,
+    clearErrors: worksOrderActions.clearErrorsForItem,
+    setDefaultWorksOrderPrinter,
+    fetchSerialNumbers: serialNumberActions.fetchByQueryString
 };
 
 export default connect(

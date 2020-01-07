@@ -42,6 +42,7 @@ import WhoBuiltWhatReport from '../containers/reports/WhoBuiltWhatReport';
 import WhoBuiltWhatDetailsReport from '../containers/reports/WhoBuiltWhatDetailsReport';
 import ProductionTriggersReport from '../containers/reports/triggers/ProductionTriggersReport';
 import ProductionTriggersFacts from '../containers/reports/triggers/ProductionTriggersFacts';
+import WwdTriggerReport from '../containers/reports/wwd/WwdTriggerReport';
 import AssemblyFailsMeasuresOptions from '../containers/reports/AssemblyFailsMeasuresOptions';
 import AssemblyFailsMeasures from '../containers/reports/AssemblyFailsMeasures';
 import AssemblyFailsDetailsOptions from '../containers/reports/AssemblyFailsDetailsOptions';
@@ -63,7 +64,7 @@ import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFault
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
 import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
 import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
-import LabelReprint from '../containers/labels/LabelReprint';
+import LabelPrint from '../containers/labels/LabelPrint';
 import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersReportOptions';
 import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
 import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
@@ -81,6 +82,17 @@ import PartFailDetailsReport from '../containers/reports/PartFailDetailsReport';
 import WorksOrderLabels from '../containers/worksOrders/WorksOrderLabels';
 import WorksOrderLabel from '../containers/worksOrders/WorksOrderLabel';
 import CreateWorksOrderLabel from '../containers/worksOrders/CreateWorksOrderLabel';
+import ProductionBackOrdersReport from '../containers/reports/ProductionBackOrdersReport';
+import BuildPlansReportOptions from '../containers/reports/BuildPlansReportOptions';
+import BuildPlansReport from '../containers/reports/BuildPlansReport';
+import LabelTypes from '../containers/labelTypes/LabelTypes';
+import LabelType from '../containers/labelTypes/LabelType';
+import CreateLabelType from '../containers/labelTypes/CreateLabelType';
+import LabelReprint from '../containers/labelReprints/LabelReprint';
+import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
+import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
+import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
+import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
 
 const Root = ({ store }) => (
     <div>
@@ -196,6 +208,11 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/wwd"
+                                        component={WwdTriggerReport}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/triggers/facts"
                                         component={ProductionTriggersFacts}
                                     />
@@ -233,6 +250,28 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/resources/manufacturing-skills/:id"
                                         component={ManufacturingSkill}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/reprint-reasons/create"
+                                        component={CreateLabelReprint}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/reprint-reasons/:id"
+                                        component={LabelReprint}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/reprint-reasons"
+                                        render={() => (
+                                            <Redirect to="/production/maintenance/labels/reprint-reasons/create" />
+                                        )}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels"
+                                        render={() => <Redirect to="/production/maintenance/" />}
                                     />
                                     <Route
                                         exact
@@ -437,7 +476,7 @@ const Root = ({ store }) => (
                                     <Route
                                         exact
                                         path="/production/maintenance/labels/reprint"
-                                        component={LabelReprint}
+                                        component={LabelPrint}
                                     />
                                     <Route
                                         exact
@@ -448,6 +487,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/overdue-orders"
                                         component={OverdueOrdersReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/production-back-orders"
+                                        component={ProductionBackOrdersReport}
                                     />
                                     <Route
                                         exact
@@ -463,6 +507,46 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/resources/manufacturing-routes"
                                         component={ManufacturingRoutes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/build-plans/report"
+                                        component={BuildPlansReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/build-plans"
+                                        component={BuildPlansReportOptions}
+                                        />
+                                        <Route
+                                        exact
+                                        path="/production/resources/label-types/create"
+                                        component={CreateLabelType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/label-types/:id"
+                                        component={LabelType}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/label-types"
+                                        component={LabelTypes}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels/create"
+                                        component={CreateProductionTriggerLevel}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels/:id"
+                                        component={ProductionTriggerLevel}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/production-trigger-levels"
+                                        component={ProductionTriggerLevels}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

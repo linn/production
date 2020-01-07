@@ -18,7 +18,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.requestRoute = new ManufacturingRouteResource() { RouteCode = "ADD TEST", Description = "Descrip", Notes = "some extra info" };
+            this.requestRoute = new ManufacturingRouteResource { RouteCode = "ADD TEST", Description = "Descrip", Notes = "some extra info" };
             var newRoute = new ManufacturingRoute("ADD TEST", "Descrip", "some extra info");
 
             this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingRouteUpdate, Arg.Any<List<string>>())

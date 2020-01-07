@@ -8,6 +8,7 @@
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BackOrders;
     using Linn.Production.Domain.LinnApps.BoardTests;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
@@ -49,7 +50,6 @@
             builder.RegisterType<AssemblyFailFaultCodeRepository>().As<IRepository<AssemblyFailFaultCode, string>>();
             builder.RegisterType<PtlMasterRepository>().As<ISingleRecordRepository<PtlMaster>>();
             builder.RegisterType<OsrRunMasterRepository>().As<ISingleRecordRepository<OsrRunMaster>>();
-            builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
             builder.RegisterType<WorkStationsRepository>().As<IRepository<WorkStation, string>>();
             builder.RegisterType<PcasBoardForAuditRepository>().As<IRepository<PcasBoardForAudit, string>>();
@@ -74,7 +74,15 @@
             builder.RegisterType<WorksOrderLabelsRepository>().As<IRepository<WorksOrderLabel, WorksOrderLabelKey>>();
             builder.RegisterType<PartFailSuppliersViewRepository>().As<IQueryRepository<PartFailSupplierView>>();
             builder.RegisterType<LabelTypeRepository>().As<IRepository<LabelType, string>>();
-
+            builder.RegisterType<LabelReprintRepository>().As<IRepository<LabelReprint, int>>();
+            builder.RegisterType<SerialNumberRepository>().As<IRepository<SerialNumber, int>>();
+            builder.RegisterType<BuildPlanRepository>().As<IRepository<BuildPlan, string>>();
+            builder.RegisterType<BuildPlanDetailsReportLineRepository>().As<IQueryRepository<BuildPlanDetailsReportLine>>();
+            builder.RegisterType<BuildPlanDetailRepository>().As<IRepository<BuildPlanDetail, BuildPlanDetailKey>>();
+            builder.RegisterType<BuildPlanRuleRepository>().As<IQueryRepository<BuildPlanRule>>();
+            builder.RegisterType<AteTestRepository>().As<IRepository<AteTest, int>>();
+            builder.RegisterType<AteTestDetailRepository>().As<IRepository<AteTestDetail, AteTestDetailKey>>();
+                
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
             builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
@@ -82,6 +90,7 @@
             builder.RegisterType<ProductionBackOrderQueryRepository>().As<IQueryRepository<ProductionBackOrder>>();
             builder.RegisterType<BomDetailExplodedPhantomPartViewRepository>().As<IRepository<BomDetailExplodedPhantomPartView, int>>();
             builder.RegisterType<WwdDetailQueryRepository>().As<IQueryRepository<WwdDetail>>();
+            builder.RegisterType<ProductionBackOrdersViewRepository>().As<IQueryRepository<ProductionBackOrdersView>>();
         }
     }
 }

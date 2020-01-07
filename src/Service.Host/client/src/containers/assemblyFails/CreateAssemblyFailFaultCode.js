@@ -15,10 +15,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
     addItem: assemblyFailFaultCodeActions.add,
     setSnackbarVisible: assemblyFailFaultCodeActions.setSnackbarVisible,
-    setEditStatus: assemblyFailFaultCodeActions.setEditStatus
+    setEditStatus: assemblyFailFaultCodeActions.setEditStatus,
+    updateItem: assemblyFailFaultCodeActions.update
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AssemblyFailFaultCode);
+export default connect(mapStateToProps, mapDispatchToProps)(AssemblyFailFaultCode);

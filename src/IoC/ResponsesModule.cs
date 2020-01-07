@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BoardTests;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Models;
@@ -51,17 +52,13 @@
             builder.RegisterType<WorksOrderResourceBuilder>().As<IResourceBuilder<WorksOrder>>();
             builder.RegisterType<WorksOrdersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<WorksOrder>>>();
-            builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ProductionTriggerLevel>>();
+            builder.RegisterType<ProductionTriggerLevelResourceBuilder>().As<IResourceBuilder<ResponseModel<ProductionTriggerLevel>>>();
             builder.RegisterType<ProductionTriggerLevelsResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<ProductionTriggerLevel>>>();
+                .As<IResourceBuilder<ResponseModel<IEnumerable<ProductionTriggerLevel>>>>();
             builder.RegisterType<PcasRevisionResourceBuilder>()
                 .As<IResourceBuilder<PcasRevision>>();
             builder.RegisterType<PcasRevisionsResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PcasRevision>>>();
-            builder.RegisterType<CitResourceBuilder>()
-                .As<IResourceBuilder<Cit>>();
-            builder.RegisterType<CitsResourceBuilder>()
-                .As<IResourceBuilder<IEnumerable<Cit>>>();
             builder.RegisterType<EmployeeResourceBuilder>()
                 .As<IResourceBuilder<Employee>>();
             builder.RegisterType<EmployeesResourceBuilder>()
@@ -84,7 +81,6 @@
             builder.RegisterType<PartFailSupplierResourceBuilder>().As<IResourceBuilder<PartFailSupplierView>>();
             builder.RegisterType<PartFailSuppliersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PartFailSupplierView>>>();
-
             builder.RegisterType<SmtShiftResourceBuilder>().As<IResourceBuilder<SmtShift>>();
             builder.RegisterType<SmtShiftsResourceBuilder>().As<IResourceBuilder<IEnumerable<SmtShift>>>();
             builder.RegisterType<PtlSettingsResourceBuilder>().As<IResourceBuilder<ResponseModel<PtlSettings>>>();
@@ -110,6 +106,20 @@
             builder.RegisterType<WorksOrderLabelsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderLabel>>>();
             builder.RegisterType<LabelTypeResourceBuilder>().As<IResourceBuilder<LabelType>>();
             builder.RegisterType<LabelTypesResourceBuilder>().As<IResourceBuilder<IEnumerable<LabelType>>>();
+            builder.RegisterType<WorkStationResourceBuilder>().As<IResourceBuilder<WorkStation>>();
+            builder.RegisterType<WorkStationsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorkStation>>>();
+            builder.RegisterType<LabelReprintResourceBuilder>().As<IResourceBuilder<ResponseModel<LabelReprint>>>();
+            builder.RegisterType<BuildPlanResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlan>>>();
+            builder.RegisterType<BuildPlansResourceBuilder>().As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlan>>>>();
+            builder.RegisterType<BuildPlanRuleResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanRule>>>();
+            builder.RegisterType<BuildPlanRulesResourceBuilder>().As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanRule>>>>();
+            builder.RegisterType<BuildPlanDetailResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanDetail>>>();
+            builder.RegisterType<BuildPlanDetailsResourceBuilder>()
+                .As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>>();
+                            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
+            builder.RegisterType<AteTestsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTest>>>();
+            builder.RegisterType<AteTestDetailResourceBuilder>().As<IResourceBuilder<AteTestDetail>>();
+            builder.RegisterType<AteTestDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTestDetail>>>();
         }
     }
 }

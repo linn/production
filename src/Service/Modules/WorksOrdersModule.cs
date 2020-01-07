@@ -2,7 +2,6 @@
 {
     using System;
 
-    using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.Exceptions;
@@ -45,11 +44,12 @@
             this.Put("/production/works-orders/labels/{seq}/{part*}", _ => this.UpdateWorksOrderLabel());
             this.Post("production/works-orders/labels", _ => this.AddWorksOrderLabel());
             this.Get("/production/works-orders/labels", _ => this.GetWorksOrderLabelsForPart());
+            this.Get("/production/works-orders/batch-notes", _ => this.GetWorksOrderBatchNotes());
             this.Get("/production/works-orders/labels/{seq}/{part*}", parameters => this.GetWorksOrderLabel(parameters.part, parameters.seq));
             this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
             this.Post("/production/works-orders", _ => this.AddWorksOrder());
             this.Put("/production/works-orders/{orderNumber}", _ => this.UpdateWorksOrder());
-            
+
             this.Post("/production/works-orders/print-labels", _ => this.PrintWorksOrderLabels());
             this.Post("/production/works-orders/print-aio-labels", _ => this.PrintWorksOrderAioLabels());
 
@@ -60,6 +60,11 @@
             this.Get("/production/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
             this.Get("/production/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
             this.Get("/production/works-orders-for-part", _ => this.GetWorksOrdersForPart());
+        }
+
+        private object GetWorksOrderBatchNotes()
+        {
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
 
         private object GetWorksOrder(int orderNumber)

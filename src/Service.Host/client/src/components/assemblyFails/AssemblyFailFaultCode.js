@@ -157,7 +157,7 @@ AssemblyFailFaultCode.propTypes = {
         explanation: PropTypes.string,
         dateCancelled: PropTypes.string
     }),
-    editStatus: PropTypes.bool.isRequired,
+    editStatus: PropTypes.string.isRequired,
     setEditStatus: PropTypes.func.isRequired,
     addItem: PropTypes.func.isRequired,
     updateItem: PropTypes.func.isRequired,

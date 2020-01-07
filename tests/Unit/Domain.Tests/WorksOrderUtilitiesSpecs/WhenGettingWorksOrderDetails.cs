@@ -45,7 +45,7 @@
                 new ProductionTriggerLevel()
                     {
                         PartNumber = this.partNumber,
-                        WsName = this.workStationCode,
+                        WorkStationName = this.workStationCode,
                         CitCode = "CIT",
                         KanbanSize = this.quantity
                     });

@@ -7,7 +7,7 @@
     public class WorksOrderLabelResponseProcessor : JsonResponseProcessor<WorksOrderLabel>
     {
         public WorksOrderLabelResponseProcessor(IResourceBuilder<WorksOrderLabel> resourceBuilder)
-            : base(resourceBuilder)
+            : base(resourceBuilder, "works-order-label", 1)
         {
         }
     }

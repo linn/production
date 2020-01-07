@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
     using System.Linq;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -7,7 +8,7 @@
 
     public class WwdResultResourceBuilder : IResourceBuilder<WwdResult>
     {
-        private WwdDetailResourceBuilder detailResourceBuilder = new WwdDetailResourceBuilder();
+        private readonly WwdDetailResourceBuilder detailResourceBuilder = new WwdDetailResourceBuilder();
 
         public object Build(WwdResult result)
         {
@@ -17,6 +18,7 @@
                 {
                     PartNumber = result.PartNumber,
                     WwdJobId = result.WwdJobId,
+                    WwdRunDatetime = result.WwdRunTime.ToString("o"),
                     Qty = result.Qty,
                     WorkStationCode = result.WorkStationCode,
                     WwdDetails = result.WwdDetails.Select(d => this.detailResourceBuilder.BuildDetail(d))

@@ -26,18 +26,20 @@
         {
             this.manufacturingRouteService = manufacturingRouteService;
             this.authorisationService = authorisationService;
-            this.Get("/production/resources/manufacturing-routes", _ => this.Search());
+            this.Get("/production/resources/manufacturing-routes", _ => this.SearchOrGetAll());
             this.Get("/production/resources/manufacturing-routes/{routeCode*}", parameters => this.GetById(parameters.routeCode));
             this.Put("/production/resources/manufacturing-routes/{routeCode*}", parameters => this.UpdateManufacturingRoute(parameters.routeCode));
             this.Post("/production/resources/manufacturing-routes", parameters => this.AddManufacturingRoute());
         }
 
-        private object Search()
+        private object SearchOrGetAll()
         {
             var resource = this.Bind<SearchRequestResource>();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            var result = this.manufacturingRouteService.Search(resource.SearchTerm, privileges);
+            var result = string.IsNullOrEmpty(resource.SearchTerm) ?
+                             this.manufacturingRouteService.GetAll(privileges) :
+                             this.manufacturingRouteService.Search(resource.SearchTerm, privileges);
 
             return this.Negotiate
                 .WithModel(result)

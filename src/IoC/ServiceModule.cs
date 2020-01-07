@@ -11,6 +11,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BoardTests;
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Reports;
@@ -44,6 +45,8 @@
             builder.RegisterType<PartsReportService>().As<IPartsReportService>();
             builder.RegisterType<LabelService>().As<ILabelService>();
             builder.RegisterType<BoardTestReports>().As<IBoardTestReports>();
+            builder.RegisterType<ProductionBackOrdersReportService>().As<IProductionBackOrdersReportService>();
+            builder.RegisterType<BuildPlansReportService>().As<IBuildPlansReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -63,8 +66,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
             builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
-            builder.RegisterType<ProductionTriggerLevelService>()
-                .As<IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>>();
+            builder.RegisterType<ProductionTriggerLevelService>().As<IProductionTriggerLevelsService>();
             builder.RegisterType<PcasRevisionService>()
                 .As<IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource>>();
             builder.RegisterType<EmployeeService>()
@@ -80,9 +82,11 @@
             builder.RegisterType<ManufacturingRouteService>()
                 .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
             builder.RegisterType<ManufacturingOperationsService>()
-                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>, IManufacturingOperationsService>();
+                .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource,
+                    ManufacturingOperationResource>, IServiceWithRemove<ManufacturingOperation, int,
+                    ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
-            builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
+            builder.RegisterType<PartsFacadeService>().As<IPartsFacadeService>();
             builder.RegisterType<SmtShiftsService>()
                 .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
             builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
@@ -107,6 +111,18 @@
                 .As<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             builder.RegisterType<LabelTypeService>()
                 .As<IFacadeService<LabelType, string, LabelTypeResource, LabelTypeResource>>();
+            builder.RegisterType<LabelReprintFacadeService>()
+                .As<IFacadeService<LabelReprint, int, LabelReprintResource, LabelReprintResource>>();
+            builder.RegisterType<BuildPlanService>()
+                .As<IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource>>();
+            builder.RegisterType<BuildPlansReportFacadeService>().As<IBuildPlansReportFacadeService>();
+            builder.RegisterType<WorkStationService>()
+                .As<IFacadeService<WorkStation, string, WorkStationResource, WorkStationResource>>();
+            builder.RegisterType<AteTestService>().As<IFacadeService<AteTest, int, AteTestResource, AteTestResource>>();
+            builder.RegisterType<AteTestDetailService>().As<IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource>>();
+            builder.RegisterType<BuildPlanRulesFacadeService>().As<IBuildPlanRulesFacadeService>();
+            builder.RegisterType<BuildPlanDetailService>()
+                .As<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

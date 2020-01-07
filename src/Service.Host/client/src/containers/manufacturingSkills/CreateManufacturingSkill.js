@@ -7,7 +7,7 @@ import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = state => ({
     item: {},
-    editStatus: 'create',
+    editStatus: manufacturingSkillSelectors.getEditStatus(state),
     itemError: getItemError(state, itemTypes.manufacturingSkill.item),
     loading: manufacturingSkillSelectors.getLoading(state),
     snackbarVisible: manufacturingSkillSelectors.getSnackbarVisible(state)
@@ -25,7 +25,4 @@ const mapDispatchToProps = {
     setSnackbarVisible: manufacturingSkillActions.setSnackbarVisible
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(ManufacturingSkill));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(ManufacturingSkill));

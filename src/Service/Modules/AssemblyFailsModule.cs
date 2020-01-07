@@ -25,12 +25,14 @@
              this.Get("/production/quality/assembly-fails/{id}", parameters => this.GetById(parameters.id));
              this.Post("/production/quality/assembly-fails", _ => this.Add());
              this.Get("/production/quality/assembly-fails", _ => this.Search());
+             this.Get("/production/quality/assembly-fails/create", _ => this.GetApp());
              this.Put("/production/quality/assembly-fails/{id}", parameters => this.Update(parameters.id));
              this.Get("/production/quality/assembly-fail-fault-codes", _ => this.GetFaultCodes());
+             this.Get("/production/quality/assembly-fail-fault-codes/create", _ => this.GetApp());
              this.Get(
                  "/production/quality/assembly-fail-fault-codes/{id*}",
                  parameters => this.GetFaultCode(parameters.id));
-            this.Post("/production/quality/assembly-fail-fault-codes", _ => this.AddFaultCode());
+             this.Post("/production/quality/assembly-fail-fault-codes", _ => this.AddFaultCode());
              this.Put(
                  "/production/quality/assembly-fail-fault-codes/{id*}",
                  parameters => this.UpdateFaultCode(parameters.id));
@@ -85,6 +87,11 @@
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
+        }
+
+        private object GetApp()
+        {
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
 
         private object GetFaultCode(string id)

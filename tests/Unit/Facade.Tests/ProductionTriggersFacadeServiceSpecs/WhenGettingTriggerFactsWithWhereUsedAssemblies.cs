@@ -29,12 +29,13 @@
             var productionTriggerAssemblies = new List<ProductionTriggerAssembly>
             {
                 new ProductionTriggerAssembly
-                {
-                    Jobref = "AAAAAA", AssemblyNumber = "SERIES K01", PartNumber = "SERIES K",
-                    ReqtForInternalAndTriggerLevelBT = 1
-                },
-                new ProductionTriggerAssembly()
-                    {Jobref = "AAAAAA", AssemblyNumber = "SERIES KIT KAT", PartNumber = "SERIES K"}
+                    {
+                        Jobref = "AAAAAA",
+                        AssemblyNumber = "SERIES K01",
+                        PartNumber = "SERIES K",
+                        ReqtForInternalAndTriggerLevelBT = 1
+                    },
+                new ProductionTriggerAssembly { Jobref = "AAAAAA", AssemblyNumber = "SERIES KIT KAT", PartNumber = "SERIES K" }
             };
 
             this.ProductionTriggerAssemblyQueryRepository

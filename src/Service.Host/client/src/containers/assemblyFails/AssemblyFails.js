@@ -14,7 +14,4 @@ const mapDispatchToProps = {
     classes: {}
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AssemblyFails);
+export default connect(mapStateToProps, mapDispatchToProps)(AssemblyFails);
