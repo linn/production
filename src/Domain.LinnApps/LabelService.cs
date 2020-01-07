@@ -225,7 +225,7 @@
                 $"BoxReprint{serialNumber}",
                 "ProdLbl2",
                 1,
-                "c:\\lbl\\boxlbl_ean.btw",
+                "c:\\lbl\\boxlbl_08ean.btw",
                 labelData,
                 ref this.message);
         }

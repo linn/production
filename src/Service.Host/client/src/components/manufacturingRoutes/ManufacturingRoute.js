@@ -59,7 +59,7 @@ function ManufacturingRoute({
                 x.skillCode &&
                 x.setAndCleanTime >= 0 &&
                 x.resourceCode &&
-                x.cycleTime &&
+                x.cycleTime >= 0 &&
                 x.labourPercentage
         );
 
