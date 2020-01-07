@@ -15,6 +15,7 @@ import userManager from '../helpers/userManager';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
 import OutstandingWorksOrdersReportOptions from '../containers/reports/OutstandingWorksOrdersReportOptions';
 import 'typeface-roboto';
+import { ConnectedRouter } from 'connected-react-router';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
@@ -100,7 +101,7 @@ const Root = ({ store }) => (
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <Router history={history}>
+                        <ConnectedRouter history={history}>
                             <div>
                                 <Navigation />
                                 <CssBaseline />
@@ -517,8 +518,8 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/build-plans"
                                         component={BuildPlansReportOptions}
-                                        />
-                                        <Route
+                                    />
+                                    <Route
                                         exact
                                         path="/production/resources/label-types/create"
                                         component={CreateLabelType}
@@ -551,7 +552,7 @@ const Root = ({ store }) => (
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>
-                        </Router>
+                        </ConnectedRouter>
                     </MuiPickersUtilsProvider>
                 </OidcProvider>
             </Provider>

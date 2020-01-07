@@ -68,7 +68,7 @@ function App() {
                 >
                     <Typography color="primary">Reissue Serial Numbers</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/works-orders/" button>
+                <ListItem component={Link} to="/production/works-orders" button>
                     <Typography color="primary">Works Orders Utility</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/works-orders/labels" button>

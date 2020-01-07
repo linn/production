@@ -67,7 +67,8 @@ function WorksOrder({
     defaultWorksOrderPrinter,
     clearErrors,
     serialNumbers,
-    fetchSerialNumbers
+    fetchSerialNumbers,
+    previousPath
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
@@ -76,6 +77,7 @@ function WorksOrder({
     const [searchTerm, setSearchTerm] = useState(null);
     const [printerGroup, setPrinterGroup] = useState('Prod');
     const [viewSernos, setViewsernos] = useState(false);
+    console.log(previousPath);
 
     const printerGroups = ['Prod', 'DSM', 'Flexible', 'Kiko', 'LP12', 'Metalwork', 'SpeakerCover'];
 
@@ -556,7 +558,10 @@ function WorksOrder({
                                     saveDisabled={viewing() || !(createValid() || updateValid())}
                                     saveClick={handleSaveClick}
                                     cancelClick={handleCancelClick}
-                                    backClick={handleBackClick}
+                                    backClick={() => {
+                                        console.log(previousPath);
+                                        history.push(previousPath);
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>

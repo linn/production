@@ -31,7 +31,7 @@ function WorksOrdersBatchNotes({ items, fetchItems, loading, clearSearch, histor
                         table={table}
                         columnNames={columnNames}
                         fetchItems={fetchItems}
-                        clearSearch={clearSearch}
+                        clearSearch={() => {}}
                         loading={loading}
                         title="Works Order Batch Notes"
                         history={history}

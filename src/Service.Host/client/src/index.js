@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import { SnackbarProvider } from 'notistack';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import { linnTheme } from '@linn-it/linn-form-components-library';
-import configureStore from './configureStore';
+import configureStore, { history } from './configureStore';
 import Root from './components/Root';
 import userManager from './helpers/userManager';
 import 'typeface-roboto';
@@ -20,7 +20,7 @@ const render = Component => {
             <SnackbarProvider dense maxSnack={5}>
                 <AppContainer>
                     <div className="pageContainer">
-                        <Component store={store} />
+                        <Component store={store} history={history} />
                     </div>
                 </AppContainer>
             </SnackbarProvider>
