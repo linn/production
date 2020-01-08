@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import {
     Loading,
@@ -9,33 +9,23 @@ import {
 } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { nodeInternals } from 'stack-utils';
 import Page from '../../../containers/Page';
 import TriggersList from './TriggersList';
 
-function ProductionTriggers({
-    reportData,
-    loading,
-    cits,
-    options,
-    fetchTriggers,
-    history,
-    itemError
-}) {
+function ProductionTriggers({ reportData, loading, cits, fetchTriggers, history, itemError }) {
     const [reportFormat, setReportFormat] = useState('BRIEF');
-    const [citOptions, setCitOptions] = useState(['']);
     const [jobref, setJobref] = useState('');
-
-    const citsFormatted = () => cits.filter(excludeInvalidCits).map(cit => ({
-        id: cit.code,
-        displayText: cit.name
-    }));
 
     function excludeInvalidCits(cit) {
         return !cit.dateInvalid;
     }
 
-   
+    const citsFormatted = () =>
+        cits.filter(excludeInvalidCits).map(cit => ({
+            id: cit.code,
+            displayText: cit.name
+        }));
+
     const handleLengthChange = (propertyName, newValue) => {
         setReportFormat(newValue);
     };
@@ -151,13 +141,20 @@ function ProductionTriggers({
 ProductionTriggers.propTypes = {
     reportData: PropTypes.shape({}),
     loading: PropTypes.bool,
-    config: PropTypes.shape({})
+    config: PropTypes.shape({}),
+    cits: PropTypes.shape({}),
+    fetchTriggers: PropTypes.func.isRequired,
+    history: PropTypes.shape({}),
+    itemError: PropTypes.shape({})
 };
 
 ProductionTriggers.defaultProps = {
     reportData: null,
     config: null,
-    loading: false
+    loading: false,
+    cits: [],
+    history: null,
+    itemError: null
 };
 
 export default ProductionTriggers;

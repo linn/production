@@ -3,6 +3,7 @@ import Popover from '@material-ui/core/Popover';
 import IconButton from '@material-ui/core/IconButton';
 import NotesIcon from '@material-ui/icons/Notes';
 import { makeStyles } from '@material-ui/styles';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
     popoverContent: {
@@ -55,5 +56,10 @@ function NotesPopover({ id, children }) {
         </div>
     );
 }
+
+NotesPopover.propTypes = {
+    id: PropTypes.shape({}).isRequired,
+    children: PropTypes.shape({}).isRequired
+};
 
 export default NotesPopover;
