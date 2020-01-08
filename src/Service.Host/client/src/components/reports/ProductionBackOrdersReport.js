@@ -7,36 +7,11 @@ import Page from '../../containers/Page';
 import '../../../assets/printStyles.css';
 
 export default function ProductionBackOrdersReport({ reportData, loading, error }) {
-    const [extraRows, setExtraRows] = useState(false);
-
-    const updateExtraRows = () => {
-        setExtraRows(!extraRows);
-    };
-
-    let extraRowsData = { ...reportData };
-
-    useEffect(() => {
-        if (reportData) {
-            console.info(extraRowsData);
-            extraRowsData.forEach(section => {
-                console.info(section);
-            });
-        }
-    }, [reportData, extraRowsData]);
-
     return (
         <Page width="xl">
             <Grid container spacing={3}>
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                     <Title text="Production Back Orders" />
-                </Grid>
-                <Grid item xs={3}>
-                    <Switch
-                        aria-label="Add extra rows for printing"
-                        value={extraRows}
-                        onChange={updateExtraRows}
-                        color="primary"
-                    />
                 </Grid>
                 {error && (
                     <Grid item xs={12}>
@@ -47,9 +22,9 @@ export default function ProductionBackOrdersReport({ reportData, loading, error 
                     {loading ? (
                         <Loading />
                     ) : (
-                        <div class="zoomed-out-production-back-orders">
+                        <div class="zoomed-in-printing">
                             <MultiReportTable
-                                reportData={extraRows ? extraRowsData : reportData}
+                                reportData={reportData}
                                 showRowTitles={false}
                                 showTotals
                             />
