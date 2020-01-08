@@ -54,8 +54,6 @@
 
             var reportJobref = string.IsNullOrEmpty(jobref) ? ptlMaster.LastFullRunJobref : jobref;
 
-            ProductionTriggerReportType triggerReportType;
-
             // if no cit then just pick the first production one you can find
             var cit = string.IsNullOrEmpty(citCode)
                           ? this.citRepository.FilterBy(c => c.BuildGroup == "PP" && c.DateInvalid == null).ToList()

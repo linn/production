@@ -93,7 +93,7 @@
         private object GetBuildPlanRules()
         {
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-            
+
             return this.Negotiate.WithModel(this.buildPlanRulesService.GetAll(privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
@@ -101,7 +101,7 @@
         private object GetBuildPlanRule(string ruleCode)
         {
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-            
+
             return this.Negotiate.WithModel(this.buildPlanRulesService.GetById(ruleCode, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
