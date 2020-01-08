@@ -1,11 +1,15 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System.Linq;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Resources;
 
     public class AteTestResourceBuilder : IResourceBuilder<AteTest>
     {
+        private readonly IResourceBuilder<AteTestDetail> detailResourceBuilder = new AteTestDetailResourceBuilder();
+
         public AteTestResource Build(AteTest test)
         {
             return new AteTestResource
@@ -16,6 +20,7 @@
                            WorksOrderNumber = test.WorksOrder.OrderNumber,
                            NumberTested = test.NumberTested,
                            NumberOfSmtComponents = test.NumberOfSmtComponents,
+                           NumberOfPcbComponents = test.NumberOfPcbComponents,
                            NumberOfSmtFails = test.NumberOfSmtFails,
                            NumberOfPcbFails = test.NumberOfPcbFails,
                            NumberOfSmtBoardFails = test.NumberOfSmtBoardFails,
@@ -25,7 +30,8 @@
                            PlaceFound = test.PlaceFound,
                            DateInvalid = test.DateInvalid?.ToString("o"),
                            FlowMachine = test.FlowMachine,
-                           FlowSolderDate = test.FlowSolderDate?.ToString("o")
+                           FlowSolderDate = test.FlowSolderDate?.ToString("o"),
+                           Details = test.Details?.Select(d => (AteTestDetailResource)this.detailResourceBuilder?.Build(d))
                        };
         }
 

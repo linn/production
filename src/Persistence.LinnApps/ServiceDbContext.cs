@@ -1070,9 +1070,8 @@
             e.Property(t => t.NumberOfSmtComponents).HasColumnName("NUMBER_SMT_COMPONENTS");
             e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_SMT_FAILS");
             e.Property(t => t.NumberOfPcbComponents).HasColumnName("NUMBER_PCB_COMPONENTS");
-            e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_PCB_FAILS");
-            e.Property(t => t.NumberOfPcbBoardFails).HasColumnName("NUMBER_PCB_BOARD_FAILS");
             e.Property(t => t.NumberOfPcbFails).HasColumnName("NUMBER_PCB_FAILS");
+            e.Property(t => t.NumberOfPcbBoardFails).HasColumnName("NUMBER_PCB_BOARD_FAILS");
             e.Property(t => t.NumberOfSmtBoardFails).HasColumnName("NUMBER_SMT_BOARD_FAILS");
             e.Property(t => t.PcbOperator).HasColumnName("PCB_OPERATOR");
             e.Property(t => t.MinutesSpent).HasColumnName("MINUTES_SPENT");
