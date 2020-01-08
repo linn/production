@@ -8,7 +8,13 @@ import Page from '../../containers/Page';
 
 function AteStatusReportOptions({ history, prevOptions }) {
     const defaultStartDate = new Date();
-    defaultStartDate.setDate(defaultStartDate.getDate() - 28);
+    function nextWeekdayDate(date, dayInWeek) {
+        const ret = new Date(date || new Date());
+        ret.setDate(ret.getDate() + ((dayInWeek - 1 - ret.getDay() + 7) % 7) + 1);
+        return ret;
+    }
+
+    defaultStartDate.setDate(nextWeekdayDate(defaultStartDate, 6).getDate() - 28);
     const [fromDate, setFromDate] = useState(
         prevOptions.fromDate ? new Date(prevOptions.fromDate) : defaultStartDate
     );
