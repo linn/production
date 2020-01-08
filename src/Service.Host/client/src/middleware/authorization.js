@@ -3,8 +3,9 @@ import { getAccessToken } from '../selectors/getAccessToken';
 
 export default ({ getState }) => next => action => {
     if (action[RSAA]) {
-        if (action[RSAA].options && action[RSAA].options.requiresAuth) {
-            action[RSAA].headers = {
+        const authAction = action[RSAA];
+        if (authAction.options && authAction.options.requiresAuth) {
+            authAction.headers = {
                 Authorization: `Bearer ${getAccessToken(getState())}`,
                 ...action[RSAA].headers
             };
