@@ -4,6 +4,7 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     using Nancy;
@@ -22,7 +23,7 @@
                                    {
                                        TestId = 1,
                                        UserNumber = 1,
-                                       WorksOrderNumber = 1,
+                                       WorksOrder = new WorksOrder { OrderNumber = 1 },
                                        NumberTested = 1,
                                        NumberOfSmtComponents = 1,
                                        NumberOfPcbComponents = 1,

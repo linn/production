@@ -6,7 +6,6 @@
     using FluentAssertions;
 
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
     using NSubstitute;
@@ -27,8 +26,6 @@
 
         private string citCode;
 
-        private string citDepartment;
-
         [SetUp]
         public void SetUp()
         {
@@ -37,7 +34,6 @@
             this.raisedBy = 33067;
             this.workStationCode = "STATION";
             this.citCode = "AB";
-            this.citDepartment = "DEPT2";
 
             this.PartsRepository.FindBy(Arg.Any<Expression<Func<Part, bool>>>()).Returns(new Part { BomType = "A", AccountingCompany = "LINN" });
 

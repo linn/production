@@ -240,3 +240,11 @@ export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.action
 export const labelReprintActionTypes = makeActionTypes(itemTypes.labelReprint.actionType);
 
 export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);
+
+export const ateStatusReportActionTypes = makeReportActionTypes(
+    reportTypes.ateStatusReport.actionType
+);
+
+export const ateDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.ateDetailsReport.actionType
+);

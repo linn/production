@@ -47,8 +47,6 @@ function ManufacturingRoute({
     }, [item, prevManufacturingRoute, editStatus, creating]);
 
     const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
-    const descriptionInvalid = () => !manufacturingRoute.description;
-    const notesInvalid = () => !manufacturingRoute.notes;
     const operationsComplete = () =>
         creating() ||
         manufacturingRoute.operations.every(
@@ -63,8 +61,7 @@ function ManufacturingRoute({
                 x.labourPercentage
         );
 
-    const inputInvalid = () =>
-        RouteCodeInvalid() || descriptionInvalid() || notesInvalid() || !operationsComplete();
+    const inputInvalid = () => RouteCodeInvalid() || !operationsComplete();
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -208,8 +205,6 @@ function ManufacturingRoute({
                                 label="Description"
                                 maxLength={50}
                                 fullWidth
-                                helperText={descriptionInvalid() ? 'This field is required' : ''}
-                                required
                                 onChange={handleResourceFieldChange}
                                 propertyName="description"
                             />
@@ -221,8 +216,6 @@ function ManufacturingRoute({
                                 type="multiline"
                                 maxLength={300}
                                 fullWidth
-                                helperText={notesInvalid() ? 'This field is required' : ''}
-                                required
                                 onChange={handleResourceFieldChange}
                                 propertyName="notes"
                             />

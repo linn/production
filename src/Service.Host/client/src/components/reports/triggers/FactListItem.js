@@ -6,6 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import PropTypes from 'prop-types';
 
 function FactListItem({ children, header, secondary, avatar }) {
     function showAvatar() {
@@ -21,7 +22,14 @@ function FactListItem({ children, header, secondary, avatar }) {
         }
     };
 
-    // yes I know this is just wrapping the List for the moment
+    const showExpand = () => {
+        if (children) {
+            return !open ? <ExpandLess /> : <ExpandMore />;
+        }
+
+        return <Fragment />;
+    };
+
     return (
         <Fragment>
             <ListItem button onClick={handleClick}>
@@ -31,7 +39,7 @@ function FactListItem({ children, header, secondary, avatar }) {
                     </Fragment>
                 </ListItemAvatar>
                 <ListItemText primary={header} secondary={secondary} />
-                {children ? !open ? <ExpandLess /> : <ExpandMore /> : <Fragment />}
+                {showExpand()}
             </ListItem>
             <Collapse in={!open} timeout="auto" unmountOnExit>
                 {children}
@@ -39,5 +47,19 @@ function FactListItem({ children, header, secondary, avatar }) {
         </Fragment>
     );
 }
+
+FactListItem.propTypes = {
+    children: PropTypes.shape({}),
+    header: PropTypes.shape({}),
+    secondary: PropTypes.shape({}),
+    avatar: PropTypes.shape({})
+};
+
+FactListItem.defaultProps = {
+    children: null,
+    header: null,
+    secondary: null,
+    avatar: null
+};
 
 export default FactListItem;
