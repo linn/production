@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import PropTypes from 'prop-types';
 
 function ContextMenu({ children, id }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,5 +37,15 @@ function ContextMenu({ children, id }) {
         </Fragment>
     );
 }
+
+ContextMenu.propTypes = {
+    children: PropTypes.shape({}),
+    id: PropTypes.shape({})
+};
+
+ContextMenu.defaultProps = {
+    children: null,
+    id: null
+};
 
 export default ContextMenu;
