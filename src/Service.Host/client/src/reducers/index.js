@@ -9,6 +9,7 @@ import assemblyFails from './assemblyFails/assemblyFails';
 import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
+import ateTest from './ateTests/ateTest';
 import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
@@ -101,6 +102,7 @@ const rootReducer = combineReducers({
     ateFaultCode,
     ateFaultCodes,
     ateStatusReport,
+    ateTest,
     boardFailType,
     boardFailTypes,
     boardTestDetailsReport,

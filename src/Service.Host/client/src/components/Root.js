@@ -96,6 +96,7 @@ import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/
 import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
+import AteTest from '../containers/ate/AteTest';
 
 const Root = ({ store }) => (
     <div>
@@ -570,6 +571,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/production-trigger-levels"
                                         component={ProductionTriggerLevels}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate-tests/:id"
+                                        component={AteTest}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>
