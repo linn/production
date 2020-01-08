@@ -248,3 +248,5 @@ export const ateStatusReportActionTypes = makeReportActionTypes(
 export const ateDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.ateDetailsReport.actionType
 );
+
+export const ateTestActionTypes = makeActionTypes(itemTypes.ateTest.actionType);
