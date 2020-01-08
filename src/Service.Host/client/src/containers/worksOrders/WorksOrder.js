@@ -84,7 +84,4 @@ const mapDispatchToProps = {
     fetchSerialNumbers: serialNumberActions.fetchByQueryString
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(initialiseOnMount(WorksOrder));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WorksOrder));

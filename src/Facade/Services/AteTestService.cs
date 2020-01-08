@@ -6,17 +6,26 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     public class AteTestService : FacadeService<AteTest, int, AteTestResource, AteTestResource>
     {
-        public AteTestService(IRepository<AteTest, int> repository, ITransactionManager transactionManager)
+        private readonly IRepository<WorksOrder, int> worksOrderRepository;
+
+        public AteTestService(
+            IRepository<AteTest, int> repository,
+            ITransactionManager transactionManager,
+            IRepository<WorksOrder, int> worksOrderRepository)
             : base(repository, transactionManager)
         {
+            this.worksOrderRepository = worksOrderRepository;
         }
 
         protected override AteTest CreateFromResource(AteTestResource resource)
         {
+            var worksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber);
+
             return new AteTest
                        {
                            TestId = resource.TestId,
@@ -24,7 +33,7 @@
                            DateTested = resource.DateTested != null
                                             ? DateTime.Parse(resource.DateTested)
                                             : (DateTime?)null,
-                           WorksOrderNumber = resource.WorksOrderNumber,
+                           WorksOrder = worksOrder,
                            NumberTested = resource.NumberTested,
                            NumberOfSmtComponents = resource.NumberOfSmtComponents,
                            NumberOfSmtFails = resource.NumberOfSmtFails,

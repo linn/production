@@ -14,7 +14,7 @@
     <PackageReference Include="Linn.Common.Persistence" Version="2.1.1" />
     <PackageReference Include="Linn.Common.Persistence.EntityFramework" Version="2.0.1" />
     <PackageReference Include="Linn.Common.Proxy" Version="3.0.1" />
-    <PackageReference Include="linn.common.reporting" Version="1.2.0" />
+    <PackageReference Include="linn.common.reporting" Version="1.3.0" />
   </ItemGroup>
 
   <ItemGroup>
