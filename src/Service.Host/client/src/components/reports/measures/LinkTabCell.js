@@ -47,7 +47,13 @@ LinkTabCell.propTypes = {
     children: PropTypes.node,
     href: PropTypes.string,
     hoverHref: PropTypes.string,
-    setHoverHref: PropTypes.func
+    setHoverHref: PropTypes.func.isRequired
+};
+
+LinkTabCell.defaultProps = {
+    children: null,
+    href: null,
+    hoverHref: null
 };
 
 export default LinkTabCell;

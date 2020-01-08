@@ -43,7 +43,7 @@ if (
     if (module.hot) {
         //module.hot.accept('./reducers', () => store.replaceReducer(reducer));
         module.hot.accept('./components/Root', () => {
-            const NextRoot = require('./components/Root').default;
+            const NextRoot = Root.default;
             render(NextRoot);
         });
     }

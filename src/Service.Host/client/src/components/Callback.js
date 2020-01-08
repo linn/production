@@ -5,11 +5,7 @@ import PropTypes from 'prop-types';
 import userManager from '../helpers/userManager';
 
 const Callback = ({ onSuccess }) => (
-    <CallbackComponent
-        userManager={userManager}
-        successCallback={onSuccess}
-        errorCallback={err => console.error(err)}
-    >
+    <CallbackComponent userManager={userManager} successCallback={onSuccess}>
         <Loading />
     </CallbackComponent>
 );
