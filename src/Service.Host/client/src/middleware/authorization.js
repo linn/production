@@ -1,5 +1,6 @@
 ﻿import { RSAA } from 'redux-api-middleware';
 import { getAccessToken } from '../selectors/getAccessToken';
+import userManager from '../helpers/userManager';
 
 export default ({ getState }) => next => action => {
     if (action[RSAA]) {
@@ -10,6 +11,12 @@ export default ({ getState }) => next => action => {
                 ...action[RSAA].headers
             };
         }
+    }
+
+    if (action.type === 'redux-oidc/USER_SIGNED_OUT') {
+        userManager.signinRedirect({
+            data: { redirect: window.location.pathname + window.location.search }
+        });
     }
 
     return next(action);

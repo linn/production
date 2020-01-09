@@ -67,7 +67,8 @@ function WorksOrder({
     defaultWorksOrderPrinter,
     clearErrors,
     serialNumbers,
-    fetchSerialNumbers
+    fetchSerialNumbers,
+    previousPath
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
@@ -552,13 +553,8 @@ function WorksOrder({
                                         </Button>
                                     </Fragment>
                                 )}
-                                <SaveBackCancelButtons
-                                    saveDisabled={viewing() || !(createValid() || updateValid())}
-                                    saveClick={handleSaveClick}
-                                    cancelClick={handleCancelClick}
-                                    backClick={handleBackClick}
-                                />
                             </Grid>
+
                             <Grid item xs={12}>
                                 <Button
                                     className={classes.printButton}
@@ -575,6 +571,26 @@ function WorksOrder({
                                     serialNumbers={serialNumbers}
                                 />
                             )}
+                            <Grid item xs={4}>
+                                <InputField
+                                    fullWidth
+                                    value={worksOrder.batchNotes}
+                                    label="Batch Notes"
+                                    propertyName="batchNotes"
+                                    onChange={handleFieldChange}
+                                />
+                            </Grid>
+                            <Grid item xs={8} />
+                            <Grid item xs={12}>
+                                <SaveBackCancelButtons
+                                    saveDisabled={viewing() || !(createValid() || updateValid())}
+                                    saveClick={handleSaveClick}
+                                    cancelClick={handleCancelClick}
+                                    backClick={() => {
+                                        history.push(previousPath);
+                                    }}
+                                />{' '}
+                            </Grid>
                         </Fragment>
                     )
                 )}
@@ -621,7 +637,8 @@ WorksOrder.propTypes = {
     setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
     defaultWorksOrderPrinter: PropTypes.string,
     fetchSerialNumbers: PropTypes.func.isRequired,
-    serialNumbers: PropTypes.arrayOf(PropTypes.shape())
+    serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
+    previousPath: PropTypes.string.isRequired
 };
 
 WorksOrder.defaultProps = {

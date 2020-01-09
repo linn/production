@@ -21,6 +21,7 @@ import printWorksOrderAioLabelsSelectors from '../../selectors/printWorksOrderAi
 import getWorksOrderDefaultPrinter from '../../selectors/localStorageSelectors';
 import serialNumberActions from '../../actions/serialNumberActions';
 import serialNumberSelectors from '../../selectors/serialNumberSelectors';
+import getPreviousPath from '../../selectors/getPreviousPath';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
 
@@ -52,7 +53,8 @@ const mapStateToProps = (state, { match }) => ({
     printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state),
     defaultWorksOrderPrinter: getWorksOrderDefaultPrinter(state),
     serialNumbers: serialNumberSelectors.getItems(state),
-    serialNumbersLoading: serialNumberSelectors.getLoading(state)
+    serialNumbersLoading: serialNumberSelectors.getLoading(state),
+    previousPath: getPreviousPath(state)
 });
 
 const initialise = ({ orderNumber }) => dispatch => {
