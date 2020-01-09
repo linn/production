@@ -31,7 +31,9 @@
                            DateInvalid = test.DateInvalid?.ToString("o"),
                            FlowMachine = test.FlowMachine,
                            FlowSolderDate = test.FlowSolderDate?.ToString("o"),
-                           Details = test.Details?.Select(d => (AteTestDetailResource)this.detailResourceBuilder?.Build(d))
+                           Details = test
+                               .Details?.OrderBy(d => d.ItemNumber)
+                               .Select(d => (AteTestDetailResource)this.detailResourceBuilder?.Build(d))
                        };
         }
 

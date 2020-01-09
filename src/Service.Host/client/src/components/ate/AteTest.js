@@ -1,8 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import {
     SaveBackCancelButtons,
+    TableWithInlineEditing,
     InputField,
     Loading,
     Title,
@@ -27,7 +29,87 @@ function AteTest({
 }) {
     const [ateTest, setAteTest] = useState({});
     const [prevAteTest, setPrevAteTest] = useState({});
-
+    const tableColumns = [
+        {
+            title: 'No.',
+            key: 'itemNumber',
+            type: 'number'
+        },
+        {
+            title: 'Board Fail No.',
+            key: 'boardFailNumber',
+            type: 'number'
+        },
+        {
+            title: 'No. Fails',
+            key: 'numberOfFails',
+            type: 'number'
+        },
+        {
+            title: 'Circuit Ref',
+            key: 'circuitRef',
+            type: 'text'
+        },
+        {
+            title: 'Part',
+            key: 'partNumber',
+            type: 'text'
+        },
+        {
+            title: 'Fault Code',
+            key: 'faultCode',
+            type: 'text'
+            // type: 'dropdown',
+            // options: ateFaultCodes
+        },
+        {
+            title: 'Smt or PCB?',
+            key: 'smtOrPcb',
+            type: 'text'
+            // type: 'dropdownn'
+            // options: []
+        },
+        {
+            title: 'Shift',
+            key: 'shift',
+            type: 'text'
+        },
+        {
+            title: 'Batch',
+            key: 'batchNumber',
+            type: 'number'
+        },
+        {
+            title: 'AOI Escape',
+            key: 'aoiEscape',
+            type: 'text'
+            // type: 'dropdown'
+            // options: []
+        },
+        {
+            title: 'PCB Operator',
+            key: 'aoiEscape',
+            type: 'text'
+            // todo - name dropdown
+            // type: 'dropdown'
+            // options: []
+        },
+        {
+            title: 'Comments',
+            key: 'comments',
+            type: 'text'
+        },
+        {
+            title: 'Corrective Action',
+            key: 'correctiveAction',
+            type: 'text'
+        },
+        {
+            title: 'Board SN',
+            key: 'boardSerialNumber',
+            type: 'text'
+        }
+    ];
     const creating = () => editStatus === 'create';
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
@@ -68,15 +150,22 @@ function AteTest({
         setAteTest({ ...ateTest, [propertyName]: newValue });
     };
 
+    const handleDetailFieldChange = (propertyName, newValue) => {
+        setAteTest({ ...ateTest, [propertyName]: newValue });
+        if (viewing()) {
+            setEditStatus('edit');
+        }
+    };
+
+    const updateOp = details => {
+        handleDetailFieldChange('details', details);
+    };
+
     return (
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    {creating() ? (
-                        <Title text="Create ATE Fault Code" />
-                    ) : (
-                        <Title text="ATE Fault Code" />
-                    )}
+                    {creating() ? <Title text="Create ATE Test" /> : <Title text="ATE Test" />}
                 </Grid>
                 {itemError && (
                     <Grid item xs={12}>
@@ -107,7 +196,23 @@ function AteTest({
                                     propertyName="testId"
                                 />
                             </Grid>
-                            
+                            <Grid item xs={12}>
+                                <Typography variant="h5">Details</Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TableWithInlineEditing
+                                    columnsInfo={tableColumns}
+                                    content={ateTest.details?.map(o => ({
+                                        ...o,
+                                        id: o.itemNumber
+                                    }))}
+                                    updateContent={updateOp}
+                                    editStatus={editStatus}
+                                    allowedToEdit={false}
+                                    allowedToCreate={false}
+                                    allowedToDelete={false}
+                                />
+                            </Grid>
                         </Fragment>
                     )
                 )}
