@@ -130,7 +130,7 @@
             var columns = new List<AxisDetailsModel>();
             foreach (var linnWeek in weeks)
             {
-                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-tests", $"Tests {linnWeek.WWSYY}"));
+                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-tests", $"Tests {linnWeek.WeekEndingDDMON}"));
                 columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-fails", "Fails"));
                 columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-percentage", "Pass%"));
             }
@@ -176,6 +176,7 @@
                 resultsModel.ColumnIndex("total-percentage"),
                 1,
                 true);
+            resultsModel.SetColumnType(resultsModel.ColumnIndex("total-percentage"), GridDisplayType.Total);
 
             return resultsModel;
         }
