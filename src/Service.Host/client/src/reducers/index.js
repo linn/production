@@ -81,6 +81,8 @@ import labelReprint from './labelReprint';
 import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
 import workStations from './workStations';
 import historyStore from './history';
+import ateStatusReport from './ateStatusReport';
+import ateDetailsReport from './ateDetailsReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -166,6 +168,8 @@ const reducer = history =>
         wwdTriggerReport,
         productionTriggerLevel,
         workStations,
+        ateStatusReport,
+        ateDetailsReport
         ...sharedLibraryReducers
     });
 

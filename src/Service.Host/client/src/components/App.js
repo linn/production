@@ -86,6 +86,9 @@ function App() {
                 <ListItem component={Link} to="/production/reports/assembly-fails-details" button>
                     <Typography color="primary">Assembly Fails Details Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/reports/ate/status" button>
+                    <Typography color="primary">ATE Status Report</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/reports/board-tests-report" button>
                     <Typography color="primary">Board Tests Report</Typography>
                 </ListItem>

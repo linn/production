@@ -74,7 +74,7 @@ function LabelReprint({
     };
 
     const handleBackClick = () => {
-        history.push('/production/maintenance/labels/reprint-reasons/create');
+        history.push('/production/maintenance');
     };
 
     const setPart = field => newValue => {

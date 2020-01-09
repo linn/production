@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Measures;
 
@@ -51,6 +52,8 @@
         public List<AssemblyFail> AssemblyFails { get; set; }
 
         public List<PartFail> PartFails { get; set; }
+      
+        public List<AteTest> AteTests { get; set; }
 
         public string BatchNotes { get; set; }
 

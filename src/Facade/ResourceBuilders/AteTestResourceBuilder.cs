@@ -13,7 +13,7 @@
                            TestId = test.TestId,
                            UserNumber = test.UserNumber,
                            DateTested = test.DateTested?.ToString("o"),
-                           WorksOrderNumber = test.WorksOrderNumber,
+                           WorksOrderNumber = test.WorksOrder.OrderNumber,
                            NumberTested = test.NumberTested,
                            NumberOfSmtComponents = test.NumberOfSmtComponents,
                            NumberOfSmtFails = test.NumberOfSmtFails,
@@ -26,7 +26,7 @@
                            DateInvalid = test.DateInvalid?.ToString("o"),
                            FlowMachine = test.FlowMachine,
                            FlowSolderDate = test.FlowSolderDate?.ToString("o")
-            };
+                       };
         }
 
         object IResourceBuilder<AteTest>.Build(AteTest test) => this.Build(test);
