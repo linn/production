@@ -12,4 +12,10 @@
       table {
         zoom: 0.85;
       }
+
+    .zoomed-in-printing {
+        zoom: 1.45;
+    }
   }
+
+
