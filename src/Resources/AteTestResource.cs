@@ -8,6 +8,8 @@
 
         public int UserNumber { get; set; }
 
+        public string UserName { get; set; }
+
         public string DateTested { get; set; }
 
         public int WorksOrderNumber { get; set; }
@@ -39,6 +41,10 @@
         public string FlowMachine { get; set; }
 
         public string FlowSolderDate { get; set; }
+
+        public string PartDescription { get; set; }
+
+        public int WorksOrderQuantity { get; set; }
 
         public IEnumerable<AteTestDetailResource> Details { get; set; }
     }

@@ -15,7 +15,8 @@
             return new AteTestResource
                        {
                            TestId = test.TestId,
-                           UserNumber = test.UserNumber,
+                           UserNumber = test.User.Id,
+                           UserName = test.User.FullName,
                            DateTested = test.DateTested?.ToString("o"),
                            WorksOrderNumber = test.WorksOrder.OrderNumber,
                            NumberTested = test.NumberTested,
@@ -30,6 +31,8 @@
                            PlaceFound = test.PlaceFound,
                            DateInvalid = test.DateInvalid?.ToString("o"),
                            FlowMachine = test.FlowMachine,
+                           PartDescription = test.WorksOrder.Part.Description,
+                           WorksOrderQuantity = test.WorksOrder.Quantity,
                            FlowSolderDate = test.FlowSolderDate?.ToString("o"),
                            Details = test
                                .Details?.OrderBy(d => d.ItemNumber)

@@ -6,6 +6,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
@@ -13,13 +14,17 @@
     {
         private readonly IRepository<WorksOrder, int> worksOrderRepository;
 
+        private readonly IRepository<Employee, int> employeeRepository;
+
         public AteTestService(
             IRepository<AteTest, int> repository,
             ITransactionManager transactionManager,
-            IRepository<WorksOrder, int> worksOrderRepository)
+            IRepository<WorksOrder, int> worksOrderRepository,
+            IRepository<Employee, int> employeeRepository)
             : base(repository, transactionManager)
         {
             this.worksOrderRepository = worksOrderRepository;
+            this.employeeRepository = employeeRepository;
         }
 
         protected override AteTest CreateFromResource(AteTestResource resource)
@@ -29,8 +34,8 @@
             return new AteTest
                        {
                            TestId = resource.TestId,
-                           UserNumber = resource.UserNumber,
-                           DateTested = resource.DateTested != null
+                           User = this.employeeRepository.FindById(resource.UserNumber),
+                            DateTested = resource.DateTested != null
                                             ? DateTime.Parse(resource.DateTested)
                                             : (DateTime?)null,
                            WorksOrder = worksOrder,

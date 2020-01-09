@@ -4,10 +4,13 @@ import AteTest from '../../components/ate/AteTest';
 import ateTestActions from '../../actions/ateTestActions';
 import ateTestSelectors from '../../selectors/ateTestSelectors';
 import * as itemTypes from '../../itemTypes';
+import getProfile from '../../selectors/userSelectors';
+
 
 const mapStateToProps = (state, { match }) => ({
     item: ateTestSelectors.getItem(state),
     itemId: match.params.id,
+    profile: getProfile(state),
     editStatus: ateTestSelectors.getEditStatus(state),
     loading: ateTestSelectors.getLoading(state),
     snackbarVisible: ateTestSelectors.getSnackbarVisible(state),

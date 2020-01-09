@@ -3,13 +3,14 @@
     using System;
     using System.Collections.Generic;
 
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
     public class AteTest
     {
         public int TestId { get; set; }
 
-        public int UserNumber { get; set; }
+        public Employee User { get; set; }
 
         public DateTime? DateTested { get; set; }
 

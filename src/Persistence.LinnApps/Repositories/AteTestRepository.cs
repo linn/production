@@ -23,6 +23,7 @@
             return this.serviceDbContext
                 .AteTests.Where(t => t.TestId == key)
                 .Include(w => w.WorksOrder)
+                .Include(w => w.User)
                 .Include(t => t.Details)
                 .Where(d => d.DateInvalid == null)
                 .ToList().FirstOrDefault();

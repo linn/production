@@ -18,6 +18,7 @@ function AteTest({
     editStatus,
     itemError,
     history,
+    profile,
     itemId,
     item,
     loading,
@@ -29,6 +30,17 @@ function AteTest({
 }) {
     const [ateTest, setAteTest] = useState({});
     const [prevAteTest, setPrevAteTest] = useState({});
+
+    useEffect(() => {
+        if (editStatus === 'create' && profile) {
+            setAteTest(a => ({
+                ...a,
+                userNumber: profile.employee.replace('/employees/', ''), // the current user
+                userName: profile.name
+            }));
+        }
+    }, [profile, editStatus]);
+
     const tableColumns = [
         {
             title: 'No.',
@@ -57,7 +69,7 @@ function AteTest({
         },
         {
             title: 'Fault Code',
-            key: 'faultCode',
+            key: 'ateTestFaultCode',
             type: 'text'
             // type: 'dropdown',
             // options: ateFaultCodes
@@ -88,7 +100,7 @@ function AteTest({
         },
         {
             title: 'PCB Operator',
-            key: 'aoiEscape',
+            key: 'pcbOperator',
             type: 'text'
             // todo - name dropdown
             // type: 'dropdown'
@@ -165,7 +177,11 @@ function AteTest({
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    {creating() ? <Title text="Create ATE Test" /> : <Title text="ATE Test" />}
+                    {creating() ? (
+                        <Title text="Log ATE Test Results" />
+                    ) : (
+                        <Title text="ATE Test Results" />
+                    )}
                 </Grid>
                 {itemError && (
                     <Grid item xs={12}>
@@ -185,17 +201,23 @@ function AteTest({
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
-                            <Grid item xs={8}>
-                                <InputField
-                                    fullWidth
-                                    disabled={!creating()}
-                                    value={ateTest.testId}
-                                    label="Id"
-                                    required
-                                    onChange={handleFieldChange}
-                                    propertyName="testId"
-                                />
-                            </Grid>
+                            {!creating() ? (
+                                <Fragment>
+                                    <Grid item xs={2}>
+                                        <InputField
+                                            fullWidth
+                                            value={ateTest.testId}
+                                            label="Id"
+                                            disabled
+                                            onChange={handleFieldChange}
+                                            propertyName="testId"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={10} />{' '}
+                                </Fragment>
+                            ) : (
+                                <Fragment />
+                            )}
                             <Grid item xs={12}>
                                 <Typography variant="h5">Details</Typography>
                             </Grid>

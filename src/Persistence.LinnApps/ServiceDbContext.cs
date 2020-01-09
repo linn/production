@@ -1063,7 +1063,7 @@
             e.ToTable("ATE_TESTS");
             e.HasKey(t => t.TestId);
             e.Property(t => t.TestId).HasColumnName("ATE_TEST_ID");
-            e.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
+            e.HasOne<Employee>(f => f.User).WithMany(m => m.AteTestsEntered).HasForeignKey("USER_NUMBER");
             e.Property(t => t.DateTested).HasColumnName("DATE_TESTED");
             e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.AteTests).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(t => t.NumberTested).HasColumnName("NUMBER_TESTED");
