@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Switch from '@material-ui/core/Switch';
 import { MultiReportTable, Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
