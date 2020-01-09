@@ -1,6 +1,7 @@
 ﻿import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import {
     SaveBackCancelButtons,
     InputField,
@@ -103,6 +104,15 @@ function TriggerLevel({
         }
     };
 
+    const handlePartNoChange = newValue => {
+        console.info(newValue);
+        setTriggerLevel({
+            ...triggerLevel,
+            partNumber: newValue.partNumber,
+            description: newValue.description
+        });
+    };
+
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
 
     return (
@@ -156,10 +166,7 @@ function TriggerLevel({
                                         {creating() && allowedToEdit && (
                                             <Typeahead
                                                 onSelect={newValue => {
-                                                    handleResourceFieldChange(
-                                                        'partNumber',
-                                                        newValue.partNumber
-                                                    );
+                                                    handlePartNoChange(newValue);
                                                 }}
                                                 propertyName="partNumber"
                                                 label="Part Number"
@@ -345,6 +352,13 @@ function TriggerLevel({
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
+                                        <Button
+                                            color="default"
+                                            variant="contained"
+                                            style={{ float: 'left' }}
+                                        >
+                                            Delete
+                                        </Button>
                                         <SaveBackCancelButtons
                                             saveDisabled={viewing() || inputInvalid()}
                                             saveClick={handleSaveClick}
