@@ -169,7 +169,7 @@ const reducer = history =>
         productionTriggerLevel,
         workStations,
         ateStatusReport,
-        ateDetailsReport
+        ateDetailsReport,
         ...sharedLibraryReducers
     });
 
