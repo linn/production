@@ -81,7 +81,8 @@ function AteStatusReportOptions({ history, prevOptions }) {
                         items={[
                             { id: 'board', displayText: 'Board' },
                             { id: 'component', displayText: 'Component' },
-                            { id: 'fault-code', displayText: 'Fault Code' }
+                            { id: 'fault-code', displayText: 'Fault Code' },
+                            { id: 'failure-rates', displayText: 'Failure Rates' }
                         ]}
                         value={groupBy}
                         onChange={handleOptionChange}
