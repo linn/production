@@ -47,6 +47,7 @@
             this.Get("production/maintenance/production-trigger-levels-settings", _ => this.GetProductionTriggerLevelsSettings());
             this.Put("production/maintenance/production-trigger-levels-settings", _ => this.UpdateProductionTriggerLevelsSettings());
             this.Post("production/maintenance/production-trigger-levels-settings/start-trigger-run", _ => this.StartTriggerRun());
+            this.Delete("production/maintenance/production-trigger-levels", _ => this.DeleteTriggerLevel());
         }
 
         private object StartTriggerRun()
@@ -156,6 +157,21 @@
             }
 
             return this.Negotiate.WithModel(parts).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object DeleteTriggerLevel()
+        {
+            var resource = this.Bind<ProductionTriggerLevelResource>();
+            this.RequiresAuthentication();
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, privileges)
+                             ? this.productionTriggerLevelsService.Remove(resource, privileges)
+                             : new UnauthorisedResult<ResponseModel<ProductionTriggerLevel>>("You are not authorised to delete trigger level");
+
+            return this.Negotiate.WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
 

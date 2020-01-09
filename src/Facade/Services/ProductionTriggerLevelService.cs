@@ -33,6 +33,13 @@
             }
         }
 
+        public IResult<ResponseModel<ProductionTriggerLevel>> Remove(ProductionTriggerLevelResource resource, IEnumerable<string> privileges)
+        {
+            var entity = this.repository.FindById(resource.PartNumber);
+            this.repository.Remove(entity);
+            return new SuccessResult<ResponseModel<ProductionTriggerLevel>>(new ResponseModel<ProductionTriggerLevel>(entity, privileges));
+        }
+
         protected override ProductionTriggerLevel CreateFromResource(ProductionTriggerLevelResource resource)
         {
             return new ProductionTriggerLevel
