@@ -10,6 +10,8 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
+    Typeahead,
+    Dropdown,
     DatePicker
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
@@ -26,7 +28,11 @@ function AteTest({
     addItem,
     updateItem,
     setEditStatus,
-    setSnackbarVisible
+    setSnackbarVisible,
+    worksOrdersSearchResults,
+    worksOrdersSearchLoading,
+    searchWorksOrders,
+    clearWorksOrdersSearch
 }) {
     const [ateTest, setAteTest] = useState({});
     const [prevAteTest, setPrevAteTest] = useState({});
@@ -53,7 +59,7 @@ function AteTest({
             type: 'number'
         },
         {
-            title: 'No. Fails',
+            title: 'Fails',
             key: 'numberOfFails',
             type: 'number'
         },
@@ -75,7 +81,7 @@ function AteTest({
             // options: ateFaultCodes
         },
         {
-            title: 'Smt or PCB?',
+            title: 'Type',
             key: 'smtOrPcb',
             type: 'text'
             // type: 'dropdownn'
@@ -132,9 +138,6 @@ function AteTest({
             setPrevAteTest(item);
         }
     }, [item, prevAteTest]);
-
-    const faultCodeInvalid = () => !ateTest.faultCode;
-    const descriptionInvalid = () => !ateTest.description;
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -218,6 +221,258 @@ function AteTest({
                             ) : (
                                 <Fragment />
                             )}
+                            <Grid item xs={4}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.userName}
+                                    label="Entered By"
+                                    disabled
+                                    onChange={handleFieldChange}
+                                    propertyName="userName"
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <DatePicker
+                                    value={ateTest.flowSolderDate}
+                                    label="Flow Solder Date"
+                                    onChange={value => {
+                                        setEditStatus('edit');
+                                        setAteTest(a => ({
+                                            ...a,
+                                            flowSolderDate: value
+                                        }));
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <DatePicker
+                                    value={ateTest.dateTested}
+                                    label="Date Tested"
+                                    onChange={value => {
+                                        setEditStatus('edit');
+                                        setAteTest(a => ({
+                                            ...a,
+                                            dateTested: value
+                                        }));
+                                    }}
+                                />
+                            </Grid>
+                            <Grid itemxs={2} />
+                            <Grid item xs={3}>
+                                <Typeahead
+                                    onSelect={newValue => {
+                                        setEditStatus('edit');
+                                        setAteTest(a => ({
+                                            ...a,
+                                            worksOrderNumber: newValue.orderNumber,
+                                            partNumber: newValue.partNumber,
+                                            partDescription: newValue.partDescription
+                                        }));
+                                    }}
+                                    label="Works Order"
+                                    modal
+                                    items={worksOrdersSearchResults}
+                                    value={`${ateTest.worksOrderNumber}`}
+                                    loading={worksOrdersSearchLoading}
+                                    fetchItems={searchWorksOrders}
+                                    links={false}
+                                    clearSearch={() => clearWorksOrdersSearch}
+                                    placeholder="Search By Order Number"
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={ateTest.partNumber}
+                                    label="Part Number"
+                                    onChange={handleFieldChange}
+                                    propertyName="partNumber"
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={ateTest.partDescription}
+                                    label="Part Description"
+                                    onChange={handleFieldChange}
+                                    propertyName="partDescription"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.numberTested}
+                                    label="Number Tested"
+                                    onChange={handleFieldChange}
+                                    propertyName="numberTested"
+                                />
+                            </Grid>
+                            <Grid item xs={1} />
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.numberOfPcbBoardFails}
+                                    label="No. PCB Fails"
+                                    onChange={handleFieldChange}
+                                    propertyName="numberTested"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={`${Math.round(
+                                        ((ateTest.numberTested - ateTest.numberOfPcbBoardFails) /
+                                            ateTest.numberTested) *
+                                            1000
+                                    ) / 10}%`}
+                                    label="PCB Pass Rate"
+                                    onChange={handleFieldChange}
+                                    propertyName="pcbPassRate"
+                                />
+                            </Grid>
+                            <Grid item xs={1} />
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.numberOfSmtBoardFails}
+                                    label="No. SMT Fails"
+                                    onChange={handleFieldChange}
+                                    propertyName="numberOfSmtBoardFails"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={`${Math.round(
+                                        ((ateTest.numberTested - ateTest.numberOfSmtBoardFails) /
+                                            ateTest.numberTested) *
+                                            1000
+                                    ) / 10}%`}
+                                    label="SMT Pass Rate"
+                                    onChange={handleFieldChange}
+                                    propertyName="smtPassRate"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.numberOfSmtComponents}
+                                    label="No. SMT Components"
+                                    onChange={handleFieldChange}
+                                    propertyName="numberOfSmtComponents"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.numberOfSmtFails}
+                                    label="No. SMT Fails"
+                                    onChange={handleFieldChange}
+                                    propertyName="numberOfSmtFails"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={Math.round(
+                                        (ateTest.numberOfSmtFails / ateTest.numberOfSmtComponents) *
+                                            1000000
+                                    )}
+                                    label="SMT DPMO"
+                                    onChange={handleFieldChange}
+                                    propertyName="SMT DPMO"
+                                />
+                            </Grid>
+                            <Grid item xs={6} />
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.numberOfPcbComponents}
+                                    label="No. PCB Components"
+                                    onChange={handleFieldChange}
+                                    propertyName="numberOfPcbComponents"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.numberOfPcbFails}
+                                    label="No. PCB Fails"
+                                    onChange={handleFieldChange}
+                                    propertyName="numberOfPcbFails"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={Math.round(
+                                        (ateTest.numberOfPcbFails / ateTest.numberOfPcbComponents) *
+                                            1000000
+                                    )}
+                                    label="PCB DPMO"
+                                    onChange={handleFieldChange}
+                                    propertyName="pcbDPMO"
+                                />
+                            </Grid>
+                            <Grid item xs={2} />
+                            <Grid item xs={4}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.pcbOperatorName}
+                                    label="Operator"
+                                    onChange={handleFieldChange}
+                                    propertyName="pcbOperatorName"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
+                                <InputField
+                                    fullWidth
+                                    value={ateTest.minutesSpent}
+                                    label="Minutes Spent"
+                                    onChange={handleFieldChange}
+                                    propertyName="minutesSpent"
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Dropdown
+                                    label="Flow Machine"
+                                    propertyName="flowMachine"
+                                    items={['FLOW SOLDER', 'NON FLOW SOLDER']}
+                                    fullWidth
+                                    value={ateTest.flowMachine ? ateTest.flowMachine : ''}
+                                    allowNoValue
+                                    onChange={handleFieldChange}
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Dropdown
+                                    label="Machine"
+                                    propertyName="machine"
+                                    items={['GENRAD', 'TAKAYA']}
+                                    fullWidth
+                                    value={ateTest.machine ? ateTest.machine : ''}
+                                    allowNoValue
+                                    onChange={handleFieldChange}
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Dropdown
+                                    label="Place Found"
+                                    propertyName="placeFound"
+                                    items={['ATE', 'SMT']}
+                                    fullWidth
+                                    value={ateTest.placeFound ? ateTest.placeFound : ''}
+                                    allowNoValue
+                                    onChange={handleFieldChange}
+                                />
+                            </Grid>
+                            <Grid item xs={1} />
                             <Grid item xs={12}>
                                 <Typography variant="h5">Details</Typography>
                             </Grid>
@@ -238,6 +493,14 @@ function AteTest({
                         </Fragment>
                     )
                 )}
+                <Grid item xs={12}>
+                    <SaveBackCancelButtons
+                        saveDisabled={viewing()}
+                        saveClick={handleSaveClick}
+                        cancelClick={handleCancelClick}
+                        backClick={handleBackClick}
+                    />
+                </Grid>
             </Grid>
         </Page>
     );

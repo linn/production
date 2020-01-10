@@ -238,7 +238,8 @@
                                {
                                    RowId = rowId,
                                    ColumnId = "Operator",
-                                   TextDisplay = this.employeeRepository.FindById(ateTestReportDetail.PcbOperatorNumber).FullName
+                                   TextDisplay = ateTestReportDetail.PcbOperatorNumber != null ? 
+                                                     this.employeeRepository.FindById((int)ateTestReportDetail.PcbOperatorNumber).FullName : null,
                                });
                 models.Add(new CalculationValueModel
                                {
@@ -320,7 +321,7 @@
                                        BatchNumber = detail.BatchNumber,
                                        CircuitRef = detail.CircuitRef,
                                        ComponentPartNumber = detail.PartNumber,
-                                       PcbOperatorNumber = a.PcbOperator,
+                                       PcbOperatorNumber = a.PcbOperator?.Id,
                                        DetailPcbOperator = detail.PcbOperator
                                    });
 

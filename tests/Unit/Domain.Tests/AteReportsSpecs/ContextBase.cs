@@ -62,7 +62,8 @@
                                                 DateTested = 1.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
-                                                PcbOperator = 1,
+                                                PcbOperator = new Employee { Id = 1, FullName = "Name" },
+
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -85,7 +86,7 @@
                                                 DateTested = 9.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 2" },
-                                                PcbOperator = 1,
+                                                PcbOperator = new Employee { Id = 1, FullName = "Name" },
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -106,7 +107,8 @@
                                                 DateTested = 20.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
-                                                PcbOperator = 1,
+                                                PcbOperator = new Employee { Id = 1, FullName = "Name" },
+
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -128,7 +130,8 @@
                                                 DateTested = 19.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
-                                                PcbOperator = 1,
+                                                PcbOperator = new Employee { Id = 1, FullName = "Name" },
+
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail

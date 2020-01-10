@@ -33,8 +33,9 @@
                                        NumberOfSmtFails = 1,
                                        NumberOfPcbBoardFails = 1,
                                        NumberOfSmtBoardFails = 1,
-                                       PcbOperator = 1
-                                   };
+                                       PcbOperator = new Employee { Id = 1, FullName = "Name" },
+
+            };
             this.AteTestService.GetById(1)
                 .Returns(new SuccessResult<AteTest>(ateTest));
 

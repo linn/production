@@ -1064,6 +1064,7 @@
             e.HasKey(t => t.TestId);
             e.Property(t => t.TestId).HasColumnName("ATE_TEST_ID");
             e.HasOne<Employee>(f => f.User).WithMany(m => m.AteTestsEntered).HasForeignKey("USER_NUMBER");
+            e.HasOne<Employee>(f => f.PcbOperator).WithMany(m => m.AteTestsPcbOperatorOn).HasForeignKey("PCB_OPERATOR");
             e.Property(t => t.DateTested).HasColumnName("DATE_TESTED");
             e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.AteTests).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(t => t.NumberTested).HasColumnName("NUMBER_TESTED");
@@ -1073,7 +1074,6 @@
             e.Property(t => t.NumberOfPcbFails).HasColumnName("NUMBER_PCB_FAILS");
             e.Property(t => t.NumberOfPcbBoardFails).HasColumnName("NUMBER_PCB_BOARD_FAILS");
             e.Property(t => t.NumberOfSmtBoardFails).HasColumnName("NUMBER_SMT_BOARD_FAILS");
-            e.Property(t => t.PcbOperator).HasColumnName("PCB_OPERATOR");
             e.Property(t => t.MinutesSpent).HasColumnName("MINUTES_SPENT");
             e.Property(t => t.Machine).HasColumnName("MACHINE").HasMaxLength(10);
             e.Property(t => t.PlaceFound).HasColumnName("PLACE_FOUND").HasMaxLength(10);

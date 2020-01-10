@@ -45,7 +45,7 @@
                            NumberOfPcbComponents = resource.NumberOfPcbComponents,
                            NumberOfPcbFails = resource.NumberOfPcbFails,
                            NumberOfPcbBoardFails = resource.NumberOfPcbBoardFails,
-                           PcbOperator = resource.PcbOperator,
+                           PcbOperator = this.employeeRepository.FindById(resource.PcbOperator),
                            MinutesSpent = resource.MinutesSpent,
                            Machine = resource.Machine,
                            PlaceFound = resource.PlaceFound,

@@ -30,7 +30,7 @@
 
         public int NumberOfSmtBoardFails { get; set; }
 
-        public int PcbOperator { get; set; }
+        public Employee PcbOperator { get; set; }
 
         public int? MinutesSpent { get; set; }
 

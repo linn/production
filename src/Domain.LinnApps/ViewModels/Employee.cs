@@ -20,6 +20,8 @@
 
         public List<AteTest> AteTestsEntered { get; set; }
 
+        public List<AteTest> AteTestsPcbOperatorOn { get; set; }
+
         public List<AssemblyFail> AssemblyFailsReturned { get; set; }
 
         public List<AssemblyFail> AssemblyFailsResponsibleFor { get; set; }

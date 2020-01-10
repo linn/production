@@ -30,6 +30,8 @@
 
         public int PcbOperator { get; set; }
 
+        public string PcbOperatorName { get; set; }
+
         public int? MinutesSpent { get; set; }
 
         public string Machine { get; set; }
@@ -41,6 +43,8 @@
         public string FlowMachine { get; set; }
 
         public string FlowSolderDate { get; set; }
+
+        public string PartNumber { get; set; }
 
         public string PartDescription { get; set; }
 
