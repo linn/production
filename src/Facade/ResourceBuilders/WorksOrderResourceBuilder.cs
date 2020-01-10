@@ -33,6 +33,7 @@
                            StartedByShift = worksOrder.StartedByShift,
                            DocType = worksOrder.DocType,
                            WorkStationCode = worksOrder.WorkStationCode,
+                           BatchNotes = worksOrder.BatchNotes,
                            Links = this.BuildLinks(worksOrder).ToArray()
                        };
         }

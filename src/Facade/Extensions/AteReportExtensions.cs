@@ -12,6 +12,7 @@
                 case "component": return AteReportGroupBy.Component;
                 case "board": return AteReportGroupBy.Board;
                 case "fault-code": return AteReportGroupBy.FaultCode;
+                case "failure-rates": return AteReportGroupBy.FailureRates;
                 default: throw new InvalidOptionException($"{option} is not a valid group by option");
             }
         }
