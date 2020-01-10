@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
 import {
     SaveBackCancelButtons,
     InputField,
@@ -43,6 +44,7 @@ function TriggerLevel({
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
     const [allowedToEdit, setAllowedToEdit] = useState(false);
     const [allowedToCreate, setallowedToCreate] = useState(false);
+    const [dialogOpen, setdialogOpen] = useState(true);
 
     const creating = useCallback(() => editStatus === 'create', [editStatus]);
     const editing = () => editStatus === 'edit';
@@ -114,6 +116,14 @@ function TriggerLevel({
             description: newValue.description
         });
     };
+
+    const handleOpenDialogRequest = () => {
+        setDialogOpen(true);
+    };
+
+    const handleDelete = () => {
+        alert('deletttted');
+    }
 
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
 
@@ -198,15 +208,10 @@ function TriggerLevel({
                                         <InputField
                                             value={triggerLevel.description}
                                             label="Description"
-                                            maxLength={50}
                                             fullWidth
-                                            helperText={
-                                                descriptionInvalid() ? 'This field is required' : ''
-                                            }
-                                            required
-                                            onChange={handleResourceFieldChange}
                                             propertyName="description"
-                                            disabled={!allowedToEdit}
+                                            disabled
+                                            helperText="This field cannot be changed - description comes from part number"
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
@@ -231,29 +236,33 @@ function TriggerLevel({
                                             />
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={6}>
-                                        <InputField
-                                            value={triggerLevel.variableTriggerLevel}
-                                            label="Auto Trigger Level"
-                                            type="number"
-                                            maxLength={2}
-                                            fullWidth
-                                            onChange={handleResourceFieldChange}
-                                            propertyName="variableTriggerLevel"
-                                            disabled={!allowedToEdit}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <InputField
-                                            value={triggerLevel.overrideTriggerLevel}
-                                            label="Override Trigger Level"
-                                            maxLength={2}
-                                            type="number"
-                                            fullWidth
-                                            onChange={handleResourceFieldChange}
-                                            propertyName="overrideTriggerLevel"
-                                            disabled={!allowedToEdit}
-                                        />
+
+                                    {!creating() && (
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                value={triggerLevel.variableTriggerLevel}
+                                                label="Auto Trigger Level"
+                                                type="number"
+                                                maxLength={2}
+                                                fullWidth
+                                                propertyName="variableTriggerLevel"
+                                                disabled
+                                            />
+                                        </Grid>
+                                    )}
+                                    <Grid item xs={creating() ? 12 : 6}>
+                                        <Grid item xs={creating() ? 6 : 12}>
+                                            <InputField
+                                                value={triggerLevel.overrideTriggerLevel}
+                                                label="Override Trigger Level"
+                                                maxLength={2}
+                                                type="number"
+                                                fullWidth
+                                                onChange={handleResourceFieldChange}
+                                                propertyName="overrideTriggerLevel"
+                                                disabled={!allowedToEdit}
+                                            />
+                                        </Grid>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <InputField
@@ -363,7 +372,8 @@ function TriggerLevel({
                                         <Button
                                             color="default"
                                             variant="contained"
-                                            style={{ float: 'left' }}
+                                            style={{ float: 'left' }}                                            
+                                            onClick={handleOpenDialogRequest}
                                         >
                                             Delete
                                         </Button>
@@ -374,6 +384,30 @@ function TriggerLevel({
                                             backClick={handleBackClick}
                                         />
                                     </Grid>
+                                    <Dialog
+                                        open={dialogOpen}
+                                        onClose={}
+                                        fullWidth
+                                        maxWidth="md"
+                                    >
+                                        <span>
+                                            Are you sure you want to delete this hingmy???? :O
+                                        </span>
+                                        <Button
+                                            color="default"
+                                            variant="contained"
+                                            onClick={handleDelete}
+                                        >
+                                            Aye get it away
+                                        </Button>
+                                        <Button
+                                            color="default"
+                                            variant="contained"
+                                            onClick={handleOpenDialogRequest}
+                                        >
+                                            Cancel
+                                        </Button>
+                                    </Dialog>
                                 </Fragment>
                             )}
                         </Grid>
