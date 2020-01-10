@@ -11,7 +11,8 @@ import {
     SnackbarMessage,
     utilities,
     Dropdown,
-    Typeahead
+    Typeahead,
+    CreateButton
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -41,6 +42,7 @@ function TriggerLevel({
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
     const [allowedToEdit, setAllowedToEdit] = useState(false);
+    const [allowedToCreate, setallowedToCreate] = useState(false);
 
     const creating = useCallback(() => editStatus === 'create', [editStatus]);
     const editing = () => editStatus === 'edit';
@@ -51,6 +53,7 @@ function TriggerLevel({
             setAllowedToEdit(utilities.getHref(applicationState, 'edit') !== null);
         } else {
             setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
+            setallowedToCreate(utilities.getHref(item, 'edit') !== null);
         }
     }, [applicationState, item, creating]);
 
@@ -105,7 +108,6 @@ function TriggerLevel({
     };
 
     const handlePartNoChange = newValue => {
-        console.info(newValue);
         setTriggerLevel({
             ...triggerLevel,
             partNumber: newValue.partNumber,
@@ -122,12 +124,18 @@ function TriggerLevel({
                     <Page>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
+                                {allowedToCreate && (
+                                    <Fragment>
+                                        <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
+                                    </Fragment>
+                                )}
                                 {creating() ? (
                                     <Title text="Create Production Trigger Level" />
                                 ) : (
                                     <Title text="Production Trigger Level" />
                                 )}
                             </Grid>
+
                             {itemErrors && (
                                 <Grid item xs={12}>
                                     <ErrorCard errorMessage={itemErrors.statusText} />
