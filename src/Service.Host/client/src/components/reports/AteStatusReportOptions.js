@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { DatePicker, Title, Dropdown } from '@linn-it/linn-form-components-library';
+import { Title, Dropdown, LinnWeekPicker } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
@@ -28,6 +28,14 @@ function AteStatusReportOptions({ history, prevOptions }) {
     const [placeFound, setPlaceFound] = useState(
         prevOptions.placeFound ? prevOptions.placeFound : 'ATE'
     );
+
+    const handleWeekChange = (propertyName, newValue) => {
+        if (propertyName === 'toDate') {
+            setToDate(newValue);
+        } else if (propertyName === 'fromDate') {
+            setFromDate(newValue);
+        }
+    };
 
     const handleClick = () =>
         history.push({
@@ -60,18 +68,21 @@ function AteStatusReportOptions({ history, prevOptions }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={4}>
-                    <DatePicker
-                        label="From Date"
-                        value={fromDate.toString()}
-                        onChange={setFromDate}
+                    <LinnWeekPicker
+                        label="From Week Starting"
+                        selectedDate={fromDate.toString()}
+                        setWeekStartDate={handleWeekChange}
+                        propertyName="fromDate"
+                        required
                     />
                 </Grid>
                 <Grid item xs={4}>
-                    <DatePicker
-                        label="To Date"
-                        value={toDate.toString()}
-                        minDate={fromDate.toString()}
-                        onChange={setToDate}
+                    <LinnWeekPicker
+                        label="To Week Starting"
+                        selectedDate={toDate.toString()}
+                        setWeekStartDate={handleWeekChange}
+                        propertyName="toDate"
+                        required
                     />
                 </Grid>
                 <Grid item xs={4} />
