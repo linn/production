@@ -106,9 +106,7 @@ const Root = ({ store }) => (
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                         <ConnectedRouter history={history}>
                             <div>
-                                <Fragment className="hide-when-printing">
-                                    <Navigation />
-                                </Fragment>
+                                <Navigation />
                                 <CssBaseline />
 
                                 <Route
