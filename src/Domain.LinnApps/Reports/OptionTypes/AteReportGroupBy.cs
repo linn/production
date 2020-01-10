@@ -4,6 +4,7 @@
     {
         Component,
         FaultCode,
-        Board
+        Board,
+        FailureRates
     }
 }
