@@ -13,7 +13,6 @@ const initialState = {};
 const store = configureStore(initialState);
 const { user } = store.getState().oidc;
 const date = new Date().toLocaleString();
-// format('d-mmm-yyyy HH:MM');
 
 const render = Component => {
     ReactDOM.render(
