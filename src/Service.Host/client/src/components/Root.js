@@ -15,6 +15,7 @@ import userManager from '../helpers/userManager';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
 import OutstandingWorksOrdersReportOptions from '../containers/reports/OutstandingWorksOrdersReportOptions';
 import 'typeface-roboto';
+import { ConnectedRouter } from 'connected-react-router';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
@@ -103,7 +104,7 @@ const Root = ({ store }) => (
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <Router history={history}>
+                        <ConnectedRouter history={history}>
                             <div>
                                 <Fragment className="hide-when-printing">
                                     <Navigation />
@@ -576,7 +577,7 @@ const Root = ({ store }) => (
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>
-                        </Router>
+                        </ConnectedRouter>
                     </MuiPickersUtilsProvider>
                 </OidcProvider>
             </Provider>

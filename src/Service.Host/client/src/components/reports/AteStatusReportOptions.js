@@ -21,7 +21,9 @@ function AteStatusReportOptions({ history, prevOptions }) {
     const [toDate, setToDate] = useState(
         prevOptions.toDate ? new Date(prevOptions.toDate) : new Date()
     );
-    const [groupBy, setGroupBy] = useState(prevOptions.groupBy ? prevOptions.groupBy : 'board');
+    const [groupBy, setGroupBy] = useState(
+        prevOptions.groupBy ? prevOptions.groupBy : 'failure-rates'
+    );
     const [smtOrPcb, setSmtOrPcb] = useState(prevOptions.smtOrPcb ? prevOptions.smtOrPcb : 'SMT');
     const [placeFound, setPlaceFound] = useState(
         prevOptions.placeFound ? prevOptions.placeFound : 'ATE'
@@ -81,7 +83,8 @@ function AteStatusReportOptions({ history, prevOptions }) {
                         items={[
                             { id: 'board', displayText: 'Board' },
                             { id: 'component', displayText: 'Component' },
-                            { id: 'fault-code', displayText: 'Fault Code' }
+                            { id: 'fault-code', displayText: 'Fault Code' },
+                            { id: 'failure-rates', displayText: 'Failure Rates' }
                         ]}
                         value={groupBy}
                         onChange={handleOptionChange}

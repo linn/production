@@ -63,6 +63,8 @@
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
                                                 PcbOperator = 1,
+                                                NumberTested = 1,
+                                                NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -86,6 +88,8 @@
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 2" },
                                                 PcbOperator = 1,
+                                                NumberTested = 5,
+                                                NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -106,7 +110,9 @@
                                                 DateTested = 20.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
+                                                NumberTested = 1,
                                                 PcbOperator = 1,
+                                                NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -129,6 +135,8 @@
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
                                                 PcbOperator = 1,
+                                                NumberTested = 4,
+                                                NumberOfSmtBoardFails = 2,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
