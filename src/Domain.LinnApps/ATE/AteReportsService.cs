@@ -106,7 +106,7 @@
                     null,
                     resultsModel.ColumnIndex("Test Id")));
             this.reportingHelper.SortRowsByRowTitle(resultsModel);
-            this.RemovedRepeatedValues(
+            this.reportingHelper.RemovedRepeatedValues(
                 resultsModel,
                 resultsModel.ColumnIndex("Test Id"),
                 new[] { resultsModel.ColumnIndex("Test Id"), resultsModel.ColumnIndex("Board Part Number") });
@@ -130,7 +130,7 @@
             var columns = new List<AxisDetailsModel>();
             foreach (var linnWeek in weeks)
             {
-                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-tests", $"Tests {linnWeek.WeekEndingDDMON}"));
+                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-tests", $"Tests w/e {linnWeek.WeekEndingDDMON}"));
                 columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-fails", "Fails"));
                 columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-percentage", "Pass%"));
             }
@@ -154,7 +154,7 @@
                 var testColumn = resultsModel.ColumnIndex($"{linnWeek.LinnWeekNumber}-tests");
                 var failColumn = resultsModel.ColumnIndex($"{linnWeek.LinnWeekNumber}-fails");
                 var percentageColumn = resultsModel.ColumnIndex($"{linnWeek.LinnWeekNumber}-percentage");
-                this.SetValuesForPercentageColumn(
+                this.reportingHelper.SetValuesForPercentageColumn(
                     resultsModel,
                     failColumn,
                     testColumn,
@@ -169,7 +169,7 @@
 
             this.reportingHelper.SetTotalColumn(resultsModel, testColumns, resultsModel.ColumnIndex("total-tests"));
             this.reportingHelper.SetTotalColumn(resultsModel, failColumns, resultsModel.ColumnIndex("total-fails"));
-            this.SetValuesForPercentageColumn(
+            this.reportingHelper.SetValuesForPercentageColumn(
                 resultsModel,
                 resultsModel.ColumnIndex("total-fails"),
                 resultsModel.ColumnIndex("total-tests"),
@@ -463,85 +463,6 @@
             }
 
             return data;
-        }
-
-        private void RemovedRepeatedValues(ResultsModel model, int columnToCheck, int[] columnsToRemove = null, bool preSorted = true)
-        {
-            var groups = model.Rows.GroupBy(a => model.GetGridTextValue(a.RowIndex, columnToCheck));
-            if (columnsToRemove == null || columnsToRemove.Length == 0)
-            {
-                columnsToRemove = new[] { columnToCheck };
-            }
-
-            if (!preSorted)
-            {
-                this.reportingHelper.SortRowsByTextColumnValues(model, columnToCheck);
-            }
-
-            foreach (var groupedSet in groups)
-            {
-                var newRowSortOrder = groupedSet.OrderBy(a => a.SortOrder)
-                                          .First(a => model.GetGridTextValue(a.RowIndex, columnToCheck) == groupedSet.Key)
-                                          .SortOrder ?? 0;
-
-                foreach (var rowModel in groupedSet.Where(g => g.SortOrder != newRowSortOrder))
-                {
-                    foreach (var columnToRemove in columnsToRemove)
-                    {
-                        model.SetGridValue(rowModel.RowIndex, columnToRemove, null);
-                        model.SetGridTextValue(rowModel.RowIndex, columnToRemove, string.Empty);
-                    }
-                }
-            }
-        }
-
-        private void SetValuesForPercentageColumn(
-            ResultsModel resultsModel,
-            int valueColumnIndex,
-            int totalColumnIndex,
-            int percentageColumnIndex,
-            int decimalPlaces = 2,
-            bool invertPercentage = false)
-        {
-            foreach (var row in resultsModel.Rows)
-            {
-                var value = resultsModel.GetGridValue(row.RowIndex, valueColumnIndex);
-                var total = resultsModel.GetGridValue(row.RowIndex, totalColumnIndex);
-                decimal? percentageValue = null;
-                if (total.HasValue)
-                {
-                    percentageValue = total > 0 ? (value ?? 0m) / total.Value * 100m : 0m;
-                    percentageValue = decimal.Round(percentageValue.Value, decimalPlaces);
-                }
-
-                resultsModel.SetGridValue(
-                    row.RowIndex,
-                    percentageColumnIndex,
-                    invertPercentage ? 100 - percentageValue : percentageValue,
-                    null,
-                    "%",
-                    decimalPlaces);
-            }
-
-            resultsModel.SetColumnType(percentageColumnIndex, GridDisplayType.Value);
-
-            var valueTotal = resultsModel.GetTotalValue(valueColumnIndex);
-            var totalTotal = resultsModel.GetTotalValue(totalColumnIndex);
-            decimal? totalPercentage = null;
-            if (totalTotal.HasValue)
-            {
-                totalPercentage = totalTotal > 0
-                                      ? (valueTotal ?? 0m) / totalTotal * 100m
-                                      : 0m;
-                totalPercentage = decimal.Round(totalPercentage.Value, decimalPlaces);
-            }
-
-            resultsModel.SetTotalValue(
-                percentageColumnIndex,
-                invertPercentage ? 100 - totalPercentage : totalPercentage,
-                null,
-                "%",
-                decimalPlaces);
         }
     }
 }
