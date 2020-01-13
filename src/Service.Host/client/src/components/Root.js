@@ -1,4 +1,4 @@
-﻿﻿import React from 'react';
+﻿﻿import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
 import { Route, Redirect, Switch } from 'react-router';
 import { OidcProvider } from 'redux-oidc';
@@ -100,7 +100,7 @@ import AteDetailsReport from '../containers/reports/AteDetailsReport';
 
 const Root = ({ store }) => (
     <div>
-        <div style={{ paddingTop: '40px' }}>
+        <div className="padding-top-when-not-printing">
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
                     <MuiPickersUtilsProvider utils={MomentUtils}>

@@ -8,11 +8,11 @@ import configureStore, { history } from './configureStore';
 import Root from './components/Root';
 import userManager from './helpers/userManager';
 import 'typeface-roboto';
-import '../assets/printStyles.css';
 
 const initialState = {};
 const store = configureStore(initialState);
 const { user } = store.getState().oidc;
+const date = new Date().toLocaleString();
 
 const render = Component => {
     ReactDOM.render(
@@ -20,7 +20,8 @@ const render = Component => {
             <SnackbarProvider dense maxSnack={5}>
                 <AppContainer>
                     <div className="pageContainer">
-                        <Component store={store} history={history} />
+                        <Component store={store} />
+                        <span className="date-for-printing">{date}</span>
                     </div>
                 </AppContainer>
             </SnackbarProvider>
