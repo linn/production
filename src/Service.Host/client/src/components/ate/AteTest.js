@@ -72,7 +72,10 @@ function AteTest({
         }
     }, [employees, ateTest.pcbOperator]);
 
-    const inputInvalid = () => ateTest.details.some(d => !d.partNumber || !d.aoiEscape);
+    const inputInvalid = () =>
+        ateTest.details.some(d => !d.partNumber || !d.aoiEscape) ||
+        [...new Set(ateTest.details.map(d => d.itemNumber))].length !==
+            ateTest.details.map(d => d.itemNumber).length;
 
     const tableColumns = [
         {

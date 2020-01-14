@@ -79,14 +79,14 @@
 
             foreach (var detail in updateResource.Details)
             {
-                if (detail.ItemNumber <= entity.Details.Max(d => d.ItemNumber))
-                {
-                    this.detailService.Update(new AteTestDetailKey { ItemNumber = detail.ItemNumber, TestId = detail.TestId }, detail);
-                }
-                else
+                if (detail.ItemNumber == null || entity.Details.All(d => d.ItemNumber != detail.ItemNumber))
                 {
                     detail.TestId = entity.TestId;
                     this.detailService.Add(detail);
+                }
+                else
+                {
+                    this.detailService.Update(new AteTestDetailKey { ItemNumber = (int)detail.ItemNumber, TestId = detail.TestId }, detail);
                 }
             }
         }
