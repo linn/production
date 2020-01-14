@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
@@ -23,8 +22,6 @@
 
         protected IQueryRepository<EmployeeDepartmentView> EmployeeDepartmentViewRepository { get; private set; }
 
-        protected IRepository<Part, string> PartRepository { get; private set; }
-
         protected IReportingHelper ReportingHelper { get; private set; }
 
         protected List<PartFailLog> PartFailLogs { get; private set; }
@@ -38,14 +35,12 @@
         {
             this.PartFailLogRepository = Substitute.For<IQueryRepository<PartFailLog>>();
             this.EmployeeDepartmentViewRepository = Substitute.For<IQueryRepository<EmployeeDepartmentView>>();
-            this.PartRepository = Substitute.For<IRepository<Part, string>>();
             this.ReportingHelper = new ReportingHelper();
             this.LinnWeekPack = Substitute.For<ILinnWeekPack>();
 
             this.Sut = new PartsReportService(
                 this.PartFailLogRepository,
                 this.EmployeeDepartmentViewRepository,
-                this.PartRepository,
                 this.ReportingHelper,
                 this.LinnWeekPack);
 
@@ -68,7 +63,12 @@
                                                 ErrorType = "TYPE1",
                                                 Id = 0,
                                                 MinutesWasted = 1,
-                                                Story = "STORY"
+                                                Story = "STORY",
+                                                Part = new Part
+                                                           {
+                                                               PartNumber = "PART1",
+                                                               Description = "DESC1"
+                                                           }
                                             },
                                         new PartFailLog
                                             {
@@ -81,7 +81,12 @@
                                                 ErrorType = "TYPE1",
                                                 Id = 1,
                                                 MinutesWasted = 1,
-                                                Story = "STORY"
+                                                Story = "STORY",
+                                                Part = new Part
+                                                           {
+                                                               PartNumber = "PART2",
+                                                               Description = "DESC2"
+                                                           }
                                             },
                                         new PartFailLog
                                             {
@@ -94,7 +99,12 @@
                                                 ErrorType = "TYPE1",
                                                 Id = 2,
                                                 MinutesWasted = 1,
-                                                Story = "STORY"
+                                                Story = "STORY",
+                                                Part = new Part
+                                                           {
+                                                               PartNumber = "PART3",
+                                                               Description = "DESC3"
+                                                           }
                                             },
                                         new PartFailLog
                                             {
@@ -107,7 +117,12 @@
                                                 ErrorType = "TYPE2",
                                                 Id = 3,
                                                 MinutesWasted = 1,
-                                                Story = "STORY"
+                                                Story = "STORY",
+                                                Part = new Part
+                                                           {
+                                                               PartNumber = "PART4",
+                                                               Description = "DESC4"
+                                                           }
                                             }
                                     };
         }
