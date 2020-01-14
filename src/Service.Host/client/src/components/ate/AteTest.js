@@ -64,7 +64,7 @@ function AteTest({
 
     useEffect(() => {
         if (employees && ateTest.pcbOperator) {
-            setAteTest(a => ({
+            setAteTest(a => ({  
                 ...a,
                 pcbOperatorName: employees.find(e => Number(e.id) === Number(a.pcbOperator))
                     ?.fullName
@@ -134,9 +134,8 @@ function AteTest({
         {
             title: 'AOI Escape',
             key: 'aoiEscape',
-            type: 'text'
-            // type: 'dropdown'
-            // options: []
+            type: 'dropdown',
+            options: ['Y', 'N']
         },
         {
             title: 'PCB Operator',
@@ -510,6 +509,7 @@ function AteTest({
                             <Grid item xs={1} />
                             <Grid item xs={12}>
                                 <ExpansionPanel
+                                    style={{ overflow: 'auto' }}
                                     TransitionProps={{ unmountOnExit: true }}
                                     expanded={detailsOpen}
                                     onChange={() => setDetailsOpen(!detailsOpen)}

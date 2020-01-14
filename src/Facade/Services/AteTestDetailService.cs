@@ -14,13 +14,17 @@
     {
         private readonly IRepository<Employee, int> employeeRepository;
 
+        private readonly IRepository<AteTest, int> ateTestRepository;
+
         public AteTestDetailService(
             IRepository<AteTestDetail, AteTestDetailKey> repository,
             IRepository<Employee, int> employeeRepository,
+            IRepository<AteTest, int> ateTestRepository,
             ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
             this.employeeRepository = employeeRepository;
+            this.ateTestRepository = ateTestRepository;
         }
 
         protected override AteTestDetail CreateFromResource(AteTestDetailResource resource)
@@ -28,7 +32,7 @@
             return new AteTestDetail
                        {
                             TestId = resource.TestId,
-                            ItemNumber = resource.ItemNumber,
+                            ItemNumber = this.ateTestRepository.FindById(resource.TestId).Details.Max(d => d.ItemNumber) + 1,
                             PartNumber = resource.PartNumber,
                             NumberOfFails = resource.NumberOfFails,
                             CircuitRef = resource.CircuitRef,

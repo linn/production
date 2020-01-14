@@ -73,3 +73,5 @@ local-update.sh
 
 .vscode/
 /src/Facade/StyleCop.Cache
+
+*.tgz
