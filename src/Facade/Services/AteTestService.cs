@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Linq;
     using System.Linq.Expressions;
 
     using Linn.Common.Facade;
@@ -16,15 +17,19 @@
 
         private readonly IRepository<Employee, int> employeeRepository;
 
+        private readonly IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> detailService;
+
         public AteTestService(
             IRepository<AteTest, int> repository,
             ITransactionManager transactionManager,
             IRepository<WorksOrder, int> worksOrderRepository,
-            IRepository<Employee, int> employeeRepository)
+            IRepository<Employee, int> employeeRepository,
+            IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> detailService)
             : base(repository, transactionManager)
         {
             this.worksOrderRepository = worksOrderRepository;
             this.employeeRepository = employeeRepository;
+            this.detailService = detailService;
         }
 
         protected override AteTest CreateFromResource(AteTestResource resource)
@@ -61,12 +66,34 @@
 
         protected override void UpdateFromResource(AteTest entity, AteTestResource updateResource)
         {
-            throw new NotImplementedException();
+            entity.PcbOperator = this.employeeRepository.FindById(updateResource.PcbOperator);
+            entity.NumberTested = updateResource.NumberTested;
+            entity.NumberOfPcbBoardFails = updateResource.NumberOfPcbBoardFails;
+            entity.NumberOfSmtBoardFails = updateResource.NumberOfSmtBoardFails;
+            entity.NumberOfSmtFails = updateResource.NumberOfSmtFails;
+            entity.NumberOfPcbFails = updateResource.NumberOfPcbFails;
+            entity.MinutesSpent = updateResource.MinutesSpent;
+            entity.FlowMachine = updateResource.FlowMachine;
+            entity.Machine = updateResource.Machine;
+            entity.PlaceFound = updateResource.PlaceFound;
+
+            foreach (var detail in updateResource.Details)
+            {
+                if (detail.ItemNumber <= entity.Details.Max(d => d.ItemNumber))
+                {
+                    this.detailService.Update(new AteTestDetailKey { ItemNumber = detail.ItemNumber, TestId = detail.TestId }, detail);
+                }
+                else
+                {
+                    detail.TestId = entity.TestId;
+                    this.detailService.Add(detail);
+                }
+            }
         }
 
         protected override Expression<Func<AteTest, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return test => test.TestId == int.Parse(searchTerm);
         }
     }
 }

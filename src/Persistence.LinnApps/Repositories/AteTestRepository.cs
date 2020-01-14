@@ -54,8 +54,11 @@
         {
             return this.serviceDbContext.AteTests
                 .Where(expression)
-                .Include(d => d.Details)
-                .Include(w => w.WorksOrder);
+                .Include(w => w.WorksOrder).Include(w => w.WorksOrder.Part)
+                .Include(w => w.User)
+                .Include(t => t.PcbOperator)
+                .Include(t => t.Details)
+                .Where(d => d.DateInvalid == null);
         }
     }
 }

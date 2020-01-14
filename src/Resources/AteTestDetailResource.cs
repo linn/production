@@ -22,6 +22,8 @@
 
         public int? PcbOperator { get; set; }
 
+        public string PcbOperatorName { get; set; }
+
         public string Comments { get; set; }
 
         public string Machine { get; set; }

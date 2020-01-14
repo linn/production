@@ -97,6 +97,7 @@ import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
 import AteTest from '../containers/ate/AteTest';
+import AteTests from '../containers/ate/AteTests';
 
 const Root = ({ store }) => (
     <div>
@@ -576,6 +577,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/quality/ate-tests/:id"
                                         component={AteTest}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate-tests"
+                                        component={AteTests}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

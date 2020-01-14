@@ -7,11 +7,17 @@ import * as itemTypes from '../../itemTypes';
 import getProfile from '../../selectors/userSelectors';
 import worksOrdersSelectors from '../../selectors/worksOrdersSelectors';
 import worksOrdersActions from '../../actions/worksOrdersActions';
+import employeesActions from '../../actions/employeesActions';
+import employeesSelectors from '../../selectors/employeesSelectors';
+import ateFaultCodesSelectors from '../../selectors/ateFaultCodesSelectors';
+import ateFaultCodeActions from '../../actions/ateFaultCodesActions';
 
 const mapStateToProps = (state, { match }) => ({
     item: ateTestSelectors.getItem(state),
     itemId: match.params.id,
     profile: getProfile(state),
+    employees: employeesSelectors.getItems(state),
+    employeesLoading: employeesSelectors.getLoading(state),
     editStatus: ateTestSelectors.getEditStatus(state),
     loading: ateTestSelectors.getLoading(state),
     snackbarVisible: ateTestSelectors.getSnackbarVisible(state),
@@ -19,11 +25,14 @@ const mapStateToProps = (state, { match }) => ({
     worksOrdersSearchResults: worksOrdersSelectors
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
-    worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state)
+    worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
+    ateFaultCodes: ateFaultCodesSelectors.getItems(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {
     dispatch(ateTestActions.fetch(itemId));
+    dispatch(employeesActions.fetch());
+    dispatch(ateFaultCodeActions.fetch());
 };
 
 const mapDispatchToProps = {

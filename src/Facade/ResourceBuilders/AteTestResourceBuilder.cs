@@ -1,9 +1,12 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System.Collections.Generic;
     using System.Linq;
 
     using Linn.Common.Facade;
+    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
 
     public class AteTestResourceBuilder : IResourceBuilder<AteTest>
@@ -38,15 +41,21 @@
                            FlowSolderDate = test.FlowSolderDate?.ToString("o"),
                            Details = test
                                .Details?.OrderBy(d => d.ItemNumber)
-                               .Select(d => (AteTestDetailResource)this.detailResourceBuilder?.Build(d))
-                       };
+                               .Select(d => (AteTestDetailResource)this.detailResourceBuilder?.Build(d)),
+                           Links = this.BuildLinks(test).ToArray()
+            };
         }
 
         object IResourceBuilder<AteTest>.Build(AteTest test) => this.Build(test);
 
         public string GetLocation(AteTest model)
         {
-            throw new System.NotImplementedException();
+            return $"/production/quality/ate-tests/{model.TestId}";
+        }
+
+        private IEnumerable<LinkResource> BuildLinks(AteTest test)
+        {
+            yield return new LinkResource { Rel = "self", Href = this.GetLocation(test) };
         }
     }
 }

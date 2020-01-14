@@ -76,7 +76,7 @@
                                                                           ItemNumber = 1,
                                                                           BatchNumber = "bn 1",
                                                                           CircuitRef = "circuit 12",
-                                                                          PcbOperator = 2
+                                                                          PcbOperator = new Employee { Id = 2, FullName = "NAME" }
                                                                       }
                                                               }
                                             },

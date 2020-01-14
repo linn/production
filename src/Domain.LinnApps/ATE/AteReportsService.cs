@@ -322,7 +322,7 @@
                                        CircuitRef = detail.CircuitRef,
                                        ComponentPartNumber = detail.PartNumber,
                                        PcbOperatorNumber = a.PcbOperator?.Id,
-                                       DetailPcbOperator = detail.PcbOperator
+                                       DetailPcbOperator = detail.PcbOperator?.Id
                                    });
 
             return allDetails;

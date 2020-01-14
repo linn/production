@@ -2,6 +2,10 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
     SaveBackCancelButtons,
     TableWithInlineEditing,
@@ -32,10 +36,21 @@ function AteTest({
     worksOrdersSearchResults,
     worksOrdersSearchLoading,
     searchWorksOrders,
-    clearWorksOrdersSearch
+    clearWorksOrdersSearch,
+    employees,
+    employeesLoading,
+    ateFaultCodes
 }) {
-    const [ateTest, setAteTest] = useState({});
+    const [ateTest, setAteTest] = useState({ pcbOperator: null, details: [] });
     const [prevAteTest, setPrevAteTest] = useState({});
+    const [detailsOpen, setDetailsOpen] = useState(false);
+
+    useEffect(() => {
+        if (editStatus !== 'create' && item && item !== prevAteTest) {
+            setAteTest(item);
+            setPrevAteTest(item);
+        }
+    }, [item, prevAteTest, editStatus]);
 
     useEffect(() => {
         if (editStatus === 'create' && profile) {
@@ -46,6 +61,16 @@ function AteTest({
             }));
         }
     }, [profile, editStatus]);
+
+    useEffect(() => {
+        if (employees && ateTest.pcbOperator) {
+            setAteTest(a => ({
+                ...a,
+                pcbOperatorName: employees.find(e => Number(e.id) === Number(a.pcbOperator))
+                    ?.fullName
+            }));
+        }
+    }, [employees, ateTest.pcbOperator]);
 
     const tableColumns = [
         {
@@ -76,16 +101,25 @@ function AteTest({
         {
             title: 'Fault Code',
             key: 'ateTestFaultCode',
-            type: 'text'
-            // type: 'dropdown',
-            // options: ateFaultCodes
+            type: 'dropdown',
+            options: ateFaultCodes.map(f => f.faultCode)
         },
         {
             title: 'Type',
             key: 'smtOrPcb',
-            type: 'text'
-            // type: 'dropdownn'
-            // options: []
+            type: 'dropdown',
+            options: [
+                'SMT',
+                'PCB',
+                'FLOW SOLDER',
+                'TEST',
+                'REPAIR',
+                'CF',
+                'ZOT',
+                'ATE',
+                'PROCESS',
+                'SUPPORT'
+            ]
         },
         {
             title: 'Shift',
@@ -106,11 +140,9 @@ function AteTest({
         },
         {
             title: 'PCB Operator',
-            key: 'pcbOperator',
-            type: 'text'
-            // todo - name dropdown
-            // type: 'dropdown'
-            // options: []
+            key: 'pcbOperatorName',
+            type: 'dropdown',
+            options: Array.from(new Set(employees.filter(c => !!c.fullName).map(c => c.fullName)))
         },
         {
             title: 'Comments',
@@ -131,13 +163,6 @@ function AteTest({
     const creating = () => editStatus === 'create';
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
-
-    useEffect(() => {
-        if (item !== prevAteTest) {
-            setAteTest(item);
-            setPrevAteTest(item);
-        }
-    }, [item, prevAteTest]);
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -175,7 +200,6 @@ function AteTest({
     const updateOp = details => {
         handleDetailFieldChange('details', details);
     };
-
     return (
         <Page>
             <Grid container spacing={3}>
@@ -271,6 +295,7 @@ function AteTest({
                                     }}
                                     label="Works Order"
                                     modal
+                                    disabled={!creating()}
                                     items={worksOrdersSearchResults}
                                     value={`${ateTest.worksOrderNumber}`}
                                     loading={worksOrdersSearchLoading}
@@ -361,6 +386,7 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     value={ateTest.numberOfSmtComponents}
+                                    disabled
                                     label="No. SMT Components"
                                     onChange={handleFieldChange}
                                     propertyName="numberOfSmtComponents"
@@ -394,6 +420,7 @@ function AteTest({
                                     fullWidth
                                     value={ateTest.numberOfPcbComponents}
                                     label="No. PCB Components"
+                                    disabled
                                     onChange={handleFieldChange}
                                     propertyName="numberOfPcbComponents"
                                 />
@@ -422,12 +449,20 @@ function AteTest({
                             </Grid>
                             <Grid item xs={2} />
                             <Grid item xs={4}>
-                                <InputField
+                                <Dropdown
+                                    label="PCB Operator"
+                                    type="number"
+                                    propertyName="pcbOperator"
+                                    allowNoValue
+                                    items={employees
+                                        .filter(c => !!c.fullName)
+                                        .map(c => ({
+                                            id: c.id,
+                                            displayText: c.fullName
+                                        }))}
                                     fullWidth
-                                    value={ateTest.pcbOperatorName}
-                                    label="Operator"
+                                    value={employees?.length > 0 ? ateTest.pcbOperator : ''}
                                     onChange={handleFieldChange}
-                                    propertyName="pcbOperatorName"
                                 />
                             </Grid>
                             <Grid item xs={2}>
@@ -474,21 +509,35 @@ function AteTest({
                             </Grid>
                             <Grid item xs={1} />
                             <Grid item xs={12}>
-                                <Typography variant="h5">Details</Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TableWithInlineEditing
-                                    columnsInfo={tableColumns}
-                                    content={ateTest.details?.map(o => ({
-                                        ...o,
-                                        id: o.itemNumber
-                                    }))}
-                                    updateContent={updateOp}
-                                    editStatus={editStatus}
-                                    allowedToEdit={false}
-                                    allowedToCreate={false}
-                                    allowedToDelete={false}
-                                />
+                                <ExpansionPanel
+                                    TransitionProps={{ unmountOnExit: true }}
+                                    expanded={detailsOpen}
+                                    onChange={() => setDetailsOpen(!detailsOpen)}
+                                >
+                                    <ExpansionPanelSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel2a-content"
+                                        id="panel2a-header"
+                                    >
+                                        <Typography variant="h5">
+                                            Details (click to show/hide)
+                                        </Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails>
+                                        <TableWithInlineEditing
+                                            columnsInfo={tableColumns}
+                                            content={ateTest.details.map(o => ({
+                                                ...o,
+                                                id: o.itemNumber
+                                            }))}
+                                            updateContent={updateOp}
+                                            editStatus={editStatus}
+                                            allowedToEdit
+                                            allowedToCreate
+                                            allowedToDelete={false}
+                                        />
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
                             </Grid>
                         </Fragment>
                     )
@@ -527,17 +576,21 @@ AteTest.propTypes = {
     addItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
-    setSnackbarVisible: PropTypes.func.isRequired
+    setSnackbarVisible: PropTypes.func.isRequired,
+    employees: PropTypes.arrayOf(PropTypes.shape({})),
+    ateFaultCodes: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 AteTest.defaultProps = {
-    item: {},
+    item: null,
     snackbarVisible: false,
     addItem: null,
     updateItem: null,
     loading: null,
     itemError: null,
-    itemId: null
+    itemId: null,
+    employees: [],
+    ateFaultCodes: []
 };
 
 export default AteTest;

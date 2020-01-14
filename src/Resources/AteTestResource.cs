@@ -2,7 +2,9 @@
 {  
     using System.Collections.Generic;
 
-    public class AteTestResource
+    using Linn.Common.Resources;
+
+    public class AteTestResource : HypermediaResource
     {
         public int TestId { get; set; }
 

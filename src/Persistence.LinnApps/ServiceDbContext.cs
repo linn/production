@@ -1097,7 +1097,7 @@
             e.Property(d => d.SmtOrPcb).HasColumnName("SMT_OR_PCB").HasMaxLength(12);
             e.Property(d => d.Shift).HasColumnName("SHIFT").HasMaxLength(10);
             e.Property(d => d.BatchNumber).HasColumnName("BATCH_NO").HasMaxLength(6);
-            e.Property(d => d.PcbOperator).HasColumnName("PCB_OPERATOR");
+            e.HasOne<Employee>(f => f.PcbOperator).WithMany(m => m.AteTestDetailsPcbOperatorOn).HasForeignKey("PCB_OPERATOR");
             e.Property(d => d.Comments).HasColumnName("COMMENTS").HasMaxLength(2000);
             e.Property(d => d.Machine).HasColumnName("MACHINE").HasMaxLength(10);
             e.Property(d => d.BoardFailNumber).HasColumnName("BOARD_FAIL_NUMBER");
