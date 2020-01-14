@@ -522,6 +522,7 @@
             q.ToView("PART_FAIL_LOG");
             q.Property(t => t.Id).HasColumnName("ID");
             q.Property(t => t.DateCreated).HasColumnName("DATE_CREATED");
+            q.HasOne<Part>(f => f.Part).WithMany(p => p.PartFailLogs).HasForeignKey("PART_NUMBER");
             q.Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
             q.Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
             q.Property(t => t.Story).HasColumnName("STORY");

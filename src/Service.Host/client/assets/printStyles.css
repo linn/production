@@ -16,6 +16,29 @@
     .zoomed-in-printing {
         zoom: 1.45;
     }
-  }
 
+    .date-for-printing {
+        display: block !important;
+    }
 
+    .hide-when-printing {
+        display: none !important;
+    }
+
+    .padding-top-when-not-printing {
+        padding-top: 0 !important;
+        margin-top: -50px;
+    }
+}
+
+.date-for-printing {
+    display: none;
+    right: 210px;
+    top: 20px;
+    position: absolute;
+    font-size: large;
+}
+
+.padding-top-when-not-printing {
+    padding-top: 40px;
+}

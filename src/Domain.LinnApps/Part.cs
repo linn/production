@@ -31,6 +31,8 @@
 
         public List<WorksOrder> WorksOrders { get; set; }
 
+        public List<PartFailLog> PartFailLogs { get; set; }
+
         public IEnumerable<WorksOrderLabel> WorksOrderLabels { get; set; }
 
         public bool IsPhantomPart()

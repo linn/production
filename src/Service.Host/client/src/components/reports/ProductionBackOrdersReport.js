@@ -21,7 +21,7 @@ export default function ProductionBackOrdersReport({ reportData, loading, error 
                     {loading ? (
                         <Loading />
                     ) : (
-                        <div class="zoomed-in-printing">
+                        <div className="zoomed-in-printing">
                             <MultiReportTable
                                 reportData={reportData}
                                 showRowTitles={false}
