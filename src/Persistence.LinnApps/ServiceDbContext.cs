@@ -142,6 +142,8 @@
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
+        public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -203,6 +205,7 @@
             this.BuildAteTests(builder);
             this.BuildAteTestDetails(builder);
             this.QueryBuildPlanRules(builder);
+            this.QueryBuiltThisWeekStatistics(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
         }
@@ -1107,6 +1110,19 @@
             e.Property(d => d.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION").HasMaxLength(2000);
             e.Property(d => d.SmtFailId).HasColumnName("SMT_FAIL_ID");
             e.Property(d => d.BoardSerialNumber).HasColumnName("BOARD_SN").HasMaxLength(20);
+        }
+
+        private void QueryBuiltThisWeekStatistics(ModelBuilder builder)
+        {
+            var q = builder.Query<BuiltThisWeekStatistic>();
+            q.ToView("BUILT_THIS_WEEK_VIEW");
+            q.Property(b => b.CitCode).HasColumnName("CODE").HasMaxLength(10);
+            q.Property(b => b.CitName).HasColumnName("CIT_NAME").HasMaxLength(50);
+            q.Property(b => b.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(b => b.Description).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(b => b.BuiltThisWeek).HasColumnName("BUILT_THIS_WEEK");
+            q.Property(b => b.Value).HasColumnName("VALUE");
+            q.Property(b => b.Days).HasColumnName("DAYS");
         }
     }
 }
