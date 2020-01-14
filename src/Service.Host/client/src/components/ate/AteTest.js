@@ -72,6 +72,8 @@ function AteTest({
         }
     }, [employees, ateTest.pcbOperator]);
 
+    const inputInvalid = () => ateTest.details.some(d => !d.partNumber || !d.aoiEscape);
+
     const tableColumns = [
         {
             title: 'No.',
@@ -135,7 +137,7 @@ function AteTest({
             title: 'AOI Escape',
             key: 'aoiEscape',
             type: 'dropdown',
-            options: ['Y', 'N']
+            options: ['', 'Y', 'N']
         },
         {
             title: 'PCB Operator',
@@ -544,7 +546,7 @@ function AteTest({
                 )}
                 <Grid item xs={12}>
                     <SaveBackCancelButtons
-                        saveDisabled={viewing()}
+                        saveDisabled={viewing() || inputInvalid()}
                         saveClick={handleSaveClick}
                         cancelClick={handleCancelClick}
                         backClick={handleBackClick}
