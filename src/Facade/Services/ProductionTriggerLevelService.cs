@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
@@ -14,10 +15,13 @@
     {
         private readonly IRepository<ProductionTriggerLevel, string> repository;
 
+        private readonly ITransactionManager transactionManager;
+
         public ProductionTriggerLevelService(IRepository<ProductionTriggerLevel, string> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
             this.repository = repository;
+            this.transactionManager = transactionManager;
         }
 
         public IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> Search(ProductionTriggerLevelsSearchRequestResource searchTerms, IEnumerable<string> privileges)
@@ -33,10 +37,18 @@
             }
         }
 
-        public IResult<ResponseModel<ProductionTriggerLevel>> Remove(ProductionTriggerLevelResource resource, IEnumerable<string> privileges)
+        public IResult<ResponseModel<ProductionTriggerLevel>> Remove(string partNumber, IEnumerable<string> privileges)
         {
-            var entity = this.repository.FindById(resource.PartNumber);
-            this.repository.Remove(entity);
+            var entity = this.repository.FindById(partNumber);
+            try
+            {
+                this.repository.Remove(entity);
+            }
+            catch (DomainException ex)
+            {
+                return new BadRequestResult<ResponseModel<ProductionTriggerLevel>>(($"Error deleting trigger level part number {partNumber} - {ex}"));
+            }
+            this.transactionManager.Commit();
             return new SuccessResult<ResponseModel<ProductionTriggerLevel>>(new ResponseModel<ProductionTriggerLevel>(entity, privileges));
         }
 

@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 import {
     SaveBackCancelButtons,
     InputField,
@@ -16,6 +21,8 @@ import {
     CreateButton
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
+
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 function TriggerLevel({
     editStatus,
@@ -38,24 +45,26 @@ function TriggerLevel({
     partsSearchLoading,
     clearPartsSearch,
     applicationState,
-    appStateLoading
+    appStateLoading,
+    deleteTriggerLevel
 }) {
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
     const [allowedToEdit, setAllowedToEdit] = useState(false);
-    const [allowedToCreate, setallowedToCreate] = useState(false);
-    const [dialogOpen, setdialogOpen] = useState(true);
+    const [allowedToCreate, setAllowedToCreate] = useState(false);
+    const [allowedToDelete, setAllowedToDelete] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const creating = useCallback(() => editStatus === 'create', [editStatus]);
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
-
     useEffect(() => {
         if (creating()) {
             setAllowedToEdit(utilities.getHref(applicationState, 'edit') !== null);
         } else {
             setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
-            setallowedToCreate(utilities.getHref(item, 'edit') !== null);
+            setAllowedToCreate(utilities.getHref(item, 'edit') !== null);
+            setAllowedToDelete(utilities.getHref(item, 'edit') !== null);
         }
     }, [applicationState, item, creating]);
 
@@ -65,6 +74,12 @@ function TriggerLevel({
             setPrevTriggerLevel(item);
         }
     }, [item, prevTriggerLevel]);
+
+    useEffect(() => {
+        if (editStatus === 'deleted') {
+            history.push('/production/maintenance/production-trigger-levels/');
+        }
+    }, [editStatus, history]);
 
     const partNumberInvalid = () => !triggerLevel.partNumber;
     const descriptionInvalid = () => !triggerLevel.description;
@@ -121,9 +136,15 @@ function TriggerLevel({
         setDialogOpen(true);
     };
 
+    const handleCloseDialogRequest = () => {
+        setDialogOpen(false);
+    };
+
     const handleDelete = () => {
-        alert('deletttted');
-    }
+        if (allowedToDelete) {
+            deleteTriggerLevel(triggerLevel.partNumber);
+        }
+    };
 
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
 
@@ -369,14 +390,16 @@ function TriggerLevel({
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Button
-                                            color="default"
-                                            variant="contained"
-                                            style={{ float: 'left' }}                                            
-                                            onClick={handleOpenDialogRequest}
-                                        >
-                                            Delete
-                                        </Button>
+                                        {!creating() && (
+                                            <Button
+                                                color="default"
+                                                variant="contained"
+                                                style={{ float: 'left' }}
+                                                onClick={handleOpenDialogRequest}
+                                            >
+                                                Delete
+                                            </Button>
+                                        )}
                                         <SaveBackCancelButtons
                                             saveDisabled={viewing() || inputInvalid()}
                                             saveClick={handleSaveClick}
@@ -384,30 +407,41 @@ function TriggerLevel({
                                             backClick={handleBackClick}
                                         />
                                     </Grid>
-                                    <Dialog
-                                        open={dialogOpen}
-                                        onClose={}
-                                        fullWidth
-                                        maxWidth="md"
-                                    >
-                                        <span>
-                                            Are you sure you want to delete this hingmy???? :O
-                                        </span>
-                                        <Button
-                                            color="default"
-                                            variant="contained"
-                                            onClick={handleDelete}
+                                    {allowedToDelete && (
+                                        <Dialog
+                                            open={dialogOpen}
+                                            onClose={handleCloseDialogRequest}
+                                            aria-labelledby="alert-dialog-title"
+                                            aria-describedby="alert-dialog-description"
+                                            TransitionComponent={Transition}
+                                            fullWidth
                                         >
-                                            Aye get it away
-                                        </Button>
-                                        <Button
-                                            color="default"
-                                            variant="contained"
-                                            onClick={handleOpenDialogRequest}
-                                        >
-                                            Cancel
-                                        </Button>
-                                    </Dialog>
+                                            <DialogTitle id="alert-dialog-title">
+                                                Are you sure you want to delete this Trigger Level?
+                                            </DialogTitle>
+                                            <DialogContent>
+                                                <DialogContentText id="alert-dialog-slide-description" />
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button
+                                                    color="default"
+                                                    variant="contained"
+                                                    style={{ float: 'left' }}
+                                                    onClick={handleDelete}
+                                                >
+                                                    Delete
+                                                </Button>
+                                                <Button
+                                                    color="default"
+                                                    variant="contained"
+                                                    style={{ float: 'right' }}
+                                                    onClick={handleCloseDialogRequest}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
+                                    )}
                                 </Fragment>
                             )}
                         </Grid>
@@ -476,7 +510,8 @@ TriggerLevel.propTypes = {
     partsSearchLoading: PropTypes.bool,
     clearPartsSearch: PropTypes.func,
     applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) }),
-    appStateLoading: PropTypes.bool
+    appStateLoading: PropTypes.bool,
+    deleteTriggerLevel: PropTypes.func
 };
 
 TriggerLevel.defaultProps = {
@@ -495,7 +530,8 @@ TriggerLevel.defaultProps = {
     partsSearchLoading: false,
     clearPartsSearch: null,
     applicationState: null,
-    appStateLoading: false
+    appStateLoading: false,
+    deleteTriggerLevel: null
 };
 
 export default TriggerLevel;
