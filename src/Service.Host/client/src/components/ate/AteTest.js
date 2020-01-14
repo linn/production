@@ -143,7 +143,7 @@ function AteTest({
             title: 'PCB Operator',
             key: 'pcbOperatorName',
             type: 'dropdown',
-            options: Array.from(new Set(employees.filter(c => !!c.fullName).map(c => c.fullName)))
+            options: [...new Set(employees.filter(c => !!c.fullName).map(c => c.fullName))]
         },
         {
             title: 'Comments',
