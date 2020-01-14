@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.AteQualityModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -34,6 +36,7 @@
                                        NumberOfPcbBoardFails = 1,
                                        NumberOfSmtBoardFails = 1,
                                        PcbOperator = new Employee { Id = 1, FullName = "Name" },
+                                       Details = new List<AteTestDetail> { new AteTestDetail { ItemNumber = 1, TestId = 1 } }
 
             };
             this.AteTestService.GetById(1)

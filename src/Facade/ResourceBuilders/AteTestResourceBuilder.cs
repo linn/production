@@ -6,7 +6,6 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.ATE;
-    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Resources;
 
     public class AteTestResourceBuilder : IResourceBuilder<AteTest>
@@ -35,8 +34,8 @@
                            PlaceFound = test.PlaceFound,
                            DateInvalid = test.DateInvalid?.ToString("o"),
                            FlowMachine = test.FlowMachine,
-                           PartNumber = test.WorksOrder.PartNumber,
-                           PartDescription = test.WorksOrder.Part.Description,
+                           PartNumber = test.WorksOrder?.PartNumber,
+                           PartDescription = test.WorksOrder.Part?.Description,
                            WorksOrderQuantity = test.WorksOrder.Quantity,
                            FlowSolderDate = test.FlowSolderDate?.ToString("o"),
                            Details = test
