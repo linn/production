@@ -21,7 +21,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
     const daysRequiredBaseHref = 'days-required';
     const shortagesBaseHref = 'shortages';
     const backOrdersBaseHref = 'back-orders';
-    const builtThisWeekBaseHref = 'built-this-week';
+    const builtThisWeekBaseHref = 'btw';
     const fflagStockBaseHref = '../stock/f-flag'; // may already exist in linnapps
 
     function handleChange(event, newValue) {
