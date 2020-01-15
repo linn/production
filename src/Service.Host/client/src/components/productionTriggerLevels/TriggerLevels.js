@@ -11,7 +11,8 @@ import {
     useSearch,
     SearchInputField,
     Dropdown,
-    utilities
+    utilities,
+    SnackbarMessage
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -22,7 +23,8 @@ const ViewProductionTriggerLevels = ({
     items,
     fetchItems,
     cits,
-    applicationState
+    applicationState,
+    editStatus
 }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
@@ -32,6 +34,7 @@ const ViewProductionTriggerLevels = ({
     });
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
     const [allowedToCreate, setAllowedToCreate] = useState(false);
+    const [snackbarVisible, setSnackbarVisible] = useState(editStatus === 'deleted');
 
     useEffect(() => {
         const compare = (field, orderAscending) => (a, b) => {
@@ -148,6 +151,12 @@ const ViewProductionTriggerLevels = ({
                 </Fragment>
             )}
 
+            <SnackbarMessage
+                visible={snackbarVisible}
+                onClose={() => setSnackbarVisible(false)}
+                message="Deletion Successful"
+            />
+
             <Grid item xs={12} container>
                 <Grid item xs={4}>
                     <SearchInputField
@@ -247,13 +256,15 @@ ViewProductionTriggerLevels.propTypes = {
             code: PropTypes.string
         })
     ).isRequired,
-    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) })
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) }),
+    editStatus: PropTypes.string
 };
 
 ViewProductionTriggerLevels.defaultProps = {
     itemError: null,
     items: [],
-    applicationState: null
+    applicationState: null,
+    editStatus: ''
 };
 
 export default ViewProductionTriggerLevels;

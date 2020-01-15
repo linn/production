@@ -91,7 +91,11 @@ export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );
 
-export const productionTriggerLevel = makeActionTypes(itemTypes.productionTriggerLevel.actionType);
+export const productionTriggerLevel = makeActionTypes(
+    itemTypes.productionTriggerLevel.actionType,
+    true,
+    true
+);
 
 export const productionTriggerLevels = makeActionTypes(
     itemTypes.productionTriggerLevels.actionType,
