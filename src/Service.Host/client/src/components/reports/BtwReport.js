@@ -1,10 +1,14 @@
 import React from 'react';
-import { Loading, ReportTable } from '@linn-it/linn-form-components-library';
+import { Loading, ReportTable, BackButton } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-const BtwReport = ({ reportData, loading }) => (
+const handleBackClick = history => {
+    history.push('/production/reports/measures');
+};
+
+const BtwReport = ({ reportData, loading, history }) => (
     <Page>
         <Grid container spacing={3} justify="center">
             <Grid item xs={12}>
@@ -18,6 +22,9 @@ const BtwReport = ({ reportData, loading }) => (
                         showTotals={false}
                     />
                 )}
+            </Grid>
+            <Grid item xs={12}>
+                <BackButton backClick={() => handleBackClick(history)} />
             </Grid>
         </Grid>
     </Page>
