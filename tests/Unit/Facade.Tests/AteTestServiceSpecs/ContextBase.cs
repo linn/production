@@ -6,6 +6,7 @@
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Services;
+    using Linn.Production.Proxy;
     using Linn.Production.Resources;
 
     using NSubstitute;
@@ -26,6 +27,8 @@
 
         private ITransactionManager TransactionManager { get; set; }
 
+        private IDatabaseService DatabaseService { get; set; }
+
         [SetUp]
         public void SetUpContext()
         {
@@ -33,6 +36,7 @@
             this.WorksOrderRepository = Substitute.For<IRepository<WorksOrder, int>>();
             this.AteTestRepository = Substitute.For<IRepository<AteTest, int>>();
             this.EmployeeRepository = Substitute.For<IRepository<Employee, int>>();
+            this.DatabaseService = Substitute.For<IDatabaseService>();
             this.DetailService = Substitute
                 .For<IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource>>();
             this.Sut = new AteTestService(
@@ -40,6 +44,7 @@
                 this.TransactionManager,
                 this.WorksOrderRepository,
                 this.EmployeeRepository,
+                this.DatabaseService,
                 this.DetailService);
         }
     }
