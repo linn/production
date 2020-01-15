@@ -1,4 +1,4 @@
-﻿﻿import React from 'react';
+﻿﻿import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
 import { Route, Redirect, Switch } from 'react-router';
 import { OidcProvider } from 'redux-oidc';
@@ -15,6 +15,7 @@ import userManager from '../helpers/userManager';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
 import OutstandingWorksOrdersReportOptions from '../containers/reports/OutstandingWorksOrdersReportOptions';
 import 'typeface-roboto';
+import { ConnectedRouter } from 'connected-react-router';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
@@ -93,14 +94,17 @@ import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
 import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
 import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
 import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
+import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
+import AteStatusReport from '../containers/reports/AteStatusReport';
+import AteDetailsReport from '../containers/reports/AteDetailsReport';
 
 const Root = ({ store }) => (
     <div>
-        <div style={{ paddingTop: '40px' }}>
+        <div className="padding-top-when-not-printing">
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <Router history={history}>
+                        <ConnectedRouter history={history}>
                             <div>
                                 <Navigation />
                                 <CssBaseline />
@@ -370,6 +374,26 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/ate/status/report"
+                                        component={AteStatusReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate/status"
+                                        component={AteStatusReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate/details/report"
+                                        component={AteDetailsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate"
+                                        render={() => <Redirect to="/production/maintenance" />}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/assembly-fails-details/report"
                                         component={AssemblyFailsDetails}
                                     />
@@ -517,8 +541,8 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/build-plans"
                                         component={BuildPlansReportOptions}
-                                        />
-                                        <Route
+                                    />
+                                    <Route
                                         exact
                                         path="/production/resources/label-types/create"
                                         component={CreateLabelType}
@@ -551,7 +575,7 @@ const Root = ({ store }) => (
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>
-                        </Router>
+                        </ConnectedRouter>
                     </MuiPickersUtilsProvider>
                 </OidcProvider>
             </Provider>

@@ -29,7 +29,8 @@ const mapStateToProps = state => ({
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
-    applicationState: productionTriggerLevelSelectors.getApplicationState(state)
+    applicationState: productionTriggerLevelSelectors.getApplicationState(state),
+    appStateLoading: productionTriggerLevelSelectors.getApplicationStateLoading(state)
 });
 
 const initialise = () => dispatch => {

@@ -39,7 +39,8 @@ const mapDispatchToProps = {
     initialise,
     updateItem: productionTriggerLevelActions.update,
     setEditStatus: productionTriggerLevelActions.setEditStatus,
-    setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible
+    setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
+    deleteTriggerLevel: productionTriggerLevelActions.delete
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TriggerLevel));

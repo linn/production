@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Service.Tests.ProductionTriggerLevelsModuleSpecs
 {
-    using System;
-
+    using System.Collections.Generic;
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -10,7 +9,6 @@
     using Nancy.Testing;
     using NSubstitute;
     using NUnit.Framework;
-    using System.Collections.Generic;
 
     public class WhenUpdating : ContextBase
     {

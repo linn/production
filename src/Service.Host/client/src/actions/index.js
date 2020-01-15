@@ -91,7 +91,11 @@ export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );
 
-export const productionTriggerLevel = makeActionTypes(itemTypes.productionTriggerLevel.actionType);
+export const productionTriggerLevel = makeActionTypes(
+    itemTypes.productionTriggerLevel.actionType,
+    true,
+    true
+);
 
 export const productionTriggerLevels = makeActionTypes(
     itemTypes.productionTriggerLevels.actionType,
@@ -240,3 +244,11 @@ export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.action
 export const labelReprintActionTypes = makeActionTypes(itemTypes.labelReprint.actionType);
 
 export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);
+
+export const ateStatusReportActionTypes = makeReportActionTypes(
+    reportTypes.ateStatusReport.actionType
+);
+
+export const ateDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.ateDetailsReport.actionType
+);

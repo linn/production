@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using Linn.Production.Domain.LinnApps.WorksOrders;
+
     public class AteTest
     {
         public int TestId { get; set; }
@@ -11,7 +13,7 @@
 
         public DateTime? DateTested { get; set; }
 
-        public int WorksOrderNumber { get; set; }
+        public WorksOrder WorksOrder { get; set; }
 
         public int NumberTested { get; set; }
 
