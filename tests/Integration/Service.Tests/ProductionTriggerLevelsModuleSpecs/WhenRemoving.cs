@@ -58,16 +58,15 @@
             this.AuthorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, Arg.Any<List<string>>())
                 .Returns(true);
 
-            this.ProductionTriggerLevelService.Remove(Arg.Any<ProductionTriggerLevelResource>(), Arg.Any<List<string>>())
+            this.ProductionTriggerLevelService.Remove(Arg.Any<string>(), Arg.Any<List<string>>())
                 .Returns(new SuccessResult<ResponseModel<ProductionTriggerLevel>>(responseModel));
 
 
             this.Response = this.Browser.Delete(
-                "/production/maintenance/production-trigger-levels",
+                "/production/maintenance/production-trigger-levels/part1",
                 with =>
                     {
                         with.Header("Accept", "application/json");
-                        with.JsonBody(resource);
                     }).Result;
         }
 
@@ -80,7 +79,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ProductionTriggerLevelService.Received().Remove(Arg.Any<ProductionTriggerLevelResource>(), Arg.Any<List<string>>());
+            this.ProductionTriggerLevelService.Received().Remove(Arg.Any<string>(), Arg.Any<List<string>>());
         }
 
         [Test]
