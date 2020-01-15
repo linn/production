@@ -13,6 +13,7 @@ import ateFaultCodes from './ateFaultCodes';
 import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
+import btwReport from './btwReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
 import productionTriggersReport from './productionTriggersReport';
@@ -108,6 +109,7 @@ const reducer = history =>
         boardFailTypes,
         boardTestDetailsReport,
         boardTestsReport,
+        btwReport,
         buildsDetailReport,
         buildPlans,
         buildPlansReport,

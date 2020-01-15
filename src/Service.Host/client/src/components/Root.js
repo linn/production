@@ -97,6 +97,7 @@ import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/
 import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
+import BtwReport from '../containers/reports/BtwReport';
 
 const Root = ({ store }) => (
     <div>
@@ -571,6 +572,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/production-trigger-levels"
                                         component={ProductionTriggerLevels}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/btw"
+                                        component={BtwReport}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>
