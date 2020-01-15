@@ -38,7 +38,6 @@ function AteTest({
     searchWorksOrders,
     clearWorksOrdersSearch,
     employees,
-    employeesLoading,
     ateFaultCodes
 }) {
     const [ateTest, setAteTest] = useState({ pcbOperator: null, details: [] });
@@ -72,20 +71,33 @@ function AteTest({
         }
     }, [employees, ateTest.pcbOperator]);
 
+    const creating = () => editStatus === 'create';
+    const editing = () => editStatus === 'edit';
+    const viewing = () => editStatus === 'view';
+    const handleDetailFieldChange = (propertyName, newValue) => {
+        setAteTest({ ...ateTest, [propertyName]: newValue });
+        if (viewing()) {
+            setEditStatus('edit');
+        }
+    };
+
+    const updateOp = details => {
+        handleDetailFieldChange('details', details);
+    };
+
     const inputInvalid = () =>
         !ateTest.worksOrderNumber ||
         !ateTest.pcbOperator ||
         !ateTest.userNumber ||
-        ateTest.details.some(d => !d.partNumber || !d.aoiEscape) ||
-        [...new Set(ateTest?.details?.map(d => d.itemNumber))]?.length !==
-            ateTest?.details?.map(d => d.itemNumber)?.length;
+        ateTest.details.some(d => !d.partNumber || !d.aoiEscape);
 
     const Table = () => {
         const tableColumns = [
             {
                 title: 'No.',
                 key: 'itemNumber',
-                type: 'number'
+                type: 'number',
+                notEditable: true
             },
             {
                 title: 'Board Fail No.',
@@ -187,9 +199,9 @@ function AteTest({
                     <ExpansionPanelDetails>
                         <TableWithInlineEditing
                             columnsInfo={tableColumns}
-                            content={ateTest.details.map(o => ({
+                            content={ateTest.details.map((o, i) => ({
                                 ...o,
-                                id: o.itemNumber
+                                id: o.itemNumber ? o.itemNumber : i + 1
                             }))}
                             updateContent={updateOp}
                             editStatus={editStatus}
@@ -202,96 +214,6 @@ function AteTest({
             </Grid>
         );
     };
-    const tableColumns = [
-        {
-            title: 'No.',
-            key: 'itemNumber',
-            type: 'number'
-        },
-        {
-            title: 'Board Fail No.',
-            key: 'boardFailNumber',
-            type: 'number'
-        },
-        {
-            title: 'Fails',
-            key: 'numberOfFails',
-            type: 'number'
-        },
-        {
-            title: 'Circuit Ref',
-            key: 'circuitRef',
-            type: 'text'
-        },
-        {
-            title: 'Part',
-            key: 'partNumber',
-            type: 'text'
-        },
-        {
-            title: 'Fault Code',
-            key: 'ateTestFaultCode',
-            type: 'dropdown',
-            options: ateFaultCodes.map(f => f.faultCode)
-        },
-        {
-            title: 'Type',
-            key: 'smtOrPcb',
-            type: 'dropdown',
-            options: [
-                'SMT',
-                'PCB',
-                'FLOW SOLDER',
-                'TEST',
-                'REPAIR',
-                'CF',
-                'ZOT',
-                'ATE',
-                'PROCESS',
-                'SUPPORT'
-            ]
-        },
-        {
-            title: 'Shift',
-            key: 'shift',
-            type: 'text'
-        },
-        {
-            title: 'Batch',
-            key: 'batchNumber',
-            type: 'number'
-        },
-        {
-            title: 'AOI Escape',
-            key: 'aoiEscape',
-            type: 'dropdown',
-            options: ['', 'Y', 'N']
-        },
-        {
-            title: 'PCB Operator',
-            key: 'pcbOperatorName',
-            type: 'dropdown',
-            options: [...new Set(employees.filter(c => !!c.fullName).map(c => c.fullName))]
-        },
-        {
-            title: 'Comments',
-            key: 'comments',
-            type: 'text'
-        },
-        {
-            title: 'Corrective Action',
-            key: 'correctiveAction',
-            type: 'text'
-        },
-        {
-            title: 'Board SN',
-            key: 'boardSerialNumber',
-            type: 'text'
-        }
-    ];
-    const creating = () => editStatus === 'create';
-    const editing = () => editStatus === 'edit';
-    const viewing = () => editStatus === 'view';
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -313,7 +235,7 @@ function AteTest({
     };
 
     const handleBackClick = () => {
-        // history.push('');
+        history.goBack();
     };
 
     const handleFieldChange = (propertyName, newValue) => {
@@ -323,16 +245,6 @@ function AteTest({
         setAteTest({ ...ateTest, [propertyName]: newValue });
     };
 
-    const handleDetailFieldChange = (propertyName, newValue) => {
-        setAteTest({ ...ateTest, [propertyName]: newValue });
-        if (viewing()) {
-            setEditStatus('edit');
-        }
-    };
-
-    const updateOp = details => {
-        handleDetailFieldChange('details', details);
-    };
     return (
         <Page>
             <Grid container spacing={3}>
@@ -521,7 +433,6 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     value={ateTest.numberOfSmtComponents}
-                                    disabled={!creating()}
                                     label="No. SMT Components"
                                     onChange={handleFieldChange}
                                     propertyName="numberOfSmtComponents"
@@ -555,7 +466,6 @@ function AteTest({
                                     fullWidth
                                     value={ateTest.numberOfPcbComponents}
                                     label="No. PCB Components"
-                                    disabled={!creating()}
                                     onChange={handleFieldChange}
                                     propertyName="numberOfPcbComponents"
                                 />
@@ -667,7 +577,7 @@ AteTest.propTypes = {
         nextSerialNumber: PropTypes.number,
         dateClosed: PropTypes.string
     }),
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
     itemError: PropTypes.shape({
         status: PropTypes.number,
@@ -683,7 +593,12 @@ AteTest.propTypes = {
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
     employees: PropTypes.arrayOf(PropTypes.shape({})),
-    ateFaultCodes: PropTypes.arrayOf(PropTypes.shape({}))
+    ateFaultCodes: PropTypes.arrayOf(PropTypes.shape({})),
+    profile: PropTypes.shape({ name: PropTypes.string, employee: PropTypes.string }),
+    worksOrdersSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    worksOrdersSearchLoading: PropTypes.bool,
+    searchWorksOrders: PropTypes.arrayOf(PropTypes.shape({})),
+    clearWorksOrdersSearch: PropTypes.func
 };
 
 AteTest.defaultProps = {
@@ -695,7 +610,12 @@ AteTest.defaultProps = {
     itemError: null,
     itemId: null,
     employees: [],
-    ateFaultCodes: []
+    ateFaultCodes: [],
+    profile: { name: '' },
+    worksOrdersSearchResults: null,
+    worksOrdersSearchLoading: false,
+    searchWorksOrders: PropTypes.arrayOf(PropTypes.shape({})),
+    clearWorksOrdersSearch: PropTypes.func
 };
 
 export default AteTest;
