@@ -64,7 +64,7 @@ function AteTest({
 
     useEffect(() => {
         if (employees && ateTest.pcbOperator) {
-            setAteTest(a => ({  
+            setAteTest(a => ({
                 ...a,
                 pcbOperatorName: employees.find(e => Number(e.id) === Number(a.pcbOperator))
                     ?.fullName
@@ -73,10 +73,135 @@ function AteTest({
     }, [employees, ateTest.pcbOperator]);
 
     const inputInvalid = () =>
+        !ateTest.worksOrderNumber ||
+        !ateTest.pcbOperator ||
+        !ateTest.userNumber ||
         ateTest.details.some(d => !d.partNumber || !d.aoiEscape) ||
-        [...new Set(ateTest.details.map(d => d.itemNumber))].length !==
-            ateTest.details.map(d => d.itemNumber).length;
+        [...new Set(ateTest?.details?.map(d => d.itemNumber))]?.length !==
+            ateTest?.details?.map(d => d.itemNumber)?.length;
 
+    const Table = () => {
+        const tableColumns = [
+            {
+                title: 'No.',
+                key: 'itemNumber',
+                type: 'number'
+            },
+            {
+                title: 'Board Fail No.',
+                key: 'boardFailNumber',
+                type: 'number'
+            },
+            {
+                title: 'Fails',
+                key: 'numberOfFails',
+                type: 'number'
+            },
+            {
+                title: 'Circuit Ref',
+                key: 'circuitRef',
+                type: 'text'
+            },
+            {
+                title: 'Part',
+                key: 'partNumber',
+                type: 'text'
+            },
+            {
+                title: 'Fault Code',
+                key: 'ateTestFaultCode',
+                type: 'dropdown',
+                options: ateFaultCodes.map(f => f.faultCode)
+            },
+            {
+                title: 'Type',
+                key: 'smtOrPcb',
+                type: 'dropdown',
+                options: [
+                    'SMT',
+                    'PCB',
+                    'FLOW SOLDER',
+                    'TEST',
+                    'REPAIR',
+                    'CF',
+                    'ZOT',
+                    'ATE',
+                    'PROCESS',
+                    'SUPPORT'
+                ]
+            },
+            {
+                title: 'Shift',
+                key: 'shift',
+                type: 'text'
+            },
+            {
+                title: 'Batch',
+                key: 'batchNumber',
+                type: 'number'
+            },
+            {
+                title: 'AOI Escape',
+                key: 'aoiEscape',
+                type: 'dropdown',
+                options: ['', 'Y', 'N']
+            },
+            {
+                title: 'PCB Operator',
+                key: 'pcbOperatorName',
+                type: 'dropdown',
+                options: [...new Set(employees.filter(c => !!c.fullName).map(c => c.fullName))]
+            },
+            {
+                title: 'Comments',
+                key: 'comments',
+                type: 'text'
+            },
+            {
+                title: 'Corrective Action',
+                key: 'correctiveAction',
+                type: 'text'
+            },
+            {
+                title: 'Board SN',
+                key: 'boardSerialNumber',
+                type: 'text'
+            }
+        ];
+
+        return (
+            <Grid item xs={12}>
+                <ExpansionPanel
+                    style={{ overflow: 'auto' }}
+                    TransitionProps={{ unmountOnExit: true }}
+                    expanded={detailsOpen}
+                    onChange={() => setDetailsOpen(!detailsOpen)}
+                >
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                    >
+                        <Typography variant="h5">Details (click to show/hide)</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <TableWithInlineEditing
+                            columnsInfo={tableColumns}
+                            content={ateTest.details.map(o => ({
+                                ...o,
+                                id: o.itemNumber
+                            }))}
+                            updateContent={updateOp}
+                            editStatus={editStatus}
+                            allowedToEdit
+                            allowedToCreate
+                            allowedToDelete={false}
+                        />
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            </Grid>
+        );
+    };
     const tableColumns = [
         {
             title: 'No.',
@@ -179,8 +304,12 @@ function AteTest({
     };
 
     const handleCancelClick = () => {
-        setAteTest(item);
-        setEditStatus('view');
+        if (creating()) {
+            setAteTest({ pcbOperator: null, details: [] });
+        } else {
+            setAteTest(item);
+            setEditStatus('view');
+        }
     };
 
     const handleBackClick = () => {
@@ -252,7 +381,7 @@ function AteTest({
                             <Grid item xs={4}>
                                 <InputField
                                     fullWidth
-                                    value={ateTest.userName}
+                                    value={creating() ? profile?.name : ateTest.userName}
                                     label="Entered By"
                                     disabled
                                     onChange={handleFieldChange}
@@ -301,7 +430,9 @@ function AteTest({
                                     modal
                                     disabled={!creating()}
                                     items={worksOrdersSearchResults}
-                                    value={`${ateTest.worksOrderNumber}`}
+                                    value={`${
+                                        ateTest.worksOrderNumber ? ateTest.worksOrderNumber : ''
+                                    }`}
                                     loading={worksOrdersSearchLoading}
                                     fetchItems={searchWorksOrders}
                                     links={false}
@@ -345,7 +476,7 @@ function AteTest({
                                     value={ateTest.numberOfPcbBoardFails}
                                     label="No. PCB Fails"
                                     onChange={handleFieldChange}
-                                    propertyName="numberTested"
+                                    propertyName="numberOfPcbBoardFails"
                                 />
                             </Grid>
                             <Grid item xs={2}>
@@ -390,7 +521,7 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     value={ateTest.numberOfSmtComponents}
-                                    disabled
+                                    disabled={!creating()}
                                     label="No. SMT Components"
                                     onChange={handleFieldChange}
                                     propertyName="numberOfSmtComponents"
@@ -424,7 +555,7 @@ function AteTest({
                                     fullWidth
                                     value={ateTest.numberOfPcbComponents}
                                     label="No. PCB Components"
-                                    disabled
+                                    disabled={!creating()}
                                     onChange={handleFieldChange}
                                     propertyName="numberOfPcbComponents"
                                 />
@@ -512,38 +643,7 @@ function AteTest({
                                 />
                             </Grid>
                             <Grid item xs={1} />
-                            <Grid item xs={12}>
-                                <ExpansionPanel
-                                    style={{ overflow: 'auto' }}
-                                    TransitionProps={{ unmountOnExit: true }}
-                                    expanded={detailsOpen}
-                                    onChange={() => setDetailsOpen(!detailsOpen)}
-                                >
-                                    <ExpansionPanelSummary
-                                        expandIcon={<ExpandMoreIcon />}
-                                        aria-controls="panel2a-content"
-                                        id="panel2a-header"
-                                    >
-                                        <Typography variant="h5">
-                                            Details (click to show/hide)
-                                        </Typography>
-                                    </ExpansionPanelSummary>
-                                    <ExpansionPanelDetails>
-                                        <TableWithInlineEditing
-                                            columnsInfo={tableColumns}
-                                            content={ateTest.details.map(o => ({
-                                                ...o,
-                                                id: o.itemNumber
-                                            }))}
-                                            updateContent={updateOp}
-                                            editStatus={editStatus}
-                                            allowedToEdit
-                                            allowedToCreate
-                                            allowedToDelete={false}
-                                        />
-                                    </ExpansionPanelDetails>
-                                </ExpansionPanel>
-                            </Grid>
+                            {!creating() && ateTest.details && Table()}
                         </Fragment>
                     )
                 )}

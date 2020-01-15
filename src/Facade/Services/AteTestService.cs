@@ -9,6 +9,7 @@
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
+    using Linn.Production.Proxy;
     using Linn.Production.Resources;
 
     public class AteTestService : FacadeService<AteTest, int, AteTestResource, AteTestResource>
@@ -19,17 +20,21 @@
 
         private readonly IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> detailService;
 
+        private readonly IDatabaseService databaseService;
+
         public AteTestService(
             IRepository<AteTest, int> repository,
             ITransactionManager transactionManager,
             IRepository<WorksOrder, int> worksOrderRepository,
             IRepository<Employee, int> employeeRepository,
+            IDatabaseService databaseService,
             IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> detailService)
             : base(repository, transactionManager)
         {
             this.worksOrderRepository = worksOrderRepository;
             this.employeeRepository = employeeRepository;
             this.detailService = detailService;
+            this.databaseService = databaseService;
         }
 
         protected override AteTest CreateFromResource(AteTestResource resource)
@@ -38,8 +43,8 @@
 
             return new AteTest
                        {
-                           TestId = resource.TestId,
-                           User = this.employeeRepository.FindById(resource.UserNumber),
+                            TestId = this.databaseService.GetNextVal("ATE_TESTS_SEQ"),
+                            User = this.employeeRepository.FindById(resource.UserNumber),
                             DateTested = resource.DateTested != null
                                             ? DateTime.Parse(resource.DateTested)
                                             : (DateTime?)null,

@@ -6,7 +6,7 @@
 
     public class AteTestResource : HypermediaResource
     {
-        public int TestId { get; set; }
+        public int? TestId { get; set; }
 
         public int UserNumber { get; set; }
 

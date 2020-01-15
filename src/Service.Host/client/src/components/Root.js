@@ -98,6 +98,7 @@ import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
 import AteTest from '../containers/ate/AteTest';
 import AteTests from '../containers/ate/AteTests';
+import CreateAteTest from '../containers/ate/CreateAteTest';
 
 const Root = ({ store }) => (
     <div>
@@ -572,6 +573,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/production-trigger-levels"
                                         component={ProductionTriggerLevels}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate-tests/create"
+                                        component={CreateAteTest}
                                     />
                                     <Route
                                         exact

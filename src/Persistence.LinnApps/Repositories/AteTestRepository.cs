@@ -37,7 +37,7 @@
 
         public void Add(AteTest entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.AteTests.Add(entity);
         }
 
         public void Remove(AteTest entity)
