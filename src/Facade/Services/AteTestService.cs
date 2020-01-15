@@ -73,8 +73,16 @@
         {
             entity.PcbOperator = this.employeeRepository.FindById(updateResource.PcbOperator);
             entity.NumberTested = updateResource.NumberTested;
+            entity.DateTested = updateResource.DateTested != null
+                                    ? DateTime.Parse(updateResource.DateTested)
+                                    : (DateTime?)null;
+            entity.FlowSolderDate = updateResource.FlowSolderDate != null
+                                    ? DateTime.Parse(updateResource.DateTested)
+                                    : (DateTime?)null;
             entity.NumberOfPcbBoardFails = updateResource.NumberOfPcbBoardFails;
             entity.NumberOfSmtBoardFails = updateResource.NumberOfSmtBoardFails;
+            entity.NumberOfPcbComponents = updateResource.NumberOfPcbComponents;
+            entity.NumberOfSmtBoardFails = updateResource.NumberOfPcbComponents;
             entity.NumberOfSmtFails = updateResource.NumberOfSmtFails;
             entity.NumberOfPcbFails = updateResource.NumberOfPcbFails;
             entity.MinutesSpent = updateResource.MinutesSpent;

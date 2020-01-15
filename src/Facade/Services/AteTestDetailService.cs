@@ -29,11 +29,12 @@
 
         protected override AteTestDetail CreateFromResource(AteTestDetailResource resource)
         {
-            var existingDetails = this.ateTestRepository.FindById(resource.TestId).Details;
+            var existingDetails = this.ateTestRepository.FindById(resource.TestId).Details 
+                                  != null && this.ateTestRepository.FindById(resource.TestId).Details.Any();
             return new AteTestDetail
                        {
                             TestId = resource.TestId,
-                            ItemNumber = existingDetails != null ? this.ateTestRepository.FindById(resource.TestId).Details.Max(d => d.ItemNumber) + 1 : 1,
+                            ItemNumber = existingDetails ? this.ateTestRepository.FindById(resource.TestId).Details.Max(d => d.ItemNumber) + 1 : 1,
                             PartNumber = resource.PartNumber,
                             NumberOfFails = resource.NumberOfFails,
                             CircuitRef = resource.CircuitRef,
