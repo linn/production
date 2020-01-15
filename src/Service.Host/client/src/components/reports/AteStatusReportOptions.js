@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { DatePicker, Title, Dropdown } from '@linn-it/linn-form-components-library';
+import { Title, Dropdown, LinnWeekPicker } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
@@ -21,11 +21,21 @@ function AteStatusReportOptions({ history, prevOptions }) {
     const [toDate, setToDate] = useState(
         prevOptions.toDate ? new Date(prevOptions.toDate) : new Date()
     );
-    const [groupBy, setGroupBy] = useState(prevOptions.groupBy ? prevOptions.groupBy : 'board');
+    const [groupBy, setGroupBy] = useState(
+        prevOptions.groupBy ? prevOptions.groupBy : 'failure-rates'
+    );
     const [smtOrPcb, setSmtOrPcb] = useState(prevOptions.smtOrPcb ? prevOptions.smtOrPcb : 'SMT');
     const [placeFound, setPlaceFound] = useState(
         prevOptions.placeFound ? prevOptions.placeFound : 'ATE'
     );
+
+    const handleWeekChange = (propertyName, newValue) => {
+        if (propertyName === 'toDate') {
+            setToDate(newValue);
+        } else if (propertyName === 'fromDate') {
+            setFromDate(newValue);
+        }
+    };
 
     const handleClick = () =>
         history.push({
@@ -58,18 +68,21 @@ function AteStatusReportOptions({ history, prevOptions }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={4}>
-                    <DatePicker
-                        label="From Date"
-                        value={fromDate.toString()}
-                        onChange={setFromDate}
+                    <LinnWeekPicker
+                        label="From Week Starting"
+                        selectedDate={fromDate.toString()}
+                        setWeekStartDate={handleWeekChange}
+                        propertyName="fromDate"
+                        required
                     />
                 </Grid>
                 <Grid item xs={4}>
-                    <DatePicker
-                        label="To Date"
-                        value={toDate.toString()}
-                        minDate={fromDate.toString()}
-                        onChange={setToDate}
+                    <LinnWeekPicker
+                        label="To Week Starting"
+                        selectedDate={toDate.toString()}
+                        setWeekStartDate={handleWeekChange}
+                        propertyName="toDate"
+                        required
                     />
                 </Grid>
                 <Grid item xs={4} />
@@ -81,7 +94,8 @@ function AteStatusReportOptions({ history, prevOptions }) {
                         items={[
                             { id: 'board', displayText: 'Board' },
                             { id: 'component', displayText: 'Component' },
-                            { id: 'fault-code', displayText: 'Fault Code' }
+                            { id: 'fault-code', displayText: 'Fault Code' },
+                            { id: 'failure-rates', displayText: 'Failure Rates' }
                         ]}
                         value={groupBy}
                         onChange={handleOptionChange}

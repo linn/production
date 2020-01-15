@@ -1,4 +1,4 @@
-﻿﻿import React from 'react';
+﻿﻿import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
 import { Route, Redirect, Switch } from 'react-router';
 import { OidcProvider } from 'redux-oidc';
@@ -15,6 +15,7 @@ import userManager from '../helpers/userManager';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
 import OutstandingWorksOrdersReportOptions from '../containers/reports/OutstandingWorksOrdersReportOptions';
 import 'typeface-roboto';
+import { ConnectedRouter } from 'connected-react-router';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';
@@ -96,14 +97,15 @@ import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/
 import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
+import BtwReport from '../containers/reports/BtwReport';
 
 const Root = ({ store }) => (
     <div>
-        <div style={{ paddingTop: '40px' }}>
+        <div className="padding-top-when-not-printing">
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <Router history={history}>
+                        <ConnectedRouter history={history}>
                             <div>
                                 <Navigation />
                                 <CssBaseline />
@@ -571,10 +573,15 @@ const Root = ({ store }) => (
                                         path="/production/maintenance/production-trigger-levels"
                                         component={ProductionTriggerLevels}
                                     />
+                                    <Route
+                                        exact
+                                        path="/production/reports/btw"
+                                        component={BtwReport}
+                                    />
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>
-                        </Router>
+                        </ConnectedRouter>
                     </MuiPickersUtilsProvider>
                 </OidcProvider>
             </Provider>

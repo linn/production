@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
@@ -14,10 +15,13 @@
     {
         private readonly IRepository<ProductionTriggerLevel, string> repository;
 
+        private readonly ITransactionManager transactionManager;
+
         public ProductionTriggerLevelService(IRepository<ProductionTriggerLevel, string> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
             this.repository = repository;
+            this.transactionManager = transactionManager;
         }
 
         public IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> Search(ProductionTriggerLevelsSearchRequestResource searchTerms, IEnumerable<string> privileges)
@@ -31,6 +35,21 @@
             {
                 return new BadRequestResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>("Search is not implemented");
             }
+        }
+
+        public IResult<ResponseModel<ProductionTriggerLevel>> Remove(string partNumber, IEnumerable<string> privileges)
+        {
+            var entity = this.repository.FindById(partNumber);
+            try
+            {
+                this.repository.Remove(entity);
+            }
+            catch (DomainException ex)
+            {
+                return new BadRequestResult<ResponseModel<ProductionTriggerLevel>>(($"Error deleting trigger level part number {partNumber} - {ex}"));
+            }
+            this.transactionManager.Commit();
+            return new SuccessResult<ResponseModel<ProductionTriggerLevel>>(new ResponseModel<ProductionTriggerLevel>(entity, privileges));
         }
 
         protected override ProductionTriggerLevel CreateFromResource(ProductionTriggerLevelResource resource)
