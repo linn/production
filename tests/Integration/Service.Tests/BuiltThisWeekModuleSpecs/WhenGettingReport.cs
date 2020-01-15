@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Service.Tests.BuiltThisWeekModuleSpecs
 {
-    using System;
     using System.Linq;
     using FluentAssertions;
     using Linn.Common.Facade;

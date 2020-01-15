@@ -3,6 +3,7 @@
     using System.Linq;
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Models;
 
     public class BuiltThisWeekReportService : IBuiltThisWeekReportService
     {

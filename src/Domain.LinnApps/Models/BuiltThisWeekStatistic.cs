@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Domain.LinnApps.Models
 {
     public class BuiltThisWeekStatistic
     {

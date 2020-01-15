@@ -15,6 +15,11 @@
 
         public IResult<ResultsModel> GenerateBtwResultForCit(string citCode)
         {
+            if (string.IsNullOrEmpty(citCode))
+            {
+                return new BadRequestResult<ResultsModel>("Must specify a cit code");
+            }
+
             return new SuccessResult<ResultsModel>(
                 this.builtThisWeekReportService.GetBuiltThisWeekReport(citCode));
         }

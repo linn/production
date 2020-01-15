@@ -10,6 +10,7 @@
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.Repositories;

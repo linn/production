@@ -2,6 +2,7 @@
 {
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Models;
     using Nancy;
     using Nancy.ModelBinding;
@@ -18,7 +19,7 @@
 
         private object GetBtwResult()
         {
-            var resource = this.Bind<BtwRequestResource>();
+            var resource = this.Bind<CitCodeRequestResource>();
 
             var results = this.btwResultFacadeService.GenerateBtwResultForCit(
                 resource.CitCode);

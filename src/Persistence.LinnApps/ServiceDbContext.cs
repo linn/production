@@ -8,6 +8,7 @@
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
@@ -138,11 +139,11 @@
 
         public DbSet<AteTestDetail> AteTestDetails { get; set; }
 
+        public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
-
-        public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
