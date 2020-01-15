@@ -117,6 +117,7 @@ function AteTest({
             {
                 title: 'Part',
                 key: 'partNumber',
+                required: true,
                 type: 'text'
             },
             {
@@ -156,6 +157,7 @@ function AteTest({
                 title: 'AOI Escape',
                 key: 'aoiEscape',
                 type: 'dropdown',
+                required: true,
                 options: ['', 'Y', 'N']
             },
             {
@@ -597,7 +599,7 @@ AteTest.propTypes = {
     profile: PropTypes.shape({ name: PropTypes.string, employee: PropTypes.string }),
     worksOrdersSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     worksOrdersSearchLoading: PropTypes.bool,
-    searchWorksOrders: PropTypes.arrayOf(PropTypes.shape({})),
+    searchWorksOrders: PropTypes.func,
     clearWorksOrdersSearch: PropTypes.func
 };
 
