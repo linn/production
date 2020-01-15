@@ -235,28 +235,37 @@ function TriggerLevel({
                                             helperText="This field cannot be changed - description comes from part number"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={creating() ? 12 : 6}>
+                                        <Dropdown
+                                            onChange={handleResourceFieldChange}
+                                            items={cits.map(cit => ({
+                                                ...cit,
+                                                id: cit.code,
+                                                displayText: `${cit.code} (${cit.name})`
+                                            }))}
+                                            value={triggerLevel.citCode}
+                                            propertyName="citCode"
+                                            helperText={
+                                                citCodeInvalid() ? 'This field is required' : ''
+                                            }
+                                            required
+                                            fullWidth
+                                            label="CIT Code"
+                                            allowNoValue
+                                            disabled={!allowedToEdit}
+                                        />
+                                    </Grid>
+                                    {!creating() && (
                                         <Grid item xs={6}>
-                                            <Dropdown
-                                                onChange={handleResourceFieldChange}
-                                                items={cits.map(cit => ({
-                                                    ...cit,
-                                                    id: cit.code,
-                                                    displayText: `${cit.code} (${cit.name})`
-                                                }))}
-                                                value={triggerLevel.citCode}
-                                                propertyName="citCode"
-                                                helperText={
-                                                    citCodeInvalid() ? 'This field is required' : ''
-                                                }
-                                                required
+                                            <InputField
+                                                value={triggerLevel.routeCode}
+                                                label="Route Code"
                                                 fullWidth
-                                                label="CIT Code"
-                                                allowNoValue
-                                                disabled={!allowedToEdit}
+                                                propertyName="routeCode"
+                                                disabled
                                             />
                                         </Grid>
-                                    </Grid>
+                                    )}
 
                                     {!creating() && (
                                         <Grid item xs={6}>
