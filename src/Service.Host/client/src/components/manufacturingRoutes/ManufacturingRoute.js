@@ -47,19 +47,52 @@ function ManufacturingRoute({
     }, [item, prevManufacturingRoute, editStatus, creating]);
 
     const RouteCodeInvalid = () => !manufacturingRoute.routeCode;
+
+    const operationNumbersComplete = () =>
+        manufacturingRoute.operations.every(x => x.operationNumber);
+
+    const descriptionsComplete = () => manufacturingRoute.operations.every(x => x.description);
+
+    const cITCodesComplete = () => manufacturingRoute.operations.every(x => x.cITCode);
+
+    const skillCodesComplete = () => manufacturingRoute.operations.every(x => x.skillCode);
+
+    const setAndCleanTimesComplete = () =>
+        manufacturingRoute.operations.every(
+            x => x.setAndCleanTime >= 0 && x.setAndCleanTime !== null
+        );
+
+    const resourceCodesComplete = () => manufacturingRoute.operations.every(x => x.resourceCode);
+
+    const cycleTimesComplete = () =>
+        manufacturingRoute.operations.every(x => x.cycleTime >= 0 && x.cycleTime !== null);
+
+    const labourPercentagesComplete = () =>
+        manufacturingRoute.operations.every(
+            x => x.labourPercentage >= 0 && x.labourPercentage <= 100 && x.labourPercentage !== null
+        );
+
     const operationsComplete = () =>
         creating() ||
-        manufacturingRoute.operations.every(
-            x =>
-                x.operationNumber &&
-                x.description &&
-                x.cITCode &&
-                x.skillCode &&
-                x.setAndCleanTime >= 0 &&
-                x.resourceCode &&
-                x.cycleTime >= 0 &&
-                x.labourPercentage
-        );
+        (operationNumbersComplete() &&
+            descriptionsComplete() &&
+            cITCodesComplete() &&
+            skillCodesComplete() &&
+            setAndCleanTimesComplete() &&
+            resourceCodesComplete() &&
+            cycleTimesComplete() &&
+            labourPercentagesComplete());
+
+    const problemColumns = () => {
+        return `${operationNumbersComplete() ? '' : 'Operation Number;'}
+        ${descriptionsComplete() ? '' : 'Description;'}
+        ${cITCodesComplete() ? '' : 'CIT Code;'}
+        ${skillCodesComplete() ? '' : 'Skill Code;'}
+        ${setAndCleanTimesComplete() ? '' : 'Set & Clean Time;'}
+        ${resourceCodesComplete() ? '' : 'Resource Code;'}
+        ${cycleTimesComplete() ? '' : 'Cycle Time;'}
+        ${labourPercentagesComplete() ? '' : 'Labour Percentage;'}`;
+    };
 
     const inputInvalid = () => RouteCodeInvalid() || !operationsComplete();
 
@@ -221,7 +254,16 @@ function ManufacturingRoute({
                             />
                         </Grid>
 
-                        {!creating() && manufacturingRoute.operations && OperationsTableAndInfo()}
+                        {!creating() && manufacturingRoute.operations && (
+                            <Fragment>
+                                {OperationsTableAndInfo()}
+                                {!operationsComplete() && (
+                                    <ErrorCard
+                                        errorMessage={`One or more operations does not meet the criteria to allow saving. Problem columns: ${problemColumns()}`}
+                                    />
+                                )}
+                            </Fragment>
+                        )}
 
                         <Grid item xs={12}>
                             <SaveBackCancelButtons

@@ -63,7 +63,8 @@
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
                                                 PcbOperator = new Employee { Id = 1, FullName = "Name" },
-
+                                                NumberTested = 1,
+                                                NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -87,6 +88,8 @@
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 2" },
                                                 PcbOperator = new Employee { Id = 1, FullName = "Name" },
+                                                NumberTested = 5,
+                                                NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -109,6 +112,8 @@
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
                                                 PcbOperator = new Employee { Id = 1, FullName = "Name" },
 
+                                                NumberTested = 1,
+                                                NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail
@@ -132,6 +137,8 @@
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
                                                 PcbOperator = new Employee { Id = 1, FullName = "Name" },
 
+                                                NumberTested = 4,
+                                                NumberOfSmtBoardFails = 2,
                                                 Details = new List<AteTestDetail>
                                                               {
                                                                   new AteTestDetail

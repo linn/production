@@ -8,7 +8,7 @@ import Page from '../../containers/Page';
 
 export default function PartFailDetailsReport({ reportData, loading, options, error }) {
     return (
-        <Page>
+        <Page width="xl">
             <Grid container spacing={3}>
                 {error && (
                     <Grid item xs={12}>

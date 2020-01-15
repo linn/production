@@ -41,5 +41,7 @@
         public string DocType { get; set; }
 
         public string WorkStationCode { get; set; }
+
+        public string BatchNotes { get; set; }
     }
 }

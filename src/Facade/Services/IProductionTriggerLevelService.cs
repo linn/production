@@ -8,5 +8,8 @@
     public interface IProductionTriggerLevelsService : IFacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>
     {
         IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> Search(ProductionTriggerLevelsSearchRequestResource resource, IEnumerable<string> privileges);
+
+        IResult<ResponseModel<ProductionTriggerLevel>> Remove(string partNumber, IEnumerable<string> privileges);
+        
     }
 }

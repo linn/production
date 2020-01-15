@@ -23,5 +23,7 @@
         public string Batch { get; set; }
 
         public int EnteredBy { get; set; }
+
+        public Part Part { get; set; }
     }
 }
