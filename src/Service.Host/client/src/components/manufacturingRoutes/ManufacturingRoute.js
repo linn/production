@@ -58,7 +58,8 @@ function ManufacturingRoute({
                 x.setAndCleanTime >= 0 &&
                 x.resourceCode &&
                 x.cycleTime >= 0 &&
-                x.labourPercentage
+                x.labourPercentage >= 0 &&
+                x.labourPercentage <= 100
         );
 
     const inputInvalid = () => RouteCodeInvalid() || !operationsComplete();
