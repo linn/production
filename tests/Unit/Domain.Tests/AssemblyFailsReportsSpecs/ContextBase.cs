@@ -64,7 +64,7 @@
                                                 WorksOrder = new WorksOrder { OrderNumber = 24, PartNumber = "W O Part" },
                                                 ReportedFault = "report",
                                                 Analysis = "analysis",
-                                                PersonResponsible = new Employee { Id = 1, FullName = "Name" },
+                                                PersonResponsible = new Employee { Id = 1, FullName = "CitName" },
                                                 CompletedBy = new Employee { Id = 34, FullName = "John Engineer" }
                                             },
                                         new AssemblyFail
@@ -76,7 +76,7 @@
                                                 FaultCode = new AssemblyFailFaultCode { FaultCode = "F2", Description = "Fault 2" },
                                                 CitResponsible = new Cit { Code = "D", Name = "Cit 3" },
                                                 CircuitPart = "Circuit Part 2",
-                                                PersonResponsible = new Employee { Id = 2, FullName = "Another Name" }
+                                                PersonResponsible = new Employee { Id = 2, FullName = "Another CitName" }
                                             },
                                         new AssemblyFail
                                             {
@@ -88,7 +88,7 @@
                                                 CitResponsible = new Cit { Code = "C", Name = "Cit 1" },
                                                 CircuitPart = "Circuit Part 1",
                                                 WorksOrder = new WorksOrder { OrderNumber = 45, PartNumber = "W O Part" },
-                                                PersonResponsible = new Employee { Id = 1, FullName = "Name" }
+                                                PersonResponsible = new Employee { Id = 1, FullName = "CitName" }
                                             }
                                     };
             this.Weeks = new List<LinnWeek>

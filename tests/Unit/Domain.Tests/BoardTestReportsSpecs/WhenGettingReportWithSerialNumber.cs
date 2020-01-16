@@ -69,7 +69,7 @@
         public void ShouldReturnResults()
         {
             this.results.Rows.Should().HaveCount(1);
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Name")).Should().Be("A2");
+            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board CitName")).Should().Be("A2");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Serial Number")).Should().Be("1");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("First Test Date")).Should().Be("01-May-2021");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Last Test Date")).Should().Be("02-May-2021");

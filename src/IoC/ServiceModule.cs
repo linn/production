@@ -50,6 +50,7 @@
             builder.RegisterType<BuildPlansReportService>().As<IBuildPlansReportService>();
             builder.RegisterType<AteReportsService>().As<IAteReportsService>();
             builder.RegisterType<BuiltThisWeekReportService>().As<IBuiltThisWeekReportService>();
+            builder.RegisterType<DeliveryPeformanceReportService>().As<IDeliveryPerformanceReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -126,6 +127,7 @@
                 .As<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
             builder.RegisterType<AteReportsFacadeService>().As<IAteReportsFacadeService>();
             builder.RegisterType<BtwResultFacadeService>().As<IBtwResultFacadeService>();
+            builder.RegisterType<DeliveryPerfResultFacadeService>().As<IDeliveryPerfResultFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
