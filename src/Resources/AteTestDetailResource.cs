@@ -4,7 +4,7 @@
     {
         public int TestId { get; set; }
 
-        public int ItemNumber { get; set; }
+        public int? ItemNumber { get; set; }
 
         public string PartNumber { get; set; }
 
@@ -21,6 +21,8 @@
         public string BatchNumber { get; set; }
 
         public int? PcbOperator { get; set; }
+
+        public string PcbOperatorName { get; set; }
 
         public string Comments { get; set; }
 

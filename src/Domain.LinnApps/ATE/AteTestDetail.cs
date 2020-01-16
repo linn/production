@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.ATE
 {
+    using Linn.Production.Domain.LinnApps.ViewModels;
+
     public class AteTestDetail
     {
         public int TestId { get; set; }
@@ -20,7 +22,7 @@
 
         public string BatchNumber { get; set; }
 
-        public int? PcbOperator { get; set; }
+        public Employee PcbOperator { get; set; }
 
         public string Comments { get; set; }
 

@@ -99,17 +99,20 @@
                 this.CalculateDetailValues(reportDetails),
                 CalculationValueModelType.Quantity,
                 true);
-            resultsModel.RowDrillDownTemplates.Add(
+
+            resultsModel.ValueDrillDownTemplates.Add(
                 new DrillDownModel(
-                    "Test",
+                    "Details",
                     "/production/quality/ate-tests/{textValue}",
                     null,
                     resultsModel.ColumnIndex("Test Id")));
+
             this.reportingHelper.SortRowsByRowTitle(resultsModel);
             this.reportingHelper.RemovedRepeatedValues(
                 resultsModel,
                 resultsModel.ColumnIndex("Test Id"),
                 new[] { resultsModel.ColumnIndex("Test Id"), resultsModel.ColumnIndex("Board Part Number") });
+            
             return resultsModel;
         }
 
@@ -363,7 +366,8 @@
                                {
                                    RowId = rowId,
                                    ColumnId = "Operator",
-                                   TextDisplay = this.employeeRepository.FindById(ateTestReportDetail.PcbOperatorNumber).FullName
+                                   TextDisplay = ateTestReportDetail.PcbOperatorNumber != null ? 
+                                                     this.employeeRepository.FindById((int)ateTestReportDetail.PcbOperatorNumber).FullName : null,
                                });
                 models.Add(new CalculationValueModel
                                {
@@ -445,8 +449,8 @@
                                        BatchNumber = detail.BatchNumber,
                                        CircuitRef = detail.CircuitRef,
                                        ComponentPartNumber = detail.PartNumber,
-                                       PcbOperatorNumber = a.PcbOperator,
-                                       DetailPcbOperator = detail.PcbOperator
+                                       PcbOperatorNumber = a.PcbOperator?.Id,
+                                       DetailPcbOperator = detail.PcbOperator?.Id
                                    });
 
             return allDetails;

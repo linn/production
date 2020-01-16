@@ -10,6 +10,8 @@ import assemblyFails from './assemblyFails/assemblyFails';
 import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
+import ateTest from './ateTests/ateTest';
+import ateTests from './ateTests/ateTests';
 import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
@@ -105,6 +107,8 @@ const reducer = history =>
         assemblyFailsWaitingListReport,
         ateFaultCode,
         ateFaultCodes,
+        ateTest,
+        ateTests,
         boardFailType,
         boardFailTypes,
         boardTestDetailsReport,
