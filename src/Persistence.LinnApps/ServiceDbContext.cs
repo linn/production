@@ -1136,7 +1136,7 @@
             q.ToView("PTL_STAT_VIEW");
             q.Property(s => s.BuildGroup).HasColumnName("BUILD_GROUP").HasMaxLength(2);
             q.Property(s => s.CitName).HasColumnName("NAME").HasMaxLength(50);
-            q.Property(s => s.PartNumber).HasColumnName("").HasMaxLength(14);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
             q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             q.Property(s => s.PartDescription).HasColumnName("PART_DESCRIPTION").HasMaxLength(200);
             q.Property(s => s.TriggerId).HasColumnName("TRIGGER_ID");

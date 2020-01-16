@@ -233,6 +233,8 @@ export const buildPlansReportActionTypes = makeReportActionTypes(
 
 export const btwReportActionTypes = makeReportActionTypes(reportTypes.btwReport.actionType);
 
+export const delPerfReportActionTypes = makeReportActionTypes(reportTypes.delPerfReport.actionType);
+
 export const buildPlansActionTypes = makeActionTypes(itemTypes.buildPlans.actionType);
 
 export const SELECT_DEFAULT_WORKS_ORDER_PRINTER = 'SELECT_DEFAULT_WORKS_ORDER_PRINTER';

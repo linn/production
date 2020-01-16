@@ -14,6 +14,7 @@ import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
 import btwReport from './btwReport';
+import delPerfReport from './delPerfReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
 import productionTriggersReport from './productionTriggersReport';
@@ -115,6 +116,7 @@ const reducer = history =>
         buildPlansReport,
         buildsSummaryReport,
         cits,
+        delPerfReport,
         departments,
         employees,
         errors,
