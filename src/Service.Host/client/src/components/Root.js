@@ -590,6 +590,9 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/quality/ate-tests"
                                         component={AteTests}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/btw"
                                         component={BtwReport}
                                     />

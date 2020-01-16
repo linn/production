@@ -343,7 +343,10 @@ function AteTest({
                                     label="Works Order"
                                     modal
                                     disabled={!creating()}
-                                    items={worksOrdersSearchResults}
+                                    items={worksOrdersSearchResults.map(w => ({
+                                        name: w.orderNumber,
+                                        description: w.partNumber
+                                    }))}
                                     value={`${
                                         ateTest.worksOrderNumber ? ateTest.worksOrderNumber : ''
                                     }`}

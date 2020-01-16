@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function AteTests({ items, fetchItems, loading, clearSearch, history }) {
-    const forecastItems = items.map(item => ({
+    const searchItems = items.map(item => ({
         ...item,
-        name: item.testId,
+        id: item.testId,
+        name: item.testId.toString(),
         description: item.partNumber
     }));
 
@@ -19,7 +20,7 @@ function AteTests({ items, fetchItems, loading, clearSearch, history }) {
                         <CreateButton createUrl="/production/quality/ate-tests/create" />
                     </Fragment>
                     <Typeahead
-                        items={forecastItems.map(i => ({ ...i, name: i.testId }))}
+                        items={searchItems}
                         fetchItems={fetchItems}
                         clearSearch={clearSearch}
                         loading={loading}
