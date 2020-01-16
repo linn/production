@@ -1,8 +1,8 @@
-﻿﻿import React, { Fragment } from 'react';
+﻿﻿import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Redirect, Switch } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 import { OidcProvider } from 'redux-oidc';
-import { Router } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Navigation } from '@linn-it/linn-form-components-library';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -15,7 +15,6 @@ import userManager from '../helpers/userManager';
 import OutstandingWorksOrdersReport from '../containers/reports/OutstandingWorksOrdersReport';
 import OutstandingWorksOrdersReportOptions from '../containers/reports/OutstandingWorksOrdersReportOptions';
 import 'typeface-roboto';
-import { ConnectedRouter } from 'connected-react-router';
 import AteFaultCodes from '../containers/ate/AteFaultCodes';
 import AteFaultCode from '../containers/ate/AteFaultCode';
 import CreateAteFaultCode from '../containers/ate/CreateAteFaultCode';

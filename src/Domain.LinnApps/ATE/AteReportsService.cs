@@ -99,17 +99,20 @@
                 this.CalculateDetailValues(reportDetails),
                 CalculationValueModelType.Quantity,
                 true);
-            resultsModel.RowDrillDownTemplates.Add(
+
+            resultsModel.ValueDrillDownTemplates.Add(
                 new DrillDownModel(
-                    "Test",
+                    "Details",
                     "/production/quality/ate-tests/{textValue}",
                     null,
                     resultsModel.ColumnIndex("Test Id")));
+
             this.reportingHelper.SortRowsByRowTitle(resultsModel);
             this.reportingHelper.RemovedRepeatedValues(
                 resultsModel,
                 resultsModel.ColumnIndex("Test Id"),
                 new[] { resultsModel.ColumnIndex("Test Id"), resultsModel.ColumnIndex("Board Part Number") });
+            
             return resultsModel;
         }
 
