@@ -245,25 +245,21 @@ function TriggerLevel({
                                     </Grid>
                                     <Grid item xs={6}>
                                         {creating() && allowedToEdit && (
-                                            <div style={{ cursor: 'pointer' }}>
-                                                <Typeahead
-                                                    onSelect={newValue => {
-                                                        handleCopyFromTriggerLevel(newValue);
-                                                    }}
-                                                    propertyName="copypartNumber"
-                                                    label="Copy from existing trigger level"
-                                                    modal
-                                                    items={triggerSearchResults}
-                                                    value={copyFromPartNo}
-                                                    loading={triggersSearchLoading}
-                                                    fetchItems={searchExistingTriggers}
-                                                    links={false}
-                                                    clearSearch={() => clearTriggersSearch}
-                                                    placeholder="Search For Part Number"
-                                                >
-                                                    <Button>Press</Button>
-                                                </Typeahead>
-                                            </div>
+                                            <Typeahead
+                                                onSelect={newValue => {
+                                                    handleCopyFromTriggerLevel(newValue);
+                                                }}
+                                                propertyName="copypartNumber"
+                                                label="Copy from existing trigger level"
+                                                modal
+                                                items={triggerSearchResults}
+                                                value={copyFromPartNo}
+                                                loading={triggersSearchLoading}
+                                                fetchItems={searchExistingTriggers}
+                                                links={false}
+                                                clearSearch={() => clearTriggersSearch}
+                                                placeholder="Search For Part Number"
+                                            />
                                         )}
                                     </Grid>
                                     {!allowedToEdit && creating() && (
