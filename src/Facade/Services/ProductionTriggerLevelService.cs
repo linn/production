@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
@@ -27,8 +28,9 @@
         {
             try
             {
+                var searchResults = this.repository.FilterBy(this.SearchExpression(searchTerms)).ToList().Take(10);
                 return new SuccessResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>(
-                    new ResponseModel<IEnumerable<ProductionTriggerLevel>>(this.repository.FilterBy(this.SearchExpression(searchTerms)), privileges));
+                    new ResponseModel<IEnumerable<ProductionTriggerLevel>>(searchResults, privileges));
             }
             catch (NotImplementedException)
             {
