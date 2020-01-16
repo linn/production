@@ -46,7 +46,11 @@ function TriggerLevel({
     clearPartsSearch,
     applicationState,
     appStateLoading,
-    deleteTriggerLevel
+    deleteTriggerLevel,
+    searchExistingTriggers,
+    triggersSearchLoading,
+    triggerSearchResults,
+    clearTriggersSearch
 }) {
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
@@ -54,6 +58,7 @@ function TriggerLevel({
     const [allowedToCreate, setAllowedToCreate] = useState(false);
     const [allowedToDelete, setAllowedToDelete] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [copyFromPartNo, setcopyFromPartNo] = useState('');
 
     const creating = useCallback(() => editStatus === 'create', [editStatus]);
     const editing = () => editStatus === 'edit';
@@ -129,6 +134,24 @@ function TriggerLevel({
             ...triggerLevel,
             partNumber: newValue.partNumber,
             description: newValue.description
+        });
+    };
+
+    const handleCopyFromTriggerLevel = newValue => {
+        setcopyFromPartNo(newValue.partNumber);
+        setTriggerLevel({
+            ...triggerLevel,
+            citCode: newValue.citCode,
+            variableTriggerLevel: newValue.variableTriggerLevel,
+            overrideTriggerLevel: newValue.overrideTriggerLevel,
+            kanbanSize: newValue.kanbanSize,
+            maximumKanbans: newValue.maximumKanbans,
+            routeCode: newValue.variableTriggerLevel,
+            work: newValue.variableTriggerLevel,
+            workStationName: newValue.workStationName,
+            engineerId: newValue.engineerId,
+            temporary: newValue.temporary,
+            story: newValue.story
         });
     };
 
@@ -216,6 +239,25 @@ function TriggerLevel({
                                                 fetchItems={searchParts}
                                                 links={false}
                                                 clearSearch={() => clearPartsSearch}
+                                                placeholder="Search For Part Number"
+                                            />
+                                        )}
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        {creating() && allowedToEdit && (
+                                            <Typeahead
+                                                onSelect={newValue => {
+                                                    handleCopyFromTriggerLevel(newValue);
+                                                }}
+                                                propertyName="copypartNumber"
+                                                label="Copy from existing trigger level"
+                                                modal
+                                                items={triggerSearchResults}
+                                                value={copyFromPartNo}
+                                                loading={triggersSearchLoading}
+                                                fetchItems={searchExistingTriggers}
+                                                links={false}
+                                                clearSearch={() => clearTriggersSearch}
                                                 placeholder="Search For Part Number"
                                             />
                                         )}
@@ -511,7 +553,11 @@ TriggerLevel.propTypes = {
     clearPartsSearch: PropTypes.func,
     applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) }),
     appStateLoading: PropTypes.bool,
-    deleteTriggerLevel: PropTypes.func
+    deleteTriggerLevel: PropTypes.func,
+    searchExistingTriggers: PropTypes.func,
+    triggersSearchLoading: PropTypes.bool,
+    triggerSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    clearTriggersSearch: PropTypes.func
 };
 
 TriggerLevel.defaultProps = {
@@ -531,7 +577,11 @@ TriggerLevel.defaultProps = {
     clearPartsSearch: null,
     applicationState: null,
     appStateLoading: false,
-    deleteTriggerLevel: null
+    deleteTriggerLevel: null,
+    searchExistingTriggers: null,
+    triggersSearchLoading: false,
+    triggerSearchResults: [],
+    clearTriggersSearch: null
 };
 
 export default TriggerLevel;
