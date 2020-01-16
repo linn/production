@@ -57,6 +57,7 @@ const ViewProductionTriggerLevels = ({
                   partNumber: el.partNumber,
                   description: el.description,
                   citCode: `${el.citCode} - ${cits.find(x => x.code === el.citCode)?.name} `,
+                  routeCode: el.routeCode,
                   links: el.links,
                   id: el.partNumber,
                   overrideTriggerLevel: el.overrideTriggerLevel,
@@ -131,6 +132,7 @@ const ViewProductionTriggerLevels = ({
         partNumber: 'Part Number',
         description: 'Description',
         citCode: 'Cit',
+        routeCode: 'Route Code',
         overrideTriggerLevel: 'Override Trigger Level',
         VariableTriggerLevel: 'Auto Trigger Level'
     };

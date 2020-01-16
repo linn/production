@@ -22,7 +22,9 @@
         {
             return this.serviceDbContext
                 .AteTests.Where(t => t.TestId == key)
-                .Include(w => w.WorksOrder)
+                .Include(w => w.WorksOrder).Include(w => w.WorksOrder.Part)
+                .Include(w => w.User)
+                .Include(t => t.PcbOperator)
                 .Include(t => t.Details)
                 .Where(d => d.DateInvalid == null)
                 .ToList().FirstOrDefault();
@@ -35,7 +37,7 @@
 
         public void Add(AteTest entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.AteTests.Add(entity);
         }
 
         public void Remove(AteTest entity)
@@ -52,8 +54,11 @@
         {
             return this.serviceDbContext.AteTests
                 .Where(expression)
-                .Include(d => d.Details)
-                .Include(w => w.WorksOrder);
+                .Include(w => w.WorksOrder).Include(w => w.WorksOrder.Part)
+                .Include(w => w.User)
+                .Include(t => t.PcbOperator)
+                .Include(t => t.Details)
+                .Where(d => d.DateInvalid == null);
         }
     }
 }

@@ -27,7 +27,7 @@
 
         protected override Expression<Func<Employee, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return e => e.FullName.Contains(searchTerm);
         }
     }
 }
