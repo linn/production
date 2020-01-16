@@ -34,11 +34,13 @@
             this.Get("/production/quality/ate/fault-codes/", _ => this.GetAllFaultCodes());
             this.Put("/production/quality/ate/fault-codes/{faultCode*}", parameters => this.UpdateFaultCode(parameters.faultCode));
             this.Post("/production/quality/ate/fault-codes", _ => this.AddFaultCode());
+
+            this.Get("/production/quality/part-fails/create", _ => this.GetApp());
             this.Get("/production/quality/ate-tests/{id}", parameters => this.GetTestById(parameters.id));
             this.Get("/production/quality/ate-tests", _ => this.SearchAteTests());
             this.Put("/production/quality/ate-tests/{id}", parameters => this.UpdateAteTest(parameters.id));
-            this.Post("/production/quality/ate-tests", _ => this.AddAteTest());
             this.Put("/production/quality/ate-test-details/{id}", parameters => this.UpdateAteTestDetail(parameters.id));
+            this.Post("/production/quality/ate-tests", _ => this.AddAteTest());
 
             this.Get("/production/reports/ate/status", _ => this.GetApp());
             this.Get("/production/reports/ate/status/report", _ => this.GetStatusReport());
