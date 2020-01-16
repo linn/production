@@ -49,11 +49,15 @@
                     with.Dependency<IResourceBuilder<IEnumerable<AteFaultCode>>>(
                         new AteFaultCodesResourceBuilder());
                     with.Dependency<IResourceBuilder<AteTest>>(new AteTestResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<AteTest>>>(new AteTestsResourceBuilder());
+
                     with.Module<AteQualityModule>();
                     with.ResponseProcessor<AteFaultCodeResponseProcessor>();
                     with.ResponseProcessor<AteFaultCodesResponseProcessor>();
                     with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                     with.ResponseProcessor<AteTestResponseProcessor>();
+                    with.ResponseProcessor<AteTestsResponseProcessor>();
+
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

@@ -511,7 +511,7 @@ function AteTest({
                                             displayText: c.fullName
                                         }))}
                                     fullWidth
-                                    value={employees?.length > 0 ? ateTest.pcbOperator : ''}
+                                    value={ateTest.pcbOperator}
                                     onChange={handleFieldChange}
                                 />
                             </Grid>
