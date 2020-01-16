@@ -15,8 +15,8 @@ import workStationActions from '../../actions/workStationActions';
 import workStationSelectors from '../../selectors/workStationSelectors';
 import * as itemTypes from '../../itemTypes';
 import productionTriggerLevelStateActions from '../../actions/productionTriggerLevelStateActions';
-import triggersActions from '../../actions/triggersActions';
-import triggersSelectors from '../../selectors/triggersSelectors';
+import triggersActions from '../../actions/productionTriggerLevelsSearchActions';
+import triggersSelectors from '../../selectors/productionTriggerLevelsSearchSelectors';
 
 const mapStateToProps = state => ({
     editStatus: productionTriggerLevelSelectors.getEditStatus(state),
