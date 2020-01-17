@@ -10,7 +10,7 @@
         {
             return new ComponentCountResource
                        {
-                           SmtComponnets = model.SmtComponents,
+                           SmtComponents = model.SmtComponents,
                            PcbComponents = model.PcbComponents
                        };
         }

@@ -259,3 +259,9 @@ export const workStations = new ItemType(
 export const ateTest = new ItemType('ateTest', 'ATE_TEST', '/production/quality/ate-tests');
 
 export const ateTests = new ItemType('ateTests', 'ATE_TESTS', '/production/quality/ate-tests');
+
+export const componentCounts = new ItemType(
+    'componentCounts',
+    'COMPONENT_COUNTS',
+    '/production/quality/ate-tests/count-components/'
+);

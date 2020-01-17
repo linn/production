@@ -86,6 +86,7 @@ import workStations from './workStations';
 import historyStore from './history';
 import ateStatusReport from './ateStatusReport';
 import ateDetailsReport from './ateDetailsReport';
+import componentCounts from './componentCounts';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -176,6 +177,7 @@ const reducer = history =>
         workStations,
         ateStatusReport,
         ateDetailsReport,
+        componentCounts,
         ...sharedLibraryReducers
     });
 
