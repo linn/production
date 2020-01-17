@@ -38,7 +38,9 @@ function AteTest({
     searchWorksOrders,
     clearWorksOrdersSearch,
     employees,
-    ateFaultCodes
+    ateFaultCodes,
+    componentCounts,
+    getComponentCounts
 }) {
     const [ateTest, setAteTest] = useState({ pcbOperator: null, details: [] });
     const [prevAteTest, setPrevAteTest] = useState({});
@@ -70,6 +72,12 @@ function AteTest({
             }));
         }
     }, [employees, ateTest.pcbOperator]);
+
+    useEffect(() => {
+        if (ateTest.partNumber) {
+            getComponentCounts(ateTest.partNumber);
+        }
+    }, [getComponentCounts, ateTest.partNumber]);
 
     const creating = () => editStatus === 'create';
     const editing = () => editStatus === 'edit';
@@ -335,7 +343,7 @@ function AteTest({
                                         setEditStatus('edit');
                                         setAteTest(a => ({
                                             ...a,
-                                            worksOrderNumber: newValue.orderNumber,
+                                            worksOrderNumber: newValue.name,
                                             partNumber: newValue.partNumber,
                                             partDescription: newValue.partDescription
                                         }));
@@ -344,6 +352,7 @@ function AteTest({
                                     modal
                                     disabled={!creating()}
                                     items={worksOrdersSearchResults.map(w => ({
+                                        ...w,
                                         name: w.orderNumber,
                                         description: w.partNumber
                                     }))}
@@ -437,9 +446,10 @@ function AteTest({
                             <Grid item xs={2}>
                                 <InputField
                                     fullWidth
-                                    value={ateTest.numberOfSmtComponents}
+                                    value={componentCounts?.smtComponents * ateTest.numberTested}
                                     label="No. SMT Components"
                                     onChange={handleFieldChange}
+                                    disabled
                                     propertyName="numberOfSmtComponents"
                                 />
                             </Grid>
@@ -469,7 +479,8 @@ function AteTest({
                             <Grid item xs={2}>
                                 <InputField
                                     fullWidth
-                                    value={ateTest.numberOfPcbComponents}
+                                    value={componentCounts?.pcbComponents * ateTest.numberTested}
+                                    disabled
                                     label="No. PCB Components"
                                     onChange={handleFieldChange}
                                     propertyName="numberOfPcbComponents"
@@ -511,7 +522,7 @@ function AteTest({
                                             displayText: c.fullName
                                         }))}
                                     fullWidth
-                                    value={employees?.length > 0 ? ateTest.pcbOperator : ''}
+                                    value={ateTest.pcbOperator}
                                     onChange={handleFieldChange}
                                 />
                             </Grid>
@@ -603,7 +614,12 @@ AteTest.propTypes = {
     worksOrdersSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     worksOrdersSearchLoading: PropTypes.bool,
     searchWorksOrders: PropTypes.func,
-    clearWorksOrdersSearch: PropTypes.func
+    clearWorksOrdersSearch: PropTypes.func,
+    componentCounts: PropTypes.shape({
+        smtComponents: PropTypes.number,
+        pcbComponents: PropTypes.number
+    }),
+    getComponentCounts: PropTypes.func.isRequired
 };
 
 AteTest.defaultProps = {
@@ -620,7 +636,8 @@ AteTest.defaultProps = {
     worksOrdersSearchResults: null,
     worksOrdersSearchLoading: false,
     searchWorksOrders: PropTypes.arrayOf(PropTypes.shape({})),
-    clearWorksOrdersSearch: PropTypes.func
+    clearWorksOrdersSearch: PropTypes.func,
+    componentCounts: { smtComponents: 0, pcbComponents: 0 }
 };
 
 export default AteTest;

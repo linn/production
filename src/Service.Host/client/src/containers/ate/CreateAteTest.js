@@ -11,6 +11,8 @@ import employeesActions from '../../actions/employeesActions';
 import employeesSelectors from '../../selectors/employeesSelectors';
 import ateFaultCodesSelectors from '../../selectors/ateFaultCodesSelectors';
 import ateFaultCodeActions from '../../actions/ateFaultCodesActions';
+import componentCountsActions from '../../actions/componentCountsActions';
+import componentCountsSelectors from '../../selectors/componentCountsSelectors';
 
 const mapStateToProps = state => ({
     profile: getProfile(state),
@@ -24,7 +26,8 @@ const mapStateToProps = state => ({
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
     worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
-    ateFaultCodes: ateFaultCodesSelectors.getItems(state)
+    ateFaultCodes: ateFaultCodesSelectors.getItems(state),
+    componentCounts: componentCountsSelectors.getItem(state)
 });
 
 const initialise = () => dispatch => {
@@ -38,7 +41,8 @@ const mapDispatchToProps = {
     setEditStatus: ateTestActions.setEditStatus,
     setSnackbarVisible: ateTestActions.setSnackbarVisible,
     searchWorksOrders: worksOrdersActions.search,
-    clearWorksOrdersSearch: worksOrdersActions.clearSearch
+    clearWorksOrdersSearch: worksOrdersActions.clearSearch,
+    getComponentCounts: componentCountsActions.fetch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(AteTest));
