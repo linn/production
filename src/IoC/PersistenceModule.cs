@@ -10,6 +10,7 @@
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.Repositories;
@@ -91,6 +92,7 @@
             builder.RegisterType<BomDetailExplodedPhantomPartViewRepository>().As<IRepository<BomDetailExplodedPhantomPartView, int>>();
             builder.RegisterType<WwdDetailQueryRepository>().As<IQueryRepository<WwdDetail>>();
             builder.RegisterType<ProductionBackOrdersViewRepository>().As<IQueryRepository<ProductionBackOrdersView>>();
+            builder.RegisterType<BuiltThisWeekStatisticRepository>().As<IQueryRepository<BuiltThisWeekStatistic>>();
         }
     }
 }

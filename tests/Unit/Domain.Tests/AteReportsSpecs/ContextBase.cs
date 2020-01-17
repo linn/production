@@ -62,7 +62,7 @@
                                                 DateTested = 1.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
-                                                PcbOperator = 1,
+                                                PcbOperator = new Employee { Id = 1, FullName = "Name" },
                                                 NumberTested = 1,
                                                 NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
@@ -77,7 +77,7 @@
                                                                           ItemNumber = 1,
                                                                           BatchNumber = "bn 1",
                                                                           CircuitRef = "circuit 12",
-                                                                          PcbOperator = 2
+                                                                          PcbOperator = new Employee { Id = 2, FullName = "NAME" }
                                                                       }
                                                               }
                                             },
@@ -87,7 +87,7 @@
                                                 DateTested = 9.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 2" },
-                                                PcbOperator = 1,
+                                                PcbOperator = new Employee { Id = 1, FullName = "Name" },
                                                 NumberTested = 5,
                                                 NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
@@ -110,8 +110,9 @@
                                                 DateTested = 20.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
+                                                PcbOperator = new Employee { Id = 1, FullName = "Name" },
+
                                                 NumberTested = 1,
-                                                PcbOperator = 1,
                                                 NumberOfSmtBoardFails = 1,
                                                 Details = new List<AteTestDetail>
                                                               {
@@ -134,7 +135,8 @@
                                                 DateTested = 19.June(2020),
                                                 PlaceFound = "ATE",
                                                 WorksOrder = new WorksOrder { PartNumber = "part 1" },
-                                                PcbOperator = 1,
+                                                PcbOperator = new Employee { Id = 1, FullName = "Name" },
+
                                                 NumberTested = 4,
                                                 NumberOfSmtBoardFails = 2,
                                                 Details = new List<AteTestDetail>
