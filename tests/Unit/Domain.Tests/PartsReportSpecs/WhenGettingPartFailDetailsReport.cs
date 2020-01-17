@@ -35,8 +35,6 @@
 
             this.LinnWeekPack.Wwsyy(DateTime.Parse(this.toDate)).Returns("32/1");
 
-            this.PartRepository.FilterBy(Arg.Any<Expression<Func<Part, bool>>>()).Returns(this.Parts.AsQueryable());
-
             this.result = this.Sut.PartFailDetailsReport(null, this.fromDate, this.toDate, "All", "All", "All", "All");
         }
 
@@ -44,12 +42,6 @@
         public void ShouldCallPartFailLogRepository()
         {
             this.PartFailLogRepository.Received().FilterBy(Arg.Any<Expression<Func<PartFailLog, bool>>>());
-        }
-
-        [Test]
-        public void ShouldCallPartRepository()
-        {
-            this.PartRepository.Received().FilterBy(Arg.Any<Expression<Func<Part, bool>>>());
         }
 
         [Test]

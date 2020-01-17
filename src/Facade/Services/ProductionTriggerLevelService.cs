@@ -1,23 +1,55 @@
 ﻿namespace Linn.Production.Facade.Services
 {
-    using Linn.Common.Facade;
-    using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Resources;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
+    using Linn.Common.Domain.Exceptions;
+    using Linn.Common.Facade;
+    using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Resources;
 
     public class ProductionTriggerLevelService : FacadeService<ProductionTriggerLevel, string, ProductionTriggerLevelResource, ProductionTriggerLevelResource>,
                                                  IProductionTriggerLevelsService
     {
-        private IRepository<ProductionTriggerLevel, string> repository;
+        private readonly IRepository<ProductionTriggerLevel, string> repository;
+
+        private readonly ITransactionManager transactionManager;
 
         public ProductionTriggerLevelService(IRepository<ProductionTriggerLevel, string> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
             this.repository = repository;
+            this.transactionManager = transactionManager;
+        }
+
+        public IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> Search(ProductionTriggerLevelsSearchRequestResource searchTerms, IEnumerable<string> privileges)
+        {
+            try
+            {
+                return new SuccessResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>(
+                    new ResponseModel<IEnumerable<ProductionTriggerLevel>>(this.repository.FilterBy(this.SearchExpression(searchTerms)), privileges));
+            }
+            catch (NotImplementedException)
+            {
+                return new BadRequestResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>("Search is not implemented");
+            }
+        }
+
+        public IResult<ResponseModel<ProductionTriggerLevel>> Remove(string partNumber, IEnumerable<string> privileges)
+        {
+            var entity = this.repository.FindById(partNumber);
+            try
+            {
+                this.repository.Remove(entity);
+            }
+            catch (DomainException ex)
+            {
+                return new BadRequestResult<ResponseModel<ProductionTriggerLevel>>(($"Error deleting trigger level part number {partNumber} - {ex}"));
+            }
+            this.transactionManager.Commit();
+            return new SuccessResult<ResponseModel<ProductionTriggerLevel>>(new ResponseModel<ProductionTriggerLevel>(entity, privileges));
         }
 
         protected override ProductionTriggerLevel CreateFromResource(ProductionTriggerLevelResource resource)
@@ -71,21 +103,8 @@
             return w =>
                 (string.IsNullOrWhiteSpace(searchTerms.SearchTerm) || w.PartNumber.ToUpper().Contains(searchTerms.SearchTerm.ToUpper()))
                 && (string.IsNullOrWhiteSpace(searchTerms.CitSearchTerm) || w.CitCode == searchTerms.CitSearchTerm)
-                && (searchTerms.OverrideSearchTerm == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms.OverrideSearchTerm))
-                && (searchTerms.AutoSearchTerm == "null" || w.VariableTriggerLevel > int.Parse(searchTerms.AutoSearchTerm));
-        }
-
-        public IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> Search(ProductionTriggerLevelsSearchRequestResource searchTerms, IEnumerable<string> privileges)
-        {
-            try
-            {
-                return new SuccessResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>(
-                        new ResponseModel<IEnumerable<ProductionTriggerLevel>>(this.repository.FilterBy(this.SearchExpression(searchTerms)), privileges));
-            }
-            catch (NotImplementedException ex)
-            {
-                return new BadRequestResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>("Search is not implemented");
-            }
+                && (string.IsNullOrWhiteSpace(searchTerms.OverrideSearchTerm) || searchTerms.OverrideSearchTerm == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms.OverrideSearchTerm))
+                && (string.IsNullOrWhiteSpace(searchTerms.AutoSearchTerm) || searchTerms.AutoSearchTerm == "null" || w.VariableTriggerLevel > int.Parse(searchTerms.AutoSearchTerm));
         }
     }
 }

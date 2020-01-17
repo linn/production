@@ -1,37 +1,61 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Linq;
     using System.Linq.Expressions;
 
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.ViewModels;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
+    using Linn.Production.Proxy;
     using Linn.Production.Resources;
 
     public class AteTestService : FacadeService<AteTest, int, AteTestResource, AteTestResource>
     {
-        public AteTestService(IRepository<AteTest, int> repository, ITransactionManager transactionManager)
+        private readonly IRepository<WorksOrder, int> worksOrderRepository;
+
+        private readonly IRepository<Employee, int> employeeRepository;
+
+        private readonly IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> detailService;
+
+        private readonly IDatabaseService databaseService;
+
+        public AteTestService(
+            IRepository<AteTest, int> repository,
+            ITransactionManager transactionManager,
+            IRepository<WorksOrder, int> worksOrderRepository,
+            IRepository<Employee, int> employeeRepository,
+            IDatabaseService databaseService,
+            IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> detailService)
             : base(repository, transactionManager)
         {
+            this.worksOrderRepository = worksOrderRepository;
+            this.employeeRepository = employeeRepository;
+            this.detailService = detailService;
+            this.databaseService = databaseService;
         }
 
         protected override AteTest CreateFromResource(AteTestResource resource)
         {
+            var worksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber);
+
             return new AteTest
                        {
-                           TestId = resource.TestId,
-                           UserNumber = resource.UserNumber,
-                           DateTested = resource.DateTested != null
+                            TestId = this.databaseService.GetNextVal("ATE_TESTS_SEQ"),
+                            User = this.employeeRepository.FindById(resource.UserNumber),
+                            DateTested = resource.DateTested != null
                                             ? DateTime.Parse(resource.DateTested)
                                             : (DateTime?)null,
-                           WorksOrderNumber = resource.WorksOrderNumber,
+                           WorksOrder = worksOrder,
                            NumberTested = resource.NumberTested,
                            NumberOfSmtComponents = resource.NumberOfSmtComponents,
                            NumberOfSmtFails = resource.NumberOfSmtFails,
                            NumberOfPcbComponents = resource.NumberOfPcbComponents,
                            NumberOfPcbFails = resource.NumberOfPcbFails,
                            NumberOfPcbBoardFails = resource.NumberOfPcbBoardFails,
-                           PcbOperator = resource.PcbOperator,
+                           PcbOperator = this.employeeRepository.FindById(resource.PcbOperator),
                            MinutesSpent = resource.MinutesSpent,
                            Machine = resource.Machine,
                            PlaceFound = resource.PlaceFound,
@@ -47,12 +71,42 @@
 
         protected override void UpdateFromResource(AteTest entity, AteTestResource updateResource)
         {
-            throw new NotImplementedException();
+            entity.PcbOperator = this.employeeRepository.FindById(updateResource.PcbOperator);
+            entity.NumberTested = updateResource.NumberTested;
+            entity.DateTested = updateResource.DateTested != null
+                                    ? DateTime.Parse(updateResource.DateTested)
+                                    : (DateTime?)null;
+            entity.FlowSolderDate = updateResource.FlowSolderDate != null
+                                    ? DateTime.Parse(updateResource.DateTested)
+                                    : (DateTime?)null;
+            entity.NumberOfPcbBoardFails = updateResource.NumberOfPcbBoardFails;
+            entity.NumberOfSmtBoardFails = updateResource.NumberOfSmtBoardFails;
+            entity.NumberOfPcbComponents = updateResource.NumberOfPcbComponents;
+            entity.NumberOfSmtBoardFails = updateResource.NumberOfPcbComponents;
+            entity.NumberOfSmtFails = updateResource.NumberOfSmtFails;
+            entity.NumberOfPcbFails = updateResource.NumberOfPcbFails;
+            entity.MinutesSpent = updateResource.MinutesSpent;
+            entity.FlowMachine = updateResource.FlowMachine;
+            entity.Machine = updateResource.Machine;
+            entity.PlaceFound = updateResource.PlaceFound;
+
+            foreach (var detail in updateResource.Details)
+            {
+                if (detail.ItemNumber == null || entity.Details.All(d => d.ItemNumber != detail.ItemNumber))
+                {
+                    detail.TestId = entity.TestId;
+                    this.detailService.Add(detail);
+                }
+                else
+                {
+                    this.detailService.Update(new AteTestDetailKey { ItemNumber = (int)detail.ItemNumber, TestId = detail.TestId }, detail);
+                }
+            }
         }
 
         protected override Expression<Func<AteTest, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return test => test.TestId == int.Parse(searchTerm);
         }
     }
 }

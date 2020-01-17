@@ -15,13 +15,9 @@
 
     public class WhenGettingNextLabelSequenceValue : ContextBase
     {
-        private int result;
-
         [SetUp]
         public void SetUp()
         {
-            var part = "PART";
-
             var labels = new List<WorksOrderLabel>
                              {
                                  new WorksOrderLabel { PartNumber = "PART", Sequence = 1 },

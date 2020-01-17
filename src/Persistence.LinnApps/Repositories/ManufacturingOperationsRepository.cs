@@ -39,7 +39,6 @@
         public ManufacturingOperation FindBy(Expression<Func<ManufacturingOperation, bool>> expression)
         {
             return this.serviceDbContext.ManufacturingOperations.Where(expression).ToList().FirstOrDefault();
-
         }
 
         public IQueryable<ManufacturingOperation> FilterBy(Expression<Func<ManufacturingOperation, bool>> expression)

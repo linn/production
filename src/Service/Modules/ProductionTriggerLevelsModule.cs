@@ -47,6 +47,7 @@
             this.Get("production/maintenance/production-trigger-levels-settings", _ => this.GetProductionTriggerLevelsSettings());
             this.Put("production/maintenance/production-trigger-levels-settings", _ => this.UpdateProductionTriggerLevelsSettings());
             this.Post("production/maintenance/production-trigger-levels-settings/start-trigger-run", _ => this.StartTriggerRun());
+            this.Delete("production/maintenance/production-trigger-levels/{partNumber*}", parameters => this.DeleteTriggerLevel(parameters.partNumber));
         }
 
         private object StartTriggerRun()
@@ -141,21 +142,35 @@
             this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
             
-            IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> parts;
+            IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> triggers;
 
             if (!string.IsNullOrWhiteSpace(resource.SearchTerm)
                 || !string.IsNullOrWhiteSpace(resource.CitSearchTerm)
                 || (!string.IsNullOrWhiteSpace(resource.OverrideSearchTerm) && resource.OverrideSearchTerm != "null")
                 || (!string.IsNullOrWhiteSpace(resource.AutoSearchTerm) && resource.AutoSearchTerm != "null"))
             {
-                parts = this.productionTriggerLevelsService.Search(resource, privileges);
+                triggers = this.productionTriggerLevelsService.Search(resource, privileges);
             }
             else
             {
-                parts = this.productionTriggerLevelsService.GetAll(privileges);
+                triggers = this.productionTriggerLevelsService.GetAll(privileges);
             }
 
-            return this.Negotiate.WithModel(parts).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+            return this.Negotiate.WithModel(triggers).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object DeleteTriggerLevel(string partNumber)
+        {
+            this.RequiresAuthentication();
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, privileges)
+                             ? this.productionTriggerLevelsService.Remove(partNumber, privileges)
+                             : new UnauthorisedResult<ResponseModel<ProductionTriggerLevel>>("You are not authorised to delete trigger level");
+
+            return this.Negotiate.WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
 

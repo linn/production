@@ -1,9 +1,19 @@
 import React from 'react';
 import List from '@material-ui/core/List';
+import PropTypes from 'prop-types';
 
 function FactList({ children, id }) {
-    // yes I know this is just wrapping the List for the moment
     return <List id={id}>{children}</List>;
 }
+
+FactList.propTypes = {
+    children: PropTypes.shape({}),
+    id: PropTypes.shape({})
+};
+
+FactList.defaultProps = {
+    children: null,
+    id: null
+};
 
 export default FactList;

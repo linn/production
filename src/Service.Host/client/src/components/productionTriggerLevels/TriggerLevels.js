@@ -11,7 +11,8 @@ import {
     useSearch,
     SearchInputField,
     Dropdown,
-    utilities
+    utilities,
+    SnackbarMessage
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -22,7 +23,8 @@ const ViewProductionTriggerLevels = ({
     items,
     fetchItems,
     cits,
-    applicationState
+    applicationState,
+    editStatus
 }) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
@@ -32,6 +34,7 @@ const ViewProductionTriggerLevels = ({
     });
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
     const [allowedToCreate, setAllowedToCreate] = useState(false);
+    const [snackbarVisible, setSnackbarVisible] = useState(editStatus === 'deleted');
 
     useEffect(() => {
         const compare = (field, orderAscending) => (a, b) => {
@@ -54,6 +57,7 @@ const ViewProductionTriggerLevels = ({
                   partNumber: el.partNumber,
                   description: el.description,
                   citCode: `${el.citCode} - ${cits.find(x => x.code === el.citCode)?.name} `,
+                  routeCode: el.routeCode,
                   links: el.links,
                   id: el.partNumber,
                   overrideTriggerLevel: el.overrideTriggerLevel,
@@ -128,6 +132,7 @@ const ViewProductionTriggerLevels = ({
         partNumber: 'Part Number',
         description: 'Description',
         citCode: 'Cit',
+        routeCode: 'Route Code',
         overrideTriggerLevel: 'Override Trigger Level',
         VariableTriggerLevel: 'Auto Trigger Level'
     };
@@ -147,6 +152,12 @@ const ViewProductionTriggerLevels = ({
                     <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
                 </Fragment>
             )}
+
+            <SnackbarMessage
+                visible={snackbarVisible}
+                onClose={() => setSnackbarVisible(false)}
+                message="Deletion Successful"
+            />
 
             <Grid item xs={12} container>
                 <Grid item xs={4}>
@@ -247,13 +258,15 @@ ViewProductionTriggerLevels.propTypes = {
             code: PropTypes.string
         })
     ).isRequired,
-    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) })
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) }),
+    editStatus: PropTypes.string
 };
 
 ViewProductionTriggerLevels.defaultProps = {
     itemError: null,
     items: [],
-    applicationState: null
+    applicationState: null,
+    editStatus: ''
 };
 
 export default ViewProductionTriggerLevels;

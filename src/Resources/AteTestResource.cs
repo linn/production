@@ -2,11 +2,15 @@
 {  
     using System.Collections.Generic;
 
-    public class AteTestResource
+    using Linn.Common.Resources;
+
+    public class AteTestResource : HypermediaResource
     {
-        public int TestId { get; set; }
+        public int? TestId { get; set; }
 
         public int UserNumber { get; set; }
+
+        public string UserName { get; set; }
 
         public string DateTested { get; set; }
 
@@ -28,6 +32,8 @@
 
         public int PcbOperator { get; set; }
 
+        public string PcbOperatorName { get; set; }
+
         public int? MinutesSpent { get; set; }
 
         public string Machine { get; set; }
@@ -39,6 +45,12 @@
         public string FlowMachine { get; set; }
 
         public string FlowSolderDate { get; set; }
+
+        public string PartNumber { get; set; }
+
+        public string PartDescription { get; set; }
+
+        public int WorksOrderQuantity { get; set; }
 
         public IEnumerable<AteTestDetailResource> Details { get; set; }
     }

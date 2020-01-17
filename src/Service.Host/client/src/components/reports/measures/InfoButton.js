@@ -2,6 +2,7 @@ import React from 'react';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/styles';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles(theme => ({
     popoverContent: {
@@ -51,5 +52,13 @@ function InfoButton(props) {
         </div>
     );
 }
+
+InfoButton.propTypes = {
+    children: PropTypes.shape({})
+};
+
+InfoButton.defaultProps = {
+    children: null
+};
 
 export default InfoButton;

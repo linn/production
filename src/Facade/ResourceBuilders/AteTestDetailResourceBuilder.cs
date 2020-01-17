@@ -23,15 +23,15 @@
                            SmtOrPcb = detail.SmtOrPcb,
                            Shift = detail.Shift,
                            BatchNumber = detail.BatchNumber,
-                           PcbOperator = detail.PcbOperator,
+                           PcbOperator = detail.PcbOperator?.Id,
+                           PcbOperatorName = detail.PcbOperator?.FullName,
                            Comments = detail.Comments,
                            Machine = detail.Machine,
                            BoardFailNumber = detail.BoardFailNumber,
                            AoiEscape = detail.AoiEscape,
                            CorrectiveAction = detail.CorrectiveAction,
                            SmtFailId = detail.SmtFailId,
-                           BoardSerialNumber = detail.BoardSerialNumber,
-                           DateInvalid = detail.DateInvalid?.ToString("o")
+                           BoardSerialNumber = detail.BoardSerialNumber
                        };
         }
 

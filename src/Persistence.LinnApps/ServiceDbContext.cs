@@ -8,6 +8,7 @@
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
@@ -15,7 +16,6 @@
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.Extensions.Logging;
 
     public class ServiceDbContext : DbContext
@@ -137,7 +137,9 @@
 
         public DbSet<AteTest> AteTests { get; set; }
 
-        public DbSet<AteTestDetail> AteTestDetails { get; set; } 
+        public DbSet<AteTestDetail> AteTestDetails { get; set; }
+
+        public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
@@ -204,6 +206,7 @@
             this.BuildAteTests(builder);
             this.BuildAteTestDetails(builder);
             this.QueryBuildPlanRules(builder);
+            this.QueryBuiltThisWeekStatistics(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
         }
@@ -302,6 +305,7 @@
             q.Property(e => e.WorkStationCode).HasColumnName("WORK_STATION_CODE").HasMaxLength(16);
             q.Property(e => e.Outstanding).HasColumnName("OUTSTANDING").HasMaxLength(1);
             q.Property(e => e.ZoneName).HasColumnName("ZONE_NAME").HasMaxLength(20);
+            q.Property(e => e.BatchNotes).HasColumnName("QUALITY_ISSUES");
             q.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
@@ -522,6 +526,7 @@
             q.ToView("PART_FAIL_LOG");
             q.Property(t => t.Id).HasColumnName("ID");
             q.Property(t => t.DateCreated).HasColumnName("DATE_CREATED");
+            q.HasOne<Part>(f => f.Part).WithMany(p => p.PartFailLogs).HasForeignKey("PART_NUMBER");
             q.Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
             q.Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
             q.Property(t => t.Story).HasColumnName("STORY");
@@ -1064,23 +1069,22 @@
             e.ToTable("ATE_TESTS");
             e.HasKey(t => t.TestId);
             e.Property(t => t.TestId).HasColumnName("ATE_TEST_ID");
-            e.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
+            e.HasOne<Employee>(f => f.User).WithMany(m => m.AteTestsEntered).HasForeignKey("USER_NUMBER");
+            e.HasOne<Employee>(f => f.PcbOperator).WithMany(m => m.AteTestsPcbOperatorOn).HasForeignKey("PCB_OPERATOR");
             e.Property(t => t.DateTested).HasColumnName("DATE_TESTED");
-            e.Property(t => t.WorksOrderNumber).HasColumnName("WORKS_ORDER_NUMBER");
+            e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.AteTests).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(t => t.NumberTested).HasColumnName("NUMBER_TESTED");
             e.Property(t => t.NumberOfSmtComponents).HasColumnName("NUMBER_SMT_COMPONENTS");
             e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_SMT_FAILS");
             e.Property(t => t.NumberOfPcbComponents).HasColumnName("NUMBER_PCB_COMPONENTS");
-            e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_PCB_FAILS");
-            e.Property(t => t.NumberOfPcbBoardFails).HasColumnName("NUMBER_PCB_BOARD_FAILS");
             e.Property(t => t.NumberOfPcbFails).HasColumnName("NUMBER_PCB_FAILS");
+            e.Property(t => t.NumberOfPcbBoardFails).HasColumnName("NUMBER_PCB_BOARD_FAILS");
             e.Property(t => t.NumberOfSmtBoardFails).HasColumnName("NUMBER_SMT_BOARD_FAILS");
-            e.Property(t => t.PcbOperator).HasColumnName("PCB_OPERATOR");
             e.Property(t => t.MinutesSpent).HasColumnName("MINUTES_SPENT");
-            e.Property(t => t.Machine).HasColumnName("MACHINE");
-            e.Property(t => t.PlaceFound).HasColumnName("PLACE_FOUND");
+            e.Property(t => t.Machine).HasColumnName("MACHINE").HasMaxLength(10);
+            e.Property(t => t.PlaceFound).HasColumnName("PLACE_FOUND").HasMaxLength(10);
             e.Property(t => t.DateInvalid).HasColumnName("DATE_INVALID");
-            e.Property(t => t.FlowMachine).HasColumnName("FLOW_MACHINE");
+            e.Property(t => t.FlowMachine).HasColumnName("FLOW_MACHINE").HasMaxLength(16);
             e.Property(t => t.FlowSolderDate).HasColumnName("FLOW_SOLDER_DATE");
             e.HasMany(t => t.Details).WithOne().HasForeignKey(d => d.TestId);
         }
@@ -1092,22 +1096,34 @@
             e.HasKey(d => new { d.ItemNumber, d.TestId });
             e.Property(d => d.TestId).HasColumnName("ATE_TEST_ID");
             e.Property(d => d.ItemNumber).HasColumnName("ITEM_NO");
-            e.Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(d => d.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             e.Property(d => d.NumberOfFails).HasColumnName("NUMBER_FAILURES");
-            e.Property(d => d.CircuitRef).HasColumnName("CIRCUIT_REF");
-            e.Property(d => d.AteTestFaultCode).HasColumnName("ATE_TEST_FAULT_CODE");
-            e.Property(d => d.SmtOrPcb).HasColumnName("SMT_OR_PCB");
-            e.Property(d => d.Shift).HasColumnName("SHIFT");
-            e.Property(d => d.BatchNumber).HasColumnName("BATCH_NO");
-            e.Property(d => d.PcbOperator).HasColumnName("PCB_OPERATOR");
-            e.Property(d => d.Comments).HasColumnName("COMMENTS");
-            e.Property(d => d.Machine).HasColumnName("MACHINE");
+            e.Property(d => d.CircuitRef).HasColumnName("CIRCUIT_REF").HasMaxLength(8);
+            e.Property(d => d.AteTestFaultCode).HasColumnName("ATE_TEST_FAULT_CODE").HasMaxLength(10);
+            e.Property(d => d.SmtOrPcb).HasColumnName("SMT_OR_PCB").HasMaxLength(12);
+            e.Property(d => d.Shift).HasColumnName("SHIFT").HasMaxLength(10);
+            e.Property(d => d.BatchNumber).HasColumnName("BATCH_NO").HasMaxLength(6);
+            e.HasOne<Employee>(f => f.PcbOperator).WithMany(m => m.AteTestDetailsPcbOperatorOn).HasForeignKey("PCB_OPERATOR");
+            e.Property(d => d.Comments).HasColumnName("COMMENTS").HasMaxLength(2000);
+            e.Property(d => d.Machine).HasColumnName("MACHINE").HasMaxLength(10);
             e.Property(d => d.BoardFailNumber).HasColumnName("BOARD_FAIL_NUMBER");
-            e.Property(d => d.AoiEscape).HasColumnName("AOI_ESCAPE");
-            e.Property(d => d.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION");
+            e.Property(d => d.AoiEscape).HasColumnName("AOI_ESCAPE").HasMaxLength(21);
+            e.Property(d => d.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION").HasMaxLength(2000);
             e.Property(d => d.SmtFailId).HasColumnName("SMT_FAIL_ID");
-            e.Property(d => d.BoardSerialNumber).HasColumnName("BOARD_SN");
-            e.Property(d => d.DateInvalid).HasColumnName("DATE_INVALID");
+            e.Property(d => d.BoardSerialNumber).HasColumnName("BOARD_SN").HasMaxLength(20);
+        }
+
+        private void QueryBuiltThisWeekStatistics(ModelBuilder builder)
+        {
+            var q = builder.Query<BuiltThisWeekStatistic>();
+            q.ToView("BUILT_THIS_WEEK_VIEW");
+            q.Property(b => b.CitCode).HasColumnName("CODE").HasMaxLength(10);
+            q.Property(b => b.CitName).HasColumnName("CIT_NAME").HasMaxLength(50);
+            q.Property(b => b.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(b => b.Description).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(b => b.BuiltThisWeek).HasColumnName("BUILT_THIS_WEEK");
+            q.Property(b => b.Value).HasColumnName("VALUE");
+            q.Property(b => b.Days).HasColumnName("DAYS");
         }
     }
 }

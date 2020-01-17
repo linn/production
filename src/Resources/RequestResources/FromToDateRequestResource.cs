@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Resources
+﻿namespace Linn.Production.Resources.RequestResources
 {
     public class FromToDateRequestResource
     {

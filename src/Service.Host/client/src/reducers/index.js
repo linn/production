@@ -2,6 +2,7 @@
     reducers as sharedLibraryReducers,
     fetchErrorReducer
 } from '@linn-it/linn-form-components-library';
+import { connectRouter } from 'connected-react-router';
 import { combineReducers } from 'redux';
 import { reducer as oidc } from 'redux-oidc';
 import assemblyFail from './assemblyFails/assemblyFail';
@@ -9,9 +10,12 @@ import assemblyFails from './assemblyFails/assemblyFails';
 import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
+import ateTest from './ateTests/ateTest';
+import ateTests from './ateTests/ateTests';
 import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
+import btwReport from './btwReport';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
 import productionTriggersReport from './productionTriggersReport';
@@ -79,6 +83,10 @@ import labelTypes from './labelTypes/labelTypes';
 import labelReprint from './labelReprint';
 import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
 import workStations from './workStations';
+import historyStore from './history';
+import ateStatusReport from './ateStatusReport';
+import ateDetailsReport from './ateDetailsReport';
+import componentCounts from './componentCounts';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -86,82 +94,91 @@ const errors = fetchErrorReducer({
     ...processTypes
 });
 
-const rootReducer = combineReducers({
-    oidc,
-    assemblyFail,
-    assemblyFails,
-    assemblyFailsDetails,
-    assemblyFailFaultCode,
-    assemblyFailFaultCodes,
-    assemblyFailsMeasures,
-    assemblyFailsWaitingListReport,
-    ateFaultCode,
-    ateFaultCodes,
-    boardFailType,
-    boardFailTypes,
-    boardTestDetailsReport,
-    boardTestsReport,
-    buildsDetailReport,
-    buildPlans,
-    buildPlansReport,
-    buildsSummaryReport,
-    cits,
-    departments,
-    employees,
-    errors,
-    labelReprint,
-    labelType,
-    labelTypes,
-    localStorage,
-    manufacturingCommitDate,
-    manufacturingResources,
-    manufacturingResource,
-    manufacturingRoute,
-    manufacturingRoutes,
-    manufacturingSkills,
-    manufacturingSkill,
-    outstandingWorksOrdersReport,
-    overdueOrders,
-    parts,
-    partFail,
-    partFails,
-    partFailDetailsReport,
-    partFailErrorType,
-    partFailErrorTypes,
-    partFailFaultCode,
-    partFailFaultCodes,
-    partFailSuppliers,
-    pcasRevisions,
-    printAllLabelsForProduct,
-    printMACLabels,
-    printWorksOrderLabels,
-    printWorksOrderAioLabels,
-    productionBackOrdersReport,
-    productionTriggerLevels,
-    productionMeasures,
-    productionTriggersReport,
-    productionTriggerFacts,
-    ptlSettings,
-    purchaseOrders,
-    salesArticle,
-    salesArticles,
-    serialNumbers,
-    serialNumberReissue,
-    smtShifts,
-    smtOutstandingWorkOrderParts,
-    startTriggerRun,
-    storagePlaces,
-    whoBuiltWhat,
-    whoBuiltWhatDetails,
-    worksOrder,
-    worksOrders,
-    worksOrderDetails,
-    worksOrderLabel,
-    worksOrderLabels,
-    wwdTriggerReport,
-    productionTriggerLevel,
-    workStations,
-    ...sharedLibraryReducers
-});
+const reducer = history =>
+    combineReducers({
+        oidc,
+        historyStore,
+        router: connectRouter(history),
+        assemblyFail,
+        assemblyFails,
+        assemblyFailsDetails,
+        assemblyFailFaultCode,
+        assemblyFailFaultCodes,
+        assemblyFailsMeasures,
+        assemblyFailsWaitingListReport,
+        ateFaultCode,
+        ateFaultCodes,
+        ateTest,
+        ateTests,
+        boardFailType,
+        boardFailTypes,
+        boardTestDetailsReport,
+        boardTestsReport,
+        btwReport,
+        buildsDetailReport,
+        buildPlans,
+        buildPlansReport,
+        buildsSummaryReport,
+        cits,
+        departments,
+        employees,
+        errors,
+        labelReprint,
+        labelType,
+        labelTypes,
+        localStorage,
+        manufacturingCommitDate,
+        manufacturingResources,
+        manufacturingResource,
+        manufacturingRoute,
+        manufacturingRoutes,
+        manufacturingSkills,
+        manufacturingSkill,
+        outstandingWorksOrdersReport,
+        overdueOrders,
+        parts,
+        partFail,
+        partFails,
+        partFailDetailsReport,
+        partFailErrorType,
+        partFailErrorTypes,
+        partFailFaultCode,
+        partFailFaultCodes,
+        partFailSuppliers,
+        pcasRevisions,
+        printAllLabelsForProduct,
+        printMACLabels,
+        printWorksOrderLabels,
+        printWorksOrderAioLabels,
+        productionBackOrdersReport,
+        productionTriggerLevels,
+        productionMeasures,
+        productionTriggersReport,
+        productionTriggerFacts,
+        ptlSettings,
+        purchaseOrders,
+        salesArticle,
+        salesArticles,
+        serialNumbers,
+        serialNumberReissue,
+        smtShifts,
+        smtOutstandingWorkOrderParts,
+        startTriggerRun,
+        storagePlaces,
+        whoBuiltWhat,
+        whoBuiltWhatDetails,
+        worksOrder,
+        worksOrders,
+        worksOrderDetails,
+        worksOrderLabel,
+        worksOrderLabels,
+        wwdTriggerReport,
+        productionTriggerLevel,
+        workStations,
+        ateStatusReport,
+        ateDetailsReport,
+        componentCounts,
+        ...sharedLibraryReducers
+    });
 
-export default rootReducer;
+export default reducer;

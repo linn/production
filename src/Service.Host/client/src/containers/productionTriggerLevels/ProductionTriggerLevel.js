@@ -24,7 +24,8 @@ const mapStateToProps = (state, { match }) => ({
     cits: citsSelectors.getItems(state),
     employees: employeesSelectors.getItems(state),
     itemErrors: getItemError(state, itemTypes.productionTriggerLevel.item),
-    workStations: workStationSelectors.getItems(state)
+    workStations: workStationSelectors.getItems(state),
+    triggerSearchResults: []
 });
 
 const initialise = ({ itemId }) => dispatch => {
@@ -39,7 +40,8 @@ const mapDispatchToProps = {
     initialise,
     updateItem: productionTriggerLevelActions.update,
     setEditStatus: productionTriggerLevelActions.setEditStatus,
-    setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible
+    setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
+    deleteTriggerLevel: productionTriggerLevelActions.delete
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TriggerLevel));

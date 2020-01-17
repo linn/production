@@ -1,6 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.ATE
 {
-    using System;
+    using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class AteTestDetail
     {
@@ -22,7 +22,7 @@
 
         public string BatchNumber { get; set; }
 
-        public int? PcbOperator { get; set; }
+        public Employee PcbOperator { get; set; }
 
         public string Comments { get; set; }
 
@@ -37,7 +37,5 @@
         public int? SmtFailId { get; set; }
 
         public string BoardSerialNumber { get; set; }
-
-        public DateTime? DateInvalid { get; set; }
     }
 }

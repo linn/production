@@ -15,6 +15,8 @@ import workStationActions from '../../actions/workStationActions';
 import workStationSelectors from '../../selectors/workStationSelectors';
 import * as itemTypes from '../../itemTypes';
 import productionTriggerLevelStateActions from '../../actions/productionTriggerLevelStateActions';
+import triggersActions from '../../actions/productionTriggerLevelsSearchActions';
+import triggersSelectors from '../../selectors/productionTriggerLevelsSearchSelectors';
 
 const mapStateToProps = state => ({
     editStatus: productionTriggerLevelSelectors.getEditStatus(state),
@@ -29,7 +31,12 @@ const mapStateToProps = state => ({
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
-    applicationState: productionTriggerLevelSelectors.getApplicationState(state)
+    applicationState: productionTriggerLevelSelectors.getApplicationState(state),
+    appStateLoading: productionTriggerLevelSelectors.getApplicationStateLoading(state),
+    triggersSearchLoading: triggersSelectors.getSearchLoading(state),
+    triggerSearchResults: triggersSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.partNumber, name: s.partNumber }))
 });
 
 const initialise = () => dispatch => {
@@ -47,7 +54,9 @@ const mapDispatchToProps = {
     setEditStatus: productionTriggerLevelActions.setEditStatus,
     setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
     searchParts: partsActions.search,
-    clearPartsSearch: partsActions.clearSearch
+    clearPartsSearch: partsActions.clearSearch,
+    searchExistingTriggers: triggersActions.search,
+    clearTriggersSearch: triggersActions.clearSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TriggerLevel));

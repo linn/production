@@ -7,6 +7,8 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class PartFailLogRepository : IQueryRepository<PartFailLog>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -18,12 +20,12 @@
 
         public PartFailLog FindBy(Expression<Func<PartFailLog, bool>> expression)
         {
-            return this.serviceDbContext.PartFailLogs.Where(expression).ToList().FirstOrDefault();
+            return this.serviceDbContext.PartFailLogs.Include(p => p.Part).Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<PartFailLog> FilterBy(Expression<Func<PartFailLog, bool>> expression)
         {
-            return this.serviceDbContext.PartFailLogs.Where(expression);
+            return this.serviceDbContext.PartFailLogs.Include(p => p.Part).Where(expression);
         }
 
         public IQueryable<PartFailLog> FindAll()

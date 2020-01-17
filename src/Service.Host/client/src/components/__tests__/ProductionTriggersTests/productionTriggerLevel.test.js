@@ -24,7 +24,7 @@ const productionTriggerLevel = {
     workStationName: '1',
     temporary: 'Y',
     engineerId: 1,
-    story: null,
+    story: 'this is a story all about how',
     routeCode: '1'
 };
 
@@ -94,9 +94,9 @@ describe('When viewing', () => {
 
     test('should change to edit mode on input', () => {
         const { getByDisplayValue } = render(<ProductionTriggerLevel {...defaultProps} />);
-        const input = getByDisplayValue('descrip yo');
+        const input = getByDisplayValue('this is a story all about how');
         fireEvent.change(input, {
-            target: { value: 'new value' }
+            target: { value: 'ma life got flip turned upside down' }
         });
         expect(setEditStatusMock).toHaveBeenCalledWith('edit');
     });
@@ -126,7 +126,7 @@ describe('When Editing', () => {
             workStationName: '1',
             temporary: 'Y',
             engineerId: 1,
-            story: null,
+            story: 'this is a story all about how',
             routeCode: '1'
         };
 
