@@ -75,35 +75,12 @@
                 model.SetGridTextValue(row.RowIndex, model.ColumnIndex("gt5day"), summary.Gt5Day.ToString());
             }
 
-            /*
-            foreach (var stat in stats)
-            {
-                if (summaries.ContainsKey(stat.PtlPriority))
-                {
-                    summaries[stat.PtlPriority].AddStatToSummary(stat);
-                }
-                else
-                {
-                    summaries.Add(stat.PtlPriority, new PtlStatPrioritySummary(stat));
-                }
-            }
-
-            foreach (var summary in summaries.Values.OrderBy(s => s.Priority))
-            {
-                var row = model.AddRow(summary.Priority.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("priority"), summary.Priority.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("triggers"), summary.Triggers.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("avgTurnaround"), summary.AvgTurnaround().ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("95Percentile"), summary.Percentile95().ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("1day"), summary.OneDay.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("2day"), summary.TwoDay.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("3day"), summary.ThreeDay.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("4day"), summary.FourDay.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("5day"), summary.FiveDay.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("percBy5days"), summary.PercBy5Day().ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("gt5day"), summary.Gt5Day.ToString());
-            }
-            */
+            model.ValueDrillDownTemplates.Add(
+                new DrillDownModel(
+                    "Triggers",
+                    "/production/reports/delperf/detail?citCode"+citCode+"&priority={rowId}",
+                    null,
+                    model.ColumnIndex("triggers")));
 
             return model;
         }
