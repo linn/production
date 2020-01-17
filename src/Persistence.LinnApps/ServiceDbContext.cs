@@ -1140,7 +1140,8 @@
             q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             q.Property(s => s.PartDescription).HasColumnName("PART_DESCRIPTION").HasMaxLength(200);
             q.Property(s => s.TriggerId).HasColumnName("TRIGGER_ID");
-            q.Property(s => s.TriggerId).HasColumnName("PRIORITY");
+            q.Property(s => s.PtlPriority).HasColumnName("PRIORITY");
+            q.Property(s => s.SortOrder).HasColumnName("SORT_ORDER");
             q.Property(s => s.DateCompleted).HasColumnName("DATE_COMPLETED");
             q.Property(s => s.TriggerDate).HasColumnName("TRIGGER_DATE");
             q.Property(s => s.WorkingDays).HasColumnName("WORKING_DAYS");
