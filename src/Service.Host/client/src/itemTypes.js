@@ -250,6 +250,24 @@ export const labelReprint = new ItemType(
     '/production/maintenance/labels/reprint-reasons'
 );
 
+export const labelPrint = new ItemType(
+    'labelPrint',
+    'LABEL_PRINT',
+    '/production/maintenance/labels/print'
+);
+
+export const labelPrinters = new ItemType(
+    'labelPrinters',
+    'LABEL_PRINTERS',
+    '/production/maintenance/labels/printers'
+);
+
+export const labelPrintTypes = new ItemType(
+    'labelPrintTypes',
+    'LABEL_PRINT_TYPES',
+    '/production/maintenance/labels/label-types'
+);
+
 export const workStations = new ItemType(
     'workStations',
     'WORK_STATIONS',

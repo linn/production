@@ -15,7 +15,6 @@
 
             this.Get("production/maintenance/labels/print", _ => this.GetApp());
             this.Post("production/maintenance/labels/print", _ => this.Print());
-
             this.Get("production/maintenance/labels/printers", _ => this.GetPrinters());
             this.Get("production/maintenance/labels/label-types", _ => this.GetLabelsTypes());
         }

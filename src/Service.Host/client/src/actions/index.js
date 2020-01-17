@@ -239,4 +239,10 @@ export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.action
 
 export const labelReprintActionTypes = makeActionTypes(itemTypes.labelReprint.actionType);
 
+export const labelPrintActionTypes = makeActionTypes(itemTypes.labelPrint.actionType);
+
+export const labelPrinterActionTypes = makeActionTypes(itemTypes.labelPrinters.actionType);
+
+export const labelPrintTypeActionTypes = makeActionTypes(itemTypes.labelPrintType.actionType);
+
 export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);
