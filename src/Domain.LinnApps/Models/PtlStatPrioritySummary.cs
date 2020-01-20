@@ -7,20 +7,7 @@
 
     public class PtlStatPrioritySummary
     {
-        /*
-         *             model.AddColumn("priority", "Priority");
-            model.AddColumn("triggers", "Triggers");
-            model.AddColumn("avgTurnaround", "Avg Turnaround");
-            model.AddColumn("95Percentile", "95% Percentile");
-            model.AddColumn("1day", "1 Day");
-            model.AddColumn("2day", "2 Day");
-            model.AddColumn("3day", "3 Day");
-            model.AddColumn("4day", "4 Day");
-            model.AddColumn("5day", "5 Day");
-            model.AddColumn("percby5days", "% by 5 days");
-            model.AddColumn("gt5day", "> 5 Day");
-         */
-        public PtlStatPrioritySummary(int priority)
+         public PtlStatPrioritySummary(int priority)
         {
             this.Priority = priority;
         }
@@ -42,7 +29,6 @@
         public int Gt5Day { get; set; } = 0;
 
         public decimal Percentile95 { get; set; }
-
 
         public decimal PercBy5Day()
         {

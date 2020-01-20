@@ -28,7 +28,7 @@
                                            CitResponsible = new Cit { Code = "C", Name = "Cit 1" },
                                            CircuitPart = "Circuit Part 1",
                                            WorksOrder = new WorksOrder { OrderNumber = 45, PartNumber = "W O Part" },
-                                           PersonResponsible = new Employee { Id = 1, FullName = "CitName" }
+                                           PersonResponsible = new Employee { Id = 1, FullName = "Name" }
                                        });
             this.AssemblyFails.Add(new AssemblyFail
                                        {
@@ -40,7 +40,7 @@
                                            CitResponsible = new Cit { Code = "C", Name = "Cit 1" },
                                            CircuitPart = "Circuit Part 1",
                                            WorksOrder = new WorksOrder { OrderNumber = 45, PartNumber = "W O Part" },
-                                           PersonResponsible = new Employee { Id = 1, FullName = "CitName" }
+                                           PersonResponsible = new Employee { Id = 1, FullName = "Name" }
                                        });
             this.result = this.Sut.GetAssemblyFailsMeasuresReport(
                 1.June(2020),

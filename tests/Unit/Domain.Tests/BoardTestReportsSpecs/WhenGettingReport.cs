@@ -78,7 +78,7 @@
         public void ShouldReturnResults()
         {
             this.results.Rows.Should().HaveCount(2);
-            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board CitName")).Should().Be("A2");
+            this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Name")).Should().Be("A2");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Board Serial Number")).Should().Be("1");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("First Test Date")).Should().Be("01-Apr-2021");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Last Test Date")).Should().Be("02-Apr-2021");
@@ -86,7 +86,7 @@
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Passed At Test")).Should().Be("3");
             this.results.GetGridTextValue(this.results.RowIndex("1"), this.results.ColumnIndex("Status")).Should().Be("PASS");
 
-            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Board CitName")).Should().Be("B1");
+            this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Board Name")).Should().Be("B1");
             this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Board Serial Number")).Should().Be("2");
             this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("First Test Date")).Should().Be("02-Apr-2021");
             this.results.GetGridTextValue(this.results.RowIndex("2"), this.results.ColumnIndex("Last Test Date")).Should().Be("02-Apr-2021");

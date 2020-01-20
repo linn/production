@@ -24,7 +24,7 @@
             var results = new ResultsModel { ReportTitle = new NameModel("Board Tests") };
             var columns = new List<AxisDetailsModel>
                               {
-                                  new AxisDetailsModel("Board CitName", GridDisplayType.TextValue) { SortOrder = 0, AllowWrap = false },
+                                  new AxisDetailsModel("Board Name", GridDisplayType.TextValue) { SortOrder = 0, AllowWrap = false },
                                   new AxisDetailsModel("Board Serial Number", "Board SN", GridDisplayType.TextValue) { SortOrder = 1, AllowWrap = false },
                                   new AxisDetailsModel("First Test Date", "First Test", GridDisplayType.TextValue) { SortOrder = 2, AllowWrap = false },
                                   new AxisDetailsModel("Last Test Date", "Last Test", GridDisplayType.TextValue) { SortOrder = 3, AllowWrap = false },
@@ -54,7 +54,7 @@
                 var firstPassSeq = board.Any(a => a.Status == "PASS")
                                        ? board.Where(b => b.Status == "PASS").Min(a => a.Seq)
                                        : (int?)null;
-                models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Board CitName", TextDisplay = latestBoardName });
+                models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Board Name", TextDisplay = latestBoardName });
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Board Serial Number", TextDisplay = board.Key });
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "First Test Date", TextDisplay = board.Min(a => a.DateTested).ToString("dd-MMM-yyyy") });
                 models.Add(new CalculationValueModel { RowId = board.Key, ColumnId = "Last Test Date", TextDisplay = board.Max(a => a.DateTested).ToString("dd-MMM-yyyy") });
@@ -79,7 +79,7 @@
             var results = new ResultsModel { ReportTitle = new NameModel($"Board Test Details for Board Id {boardId}") };
             var columns = new List<AxisDetailsModel>
                               {
-                                  new AxisDetailsModel("Board CitName", GridDisplayType.TextValue) { SortOrder = 0, AllowWrap = false },
+                                  new AxisDetailsModel("Board Name", GridDisplayType.TextValue) { SortOrder = 0, AllowWrap = false },
                                   new AxisDetailsModel("Board Serial Number", "Board SN", GridDisplayType.TextValue) { SortOrder = 1, AllowWrap = false },
                                   new AxisDetailsModel("Sequence", "Seq", GridDisplayType.TextValue) { SortOrder = 2 },
                                   new AxisDetailsModel("Test Machine", GridDisplayType.TextValue) { SortOrder = 3 },
@@ -100,7 +100,7 @@
             foreach (var test in tests)
             {
                 var rowId = $"{test.BoardSerialNumber}/{test.Seq}";
-                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board CitName", TextDisplay = test.BoardName });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board Name", TextDisplay = test.BoardName });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board Serial Number", TextDisplay = test.BoardSerialNumber });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Sequence", TextDisplay = test.Seq.ToString() });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Test Machine", TextDisplay = test.TestMachine });

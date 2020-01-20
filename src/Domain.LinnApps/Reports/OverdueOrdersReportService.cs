@@ -40,7 +40,7 @@
 
             var columns = new List<AxisDetailsModel>
                               {
-                                  new AxisDetailsModel("Customer CitName") { SortOrder = 0, GridDisplayType = GridDisplayType.TextValue },
+                                  new AxisDetailsModel("Customer Name") { SortOrder = 0, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Order") { SortOrder = 1, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Article Number") { SortOrder = 2, GridDisplayType = GridDisplayType.TextValue },
                                   new AxisDetailsModel("Description") { SortOrder = 3, GridDisplayType = GridDisplayType.TextValue },
@@ -65,7 +65,7 @@
                 values.Add(
                     new CalculationValueModel
                         {
-                            RowId = newRowId.ToString(), TextDisplay = row.OutletName, ColumnId = "Customer CitName"
+                            RowId = newRowId.ToString(), TextDisplay = row.OutletName, ColumnId = "Customer Name"
                         });
                 values.Add(
                     new CalculationValueModel
