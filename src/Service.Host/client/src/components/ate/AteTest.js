@@ -40,11 +40,15 @@ function AteTest({
     employees,
     ateFaultCodes,
     componentCounts,
-    getComponentCounts
+    getComponentCounts,
+    detailParts,
+    getDetailParts
 }) {
     const [ateTest, setAteTest] = useState({ pcbOperator: null, details: [] });
     const [prevAteTest, setPrevAteTest] = useState({});
     const [detailsOpen, setDetailsOpen] = useState(false);
+
+    const dpmo = (instances, failures) => Math.round((1000000 / instances) * failures);
 
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevAteTest) {
@@ -72,6 +76,12 @@ function AteTest({
             }));
         }
     }, [employees, ateTest.pcbOperator]);
+
+    useEffect(() => {
+        if (ateTest.partNumber) {
+            getDetailParts('searchTerm', ateTest.partNumber);
+        }
+    }, [ateTest.partNumber, getDetailParts]);
 
     useEffect(() => {
         if (ateTest.partNumber) {
@@ -120,7 +130,11 @@ function AteTest({
             {
                 title: 'Circuit Ref',
                 key: 'circuitRef',
-                type: 'text'
+                type: 'dropdown',
+                options: detailParts?.map(p => ({
+                    id: p.cref,
+                    displayText: `${p.cref} - ${p.partNumber}`
+                }))
             },
             {
                 title: 'Part',
@@ -170,9 +184,9 @@ function AteTest({
             },
             {
                 title: 'PCB Operator',
-                key: 'pcbOperatorName',
+                key: 'pcbOperator',
                 type: 'dropdown',
-                options: [...new Set(employees.filter(c => !!c.fullName).map(c => c.fullName))]
+                options: employees.map(e => ({ id: e.id, displayText: e.fullName }))
             },
             {
                 title: 'Comments',
@@ -466,9 +480,9 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    value={Math.round(
-                                        (ateTest.numberOfSmtFails / ateTest.numberOfSmtComponents) *
-                                            1000000
+                                    value={dpmo(
+                                        componentCounts?.smtComponents * ateTest.numberTested,
+                                        ateTest.numberOfSmtFails
                                     )}
                                     label="SMT DPMO"
                                     onChange={handleFieldChange}
@@ -499,9 +513,9 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    value={Math.round(
-                                        (ateTest.numberOfPcbFails / ateTest.numberOfPcbComponents) *
-                                            1000000
+                                    value={dpmo(
+                                        componentCounts?.pcbComponents * ateTest.numberTested,
+                                        ateTest.numberOfPcbFails
                                     )}
                                     label="PCB DPMO"
                                     onChange={handleFieldChange}
@@ -619,7 +633,9 @@ AteTest.propTypes = {
         smtComponents: PropTypes.number,
         pcbComponents: PropTypes.number
     }),
-    getComponentCounts: PropTypes.func.isRequired
+    getComponentCounts: PropTypes.func.isRequired,
+    getDetailParts: PropTypes.func.isRequired,
+    detailParts: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 AteTest.defaultProps = {
@@ -637,7 +653,8 @@ AteTest.defaultProps = {
     worksOrdersSearchLoading: false,
     searchWorksOrders: PropTypes.arrayOf(PropTypes.shape({})),
     clearWorksOrdersSearch: PropTypes.func,
-    componentCounts: { smtComponents: 0, pcbComponents: 0 }
+    componentCounts: { smtComponents: 0, pcbComponents: 0 },
+    detailParts: []
 };
 
 export default AteTest;

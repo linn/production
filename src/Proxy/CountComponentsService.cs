@@ -16,10 +16,11 @@
 
             proc.Execute();
 
-            return new ComponentCount {
-                                            PcbComponents = Convert.ToInt32(result1.Value.ToString()),
-                                            SmtComponents = Convert.ToInt32(result2.Value.ToString())
-                                        };
+            return new ComponentCount
+                       {
+                           SmtComponents = Convert.ToInt32(result1.Value.ToString()),
+                           PcbComponents = Convert.ToInt32(result2.Value.ToString())
+                       };
         }
     }
 }
