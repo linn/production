@@ -141,6 +141,8 @@
 
         public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
+        public DbQuery<PtlStat> PtlStats { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -207,6 +209,7 @@
             this.BuildAteTestDetails(builder);
             this.QueryBuildPlanRules(builder);
             this.QueryBuiltThisWeekStatistics(builder);
+            this.QueryPtlStats(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
         }
@@ -1124,6 +1127,23 @@
             q.Property(b => b.BuiltThisWeek).HasColumnName("BUILT_THIS_WEEK");
             q.Property(b => b.Value).HasColumnName("VALUE");
             q.Property(b => b.Days).HasColumnName("DAYS");
+        }
+
+        private void QueryPtlStats(ModelBuilder builder)
+        {
+            var q = builder.Query<PtlStat>();
+            q.ToView("PTL_STAT_VIEW");
+            q.Property(s => s.BuildGroup).HasColumnName("BUILD_GROUP").HasMaxLength(2);
+            q.Property(s => s.CitName).HasColumnName("NAME").HasMaxLength(50);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.PartDescription).HasColumnName("PART_DESCRIPTION").HasMaxLength(200);
+            q.Property(s => s.TriggerId).HasColumnName("TRIGGER_ID");
+            q.Property(s => s.PtlPriority).HasColumnName("PRIORITY");
+            q.Property(s => s.SortOrder).HasColumnName("SORT_ORDER");
+            q.Property(s => s.DateCompleted).HasColumnName("DATE_COMPLETED");
+            q.Property(s => s.TriggerDate).HasColumnName("TRIGGER_DATE");
+            q.Property(s => s.WorkingDays).HasColumnName("WORKING_DAYS");
         }
     }
 }
