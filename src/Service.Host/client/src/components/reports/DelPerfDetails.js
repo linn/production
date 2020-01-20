@@ -4,11 +4,11 @@ import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-const handleBackClick = history => {
-    history.push('/production/reports/measures');
+const handleBackClick = (history, options) => {
+    history.push(`/production/reports/delperf?citCode=${options.citCode}`);
 };
 
-const DelPerfReport = ({ reportData, loading, history }) => (
+const DelPerfDetails = ({ reportData, loading, history, options }) => (
     <Page>
         <Grid container spacing={3} justify="center">
             <Grid item xs={12}>
@@ -24,23 +24,23 @@ const DelPerfReport = ({ reportData, loading, history }) => (
                 )}
             </Grid>
             <Grid item xs={12}>
-                <BackButton backClick={() => handleBackClick(history)} />
+                <BackButton backClick={() => handleBackClick(history, options)} />
             </Grid>
         </Grid>
     </Page>
 );
 
-DelPerfReport.propTypes = {
+DelPerfDetails.propTypes = {
     reportData: PropTypes.shape({}),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
     options: PropTypes.shape({})
 };
 
-DelPerfReport.defaultProps = {
+DelPerfDetails.defaultProps = {
     reportData: {},
     options: {},
     loading: false
 };
 
-export default DelPerfReport;
+export default DelPerfDetails;

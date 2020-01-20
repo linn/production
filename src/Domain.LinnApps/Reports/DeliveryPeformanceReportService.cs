@@ -77,7 +77,7 @@
             model.ValueDrillDownTemplates.Add(
                 new DrillDownModel(
                     "Triggers",
-                    "/production/reports/delperf/detail?citCode"+citCode+"&priority={rowId}",
+                    "/production/reports/delperf/details?citCode="+citCode+"&priority={rowId}",
                     null,
                     model.ColumnIndex("triggers")));
 
@@ -102,7 +102,7 @@
             foreach (var stat in stats.OrderByDescending(s => s.WorkingDays))
             {
                 var row = model.AddRow(stat.TriggerId.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("workingDays"), stat.WorkingDays.ToString());
+                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("workingDays"), stat.WorkingDays.ToString("##0.0"));
                 model.SetGridTextValue(row.RowIndex, model.ColumnIndex("partNumber"), stat.PartNumber);
                 model.SetGridTextValue(row.RowIndex, model.ColumnIndex("triggerDate"), stat.TriggerDate?.ToString("dd-MMM-yy"));
                 model.SetGridTextValue(row.RowIndex, model.ColumnIndex("dateCompleted"), stat.DateCompleted?.ToString("dd-MMM-yy"));

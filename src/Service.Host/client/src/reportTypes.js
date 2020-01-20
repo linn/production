@@ -20,6 +20,12 @@ export const delPerfReport = new ItemType(
     '/production/reports/delperf'
 );
 
+export const delPerfDetails = new ItemType(
+    'delPerfDetails',
+    'DEL_PERF_DETAILS',
+    '/production/reports/delperf/details'
+);
+
 export const outstandingWorksOrdersReport = new ItemType(
     'outstandingWorksOrdersReport',
     'OUTSTANDING_WORKS_ORDERS_REPORT',

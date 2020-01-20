@@ -99,6 +99,7 @@ import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
 import BtwReport from '../containers/reports/BtwReport';
 import DelPerfReport from '../containers/reports/DelPerfReport';
+import DelPerfDetails from '../containers/reports/DelPerfDetails';
 
 const Root = ({ store }) => (
     <div>
@@ -583,6 +584,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/delperf"
                                         component={DelPerfReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/delperf/details"
+                                        component={DelPerfDetails}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>
