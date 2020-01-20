@@ -53,9 +53,9 @@
             this.result.RowId(2).Should().Be("2");
             this.result.RowId(3).Should().Be("1");
 
-            this.result.GetGridTextValue(0, this.result.ColumnIndex("workingDays")).Should().Be("10");
+            this.result.GetGridTextValue(0, this.result.ColumnIndex("workingDays")).Should().Be("10.0");
             this.result.GetGridTextValue(1, this.result.ColumnIndex("workingDays")).Should().Be("2.3");
-            this.result.GetGridTextValue(2, this.result.ColumnIndex("workingDays")).Should().Be("1");
+            this.result.GetGridTextValue(2, this.result.ColumnIndex("workingDays")).Should().Be("1.0");
             this.result.GetGridTextValue(3, this.result.ColumnIndex("workingDays")).Should().Be("0.5");
         }
     }
