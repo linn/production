@@ -18,7 +18,7 @@
 
         public int SetAndCleanTime { get; set; }
 
-        public int CycleTime { get; set; }
+        public decimal CycleTime { get; set; }
 
         public int LabourPercentage { get; set; }
 
