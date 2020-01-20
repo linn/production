@@ -23,5 +23,21 @@
             return new SuccessResult<ResultsModel>(
                 this.deliveryPerformanceReportService.GetDeliveryPerformanceByPriority(citCode));
         }
+
+        public IResult<ResultsModel> GetDelPerfDetail(string citCode, int? priority)
+        {
+            if (string.IsNullOrEmpty(citCode))
+            {
+                return new BadRequestResult<ResultsModel>("Must specify a cit code");
+            }
+
+            if (priority == null)
+            {
+                return new BadRequestResult<ResultsModel>("Must specify a priority");
+            }
+
+            return new SuccessResult<ResultsModel>(
+                this.deliveryPerformanceReportService.GetDeliveryPerformanceDetail(citCode, (int) priority));
+        }
     }
 }

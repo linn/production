@@ -22,14 +22,13 @@
 
         public ResultsModel GetDeliveryPerformanceByPriority(string citCode)
         {
-            var fromDate = this.linnWeekService.LinnWeekStartDate(DateTime.Now.AddDays(-28));
-            var toDate = this.linnWeekService.LinnWeekEndDate(DateTime.Now.AddDays(-7)).AddHours(23).AddMinutes(59);
+            var dates = this.GetDefaultDateRange();
 
             var stats = this.ptlStatRepository.FilterBy(s =>
-                s.CitCode == citCode && s.DateCompleted >= fromDate && s.DateCompleted <= toDate).ToList();
+                s.CitCode == citCode && s.DateCompleted >= dates.fromDate && s.DateCompleted <= dates.toDate).ToList();
 
             var model = new ResultsModel();
-            model.ReportTitle = new NameModel("Production Delivery Performance " + fromDate.ToString("d") + " - " + toDate.ToString("d"));
+            model.ReportTitle = new NameModel("Production Delivery Performance " + dates.fromDate.ToString("dd-MMM-yy") + " - " + dates.toDate.ToString("dd-MMM-yy"));
 
             model.AddColumn("priority", "Priority");
             model.AddColumn("triggers", "Triggers");
@@ -83,6 +82,41 @@
                     model.ColumnIndex("triggers")));
 
             return model;
+        }
+
+        public ResultsModel GetDeliveryPerformanceDetail(string citCode, int priority)
+        {
+            var dates = this.GetDefaultDateRange();
+            var stats = this.ptlStatRepository.FilterBy(s =>
+                s.CitCode == citCode && s.PtlPriority == priority && s.DateCompleted >= dates.fromDate && s.DateCompleted <= dates.toDate).ToList();
+
+            var model = new ResultsModel();
+            model.ReportTitle = new NameModel("Production Delivery Performance " + dates.fromDate.ToString("dd-MMM-yy") + " - " + dates.toDate.ToString("dd-MMM-yy") + " Priority " + priority + " Cit " + citCode);
+
+            model.AddColumn("workingDays", "Working Days");
+            model.AddColumn("partNumber", "Part Number");
+            model.AddColumn("triggerDate", "Trigger Date");
+            model.AddColumn("dateCompleted", "dateCompleted");
+            model.AddColumn("triggerId", "Trigger Id");
+
+            foreach (var stat in stats.OrderByDescending(s => s.WorkingDays))
+            {
+                var row = model.AddRow(stat.TriggerId.ToString());
+                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("workingDays"), stat.WorkingDays.ToString());
+                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("partNumber"), stat.PartNumber);
+                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("triggerDate"), stat.TriggerDate?.ToString("dd-MMM-yy"));
+                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("dateCompleted"), stat.DateCompleted?.ToString("dd-MMM-yy"));
+                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("triggerId"), stat.TriggerId.ToString());
+            }
+
+            var priorities = stats.Select(s => s.PtlPriority).Distinct().OrderBy(s => s);
+            return model;
+        }
+
+        private (DateTime fromDate, DateTime toDate) GetDefaultDateRange()
+        {
+            return (fromDate: this.linnWeekService.LinnWeekStartDate(DateTime.Now.AddDays(-28)),
+                    toDate: this.linnWeekService.LinnWeekEndDate(DateTime.Now.AddDays(-7)).AddHours(23).AddMinutes(59));
         }
     }
 }

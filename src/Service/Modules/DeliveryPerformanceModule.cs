@@ -13,15 +13,29 @@
         public DeliveryPerformanceModule(IDeliveryPerfResultFacadeService deliveryPerfResultFacadeService)
         {
             this.deliveryPerfResultFacadeService = deliveryPerfResultFacadeService;
-            this.Get("/production/reports/delperf", _ => this.GetBtwResult());
+            this.Get("/production/reports/delperf", _ => this.GetDeliveryPerfResult());
+            this.Get("/production/reports/delperf/details", _ => this.GetDeliveryPerfDetails());
         }
 
-        private object GetBtwResult()
+        private object GetDeliveryPerfResult()
         {
             var resource = this.Bind<CitCodeRequestResource>();
 
             var results = this.deliveryPerfResultFacadeService.GenerateDelPerfSummaryForCit(
                 resource.CitCode);
+
+            return this.Negotiate
+                .WithModel(results)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object GetDeliveryPerfDetails()
+        {
+            var resource = this.Bind<DelPerfDetailRequestResource>();
+
+            var results = this.deliveryPerfResultFacadeService.GetDelPerfDetail(
+                resource.CitCode, resource.Priority);
 
             return this.Negotiate
                 .WithModel(results)

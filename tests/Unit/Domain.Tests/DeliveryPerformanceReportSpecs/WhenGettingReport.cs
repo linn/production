@@ -39,7 +39,7 @@
         [Test]
         public void ShouldSetReportTitle()
         {
-            this.result.ReportTitle.DisplayValue.Should().Be("Production Delivery Performance 14/12/2019 - 10/01/2020");
+            this.result.ReportTitle.DisplayValue.Should().Be("Production Delivery Performance 14-Dec-19 - 10-Jan-20");
         }
 
         [Test]

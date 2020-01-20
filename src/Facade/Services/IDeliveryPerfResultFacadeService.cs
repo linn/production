@@ -6,5 +6,7 @@
     public interface IDeliveryPerfResultFacadeService
     {
         IResult<ResultsModel> GenerateDelPerfSummaryForCit(string citCode);
+
+        IResult<ResultsModel> GetDelPerfDetail(string citCode, int? priority);
     }
 }

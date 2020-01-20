@@ -5,5 +5,7 @@
     public interface IDeliveryPerformanceReportService
     {
         ResultsModel GetDeliveryPerformanceByPriority(string citCode);
+
+        ResultsModel GetDeliveryPerformanceDetail(string citCode, int priority);
     }
 }
