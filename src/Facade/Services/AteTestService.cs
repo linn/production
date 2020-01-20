@@ -1,6 +1,8 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Collections.Generic;
+    using System.Data;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -40,10 +42,34 @@
         protected override AteTest CreateFromResource(AteTestResource resource)
         {
             var worksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber);
+            var id = this.databaseService.GetNextVal("ATE_TESTS_SEQ");
+            List<AteTestDetail> details = new List<AteTestDetail>();
+            var itemNo = 1;
+            foreach (var detail in resource.Details)
+            {
+                detail.TestId = id;
+                details.Add(new AteTestDetail
+                                {
+                                    AteTestFaultCode = detail.AteTestFaultCode,
+                                    AoiEscape = detail.AoiEscape,
+                                    BatchNumber = detail.BatchNumber,
+                                    BoardFailNumber = detail.BoardFailNumber,
+                                    BoardSerialNumber = detail.BoardSerialNumber,
+                                    CircuitRef = detail.CircuitRef,
+                                    PartNumber = detail.PartNumber,
+                                    Comments = detail.Comments,
+                                    CorrectiveAction = detail.CorrectiveAction,
+                                    ItemNumber = itemNo,
+                                    Machine = detail.Machine,
+                                    Shift = detail.Shift,
+                                    SmtOrPcb = detail.SmtOrPcb,
+                                });
+                itemNo++;
+            }
 
             return new AteTest
                        {
-                            TestId = this.databaseService.GetNextVal("ATE_TESTS_SEQ"),
+                            TestId = id,
                             User = this.employeeRepository.FindById(resource.UserNumber),
                             DateTested = resource.DateTested != null
                                             ? DateTime.Parse(resource.DateTested)
@@ -66,6 +92,7 @@
                            FlowSolderDate = resource.FlowSolderDate != null
                                                 ? DateTime.Parse(resource.FlowSolderDate)
                                                 : (DateTime?)null,
+                           Details = details
             };
         }
 

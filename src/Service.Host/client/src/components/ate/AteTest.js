@@ -2,10 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
     SaveBackCancelButtons,
     TableWithInlineEditing,
@@ -46,7 +42,6 @@ function AteTest({
 }) {
     const [ateTest, setAteTest] = useState({ pcbOperator: null, details: [] });
     const [prevAteTest, setPrevAteTest] = useState({});
-    const [detailsOpen, setDetailsOpen] = useState(false);
 
     const dpmo = (instances, failures) => Math.round((1000000 / instances) * failures);
 
@@ -207,34 +202,20 @@ function AteTest({
 
         return (
             <Grid item xs={12}>
-                <ExpansionPanel
-                    style={{ overflow: 'auto' }}
-                    TransitionProps={{ unmountOnExit: true }}
-                    expanded={detailsOpen}
-                    onChange={() => setDetailsOpen(!detailsOpen)}
-                >
-                    <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
-                    >
-                        <Typography variant="h5">Details (click to show/hide)</Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <TableWithInlineEditing
-                            columnsInfo={tableColumns}
-                            content={ateTest.details.map((o, i) => ({
-                                ...o,
-                                id: o.itemNumber ? o.itemNumber : i + 1
-                            }))}
-                            updateContent={updateOp}
-                            editStatus={editStatus}
-                            allowedToEdit
-                            allowedToCreate
-                            allowedToDelete={false}
-                        />
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                <Typography variant="h5">Details (click to show/hide)</Typography>
+
+                <TableWithInlineEditing
+                    columnsInfo={tableColumns}
+                    content={ateTest.details.map((o, i) => ({
+                        ...o,
+                        id: o.itemNumber ? o.itemNumber : i + 1
+                    }))}
+                    updateContent={updateOp}
+                    editStatus={editStatus}
+                    allowedToEdit
+                    allowedToCreate
+                    allowedToDelete={false}
+                />
             </Grid>
         );
     };
@@ -583,7 +564,7 @@ function AteTest({
                                 />
                             </Grid>
                             <Grid item xs={1} />
-                            {!creating() && ateTest.details && Table()}
+                            {Table()}
                         </Fragment>
                     )
                 )}
