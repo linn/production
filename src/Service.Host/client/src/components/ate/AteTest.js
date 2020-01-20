@@ -102,7 +102,7 @@ function AteTest({
         !ateTest.worksOrderNumber ||
         !ateTest.pcbOperator ||
         !ateTest.userNumber ||
-        ateTest.details.some(d => !d.partNumber || !d.aoiEscape);
+        ateTest.details.some(d => !d.circuitRef || !d.aoiEscape);
 
     const Table = () => {
         const tableColumns = [
@@ -130,12 +130,6 @@ function AteTest({
                     id: p.cref,
                     displayText: `${p.cref} - ${p.partNumber}`
                 }))
-            },
-            {
-                title: 'Part',
-                key: 'partNumber',
-                required: true,
-                type: 'text'
             },
             {
                 title: 'Fault Code',
@@ -202,7 +196,7 @@ function AteTest({
 
         return (
             <Grid item xs={12}>
-                <Typography variant="h5">Details (click to show/hide)</Typography>
+                <Typography variant="h5">Details</Typography>
 
                 <TableWithInlineEditing
                     columnsInfo={tableColumns}

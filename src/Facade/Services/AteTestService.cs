@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Data;
     using System.Linq;
     using System.Linq.Expressions;
 
@@ -20,15 +19,20 @@
 
         private readonly IRepository<Employee, int> employeeRepository;
 
-        private readonly IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> detailService;
+        private readonly IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource>
+            detailService;
 
         private readonly IDatabaseService databaseService;
+
+        private readonly IRepository<PcasRevision, string> pcasRevisionRepository;
+
 
         public AteTestService(
             IRepository<AteTest, int> repository,
             ITransactionManager transactionManager,
             IRepository<WorksOrder, int> worksOrderRepository,
             IRepository<Employee, int> employeeRepository,
+            IRepository<PcasRevision, string> pcasRevisionRepository,
             IDatabaseService databaseService,
             IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> detailService)
             : base(repository, transactionManager)
@@ -37,6 +41,7 @@
             this.employeeRepository = employeeRepository;
             this.detailService = detailService;
             this.databaseService = databaseService;
+            this.pcasRevisionRepository = pcasRevisionRepository;
         }
 
         protected override AteTest CreateFromResource(AteTestResource resource)
@@ -56,7 +61,7 @@
                                     BoardFailNumber = detail.BoardFailNumber,
                                     BoardSerialNumber = detail.BoardSerialNumber,
                                     CircuitRef = detail.CircuitRef,
-                                    PartNumber = detail.PartNumber,
+                                    PartNumber = GetDetailPart(detail.CircuitRef, resource.PartNumber, this.pcasRevisionRepository),
                                     Comments = detail.Comments,
                                     CorrectiveAction = detail.CorrectiveAction,
                                     ItemNumber = itemNo,
@@ -119,6 +124,7 @@
 
             foreach (var detail in updateResource.Details)
             {
+                detail.PartNumber = GetDetailPart(detail.CircuitRef, updateResource.PartNumber, this.pcasRevisionRepository);
                 if (detail.ItemNumber == null || entity.Details.All(d => d.ItemNumber != detail.ItemNumber))
                 {
                     detail.TestId = entity.TestId;
@@ -133,7 +139,17 @@
 
         protected override Expression<Func<AteTest, bool>> SearchExpression(string searchTerm)
         {
-            return test => test.TestId == int.Parse(searchTerm);
+            return test => test.WorksOrder.OrderNumber == int.Parse(searchTerm);
+        }
+
+        private static string GetDetailPart(string cref, string pcas, IRepository<PcasRevision, string> repo)
+        {
+            if (cref == null)
+            {
+                return null;
+            }
+
+            return repo.FindAll().Where(p => p.PcasPartNumber == pcas && p.Cref == cref).ToList().FirstOrDefault()?.PartNumber;
         }
     }
 }

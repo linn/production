@@ -5,14 +5,14 @@
 
     public class OracleProcCall
     {
-        private OracleConnection connection;
+        private readonly OracleConnection connection;
 
-        private OracleCommand cmd;
+        private readonly OracleCommand cmd;
 
         public OracleProcCall(string functionName)
         {
             this.connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
-            this.cmd = new OracleCommand(functionName, connection)
+            this.cmd = new OracleCommand(functionName, this.connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
