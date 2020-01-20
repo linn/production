@@ -2,6 +2,7 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;
@@ -20,25 +21,31 @@
 
         private readonly IAteReportsFacadeService ateReportsFacadeService;
 
+        private readonly ICountComponentsFacadeService countComponentsService;
+
         public AteQualityModule(
             IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource> ateFaultCodeService,
             IFacadeService<AteTest, int, AteTestResource, AteTestResource> ateTestService,
             IFacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> ateTestDetailService,
-            IAteReportsFacadeService ateReportsFacadeService)
+            IAteReportsFacadeService ateReportsFacadeService,
+            ICountComponentsFacadeService countComponentsService)
         {
             this.ateFaultCodeService = ateFaultCodeService;
             this.ateTestService = ateTestService;
             this.ateTestDetailService = ateTestDetailService;
             this.ateReportsFacadeService = ateReportsFacadeService;
+            this.countComponentsService = countComponentsService;
             this.Get("/production/quality/ate/fault-codes/{faultCode*}", parameters => this.GetFaultCodeById(parameters.faultCode));
             this.Get("/production/quality/ate/fault-codes/", _ => this.GetAllFaultCodes());
             this.Put("/production/quality/ate/fault-codes/{faultCode*}", parameters => this.UpdateFaultCode(parameters.faultCode));
             this.Post("/production/quality/ate/fault-codes", _ => this.AddFaultCode());
+
+            this.Get("/production/quality/ate-tests/count-components/{partNumber*}", parameters => this.CountComponents(parameters.partNumber));
+            this.Get("/production/quality/ate-tests/create", _ => this.GetApp());
             this.Get("/production/quality/ate-tests/{id}", parameters => this.GetTestById(parameters.id));
             this.Get("/production/quality/ate-tests", _ => this.SearchAteTests());
             this.Put("/production/quality/ate-tests/{id}", parameters => this.UpdateAteTest(parameters.id));
             this.Post("/production/quality/ate-tests", _ => this.AddAteTest());
-            this.Put("/production/quality/ate-test-details/{id}", parameters => this.UpdateAteTestDetail(parameters.id));
 
             this.Get("/production/reports/ate/status", _ => this.GetApp());
             this.Get("/production/reports/ate/status/report", _ => this.GetStatusReport());
@@ -155,10 +162,9 @@
             return this.Negotiate.WithModel(result).WithMediaRangeModel("text/html", ApplicationSettings.Get);
         }
 
-        private object UpdateAteTestDetail(int id)
+        private object CountComponents(string partNumber)
         {
-            var resource = this.Bind<AteTestDetailResource>();
-            var result = this.ateTestDetailService.Update(new AteTestDetailKey(), resource);
+            var result = this.countComponentsService.CountComponents(partNumber);
             return this.Negotiate.WithModel(result).WithMediaRangeModel("text/html", ApplicationSettings.Get);
         }
 

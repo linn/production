@@ -24,7 +24,8 @@ const mapStateToProps = (state, { match }) => ({
     cits: citsSelectors.getItems(state),
     employees: employeesSelectors.getItems(state),
     itemErrors: getItemError(state, itemTypes.productionTriggerLevel.item),
-    workStations: workStationSelectors.getItems(state)
+    workStations: workStationSelectors.getItems(state),
+    triggerSearchResults: []
 });
 
 const initialise = ({ itemId }) => dispatch => {

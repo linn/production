@@ -2,8 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
-
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
@@ -103,8 +103,8 @@
             return w =>
                 (string.IsNullOrWhiteSpace(searchTerms.SearchTerm) || w.PartNumber.ToUpper().Contains(searchTerms.SearchTerm.ToUpper()))
                 && (string.IsNullOrWhiteSpace(searchTerms.CitSearchTerm) || w.CitCode == searchTerms.CitSearchTerm)
-                && (searchTerms.OverrideSearchTerm == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms.OverrideSearchTerm))
-                && (searchTerms.AutoSearchTerm == "null" || w.VariableTriggerLevel > int.Parse(searchTerms.AutoSearchTerm));
+                && (string.IsNullOrWhiteSpace(searchTerms.OverrideSearchTerm) || searchTerms.OverrideSearchTerm == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms.OverrideSearchTerm))
+                && (string.IsNullOrWhiteSpace(searchTerms.AutoSearchTerm) || searchTerms.AutoSearchTerm == "null" || w.VariableTriggerLevel > int.Parse(searchTerms.AutoSearchTerm));
         }
     }
 }

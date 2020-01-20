@@ -10,6 +10,8 @@ import assemblyFails from './assemblyFails/assemblyFails';
 import assemblyFailFaultCodes from './assemblyFails/assemblyFailFaultCodes';
 import ateFaultCode from './ateFaultCode';
 import ateFaultCodes from './ateFaultCodes';
+import ateTest from './ateTests/ateTest';
+import ateTests from './ateTests/ateTests';
 import departments from './departments';
 import buildsSummaryReport from './buildsSummaryReport';
 import buildsDetailReport from './buildsDetailReport';
@@ -86,6 +88,7 @@ import workStations from './workStations';
 import historyStore from './history';
 import ateStatusReport from './ateStatusReport';
 import ateDetailsReport from './ateDetailsReport';
+import componentCounts from './componentCounts';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -107,6 +110,8 @@ const reducer = history =>
         assemblyFailsWaitingListReport,
         ateFaultCode,
         ateFaultCodes,
+        ateTest,
+        ateTests,
         boardFailType,
         boardFailTypes,
         boardTestDetailsReport,
@@ -176,6 +181,7 @@ const reducer = history =>
         workStations,
         ateStatusReport,
         ateDetailsReport,
+        componentCounts,
         ...sharedLibraryReducers
     });
 
