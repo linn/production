@@ -48,6 +48,9 @@ function App() {
                 >
                     <Typography color="primary">Label Reprint Reissue Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/maintenance/labels/print" button>
+                    <Typography color="primary">General Purpose Label Printer</Typography>
+                </ListItem>
                 <ListItem
                     component={Link}
                     to="/production/resources/manufacturing-resources/"
