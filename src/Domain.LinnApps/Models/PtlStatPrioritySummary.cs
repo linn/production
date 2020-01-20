@@ -1,9 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Models
 {
     using System;
-    using System.ComponentModel.Design;
-    using System.Data.SqlTypes;
-    using System.Xml.Schema;
 
     public class PtlStatPrioritySummary
     {
@@ -37,7 +34,7 @@
                 return 0;
             }
 
-            return Decimal.Round((((decimal)(this.Triggers - this.Gt5Day)) / (decimal)this.Triggers) * 100);
+            return decimal.Round((((decimal)(this.Triggers - this.Gt5Day)) / (decimal)this.Triggers) * 100);
         }
 
         public decimal AvgTurnaround()
@@ -46,7 +43,7 @@
             {
                 return 0;
             }
-            return Decimal.Round(this.TotalTurnover / this.Triggers,1);
+            return decimal.Round(this.TotalTurnover / this.Triggers,1);
         }
 
         public void AddStatToSummary(PtlStat stat)

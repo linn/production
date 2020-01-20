@@ -28,7 +28,7 @@
                 s.CitCode == citCode && s.DateCompleted >= dates.fromDate && s.DateCompleted <= dates.toDate).ToList();
 
             var model = new ResultsModel();
-            model.ReportTitle = new NameModel("Production Delivery Performance " + dates.fromDate.ToString("dd-MMM-yy") + " - " + dates.toDate.ToString("dd-MMM-yy"));
+            model.ReportTitle = new NameModel($"Production Delivery Performance {dates.fromDate.ToString("dd-MMM-yy")} - {dates.toDate.ToString("dd-MMM-yy")}");
 
             model.AddColumn("priority", "Priority");
             model.AddColumn("triggers", "Triggers");
@@ -91,7 +91,9 @@
                 s.CitCode == citCode && s.PtlPriority == priority && s.DateCompleted >= dates.fromDate && s.DateCompleted <= dates.toDate).ToList();
 
             var model = new ResultsModel();
-            model.ReportTitle = new NameModel("Production Delivery Performance " + dates.fromDate.ToString("dd-MMM-yy") + " - " + dates.toDate.ToString("dd-MMM-yy") + " Priority " + priority + " Cit " + citCode);
+            model.ReportTitle = new NameModel($"Production Delivery Performance {dates.fromDate.ToString("dd-MMM-yy")} - {dates.toDate.ToString("dd-MMM-yy")} Priority {priority} Cit {citCode}");
+
+
 
             model.AddColumn("workingDays", "Working Days");
             model.AddColumn("partNumber", "Part Number");
