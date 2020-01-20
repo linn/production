@@ -1,26 +1,40 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Linq;
     using System.Linq.Expressions;
 
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Resources;
 
-    public class AteTestDetailService : FacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource> 
+    public class AteTestDetailService : FacadeService<AteTestDetail, AteTestDetailKey, AteTestDetailResource, AteTestDetailResource>
     {
-        public AteTestDetailService(IRepository<AteTestDetail, AteTestDetailKey> repository, ITransactionManager transactionManager)
+        private readonly IRepository<Employee, int> employeeRepository;
+
+        private readonly IRepository<AteTest, int> ateTestRepository;
+
+        public AteTestDetailService(
+            IRepository<AteTestDetail, AteTestDetailKey> repository,
+            IRepository<Employee, int> employeeRepository,
+            IRepository<AteTest, int> ateTestRepository,
+            ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
+            this.employeeRepository = employeeRepository;
+            this.ateTestRepository = ateTestRepository;
         }
 
         protected override AteTestDetail CreateFromResource(AteTestDetailResource resource)
         {
+            var existingDetails = this.ateTestRepository.FindById(resource.TestId).Details 
+                                  != null && this.ateTestRepository.FindById(resource.TestId).Details.Any();
             return new AteTestDetail
                        {
                             TestId = resource.TestId,
-                            ItemNumber = resource.ItemNumber,
+                            ItemNumber = existingDetails ? this.ateTestRepository.FindById(resource.TestId).Details.Max(d => d.ItemNumber) + 1 : 1,
                             PartNumber = resource.PartNumber,
                             NumberOfFails = resource.NumberOfFails,
                             CircuitRef = resource.CircuitRef,
@@ -28,7 +42,8 @@
                             SmtOrPcb = resource.SmtOrPcb,
                             Shift = resource.Shift,
                             BatchNumber = resource.BatchNumber,
-                            PcbOperator = resource.PcbOperator,
+                            PcbOperator = this.employeeRepository.FilterBy(e => e.FullName == resource.PcbOperatorName)
+                                .ToList().FirstOrDefault(),
                             Comments = resource.Comments,
                             Machine = resource.Machine,
                             BoardFailNumber = resource.BoardFailNumber,
@@ -48,7 +63,8 @@
             entity.SmtOrPcb = resource.SmtOrPcb;
             entity.Shift = resource.Shift;
             entity.BatchNumber = resource.BatchNumber;
-            entity.PcbOperator = resource.PcbOperator;
+            entity.PcbOperator = this.employeeRepository.FilterBy(e => e.FullName == resource.PcbOperatorName)
+                .ToList().FirstOrDefault();
             entity.Comments = resource.Comments;
             entity.Machine = resource.Machine;
             entity.BoardFailNumber = resource.BoardFailNumber;

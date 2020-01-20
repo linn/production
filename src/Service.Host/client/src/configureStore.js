@@ -10,7 +10,10 @@ import localStorageMiddleware from './middleware/localStorageMiddleware';
 import previousLocationMiddleware from './middleware/previousLocation';
 
 // eslint-disable-next-line no-underscore-dangle
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers =
+    (window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 })) ||
+    compose;
 
 const middleware = [
     authorization,

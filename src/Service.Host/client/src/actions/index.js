@@ -231,6 +231,8 @@ export const buildPlansReportActionTypes = makeReportActionTypes(
     reportTypes.buildPlansReport.actionType
 );
 
+export const btwReportActionTypes = makeReportActionTypes(reportTypes.btwReport.actionType);
+
 export const buildPlansActionTypes = makeActionTypes(itemTypes.buildPlans.actionType);
 
 export const SELECT_DEFAULT_WORKS_ORDER_PRINTER = 'SELECT_DEFAULT_WORKS_ORDER_PRINTER';
@@ -252,3 +254,9 @@ export const ateStatusReportActionTypes = makeReportActionTypes(
 export const ateDetailsReportActionTypes = makeReportActionTypes(
     reportTypes.ateDetailsReport.actionType
 );
+
+export const ateTestActionTypes = makeActionTypes(itemTypes.ateTest.actionType);
+
+export const ateTestsActionTypes = makeActionTypes(itemTypes.ateTests.actionType);
+
+export const componentCountsActionTypes = makeActionTypes(itemTypes.componentCounts.actionType);

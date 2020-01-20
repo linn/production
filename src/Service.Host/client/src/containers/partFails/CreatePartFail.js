@@ -22,7 +22,7 @@ import partsActions from '../../actions/partsActions';
 import partsSelectors from '../../selectors/partsSelectors';
 
 const mapStateToProps = state => ({
-    item: {},
+    item: { details: [] },
     editStatus: 'create',
     errorTypes: partFailErrorTypesSelectors.getItems(state),
     faultCodes: partFailFaultCodesSelectors.getItems(state),

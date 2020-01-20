@@ -8,6 +8,7 @@
     using Linn.Production.Domain.LinnApps.BoardTests;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.PCAS;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
@@ -138,6 +139,8 @@
 
         public DbSet<AteTestDetail> AteTestDetails { get; set; }
 
+        public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -203,6 +206,7 @@
             this.BuildAteTests(builder);
             this.BuildAteTestDetails(builder);
             this.QueryBuildPlanRules(builder);
+            this.QueryBuiltThisWeekStatistics(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
         }
@@ -1065,18 +1069,17 @@
             e.ToTable("ATE_TESTS");
             e.HasKey(t => t.TestId);
             e.Property(t => t.TestId).HasColumnName("ATE_TEST_ID");
-            e.Property(t => t.UserNumber).HasColumnName("USER_NUMBER");
+            e.HasOne<Employee>(f => f.User).WithMany(m => m.AteTestsEntered).HasForeignKey("USER_NUMBER");
+            e.HasOne<Employee>(f => f.PcbOperator).WithMany(m => m.AteTestsPcbOperatorOn).HasForeignKey("PCB_OPERATOR");
             e.Property(t => t.DateTested).HasColumnName("DATE_TESTED");
             e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.AteTests).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(t => t.NumberTested).HasColumnName("NUMBER_TESTED");
             e.Property(t => t.NumberOfSmtComponents).HasColumnName("NUMBER_SMT_COMPONENTS");
             e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_SMT_FAILS");
             e.Property(t => t.NumberOfPcbComponents).HasColumnName("NUMBER_PCB_COMPONENTS");
-            e.Property(t => t.NumberOfSmtFails).HasColumnName("NUMBER_PCB_FAILS");
-            e.Property(t => t.NumberOfPcbBoardFails).HasColumnName("NUMBER_PCB_BOARD_FAILS");
             e.Property(t => t.NumberOfPcbFails).HasColumnName("NUMBER_PCB_FAILS");
+            e.Property(t => t.NumberOfPcbBoardFails).HasColumnName("NUMBER_PCB_BOARD_FAILS");
             e.Property(t => t.NumberOfSmtBoardFails).HasColumnName("NUMBER_SMT_BOARD_FAILS");
-            e.Property(t => t.PcbOperator).HasColumnName("PCB_OPERATOR");
             e.Property(t => t.MinutesSpent).HasColumnName("MINUTES_SPENT");
             e.Property(t => t.Machine).HasColumnName("MACHINE").HasMaxLength(10);
             e.Property(t => t.PlaceFound).HasColumnName("PLACE_FOUND").HasMaxLength(10);
@@ -1100,7 +1103,7 @@
             e.Property(d => d.SmtOrPcb).HasColumnName("SMT_OR_PCB").HasMaxLength(12);
             e.Property(d => d.Shift).HasColumnName("SHIFT").HasMaxLength(10);
             e.Property(d => d.BatchNumber).HasColumnName("BATCH_NO").HasMaxLength(6);
-            e.Property(d => d.PcbOperator).HasColumnName("PCB_OPERATOR");
+            e.HasOne<Employee>(f => f.PcbOperator).WithMany(m => m.AteTestDetailsPcbOperatorOn).HasForeignKey("PCB_OPERATOR");
             e.Property(d => d.Comments).HasColumnName("COMMENTS").HasMaxLength(2000);
             e.Property(d => d.Machine).HasColumnName("MACHINE").HasMaxLength(10);
             e.Property(d => d.BoardFailNumber).HasColumnName("BOARD_FAIL_NUMBER");
@@ -1108,6 +1111,19 @@
             e.Property(d => d.CorrectiveAction).HasColumnName("CORRECTIVE_ACTION").HasMaxLength(2000);
             e.Property(d => d.SmtFailId).HasColumnName("SMT_FAIL_ID");
             e.Property(d => d.BoardSerialNumber).HasColumnName("BOARD_SN").HasMaxLength(20);
+        }
+
+        private void QueryBuiltThisWeekStatistics(ModelBuilder builder)
+        {
+            var q = builder.Query<BuiltThisWeekStatistic>();
+            q.ToView("BUILT_THIS_WEEK_VIEW");
+            q.Property(b => b.CitCode).HasColumnName("CODE").HasMaxLength(10);
+            q.Property(b => b.CitName).HasColumnName("CIT_NAME").HasMaxLength(50);
+            q.Property(b => b.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(b => b.Description).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(b => b.BuiltThisWeek).HasColumnName("BUILT_THIS_WEEK");
+            q.Property(b => b.Value).HasColumnName("VALUE");
+            q.Property(b => b.Days).HasColumnName("DAYS");
         }
     }
 }

@@ -123,6 +123,7 @@
             builder.RegisterType<LabelPrintResourceBuilder>().As<IResourceBuilder<LabelPrint>>();
             builder.RegisterType<IdAndNameResourceBuilder>().As<IResourceBuilder<IdAndName>>();
             builder.RegisterType<IdAndNameListResourceBuilder>().As<IResourceBuilder<IEnumerable<IdAndName>>>();
+            builder.RegisterType<ComponentCountResourceBuilder>().As<IResourceBuilder<ComponentCount>>();
 
         }
     }

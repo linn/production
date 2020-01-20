@@ -1,9 +1,13 @@
 ﻿namespace Linn.Production.Service.Tests.AteQualityModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
+    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
@@ -22,8 +26,8 @@
             var ateTest = new AteTest
                                    {
                                        TestId = 1,
-                                       UserNumber = 1,
-                                       WorksOrder = new WorksOrder { OrderNumber = 1 },
+                                       User = new Employee {Id = 1, FullName = "Name"},
+                                       WorksOrder = new WorksOrder { OrderNumber = 1, Part = new Part { PartNumber = "P", Description = "D"} },
                                        NumberTested = 1,
                                        NumberOfSmtComponents = 1,
                                        NumberOfPcbComponents = 1,
@@ -31,8 +35,10 @@
                                        NumberOfSmtFails = 1,
                                        NumberOfPcbBoardFails = 1,
                                        NumberOfSmtBoardFails = 1,
-                                       PcbOperator = 1
-                                   };
+                                       PcbOperator = new Employee { Id = 1, FullName = "Name" },
+                                       Details = new List<AteTestDetail> { new AteTestDetail { ItemNumber = 1, TestId = 1 } }
+
+            };
             this.AteTestService.GetById(1)
                 .Returns(new SuccessResult<AteTest>(ateTest));
 
