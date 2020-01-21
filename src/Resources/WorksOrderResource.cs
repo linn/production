@@ -43,5 +43,7 @@
         public string WorkStationCode { get; set; }
 
         public string BatchNotes { get; set; }
+
+        public int QtyTested { get; set; }
     }
 }

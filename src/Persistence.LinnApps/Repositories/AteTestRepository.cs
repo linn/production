@@ -58,7 +58,8 @@
                 .Include(w => w.User)
                 .Include(t => t.PcbOperator)
                 .Include(t => t.Details)
-                .Where(d => d.DateInvalid == null);
+                .Where(d => d.DateInvalid == null)
+                .OrderByDescending(d => d.DateTested);
         }
     }
 }

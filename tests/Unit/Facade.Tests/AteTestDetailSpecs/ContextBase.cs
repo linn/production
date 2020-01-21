@@ -19,9 +19,9 @@
 
         protected IRepository<Employee, int> EmployeeRepository { get; private set; }
 
+        private IRepository<PcasRevision, string> PcasRevisionRepository { get; set; }
+
         private ITransactionManager TransactionManager { get; set; }
-
-
 
         [SetUp]
         public void SetUpContext()
@@ -29,11 +29,13 @@
             this.TransactionManager = Substitute.For<ITransactionManager>();
             this.AteTestDetailRepository = Substitute.For<IRepository<AteTestDetail, AteTestDetailKey>>();
             this.AteTestRepository = Substitute.For<IRepository<AteTest, int>>();
+            this.PcasRevisionRepository = Substitute.For<IRepository<PcasRevision, string>>();
             this.EmployeeRepository = Substitute.For<IRepository<Employee, int>>();
             this.Sut = new AteTestDetailService(
                 this.AteTestDetailRepository, 
                 this.EmployeeRepository, 
-                this.AteTestRepository, 
+                this.AteTestRepository,
+                this.PcasRevisionRepository,
                 this.TransactionManager);
         }
     }

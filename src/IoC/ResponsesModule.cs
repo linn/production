@@ -116,7 +116,7 @@
             builder.RegisterType<BuildPlanDetailResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanDetail>>>();
             builder.RegisterType<BuildPlanDetailsResourceBuilder>()
                 .As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>>();
-                            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
+            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
             builder.RegisterType<AteTestsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTest>>>();
             builder.RegisterType<AteTestDetailResourceBuilder>().As<IResourceBuilder<AteTestDetail>>();
             builder.RegisterType<AteTestDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTestDetail>>>();

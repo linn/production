@@ -27,7 +27,12 @@
                                    {
                                        TestId = 1,
                                        User = new Employee {Id = 1, FullName = "Name"},
-                                       WorksOrder = new WorksOrder { OrderNumber = 1, Part = new Part { PartNumber = "P", Description = "D"} },
+                                       WorksOrder = new WorksOrder
+                                                        {
+                                                            OrderNumber = 1,
+                                                            Part = new Part { PartNumber = "P", Description = "D"},
+                                                            AteTests = new List<AteTest>()
+                                                        },
                                        NumberTested = 1,
                                        NumberOfSmtComponents = 1,
                                        NumberOfPcbComponents = 1,

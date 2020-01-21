@@ -2,10 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
     SaveBackCancelButtons,
     TableWithInlineEditing,
@@ -40,11 +36,22 @@ function AteTest({
     employees,
     ateFaultCodes,
     componentCounts,
-    getComponentCounts
+    getComponentCounts,
+    detailParts,
+    getDetailParts
 }) {
-    const [ateTest, setAteTest] = useState({ pcbOperator: null, details: [] });
+    const creating = () => editStatus === 'create';
+    const editing = () => editStatus === 'edit';
+    const viewing = () => editStatus === 'view';
+
+    const [ateTest, setAteTest] = useState({
+        pcbOperator: null,
+        details: [],
+        numberTested: 0
+    });
     const [prevAteTest, setPrevAteTest] = useState({});
-    const [detailsOpen, setDetailsOpen] = useState(false);
+
+    const dpmo = (instances, failures) => Math.round((1000000 / instances) * failures);
 
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevAteTest) {
@@ -75,13 +82,29 @@ function AteTest({
 
     useEffect(() => {
         if (ateTest.partNumber) {
+            getDetailParts('searchTerm', ateTest.partNumber);
+        }
+    }, [ateTest.partNumber, getDetailParts]);
+
+    useEffect(() => {
+        if (ateTest.partNumber) {
             getComponentCounts(ateTest.partNumber);
         }
     }, [getComponentCounts, ateTest.partNumber]);
 
-    const creating = () => editStatus === 'create';
-    const editing = () => editStatus === 'edit';
-    const viewing = () => editStatus === 'view';
+    useEffect(() => {
+        const worksOrder = worksOrdersSearchResults?.find(
+            w => w.orderNumber === ateTest.worksOrderNumber
+        );
+        if (editStatus === 'create') {
+            setAteTest(a => ({
+                ...a,
+                numberTested: worksOrder?.qtyTested,
+                worksOrderQuantity: worksOrder?.quantity
+            }));
+        }
+    }, [ateTest.worksOrderNumber, setAteTest, editStatus, worksOrdersSearchResults]);
+
     const handleDetailFieldChange = (propertyName, newValue) => {
         setAteTest({ ...ateTest, [propertyName]: newValue });
         if (viewing()) {
@@ -97,7 +120,7 @@ function AteTest({
         !ateTest.worksOrderNumber ||
         !ateTest.pcbOperator ||
         !ateTest.userNumber ||
-        ateTest.details.some(d => !d.partNumber || !d.aoiEscape);
+        ateTest.details.some(d => !d.circuitRef || !d.aoiEscape);
 
     const Table = () => {
         const tableColumns = [
@@ -120,13 +143,11 @@ function AteTest({
             {
                 title: 'Circuit Ref',
                 key: 'circuitRef',
-                type: 'text'
-            },
-            {
-                title: 'Part',
-                key: 'partNumber',
-                required: true,
-                type: 'text'
+                type: 'dropdown',
+                options: detailParts?.map(p => ({
+                    id: p.cref,
+                    displayText: `${p.cref} - ${p.partNumber}`
+                }))
             },
             {
                 title: 'Fault Code',
@@ -170,9 +191,9 @@ function AteTest({
             },
             {
                 title: 'PCB Operator',
-                key: 'pcbOperatorName',
+                key: 'pcbOperator',
                 type: 'dropdown',
-                options: [...new Set(employees.filter(c => !!c.fullName).map(c => c.fullName))]
+                options: employees.map(e => ({ id: e.id, displayText: e.fullName }))
             },
             {
                 title: 'Comments',
@@ -193,34 +214,20 @@ function AteTest({
 
         return (
             <Grid item xs={12}>
-                <ExpansionPanel
-                    style={{ overflow: 'auto' }}
-                    TransitionProps={{ unmountOnExit: true }}
-                    expanded={detailsOpen}
-                    onChange={() => setDetailsOpen(!detailsOpen)}
-                >
-                    <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
-                    >
-                        <Typography variant="h5">Details (click to show/hide)</Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <TableWithInlineEditing
-                            columnsInfo={tableColumns}
-                            content={ateTest.details.map((o, i) => ({
-                                ...o,
-                                id: o.itemNumber ? o.itemNumber : i + 1
-                            }))}
-                            updateContent={updateOp}
-                            editStatus={editStatus}
-                            allowedToEdit
-                            allowedToCreate
-                            allowedToDelete={false}
-                        />
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                <Typography variant="h5">Details</Typography>
+
+                <TableWithInlineEditing
+                    columnsInfo={tableColumns}
+                    content={ateTest.details.map((o, i) => ({
+                        ...o,
+                        id: o.itemNumber ? o.itemNumber : i + 1
+                    }))}
+                    updateContent={updateOp}
+                    editStatus={editStatus}
+                    allowedToEdit
+                    allowedToCreate
+                    allowedToDelete={creating()}
+                />
             </Grid>
         );
     };
@@ -366,7 +373,17 @@ function AteTest({
                                     placeholder="Search By Order Number"
                                 />
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={1}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={ateTest?.worksOrderQuantity}
+                                    label="Qty"
+                                    onChange={() => {}}
+                                    propertyName="worksOrderQuantity"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
                                 <InputField
                                     fullWidth
                                     disabled
@@ -466,9 +483,9 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    value={Math.round(
-                                        (ateTest.numberOfSmtFails / ateTest.numberOfSmtComponents) *
-                                            1000000
+                                    value={dpmo(
+                                        componentCounts?.smtComponents * ateTest.numberTested,
+                                        ateTest.numberOfSmtFails
                                     )}
                                     label="SMT DPMO"
                                     onChange={handleFieldChange}
@@ -499,9 +516,9 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    value={Math.round(
-                                        (ateTest.numberOfPcbFails / ateTest.numberOfPcbComponents) *
-                                            1000000
+                                    value={dpmo(
+                                        componentCounts?.pcbComponents * ateTest.numberTested,
+                                        ateTest.numberOfPcbFails
                                     )}
                                     label="PCB DPMO"
                                     onChange={handleFieldChange}
@@ -569,7 +586,7 @@ function AteTest({
                                 />
                             </Grid>
                             <Grid item xs={1} />
-                            {!creating() && ateTest.details && Table()}
+                            {Table()}
                         </Fragment>
                     )
                 )}
@@ -619,7 +636,9 @@ AteTest.propTypes = {
         smtComponents: PropTypes.number,
         pcbComponents: PropTypes.number
     }),
-    getComponentCounts: PropTypes.func.isRequired
+    getComponentCounts: PropTypes.func.isRequired,
+    getDetailParts: PropTypes.func.isRequired,
+    detailParts: PropTypes.arrayOf(PropTypes.shape({}))
 };
 
 AteTest.defaultProps = {
@@ -637,7 +656,8 @@ AteTest.defaultProps = {
     worksOrdersSearchLoading: false,
     searchWorksOrders: PropTypes.arrayOf(PropTypes.shape({})),
     clearWorksOrdersSearch: PropTypes.func,
-    componentCounts: { smtComponents: 0, pcbComponents: 0 }
+    componentCounts: { smtComponents: 0, pcbComponents: 0 },
+    detailParts: []
 };
 
 export default AteTest;
