@@ -4,7 +4,9 @@
     using System.Linq;
 
     using Linn.Common.Facade;
+    using Linn.Common.Persistence;
     using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
@@ -34,7 +36,8 @@
                            DocType = worksOrder.DocType,
                            WorkStationCode = worksOrder.WorkStationCode,
                            BatchNotes = worksOrder.BatchNotes,
-                           Links = this.BuildLinks(worksOrder).ToArray()
+                           Links = this.BuildLinks(worksOrder).ToArray(),
+                           QtyTested = worksOrder.AteTests?.Sum(t => t.NumberTested) ?? 0
                        };
         }
 

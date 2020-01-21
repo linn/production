@@ -4,6 +4,7 @@
     using System.Security.Claims;
 
     using Linn.Common.Facade;
+    using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Facade.ResourceBuilders;

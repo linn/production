@@ -40,7 +40,15 @@ function AteTest({
     detailParts,
     getDetailParts
 }) {
-    const [ateTest, setAteTest] = useState({ pcbOperator: null, details: [] });
+    const creating = () => editStatus === 'create';
+    const editing = () => editStatus === 'edit';
+    const viewing = () => editStatus === 'view';
+
+    const [ateTest, setAteTest] = useState({
+        pcbOperator: null,
+        details: [],
+        numberTested: 0
+    });
     const [prevAteTest, setPrevAteTest] = useState({});
 
     const dpmo = (instances, failures) => Math.round((1000000 / instances) * failures);
@@ -84,9 +92,19 @@ function AteTest({
         }
     }, [getComponentCounts, ateTest.partNumber]);
 
-    const creating = () => editStatus === 'create';
-    const editing = () => editStatus === 'edit';
-    const viewing = () => editStatus === 'view';
+    useEffect(() => {
+        const worksOrder = worksOrdersSearchResults?.find(
+            w => w.orderNumber === ateTest.worksOrderNumber
+        );
+        if (editStatus === 'create') {
+            setAteTest(a => ({
+                ...a,
+                numberTested: worksOrder?.qtyTested,
+                worksOrderQuantity: worksOrder?.quantity
+            }));
+        }
+    }, [ateTest.worksOrderNumber, setAteTest, editStatus, worksOrdersSearchResults]);
+
     const handleDetailFieldChange = (propertyName, newValue) => {
         setAteTest({ ...ateTest, [propertyName]: newValue });
         if (viewing()) {
@@ -355,7 +373,17 @@ function AteTest({
                                     placeholder="Search By Order Number"
                                 />
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={1}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={ateTest?.worksOrderQuantity}
+                                    label="Qty"
+                                    onChange={() => {}}
+                                    propertyName="worksOrderQuantity"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
                                 <InputField
                                     fullWidth
                                     disabled
