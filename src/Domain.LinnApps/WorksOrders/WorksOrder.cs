@@ -57,6 +57,8 @@
 
         public string BatchNotes { get; set; }
 
+        public string SaveBatchNotes { get; set; }
+
         public void UpdateWorksOrder(int quantity, string batchNotes, int? cancelledBy, string reasonCancelled)
         {
             if (reasonCancelled != null)
@@ -72,7 +74,14 @@
             }
 
             this.Quantity = quantity;
+
+            if (batchNotes == null)
+            {
+                return;
+            }
+
             this.BatchNotes = batchNotes;
+            this.SaveBatchNotes = "Y";
         }
     }
 }
