@@ -226,7 +226,7 @@ function AteTest({
                     editStatus={editStatus}
                     allowedToEdit
                     allowedToCreate
-                    allowedToDelete={false}
+                    allowedToDelete={creating()}
                 />
             </Grid>
         );

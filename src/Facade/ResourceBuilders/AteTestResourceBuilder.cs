@@ -41,7 +41,7 @@
                            Details = test
                                .Details?.OrderBy(d => d.ItemNumber)
                                .Select(d => (AteTestDetailResource)this.detailResourceBuilder?.Build(d)),
-                           Links = this.BuildLinks(test).ToArray(),
+                           Links = this.BuildLinks(test).ToArray()
             };
         }
 
