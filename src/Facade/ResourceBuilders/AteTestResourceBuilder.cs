@@ -1,11 +1,9 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
 
     using Linn.Common.Facade;
-    using Linn.Common.Persistence;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Resources;
@@ -13,7 +11,6 @@
     public class AteTestResourceBuilder : IResourceBuilder<AteTest>
     {
         private readonly IResourceBuilder<AteTestDetail> detailResourceBuilder = new AteTestDetailResourceBuilder();
-
 
         public AteTestResource Build(AteTest test)
         {
