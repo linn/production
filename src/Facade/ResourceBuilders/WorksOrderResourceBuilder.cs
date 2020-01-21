@@ -4,9 +4,7 @@
     using System.Linq;
 
     using Linn.Common.Facade;
-    using Linn.Common.Persistence;
     using Linn.Common.Resources;
-    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
