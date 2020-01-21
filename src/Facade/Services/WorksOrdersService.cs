@@ -139,6 +139,7 @@
                            CancelledBy = resource.CancelledBy,
                            ReasonCancelled = resource.ReasonCancelled,
                            BatchNotes = resource.BatchNotes,
+                           SaveBatchNotes = "Y",
                            RaisedBy = resource.RaisedBy,
                            RaisedByDepartment = resource.RaisedByDepartment,
                            DateCancelled = string.IsNullOrEmpty(resource.DateCancelled) ? (DateTime?)null : DateTime.Parse(resource.DateCancelled),
