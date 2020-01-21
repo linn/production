@@ -16,20 +16,24 @@
 
         private readonly IRepository<AteTest, int> ateTestRepository;
 
+        private readonly IRepository<PcasRevision, string> pcasRepository;
+
         public AteTestDetailService(
             IRepository<AteTestDetail, AteTestDetailKey> repository,
             IRepository<Employee, int> employeeRepository,
             IRepository<AteTest, int> ateTestRepository,
+            IRepository<PcasRevision, string> pcasRepository,
             ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
             this.employeeRepository = employeeRepository;
             this.ateTestRepository = ateTestRepository;
+            this.pcasRepository = pcasRepository;
         }
 
         protected override AteTestDetail CreateFromResource(AteTestDetailResource resource)
         {
-            var existingDetails = this.ateTestRepository.FindById(resource.TestId).Details 
+            var existingDetails = this.ateTestRepository.FindById(resource.TestId)?.Details 
                                   != null && this.ateTestRepository.FindById(resource.TestId).Details.Any();
             return new AteTestDetail
                        {

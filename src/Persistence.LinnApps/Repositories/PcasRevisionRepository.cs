@@ -23,7 +23,7 @@
 
         public IQueryable<PcasRevision> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PcasRevisions;
         }
 
         public void Add(PcasRevision entity)

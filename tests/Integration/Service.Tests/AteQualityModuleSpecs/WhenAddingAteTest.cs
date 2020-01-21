@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.AteQualityModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -27,7 +29,7 @@
                               {
                                   TestId = 1,
                                   NumberTested = 1,
-                                  WorksOrder = new WorksOrder(),
+                                  WorksOrder = new WorksOrder { AteTests = new List<AteTest>() },
                                   User = new Employee { Id = 1, FullName = "Name" },
                                   PcbOperator = new Employee { Id = 1, FullName = "Name" }
                               };
