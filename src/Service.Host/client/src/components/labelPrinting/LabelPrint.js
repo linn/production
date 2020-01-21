@@ -156,7 +156,8 @@ function LabelPrint({
             value: '',
             width: 3,
             displayForLabelTypes: [3],
-            inputType: 'number'
+            inputType: 'number',
+            onOwnLine: true
         },
         {
             id: 'poNumber',
@@ -239,11 +240,23 @@ function LabelPrint({
         if (false) {
             print();
         }
+        console.info(labelDetails);
         //send all details back - which type, printer and the deets
     };
 
     const handleClearClick = () => {
-        //reset label details? Keep type and printer selected?
+        setLabelDetails(printLinesInitialState);
+    };
+
+    const getInputStyle = () => {
+        let styleClass = '';
+        if (labelType === 7) {
+            styleClass = classes.boldText;
+        }
+        if (labelType === 3) {
+            styleClass = classes.spacingRight;
+        }
+        return styleClass;
     };
 
     return (
@@ -323,44 +336,57 @@ function LabelPrint({
                                             line.displayForLabelTypes.includes(labelType) && (
                                                 <Fragment>
                                                     <Grid item xs={line.width}>
-                                                        <InputField //inputs + logic
-                                                            label={line.displayName}
-                                                            fullWidth
-                                                            type="string"
-                                                            onChange={handleLabelDetailsChange}
-                                                            propertyName={line.id}
-                                                            value={line.value}
-                                                            className={
-                                                                labelType === 7
-                                                                    ? classes.boldText
-                                                                    : ''
-                                                            }
-                                                        />
+                                                        {line.inputType === 'typeahead' ? (
+                                                            <InputField //inputs + logic
+                                                                label={line.displayName}
+                                                                fullWidth
+                                                                type="string"
+                                                                onChange={handleLabelDetailsChange}
+                                                                propertyName={line.id}
+                                                                value={line.value}
+                                                                className={
+                                                                    labelType === 7
+                                                                        ? classes.boldText
+                                                                        : ''
+                                                                }
+                                                            />
+                                                        ) : (
+                                                            <Fragment>
+                                                                <InputField //inputs + logic
+                                                                    label={line.displayName}
+                                                                    fullWidth
+                                                                    type={line.inputType}
+                                                                    onChange={
+                                                                        handleLabelDetailsChange
+                                                                    }
+                                                                    propertyName={line.id}
+                                                                    value={line.value}
+                                                                    className={getInputStyle()}
+                                                                />
+                                                            </Fragment>
+                                                        )}
                                                     </Grid>
                                                     {line.onOwnLine && <Grid item xs={12} />}
                                                 </Fragment>
                                             )
                                     )}
-                                    <Grid item xs={1} />
-                                    <Grid item xs={3} className={classes.marginTop}>
+                                    <Grid item xs={6} className={classes.marginTop}>
                                         <Button
                                             onClick={handlePrintClick}
                                             variant="outlined"
-                                            color="secondary"
+                                            color="primary"
+                                            className={classes.spacingRight}
                                         >
                                             Print
                                         </Button>
-                                    </Grid>
-                                    <Grid item xs={3} className={classes.marginTop}>
                                         <Button
                                             onClick={handleClearClick}
                                             variant="outlined"
-                                            color="secondary"
+                                            color="primary"
                                         >
                                             Clear
                                         </Button>
                                     </Grid>
-                                    <Grid item xs={5} />
                                 </Fragment>
                             )}
                         </Grid>
