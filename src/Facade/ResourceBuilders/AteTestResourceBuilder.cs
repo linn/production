@@ -27,6 +27,7 @@
                            NumberOfSmtFails = test.NumberOfSmtFails,
                            NumberOfPcbFails = test.NumberOfPcbFails,
                            NumberOfSmtBoardFails = test.NumberOfSmtBoardFails,
+                           NumberOfPcbBoardFails = test.NumberOfPcbBoardFails,
                            PcbOperator = test.PcbOperator.Id,
                            PcbOperatorName = test.PcbOperator.FullName,
                            MinutesSpent = test.MinutesSpent,

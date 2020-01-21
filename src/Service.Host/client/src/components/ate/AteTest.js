@@ -417,7 +417,7 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     value={ateTest.numberOfPcbBoardFails}
-                                    label="No. PCB Fails"
+                                    label="No. PCB Board Fails"
                                     onChange={handleFieldChange}
                                     propertyName="numberOfPcbBoardFails"
                                 />
@@ -441,7 +441,7 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     value={ateTest.numberOfSmtBoardFails}
-                                    label="No. SMT Fails"
+                                    label="No. SMT Board Fails"
                                     onChange={handleFieldChange}
                                     propertyName="numberOfSmtBoardFails"
                                 />

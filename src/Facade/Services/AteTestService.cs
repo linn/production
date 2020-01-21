@@ -85,6 +85,7 @@
                            NumberOfPcbComponents = resource.NumberOfPcbComponents,
                            NumberOfPcbFails = resource.NumberOfPcbFails,
                            NumberOfPcbBoardFails = resource.NumberOfPcbBoardFails,
+                           NumberOfSmtBoardFails = resource.NumberOfSmtBoardFails,
                            PcbOperator = this.employeeRepository.FindById(resource.PcbOperator),
                            MinutesSpent = resource.MinutesSpent,
                            Machine = resource.Machine,
@@ -113,7 +114,6 @@
             entity.NumberOfPcbBoardFails = updateResource.NumberOfPcbBoardFails;
             entity.NumberOfSmtBoardFails = updateResource.NumberOfSmtBoardFails;
             entity.NumberOfPcbComponents = updateResource.NumberOfPcbComponents;
-            entity.NumberOfSmtBoardFails = updateResource.NumberOfPcbComponents;
             entity.NumberOfSmtFails = updateResource.NumberOfSmtFails;
             entity.NumberOfPcbFails = updateResource.NumberOfPcbFails;
             entity.MinutesSpent = updateResource.MinutesSpent;
