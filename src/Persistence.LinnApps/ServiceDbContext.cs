@@ -309,6 +309,7 @@
             q.Property(e => e.Outstanding).HasColumnName("OUTSTANDING").HasMaxLength(1);
             q.Property(e => e.ZoneName).HasColumnName("ZONE_NAME").HasMaxLength(20);
             q.Property(e => e.BatchNotes).HasColumnName("QUALITY_ISSUES");
+            q.Property(e => e.SaveBatchNotes).HasColumnName("SAVE_BATCH_NOTES");
             q.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
