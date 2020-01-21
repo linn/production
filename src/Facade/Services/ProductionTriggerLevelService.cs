@@ -28,9 +28,8 @@
         {
             try
             {
-                var searchResults = this.repository.FilterBy(this.SearchExpression(searchTerms)).ToList().Take(10);
                 return new SuccessResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>>(
-                    new ResponseModel<IEnumerable<ProductionTriggerLevel>>(searchResults, privileges));
+                    new ResponseModel<IEnumerable<ProductionTriggerLevel>>(this.repository.FilterBy(this.SearchExpression(searchTerms)), privileges));
             }
             catch (NotImplementedException)
             {
