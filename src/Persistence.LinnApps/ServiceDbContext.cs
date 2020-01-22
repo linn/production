@@ -139,6 +139,10 @@
 
         public DbSet<AteTestDetail> AteTestDetails { get; set; }
 
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Address> Addresses { get; set; } 
+
         public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
         public DbQuery<PtlStat> PtlStats { get; set; }
@@ -212,6 +216,8 @@
             this.QueryPtlStats(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
+            this.BuildCountries(builder);
+            this.BuildAddresses(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -955,8 +961,13 @@
             builder.Entity<PurchaseOrder>().ToTable("PL_ORDERS");
             builder.Entity<PurchaseOrder>().HasKey(o => o.OrderNumber);
             builder.Entity<PurchaseOrder>().Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrder>().Property(o => o.DateOfOrder).HasColumnName("DATE_OF_ORDER");
+            builder.Entity<PurchaseOrder>().Property(o => o.OrderAddressId).HasColumnName("ORDER_ADDRESS_ID");
             builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
                 .HasForeignKey(d => d.OrderNumber);
+            builder.Entity<PurchaseOrder>().HasOne<Address>(p => p.OrderAddress).WithMany(a => a.PurchaseOrders).HasForeignKey(o => o.OrderAddressId);
+            builder.Entity<PurchaseOrder>().Property(o => o.DocumentType).HasColumnName("DOCUMENT_TYPE");
+            builder.Entity<PurchaseOrder>().Property(o => o.Remarks).HasColumnName("REMARKS");
         }
 
         private void BuildPurchaseOrderDetails(ModelBuilder builder)
@@ -966,6 +977,9 @@
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderQuantity).HasColumnName("ORDER_QTY");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OurUnitOfMeasure).HasColumnName("OUR_UNIT_OF_MEASURE");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.IssuedSerialNumbers).HasColumnName("ISSUED_SERIAL_NUMBERS");
         }
 
         private void QueryAccountingCompanies(ModelBuilder builder)
@@ -1145,6 +1159,27 @@
             q.Property(s => s.DateCompleted).HasColumnName("DATE_COMPLETED");
             q.Property(s => s.TriggerDate).HasColumnName("TRIGGER_DATE");
             q.Property(s => s.WorkingDays).HasColumnName("WORKING_DAYS");
+        }
+
+        private void BuildCountries(ModelBuilder builder)
+        {
+            builder.Entity<Country>().ToTable("COUNTRIES");
+            builder.Entity<Country>().HasKey(c => c.CountryCode);
+            builder.Entity<Country>().Property(c => c.CountryCode).HasColumnName("COUNTRY_CODE");
+            builder.Entity<Country>().Property(c => c.Name).HasColumnName("NAME");
+        }
+
+        private void BuildAddresses(ModelBuilder builder)
+        {
+            builder.Entity<Address>().ToTable("ADDRESSES");
+            builder.Entity<Address>().HasKey(c => c.Id);
+            builder.Entity<Address>().Property(c => c.Id).HasColumnName("ADDRESS_ID");
+            builder.Entity<Address>().Property(c => c.Addressee).HasColumnName("ADDRESSEE");
+            builder.Entity<Address>().Property(c => c.Address1).HasColumnName("ADDRESS_1");
+            builder.Entity<Address>().Property(c => c.Address2).HasColumnName("ADDRESS_2");
+            builder.Entity<Address>().Property(c => c.Address3).HasColumnName("ADDRESS_3");
+            builder.Entity<Address>().Property(c => c.Address4).HasColumnName("ADDRESS_4");
+            builder.Entity<Address>().Property(c => c.PostCode).HasColumnName("POSTAL_CODE");
         }
     }
 }

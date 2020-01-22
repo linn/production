@@ -20,7 +20,9 @@
 
         public PurchaseOrder FindById(int key)
         {
-            return this.serviceDbContext.PurchaseOrders.Where(o => o.OrderNumber == key).Include(o => o.Details)
+            return this.serviceDbContext.PurchaseOrders.Where(o => o.OrderNumber == key)
+                .Include(o => o.Details)
+                .Include(o => o.OrderAddress)
                 .ToList().FirstOrDefault();
         }
 
