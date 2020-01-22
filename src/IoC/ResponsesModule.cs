@@ -124,7 +124,8 @@
             builder.RegisterType<IdAndNameResourceBuilder>().As<IResourceBuilder<IdAndName>>();
             builder.RegisterType<IdAndNameListResourceBuilder>().As<IResourceBuilder<IEnumerable<IdAndName>>>();
             builder.RegisterType<ComponentCountResourceBuilder>().As<IResourceBuilder<ComponentCount>>();
-
+            builder.RegisterType<PurchaseOrderDetailResourceBuilder>().As<IResourceBuilder<PurchaseOrderDetail>>();
+            builder.RegisterType<PurchaseOrderDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PurchaseOrderDetail>>>();
         }
     }
 }

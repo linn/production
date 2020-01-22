@@ -977,6 +977,7 @@
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Entity<PurchaseOrderDetail>().HasOne(t => t.Part).WithMany().HasForeignKey(d => d.PartNumber);
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderQuantity).HasColumnName("ORDER_QTY");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OurUnitOfMeasure).HasColumnName("OUR_UNIT_OF_MEASURE");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.IssuedSerialNumbers).HasColumnName("ISSUED_SERIAL_NUMBERS");
