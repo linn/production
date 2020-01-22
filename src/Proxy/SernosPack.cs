@@ -203,8 +203,8 @@
             cmd.ExecuteNonQuery();
             connection.Close();
 
-            numberOfSerialNumbers = int.Parse(serialNumberQtyParameter.Value.ToString());
-            numberOfBoxes = int.Parse(boxesQtyParameter.Value.ToString());
+            numberOfSerialNumbers = serialNumberQtyParameter.Value.ToString() == "null" ? 0 : int.Parse(serialNumberQtyParameter.Value.ToString());
+            numberOfBoxes = boxesQtyParameter.Value.ToString() == "null" ? 0 : int.Parse(boxesQtyParameter.Value.ToString());
         }
 
         public bool SerialNumberExists(int serialNumber, string partNumber)
