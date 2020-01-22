@@ -2,34 +2,28 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-
     using FluentAssertions;
-    using FluentAssertions.Extensions;
-
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Resources;
-
     using Nancy;
     using Nancy.Testing;
-
     using NSubstitute;
-
     using NUnit.Framework;
 
-    public class WhenGettingPrinters : ContextBase
+    public class WhenSearchingAddresses : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
-            this.LabelPrintService.GetPrinters().Returns(new SuccessResult<IEnumerable<IdAndName>>(new List<IdAndName>() { new IdAndName(14, "printer1") }));
+            this.AddressService.Search(Arg.Any<string>()).Returns(new SuccessResult<IEnumerable<Address>>(new List<Address>() { new Address() { Id = 15, Addressee = "Drumph" } }));
 
 
             this.Response = this.Browser.Get(
-                "/production/maintenance/labels/printers",
+                "/production/maintenance/labels/addresses",
                 with =>
                     {
                         with.Header("Accept", "application/json");
+                        with.Query("searchTerm", "drum");
                     }).Result;
         }
 
@@ -42,16 +36,15 @@
         [Test]
         public void ShouldCallService()
         {
-            this.LabelPrintService.Received().GetPrinters();
+            this.AddressService.Received().Search(Arg.Any<string>());
         }
 
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<IEnumerable<IdAndNameResource>>().ToList();
+            var resource = this.Response.Body.DeserializeJson<IEnumerable<Address>>().ToList();
             resource.Count().Should().Be(1);
-            resource.Any(x => x.Id == 14 & x.Name == "printer1").Should().BeTrue();
-
+            resource.Any(x => x.Id == 15 & x.Addressee == "Drumph").Should().BeTrue();
         }
     }
 }

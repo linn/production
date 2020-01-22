@@ -6,6 +6,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade;
     using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
     using Nancy.Testing;
@@ -16,21 +17,38 @@
     {
         protected ILabelPrintService LabelPrintService { get; private set; }
 
+        protected IFacadeService<Address, int, AddressResource, AddressResource> AddressService { get; set; }
+
+        protected IFacadeService<Supplier, int, SupplierResource, SupplierResource> SupplierService { get; set; }
+
         [SetUp]
         public void EstablishContext()
         {
             this.LabelPrintService = Substitute.For<ILabelPrintService>();
+            this.AddressService = Substitute.For<IFacadeService<Address, int, AddressResource, AddressResource>>();
+            this.SupplierService =
+                Substitute.For<IFacadeService<Supplier, int, SupplierResource, SupplierResource>>();
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.LabelPrintService);
+                    with.Dependency(this.AddressService);
+                    with.Dependency(this.SupplierService);
                     with.Dependency<IResourceBuilder<LabelPrint>>(new LabelPrintResourceBuilder());
                     with.Module<LabelPrintModule>();
                     with.Dependency<IResourceBuilder<IdAndName>>(new IdAndNameResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<IdAndName>>>(new IdAndNameListResourceBuilder());
+                    with.Dependency<IResourceBuilder<Address>>(new AddressResourceBuilder());
+                    with.Dependency<IResourceBuilder<Supplier>>(new SupplierResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<Address>>>(new AddressesResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<Supplier>>>(new SuppliersResourceBuilder());
                     with.ResponseProcessor<LabelPrintResponseProcessor>();
                     with.ResponseProcessor<IdAndNameResponseProcessor>();
                     with.ResponseProcessor<IdAndNameListResponseProcessor>();
+                    with.ResponseProcessor<AddressResponseProcessor>();
+                    with.ResponseProcessor<SupplierResponseProcessor>();
+                    with.ResponseProcessor<AddressesResponseProcessor>();
+                    with.ResponseProcessor<SuppliersResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

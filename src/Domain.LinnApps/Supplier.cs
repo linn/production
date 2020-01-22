@@ -1,10 +1,9 @@
-﻿namespace Linn.Production.Resources
+﻿namespace Linn.Production.Domain.LinnApps
 {
     using System;
+    using System.Collections.Generic;
 
-    using Linn.Common.Resources;
-
-    public class SupplierResource : HypermediaResource
+    public class Supplier
     {
         public int SupplierId { get; set; }
 
@@ -13,7 +12,7 @@
         public string OrderAddressId { get; set; }
 
         public string InvoiceAddressId { get; set; }
-
-        public string DateClosed { get; set; }
+        
+        public DateTime? DateClosed { get; set; }
     }
 }
