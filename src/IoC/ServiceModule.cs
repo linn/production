@@ -128,8 +128,8 @@
             builder.RegisterType<AteReportsFacadeService>().As<IAteReportsFacadeService>();
             builder.RegisterType<BtwResultFacadeService>().As<IBtwResultFacadeService>();
             builder.RegisterType<CountComponentsFacadeService>().As<ICountComponentsFacadeService>();
-            builder.RegisterType<AddressService>().As<IFacadeService<Address, int, AddressResource, AddressResource>>();
-            builder.RegisterType<SupplierService>().As<IFacadeService<Supplier, int, SupplierResource, SupplierResource>>();
+            builder.RegisterType<AddressService>().As<IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource>>();
+            builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
 
 
             // oracle proxies
