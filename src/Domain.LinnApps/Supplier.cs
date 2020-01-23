@@ -9,9 +9,9 @@
 
         public string SupplierName { get; set; }
 
-        public string OrderAddressId { get; set; }
+        public int? OrderAddressId { get; set; }
 
-        public string InvoiceAddressId { get; set; }
+        public int? InvoiceAddressId { get; set; }
         
         public DateTime? DateClosed { get; set; }
     }

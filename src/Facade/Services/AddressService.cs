@@ -47,7 +47,7 @@
 
         protected override Expression<Func<Address, bool>> SearchExpression(string searchTerm)
         {
-            return w => w.Id.ToString().Contains(searchTerm) || w.Addressee.Contains(searchTerm);
+            return w => (!w.DateInvalid.HasValue && w.Id.ToString().Contains(searchTerm) || w.Addressee.ToUpper().Contains(searchTerm.ToUpper()));
         }
     }
 }

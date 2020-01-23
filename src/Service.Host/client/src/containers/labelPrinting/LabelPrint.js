@@ -7,7 +7,7 @@ import LabelPrint from '../../components/labelPrinting/LabelPrint';
 import labelPrintActions from '../../actions/labelPrintActions';
 import labelPrintTypeActions from '../../actions/labelPrintTypeActions';
 import labelPrinterActions from '../../actions/labelPrinterActions';
-import * as itemTypes from '../../itemTypes'
+import * as itemTypes from '../../itemTypes';
 import labelPrintTypeSelectors from '../../selectors/labelPrintTypeSelectors';
 import labelPrintersSelectors from '../../selectors/labelPrintersSelectors';
 import labelPrintSelectors from '../../selectors/labelPrintSelectors';
@@ -23,10 +23,15 @@ const mapStateToProps = state => ({
     labelPrintTypes: labelPrintTypeSelectors.getItems(state),
     labelPrinters: labelPrintersSelectors.getItems(state),
     addressSearchLoading: addressesSelectors.getSearchLoading(state),
-    addressSearchResults: addressesSelectors.getSearchItems(state),
-    //.map(s => ({ ...s, id: s.partNumber, name: s.partNumber }))
+    addressSearchResults: addressesSelectors.getSearchItems(state).map(s => ({
+        ...s,
+        name: s.id,
+        description: `${s.addressee}  |  ${s.line1}`
+    })),
     supplierSearchLoading: suppliersSelectors.getSearchLoading(state),
-    supplierSearchResults: suppliersSelectors.getSearchItems(state)
+    supplierSearchResults: suppliersSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, name: s.supplierId, description: s.supplierName }))
 });
 
 const initialise = () => dispatch => {

@@ -20,6 +20,7 @@
             ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
+            this.repository = repository;
         }
         public IResult<IEnumerable<Supplier>> SearchReturnTen(string searchTerm)
         {
@@ -45,7 +46,7 @@
 
         protected override Expression<Func<Supplier, bool>> SearchExpression(string searchTerm)
         {
-            return w => w.SupplierId.ToString().Contains(searchTerm) || w.SupplierName.Contains(searchTerm);
+            return w => (!w.DateClosed.HasValue && w.SupplierId.ToString().Contains(searchTerm) || w.SupplierName.ToUpper().Contains(searchTerm.ToUpper()));
         }
     }
 }

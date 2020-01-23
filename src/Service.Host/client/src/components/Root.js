@@ -503,7 +503,7 @@ const Root = ({ store }) => (
                                     <Route
                                         exact
                                         path="/production/maintenance/labels/reprint"
-                                        component={LabelPrint}
+                                        component={LabelReprint}
                                     />
                                     <Route
                                         exact

@@ -35,6 +35,9 @@ const useStyles = makeStyles(theme => ({
     },
     hide: {
         display: 'none'
+    },
+    floatRight: {
+        float: 'right'
     }
 }));
 
@@ -230,11 +233,6 @@ function LabelPrint({
 
     const classes = useStyles();
 
-    useEffect(() => {
-        console.info(labelPrintTypes);
-        console.info(labelPrinters);
-    }, [labelPrintTypes, labelPrinters]);
-
     const handleFieldChange = (propertyName, newValue) => {
         if (propertyName === 'labelType') {
             console.info(newValue);
@@ -268,11 +266,49 @@ function LabelPrint({
         handleLabelDetailsChange('addressId', newValue.id);
     };
 
+    const handleCopyFromSupplier = newValue => {
+        handleLabelDetailsChange('supplierId', newValue.supplierId);
+    };
+
     const handlePrintClick = () => {
         if (false) {
             print();
         }
-        console.info(labelDetails);
+
+        const sendableDetails = {
+            SupplierId: labelDetails.find(x => x.id === 'supplierId').value,
+            AddressId: labelDetails.find(x => x.id === 'addressId').value,
+            Addressee: labelDetails.find(x => x.id === 'addressee').value,
+            Addressee2: labelDetails.find(x => x.id === 'addressee2').value,
+            Line1: labelDetails.find(x => x.id === 'line1').value,
+            Line2: labelDetails.find(x => x.id === 'line2').value,
+            Line3: labelDetails.find(x => x.id === 'line3').value,
+            Line4: labelDetails.find(x => x.id === 'line4').value,
+            Line5: labelDetails.find(x => x.id === 'line5').value,
+            Line6: labelDetails.find(x => x.id === 'line6').value,
+            Line7: labelDetails.find(x => x.id === 'line7').value,
+            PostCode: labelDetails.find(x => x.id === 'postalCode').value,
+            Country: labelDetails.find(x => x.id === 'country').value,
+            FromPCNumber: labelDetails.find(x => x.id === 'fromPCNumber').value,
+            ToPCNumber: labelDetails.find(x => x.id === 'toPCNumber').value,
+            PoNumber: labelDetails.find(x => x.id === 'poNumber').value,
+            PartNumber: labelDetails.find(x => x.id === 'partNumber').value,
+            Quantity: labelDetails.find(x => x.id === 'qty').value,
+            Initials: labelDetails.find(x => x.id === 'initials').value,
+            Date: labelDetails.find(x => x.id === 'date').value
+        };
+
+        console.info(sendableDetails);
+        const printInfo = {
+            LabelType: labelType,
+            Printer: printer,
+            Quantity: quantity,
+            LinesForPrinting: sendableDetails
+        };
+
+        console.info(printInfo);
+
+        print(printInfo);
         //send all details back - which type, printer and the deets
     };
 
@@ -303,6 +339,16 @@ function LabelPrint({
                     <Page showRequestErrors>
                         <Grid item xs={12} container>
                             <Grid item xs={12}>
+                                <Fragment>
+                                    <Button
+                                        href="/production/maintenance/labels/reprint"
+                                        variant="outlined"
+                                        color="primary"
+                                        className={classes.floatRight}
+                                    >
+                                        Reprint label
+                                    </Button>
+                                </Fragment>
                                 <Title text="General Purpose Label Printer" />
                             </Grid>
                             <SnackbarMessage
@@ -390,7 +436,6 @@ function LabelPrint({
                                                 links={false}
                                                 clearSearch={() => clearAddressSearch}
                                                 placeholder="Search for an Address"
-                                                onChange={handleLabelDetailsChange}
                                             />
                                         </Grid>
                                         <Grid item xs={6}>
@@ -406,6 +451,9 @@ function LabelPrint({
                                                 clearSearch={() => clearSupplierSearch}
                                                 placeholder="Search for a Supplier"
                                                 onChange={handleLabelDetailsChange}
+                                                onSelect={newValue => {
+                                                    handleCopyFromSupplier(newValue);
+                                                }}
                                             />
                                         </Grid>
                                     </Grid>
@@ -440,16 +488,11 @@ function LabelPrint({
                                         <Button
                                             onClick={handlePrintClick}
                                             variant="outlined"
-                                            color="primary"
                                             className={classes.spacingRight}
                                         >
                                             Print
                                         </Button>
-                                        <Button
-                                            onClick={handleClearClick}
-                                            variant="outlined"
-                                            color="primary"
-                                        >
+                                        <Button onClick={handleClearClick} variant="outlined">
                                             Clear
                                         </Button>
                                     </Grid>

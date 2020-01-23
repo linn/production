@@ -78,7 +78,11 @@
 
         private object Print()
         {
-            throw new NotImplementedException();
+            var resource = this.Bind<LabelPrintResource>();
+
+            return this.Negotiate
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
        
         private object GetApp()
