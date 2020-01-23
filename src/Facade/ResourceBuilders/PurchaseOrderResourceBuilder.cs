@@ -17,19 +17,19 @@
                        {
                            OrderNumber = purchaseOrder.OrderNumber,
                            DateOfOrder = purchaseOrder.DateOfOrder.ToString("o"),
-                           Addressee = purchaseOrder.OrderAddress.Addressee,
-                           Address1 = purchaseOrder.OrderAddress.Address1,
-                           Address2 = purchaseOrder.OrderAddress.Address2,
-                           Address3 = purchaseOrder.OrderAddress.Address3,
-                           Address4 = purchaseOrder.OrderAddress.Address4,
-                           PostCode = purchaseOrder.OrderAddress.PostCode,
+                           Addressee = purchaseOrder.OrderAddress?.Addressee,
+                           Address1 = purchaseOrder.OrderAddress?.Address1,
+                           Address2 = purchaseOrder.OrderAddress?.Address2,
+                           Address3 = purchaseOrder.OrderAddress?.Address3,
+                           Address4 = purchaseOrder.OrderAddress?.Address4,
+                           PostCode = purchaseOrder.OrderAddress?.PostCode,
                            Parts = purchaseOrder.Details.Select(d => d.PartNumber).ToList(),
                            Details = purchaseOrder.Details.Select(
                                d => new PurchaseOrderDetailResource
                                         {
                                             OrderLine = d.OrderLine,
                                             PartNumber = d.PartNumber,
-                                            PartDescription = d.Part.Description,
+                                            PartDescription = d.Part?.Description,
                                             OrderQuantity = d.OrderQuantity,
                                             OurUnitOfMeasure = d.OurUnitOfMeasure,
                                             IssuedSerialNumbers = d.IssuedSerialNumbers

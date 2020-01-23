@@ -1206,7 +1206,6 @@
             q.Property(e => e.SernosGroup).HasColumnName("SERNOS_GROUP");
             q.Property(e => e.SernosNumber).HasColumnName("SERNOS_NUMBER");
             q.Property(e => e.DocumentType).HasColumnName("DOCUMENT_TYPE");
-
         }
     }
 }

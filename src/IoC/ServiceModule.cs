@@ -52,6 +52,7 @@
             builder.RegisterType<BuiltThisWeekReportService>().As<IBuiltThisWeekReportService>();
             builder.RegisterType<DeliveryPeformanceReportService>().As<IDeliveryPerformanceReportService>();
             builder.RegisterType<CountComponentsService>().As<ICountComponents>();
+            builder.RegisterType<PurchaseOrderDomainService>().As<IPurchaseOrderDomainService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -101,8 +102,8 @@
             builder.RegisterType<StoragePlaceService>().As<IStoragePlaceService>();
             builder.RegisterType<PartFailFaultCodeService>()
                 .As<IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource>>();
-            builder.RegisterType<Linn.Production.Facade.Services.PurchaseOrderService>()
-                .As<IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource>>();
+            builder.RegisterType<PurchaseOrderService>()
+                .As<IPurchaseOrderService>();
             builder.RegisterType<OrdersReportsFacadeService>().As<IOrdersReportsFacadeService>();
             builder.RegisterType<PartsReportFacadeService>().As<IPartsReportFacadeService>();
             builder.RegisterType<BoardTestsService>()
@@ -130,7 +131,6 @@
             builder.RegisterType<BtwResultFacadeService>().As<IBtwResultFacadeService>();
             builder.RegisterType<DeliveryPerfResultFacadeService>().As<IDeliveryPerfResultFacadeService>();
             builder.RegisterType<CountComponentsFacadeService>().As<ICountComponentsFacadeService>();
-            builder.RegisterType<PurchaseOrderService>().As<IPurchaseOrderService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

@@ -126,6 +126,8 @@
             builder.RegisterType<ComponentCountResourceBuilder>().As<IResourceBuilder<ComponentCount>>();
             builder.RegisterType<PurchaseOrderDetailResourceBuilder>().As<IResourceBuilder<PurchaseOrderDetail>>();
             builder.RegisterType<PurchaseOrderDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PurchaseOrderDetail>>>();
+            builder.RegisterType<PurchaseOrderWithSernosInfoResourceBuilder>()
+                .As<IResourceBuilder<PurchaseOrderWithSernosInfo>>();
         }
     }
 }
