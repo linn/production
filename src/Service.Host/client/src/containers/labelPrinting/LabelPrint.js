@@ -11,13 +11,22 @@ import * as itemTypes from '../../itemTypes'
 import labelPrintTypeSelectors from '../../selectors/labelPrintTypeSelectors';
 import labelPrintersSelectors from '../../selectors/labelPrintersSelectors';
 import labelPrintSelectors from '../../selectors/labelPrintSelectors';
+import addressesActions from '../../actions/addressesActions';
+import addressesSelectors from '../../selectors/addressesSelectors';
+import suppliersActions from '../../actions/suppliersActions';
+import suppliersSelectors from '../../selectors/suppliersSelectors';
 
 const mapStateToProps = state => ({
     loading: labelPrintSelectors.getLoading(state),
     snackbarVisible: labelPrintSelectors.getSnackbarVisible(state),
     itemError: getItemErrorDetailMessage(state, itemTypes.labelPrint.item),
     labelPrintTypes: labelPrintTypeSelectors.getItems(state),
-    labelPrinters: labelPrintersSelectors.getItems(state)
+    labelPrinters: labelPrintersSelectors.getItems(state),
+    addressSearchLoading: addressesSelectors.getSearchLoading(state),
+    addressSearchResults: addressesSelectors.getSearchItems(state),
+    //.map(s => ({ ...s, id: s.partNumber, name: s.partNumber }))
+    supplierSearchLoading: suppliersSelectors.getSearchLoading(state),
+    supplierSearchResults: suppliersSelectors.getSearchItems(state)
 });
 
 const initialise = () => dispatch => {
@@ -27,7 +36,11 @@ const initialise = () => dispatch => {
 
 const mapDispatchToProps = {
     initialise,
-    print: labelPrintActions.add
+    print: labelPrintActions.add,
+    searchAddresses: addressesActions.search,
+    clearAddressSearch: addressesActions.clearSearch,
+    searchSuppliers: suppliersActions.search,
+    clearSupplierSearch: suppliersActions.clearSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(LabelPrint));

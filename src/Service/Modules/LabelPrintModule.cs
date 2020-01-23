@@ -6,6 +6,7 @@
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Extensions;
     using Linn.Production.Service.Models;
@@ -15,14 +16,14 @@
     public sealed class LabelPrintModule : NancyModule
     {
         private readonly ILabelPrintService labelPrintService;
-        private readonly IFacadeService<Address, int, AddressResource, AddressResource> addressService;
-        private readonly IFacadeService<Supplier, int, SupplierResource, SupplierResource> supplierService;
+        private readonly IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource> addressService;
+        private readonly IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource> supplierService;
 
 
         public LabelPrintModule(
             ILabelPrintService labelPrintService,
-            IFacadeService<Address, int, AddressResource, AddressResource> addressService,
-            IFacadeService<Supplier, int, SupplierResource, SupplierResource> supplierService)
+            IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource> addressService,
+            IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource> supplierService)
         {
             this.labelPrintService = labelPrintService;
             this.addressService = addressService;
@@ -55,7 +56,7 @@
         {
             var resource = this.Bind<SearchRequestResource>();
            
-            var result = this.supplierService.Search(resource.SearchTerm);
+            var result = this.supplierService.SearchReturnTen(resource.SearchTerm);
 
             return this.Negotiate
                 .WithModel(result)
@@ -67,7 +68,7 @@
         {
             var resource = this.Bind<SearchRequestResource>();
 
-            var result = this.addressService.Search(resource.SearchTerm);
+            var result = this.addressService.SearchReturnTen(resource.SearchTerm);
 
             return this.Negotiate
                 .WithModel(result)

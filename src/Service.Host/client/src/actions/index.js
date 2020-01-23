@@ -266,3 +266,7 @@ export const ateTestActionTypes = makeActionTypes(itemTypes.ateTest.actionType);
 export const ateTestsActionTypes = makeActionTypes(itemTypes.ateTests.actionType);
 
 export const componentCountsActionTypes = makeActionTypes(itemTypes.componentCounts.actionType);
+
+export const addressesActionTypes = makeActionTypes(itemTypes.addresses.actionType, false);
+
+export const suppliersActionTypes = makeActionTypes(itemTypes.suppliers.actionType, false);

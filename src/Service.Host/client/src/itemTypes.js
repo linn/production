@@ -283,3 +283,15 @@ export const componentCounts = new ItemType(
     'COMPONENT_COUNTS',
     '/production/quality/ate-tests/count-components/'
 );
+
+export const addresses = new ItemType(
+    'addresses',
+    'ADDRESSES',
+    '/production/maintenance/labels/addresses'
+);
+
+export const suppliers = new ItemType(
+    'suppliers',
+    'SUPPLIERS',
+    '/production/maintenance/labels/suppliers'
+);

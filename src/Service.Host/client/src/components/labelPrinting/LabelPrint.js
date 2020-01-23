@@ -9,7 +9,8 @@ import {
     ErrorCard,
     SnackbarMessage,
     useSearch,
-    utilities
+    utilities,
+    Typeahead
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -31,6 +32,9 @@ const useStyles = makeStyles(theme => ({
     },
     spacingRight: {
         marginRight: theme.spacing(2)
+    },
+    hide: {
+        display: 'none'
     }
 }));
 
@@ -41,7 +45,15 @@ function LabelPrint({
     labelPrintTypes,
     labelPrinters,
     print,
-    snackbarMessage
+    snackbarMessage,
+    searchAddresses,
+    addressSearchLoading,
+    addressSearchResults,
+    clearAddressSearch,
+    supplierSearchLoading,
+    supplierSearchResults,
+    searchSuppliers,
+    clearSupplierSearch
 }) {
     const printLinesInitialState = [
         {
@@ -63,6 +75,14 @@ function LabelPrint({
         {
             id: 'addressee',
             displayName: 'Addressee',
+            value: '',
+            width: 12,
+            displayForLabelTypes: [4],
+            inputType: 'string'
+        },
+        {
+            id: 'addressee2',
+            displayName: 'Addressee 2',
             value: '',
             width: 12,
             displayForLabelTypes: [4],
@@ -236,6 +256,18 @@ function LabelPrint({
         setLabelDetails(updatedDetails);
     };
 
+    const handleCopyFromAddress = newValue => {
+        handleLabelDetailsChange('line1', newValue.line1);
+        handleLabelDetailsChange('line2', newValue.line2);
+        handleLabelDetailsChange('line3', newValue.line3);
+        handleLabelDetailsChange('line4', newValue.line4);
+        handleLabelDetailsChange('postalCode', newValue.postCode);
+        handleLabelDetailsChange('country', newValue.country);
+        handleLabelDetailsChange('addressee', newValue.addressee);
+        handleLabelDetailsChange('addressee2', newValue.addressee2);
+        handleLabelDetailsChange('addressId', newValue.id);
+    };
+
     const handlePrintClick = () => {
         if (false) {
             print();
@@ -246,6 +278,11 @@ function LabelPrint({
 
     const handleClearClick = () => {
         setLabelDetails(printLinesInitialState);
+    };
+
+    const getInputValue = inputId => {
+        const input = labelDetails.find(x => x.id === inputId);
+        return input.value;
     };
 
     const getInputStyle = () => {
@@ -330,27 +367,56 @@ function LabelPrint({
                                             />
                                         </Grid>
                                     </Grid>
+
+                                    <Grid
+                                        container
+                                        xs={12}
+                                        className={
+                                            labelType === 4 || labelType === 5 ? '' : classes.hide
+                                        }
+                                    >
+                                        <Grid item xs={6}>
+                                            <Typeahead
+                                                onSelect={newValue => {
+                                                    handleCopyFromAddress(newValue);
+                                                }}
+                                                propertyName="addressId"
+                                                label="Address"
+                                                modal
+                                                items={addressSearchResults}
+                                                value={getInputValue('addressId')}
+                                                loading={addressSearchLoading}
+                                                fetchItems={searchAddresses}
+                                                links={false}
+                                                clearSearch={() => clearAddressSearch}
+                                                placeholder="Search for an Address"
+                                                onChange={handleLabelDetailsChange}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <Typeahead
+                                                propertyName="supplierId"
+                                                label="Supplier"
+                                                modal
+                                                items={supplierSearchResults}
+                                                value={getInputValue('supplierId')}
+                                                loading={supplierSearchLoading}
+                                                fetchItems={searchSuppliers}
+                                                links={false}
+                                                clearSearch={() => clearSupplierSearch}
+                                                placeholder="Search for a Supplier"
+                                                onChange={handleLabelDetailsChange}
+                                            />
+                                        </Grid>
+                                    </Grid>
+
                                     {labelDetails.map(
                                         line =>
                                             // if line is displayed for current label type
                                             line.displayForLabelTypes.includes(labelType) && (
                                                 <Fragment>
                                                     <Grid item xs={line.width}>
-                                                        {line.inputType === 'typeahead' ? (
-                                                            <InputField //inputs + logic
-                                                                label={line.displayName}
-                                                                fullWidth
-                                                                type="string"
-                                                                onChange={handleLabelDetailsChange}
-                                                                propertyName={line.id}
-                                                                value={line.value}
-                                                                className={
-                                                                    labelType === 7
-                                                                        ? classes.boldText
-                                                                        : ''
-                                                                }
-                                                            />
-                                                        ) : (
+                                                        {line.inputType !== 'typeahead' && (
                                                             <Fragment>
                                                                 <InputField //inputs + logic
                                                                     label={line.displayName}

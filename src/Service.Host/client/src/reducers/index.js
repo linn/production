@@ -90,8 +90,8 @@ import componentCounts from './componentCounts';
 import labelPrint from './labelPrint';
 import labelPrintTypes from './labelPrintTypes';
 import labelPrinters from './labelPrinters';
-
-
+import suppliers from './suppliers';
+import addresses from './addresses';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -186,6 +186,8 @@ const reducer = history =>
         labelPrint,
         labelPrinters,
         labelPrintTypes,
+        suppliers,
+        addresses,
         ...sharedLibraryReducers
     });
 

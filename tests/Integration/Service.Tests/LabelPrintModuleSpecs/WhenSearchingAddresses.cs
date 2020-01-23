@@ -15,7 +15,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.AddressService.Search(Arg.Any<string>()).Returns(new SuccessResult<IEnumerable<Address>>(new List<Address>() { new Address() { Id = 15, Addressee = "Drumph" } }));
+            this.AddressService.SearchReturnTen(Arg.Any<string>()).Returns(new SuccessResult<IEnumerable<Address>>(new List<Address>() { new Address() { Id = 15, Addressee = "Drumph" } }));
 
 
             this.Response = this.Browser.Get(
@@ -36,7 +36,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.AddressService.Received().Search(Arg.Any<string>());
+            this.AddressService.Received().SearchReturnTen(Arg.Any<string>());
         }
 
         [Test]

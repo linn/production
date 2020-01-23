@@ -16,7 +16,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.SupplierService.Search(Arg.Any<string>()).Returns(new SuccessResult<IEnumerable<Supplier>>(new List<Supplier>() { new Supplier() { SupplierId = 19, SupplierName = "Dunder Mifflin" } }));
+            this.SupplierService.SearchReturnTen(Arg.Any<string>()).Returns(new SuccessResult<IEnumerable<Supplier>>(new List<Supplier>() { new Supplier() { SupplierId = 19, SupplierName = "Dunder Mifflin" } }));
 
 
             this.Response = this.Browser.Get(
@@ -37,7 +37,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.SupplierService.Received().Search(Arg.Any<string>());
+            this.SupplierService.Received().SearchReturnTen(Arg.Any<string>());
         }
 
         [Test]

@@ -6,6 +6,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade;
     using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
@@ -17,17 +18,17 @@
     {
         protected ILabelPrintService LabelPrintService { get; private set; }
 
-        protected IFacadeService<Address, int, AddressResource, AddressResource> AddressService { get; set; }
+        protected IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource> AddressService { get; set; }
 
-        protected IFacadeService<Supplier, int, SupplierResource, SupplierResource> SupplierService { get; set; }
+        protected IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource> SupplierService { get; set; }
 
         [SetUp]
         public void EstablishContext()
         {
             this.LabelPrintService = Substitute.For<ILabelPrintService>();
-            this.AddressService = Substitute.For<IFacadeService<Address, int, AddressResource, AddressResource>>();
+            this.AddressService = Substitute.For<IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource>>();
             this.SupplierService =
-                Substitute.For<IFacadeService<Supplier, int, SupplierResource, SupplierResource>>();
+                Substitute.For<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
