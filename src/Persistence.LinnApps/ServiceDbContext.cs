@@ -147,6 +147,10 @@
 
         public DbQuery<PtlStat> PtlStats { get; set; }
 
+        public DbQuery<SernosIssued> SernosIssuedView { get; set; }
+
+        public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -218,6 +222,8 @@
             this.BuildLabelTypes(builder);
             this.BuildCountries(builder);
             this.BuildAddresses(builder);
+            this.QuerySernosBuiltView(builder);
+            this.QuerySernosIssuedView(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -1181,6 +1187,26 @@
             builder.Entity<Address>().Property(c => c.Address3).HasColumnName("ADDRESS_3");
             builder.Entity<Address>().Property(c => c.Address4).HasColumnName("ADDRESS_4");
             builder.Entity<Address>().Property(c => c.PostCode).HasColumnName("POSTAL_CODE");
+        }
+
+        private void QuerySernosBuiltView(ModelBuilder builder)
+        {
+            var q = builder.Query<SernosBuilt>();
+            q.ToView("SERNOS_BUILT_VIEW");
+            q.Property(e => e.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            q.Property(e => e.SernosGroup).HasColumnName("SERNOS_GROUP");
+            q.Property(e => e.SernosNumber).HasColumnName("SERNOS_NUMBER");
+        }
+
+        private void QuerySernosIssuedView(ModelBuilder builder)
+        {
+            var q = builder.Query<SernosIssued>();
+            q.ToView("SERNOS_ISSUED_VIEW");
+            q.Property(e => e.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+            q.Property(e => e.SernosGroup).HasColumnName("SERNOS_GROUP");
+            q.Property(e => e.SernosNumber).HasColumnName("SERNOS_NUMBER");
+            q.Property(e => e.DocumentType).HasColumnName("DOCUMENT_NUMBER");
+
         }
     }
 }

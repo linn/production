@@ -2,6 +2,8 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
@@ -10,9 +12,9 @@
 
     public sealed class PurchaseOrdersModule : NancyModule
     {
-        private readonly IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource> service;
+        private readonly IPurchaseOrderService service;
 
-        public PurchaseOrdersModule(IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource> service)
+        public PurchaseOrdersModule(IPurchaseOrderService service)
         {
             this.service = service;
 
@@ -32,9 +34,9 @@
 
         private object GetPurchaseOrder(int id)
         {
-            var resource = this.Bind<SearchRequestResource>();
-
             var purchaseOrder = this.service.GetById(id);
+
+            var x = this.service.GetFirstSernos(610262);
 
             return this.Negotiate.WithModel(purchaseOrder).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");

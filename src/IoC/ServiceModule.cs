@@ -101,7 +101,7 @@
             builder.RegisterType<StoragePlaceService>().As<IStoragePlaceService>();
             builder.RegisterType<PartFailFaultCodeService>()
                 .As<IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource>>();
-            builder.RegisterType<PurchaseOrderService>()
+            builder.RegisterType<Linn.Production.Facade.Services.PurchaseOrderService>()
                 .As<IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource>>();
             builder.RegisterType<OrdersReportsFacadeService>().As<IOrdersReportsFacadeService>();
             builder.RegisterType<PartsReportFacadeService>().As<IPartsReportFacadeService>();
@@ -130,6 +130,7 @@
             builder.RegisterType<BtwResultFacadeService>().As<IBtwResultFacadeService>();
             builder.RegisterType<DeliveryPerfResultFacadeService>().As<IDeliveryPerfResultFacadeService>();
             builder.RegisterType<CountComponentsFacadeService>().As<ICountComponentsFacadeService>();
+            builder.RegisterType<PurchaseOrderService>().As<IPurchaseOrderService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
