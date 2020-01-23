@@ -13,11 +13,11 @@
 
     public class PurchaseOrderService : FacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource>, IPurchaseOrderService
     {
+        private static readonly List<string> PurchaseOrderDocTypes = new List<string> { "PO", "P", "RO" };
+
         private readonly IQueryRepository<SernosIssued> sernosIssuedRepository;
 
         private readonly IQueryRepository<SernosBuilt> sernosBuiltRepository;
-
-        private static readonly List<string> PurchaseOrderDocTypes = new List<string> { "PO", "P", "RO" };
 
         public PurchaseOrderService(
             IRepository<PurchaseOrder, int> repository,
@@ -29,14 +29,6 @@
             this.sernosBuiltRepository = sernosBuiltRepository;
             this.sernosIssuedRepository = sernosIssuedRepository;
         }
-
-        //-- first and last sernos
-        //SELECT MIN(SERNOS_NUMBER),MAX(SERNOS_NUMBER),COUNT(SERNOS_NUMBER),
-        //SERNOS_GROUP
-        //    FROM SERNOS_ISSUED_VIEW
-        //    WHERE DOCUMENT_TYPE IN('PO','P','RO')
-        //AND DOCUMENT_NUMBER = 610262
-        //GROUP BY SERNOS_GROUP; -- sernos issued
 
         public int GetFirstSernos(int documentNumber)
         {
@@ -52,13 +44,19 @@
 
         public int GetSernosIssued(int documentNumber)
         {
-            throw new NotImplementedException();
+            return this.sernosIssuedRepository.FilterBy(
+                s => PurchaseOrderDocTypes.Contains(s.DocumentType) && s.DocumentNumber == documentNumber).Count();
         }
 
-        public int GetSernosBuilt(int documentNumber, string SernosGroup)
+        public int GetSernosBuilt(int documentNumber, string partNumber, int firstSernos, int lastSernos)
         {
-            throw new NotImplementedException();
-        }
+            var sernosGroup = this.sernosBuiltRepository.FilterBy(s => s.ArticleNumber == partNumber).ToList().FirstOrDefault()?.SernosGroup;
+            return this.sernosBuiltRepository.FilterBy(
+                s => s.SernosGroup == sernosGroup 
+                     && s.SernosNumber >= firstSernos 
+                     && s.SernosNumber <= lastSernos 
+                     && s.ArticleNumber == partNumber).ToList().Count();
+        } 
 
         protected override PurchaseOrder CreateFromResource(PurchaseOrderResource resource)
         {

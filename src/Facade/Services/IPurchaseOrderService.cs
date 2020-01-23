@@ -12,6 +12,6 @@
 
         int GetSernosIssued(int documentNumber);
 
-        int GetSernosBuilt(int documentNumber, string SernosGroup);
+        int GetSernosBuilt(int documentNumber, string partNumber, int firstSernos, int lastSernos);
     }
 }
