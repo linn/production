@@ -44,11 +44,11 @@ const useStyles = makeStyles(theme => ({
 function LabelPrint({
     loading,
     snackbarVisible,
+    message,
     itemError,
     labelPrintTypes,
     labelPrinters,
     print,
-    snackbarMessage,
     searchAddresses,
     addressSearchLoading,
     addressSearchResults,
@@ -188,7 +188,7 @@ function LabelPrint({
             value: '',
             width: 12,
             displayForLabelTypes: [5],
-            inputType: 'number'
+            inputType: 'string'
         },
         {
             id: 'partNumber',
@@ -271,13 +271,9 @@ function LabelPrint({
     };
 
     const handlePrintClick = () => {
-        if (false) {
-            print();
-        }
-
         const sendableDetails = {
-            SupplierId: labelDetails.find(x => x.id === 'supplierId').value,
-            AddressId: labelDetails.find(x => x.id === 'addressId').value,
+            SupplierId: `${labelDetails.find(x => x.id === 'supplierId').value}`,
+            AddressId: `${labelDetails.find(x => x.id === 'addressId').value}`,
             Addressee: labelDetails.find(x => x.id === 'addressee').value,
             Addressee2: labelDetails.find(x => x.id === 'addressee2').value,
             Line1: labelDetails.find(x => x.id === 'line1').value,
@@ -289,8 +285,8 @@ function LabelPrint({
             Line7: labelDetails.find(x => x.id === 'line7').value,
             PostCode: labelDetails.find(x => x.id === 'postalCode').value,
             Country: labelDetails.find(x => x.id === 'country').value,
-            FromPCNumber: labelDetails.find(x => x.id === 'fromPCNumber').value,
-            ToPCNumber: labelDetails.find(x => x.id === 'toPCNumber').value,
+            FromPCNumber: `${labelDetails.find(x => x.id === 'fromPCNumber').value}`,
+            ToPCNumber: `${labelDetails.find(x => x.id === 'toPCNumber').value}`,
             PoNumber: labelDetails.find(x => x.id === 'poNumber').value,
             PartNumber: labelDetails.find(x => x.id === 'partNumber').value,
             Quantity: labelDetails.find(x => x.id === 'qty').value,
@@ -309,10 +305,10 @@ function LabelPrint({
         console.info(printInfo);
 
         print(printInfo);
-        //send all details back - which type, printer and the deets
     };
 
     const handleClearClick = () => {
+        console.info(message);
         setLabelDetails(printLinesInitialState);
     };
 
@@ -354,7 +350,9 @@ function LabelPrint({
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 //onClose={() => setPrintAllLabelsForProductActionsMessageVisible(false)}
-                                message={snackbarMessage}
+                                message={
+                                    message && message.data.message ? message.data.message : ''
+                                }
                             />
                             <Grid item xs={12}>
                                 {itemError && <ErrorCard errorMessage={itemError.errorMessage} />}
@@ -513,7 +511,7 @@ LabelPrint.propTypes = {
     labelPrintTypes: PropTypes.arrayOf(PropTypes.shape({})),
     labelPrinters: PropTypes.arrayOf(PropTypes.shape({})),
     print: PropTypes.func.isRequired,
-    snackbarMessage: PropTypes.string
+    message: PropTypes.string
 };
 
 LabelPrint.defaultProps = {
@@ -522,6 +520,6 @@ LabelPrint.defaultProps = {
     itemError: {},
     labelPrintTypes: [{}],
     labelPrinters: [{}],
-    snackbarMessage: ''
+    message: { message: '' }
 };
 export default LabelPrint;

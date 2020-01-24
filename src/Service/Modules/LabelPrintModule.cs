@@ -80,7 +80,10 @@
         {
             var resource = this.Bind<LabelPrintResource>();
 
+            var result = this.labelPrintService.PrintLabel(resource);
+
             return this.Negotiate
+                .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }

@@ -1,13 +1,14 @@
 ﻿namespace Linn.Production.Facade.Services
 {
-    using System;
-    using System.Collections.Generic;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.Extensions;
+    using Linn.Production.Resources;
+    using System;
+    using System.Collections.Generic;
 
     public class LabelPrintService : ILabelPrintService
     {
@@ -24,6 +25,8 @@
         private readonly IRepository<LabelType, string> labelTypeRepository;
 
         private string message;
+
+        private Dictionary<GeneralPurposeLabelTypes.Labels, IResult<LabelPrintResponse>> PrintMapper;
 
         public LabelPrintService(
             IBartenderLabelPack bartenderLabelPack,
@@ -67,9 +70,29 @@
             return new SuccessResult<IEnumerable<IdAndName>>(labelList);
         }
 
-        public void PrintLabel()
+        public IResult<LabelPrintResponse> PrintLabel(LabelPrintResource resource)
         {
-            throw new NotImplementedException();
+            var labelType = (GeneralPurposeLabelTypes.Labels)resource.LabelType;
+
+            PrintMapper = new Dictionary<GeneralPurposeLabelTypes.Labels, IResult<LabelPrintResponse>>
+                              {
+                                  { GeneralPurposeLabelTypes.Labels.PCNumbers, this.PrintPcNumbers(resource) },
+                                  { GeneralPurposeLabelTypes.Labels.AddressLabel, this.PrintAddressLabel(resource) }
+                              };
+
+            var result = this.PrintMapper[labelType];
+
+            return result;
+        }
+
+        private IResult<LabelPrintResponse> PrintPcNumbers(LabelPrintResource resource)
+        {
+            return new SuccessResult<LabelPrintResponse>( new LabelPrintResponse($"printed pc numbers {resource.LinesForPrinting.FromPCNumber} to {resource.LinesForPrinting.ToPCNumber} {resource.Quantity} times"));
+        }
+
+        private IResult<LabelPrintResponse> PrintAddressLabel(LabelPrintResource resource)
+        {
+            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed address label {resource.Quantity} times"));
         }
     }
 }

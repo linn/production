@@ -19,6 +19,7 @@ import suppliersSelectors from '../../selectors/suppliersSelectors';
 const mapStateToProps = state => ({
     loading: labelPrintSelectors.getLoading(state),
     snackbarVisible: labelPrintSelectors.getSnackbarVisible(state),
+    message: labelPrintSelectors.getItem(state),
     itemError: getItemErrorDetailMessage(state, itemTypes.labelPrint.item),
     labelPrintTypes: labelPrintTypeSelectors.getItems(state),
     labelPrinters: labelPrintersSelectors.getItems(state),
