@@ -21,5 +21,7 @@
         public int FirstSernos { get; set; }
 
         public int LastSernos { get; set; }
+
+        public int QuantityReceived { get; set; }
     }
 }

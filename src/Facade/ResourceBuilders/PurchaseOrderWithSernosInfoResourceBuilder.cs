@@ -20,12 +20,19 @@
                             Address3 = model.OrderAddress.Address3,
                             Address4 = model.OrderAddress.Address4,
                             PostCode = model.OrderAddress.PostCode,
-                            DetailSernosInfos = model.DetaisWithSernosInfo.Select(x => new PurchaseOrderDetailSernosInfoResource
+                            DetailSernosInfos = model.DetaisWithSernosInfo.Select(x => new PurchaseOrderDetailSWithernosInfoResource
                                                                                            {
+                                                                                                OrderLine = x.OrderLine,
+                                                                                                PartNumber = x.PartNumber,
+                                                                                                PartDescription = x.Part.Description,
+                                                                                                OrderQuantity = x.OrderQuantity,
+                                                                                                OurUnitOfMeasure = x.OurUnitOfMeasure,
+                                                                                                IssuedSerialNumbers = x.IssuedSerialNumbers,
                                                                                                 FirstSernos = x.FirstSernos,
                                                                                                 LastSernos = x.LastSernos,
                                                                                                 SernosBuilt = x.SernosBuilt,
-                                                                                                SernosIssued = x.SernosIssued
+                                                                                                SernosIssued = x.SernosIssued,
+                                                                                                QuantityReceived = x.QuantityReceived
                                                                                            }).ToList()
                        };
         }

@@ -15,12 +15,16 @@
 
         private readonly IQueryRepository<SernosBuilt> sernosBuiltRepository;
 
+        private readonly IQueryRepository<PurchaseOrdersReceived> purchasedOrdersReceived;
+
         public PurchaseOrderDomainService(
             IQueryRepository<SernosIssued> sernosIssuedRepository,
-            IQueryRepository<SernosBuilt> sernosBuiltRepository)
+            IQueryRepository<SernosBuilt> sernosBuiltRepository,
+            IQueryRepository<PurchaseOrdersReceived> purchasedOrdersReceived)
         {
             this.sernosBuiltRepository = sernosBuiltRepository;
             this.sernosIssuedRepository = sernosIssuedRepository;
+            this.purchasedOrdersReceived = purchasedOrdersReceived;
         }
 
         public PurchaseOrderWithSernosInfo BuildPurchaseOrderWithSernosInfo(PurchaseOrder purchaseOrder)
@@ -58,6 +62,10 @@
                 detailWithSernosInfo.SernosIssued = this.sernosIssuedRepository.FilterBy(
                         s => PurchaseOrderDocTypes.Contains(s.DocumentType) && s.DocumentNumber == orderNumber)
                     .Count();
+
+                detailWithSernosInfo.QuantityReceived = this.purchasedOrdersReceived
+                    .FilterBy(p => p.OrderNumber == orderNumber && p.OrderLine == detail.OrderLine).ToList().FirstOrDefault()
+                    .QuantityNetReceived;
                                                
 
                 detailWithSernosInfo.SernosBuilt = this.sernosBuiltRepository.FilterBy(

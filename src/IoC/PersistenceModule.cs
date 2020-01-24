@@ -96,6 +96,7 @@
             builder.RegisterType<PtlStatRepository>().As<IQueryRepository<PtlStat>>();
             builder.RegisterType<SernosBuiltRepository>().As<IQueryRepository<SernosBuilt>>();
             builder.RegisterType<SernosIssuedRepository>().As<IQueryRepository<SernosIssued>>();
+            builder.RegisterType<PurchaseOrdersReceivedRepository>().As<IQueryRepository<PurchaseOrdersReceived>>();
         }
     }
 }

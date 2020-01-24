@@ -151,6 +151,8 @@
 
         public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
 
+        public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -224,6 +226,7 @@
             this.BuildAddresses(builder);
             this.QuerySernosBuiltView(builder);
             this.QuerySernosIssuedView(builder);
+            this.QueryPurchaseOrdersReceivedView(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -1206,6 +1209,15 @@
             q.Property(e => e.SernosGroup).HasColumnName("SERNOS_GROUP");
             q.Property(e => e.SernosNumber).HasColumnName("SERNOS_NUMBER");
             q.Property(e => e.DocumentType).HasColumnName("DOCUMENT_TYPE");
+        }
+
+        private void QueryPurchaseOrdersReceivedView(ModelBuilder builder)
+        {
+            var q = builder.Query<PurchaseOrdersReceived>();
+            q.ToView("PLOD_RECEIVED_VIEW");
+            q.Property(e => e.QuantityNetReceived).HasColumnName("QTY_NET_RECEIVED");
+            q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
+            q.Property(e => e.OrderLine).HasColumnName("ORDER_LINE");
         }
     }
 }
