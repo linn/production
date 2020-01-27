@@ -56,8 +56,8 @@
 
             var report = new ProductionTriggersReport(ptlJobref, ptlMaster, cit, this.triggerRepository);
             var backOrders =
-                this.backOrderRepository.FilterBy(b => b.JobId == linnCompany.LatestSosJobId && b.CitCode == citCode);
-            var wswShortages = this.shortageRepository.FilterBy(s => s.Jobref == ptlJobref && s.CitCode == citCode);
+                this.backOrderRepository.FilterBy(b => b.JobId == linnCompany.LatestSosJobId && b.CitCode == citCode).ToList();
+            var wswShortages = this.shortageRepository.FilterBy(s => s.Jobref == ptlJobref && s.CitCode == citCode).ToList();
 
             var summary = new ShortageSummary();
             var shortages = new List<ShortageResult>();
