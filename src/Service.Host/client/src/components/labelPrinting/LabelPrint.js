@@ -1,23 +1,18 @@
-import React, { useState, useCallback, useEffect, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
     Dropdown,
     InputField,
     Loading,
-    SearchInputField,
     Title,
     ErrorCard,
     SnackbarMessage,
-    useSearch,
-    utilities,
     Typeahead
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Page from '../../containers/Page';
-import { labelTypes, labelPrint } from '../../itemTypes';
 
 const useStyles = makeStyles(theme => ({
     marginTop: {
@@ -218,7 +213,6 @@ function LabelPrint({
             id: 'date',
             displayName: 'Date',
             value: new Date().toDateString().slice(4),
-            //`${date.getMonth()} ${date.getDay()}, ${date.getFullYear()}`,
             width: 6,
             displayForLabelTypes: [5],
             inputType: 'string',
@@ -234,22 +228,29 @@ function LabelPrint({
     const classes = useStyles();
 
     const handleFieldChange = (propertyName, newValue) => {
-        if (propertyName === 'labelType') {
-            console.info(newValue);
-            setLabelType(parseInt(newValue, 10));
-            //set label details/properties - rows etcccc
-        }
         if (propertyName === 'printer') {
             setPrinter(newValue);
         }
         if (propertyName === 'quantity') {
-            setQuantity(newValue);
+            setQuantity(Math.round(newValue));
+        }
+    };
+
+    const handleLabelTypeChange = (name, newValue) => {
+        setLabelType(parseInt(newValue, 10));
+
+        if (newValue === '0' || newValue === '1') {
+            setPrinter(3); //Large labels -> Prodlbl2
+        } else if (newValue === '2' || newValue === '3' || newValue === '6' || newValue === '7') {
+            setPrinter(2); //Small labels -> Prodlbl1
+        } else if (newValue === '4' || newValue === '5') {
+            setPrinter(0); //address & goods in labels -> goods in 1 GILabels
         }
     };
 
     const handleLabelDetailsChange = (lineId, newValue) => {
         const rowToUpdate = labelDetails.findIndex(x => x.id === lineId);
-        let updatedDetails = [...labelDetails];
+        const updatedDetails = [...labelDetails];
         updatedDetails[rowToUpdate].value = newValue;
         setLabelDetails(updatedDetails);
     };
@@ -337,7 +338,7 @@ function LabelPrint({
                             <Grid item xs={12}>
                                 <Fragment>
                                     <Button
-                                        href="/production/maintenance/labels/reprint"
+                                        href="/production/maintenance/labels/reprint-reasons/create"
                                         variant="outlined"
                                         color="primary"
                                         className={classes.floatRight}
@@ -349,7 +350,6 @@ function LabelPrint({
                             </Grid>
                             <SnackbarMessage
                                 visible={snackbarVisible}
-                                //onClose={() => setPrintAllLabelsForProductActionsMessageVisible(false)}
                                 message={
                                     message && message.data.message ? message.data.message : ''
                                 }
@@ -369,7 +369,6 @@ function LabelPrint({
                                         container
                                         className={classes.filtersWithSpacing}
                                     >
-                                        {/* className={classes.marginTop}> */}
                                         <Grid item xs={4} className={classes.spacingRight}>
                                             <Dropdown
                                                 value={labelType || ''}
@@ -380,7 +379,7 @@ function LabelPrint({
                                                     id: labelPrintType.id,
                                                     displayText: labelPrintType.name
                                                 }))}
-                                                onChange={handleFieldChange}
+                                                onChange={handleLabelTypeChange}
                                                 propertyName="labelType"
                                                 allowNoValue={false}
                                             />
@@ -401,7 +400,7 @@ function LabelPrint({
                                             />
                                         </Grid>
                                         <Grid item xs={2}>
-                                            <InputField //Quantity
+                                            <InputField
                                                 label="Quantity"
                                                 fullWidth
                                                 type="number"
@@ -458,13 +457,12 @@ function LabelPrint({
 
                                     {labelDetails.map(
                                         line =>
-                                            // if line is displayed for current label type
                                             line.displayForLabelTypes.includes(labelType) && (
                                                 <Fragment>
                                                     <Grid item xs={line.width}>
                                                         {line.inputType !== 'typeahead' && (
                                                             <Fragment>
-                                                                <InputField //inputs + logic
+                                                                <InputField
                                                                     label={line.displayName}
                                                                     fullWidth
                                                                     type={line.inputType}
@@ -507,19 +505,35 @@ function LabelPrint({
 LabelPrint.propTypes = {
     loading: PropTypes.bool,
     snackbarVisible: PropTypes.bool,
-    itemError: PropTypes.shape({}),
+    itemError: PropTypes.shape({ errorMessage: PropTypes.string }),
     labelPrintTypes: PropTypes.arrayOf(PropTypes.shape({})),
     labelPrinters: PropTypes.arrayOf(PropTypes.shape({})),
     print: PropTypes.func.isRequired,
-    message: PropTypes.string
+    message: PropTypes.string,
+    searchAddresses: PropTypes.func,
+    addressSearchLoading: PropTypes.bool,
+    addressSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    clearAddressSearch: PropTypes.func,
+    supplierSearchLoading: PropTypes.bool,
+    supplierSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    searchSuppliers: PropTypes.func,
+    clearSupplierSearch: PropTypes.func
 };
 
 LabelPrint.defaultProps = {
     loading: false,
     snackbarVisible: false,
-    itemError: {},
+    itemError: { errorMessage: '' },
     labelPrintTypes: [{}],
     labelPrinters: [{}],
-    message: { message: '' }
+    message: { message: '' },
+    searchAddresses: null,
+    addressSearchLoading: false,
+    addressSearchResults: [{}],
+    clearAddressSearch: null,
+    supplierSearchLoading: false,
+    supplierSearchResults: [{}],
+    searchSuppliers: null,
+    clearSupplierSearch: null
 };
 export default LabelPrint;

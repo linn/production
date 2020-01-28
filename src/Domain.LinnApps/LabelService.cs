@@ -45,6 +45,17 @@
             this.PrintMACAddressLabel(serialNumber, this.GetMACAddress(serialNumber));
         }
 
+        public void PrintLabel(string name, string printer, int qty, string template, string data)
+        {
+            this.bartenderLabelPack.PrintLabels(
+                name,
+                printer,
+                qty,
+                template,
+                data,
+                ref this.message);
+        }
+
         public void PrintAllLabels(int serialNumber, string articleNumber)
         {
             var labelData = this.labelPack.GetLabelData("BOX", serialNumber, articleNumber);

@@ -120,7 +120,7 @@ function LabelReprint({
                                         color="primary"
                                         style={{ float: 'right' }}
                                     >
-                                        print new
+                                        G. P. label printer
                                     </Button>
                                 </Fragment>
                                 <Title text="Reprint / Reissue / Rebuild" />
