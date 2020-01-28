@@ -89,6 +89,11 @@ import historyStore from './history';
 import ateStatusReport from './ateStatusReport';
 import ateDetailsReport from './ateDetailsReport';
 import componentCounts from './componentCounts';
+import labelPrint from './labelPrint';
+import labelPrintTypes from './labelPrintTypes';
+import labelPrinters from './labelPrinters';
+import suppliers from './suppliers';
+import addresses from './addresses';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -182,6 +187,11 @@ const reducer = history =>
         ateStatusReport,
         ateDetailsReport,
         componentCounts,
+        labelPrint,
+        labelPrinters,
+        labelPrintTypes,
+        suppliers,
+        addresses,
         ...sharedLibraryReducers
     });
 

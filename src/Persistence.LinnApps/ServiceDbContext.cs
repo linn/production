@@ -141,11 +141,17 @@
 
         public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
+
         public DbQuery<PtlStat> PtlStats { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -212,6 +218,8 @@
             this.QueryPtlStats(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
+            this.BuildAddresses(builder);
+            this.BuildSuppliers(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -1128,6 +1136,32 @@
             q.Property(b => b.BuiltThisWeek).HasColumnName("BUILT_THIS_WEEK");
             q.Property(b => b.Value).HasColumnName("VALUE");
             q.Property(b => b.Days).HasColumnName("DAYS");
+        }
+
+        private void BuildAddresses(ModelBuilder builder)
+        {
+            var q = builder.Entity<Address>();
+            q.ToTable("ADDRESSES");
+            q.Property(b => b.Id).HasColumnName("ADDRESS_ID").HasMaxLength(38);
+            q.Property(b => b.Addressee).HasColumnName("ADDRESSEE").HasMaxLength(40);
+            q.Property(b => b.Addressee2).HasColumnName("ADDRESSEE_2").HasMaxLength(40);
+            q.Property(b => b.Line1).HasColumnName("ADDRESS_1").HasMaxLength(40);
+            q.Property(b => b.Line2).HasColumnName("ADDRESS_2").HasMaxLength(40);
+            q.Property(b => b.Line3).HasColumnName("ADDRESS_3").HasMaxLength(40);
+            q.Property(b => b.Line4).HasColumnName("ADDRESS_4").HasMaxLength(40);
+            q.Property(b => b.Country).HasColumnName("COUNTRY").HasMaxLength(2);
+            q.Property(b => b.PostCode).HasColumnName("POSTAL_CODE");
+            q.Property(b => b.DateInvalid).HasColumnName("DATE_INVALID");
+        }
+        private void BuildSuppliers(ModelBuilder builder)
+        {
+            var q = builder.Entity<Supplier>();
+            q.ToTable("SUPPLIERS");
+            q.Property(b => b.SupplierId).HasColumnName("SUPPLIER_ID").HasMaxLength(6);
+            q.Property(b => b.SupplierName).HasColumnName("SUPPLIER_NAME").HasMaxLength(50);
+            q.Property(b => b.OrderAddressId).HasColumnName("ORD_ADDRESS_ID").HasMaxLength(10);
+            q.Property(b => b.InvoiceAddressId).HasColumnName("INV_ADDRESS_ID").HasMaxLength(10);
+            q.Property(b => b.DateClosed).HasColumnName("DATE_CLOSED");
         }
 
         private void QueryPtlStats(ModelBuilder builder)

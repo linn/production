@@ -1,6 +1,7 @@
 ﻿import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import {
     SaveBackCancelButtons,
     InputField,
@@ -54,6 +55,7 @@ function LabelReprint({
     }, [item, prevLabelReprint]);
 
     const reasonInvalid = () => !labelReprint.reason;
+    const serialNumberInvalid = () => !labelReprint.serialNumber;
     const inputInvalid = () => reasonInvalid();
 
     const handleSaveClick = () => {
@@ -105,160 +107,180 @@ function LabelReprint({
     };
 
     return (
-        <Page>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Title text="Reprint / Reissue / Rebuild" />
+        <Fragment>
+            <Grid container alignItems="center" justify="center">
+                <Grid xs={6} item>
+                    <Page>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                <Fragment>
+                                    <Button
+                                        href="/production/maintenance/labels/print"
+                                        variant="outlined"
+                                        color="primary"
+                                        style={{ float: 'right' }}
+                                    >
+                                        G. P. label printer
+                                    </Button>
+                                </Fragment>
+                                <Title text="Reprint / Reissue / Rebuild" />
+                            </Grid>
+                            {itemError && (
+                                <Grid item xs={12}>
+                                    <ErrorCard errorMessage={itemError} />
+                                </Grid>
+                            )}
+                            {loading ? (
+                                <Grid item xs={12}>
+                                    <Loading />
+                                </Grid>
+                            ) : (
+                                labelReprint && (
+                                    <Fragment>
+                                        <SnackbarMessage
+                                            visible={snackbarVisible}
+                                            onClose={() => setSnackbarVisible(false)}
+                                            message="Save Successful"
+                                        />
+                                        <Grid item xs={4}>
+                                            <InputField
+                                                fullWidth
+                                                disabled
+                                                value={labelReprint.labelReprintId}
+                                                label="Id"
+                                                required
+                                                propertyName="labelReprintId"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={8} />
+                                        <Grid item xs={4}>
+                                            <Dropdown
+                                                fullWidth
+                                                label="Reprint Type"
+                                                propertyName="reprintType"
+                                                disabled={!creating()}
+                                                allowNoValue={false}
+                                                items={optionsAllowed()}
+                                                value={labelReprint.reprintType}
+                                                onChange={handleFieldChange}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={8} />
+                                        <Grid item xs={12}>
+                                            <InputField
+                                                value={labelReprint.reason}
+                                                disabled={!creating()}
+                                                label="Reason"
+                                                maxLength={50}
+                                                fullWidth
+                                                helperText={
+                                                    reasonInvalid() ? 'This field is required' : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="reason"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                label="Part Number"
+                                                maxLength={14}
+                                                fullWidth
+                                                value={labelReprint.partNumber}
+                                                onChange={handleFieldChange}
+                                                propertyName="partNumber"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={2} className={classes.marginTop}>
+                                            <TypeaheadDialog
+                                                title="Search For Part"
+                                                onSelect={setPart('partNumber')}
+                                                searchItems={partsSearchResults}
+                                                loading={partsSearchLoading}
+                                                fetchItems={searchParts}
+                                                clearSearch={() => clearPartsSearch}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                label="New Part Number"
+                                                maxLength={14}
+                                                fullWidth
+                                                value={labelReprint.newPartNumber}
+                                                onChange={handleFieldChange}
+                                                propertyName="newPartNumber"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={2} className={classes.marginTop}>
+                                            <TypeaheadDialog
+                                                title="Search For Part"
+                                                onSelect={setPart('newPartNumber')}
+                                                searchItems={partsSearchResults}
+                                                loading={partsSearchLoading}
+                                                fetchItems={searchParts}
+                                                clearSearch={() => clearPartsSearch}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                value={labelReprint.serialNumber}
+                                                disabled={!creating()}
+                                                label="Serial Number"
+                                                maxLength={50}
+                                                fullWidth
+                                                type="number"
+                                                helperText={
+                                                    serialNumberInvalid()
+                                                        ? 'This field is required'
+                                                        : ''
+                                                }
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="serialNumber"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <Dropdown
+                                                label="Label Type"
+                                                propertyName="labelTypeCode"
+                                                disabled={!creating()}
+                                                items={labelTypes.map(s => ({
+                                                    id: s.labelTypeCode,
+                                                    displayText: `${s.labelTypeCode}`
+                                                }))}
+                                                value={labelReprint.labelTypeCode || ''}
+                                                onChange={handleFieldChange}
+                                                allowNoValue={false}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={4}>
+                                            <InputField
+                                                value={labelReprint.numberOfProducts}
+                                                disabled={!creating()}
+                                                label="No Of Products"
+                                                fullWidth
+                                                required
+                                                onChange={handleFieldChange}
+                                                propertyName="numberOfProducts"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={10} />
+                                        <Grid item xs={12}>
+                                            <SaveBackCancelButtons
+                                                saveDisabled={viewing() || inputInvalid()}
+                                                saveClick={handleSaveClick}
+                                                cancelClick={handleCancelClick}
+                                                backClick={handleBackClick}
+                                            />
+                                        </Grid>
+                                    </Fragment>
+                                )
+                            )}
+                        </Grid>
+                    </Page>{' '}
                 </Grid>
-                {itemError && (
-                    <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemError} />
-                    </Grid>
-                )}
-                {loading ? (
-                    <Grid item xs={12}>
-                        <Loading />
-                    </Grid>
-                ) : (
-                    labelReprint && (
-                        <Fragment>
-                            <SnackbarMessage
-                                visible={snackbarVisible}
-                                onClose={() => setSnackbarVisible(false)}
-                                message="Save Successful"
-                            />
-                            <Grid item xs={2}>
-                                <InputField
-                                    fullWidth
-                                    disabled
-                                    value={labelReprint.labelReprintId}
-                                    label="Id"
-                                    required
-                                    propertyName="labelReprintId"
-                                />
-                            </Grid>
-                            <Grid item xs={10} />
-                            <Grid item xs={2}>
-                                <Dropdown
-                                    fullWidth
-                                    label="Reprint Type"
-                                    propertyName="reprintType"
-                                    disabled={!creating()}
-                                    allowNoValue={false}
-                                    items={optionsAllowed()}
-                                    value={labelReprint.reprintType}
-                                    onChange={handleFieldChange}
-                                />
-                            </Grid>
-                            <Grid item xs={10} />
-                            <Grid item xs={8}>
-                                <InputField
-                                    value={labelReprint.reason}
-                                    disabled={!creating()}
-                                    label="Reason"
-                                    maxLength={50}
-                                    fullWidth
-                                    helperText={reasonInvalid() ? 'This field is required' : ''}
-                                    required
-                                    onChange={handleFieldChange}
-                                    propertyName="reason"
-                                />
-                            </Grid>
-                            <Grid item xs={4} />
-                            <Grid item xs={3}>
-                                <InputField
-                                    label="Part Number"
-                                    maxLength={14}
-                                    fullWidth
-                                    value={labelReprint.partNumber}
-                                    onChange={handleFieldChange}
-                                    propertyName="partNumber"
-                                />
-                            </Grid>
-                            <Grid item xs={1} className={classes.marginTop}>
-                                <TypeaheadDialog
-                                    title="Search For Part"
-                                    onSelect={setPart('partNumber')}
-                                    searchItems={partsSearchResults}
-                                    loading={partsSearchLoading}
-                                    fetchItems={searchParts}
-                                    clearSearch={() => clearPartsSearch}
-                                />
-                            </Grid>
-                            <Grid item xs={8} />
-                            <Grid item xs={3}>
-                                <InputField
-                                    label="New Part Number"
-                                    maxLength={14}
-                                    fullWidth
-                                    value={labelReprint.newPartNumber}
-                                    onChange={handleFieldChange}
-                                    propertyName="newPartNumber"
-                                />
-                            </Grid>
-                            <Grid item xs={1} className={classes.marginTop}>
-                                <TypeaheadDialog
-                                    title="Search For Part"
-                                    onSelect={setPart('newPartNumber')}
-                                    searchItems={partsSearchResults}
-                                    loading={partsSearchLoading}
-                                    fetchItems={searchParts}
-                                    clearSearch={() => clearPartsSearch}
-                                />
-                            </Grid>
-                            <Grid item xs={8} />
-                            <Grid item xs={4}>
-                                <InputField
-                                    value={labelReprint.serialNumber}
-                                    disabled={!creating()}
-                                    label="Serial Number"
-                                    maxLength={50}
-                                    fullWidth
-                                    type="number"
-                                    onChange={handleFieldChange}
-                                    propertyName="serialNumber"
-                                />
-                            </Grid>
-                            <Grid item xs={8} />
-                            <Grid item xs={12}>
-                                <Dropdown
-                                    label="Label Type"
-                                    propertyName="labelTypeCode"
-                                    disabled={!creating()}
-                                    items={labelTypes.map(s => ({
-                                        id: s.labelTypeCode,
-                                        displayText: `${s.labelTypeCode}`
-                                    }))}
-                                    value={labelReprint.labelTypeCode || ''}
-                                    onChange={handleFieldChange}
-                                    allowNoValue={false}
-                                />
-                            </Grid>
-                            <Grid item xs={2}>
-                                <InputField
-                                    value={labelReprint.numberOfProducts}
-                                    disabled={!creating()}
-                                    label="No Of Products"
-                                    fullWidth
-                                    required
-                                    onChange={handleFieldChange}
-                                    propertyName="numberOfProducts"
-                                />
-                            </Grid>
-                            <Grid item xs={10} />
-                            <Grid item xs={12}>
-                                <SaveBackCancelButtons
-                                    saveDisabled={viewing() || inputInvalid()}
-                                    saveClick={handleSaveClick}
-                                    cancelClick={handleCancelClick}
-                                    backClick={handleBackClick}
-                                />
-                            </Grid>
-                        </Fragment>
-                    )
-                )}
             </Grid>
-        </Page>
+        </Fragment>
     );
 }
 
