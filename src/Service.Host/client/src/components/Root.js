@@ -99,6 +99,8 @@ import AteTest from '../containers/ate/AteTest';
 import AteTests from '../containers/ate/AteTests';
 import CreateAteTest from '../containers/ate/CreateAteTest';
 import BtwReport from '../containers/reports/BtwReport';
+import DelPerfReport from '../containers/reports/DelPerfReport';
+import DelPerfDetails from '../containers/reports/DelPerfDetails';
 import LabelPrint from '../containers/labelPrinting/LabelPrint';
 
 const Root = ({ store }) => (
@@ -594,6 +596,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/btw"
                                         component={BtwReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/delperf"
+                                        component={DelPerfReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/delperf/details"
+                                        component={DelPerfDetails}
                                     />
                                     <Route
                                         exact

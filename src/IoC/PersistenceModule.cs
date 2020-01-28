@@ -95,6 +95,7 @@
             builder.RegisterType<WwdDetailQueryRepository>().As<IQueryRepository<WwdDetail>>();
             builder.RegisterType<ProductionBackOrdersViewRepository>().As<IQueryRepository<ProductionBackOrdersView>>();
             builder.RegisterType<BuiltThisWeekStatisticRepository>().As<IQueryRepository<BuiltThisWeekStatistic>>();
+            builder.RegisterType<PtlStatRepository>().As<IQueryRepository<PtlStat>>();
         }
     }
 }

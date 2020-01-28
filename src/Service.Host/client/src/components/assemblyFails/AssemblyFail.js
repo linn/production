@@ -10,12 +10,10 @@ import {
     SaveBackCancelButtons,
     DatePicker,
     DateTimePicker,
-    ValidatedInputDialog,
-    TypeaheadDialog,
+    Typeahead,
     Dropdown,
     useSearch
 } from '@linn-it/linn-form-components-library';
-import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
 
 function AssemblyFail({
@@ -63,15 +61,7 @@ function AssemblyFail({
 
     useSearch(searchBoardParts, assemblyFail.boardPartNumber, null);
 
-    const useStyles = makeStyles(theme => ({
-        marginTop: {
-            marginTop: theme.spacing(2),
-            marginLeft: theme.spacing(-3)
-        }
-    }));
-
     // Render Constants
-    const classes = useStyles();
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
@@ -94,8 +84,8 @@ function AssemblyFail({
         if (editStatus === 'create' && profile) {
             setAssemblyFail(a => ({
                 ...a,
-                enteredBy: profile.employee.replace('/employees/', ''), // the current user
-                enteredByName: profile.name
+                enteredBy: profile?.employee.replace('/employees/', ''), // the current user
+                enteredByName: profile?.name
             }));
         }
     }, [profile, editStatus]);
@@ -221,8 +211,8 @@ function AssemblyFail({
     const handleCancelClick = () => {
         if (creating()) {
             setAssemblyFail({
-                enteredBy: profile.employee.replace('/employees/', ''),
-                enteredByName: profile.name
+                enteredBy: profile?.employee.replace('/employees/', ''),
+                enteredByName: profile?.name
             });
         } else {
             setAssemblyFail(item);
@@ -279,46 +269,37 @@ function AssemblyFail({
                                             propertyName="id"
                                         />
                                     </Grid>
+                                    <Grid item xs={10} />
                                 </Fragment>
                             ) : (
                                 <Fragment />
                             )}
 
                             <Fragment>
-                                <Grid item xs={6}>
-                                    <InputField
+                                <Grid item xs={12}>
+                                    <Typeahead
+                                        onSelect={newValue => {
+                                            setEditStatus('edit');
+                                            setAssemblyFail(a => ({
+                                                ...a,
+                                                worksOrderNumber: newValue.orderNumber.toString(),
+                                                partNumber: newValue.partNumber,
+                                                partDescription: newValue.partDescription
+                                            }));
+                                        }}
+                                        disabled={!creating()}
                                         label="Works Order"
-                                        maxLength={14}
-                                        fullWidth
+                                        modal
+                                        items={worksOrdersSearchResults}
                                         value={assemblyFail.worksOrderNumber}
-                                        disabled
-                                        propertyName="worksOrder"
+                                        loading={worksOrdersSearchLoading}
+                                        fetchItems={searchWorksOrders}
+                                        links={false}
+                                        clearSearch={() => clearWorksOrdersSearch}
+                                        placeholder="Enter Works Order Number"
                                     />
                                 </Grid>
-                                {creating() && (
-                                    <Grid item xs={2}>
-                                        <div className={classes.marginTop}>
-                                            <ValidatedInputDialog
-                                                title="Enter a Valid Works Order"
-                                                searchItems={worksOrdersSearchResults}
-                                                loading={worksOrdersSearchLoading}
-                                                onAccept={accepted => {
-                                                    setEditStatus('edit');
-                                                    setAssemblyFail(a => ({
-                                                        ...a,
-                                                        worksOrderNumber: accepted.orderNumber,
-                                                        partNumber: accepted.partNumber,
-                                                        partDescription: accepted.partDescription
-                                                    }));
-                                                }}
-                                                fetchItems={searchWorksOrders}
-                                                clearSearch={clearWorksOrdersSearch}
-                                            />
-                                        </div>
-                                    </Grid>
-                                )}
                             </Fragment>
-                            <Grid item xs={2} />
                             {assemblyFail.worksOrderNumber || !creating() ? (
                                 <Fragment>
                                     <Grid item xs={3}>
@@ -492,34 +473,27 @@ function AssemblyFail({
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
-                                        <InputField
-                                            fullWidth
-                                            disabled={completed()}
-                                            value={assemblyFail.boardPartNumber}
+                                    <Grid item xs={4}>
+                                        <Typeahead
+                                            onSelect={newValue => {
+                                                setEditStatus('edit');
+                                                setAssemblyFail(a => ({
+                                                    ...a,
+                                                    boardPartNumber: newValue.partNumber,
+                                                    boardDescription: newValue.partDescription
+                                                }));
+                                            }}
                                             label="Board Part"
-                                            onChange={handleFieldChange}
-                                            propertyName="boardPartNumber"
+                                            modal
+                                            items={boardPartsSearchResults}
+                                            value={assemblyFail.boardPartNumber}
+                                            disabled={!creating()}
+                                            loading={boardPartsSearchLoading}
+                                            fetchItems={searchBoardParts}
+                                            links={false}
+                                            clearSearch={() => clearBoardPartsSearch}
+                                            placeholder="Enter Board Part Number"
                                         />
-                                    </Grid>
-                                    <Grid item xs={1}>
-                                        <div className={classes.marginTop}>
-                                            <TypeaheadDialog
-                                                title="Search For Part"
-                                                onSelect={newValue => {
-                                                    setEditStatus('edit');
-                                                    setAssemblyFail(a => ({
-                                                        ...a,
-                                                        boardPartNumber: newValue.partNumber,
-                                                        partDescription: newValue.description
-                                                    }));
-                                                }}
-                                                searchItems={boardPartsSearchResults}
-                                                loading={boardPartsSearchLoading}
-                                                fetchItems={searchBoardParts}
-                                                clearSearch={clearBoardPartsSearch}
-                                            />
-                                        </div>
                                     </Grid>
                                     <Grid item xs={8}>
                                         <InputField

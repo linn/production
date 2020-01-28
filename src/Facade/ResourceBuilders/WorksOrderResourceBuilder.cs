@@ -34,7 +34,8 @@
                            DocType = worksOrder.DocType,
                            WorkStationCode = worksOrder.WorkStationCode,
                            BatchNotes = worksOrder.BatchNotes,
-                           Links = this.BuildLinks(worksOrder).ToArray()
+                           Links = this.BuildLinks(worksOrder).ToArray(),
+                           QtyTested = worksOrder.AteTests?.Sum(t => t.NumberTested) ?? 0
                        };
         }
 

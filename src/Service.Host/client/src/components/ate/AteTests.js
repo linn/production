@@ -22,9 +22,9 @@ function AteTests({ items, fetchItems, loading, clearSearch, history }) {
                     <Typeahead
                         items={searchItems}
                         fetchItems={fetchItems}
-                        clearSearch={clearSearch}
+                        clearSearch={() => {}}
                         loading={loading}
-                        title="Search By Test Id"
+                        title="Search By Works Order"
                         history={history}
                     />
                 </Grid>

@@ -6,7 +6,6 @@ import assemblyFailSelectors from '../../selectors/assemblyFailSelectors';
 import getProfile from '../../selectors/userSelectors';
 import worksOrdersSelectors from '../../selectors/worksOrdersSelectors';
 import worksOrdersActions from '../../actions/worksOrdersActions';
-import productionTriggerLevelsActions from '../../actions/productionTriggerLevelsActions';
 import productionTriggerLevelsSelectors from '../../selectors/productionTriggerLevelsSelectors';
 import pcasRevisionsActions from '../../actions/pcasRevisionsActions';
 import pcasRevisionsSelectors from '../../selectors/pcasRevisionsSelectors';
@@ -19,6 +18,8 @@ import assemblyFailFaultCodesSelectors from '../../selectors/assemblyFailFaultCo
 import smtShiftsSelectors from '../../selectors/smtShiftsSelectors';
 import smtShiftsActions from '../../actions/smtShiftsActions';
 import assemblyFailFaultCodeSelectors from '../../selectors/assemblyFailFaultCodeSelectors';
+import partsActions from '../../actions/partsActions';
+import partsSelectors from '../../selectors/partsSelectors';
 
 const mapStateToProps = state => ({
     item: {},
@@ -27,9 +28,12 @@ const mapStateToProps = state => ({
     snackbarVisible: assemblyFailSelectors.getSnackbarVisible(state),
     itemErrors: getItemErrors(state),
     profile: getProfile(state),
-    worksOrdersSearchResults: worksOrdersSelectors
-        .getSearchItems(state)
-        .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
+    worksOrdersSearchResults: worksOrdersSelectors.getSearchItems(state).map(s => ({
+        ...s,
+        id: s.orderNumber,
+        name: s.orderNumber?.toString(),
+        description: s.partNumber
+    })),
     worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
     clearWorksOrdersSearch: worksOrdersActions.clearSearch,
     boardParts: productionTriggerLevelsSelectors.getItems(state),
@@ -44,10 +48,10 @@ const mapStateToProps = state => ({
     smtShiftsLoading: smtShiftsSelectors.getLoading(state),
     faultCodes: assemblyFailFaultCodesSelectors.getItems(state),
     faultCodesLoading: assemblyFailFaultCodeSelectors.getLoading(state),
-    boardPartsSearchResults: productionTriggerLevelsSelectors
+    boardPartsSearchResults: partsSelectors
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
-    boardPartsSearchLoading: productionTriggerLevelsSelectors.getSearchLoading(state)
+    boardPartsSearchLoading: partsSelectors.getSearchLoading(state)
 });
 
 const initialise = () => dispatch => {
@@ -65,8 +69,8 @@ const mapDispatchToProps = {
     searchWorksOrders: worksOrdersActions.search,
     fetchPcasRevisionsForBoardPart: pcasRevisionsActions.fetchByQueryString,
     clearWorksOrdersSearch: worksOrdersActions.clearSearch,
-    searchBoardParts: productionTriggerLevelsActions.search,
-    clearBoardPartsSearch: productionTriggerLevelsActions.clearSearch
+    searchBoardParts: partsActions.search,
+    clearBoardPartsSearch: partsActions.clearSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(AssemblyFail));

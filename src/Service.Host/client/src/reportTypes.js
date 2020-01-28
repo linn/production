@@ -14,6 +14,18 @@ export const buildsDetailReport = new ItemType(
 
 export const btwReport = new ItemType('btwReport', 'BTW_REPORT', '/production/reports/btw');
 
+export const delPerfReport = new ItemType(
+    'delPerfReport',
+    'DEL_PERF_REPORT',
+    '/production/reports/delperf'
+);
+
+export const delPerfDetails = new ItemType(
+    'delPerfDetails',
+    'DEL_PERF_DETAILS',
+    '/production/reports/delperf/details'
+);
+
 export const outstandingWorksOrdersReport = new ItemType(
     'outstandingWorksOrdersReport',
     'OUTSTANDING_WORKS_ORDERS_REPORT',
