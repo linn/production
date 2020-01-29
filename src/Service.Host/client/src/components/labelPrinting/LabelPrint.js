@@ -295,16 +295,12 @@ function LabelPrint({
             Date: labelDetails.find(x => x.id === 'date').value
         };
 
-        console.info(sendableDetails);
         const printInfo = {
             LabelType: labelType,
             Printer: printer,
             Quantity: quantity,
             LinesForPrinting: sendableDetails
         };
-
-        console.info(printInfo);
-
         print(printInfo);
     };
 

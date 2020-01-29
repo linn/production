@@ -54,39 +54,50 @@
             var dateTimeNow = DateTime.Now.ToString("ddMMMyyyyHH''mm''ss");
             var printer = ((LabelPrinters.Printers)resource.Printer).ToString();
 
-            var printMapper = new Dictionary<GeneralPurposeLabelTypes.Labels, IResult<LabelPrintResponse>>
+            var printMapper = new Dictionary<GeneralPurposeLabelTypes.Labels, Func<LabelPrintResource, string, string, IResult<LabelPrintResponse>>>
                               {
-                                  { GeneralPurposeLabelTypes.Labels.PCNumbers, this.PrintPcNumbers(resource, dateTimeNow, printer) },
-                                  { GeneralPurposeLabelTypes.Labels.AddressLabel, this.PrintAddressLabel(resource, dateTimeNow, printer) },
-                                  { GeneralPurposeLabelTypes.Labels.Small, this.PrintSmallLabel(resource, dateTimeNow, printer) },
-                                  { GeneralPurposeLabelTypes.Labels.SmallWeeText, this.PrintSmallWeeTextLabel(resource, dateTimeNow, printer) },
-                                  { GeneralPurposeLabelTypes.Labels.SmallBoldText, this.PrintSmallWeeBoldTextLabel(resource, dateTimeNow, printer) },
-                                  { GeneralPurposeLabelTypes.Labels.GoodsInLabel, this.PrintGoodsInLabel(resource, dateTimeNow, printer) },
-                                  { GeneralPurposeLabelTypes.Labels.LargeBigText, this.PrintLargeBigTextLabel(resource, dateTimeNow, printer) },
-                                  { GeneralPurposeLabelTypes.Labels.LargeWeeText, this.PrintLargeWeeTextLabel(resource, dateTimeNow, printer) }
+                                  { GeneralPurposeLabelTypes.Labels.PCNumbers, this.PrintPcNumbers },
+                                  { GeneralPurposeLabelTypes.Labels.AddressLabel, this.PrintAddressLabel },
+                                  { GeneralPurposeLabelTypes.Labels.Small, this.PrintSmallLabel },
+                                  { GeneralPurposeLabelTypes.Labels.SmallWeeText, this.PrintSmallWeeTextLabel },
+                                  { GeneralPurposeLabelTypes.Labels.SmallBoldText, this.PrintSmallWeeBoldTextLabel },
+                                  { GeneralPurposeLabelTypes.Labels.GoodsInLabel, this.PrintGoodsInLabel },
+                                  { GeneralPurposeLabelTypes.Labels.LargeBigText, this.PrintLargeBigTextLabel },
+                                  { GeneralPurposeLabelTypes.Labels.LargeWeeText, this.PrintLargeWeeTextLabel }
                               };
 
-            var result = printMapper[labelType];
+            var result = printMapper[labelType](resource, dateTimeNow, printer);
 
             return result;
         }
 
         private IResult<LabelPrintResponse> PrintPcNumbers(LabelPrintResource resource, string dateTimeNow, string printer)
         {
-            var from = int.Parse(string.IsNullOrWhiteSpace(resource.LinesForPrinting.FromPCNumber) ? "0" : resource.LinesForPrinting.FromPCNumber);
-            var to = int.Parse(string.IsNullOrWhiteSpace(resource.LinesForPrinting.ToPCNumber) ? "0" : resource.LinesForPrinting.ToPCNumber);
-            for (int pcNumber = from; pcNumber <= to; pcNumber++)
+            if (!string.IsNullOrWhiteSpace(resource.LinesForPrinting.FromPCNumber))
             {
+                var fromString = resource.LinesForPrinting.FromPCNumber;
+                var from = int.Parse(fromString);
 
-                this.labelService.PrintLabel(
-                    $"PC{dateTimeNow}",
-                    printer,
-                    resource.Quantity,
-                    "c:\\lbl\\PCLabel.btw",
-                    pcNumber.ToString());
+                var to = int.Parse(
+                    string.IsNullOrWhiteSpace(resource.LinesForPrinting.ToPCNumber)
+                        ? fromString
+                        : resource.LinesForPrinting.ToPCNumber);
+
+                for (int pcNumber = from; pcNumber <= to; pcNumber++)
+                {
+                    this.labelService.PrintLabel(
+                        $"PC{dateTimeNow}",
+                        printer,
+                        resource.Quantity,
+                        "c:\\lbl\\PCLabel.btw",
+                        pcNumber.ToString());
+                }
+
+                return new SuccessResult<LabelPrintResponse>(
+                    new LabelPrintResponse(
+                        $"printed pc numbers {from} to {to} ({resource.Quantity} times)"));
             }
-
-            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed pc numbers {resource.LinesForPrinting.FromPCNumber} to {resource.LinesForPrinting.ToPCNumber} ({resource.Quantity} times)"));
+            return new BadRequestResult<LabelPrintResponse>("No PC number provided");
         }
 
         private IResult<LabelPrintResponse> PrintSmallLabel(LabelPrintResource resource, string dateTimeNow, string printer)
@@ -102,7 +113,7 @@
 
         private IResult<LabelPrintResponse> PrintSmallWeeTextLabel(LabelPrintResource resource, string dateTimeNow, string printer)
         {
-            this.labelService.PrintLabel($"SW{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\SMTLabels.btw", resource.LinesForPrinting.Line1);
+            this.labelService.PrintLabel($"SW{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel3.btw", resource.LinesForPrinting.Line1);
 
             return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed small label (wee text) {resource.Quantity} times"));
         }
@@ -120,9 +131,9 @@
                 $"\"{resource.LinesForPrinting.SupplierId}\", \"{resource.LinesForPrinting.AddressId}\", \"{resource.LinesForPrinting.Addressee}\","
                 + $"\"{resource.LinesForPrinting.Addressee2}\", \"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\","
                 + $" \"{resource.LinesForPrinting.Line3}\", \"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.PostalCode}\","
-                + $" \"{resource.LinesForPrinting.Country}\", ";
+                + $" \"{resource.LinesForPrinting.Country}\"";
 
-            this.labelService.PrintLabel($"ADDR{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel.btw", data);
+            this.labelService.PrintLabel($"ADDR{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genAddressLabel.btw", data);
 
             return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed address label {resource.Quantity} times"));
         }
@@ -134,14 +145,14 @@
                 + $"\"{resource.LinesForPrinting.PartNumber}\", \"{resource.LinesForPrinting.Qty}\", \"{resource.LinesForPrinting.Initials}\","
                 + $" \"{resource.LinesForPrinting.Date}\"";
 
-            this.labelService.PrintLabel($"GI{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel3b.btw", data);
+            this.labelService.PrintLabel($"GI{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\goods_in_2004.btw", data);
 
             return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed goods in label {resource.Quantity} times"));
         }
 
         private IResult<LabelPrintResponse> PrintLargeBigTextLabel(LabelPrintResource resource, string dateTimeNow, string printer)
         {
-            this.labelService.PrintLabel($"L{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel3b.btw", resource.LinesForPrinting.Line1);
+            this.labelService.PrintLabel($"L{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel.btw", resource.LinesForPrinting.Line1);
 
             return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed large label (big text) {resource.Quantity} times"));
         }
@@ -153,7 +164,7 @@
                 + $"\"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.Line5}\", \"{resource.LinesForPrinting.Line6}\","
                 + $" \"{resource.LinesForPrinting.Line7}\"";
 
-            this.labelService.PrintLabel($"L1{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel3b.btw", data);
+            this.labelService.PrintLabel($"L1{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel_1line.btw", data);
 
             return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed large label (wee text) {resource.Quantity} times"));
         }
