@@ -26,6 +26,12 @@ export const delPerfDetails = new ItemType(
     '/production/reports/delperf/details'
 );
 
+export const shortageSummary = new ItemType(
+    'shortageSummary',
+    'SHORTAGE_SUMMARY',
+    '/production/reports/shortages'
+);
+
 export const outstandingWorksOrdersReport = new ItemType(
     'outstandingWorksOrdersReport',
     'OUTSTANDING_WORKS_ORDERS_REPORT',

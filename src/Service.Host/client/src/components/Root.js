@@ -102,6 +102,7 @@ import CreateAteTest from '../containers/ate/CreateAteTest';
 import BtwReport from '../containers/reports/BtwReport';
 import DelPerfReport from '../containers/reports/DelPerfReport';
 import DelPerfDetails from '../containers/reports/DelPerfDetails';
+import ShortageSummary from '../containers/reports/ShortageSummary';
 
 const Root = ({ store }) => (
     <div>
@@ -606,6 +607,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/delperf/details"
                                         component={DelPerfDetails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/shortages"
+                                        component={ShortageSummary}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

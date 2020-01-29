@@ -62,13 +62,13 @@
             var summary = new ShortageSummary();
             var shortages = new List<ShortageResult>();
 
+            summary.CitName = cit.Name;
+
             foreach (var trigger in report.Triggers.Where(t => t.Priority == "1" || t.Priority == "2" ))
             {
                 summary.OnesTwos++;
                 if (trigger.IsShortage())
                 {
-                    summary.NumShortages++;
-
                     var shortage = new ShortageResult();
                     shortage.Priority = trigger.Priority;
                     shortage.PartNumber = trigger.PartNumber;
@@ -85,32 +85,10 @@
 
                     var details = wswShortages.Where(w => w.PartNumber == shortage.PartNumber);
 
-                    var model = new ResultsModel();
-                    model.AddColumn("shortPartNumber", "Short Part Number");
-                    model.AddColumn("description", "Description");
-                    model.AddColumn("category", "Cat");
-                    model.AddColumn("reqt", "Reqt");
-                    model.AddColumn("stock", "Stock");
-                    model.AddColumn("avail", "Avail");
-                    model.AddColumn("res", "Res");
-                    model.AddColumn("canBuild", "Can Build");
-                    model.AddColumn("notes", "Notes");
-
                     foreach (var detail in details)
                     {
-                        var row = model.AddRow(detail.ShortPartNumber);
-                        model.SetGridTextValue(row.RowIndex, model.ColumnIndex("shortPartNumber"), detail.ShortPartNumber);
-                        model.SetGridTextValue(row.RowIndex, model.ColumnIndex("description"), detail.ShortPartDescription);
-                        model.SetGridTextValue(row.RowIndex, model.ColumnIndex("category"), detail.ShortageCategory);
-                        model.SetGridTextValue(row.RowIndex, model.ColumnIndex("reqt"), detail.Required.ToString());
-                        model.SetGridTextValue(row.RowIndex, model.ColumnIndex("stock"), detail.Stock.ToString());
-                        model.SetGridTextValue(row.RowIndex, model.ColumnIndex("avail"), detail.AdjustedAvailable.ToString());
-                        model.SetGridTextValue(row.RowIndex, model.ColumnIndex("res"), detail.QtyReserved.ToString());
-                        model.SetGridTextValue(row.RowIndex, model.ColumnIndex("canBuild"), detail.CanBuild.ToString());
-                   //     model.SetGridTextValue(row.RowIndex, model.ColumnIndex("notes"), summary.FiveDay.ToString());
+                        shortage.AddWswShortage(detail);
                     }
-
-                    shortage.Results = model;
 
                     shortages.Add(shortage);
                 }

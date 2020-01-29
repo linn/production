@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Models;
@@ -10,16 +11,27 @@
     {
         private ShortageResultResourceBuilder shortageResultBuilder = new ShortageResultResourceBuilder();
 
-        public ShortageSummaryResource BuildResource(ShortageSummary summary)
+        public ShortageSummaryReportResource BuildResource(ShortageSummary summary)
         {
-            return new ShortageSummaryResource
+            return new ShortageSummaryReportResource
             {
-                OnesTwos = summary.OnesTwos,
-                NumShortages = summary.NumShortages,
-                BAT = summary.BAT,
-                Metalwork = summary.Metalwork,
-                Procurement = summary.Procurement,
-                Shortages = summary.Shortages.Select(s => shortageResultBuilder.BuildResource(s))
+                ReportResults = new List<ShortageSummaryResource>()
+                {
+                    new ShortageSummaryResource
+                    {
+                        CitName = summary.CitName,
+                        OnesTwos = summary.OnesTwos,
+                        NumShortages = summary.NumShortages(),
+                        BAT = summary.BAT(),
+                        Metalwork = summary.Metalwork(),
+                        Procurement = summary.Procurement(),
+                        Shortages = summary.Shortages.Select(s => shortageResultBuilder.BuildResource(s)),
+                        PercShortages = summary.ShortagePerc(),
+                        PercBAT = summary.BATPerc(),
+                        PercMetalwork = summary.MetalworkPerc(),
+                        PercProcurement = summary.ProcurementPerc()
+                    }
+                }
             };
         }
 

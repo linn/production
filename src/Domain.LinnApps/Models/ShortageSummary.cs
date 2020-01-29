@@ -7,31 +7,48 @@
 
     public class ShortageSummary
     {
+        public string CitName { get; set; }
+
         public int OnesTwos { get; set; } = 0;
 
-        public int NumShortages { get; set; } = 0;
+        public int NumShortages()
+        {
+            return this.Shortages.Count();
+        } 
 
-        public int BAT { get; set; } = 0;
+        public int BAT( )
+        {
+            return this.Shortages.Count(l => l.BoardShortage);
+        }
 
-        public int Metalwork { get; set; } = 0;
+        public int Metalwork()
+        {
+            return this.Shortages.Count(l => l.MetalworkShortage);
+        }
 
-        public int Procurement { get; set; } = 0;
+        public int Procurement()
+        {
+            return this.Shortages.Count(l => l.ProcurementShortage);
+        }
 
-        public decimal BATPerc() => PercOfShortages(this.BAT);
+        public decimal ShortagePerc() => PercOfOnesTwos(this.NumShortages());
 
-        public decimal MetalworkPerc() => PercOfShortages(this.Metalwork);
+        public decimal BATPerc() => PercOfOnesTwos(this.BAT());
 
-        public decimal ProcurementPerc() => PercOfShortages(this.Procurement);
+        public decimal MetalworkPerc() => PercOfOnesTwos(this.Metalwork());
+
+        public decimal ProcurementPerc() => PercOfOnesTwos(this.Procurement());
 
         public IEnumerable<ShortageResult> Shortages { get; set; } = new List<ShortageResult>();
 
-        private decimal PercOfShortages(int fraction)
+        private decimal PercOfOnesTwos(int fraction)
         {
-            if (this.NumShortages == 0)
+            if (this.OnesTwos == 0)
             {
                 return 0;
             }
-            return Decimal.Round(fraction / this.NumShortages * 100);
+
+            return Decimal.Round((100 * fraction) / this.OnesTwos);
         }
     }
 }

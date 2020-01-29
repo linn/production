@@ -4,7 +4,6 @@
     using System.Linq;
     using FluentAssertions;
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Resources;
     using Nancy;
@@ -19,12 +18,14 @@
         {
             var shortageSummary = new ShortageSummary
             {
-                NumShortages = 1,
-                OnesTwos = 2,
-                Metalwork = 0,
-                BAT = 1,
-                Procurement = 0,
+
+                OnesTwos = 4,
                 Shortages = new List<ShortageResult>()
+                {
+                    new ShortageResult { MetalworkShortage = false, ProcurementShortage = false, BoardShortage = true },
+                    new ShortageResult { MetalworkShortage = false, ProcurementShortage = true, BoardShortage = false },
+                    new ShortageResult { MetalworkShortage = true, ProcurementShortage = false, BoardShortage = false }
+                }
             };
 
             this.ShortageSummaryFacadeService.ShortageSummaryByCit("S","AAAAAA")
@@ -55,9 +56,10 @@
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<ShortageSummaryResource>();
-            resource.NumShortages.Should().Be(1);
-            resource.OnesTwos.Should().Be(2);
+            var report = this.Response.Body.DeserializeJson<ShortageSummaryReportResource>();
+            report.ReportResults.Count().Should().Be(1);
+            report.ReportResults.First()?.NumShortages.Should().Be(3);
+            report.ReportResults.First()?.OnesTwos.Should().Be(4);
         }
     }
 }

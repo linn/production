@@ -5,12 +5,12 @@ import {
     getItemErrorDetailMessage
 } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import DelPerfDetails from '../../components/reports/DelPerfDetails';
-import actions from '../../actions/delPerfDetailsActions';
+import ShortageSummary from '../../components/reports/ShortageSummary';
+import actions from '../../actions/shortageSummaryActions';
 import config from '../../config';
 import * as reportTypes from '../../reportTypes';
 
-const reportSelectors = new ReportSelectors(reportTypes.delPerfDetails.item);
+const reportSelectors = new ReportSelectors(reportTypes.shortageSummary.item);
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);
@@ -18,10 +18,10 @@ const getOptions = ownProps => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-    reportData: reportSelectors.getReportData(state),
+    summary: reportSelectors.getReportData(state),
     loading: reportSelectors.getReportLoading(state),
     options: getOptions(ownProps),
-    error: getItemErrorDetailMessage(state, reportTypes.delPerfDetails.item),
+    error: getItemErrorDetailMessage(state, reportTypes.shortageSummary.item),
     config
 });
 
@@ -33,4 +33,4 @@ const mapDispatchToProps = {
     initialise
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(DelPerfDetails));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(ShortageSummary));

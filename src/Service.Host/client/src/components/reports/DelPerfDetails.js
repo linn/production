@@ -16,10 +16,10 @@ const DelPerfDetails = ({ reportData, loading, history, options }) => (
                     <Loading />
                 ) : (
                     <ReportTable
-                        reportData={reportData}
-                        title={reportData.title}
-                        showTitle
-                        showTotals={false}
+                    reportData={reportData}
+                    title={reportData.title}
+                    showTitle
+                    showTotals={false}
                     />
                 )}
             </Grid>

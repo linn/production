@@ -25,5 +25,20 @@
         public int? KittingPriority { get; set; }
 
         public int? CanBuild { get; set; }
+
+        public bool IsBoardShortage()
+        {
+            return ShortageCategory == "EP";
+        }
+
+        public bool IsProcurementShortage()
+        {
+            return ShortageCategory == "PROC";
+        }
+
+        public bool IsMetalworkShortage()
+        {
+            return ShortageCategory == "CP";
+        }
     }
 }
