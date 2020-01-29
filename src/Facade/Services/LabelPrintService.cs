@@ -73,8 +73,8 @@
 
         private IResult<LabelPrintResponse> PrintPcNumbers(LabelPrintResource resource, string dateTimeNow, string printer)
         {
-            var from = int.Parse(resource.LinesForPrinting.FromPCNumber);
-            var to = int.Parse(resource.LinesForPrinting.ToPCNumber);
+            var from = int.Parse(string.IsNullOrWhiteSpace(resource.LinesForPrinting.FromPCNumber) ? "0" : resource.LinesForPrinting.FromPCNumber);
+            var to = int.Parse(string.IsNullOrWhiteSpace(resource.LinesForPrinting.ToPCNumber) ? "0" : resource.LinesForPrinting.ToPCNumber);
             for (int pcNumber = from; pcNumber <= to; pcNumber++)
             {
 
