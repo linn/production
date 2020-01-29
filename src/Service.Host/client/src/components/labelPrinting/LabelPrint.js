@@ -39,6 +39,7 @@ const useStyles = makeStyles(theme => ({
 function LabelPrint({
     loading,
     snackbarVisible,
+    setSnackbarVisible,
     message,
     itemError,
     labelPrintTypes,
@@ -295,16 +296,12 @@ function LabelPrint({
             Date: labelDetails.find(x => x.id === 'date').value
         };
 
-        console.info(sendableDetails);
         const printInfo = {
             LabelType: labelType,
             Printer: printer,
             Quantity: quantity,
             LinesForPrinting: sendableDetails
         };
-
-        console.info(printInfo);
-
         print(printInfo);
     };
 
@@ -350,6 +347,7 @@ function LabelPrint({
                             </Grid>
                             <SnackbarMessage
                                 visible={snackbarVisible}
+                                onClose={() => setSnackbarVisible(false)}
                                 message={
                                     message && message.data.message ? message.data.message : ''
                                 }
