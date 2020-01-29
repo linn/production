@@ -39,6 +39,7 @@ const useStyles = makeStyles(theme => ({
 function LabelPrint({
     loading,
     snackbarVisible,
+    setSnackbarVisible,
     message,
     itemError,
     labelPrintTypes,
@@ -346,6 +347,7 @@ function LabelPrint({
                             </Grid>
                             <SnackbarMessage
                                 visible={snackbarVisible}
+                                onClose={() => setSnackbarVisible(false)}
                                 message={
                                     message && message.data.message ? message.data.message : ''
                                 }

@@ -95,7 +95,7 @@
 
                 return new SuccessResult<LabelPrintResponse>(
                     new LabelPrintResponse(
-                        $"printed pc numbers {from} to {to} ({resource.Quantity} times)"));
+                        $"printed pc numbers {from} to {to}"));
             }
             return new BadRequestResult<LabelPrintResponse>("No PC number provided");
         }
@@ -108,21 +108,21 @@
 
             this.labelService.PrintLabel($"S{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel.btw", data);
 
-            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed small label {resource.Quantity} times"));
+            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed small label{(resource.Quantity != 1 ? "s" : "")}"));
         }
 
         private IResult<LabelPrintResponse> PrintSmallWeeTextLabel(LabelPrintResource resource, string dateTimeNow, string printer)
         {
             this.labelService.PrintLabel($"SW{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel3.btw", resource.LinesForPrinting.Line1);
 
-            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed small label (wee text) {resource.Quantity} times"));
+            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed small (wee text) label{(resource.Quantity != 1 ? "s" : "")}"));
         }
 
         private IResult<LabelPrintResponse> PrintSmallWeeBoldTextLabel(LabelPrintResource resource, string dateTimeNow, string printer)
         {
             this.labelService.PrintLabel($"SWB{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel3b.btw", resource.LinesForPrinting.Line1);
 
-            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed small label (wee bold text) {resource.Quantity} times"));
+            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed small (wee bold text) label{(resource.Quantity != 1 ? "s" : "")}"));
         }
 
         private IResult<LabelPrintResponse> PrintAddressLabel(LabelPrintResource resource, string dateTimeNow, string printer)
@@ -135,7 +135,7 @@
 
             this.labelService.PrintLabel($"ADDR{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genAddressLabel.btw", data);
 
-            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed address label {resource.Quantity} times"));
+            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed address label{(resource.Quantity != 1 ? "s" : "")}"));
         }
 
         private IResult<LabelPrintResponse> PrintGoodsInLabel(LabelPrintResource resource, string dateTimeNow, string printer)
@@ -147,14 +147,14 @@
 
             this.labelService.PrintLabel($"GI{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\goods_in_2004.btw", data);
 
-            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed goods in label {resource.Quantity} times"));
+            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed goods in label{(resource.Quantity != 1 ? "s" : "")}"));
         }
 
         private IResult<LabelPrintResponse> PrintLargeBigTextLabel(LabelPrintResource resource, string dateTimeNow, string printer)
         {
             this.labelService.PrintLabel($"L{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel.btw", resource.LinesForPrinting.Line1);
 
-            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed large label (big text) {resource.Quantity} times"));
+            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed large (big text) label{(resource.Quantity != 1 ? "s" : "")}"));
         }
 
         private IResult<LabelPrintResponse> PrintLargeWeeTextLabel(LabelPrintResource resource, string dateTimeNow, string printer)
@@ -166,7 +166,7 @@
 
             this.labelService.PrintLabel($"L1{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel_1line.btw", data);
 
-            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed large label (wee text) {resource.Quantity} times"));
+            return new SuccessResult<LabelPrintResponse>(new LabelPrintResponse($"printed large (wee text) label{(resource.Quantity != 1 ? "s" : "")}"));
         }
     }
 }

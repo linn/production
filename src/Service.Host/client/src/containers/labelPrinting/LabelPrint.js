@@ -43,6 +43,7 @@ const initialise = () => dispatch => {
 const mapDispatchToProps = {
     initialise,
     print: labelPrintActions.add,
+    setSnackbarVisible: labelPrintActions.setSnackbarVisible,
     searchAddresses: addressesActions.search,
     clearAddressSearch: addressesActions.clearSearch,
     searchSuppliers: suppliersActions.search,
