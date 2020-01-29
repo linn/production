@@ -274,3 +274,7 @@ export const componentCountsActionTypes = makeActionTypes(itemTypes.componentCou
 export const addressesActionTypes = makeActionTypes(itemTypes.addresses.actionType, false);
 
 export const suppliersActionTypes = makeActionTypes(itemTypes.suppliers.actionType, false);
+
+export const failedPartsReportActionTypes = makeReportActionTypes(
+    reportTypes.failedPartsReport.actionType
+);

@@ -30,11 +30,11 @@
 
             var columns = new List<AxisDetailsModel>
                               {
-                                  new AxisDetailsModel("Part Number", GridDisplayType.TextValue),
+                                  new AxisDetailsModel("Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                                   new AxisDetailsModel("Description", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Qty"),
-                                  new AxisDetailsModel("Total Value"),
-                                  new AxisDetailsModel("Date Booked", GridDisplayType.TextValue),
+                                  new AxisDetailsModel("Total Value") { DecimalPlaces = 2 },
+                                  new AxisDetailsModel("Date Booked", GridDisplayType.TextValue) { AllowWrap = false },
                                   new AxisDetailsModel("User Name", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Storage Place", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Supplier Id", GridDisplayType.TextValue),
