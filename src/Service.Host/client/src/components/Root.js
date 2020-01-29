@@ -93,6 +93,8 @@ import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
 import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
 import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
 import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
+import BuildPlans from '../containers/buildPlans/BuildPlans';
+import CreateBuildPlan from '../containers/buildPlans/CreateBuildPlan';
 
 const Root = ({ store }) => (
     <div>
@@ -517,8 +519,8 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/build-plans"
                                         component={BuildPlansReportOptions}
-                                        />
-                                        <Route
+                                    />
+                                    <Route
                                         exact
                                         path="/production/resources/label-types/create"
                                         component={CreateLabelType}
@@ -547,6 +549,21 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/maintenance/production-trigger-levels"
                                         component={ProductionTriggerLevels}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans"
+                                        component={BuildPlans}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans/create"
+                                        component={CreateBuildPlan}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans/:id"
+                                        component={BuildPlans}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

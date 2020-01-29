@@ -195,7 +195,7 @@
             this.BuildSerialNumbers(builder);
             this.BuildBuildPlans(builder);
             this.QueryBuildPlanDetailsReportLines(builder);
-            this.QueryBuildPlanDetails(builder);
+            this.BuildBuildPlanDetails(builder);
             this.QueryBuildPlanRules(builder);
 
             base.OnModelCreating(builder);
@@ -837,16 +837,17 @@
             q.Property(e => e.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
         }
 
-        private void QueryBuildPlanDetails(ModelBuilder builder)
+        private void BuildBuildPlanDetails(ModelBuilder builder)
         {
             var e = builder.Entity<BuildPlanDetail>();
             e.ToTable("BUILD_PLAN_DETAILS");
             e.HasKey(b => new { b.BuildPlanName, b.PartNumber, b.FromLinnWeekNumber });
-            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
-            e.Property(b => b.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME").HasMaxLength(10);
+            e.HasOne(b => b.Part).WithMany(p => p.BuildPlanDetails).HasForeignKey(b => b.PartNumber);
+            e.Property(b => b.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             e.Property(b => b.FromLinnWeekNumber).HasColumnName("FROM_LINN_WEEK_NUMBER");
             e.Property(b => b.ToLinnWeekNumber).HasColumnName("TO_LINN_WEEK_NUMBER");
-            e.Property(b => b.RuleCode).HasColumnName("RULE_CODE");
+            e.Property(b => b.RuleCode).HasColumnName("RULE_CODE").HasMaxLength(10);
             e.Property(b => b.Quantity).HasColumnName("QUANTITY");
         }
 

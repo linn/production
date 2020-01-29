@@ -4,6 +4,7 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.BuildPlans;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;
@@ -25,16 +26,21 @@
             IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>
             buildPlanDetailService;
 
+        private readonly ILinnWeekPack linnWeekPack;
+
         public BuildPlansModule(
             IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource> buildPlanService,
             IBuildPlansReportFacadeService buildPlansReportService,
             IBuildPlanRulesFacadeService buildPlanRulesService,
-            IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource> buildPlanDetailService)
+            IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource> buildPlanDetailService,
+            ILinnWeekPack linnWeekPack)
         {
             this.buildPlanService = buildPlanService;
             this.buildPlansReportService = buildPlansReportService;
             this.buildPlanRulesService = buildPlanRulesService;
             this.buildPlanDetailService = buildPlanDetailService;
+            this.linnWeekPack = linnWeekPack;
+
             this.Get("/production/maintenance/build-plans", _ => this.GetBuildPlans());
             this.Post("/production/maintenance/build-plans", _ => this.AddBuildPlan());
             this.Put("/production/maintenance/build-plans", _ => this.UpdateBuildPlan());
@@ -142,7 +148,7 @@
                           {
                               BuildPlanName = resource.BuildPlanName,
                               PartNumber = resource.PartNumber,
-                              FromLinnWeekNumber = resource.FromLinnWeekNumber
+                              FromLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(resource.FromDate)
                           };
 
             return this.Negotiate.WithModel(this.buildPlanDetailService.Update(key, resource, privileges))

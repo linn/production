@@ -8,6 +8,8 @@
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class BuildPlanDetailRepository : IRepository<BuildPlanDetail, BuildPlanDetailKey>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -29,7 +31,7 @@
 
         public IQueryable<BuildPlanDetail> FilterBy(Expression<Func<BuildPlanDetail, bool>> expression)
         {
-            return this.serviceDbContext.BuildPlanDetails.Where(expression);
+            return this.serviceDbContext.BuildPlanDetails.Include(b => b.Part).Where(expression);
         }
 
         public BuildPlanDetail FindById(BuildPlanDetailKey key)
@@ -39,17 +41,12 @@
 
         public IQueryable<BuildPlanDetail> FindAll()
         {
-            return this.serviceDbContext.BuildPlanDetails;
+            return this.serviceDbContext.BuildPlanDetails.Include(b => b.Part);
         }
 
         public void Add(BuildPlanDetail entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public void Add(BuildPlanDetail entity)
-        {
-            throw new NotImplementedException();
+            this.serviceDbContext.BuildPlanDetails.Add(entity);
         }
     }
 }

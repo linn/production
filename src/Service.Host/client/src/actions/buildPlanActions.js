@@ -8,5 +8,5 @@ export default new UpdateApiActions(
     itemTypes.buildPlan.actionType,
     itemTypes.buildPlan.uri,
     actionTypes,
-    config.proxyRoot
+    config.appRoot
 );

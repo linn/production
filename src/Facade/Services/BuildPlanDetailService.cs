@@ -6,13 +6,20 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.BuildPlans;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     public class BuildPlanDetailService : FacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>
     {
-        public BuildPlanDetailService(IRepository<BuildPlanDetail, BuildPlanDetailKey> repository, ITransactionManager transactionManager)
+        private readonly ILinnWeekPack linnWeekPack;
+
+        public BuildPlanDetailService(
+            IRepository<BuildPlanDetail, BuildPlanDetailKey> repository,
+            ITransactionManager transactionManager,
+            ILinnWeekPack linnWeekPack)
             : base(repository, transactionManager)
         {
+            this.linnWeekPack = linnWeekPack;
         }
 
         protected override BuildPlanDetail CreateFromResource(BuildPlanDetailResource resource)
@@ -20,11 +27,11 @@
             var buildPlanDetail = new BuildPlanDetail
                                       {
                                           BuildPlanName = resource.BuildPlanName,
-                                          FromLinnWeekNumber = resource.FromLinnWeekNumber,
+                                          FromLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(resource.FromDate),
                                           PartNumber = resource.PartNumber,
                                           Quantity = resource.Quantity,
                                           RuleCode = resource.RuleCode,
-                                          ToLinnWeekNumber = resource.ToLinnWeekNumber
+                                          ToLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(resource.ToDate)
                                       };
 
             buildPlanDetail.Validate();
@@ -36,7 +43,7 @@
         {
             entity.Quantity = updateResource.Quantity;
             entity.RuleCode = updateResource.RuleCode;
-            entity.ToLinnWeekNumber = updateResource.ToLinnWeekNumber;
+            entity.ToLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(updateResource.ToDate);
 
             entity.Validate();
         }

@@ -22,10 +22,12 @@
         public void SetUp()
         {
             var requestResource =
-                new BuildPlanDetailResource { BuildPlanName = "name", PartNumber = "part", FromLinnWeekNumber = 1 };
+                new BuildPlanDetailResource { BuildPlanName = "name", PartNumber = "part", FromDate = "2007-02-20" };
 
             this.AuthorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailAdd, Arg.Any<List<string>>())
                 .Returns(true);
+
+            this.LinnWeekPack.LinnWeekNumber("2007-02-20").Returns(1);
 
             var buildPlanDetail =
                 new BuildPlanDetail { BuildPlanName = "name", PartNumber = "part", FromLinnWeekNumber = 1 };
@@ -65,7 +67,7 @@
             var resource = this.Response.Body.DeserializeJson<BuildPlanDetailResource>();
             resource.BuildPlanName.Should().Be("name");
             resource.PartNumber.Should().Be("part");
-            resource.FromLinnWeekNumber.Should().Be(1);
+            // resource.FromDate.Should().Be("2007-02-20");
         }
     }
 }
