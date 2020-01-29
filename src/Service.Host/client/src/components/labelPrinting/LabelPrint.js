@@ -285,13 +285,13 @@ function LabelPrint({
             Line5: labelDetails.find(x => x.id === 'line5').value,
             Line6: labelDetails.find(x => x.id === 'line6').value,
             Line7: labelDetails.find(x => x.id === 'line7').value,
-            PostCode: labelDetails.find(x => x.id === 'postalCode').value,
+            PostalCode: labelDetails.find(x => x.id === 'postalCode').value,
             Country: labelDetails.find(x => x.id === 'country').value,
             FromPCNumber: `${labelDetails.find(x => x.id === 'fromPCNumber').value}`,
             ToPCNumber: `${labelDetails.find(x => x.id === 'toPCNumber').value}`,
             PoNumber: labelDetails.find(x => x.id === 'poNumber').value,
             PartNumber: labelDetails.find(x => x.id === 'partNumber').value,
-            Quantity: labelDetails.find(x => x.id === 'qty').value,
+            Qty: `${labelDetails.find(x => x.id === 'qty').value}`,
             Initials: labelDetails.find(x => x.id === 'initials').value,
             Date: labelDetails.find(x => x.id === 'date').value
         };
