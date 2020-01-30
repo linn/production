@@ -48,6 +48,9 @@ function App() {
                 >
                     <Typography color="primary">Label Reprint Reissue Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/maintenance/labels/print" button>
+                    <Typography color="primary">General Purpose Label Printer</Typography>
+                </ListItem>
                 <ListItem
                     component={Link}
                     to="/production/resources/manufacturing-resources/"
@@ -153,6 +156,9 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/who-built-what" button>
                     <Typography color="primary">Who Built What Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/failed-parts" button>
+                    <Typography color="primary">Failed Parts Report</Typography>
                 </ListItem>
             </List>
         </Page>

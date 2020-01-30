@@ -157,3 +157,9 @@ export const ateDetailsReport = new ItemType(
     'ATE_DETAILS_REPORT',
     '/production/reports/ate/details/report'
 );
+
+export const failedPartsReport = new ItemType(
+    'failedPartsReport',
+    'FAILED_PARTS_REPORT',
+    '/production/reports/failed-parts'
+);

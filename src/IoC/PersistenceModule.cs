@@ -83,7 +83,9 @@
             builder.RegisterType<BuildPlanRuleRepository>().As<IQueryRepository<BuildPlanRule>>();
             builder.RegisterType<AteTestRepository>().As<IRepository<AteTest, int>>();
             builder.RegisterType<AteTestDetailRepository>().As<IRepository<AteTestDetail, AteTestDetailKey>>();
-                
+            builder.RegisterType<AddressRepository>().As<IRepository<Address, int>>();
+            builder.RegisterType<SupplierRepository>().As<IRepository<Supplier, int>>();
+
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
             builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
@@ -95,6 +97,7 @@
             builder.RegisterType<BuiltThisWeekStatisticRepository>().As<IQueryRepository<BuiltThisWeekStatistic>>();
             builder.RegisterType<PtlStatRepository>().As<IQueryRepository<PtlStat>>();
             builder.RegisterType<WswShortageRepository>().As<IQueryRepository<WswShortage>>();
+            builder.RegisterType<FailedPartsRepository>().As<IQueryRepository<FailedParts>>();
         }
     }
 }

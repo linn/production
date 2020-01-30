@@ -11,6 +11,6 @@
 
         public int Quantity { get; set; }
 
-        public IEnumerable<string> LinesForPrinting { get; set; }
+        public LabelPrintContents LinesForPrinting { get; set; }
     }
 }

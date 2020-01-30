@@ -126,6 +126,10 @@
             builder.RegisterType<ComponentCountResourceBuilder>().As<IResourceBuilder<ComponentCount>>();
             builder.RegisterType<ShortageSummaryResourceBuilder>().As<IResourceBuilder<ShortageSummary>>();
 
+            builder.RegisterType<AddressResourceBuilder>().As<IResourceBuilder<Address>>();
+            builder.RegisterType<AddressesResourceBuilder>().As<IResourceBuilder<IEnumerable<Address>>>();
+            builder.RegisterType<SupplierResourceBuilder>().As<IResourceBuilder<Supplier>>();
+            builder.RegisterType<SuppliersResourceBuilder>().As<IResourceBuilder<IEnumerable<Supplier>>>();
         }
     }
 }
