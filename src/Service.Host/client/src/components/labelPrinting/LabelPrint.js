@@ -122,7 +122,7 @@ function LabelPrint({
         {
             id: 'line5',
             displayName: 'Line 5',
-            value: '',
+            value: new Date().toDateString().slice(4),
             width: 12,
             displayForLabelTypes: [0],
             inputType: 'string'
