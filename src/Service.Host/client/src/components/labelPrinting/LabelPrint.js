@@ -122,7 +122,7 @@ function LabelPrint({
         {
             id: 'line5',
             displayName: 'Line 5',
-            value: '',
+            value: new Date().toDateString().slice(4),
             width: 12,
             displayForLabelTypes: [0],
             inputType: 'string'
@@ -520,7 +520,8 @@ LabelPrint.propTypes = {
     supplierSearchLoading: PropTypes.bool,
     supplierSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     searchSuppliers: PropTypes.func,
-    clearSupplierSearch: PropTypes.func
+    clearSupplierSearch: PropTypes.func,
+    setSnackbarVisible: PropTypes.func
 };
 
 LabelPrint.defaultProps = {
@@ -537,6 +538,7 @@ LabelPrint.defaultProps = {
     supplierSearchLoading: false,
     supplierSearchResults: [{}],
     searchSuppliers: null,
-    clearSupplierSearch: null
+    clearSupplierSearch: null,
+    setSnackbarVisible: null
 };
 export default LabelPrint;

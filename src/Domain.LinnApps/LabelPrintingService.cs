@@ -49,18 +49,23 @@
                         ? fromString
                         : resource.LinesForPrinting.ToPCNumber);
 
-                for (int pcNumber = from; pcNumber <= to; pcNumber++)
+                var pcNumbers = $"\"PC{fromString}\"";
+
+                for (int pcNumber = from += 1; pcNumber <= to; pcNumber++)
                 {
-                    this.labelService.PrintLabel(
+                    pcNumbers += $", \"PC{fromString}\"";
+                }
+
+                this.labelService.PrintLabel(
                         $"PC{dateTimeNow}",
                         printer,
                         resource.Quantity,
                         "c:\\lbl\\PCLabel.btw",
-                        pcNumber.ToString());
-                }
+                        pcNumbers);
+                
 
                 return new LabelPrintResponse(
-                        $"printed pc numbers {from} to {to}");
+                        $"printed pc numbers {fromString} to {to}");
             }
 
             throw new ArgumentException("No PC number provided");
@@ -95,7 +100,7 @@
         {
             var data =
                 $"\"{resource.LinesForPrinting.SupplierId}\", \"{resource.LinesForPrinting.AddressId}\", \"{resource.LinesForPrinting.Addressee}\","
-                + $"\"{resource.LinesForPrinting.Addressee2}\", \"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\","
+                + $" \"{resource.LinesForPrinting.Addressee2}\", \"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\","
                 + $" \"{resource.LinesForPrinting.Line3}\", \"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.PostalCode}\","
                 + $" \"{resource.LinesForPrinting.Country}\"";
 
@@ -108,7 +113,7 @@
         {
             var data =
                 $"\"{resource.LinesForPrinting.SupplierId}\", \"{resource.LinesForPrinting.AddressId}\", \"{resource.LinesForPrinting.PoNumber}\","
-                + $"\"{resource.LinesForPrinting.PartNumber}\", \"{resource.LinesForPrinting.Qty}\", \"{resource.LinesForPrinting.Initials}\","
+                + $" \"{resource.LinesForPrinting.PartNumber}\", \"{resource.LinesForPrinting.Qty}\", \"{resource.LinesForPrinting.Initials}\","
                 + $" \"{resource.LinesForPrinting.Date}\"";
 
             this.labelService.PrintLabel($"GI{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\goods_in_2004.btw", data);
@@ -118,7 +123,7 @@
 
         private LabelPrintResponse PrintLargeBigTextLabel(LabelPrint resource, string dateTimeNow, string printer)
         {
-            this.labelService.PrintLabel($"L{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel.btw", resource.LinesForPrinting.Line1);
+            this.labelService.PrintLabel($"L1{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel_1line.btw", resource.LinesForPrinting.Line1);
 
             return new LabelPrintResponse($"printed large (big text) label{(resource.Quantity != 1 ? "s" : "")}");
         }
@@ -127,10 +132,10 @@
         {
             var data =
                 $"\"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\", \"{resource.LinesForPrinting.Line3}\","
-                + $"\"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.Line5}\", \"{resource.LinesForPrinting.Line6}\","
+                + $" \"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.Line5}\", \"{resource.LinesForPrinting.Line6}\","
                 + $" \"{resource.LinesForPrinting.Line7}\"";
 
-            this.labelService.PrintLabel($"L1{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel_1line.btw", data);
+            this.labelService.PrintLabel($"L{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel.btw", data);
 
             return new LabelPrintResponse($"printed large (wee text) label{(resource.Quantity != 1 ? "s" : "")}");
         }
