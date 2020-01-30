@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Security.Claims;
     using Linn.Common.Facade;
-    using Linn.Production.Domain;
+    using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
@@ -27,11 +27,13 @@
                 {
                     with.Dependency(this.ProductionMeasuresReportFacade);
                     with.Dependency<IResourceBuilder<ProductionMeasures>>(new ProductionMeasuresResourceBuilder());
+                    with.Dependency<IResourceBuilder<IEnumerable<ResultsModel>>>(new ResultsModelsResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<ProductionMeasures>>>(
                         new ProductionMeasuresListResourceBuilder());
                     with.Module<ProductionMeasuresModule>();
                     with.ResponseProcessor<ProductionMeasuresResponseProcessor>();
                     with.ResponseProcessor<ProductionMeasuresListResponseProcessor>();
+                    with.ResponseProcessor<ResultsModelsJsonResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

@@ -20,7 +20,7 @@
     public sealed class ProductionTriggerLevelsModule : NancyModule
     {
         private readonly IProductionTriggerLevelsService productionTriggerLevelsService;
-         
+
         private readonly ISingleRecordFacadeService<PtlSettings, PtlSettingsResource> ptlSettingsFacadeService;
 
         private readonly IAuthorisationService authorisationService;
@@ -99,7 +99,7 @@
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
-        
+
         private object UpdateTriggerLevel(string partNumber)
         {
             var resource = this.Bind<ProductionTriggerLevelResource>();
@@ -114,7 +114,7 @@
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
-        
+
         private object GetProductionTriggerLevelsSettings()
         {
             this.RequiresAuthentication();
@@ -141,7 +141,7 @@
 
             this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-            
+
             IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> triggers;
 
             if (!string.IsNullOrWhiteSpace(resource.SearchTerm)
