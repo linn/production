@@ -52,7 +52,7 @@
             var printDetails = new LabelPrint
                                    {
                                        LabelType = resource.LabelType,
-                                       LinesForPrinting = new LabelPrintContents()
+                                       LinesForPrinting = new LabelPrintContents
                                                               {
                                                                   SupplierId = resource.LinesForPrinting.SupplierId,
                                                                   Addressee = resource.LinesForPrinting.Addressee,

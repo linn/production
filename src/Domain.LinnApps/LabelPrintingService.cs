@@ -62,6 +62,7 @@
                 return new LabelPrintResponse(
                         $"printed pc numbers {from} to {to}");
             }
+
             throw new ArgumentException("No PC number provided");
         }
 

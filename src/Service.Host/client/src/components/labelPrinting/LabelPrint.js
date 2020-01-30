@@ -329,6 +329,7 @@ function LabelPrint({
     return (
         <Fragment>
             <Grid container alignItems="center" justify="center">
+                <Grid xs={3} item />
                 <Grid xs={6} item>
                     <Page showRequestErrors>
                         <Grid item xs={12} container>
@@ -494,6 +495,10 @@ function LabelPrint({
                             )}
                         </Grid>
                     </Page>
+                </Grid>
+                <Grid xs={3} item>
+                    {/* for once we know the actual printing works */}
+                    {/* <img src="https://small.linncdn.com/apps/images/smiley2.png" alt="Smiley" /> */}
                 </Grid>
             </Grid>
         </Fragment>
