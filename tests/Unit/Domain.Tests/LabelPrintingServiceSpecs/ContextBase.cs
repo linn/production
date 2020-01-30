@@ -4,9 +4,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Products;
     using Linn.Production.Domain.LinnApps.RemoteServices;
-
     using NSubstitute;
-
     using NUnit.Framework;
 
     public abstract class ContextBase

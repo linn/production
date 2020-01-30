@@ -65,7 +65,7 @@
                 
 
                 return new LabelPrintResponse(
-                        $"printed pc numbers {from} to {to}");
+                        $"printed pc numbers {fromString} to {to}");
             }
 
             throw new ArgumentException("No PC number provided");
@@ -100,7 +100,7 @@
         {
             var data =
                 $"\"{resource.LinesForPrinting.SupplierId}\", \"{resource.LinesForPrinting.AddressId}\", \"{resource.LinesForPrinting.Addressee}\","
-                + $"\"{resource.LinesForPrinting.Addressee2}\", \"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\","
+                + $" \"{resource.LinesForPrinting.Addressee2}\", \"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\","
                 + $" \"{resource.LinesForPrinting.Line3}\", \"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.PostalCode}\","
                 + $" \"{resource.LinesForPrinting.Country}\"";
 
@@ -113,7 +113,7 @@
         {
             var data =
                 $"\"{resource.LinesForPrinting.SupplierId}\", \"{resource.LinesForPrinting.AddressId}\", \"{resource.LinesForPrinting.PoNumber}\","
-                + $"\"{resource.LinesForPrinting.PartNumber}\", \"{resource.LinesForPrinting.Qty}\", \"{resource.LinesForPrinting.Initials}\","
+                + $" \"{resource.LinesForPrinting.PartNumber}\", \"{resource.LinesForPrinting.Qty}\", \"{resource.LinesForPrinting.Initials}\","
                 + $" \"{resource.LinesForPrinting.Date}\"";
 
             this.labelService.PrintLabel($"GI{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\goods_in_2004.btw", data);
@@ -133,7 +133,7 @@
         {
             var data =
                 $"\"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\", \"{resource.LinesForPrinting.Line3}\","
-                + $"\"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.Line5}\", \"{resource.LinesForPrinting.Line6}\","
+                + $" \"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.Line5}\", \"{resource.LinesForPrinting.Line6}\","
                 + $" \"{resource.LinesForPrinting.Line7}\"";
 
             this.labelService.PrintLabel($"L{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel.btw", data);

@@ -4,7 +4,7 @@
     using NSubstitute;
     using NUnit.Framework;
 
-    public class WhenPrintingPCNumberLabels : ContextBase
+    public class WhenPrintingSmallWeeBoldTextLabels : ContextBase
     {
         private LabelPrintResponse result;
 
@@ -13,25 +13,25 @@
         {
             var labelPrint = new LabelPrint
             {
-                LabelType = (int)GeneralPurposeLabelTypes.Labels.PCNumbers,
+                LabelType = (int)GeneralPurposeLabelTypes.Labels.SmallBoldText,
                 Printer = (int)LabelPrinters.Printers.ProdLbl1,
-                Quantity = 4,
-                LinesForPrinting = new LabelPrintContents { FromPCNumber = "1237" }
+                Quantity = 7,
+                LinesForPrinting = new LabelPrintContents { Line1 = "bold yin" }
             };
 
             this.result = this.Sut.PrintLabel(labelPrint);
         }
 
         [Test]
-        public void ShouldCallLabelPrintServiceForPCNumber()
+        public void ShouldCallLabelPrintServiceForSmallLabel()
         {
-            this.LabelService.Received().PrintLabel(Arg.Any<string>(), "ProdLbl1", 4, "c:\\lbl\\PCLabel.btw", "\"PC1237\"");
+            this.LabelService.Received().PrintLabel(Arg.Any<string>(), "ProdLbl1", 7, "c:\\lbl\\genSmallLabel3b.btw", "bold yin");
         }
 
         [Test]
         public void ShouldReceiveCorrectResult()
         {
-            Assert.AreEqual(this.result.Message, "printed pc numbers 1237 to 1237");
+            Assert.AreEqual(this.result.Message, "printed small (wee bold text) labels");
         }
     }
 }
