@@ -520,7 +520,8 @@ LabelPrint.propTypes = {
     supplierSearchLoading: PropTypes.bool,
     supplierSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     searchSuppliers: PropTypes.func,
-    clearSupplierSearch: PropTypes.func
+    clearSupplierSearch: PropTypes.func,
+    setSnackbarVisible: PropTypes.func
 };
 
 LabelPrint.defaultProps = {
@@ -537,6 +538,7 @@ LabelPrint.defaultProps = {
     supplierSearchLoading: false,
     supplierSearchResults: [{}],
     searchSuppliers: null,
-    clearSupplierSearch: null
+    clearSupplierSearch: null,
+    setSnackbarVisible: null
 };
 export default LabelPrint;

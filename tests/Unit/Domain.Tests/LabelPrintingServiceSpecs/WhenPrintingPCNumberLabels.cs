@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.Tests.LabelPrintingServiceSpecs
 {
+    using FluentAssertions;
+
     using Linn.Production.Domain.LinnApps;
     using NSubstitute;
     using NUnit.Framework;
@@ -31,7 +33,7 @@
         [Test]
         public void ShouldReceiveCorrectResult()
         {
-            Assert.AreEqual(this.result.Message, "printed pc numbers 1237 to 1237");
+            this.result.Message.Should().Be("printed pc numbers 1237 to 1237");
         }
     }
 }

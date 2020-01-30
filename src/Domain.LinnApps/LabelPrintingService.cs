@@ -123,7 +123,6 @@
 
         private LabelPrintResponse PrintLargeBigTextLabel(LabelPrint resource, string dateTimeNow, string printer)
         {
-            
             this.labelService.PrintLabel($"L1{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genLargeLabel_1line.btw", resource.LinesForPrinting.Line1);
 
             return new LabelPrintResponse($"printed large (big text) label{(resource.Quantity != 1 ? "s" : "")}");
