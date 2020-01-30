@@ -53,7 +53,7 @@
 
                 for (int pcNumber = from += 1; pcNumber <= to; pcNumber++)
                 {
-                    pcNumbers += $", \"PC{fromString}\"";
+                    pcNumbers += $", \"PC{pcNumber}\"";
                 }
 
                 this.labelService.PrintLabel(
