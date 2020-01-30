@@ -444,6 +444,16 @@ function PartFail({
                                                 propertyName="minutesWasted"
                                             />
                                         </Grid>
+                                        <Grid item xs={3}>
+                                            <InputField
+                                                fullWidth
+                                                type="number"
+                                                value={partFail.serialNumber}
+                                                label="Serial Number"
+                                                onChange={handleFieldChange}
+                                                propertyName="serialNumber"
+                                            />
+                                        </Grid>
                                     </Fragment>
                                 )}
                             </Fragment>

@@ -12,8 +12,10 @@
 
     using NUnit.Framework;
 
-    public class WhenValidCandidate : ContextBase
+    public class WhenCreatingWithValidCandidate : ContextBase
     {
+        private PartFail result;
+
         [SetUp]
         public void SetUp()
         {
@@ -22,7 +24,8 @@
                                      Id = 1,
                                      Part = new Part { PartNumber = "PART" },
                                      PurchaseOrderNumber = 1,
-                                     WorksOrder = new WorksOrder { OrderNumber = 1 }
+                                     WorksOrder = new WorksOrder { OrderNumber = 1 },
+                                     SerialNumber = 101
                                  };
 
             this.PartRepository.FindById("PART").Returns(new Part { PartNumber = "PART" });
@@ -39,12 +42,15 @@
                                               }
                                       }
                     });
+
+            this.result = this.Sut.Create(this.Candidate);
         }
 
         [Test]
         public void ShouldReturnPartFail()
         {
-            this.Sut.Create(this.Candidate).Should().BeOfType<PartFail>();
+            this.result.Should().BeOfType<PartFail>();
+            this.result.SerialNumber.Should().Be(101);
         }
     }
 }

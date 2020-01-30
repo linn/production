@@ -29,6 +29,7 @@
                            StoragePlace = model.StorageLocation?.LocationCode,
                            StoragePlaceDescription = model.StorageLocation?.Description,
                            Story = model.Story,
+                           SerialNumber = model.SerialNumber,
                            WorksOrderNumber = model.WorksOrder?.OrderNumber,
                            MinutesWasted = model.MinutesWasted,
                            Links = this.BuildLinks(model).ToArray()
