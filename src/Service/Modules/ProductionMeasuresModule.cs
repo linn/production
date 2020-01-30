@@ -2,6 +2,7 @@
 {
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources.RequestResources;
+    using Linn.Production.Service.Models;
 
     using Nancy;
     using Nancy.ModelBinding;
@@ -23,8 +24,10 @@
         private object GetFailedPartsReport()
         {
             var requestResource = this.Bind<CitCodeRequestResource>();
-            return this.Negotiate.WithModel(
-                this.productionMeasuresReportFacade.GetFailedPartsReport(requestResource.CitCode));
+            return this.Negotiate
+                .WithModel(this.productionMeasuresReportFacade.GetFailedPartsReport(requestResource.CitCode))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetProductionMeasuresForCits()
