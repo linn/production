@@ -111,7 +111,8 @@
 
         public bool IsShortage()
         {
-            return this.CanBuild < this.ReqtForInternalAndTriggerLevelBT;
+            var build = (RemainingBuild ?? this.ReqtForInternalAndTriggerLevelBT) + (QtyBeingBuilt ?? 0);
+            return this.CanBuild < build;
         }
     }
 }

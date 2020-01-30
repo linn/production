@@ -1,5 +1,7 @@
 import React from 'react';
-import { Loading, ReportTable, Title } from '@linn-it/linn-form-components-library';
+import { Loading, ReportTable, Title, BackButton } from '@linn-it/linn-form-components-library';
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,6 +10,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
+
+const handleBackClick = history => {
+    history.push('/production/reports/measures');
+};
 
 const ShortageSummary = ({ summary, loading, history, options }) => (
     <Page>
@@ -55,7 +61,14 @@ const ShortageSummary = ({ summary, loading, history, options }) => (
                             {s.partNumber}
                         </Grid>
                         <Grid item xs={7}>
-                            {`Priority ${s.priority}   Build ${s.build}   Can Build ${s.canBuild}   Back Order ${s.backOrderQty}   Kanban ${s.kanban}`}
+                            {`Priority ${s.priority}   Build ${s.build}   Can Build `}
+                            <Link
+                                component={RouterLink}
+                                to={`/production/reports/wwd?part-number=${s.partNumber}&ptlJobref=${options.ptlJobref}&citcode=${options.citCode}&qty=${s.build}`}
+                            >
+                                {s.canBuild}
+                            </Link>
+                            {`   Back Order ${s.backOrderQty}   Kanban ${s.kanban}`}
                         </Grid>
                         <Grid item xs={2}>
                             {s.earliestRequestedDate}
@@ -63,6 +76,9 @@ const ShortageSummary = ({ summary, loading, history, options }) => (
                         <ReportTable reportData={s.results.reportResults[0]} showTotals={false} />
                     </Grid>
                 ))}
+                <Grid item xs={12}>
+                    <BackButton backClick={() => handleBackClick(history)} />
+                </Grid>
             </Grid>
         )}
     </Page>

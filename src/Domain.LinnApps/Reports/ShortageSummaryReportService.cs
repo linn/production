@@ -73,6 +73,11 @@
                     shortage.Priority = trigger.Priority;
                     shortage.PartNumber = trigger.PartNumber;
                     shortage.Build = trigger.ReqtForInternalAndTriggerLevelBT;
+                    if (trigger.QtyBeingBuilt > 0)
+                    {
+                        shortage.Build += trigger.QtyBeingBuilt;
+                    }
+
                     shortage.CanBuild = trigger.CanBuild;
                     shortage.Kanban = trigger.KanbanSize;
 
