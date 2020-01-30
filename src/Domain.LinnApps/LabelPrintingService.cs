@@ -49,15 +49,20 @@
                         ? fromString
                         : resource.LinesForPrinting.ToPCNumber);
 
-                for (int pcNumber = from; pcNumber <= to; pcNumber++)
+                var pcNumbers = $"\"PC{fromString}\"";
+
+                for (int pcNumber = from += 1; pcNumber <= to; pcNumber++)
                 {
-                    this.labelService.PrintLabel(
+                    pcNumbers += $", \"PC{fromString}\"";
+                }
+
+                this.labelService.PrintLabel(
                         $"PC{dateTimeNow}",
                         printer,
                         resource.Quantity,
                         "c:\\lbl\\PCLabel.btw",
-                        pcNumber.ToString());
-                }
+                        pcNumbers);
+                
 
                 return new LabelPrintResponse(
                         $"printed pc numbers {from} to {to}");
