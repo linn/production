@@ -53,6 +53,7 @@
             builder.RegisterType<DeliveryPeformanceReportService>().As<IDeliveryPerformanceReportService>();
             builder.RegisterType<CountComponentsService>().As<ICountComponents>();
             builder.RegisterType<FailsReportService>().As<IFailsReportService>();
+            builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -133,7 +134,7 @@
             builder.RegisterType<CountComponentsFacadeService>().As<ICountComponentsFacadeService>();
             builder.RegisterType<AddressService>().As<IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource>>();
             builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
-
+            builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();
@@ -153,7 +154,7 @@
             builder.RegisterType<LabelPack>().As<ILabelPack>();
             builder.RegisterType<WwdTrigProxy>().As<IWwdTrigFunction>();
             builder.RegisterType<WorksOrderLabelPack>().As<IWorksOrderLabelPack>();
-            builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
+            
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();
