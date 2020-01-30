@@ -157,6 +157,9 @@ function App() {
                 <ListItem component={Link} to="/production/reports/who-built-what" button>
                     <Typography color="primary">Who Built What Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/reports/failed-parts" button>
+                    <Typography color="primary">Failed Parts Report</Typography>
+                </ListItem>
             </List>
         </Page>
     );

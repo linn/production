@@ -102,6 +102,7 @@ import BtwReport from '../containers/reports/BtwReport';
 import DelPerfReport from '../containers/reports/DelPerfReport';
 import DelPerfDetails from '../containers/reports/DelPerfDetails';
 import LabelPrint from '../containers/labelPrinting/LabelPrint';
+import FailedPartsReport from '../containers/reports/FailedPartsReport';
 
 const Root = ({ store }) => (
     <div>
@@ -613,6 +614,11 @@ const Root = ({ store }) => (
                                         component={LabelPrint}
                                     />
 
+                                    <Route
+                                        exact
+                                        path="/production/reports/failed-parts"
+                                        component={FailedPartsReport}
+                                    />
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>

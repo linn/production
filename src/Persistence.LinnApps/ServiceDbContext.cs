@@ -37,6 +37,8 @@
 
         public DbQuery<WhoBuiltWhat> WhoBuiltWhat { get; set; }
 
+        public DbQuery<FailedParts> FailedParts { get; set; }
+
         public DbQuery<BomDetailExplodedPhantomPartView> BomDetailExplodedPhantomPartView { get; set; }
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
@@ -162,6 +164,7 @@
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
+            this.QueryFailedParts(builder);
             this.QueryMCDLines(builder);
             this.BuildManufacturingResources(builder);
 
@@ -480,6 +483,25 @@
             builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
             builder.Query<WhoBuiltWhat>().Property(t => t.SernosNumber).HasColumnName("SERNOS_NUMBER");
             builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+        }
+
+        private void QueryFailedParts(ModelBuilder builder)
+        {
+            builder.Query<FailedParts>().ToView("FAILED_PARTS_REPORT_VIEW");
+            builder.Query<FailedParts>().Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<FailedParts>().Property(t => t.PartDescription).HasColumnName("DESCRIPTION");
+            builder.Query<FailedParts>().Property(t => t.Qty).HasColumnName("QTY");
+            builder.Query<FailedParts>().Property(t => t.BatchRef).HasColumnName("BATCH_REF");
+            builder.Query<FailedParts>().Property(t => t.DateBooked).HasColumnName("DATE_BOOKED");
+            builder.Query<FailedParts>().Property(t => t.StockRotationDate).HasColumnName("STOCK_ROTATION_DATE");
+            builder.Query<FailedParts>().Property(v => v.TotalValue).HasColumnName("TOTAL_VALUE");
+            builder.Query<FailedParts>().Property(v => v.StockLocatorRemarks).HasColumnName("STOCK_LOCATOR_REMARKS");
+            builder.Query<FailedParts>().Property(v => v.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Query<FailedParts>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<FailedParts>().Property(t => t.CitName).HasColumnName("CIT_NAME");
+            builder.Query<FailedParts>().Property(t => t.StoragePlace).HasColumnName("STORAGE_PLACE");
+            builder.Query<FailedParts>().Property(t => t.PreferredSupplierId).HasColumnName("PREFERRED_SUPPLIER");
+            builder.Query<FailedParts>().Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
         }
 
         private void QueryMCDLines(ModelBuilder builder)

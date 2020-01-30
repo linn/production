@@ -52,6 +52,7 @@
             builder.RegisterType<BuiltThisWeekReportService>().As<IBuiltThisWeekReportService>();
             builder.RegisterType<DeliveryPeformanceReportService>().As<IDeliveryPerformanceReportService>();
             builder.RegisterType<CountComponentsService>().As<ICountComponents>();
+            builder.RegisterType<FailsReportService>().As<IFailsReportService>();
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
 
             // facade services
