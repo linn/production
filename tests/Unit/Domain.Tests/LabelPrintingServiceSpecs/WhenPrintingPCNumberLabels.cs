@@ -31,7 +31,7 @@
         [Test]
         public void ShouldCallLabelPrintServiceForPCNumber()
         {
-            this.LabelService.Received().PrintLabel(Arg.Any<string>(), "ProdLbl1", 4, "c:\\lbl\\PCLabel.btw", "1237");
+            this.LabelService.Received().PrintLabel(Arg.Any<string>(), "ProdLbl1", 4, "c:\\lbl\\PCLabel.btw", "\"PC1237\"");
         }
 
         [Test]
