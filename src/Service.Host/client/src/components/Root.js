@@ -64,7 +64,6 @@ import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFault
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
 import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
 import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
-import LabelPrint from '../containers/labels/LabelPrint';
 import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersReportOptions';
 import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
 import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
@@ -102,6 +101,8 @@ import CreateAteTest from '../containers/ate/CreateAteTest';
 import BtwReport from '../containers/reports/BtwReport';
 import DelPerfReport from '../containers/reports/DelPerfReport';
 import DelPerfDetails from '../containers/reports/DelPerfDetails';
+import LabelPrint from '../containers/labelPrinting/LabelPrint';
+import FailedPartsReport from '../containers/reports/FailedPartsReport';
 
 const Root = ({ store }) => (
     <div>
@@ -505,7 +506,7 @@ const Root = ({ store }) => (
                                     <Route
                                         exact
                                         path="/production/maintenance/labels/reprint"
-                                        component={LabelPrint}
+                                        component={LabelReprint}
                                     />
                                     <Route
                                         exact
@@ -606,6 +607,17 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/delperf/details"
                                         component={DelPerfDetails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/print"
+                                        component={LabelPrint}
+                                    />
+
+                                    <Route
+                                        exact
+                                        path="/production/reports/failed-parts"
+                                        component={FailedPartsReport}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

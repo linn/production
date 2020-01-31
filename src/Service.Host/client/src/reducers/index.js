@@ -89,6 +89,12 @@ import historyStore from './history';
 import ateStatusReport from './ateStatusReport';
 import ateDetailsReport from './ateDetailsReport';
 import componentCounts from './componentCounts';
+import labelPrint from './labelPrint';
+import labelPrintTypes from './labelPrintTypes';
+import labelPrinters from './labelPrinters';
+import suppliers from './suppliers';
+import addresses from './addresses';
+import failedPartsReport from './failedPartsReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -108,8 +114,10 @@ const reducer = history =>
         assemblyFailFaultCodes,
         assemblyFailsMeasures,
         assemblyFailsWaitingListReport,
+        ateDetailsReport,
         ateFaultCode,
         ateFaultCodes,
+        ateStatusReport,
         ateTest,
         ateTests,
         boardFailType,
@@ -127,6 +135,7 @@ const reducer = history =>
         departments,
         employees,
         errors,
+        failedPartsReport,
         labelReprint,
         labelType,
         labelTypes,
@@ -179,9 +188,12 @@ const reducer = history =>
         wwdTriggerReport,
         productionTriggerLevel,
         workStations,
-        ateStatusReport,
-        ateDetailsReport,
         componentCounts,
+        labelPrint,
+        labelPrinters,
+        labelPrintTypes,
+        suppliers,
+        addresses,
         ...sharedLibraryReducers
     });
 

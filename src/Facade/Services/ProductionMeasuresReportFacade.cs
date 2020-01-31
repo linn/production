@@ -4,7 +4,9 @@
     using System.Linq;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
+    using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.CsvExtensions;
 
@@ -16,14 +18,18 @@
 
         private readonly ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository;
 
+        private readonly IFailsReportService failsReportService;
+
         public ProductionMeasuresReportFacade(
             IRepository<ProductionMeasures, string> productionMeasuresRepository,
             ISingleRecordRepository<PtlMaster> ptlMasterRepository,
-            ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository)
+            ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository,
+            IFailsReportService failsReportService)
         {
             this.productionMeasuresRepository = productionMeasuresRepository;
             this.ptlMasterRepository = ptlMasterRepository;
             this.osrRunMasterRepository = osrRunMasterRepository;
+            this.failsReportService = failsReportService;
         }
 
         public IResult<IEnumerable<ProductionMeasures>> GetProductionMeasuresForCits()
@@ -49,6 +55,11 @@
                            };
 
             return new SuccessResult<OsrInfo>(info);
+        }
+
+        public IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(string citCode)
+        {
+            return new SuccessResult<IEnumerable<ResultsModel>>(this.failsReportService.FailedPartsReport(citCode));
         }
     }
 }

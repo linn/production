@@ -249,6 +249,12 @@ export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.action
 
 export const labelReprintActionTypes = makeActionTypes(itemTypes.labelReprint.actionType);
 
+export const labelPrintActionTypes = makeActionTypes(itemTypes.labelPrint.actionType);
+
+export const labelPrinterActionTypes = makeActionTypes(itemTypes.labelPrinters.actionType);
+
+export const labelPrintTypeActionTypes = makeActionTypes(itemTypes.labelPrintTypes.actionType);
+
 export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);
 
 export const ateStatusReportActionTypes = makeReportActionTypes(
@@ -264,3 +270,11 @@ export const ateTestActionTypes = makeActionTypes(itemTypes.ateTest.actionType);
 export const ateTestsActionTypes = makeActionTypes(itemTypes.ateTests.actionType);
 
 export const componentCountsActionTypes = makeActionTypes(itemTypes.componentCounts.actionType);
+
+export const addressesActionTypes = makeActionTypes(itemTypes.addresses.actionType, false);
+
+export const suppliersActionTypes = makeActionTypes(itemTypes.suppliers.actionType, false);
+
+export const failedPartsReportActionTypes = makeReportActionTypes(
+    reportTypes.failedPartsReport.actionType
+);

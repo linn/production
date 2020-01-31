@@ -1,0 +1,28 @@
+﻿namespace Linn.Production.Domain.LinnApps
+{
+    using System;
+    using System.Collections.Generic;
+
+    public class Address
+    {
+        public int Id { get; set; }
+
+        public string Addressee { get; set; }
+
+        public string Addressee2 { get; set; }
+
+        public string Line1 { get; set; }
+
+        public string Line2 { get; set; }
+
+        public string Line3 { get; set; }
+
+        public string Line4 { get; set; }
+
+        public string Country { get; set; }
+
+        public string PostCode { get; set; }
+
+        public DateTime? DateInvalid { get; set; }
+    }
+}

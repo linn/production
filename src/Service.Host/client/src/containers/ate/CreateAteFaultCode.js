@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
     editStatus: 'create',
     itemError: getItemError(state, itemTypes.ateFaultCode.item),
     loading: ateFaultCodeSelectors.getLoading(state),
-    snackbarVisible: ateFaultCodeSelectors.getSnackbarVisible(state),
+    snackbarVisible: ateFaultCodeSelectors.getSnackbarVisible(state)
 });
 
 const initialise = () => dispatch => {
