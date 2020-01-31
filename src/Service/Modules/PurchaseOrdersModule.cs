@@ -16,7 +16,7 @@
             this.service = service;
 
             this.Get("/production/resources/purchase-orders", _ => this.GetPurchaseOrders());
-            this.Get("/production/resources/purchase-order/{id}", parameters => this.GetPurchaseOrder(parameters.id));
+            this.Get("/production/resources/purchase-orders/{id}", parameters => this.GetPurchaseOrder(parameters.id));
         }
 
         private object GetPurchaseOrders()
