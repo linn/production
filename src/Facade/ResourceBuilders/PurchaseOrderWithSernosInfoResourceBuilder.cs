@@ -15,10 +15,10 @@
                             OrderNumber = model.OrderNumber,
                             DateOfOrder = model.DateOfOrder.ToString("o"),
                             Addressee = model.OrderAddress.Addressee,
-                            Address1 = model.OrderAddress.Address1,
-                            Address2 = model.OrderAddress.Address2,
-                            Address3 = model.OrderAddress.Address3,
-                            Address4 = model.OrderAddress.Address4,
+                            Address1 = model.OrderAddress.Line1,
+                            Address2 = model.OrderAddress.Line2,
+                            Address3 = model.OrderAddress.Line3,
+                            Address4 = model.OrderAddress.Line4,
                             PostCode = model.OrderAddress.PostCode,
                             DetailSernosInfos = model.DetaisWithSernosInfo.Select(x => new PurchaseOrderDetailSWithernosInfoResource
                                                                                            {

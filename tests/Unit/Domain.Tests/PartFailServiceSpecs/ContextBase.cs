@@ -30,8 +30,8 @@
             this.PartRepository = Substitute.For<IRepository<Part, string>>();
 
             this.Sut = new PartFailService(
-                this.WorksOrderRepository, 
-                this.PurchaseOrderRepository, 
+                this.WorksOrderRepository,
+                this.PurchaseOrderRepository,
                 this.PartRepository);
         }
     }

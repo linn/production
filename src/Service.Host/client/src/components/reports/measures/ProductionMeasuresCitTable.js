@@ -23,7 +23,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
     const backOrdersBaseHref = 'back-orders';
     const builtThisWeekBaseHref = 'btw';
     const delPerfBaseHref = 'delperf';
-    const fflagStockBaseHref = '../stock/f-flag'; // may already exist in linnapps
+    const fflagStockBaseHref = 'failed-parts';
 
     function handleChange(event, newValue) {
         setValue(newValue);

@@ -37,6 +37,8 @@
 
         public DbQuery<WhoBuiltWhat> WhoBuiltWhat { get; set; }
 
+        public DbQuery<FailedParts> FailedParts { get; set; }
+
         public DbQuery<BomDetailExplodedPhantomPartView> BomDetailExplodedPhantomPartView { get; set; }
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
@@ -145,6 +147,8 @@
 
         public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
+        public DbSet<Supplier> Suppliers { get; set; }
+
         public DbQuery<PtlStat> PtlStats { get; set; }
 
         public DbQuery<SernosIssued> SernosIssuedView { get; set; }
@@ -157,6 +161,8 @@
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
 
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             this.BuildAte(builder);
@@ -166,6 +172,7 @@
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
+            this.QueryFailedParts(builder);
             this.QueryMCDLines(builder);
             this.BuildManufacturingResources(builder);
 
@@ -227,6 +234,7 @@
             this.QuerySernosBuiltView(builder);
             this.QuerySernosIssuedView(builder);
             this.QueryPurchaseOrdersReceivedView(builder);
+            this.BuildSuppliers(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -487,6 +495,25 @@
             builder.Query<WhoBuiltWhat>().Property(t => t.QtyBuilt).HasColumnName("QTY_BUILT");
             builder.Query<WhoBuiltWhat>().Property(t => t.SernosNumber).HasColumnName("SERNOS_NUMBER");
             builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+        }
+
+        private void QueryFailedParts(ModelBuilder builder)
+        {
+            builder.Query<FailedParts>().ToView("FAILED_PARTS_REPORT_VIEW");
+            builder.Query<FailedParts>().Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<FailedParts>().Property(t => t.PartDescription).HasColumnName("DESCRIPTION");
+            builder.Query<FailedParts>().Property(t => t.Qty).HasColumnName("QTY");
+            builder.Query<FailedParts>().Property(t => t.BatchRef).HasColumnName("BATCH_REF");
+            builder.Query<FailedParts>().Property(t => t.DateBooked).HasColumnName("DATE_BOOKED");
+            builder.Query<FailedParts>().Property(t => t.StockRotationDate).HasColumnName("STOCK_ROTATION_DATE");
+            builder.Query<FailedParts>().Property(v => v.TotalValue).HasColumnName("TOTAL_VALUE");
+            builder.Query<FailedParts>().Property(v => v.StockLocatorRemarks).HasColumnName("STOCK_LOCATOR_REMARKS");
+            builder.Query<FailedParts>().Property(v => v.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Query<FailedParts>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<FailedParts>().Property(t => t.CitName).HasColumnName("CIT_NAME");
+            builder.Query<FailedParts>().Property(t => t.StoragePlace).HasColumnName("STORAGE_PLACE");
+            builder.Query<FailedParts>().Property(t => t.PreferredSupplierId).HasColumnName("PREFERRED_SUPPLIER");
+            builder.Query<FailedParts>().Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
         }
 
         private void QueryMCDLines(ModelBuilder builder)
@@ -942,16 +969,16 @@
             e.ToTable("PART_FAIL_LOG");
             e.HasKey(f => f.Id);
             e.Property(f => f.Id).HasColumnName("ID");
-            e.Property(f => f.Batch).HasColumnName("BATCH");
+            e.Property(f => f.Batch).HasColumnName("BATCH").HasMaxLength(20);
             e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.PartFails).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(f => f.PurchaseOrderNumber).HasColumnName("PURCHASE_ORDER_NUMBER");
             e.Property(f => f.DateCreated).HasColumnName("DATE_CREATED");
             e.HasOne<Employee>(f => f.EnteredBy).WithMany(m => m.PartFailsEntered).HasForeignKey("ENTERED_BY");
             e.Property(f => f.MinutesWasted).HasColumnName("MINUTES_WASTED");
-            e.Property(f => f.Batch).HasColumnName("BATCH");
             e.HasOne<Part>(f => f.Part).WithMany(p => p.Fails).HasForeignKey("PART_NUMBER");
             e.Property(f => f.Quantity).HasColumnName("QTY");
-            e.Property(f => f.Story).HasColumnName("STORY");
+            e.Property(f => f.Story).HasColumnName("STORY").HasMaxLength(200);
+            e.Property(f => f.SerialNumber).HasColumnName("SERIAL_NUMBER");
             e.HasOne<PartFailFaultCode>(f => f.FaultCode).WithMany(c => c.PartFails).HasForeignKey("FAULT_CODE");
             e.HasOne<StorageLocation>(f => f.StorageLocation).WithMany(l => l.PartFails).HasForeignKey("LOCATION_ID");
             e.HasOne<PartFailErrorType>(f => f.ErrorType).WithMany(t => t.PartFails).HasForeignKey("ERROR_TYPE");
@@ -1154,6 +1181,32 @@
             q.Property(b => b.Days).HasColumnName("DAYS");
         }
 
+        private void BuildAddresses(ModelBuilder builder)
+        {
+            var q = builder.Entity<Address>();
+            q.ToTable("ADDRESSES");
+            q.Property(b => b.Id).HasColumnName("ADDRESS_ID").HasMaxLength(38);
+            q.Property(b => b.Addressee).HasColumnName("ADDRESSEE").HasMaxLength(40);
+            q.Property(b => b.Addressee2).HasColumnName("ADDRESSEE_2").HasMaxLength(40);
+            q.Property(b => b.Line1).HasColumnName("ADDRESS_1").HasMaxLength(40);
+            q.Property(b => b.Line2).HasColumnName("ADDRESS_2").HasMaxLength(40);
+            q.Property(b => b.Line3).HasColumnName("ADDRESS_3").HasMaxLength(40);
+            q.Property(b => b.Line4).HasColumnName("ADDRESS_4").HasMaxLength(40);
+            q.Property(b => b.Country).HasColumnName("COUNTRY").HasMaxLength(2);
+            q.Property(b => b.PostCode).HasColumnName("POSTAL_CODE");
+            q.Property(b => b.DateInvalid).HasColumnName("DATE_INVALID");
+        }
+        private void BuildSuppliers(ModelBuilder builder)
+        {
+            var q = builder.Entity<Supplier>();
+            q.ToTable("SUPPLIERS");
+            q.Property(b => b.SupplierId).HasColumnName("SUPPLIER_ID").HasMaxLength(6);
+            q.Property(b => b.SupplierName).HasColumnName("SUPPLIER_NAME").HasMaxLength(50);
+            q.Property(b => b.OrderAddressId).HasColumnName("ORD_ADDRESS_ID").HasMaxLength(10);
+            q.Property(b => b.InvoiceAddressId).HasColumnName("INV_ADDRESS_ID").HasMaxLength(10);
+            q.Property(b => b.DateClosed).HasColumnName("DATE_CLOSED");
+        }
+
         private void QueryPtlStats(ModelBuilder builder)
         {
             var q = builder.Query<PtlStat>();
@@ -1177,19 +1230,6 @@
             builder.Entity<Country>().HasKey(c => c.CountryCode);
             builder.Entity<Country>().Property(c => c.CountryCode).HasColumnName("COUNTRY_CODE");
             builder.Entity<Country>().Property(c => c.Name).HasColumnName("NAME");
-        }
-
-        private void BuildAddresses(ModelBuilder builder)
-        {
-            builder.Entity<Address>().ToTable("ADDRESSES");
-            builder.Entity<Address>().HasKey(c => c.Id);
-            builder.Entity<Address>().Property(c => c.Id).HasColumnName("ADDRESS_ID");
-            builder.Entity<Address>().Property(c => c.Addressee).HasColumnName("ADDRESSEE");
-            builder.Entity<Address>().Property(c => c.Address1).HasColumnName("ADDRESS_1");
-            builder.Entity<Address>().Property(c => c.Address2).HasColumnName("ADDRESS_2");
-            builder.Entity<Address>().Property(c => c.Address3).HasColumnName("ADDRESS_3");
-            builder.Entity<Address>().Property(c => c.Address4).HasColumnName("ADDRESS_4");
-            builder.Entity<Address>().Property(c => c.PostCode).HasColumnName("POSTAL_CODE");
         }
 
         private void QuerySernosBuiltView(ModelBuilder builder)

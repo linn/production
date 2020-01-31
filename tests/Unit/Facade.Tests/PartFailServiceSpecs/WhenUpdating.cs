@@ -28,7 +28,7 @@
             var partFail = new PartFail
             {
                 Id = 1,
-                Part = new Part() { PartNumber = "PART" },
+                Part = new Part { PartNumber = "PART" },
                 Batch = "BATCH",
                 EnteredBy = new Employee { Id = 1, FullName = "Colin" },
                 DateCreated = new DateTime(),
@@ -38,7 +38,7 @@
 
             this.resource = new PartFailResource
             {
-                Id = 1,
+                Id = 1324,
                 WorksOrderNumber = 1,
                 PartNumber = "PART",
                 Batch = "NEW BATCH",
@@ -46,23 +46,32 @@
                 EnteredByName = "Colin",
                 DateCreated = new DateTime().ToString("o"),
                 ErrorType = "Error",
-                FaultCode = "Fault"
+                FaultCode = "Fault",
+                SerialNumber = 202
             };
 
-            this.PartFailService.Create(Arg.Any<PartFail>()).Returns(new PartFail
-            {
-                Id = 1,
-                Part = new Part() { PartNumber = "PART" },
-                Batch = "NEW BATCH",
-                EnteredBy = new Employee { Id = 1, FullName = "Colin" },
-                DateCreated = new DateTime(),
-                ErrorType = new PartFailErrorType(),
-                FaultCode = new PartFailFaultCode()
-            });
+            this.PartFailService.Create(Arg.Any<PartFail>())
+                .Returns(new PartFail
+                             {
+                                 Id = 1,
+                                 Part = new Part { PartNumber = "PART" },
+                                 Batch = "NEW BATCH",
+                                 EnteredBy = new Employee { Id = 1, FullName = "Colin" },
+                                 DateCreated = new DateTime(),
+                                 ErrorType = new PartFailErrorType(),
+                                 FaultCode = new PartFailFaultCode()
+                             });
 
             this.PartFailRepository.FindById(1).Returns(partFail);
 
             this.result = this.Sut.Update(1, this.resource);
+        }
+
+        [Test]
+        public void ShouldPassCorrectInfoForUpdate()
+        {
+            this.PartFailService.Received().Create(Arg.Is<PartFail>(p => p.SerialNumber == this.resource.SerialNumber));
+
         }
 
         [Test]

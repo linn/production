@@ -128,6 +128,10 @@
             builder.RegisterType<PurchaseOrderDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PurchaseOrderDetail>>>();
             builder.RegisterType<PurchaseOrderWithSernosInfoResourceBuilder>()
                 .As<IResourceBuilder<PurchaseOrderWithSernosInfo>>();
+            builder.RegisterType<AddressResourceBuilder>().As<IResourceBuilder<Address>>();
+            builder.RegisterType<AddressesResourceBuilder>().As<IResourceBuilder<IEnumerable<Address>>>();
+            builder.RegisterType<SupplierResourceBuilder>().As<IResourceBuilder<Supplier>>();
+            builder.RegisterType<SuppliersResourceBuilder>().As<IResourceBuilder<IEnumerable<Supplier>>>();
         }
     }
 }

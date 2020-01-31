@@ -3,38 +3,18 @@
     using System;
     using System.Collections.Generic;
     using Linn.Common.Facade;
-    using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Products;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.Extensions;
+    using Linn.Production.Resources;
 
     public class LabelPrintService : ILabelPrintService
     {
-        private readonly IBartenderLabelPack bartenderLabelPack;
-
-        private readonly ILabelPack labelPack;
-
-        private readonly IRepository<ProductData, int> productDataRepository;
-
-        private readonly IRepository<SerialNumber, int> serialNumberRepository;
-
-        private readonly ISernosPack sernosPack;
-
-        private readonly IRepository<LabelType, string> labelTypeRepository;
-
-        private string message;
+        private readonly ILabelPrintingService labelPrintingService;
 
         public LabelPrintService(
-            IBartenderLabelPack bartenderLabelPack,
-            ILabelPack labelPack,
-            IRepository<ProductData, int> productDataRepository,
-            IRepository<LabelType, string> labelTypeRepository)
+            ILabelPrintingService labelPrintingService)
         {
-            this.labelPack = labelPack;
-            this.bartenderLabelPack = bartenderLabelPack;
-            this.productDataRepository = productDataRepository;
-            this.labelTypeRepository = labelTypeRepository;
+            this.labelPrintingService = labelPrintingService;
         }
 
         public IResult<IEnumerable<IdAndName>> GetPrinters()
@@ -67,9 +47,41 @@
             return new SuccessResult<IEnumerable<IdAndName>>(labelList);
         }
 
-        public void PrintLabel()
+        public IResult<LabelPrintResponse> PrintLabel(LabelPrintResource resource)
         {
-            throw new NotImplementedException();
+            var printDetails = new LabelPrint
+                                   {
+                                       LabelType = resource.LabelType,
+                                       LinesForPrinting = new LabelPrintContents
+                                                              {
+                                                                  SupplierId = resource.LinesForPrinting.SupplierId,
+                                                                  Addressee = resource.LinesForPrinting.Addressee,
+                                                                  Addressee2 = resource.LinesForPrinting.Addressee2,
+                                                                  AddressId = resource.LinesForPrinting.AddressId,
+                                                                  Line1 = resource.LinesForPrinting.Line1,
+                                                                  Line2 = resource.LinesForPrinting.Line2,
+                                                                  Line3 = resource.LinesForPrinting.Line3,
+                                                                  Line4 = resource.LinesForPrinting.Line4,
+                                                                  Line5 = resource.LinesForPrinting.Line5,
+                                                                  Line6 = resource.LinesForPrinting.Line6,
+                                                                  Line7 = resource.LinesForPrinting.Line7,
+                                                                  PostalCode = resource.LinesForPrinting.PostalCode,
+                                                                  Country = resource.LinesForPrinting.Country,
+                                                                  FromPCNumber = resource.LinesForPrinting.FromPCNumber,
+                                                                  ToPCNumber = resource.LinesForPrinting.ToPCNumber,
+                                                                  PoNumber = resource.LinesForPrinting.PoNumber,
+                                                                  PartNumber = resource.LinesForPrinting.PartNumber,
+                                                                  Qty = resource.LinesForPrinting.Qty,
+                                                                  Initials = resource.LinesForPrinting.Initials,
+                                                                  Date = resource.LinesForPrinting.Date
+                                       },
+                                       Printer = resource.Printer,
+                                       Quantity = resource.Quantity
+                                   };
+
+            var result = this.labelPrintingService.PrintLabel(printDetails);
+
+            return new SuccessResult<LabelPrintResponse>(result);
         }
     }
 }

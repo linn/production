@@ -4,10 +4,11 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Resources;
 
     public interface ILabelPrintService
     {
-        void PrintLabel();
+        IResult<LabelPrintResponse> PrintLabel(LabelPrintResource resource);
 
         IResult<IEnumerable<IdAndName>> GetLabelTypes();
 

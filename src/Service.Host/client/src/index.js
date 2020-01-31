@@ -4,7 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import { SnackbarProvider } from 'notistack';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import { linnTheme } from '@linn-it/linn-form-components-library';
-import configureStore, { history } from './configureStore';
+import configureStore from './configureStore';
 import Root from './components/Root';
 import userManager from './helpers/userManager';
 import 'typeface-roboto';
