@@ -105,8 +105,6 @@
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
-        public DbQuery<PartFailLog> PartFailLogs { get; set; }
-
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
 
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
@@ -203,7 +201,6 @@
             this.QueryProductionTriggerAssemblies(builder);
             this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
-            this.QueryPartFailLogs(builder);
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
@@ -552,23 +549,6 @@
             builder.Query<ProductionBackOrdersView>().Property(p => p.OldestDate).HasColumnName("OLDEST_DATE");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildQuantity).HasColumnName("CAN_BUILD_QTY");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildValue).HasColumnName("CAN_BUILD_VALUE");
-        }
-
-        private void QueryPartFailLogs(ModelBuilder builder)
-        {
-            var q = builder.Query<PartFailLog>();
-            q.ToView("PART_FAIL_LOG");
-            q.Property(t => t.Id).HasColumnName("ID");
-            q.Property(t => t.DateCreated).HasColumnName("DATE_CREATED");
-            q.HasOne<Part>(f => f.Part).WithMany(p => p.PartFailLogs).HasForeignKey("PART_NUMBER");
-            q.Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
-            q.Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
-            q.Property(t => t.Story).HasColumnName("STORY");
-            q.Property(t => t.Quantity).HasColumnName("QTY");
-            q.Property(t => t.MinutesWasted).HasColumnName("MINUTES_WASTED");
-            q.Property(t => t.ErrorType).HasColumnName("ERROR_TYPE");
-            q.Property(t => t.Batch).HasColumnName("BATCH");
-            q.Property(t => t.EnteredBy).HasColumnName("ENTERED_BY");
         }
 
         private void QueryOverdueOrderLines(ModelBuilder builder)

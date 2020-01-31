@@ -8,6 +8,7 @@
 
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
 
     using NSubstitute;
 
@@ -28,7 +29,7 @@
 
             this.toDate = new DateTime(2019, 10, 31).ToString("o");
 
-            this.PartFailLogRepository.FilterBy(Arg.Any<Expression<Func<PartFailLog, bool>>>())
+            this.PartFailLogRepository.FilterBy(Arg.Any<Expression<Func<PartFail, bool>>>())
                 .Returns(this.PartFailLogs.AsQueryable());
 
             this.LinnWeekPack.Wwsyy(DateTime.Parse(this.fromDate)).Returns("12/3");
@@ -41,7 +42,7 @@
         [Test]
         public void ShouldCallPartFailLogRepository()
         {
-            this.PartFailLogRepository.Received().FilterBy(Arg.Any<Expression<Func<PartFailLog, bool>>>());
+            this.PartFailLogRepository.Received().FilterBy(Arg.Any<Expression<Func<PartFail, bool>>>());
         }
 
         [Test]

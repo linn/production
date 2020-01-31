@@ -6,28 +6,29 @@
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class PartsReportService : IPartsReportService
     {
-        private readonly IQueryRepository<PartFailLog> partFailLogRepository;
-
         private readonly IQueryRepository<EmployeeDepartmentView> employeeDepartmentViewRepository;
+
+        private readonly IRepository<PartFail, int> partFailLogRepository;
 
         private readonly IReportingHelper reportingHelper;
 
         private readonly ILinnWeekPack linnWeekPack;
 
         public PartsReportService(
-            IQueryRepository<PartFailLog> partFailLogRepository,
+            IRepository<PartFail, int> partFailLogRepository,
             IQueryRepository<EmployeeDepartmentView> employeeDepartmentViewRepository,
             IReportingHelper reportingHelper,
             ILinnWeekPack linnWeekPack)
         {
+            this.partFailLogRepository = partFailLogRepository;
             this.reportingHelper = reportingHelper;
             this.linnWeekPack = linnWeekPack;
-            this.partFailLogRepository = partFailLogRepository;
             this.employeeDepartmentViewRepository = employeeDepartmentViewRepository;
         }
 
@@ -47,17 +48,17 @@
 
             if (partNumber != "All")
             {
-                fails = fails.Where(f => f.PartNumber == partNumber);
+                fails = fails.Where(f => f.Part.PartNumber == partNumber);
             }
 
             if (faultCode != "All")
             {
-                fails = fails.Where(f => f.FaultCode == faultCode);
+                fails = fails.Where(f => f.FaultCode.FaultCode == faultCode);
             }
 
             if (errorType != "All")
             {
-                fails = fails.Where(f => f.ErrorType == errorType);
+                fails = fails.Where(f => f.ErrorType.ErrorType == errorType);
             }
 
             if (supplierId != null)
@@ -71,7 +72,7 @@
                     this.employeeDepartmentViewRepository.FilterBy(e => e.DepartmentCode == department);
 
                 var validEmployees = employeeDetails.Select(e => e.UserNumber);
-                fails = fails.Where(f => validEmployees.Contains(f.EnteredBy));
+                fails = fails.Where(f => validEmployees.Contains(f.EnteredBy.Id));
             }
 
             fails = fails.OrderBy(f => f.DateCreated);
@@ -106,7 +107,7 @@
             return model;
         }
 
-        private List<CalculationValueModel> SetModelRows(IQueryable<PartFailLog> fails)
+        private List<CalculationValueModel> SetModelRows(IEnumerable<PartFail> fails)
         {
             var values = new List<CalculationValueModel>();
 
@@ -123,7 +124,7 @@
                     new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
-                        TextDisplay = fail.PartNumber,
+                        TextDisplay = fail.Part.PartNumber,
                         ColumnId = "Part Number"
                     });
                 values.Add(
@@ -137,7 +138,7 @@
                     new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
-                        TextDisplay = fail.DateCreated?.ToString("dd-MMM-yy"),
+                        TextDisplay = fail.DateCreated.ToString("dd-MMM-yy"),
                         ColumnId = "Date Created"
                     });
                 values.Add(
@@ -151,7 +152,7 @@
                     new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
-                        TextDisplay = fail.FaultCode,
+                        TextDisplay = fail.FaultCode.FaultCode,
                         ColumnId = "Fault Code"
                     });
                 values.Add(
@@ -179,7 +180,7 @@
                     new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
-                        TextDisplay = fail.ErrorType,
+                        TextDisplay = fail.ErrorType.ErrorType,
                         ColumnId = "Error Type"
                     });
                 values.Add(
@@ -205,11 +206,11 @@
         {
             return new List<AxisDetailsModel>
                        {
-                           new AxisDetailsModel("Id") { SortOrder = 0, GridDisplayType = GridDisplayType.Value },
+                           new AxisDetailsModel("Id") { SortOrder = 0, GridDisplayType = GridDisplayType.TextValue },
 
                            new AxisDetailsModel("Part Number")
                                {
-                                   SortOrder = 1, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 1, GridDisplayType = GridDisplayType.TextValue, AllowWrap = false
                                },
                            new AxisDetailsModel("Part Description")
                                {
@@ -217,7 +218,7 @@
                                },
                            new AxisDetailsModel("Date Created")
                                {
-                                   SortOrder = 3, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 3, GridDisplayType = GridDisplayType.TextValue, AllowWrap = false
                                },
                            new AxisDetailsModel("Batch") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
                            new AxisDetailsModel("Fault Code")
