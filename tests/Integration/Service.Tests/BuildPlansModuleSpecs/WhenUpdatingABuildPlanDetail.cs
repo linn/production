@@ -31,13 +31,10 @@
             this.AuthorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailUpdate, Arg.Any<List<string>>())
                 .Returns(true);
 
-            this.LinnWeekPack.LinnWeekNumber("2007-02-20").Returns(1);
+            this.LinnWeekPack.LinnWeekNumber(Arg.Any<DateTime>()).Returns(1);
 
-            this.BuildPlanDetailsFacadeService
-                .Update(
-                    Arg.Any<BuildPlanDetailKey>(),
-                    Arg.Any<BuildPlanDetailResource>(),
-                    Arg.Any<IEnumerable<string>>()).Returns(
+            this.BuildPlanDetailsService
+                .UpdateBuildPlanDetail(Arg.Any<BuildPlanDetailResource>(), Arg.Any<IEnumerable<string>>()).Returns(
                     new SuccessResult<ResponseModel<BuildPlanDetail>>(
                         new ResponseModel<BuildPlanDetail>(buildPlanDetail, new List<string>())));
 
@@ -60,8 +57,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanDetailsFacadeService.Received().Update(
-                Arg.Any<BuildPlanDetailKey>(),
+            this.BuildPlanDetailsService.Received().UpdateBuildPlanDetail(
                 Arg.Any<BuildPlanDetailResource>(),
                 Arg.Any<IEnumerable<string>>());
         }
@@ -72,7 +68,6 @@
             var resource = this.Response.Body.DeserializeJson<BuildPlanDetailResource>();
             resource.BuildPlanName.Should().Be("name");
             resource.PartNumber.Should().Be("part");
-            // resource.FromDate.Should().Be("2007-02-20");
         }
     }
 }

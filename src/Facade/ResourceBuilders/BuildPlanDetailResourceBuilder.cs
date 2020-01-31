@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -45,9 +46,7 @@
 
         public string GetLocation(ResponseModel<BuildPlanDetail> model)
         {
-            var buildPlanDetail = model.ResponseData;
-            return
-                $"/production/maintenance/build-plan-details/{buildPlanDetail.BuildPlanName}{buildPlanDetail.PartNumber}{this.linnWeekPack.LinnWeekStartDate(buildPlanDetail.FromLinnWeekNumber).ToString("o")}";
+            return "/production/maintenance/build-plan-details";
         }
 
         object IResourceBuilder<ResponseModel<BuildPlanDetail>>.Build(ResponseModel<BuildPlanDetail> model) =>

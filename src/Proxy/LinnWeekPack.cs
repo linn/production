@@ -77,7 +77,7 @@
             }
         }
 
-        public int LinnWeekNumber(string date)
+        public int LinnWeekNumber(DateTime date)
         {
             using (var connection = this.db.GetConnection())
             {
@@ -93,7 +93,7 @@
                                  };
                 cmd.Parameters.Add(result);
 
-                var dateParameter = new OracleParameter("p_date", OracleDbType.Varchar2)
+                var dateParameter = new OracleParameter("p_date", OracleDbType.Date)
                                         {
                                             Direction = ParameterDirection.Input,
                                             Value = date

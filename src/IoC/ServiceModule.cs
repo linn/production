@@ -66,6 +66,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
             builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
+            builder.RegisterType<BuildPlanDetailService>().As<IBuildPlanDetailsService>();
             builder.RegisterType<ProductionTriggerLevelService>().As<IProductionTriggerLevelsService>();
             builder.RegisterType<PcasRevisionService>()
                 .As<IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource>>();

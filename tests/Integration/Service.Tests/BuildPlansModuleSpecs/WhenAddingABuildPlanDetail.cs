@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Service.Tests.BuildPlansModuleSpecs
 {
+    using System;
     using System.Collections.Generic;
 
     using FluentAssertions;
@@ -27,12 +28,12 @@
             this.AuthorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailAdd, Arg.Any<List<string>>())
                 .Returns(true);
 
-            this.LinnWeekPack.LinnWeekNumber("2007-02-20").Returns(1);
+            this.LinnWeekPack.LinnWeekNumber(Arg.Any<DateTime>()).Returns(1);
 
             var buildPlanDetail =
                 new BuildPlanDetail { BuildPlanName = "name", PartNumber = "part", FromLinnWeekNumber = 1 };
 
-            this.BuildPlanDetailsFacadeService.Add(Arg.Any<BuildPlanDetailResource>(), Arg.Any<IEnumerable<string>>())
+            this.BuildPlanDetailsService.Add(Arg.Any<BuildPlanDetailResource>(), Arg.Any<IEnumerable<string>>())
                 .Returns(
                     new CreatedResult<ResponseModel<BuildPlanDetail>>(
                         new ResponseModel<BuildPlanDetail>(buildPlanDetail, new List<string>())));
@@ -56,7 +57,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanDetailsFacadeService.Received().Add(
+            this.BuildPlanDetailsService.Received().Add(
                 Arg.Any<BuildPlanDetailResource>(),
                 Arg.Any<IEnumerable<string>>());
         }

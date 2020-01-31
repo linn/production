@@ -36,7 +36,11 @@
 
         public BuildPlanDetail FindById(BuildPlanDetailKey key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.BuildPlanDetails.Where(
+                    bpd => bpd.PartNumber == key.PartNumber && bpd.BuildPlanName == key.BuildPlanName
+                                                            && bpd.FromLinnWeekNumber == key.FromLinnWeekNumber)
+                .ToList()
+                .FirstOrDefault();
         }
 
         public IQueryable<BuildPlanDetail> FindAll()

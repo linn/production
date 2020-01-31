@@ -4,7 +4,6 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.BuildPlans;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;
@@ -22,24 +21,18 @@
 
         private readonly IBuildPlanRulesFacadeService buildPlanRulesService;
 
-        private readonly
-            IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>
-            buildPlanDetailService;
-
-        private readonly ILinnWeekPack linnWeekPack;
+        private readonly IBuildPlanDetailsService buildPlanDetailsService;
 
         public BuildPlansModule(
             IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource> buildPlanService,
             IBuildPlansReportFacadeService buildPlansReportService,
             IBuildPlanRulesFacadeService buildPlanRulesService,
-            IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource> buildPlanDetailService,
-            ILinnWeekPack linnWeekPack)
+            IBuildPlanDetailsService buildPlanDetailsService)
         {
             this.buildPlanService = buildPlanService;
             this.buildPlansReportService = buildPlansReportService;
             this.buildPlanRulesService = buildPlanRulesService;
-            this.buildPlanDetailService = buildPlanDetailService;
-            this.linnWeekPack = linnWeekPack;
+            this.buildPlanDetailsService = buildPlanDetailsService;
 
             this.Get("/production/maintenance/build-plans", _ => this.GetBuildPlans());
             this.Post("/production/maintenance/build-plans", _ => this.AddBuildPlan());
@@ -120,11 +113,11 @@
 
             if (string.IsNullOrEmpty(resource.BuildPlanName))
             {
-                return this.Negotiate.WithModel(this.buildPlanDetailService.GetAll(privileges))
+                return this.Negotiate.WithModel(this.buildPlanDetailsService.GetAll(privileges))
                     .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
             }
 
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Search(resource.BuildPlanName, privileges))
+            return this.Negotiate.WithModel(this.buildPlanDetailsService.Search(resource.BuildPlanName, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
 
@@ -134,7 +127,7 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Add(resource, privileges))
+            return this.Negotiate.WithModel(this.buildPlanDetailsService.Add(resource, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
 
@@ -144,14 +137,7 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            var key = new BuildPlanDetailKey
-                          {
-                              BuildPlanName = resource.BuildPlanName,
-                              PartNumber = resource.PartNumber,
-                              FromLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(resource.FromDate)
-                          };
-
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Update(key, resource, privileges))
+            return this.Negotiate.WithModel(this.buildPlanDetailsService.UpdateBuildPlanDetail(resource, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
     }

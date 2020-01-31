@@ -4,7 +4,7 @@ import {
     Loading,
     InputField,
     Dropdown,
-    // EditableTable,
+    EditableTable,
     DatePicker,
     CreateButton,
     SaveBackCancelButtons
@@ -12,10 +12,9 @@ import {
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Page from '../../containers/Page';
-import EditableTable from './EditableTable';
+// TODO get from shared
+// import EditableTable from './EditableTable';
 
-// TODO build-plans/name directs here and name just selects that plan
-// Also when getting back build plan detail - link to that route?
 export default function BuildPlans({
     itemErrors,
     buildPlans,
@@ -33,7 +32,12 @@ export default function BuildPlans({
     history,
     selectedBuildPlanDetail,
     updateBuildPlanDetail,
-    saveBuildPlanDetail
+    saveBuildPlanDetail,
+    buildPlanDetailLoading,
+    buildPlanDetail,
+    fetchBuildPlanDetails,
+    fetchBuildPlans,
+    fetchBuildPlanRules
 }) {
     const [buildPlan, setBuildPlan] = useState({ buildPlanName: '', description: '' });
     const [buildPlanOptions, setBuildPlanOptions] = useState([{ id: '', displayText: '' }]);
@@ -41,6 +45,14 @@ export default function BuildPlans({
     const [buildPlanRuleOptions, setBuildPlanRuleOptions] = useState([]);
     const [newRow, setNewRow] = useState({});
     const [editing, setEditing] = useState(false);
+
+    useEffect(() => {
+        if (buildPlanDetail) {
+            fetchBuildPlanDetails();
+            fetchBuildPlans();
+            fetchBuildPlanRules();
+        }
+    }, [buildPlanDetail]);
 
     useEffect(() => {
         if (buildPlans) {
@@ -52,12 +64,7 @@ export default function BuildPlans({
                 }))
             );
         }
-        // TODO put selected build plan as dep if not triggering
     }, [buildPlans]);
-
-    // useEffect(() => {
-    //     if(buildPlanDetails)
-    // })
 
     useEffect(() => {
         if (buildPlans && selectedBuildPlan) {
@@ -112,13 +119,36 @@ export default function BuildPlans({
             partDescription: part.description,
             buildPlanName: buildPlan.buildPlanName
         }));
+    };
 
-        // setNewRow({
-        //     ...updatedItem,
-        //     partNumber: part.partNumber,
-        //     partDescription: part.description,
-        //     buildPlanName: buildPlan.buildPlanName
-        // });
+    const handleSaveClick = () => {
+        updateBuildPlan(buildPlan);
+    };
+
+    const handleCancelClick = () => {
+        setBuildPlan({ buildPlanName: '', description: '' });
+    };
+
+    const handleBackClick = () => {
+        history.goBack();
+    };
+
+    // TODO add these in with refs to the detail updated
+    const handleUpdateBuildPlanDetail = buildPlanDetail => {
+        updateBuildPlanDetail(null, buildPlanDetail);
+    };
+
+    const handleSaveBuildPlanDetail = buildPlanDetail => {
+        saveBuildPlanDetail(buildPlanDetail);
+    };
+
+    const handleFieldChange = (propertyName, newValue) => {
+        if (propertyName === 'buildPlanName') {
+            setBuildPlan(buildPlanOptions.find(bp => bp.buildPlanName === newValue));
+            return;
+        }
+        setEditing(true);
+        setBuildPlan(bp => ({ ...bp, [propertyName]: newValue }));
     };
 
     const columns = [
@@ -170,36 +200,6 @@ export default function BuildPlans({
         }
     ];
 
-    const handleSaveClick = () => {
-        updateBuildPlan(buildPlan);
-    };
-
-    const handleCancelClick = () => {
-        setBuildPlan({ buildPlanName: '', description: '' });
-    };
-
-    const handleBackClick = () => {
-        history.goBack();
-    };
-
-    // TODO add these in with refs to the detail updated
-    const handleUpdateBuildPlanDetail = buildPlanDetail => {
-        updateBuildPlanDetail(buildPlanDetail.id, buildPlanDetail);
-    };
-
-    const handleSaveBuildPlanDetail = buildPlanDetail => {
-        saveBuildPlanDetail(buildPlanDetail);
-    };
-
-    const handleFieldChange = (propertyName, newValue) => {
-        if (propertyName === 'buildPlanName') {
-            setBuildPlan(buildPlanOptions.find(bp => bp.buildPlanName === newValue));
-            return;
-        }
-        setEditing(true);
-        setBuildPlan(bp => ({ ...bp, [propertyName]: newValue }));
-    };
-
     return (
         <Page>
             <Grid container spacing={3}>
@@ -209,7 +209,10 @@ export default function BuildPlans({
                         <CreateButton createUrl="/production/maintenance/build-plans/create" />
                     </Fragment>
                 </Grid>
-                {buildPlansLoading || buildPlanDetailsLoading || buildPlanRulesLoading ? (
+                {buildPlansLoading ||
+                buildPlanDetailsLoading ||
+                buildPlanRulesLoading ||
+                buildPlanDetailLoading ? (
                     <Grid item xs={12}>
                         <Loading />
                     </Grid>

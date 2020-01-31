@@ -565,6 +565,12 @@ const Root = ({ store }) => (
                                         path="/production/maintenance/build-plans/:id"
                                         component={BuildPlans}
                                     />
+
+                                    <Route
+                                        path="/production/maintenance/build-plan-details"
+                                        component={BuildPlans}
+                                    />
+
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>

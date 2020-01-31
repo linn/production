@@ -11,6 +11,7 @@ import BuildPlans from '../../components/buildPlans/BuildPlans';
 import partsActions from '../../actions/partsActions';
 import partsSelectors from '../../selectors/partsSelectors';
 import buildPlanActions from '../../actions/buildPlanActions';
+import buildPlanDetailSelectors from '../../selectors/buildPlanDetailSelectors';
 
 // TODO just pull it out of here?
 const mapStateToProps = (state, { match }) => ({
@@ -26,7 +27,9 @@ const mapStateToProps = (state, { match }) => ({
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     selectedBuildPlan: match.params.id,
-    selectedBuildPlanDetail: match.params.buildPlanDetail
+    selectedBuildPlanDetail: match.params.buildPlanDetail,
+    buildPlanDetailLoading: buildPlanDetailSelectors.getLoading(state),
+    buildPlanDetail: buildPlanDetailSelectors.getItem(state)
 });
 
 const initialise = () => dispatch => {
@@ -41,7 +44,10 @@ const mapDispatchToProps = {
     clearPartsSearch: partsActions.clearSearch,
     updateBuildPlan: buildPlanActions.update,
     updateBuildPlanDetail: buildPlanDetailActions.update,
-    saveBuildPlanDetail: buildPlanDetailActions.add
+    saveBuildPlanDetail: buildPlanDetailActions.add,
+    fetchBuildPlans: buildPlansActions.fetch,
+    fetchBuildPlanDetails: buildPlanDetailsActions.fetch,
+    fetchBuildPlanRules: buildPlanRulesActions.fetch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(BuildPlans));

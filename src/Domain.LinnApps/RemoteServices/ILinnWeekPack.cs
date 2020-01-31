@@ -8,6 +8,6 @@
 
         DateTime LinnWeekStartDate(int linnWeekNumber);
 
-        int LinnWeekNumber(string date);
+        int LinnWeekNumber(DateTime date);
     }
 }
