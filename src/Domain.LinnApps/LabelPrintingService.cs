@@ -99,10 +99,9 @@
         private LabelPrintResponse PrintAddressLabel(LabelPrint resource, string dateTimeNow, string printer)
         {
             var data =
-                $"\"{resource.LinesForPrinting.SupplierId}\", \"{resource.LinesForPrinting.AddressId}\", \"{resource.LinesForPrinting.Addressee}\","
-                + $" \"{resource.LinesForPrinting.Addressee2}\", \"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\","
-                + $" \"{resource.LinesForPrinting.Line3}\", \"{resource.LinesForPrinting.Line4}\", \"{resource.LinesForPrinting.PostalCode}\","
-                + $" \"{resource.LinesForPrinting.Country}\"";
+                $"\"{resource.LinesForPrinting.Addressee}\", \"{resource.LinesForPrinting.Addressee2}\", \"{resource.LinesForPrinting.Line1}\","
+                + $" \"{resource.LinesForPrinting.Line2}\", \"{resource.LinesForPrinting.Line3}\", \"{resource.LinesForPrinting.Line4}\","
+                + $" \"{resource.LinesForPrinting.PostalCode}\", \"{resource.LinesForPrinting.Country}\"";
 
             this.labelService.PrintLabel($"ADDR{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genAddressLabel.btw", data);
 
@@ -112,9 +111,8 @@
         private LabelPrintResponse PrintGoodsInLabel(LabelPrint resource, string dateTimeNow, string printer)
         {
             var data =
-                $"\"{resource.LinesForPrinting.SupplierId}\", \"{resource.LinesForPrinting.AddressId}\", \"{resource.LinesForPrinting.PoNumber}\","
-                + $" \"{resource.LinesForPrinting.PartNumber}\", \"{resource.LinesForPrinting.Qty}\", \"{resource.LinesForPrinting.Initials}\","
-                + $" \"{resource.LinesForPrinting.Date}\"";
+                $"\"{resource.LinesForPrinting.PoNumber}\", \"{resource.LinesForPrinting.PartNumber}\", \"{resource.LinesForPrinting.Qty}\","
+                + $" \"{resource.LinesForPrinting.Initials}\", \"{resource.LinesForPrinting.Date}\"";
 
             this.labelService.PrintLabel($"GI{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\goods_in_2004.btw", data);
 

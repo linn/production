@@ -20,6 +20,8 @@
                 Line2 = address.Line2,
                 Line3 = address.Line3,
                 Line4 = address.Line4,
+                PostCode = address.PostCode,
+                Country = address.Country,
                 DateInvalid = address.DateInvalid?.ToString("o"),
                 Links = this.BuildLinks(address).ToArray()
             };

@@ -222,7 +222,7 @@ function LabelPrint({
     ];
 
     const [labelType, setLabelType] = useState(0);
-    const [printer, setPrinter] = useState(0);
+    const [printer, setPrinter] = useState(3);
     const [quantity, setQuantity] = useState(1);
     const [labelDetails, setLabelDetails] = useState(printLinesInitialState);
 
@@ -240,11 +240,11 @@ function LabelPrint({
     const handleLabelTypeChange = (name, newValue) => {
         setLabelType(parseInt(newValue, 10));
 
-        if (newValue === '0' || newValue === '1') {
-            setPrinter(3); //Large labels -> Prodlbl2
+        if (newValue === '0' || newValue === '1' || newValue === '4') {
+            setPrinter(3); //Large labels & address -> Prodlbl2
         } else if (newValue === '2' || newValue === '3' || newValue === '6' || newValue === '7') {
             setPrinter(2); //Small labels -> Prodlbl1
-        } else if (newValue === '4' || newValue === '5') {
+        } else if (newValue === '5') {
             setPrinter(0); //address & goods in labels -> goods in 1 GILabels
         }
     };
@@ -269,6 +269,7 @@ function LabelPrint({
     };
 
     const handleCopyFromSupplier = newValue => {
+        console.info(newValue);
         handleLabelDetailsChange('supplierId', newValue.supplierId);
     };
 
@@ -332,7 +333,7 @@ function LabelPrint({
                 <Grid xs={3} item />
                 <Grid xs={6} item>
                     <Page showRequestErrors>
-                        <Grid item xs={12} container>
+                        <Grid item container>
                             <Grid item xs={12}>
                                 <Fragment>
                                     <Button
@@ -376,7 +377,8 @@ function LabelPrint({
                                                 items={labelPrintTypes.map(labelPrintType => ({
                                                     ...labelPrintType,
                                                     id: labelPrintType.id,
-                                                    displayText: labelPrintType.name
+                                                    displayText: labelPrintType.name,
+                                                    key: labelPrintType.id
                                                 }))}
                                                 onChange={handleLabelTypeChange}
                                                 propertyName="labelType"
@@ -391,7 +393,8 @@ function LabelPrint({
                                                 items={labelPrinters.map(labelPrinter => ({
                                                     ...labelPrinter,
                                                     id: labelPrinter.id,
-                                                    displayText: labelPrinter.name
+                                                    displayText: labelPrinter.name,
+                                                    key: labelPrinter.id
                                                 }))}
                                                 onChange={handleFieldChange}
                                                 propertyName="printer"
@@ -419,25 +422,8 @@ function LabelPrint({
                                     >
                                         <Grid item xs={6}>
                                             <Typeahead
-                                                onSelect={newValue => {
-                                                    handleCopyFromAddress(newValue);
-                                                }}
-                                                propertyName="addressId"
-                                                label="Address"
-                                                modal
-                                                items={addressSearchResults}
-                                                value={getInputValue('addressId')}
-                                                loading={addressSearchLoading}
-                                                fetchItems={searchAddresses}
-                                                links={false}
-                                                clearSearch={() => clearAddressSearch}
-                                                placeholder="Search for an Address"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={6}>
-                                            <Typeahead
                                                 propertyName="supplierId"
-                                                label="Supplier"
+                                                label="Supplier Id"
                                                 modal
                                                 items={supplierSearchResults}
                                                 value={getInputValue('supplierId')}
@@ -450,6 +436,23 @@ function LabelPrint({
                                                 onSelect={newValue => {
                                                     handleCopyFromSupplier(newValue);
                                                 }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6}>
+                                            <Typeahead
+                                                onSelect={newValue => {
+                                                    handleCopyFromAddress(newValue);
+                                                }}
+                                                propertyName="addressId"
+                                                label="Address Id"
+                                                modal
+                                                items={addressSearchResults}
+                                                value={getInputValue('addressId')}
+                                                loading={addressSearchLoading}
+                                                fetchItems={searchAddresses}
+                                                links={false}
+                                                clearSearch={() => clearAddressSearch}
+                                                placeholder="Search for an Address"
                                             />
                                         </Grid>
                                     </Grid>
@@ -512,7 +515,7 @@ LabelPrint.propTypes = {
     labelPrintTypes: PropTypes.arrayOf(PropTypes.shape({})),
     labelPrinters: PropTypes.arrayOf(PropTypes.shape({})),
     print: PropTypes.func.isRequired,
-    message: PropTypes.string,
+    message: PropTypes.shape(PropTypes.shape(PropTypes.string)),
     searchAddresses: PropTypes.func,
     addressSearchLoading: PropTypes.bool,
     addressSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
@@ -530,7 +533,7 @@ LabelPrint.defaultProps = {
     itemError: { errorMessage: '' },
     labelPrintTypes: [{}],
     labelPrinters: [{}],
-    message: { message: '' },
+    message: { data: { message: '' } },
     searchAddresses: null,
     addressSearchLoading: false,
     addressSearchResults: [{}],
