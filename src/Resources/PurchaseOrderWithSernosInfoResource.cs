@@ -4,6 +4,6 @@
 
     public class PurchaseOrderWithSernosInfoResource : PurchaseOrderResource
     {
-        public List<PurchaseOrderDetailSWithernosInfoResource> DetailSernosInfos { get; set; }
+        public List<PurchaseOrderDetaiWithSernosInfoResource> DetailSernosInfos { get; set; }
     }
 }

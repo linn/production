@@ -6,9 +6,9 @@
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Models;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
-    using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
 
@@ -22,10 +22,13 @@
     {
         protected IPurchaseOrderService FacadeService { get; private set; }
 
+        protected ISernosPack SernosPack { get; set; }
+
         [SetUp]
         public void EstablishContext()
         {
             this.FacadeService = Substitute.For<IPurchaseOrderService>();
+            this.SernosPack = Substitute.For<ISernosPack>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
@@ -39,7 +42,7 @@
                             new PurchaseOrderWithSernosInfoResourceBuilder());
                         with.Dependency<IResourceBuilder<PurchaseOrderDetail>>(
                             new PurchaseOrderDetailResourceBuilder());
-
+                        with.Dependency<ISernosPack>(this.SernosPack);
                         with.Module<PurchaseOrdersModule>();
 
                         with.ResponseProcessor<PurchaseOrderResponseProcessor>();

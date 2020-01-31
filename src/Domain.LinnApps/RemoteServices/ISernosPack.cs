@@ -4,6 +4,8 @@
     {
         bool SerialNumbersRequired(string partNumber);
 
+        int GetNumberOfSernos(string partNumber);
+
         void IssueSernos(
             int documentNumber,
             string docType,

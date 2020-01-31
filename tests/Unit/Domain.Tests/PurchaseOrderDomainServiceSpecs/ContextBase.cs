@@ -2,6 +2,7 @@
 {
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
@@ -21,9 +22,12 @@
 
         protected IQueryRepository<PurchaseOrdersReceived> PurchaseOrdersReceivedRepository { get; set; }
 
+        protected ISernosPack SernosPack { get; set; }
+
         [SetUp]
         public void SetUpContext()
         {
+            this.SernosPack = Substitute.For<ISernosPack>();
             this.PurchaseOrderRepository = Substitute.For<IRepository<PurchaseOrder, int>>();
             this.SernosIssuedRepository = Substitute.For<IQueryRepository<SernosIssued>>();
             this.SernosBuiltRepository = Substitute.For<IQueryRepository<SernosBuilt>>();
@@ -31,6 +35,7 @@
             this.Sut = new PurchaseOrderDomainService(
                 this.SernosIssuedRepository, 
                 this.SernosBuiltRepository, 
+                this.SernosPack,
                 this.PurchaseOrdersReceivedRepository);
         }
     }

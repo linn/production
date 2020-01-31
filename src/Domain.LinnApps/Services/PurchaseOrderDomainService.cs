@@ -5,6 +5,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Models;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class PurchaseOrderDomainService : IPurchaseOrderDomainService
@@ -17,14 +18,18 @@
 
         private readonly IQueryRepository<PurchaseOrdersReceived> purchasedOrdersReceived;
 
+        private ISernosPack sernosPack;
+
         public PurchaseOrderDomainService(
             IQueryRepository<SernosIssued> sernosIssuedRepository,
             IQueryRepository<SernosBuilt> sernosBuiltRepository,
+            ISernosPack sernosPack,
             IQueryRepository<PurchaseOrdersReceived> purchasedOrdersReceived)
         {
             this.sernosBuiltRepository = sernosBuiltRepository;
             this.sernosIssuedRepository = sernosIssuedRepository;
             this.purchasedOrdersReceived = purchasedOrdersReceived;
+            this.sernosPack = sernosPack;
         }
 
         public PurchaseOrderWithSernosInfo BuildPurchaseOrderWithSernosInfo(PurchaseOrder purchaseOrder)
@@ -50,14 +55,15 @@
                 var part = detail.PartNumber;
 
                 var detailWithSernosInfo = new PurchaseOrderDetailWithSernosInfo(detail);
+                detailWithSernosInfo.NumberOfSernos = this.sernosPack.GetNumberOfSernos(part);
 
-                var firstSernos = this.sernosIssuedRepository.FilterBy(
+                var sernos = this.sernosIssuedRepository.FilterBy(
                     s => PurchaseOrderDocTypes.Contains(s.DocumentType)
-                         && s.DocumentNumber == purchaseOrder.OrderNumber).Min(s => s.SernosNumber);
+                         && s.DocumentNumber == purchaseOrder.OrderNumber);
 
-                var lastSernos = this.sernosIssuedRepository.FilterBy(
-                    s => PurchaseOrderDocTypes.Contains(s.DocumentType)
-                         && s.DocumentNumber == purchaseOrder.OrderNumber).Max(s => s.SernosNumber);
+                var firstSernos = sernos.Any() ? sernos.Min(s => s.SernosNumber) : (int?)null;
+
+                var lastSernos = sernos.Any() ? sernos.Max(s => s.SernosNumber) : (int?)null;
 
                 detailWithSernosInfo.SernosIssued = this.sernosIssuedRepository.FilterBy(
                         s => PurchaseOrderDocTypes.Contains(s.DocumentType) && s.DocumentNumber == orderNumber)

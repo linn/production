@@ -1,10 +1,12 @@
 ﻿namespace Linn.Production.Proxy
 {
+    using System.Configuration;
     using System.Data;
 
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
     using Oracle.ManagedDataAccess.Client;
+    using Oracle.ManagedDataAccess.Types;
 
     public class SernosPack : ISernosPack
     {
@@ -240,6 +242,37 @@
             connection.Close();
 
             return result.Value.ToString() == "1";
+        }
+
+        public int GetNumberOfSernos(string partNumber)
+        {
+            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
+
+            var cmd = new OracleCommand("SERNOS_PACK_V2.num_of_sernos", connection)
+                          {
+                              CommandType = CommandType.StoredProcedure
+                          };
+
+            var result = new OracleParameter(null, OracleDbType.Int32)
+                             {
+                                 Direction = ParameterDirection.ReturnValue
+                             };
+            cmd.Parameters.Add(result);
+
+
+
+            cmd.Parameters.Add(new OracleParameter("p_part_number", OracleDbType.Varchar2)
+                                   {
+                                       Direction = ParameterDirection.Input,
+                                       Size = 50,
+                                       Value = partNumber
+                                   });
+
+            connection.Open();
+            cmd.ExecuteNonQuery();
+            connection.Close();
+
+            return ((OracleDecimal)result.Value).IsNull ? 0 : int.Parse(result.Value.ToString());
         }
     }
 }

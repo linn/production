@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Domain.LinnApps.Models
 {
     public class PurchaseOrderDetailWithSernosInfo : PurchaseOrderDetail
     {
@@ -14,14 +14,16 @@
             this.PurchaseOrder = detail.PurchaseOrder;
         }
 
-        public int SernosBuilt { get; set; }
+        public int? SernosBuilt { get; set; }
 
-        public int SernosIssued { get; set; }
+        public int? SernosIssued { get; set; }
 
-        public int FirstSernos { get; set; }
+        public int? FirstSernos { get; set; }
 
-        public int LastSernos { get; set; }
+        public int? LastSernos { get; set; }
 
-        public int QuantityReceived { get; set; }
+        public int? QuantityReceived { get; set; }
+
+        public int? NumberOfSernos { get; set; }
     }
 }

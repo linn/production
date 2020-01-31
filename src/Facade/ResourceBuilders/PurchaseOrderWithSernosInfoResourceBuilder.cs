@@ -20,7 +20,7 @@
                             Address3 = model.OrderAddress.Line3,
                             Address4 = model.OrderAddress.Line4,
                             PostCode = model.OrderAddress.PostCode,
-                            DetailSernosInfos = model.DetaisWithSernosInfo.Select(x => new PurchaseOrderDetailSWithernosInfoResource
+                            DetailSernosInfos = model.DetaisWithSernosInfo.Select(x => new PurchaseOrderDetaiWithSernosInfoResource
                                                                                            {
                                                                                                 OrderLine = x.OrderLine,
                                                                                                 PartNumber = x.PartNumber,
@@ -32,7 +32,8 @@
                                                                                                 LastSernos = x.LastSernos,
                                                                                                 SernosBuilt = x.SernosBuilt,
                                                                                                 SernosIssued = x.SernosIssued,
-                                                                                                QuantityReceived = x.QuantityReceived
+                                                                                                QuantityReceived = x.QuantityReceived,
+                                                                                                NumberOfSernos = x.NumberOfSernos
                                                                                            }).ToList()
                        };
         }
