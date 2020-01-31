@@ -18,9 +18,8 @@
         {
             var shortageSummary = new ShortageSummary
             {
-
                 OnesTwos = 4,
-                Shortages = new List<ShortageResult>()
+                Shortages = new List<ShortageResult>
                 {
                     new ShortageResult { MetalworkShortage = false, ProcurementShortage = false, BoardShortage = true },
                     new ShortageResult { MetalworkShortage = false, ProcurementShortage = true, BoardShortage = false },

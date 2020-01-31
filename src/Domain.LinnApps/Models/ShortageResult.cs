@@ -7,17 +7,16 @@
     {
         public ShortageResult()
         {
-            var model = new ResultsModel();
-            model.AddColumn("shortPartNumber", "Short Part Number");
-            model.AddColumn("description", "Description");
-            model.AddColumn("category", "Cat");
-            model.AddColumn("reqt", "Reqt");
-            model.AddColumn("stock", "Stock");
-            model.AddColumn("avail", "Avail");
-            model.AddColumn("res", "Res");
-            model.AddColumn("canBuild", "Can Build");
-            model.AddColumn("notes", "Notes");
-            this.Results = model;
+            this.Results = new ResultsModel();
+            this.Results.AddColumn("shortPartNumber", "Short Part Number");
+            this.Results.AddColumn("description", "Description");
+            this.Results.AddColumn("category", "Cat");
+            this.Results.AddColumn("reqt", "Reqt");
+            this.Results.AddColumn("stock", "Stock");
+            this.Results.AddColumn("avail", "Avail");
+            this.Results.AddColumn("res", "Res");
+            this.Results.AddColumn("canBuild", "Can Build");
+            this.Results.AddColumn("notes", "Notes");
         }
 
         public string PartNumber { get; set; }

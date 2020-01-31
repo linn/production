@@ -24,7 +24,10 @@
 
         private readonly IQueryRepository<WswShortage> shortageRepository;
 
-        public ShortageSummaryReportService(IRepository<AccountingCompany, string> accountingCompaniesRepository, ISingleRecordRepository<PtlMaster> masterRepository, IQueryRepository<ProductionTrigger> repository, IRepository<Cit, string> citRepository, IQueryRepository<ProductionBackOrder> backOrderRepository, IQueryRepository<WswShortage> shortageRepository)
+        public ShortageSummaryReportService(IRepository<AccountingCompany, string> accountingCompaniesRepository,
+            ISingleRecordRepository<PtlMaster> masterRepository, IQueryRepository<ProductionTrigger> repository,
+            IRepository<Cit, string> citRepository, IQueryRepository<ProductionBackOrder> backOrderRepository,
+            IQueryRepository<WswShortage> shortageRepository)
         {
             this.accountingCompaniesRepository = accountingCompaniesRepository;
             this.masterRepository = masterRepository;
@@ -38,14 +41,14 @@
         {
             var ptlMaster = this.masterRepository.GetRecord();
             if (ptlMaster == null)
-            {
+            { 
                 throw new DomainException("Could not find PTL Master record");
             }
 
             var cit = this.citRepository.FindById(citCode);
             if (cit == null)
             {
-                throw new DomainException($"Could not CIT with code {citCode}");
+                throw new DomainException($"Could not find CIT with code {citCode}");
             }
 
             var linnCompany = this.accountingCompaniesRepository.FindById("LINN");

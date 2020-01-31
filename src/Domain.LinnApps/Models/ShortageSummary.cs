@@ -48,7 +48,7 @@
                 return 0;
             }
 
-            return Decimal.Round((100 * fraction) / this.OnesTwos);
+            return decimal.Round((100 * fraction) / this.OnesTwos);
         }
     }
 }

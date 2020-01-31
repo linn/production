@@ -15,7 +15,6 @@
             this.serviceDbContext = serviceDbContext;
         }
 
-
         public WswShortage FindBy(Expression<Func<WswShortage, bool>> expression)
         {
             return this.serviceDbContext.WswShortages.Where(expression).ToList().FirstOrDefault();

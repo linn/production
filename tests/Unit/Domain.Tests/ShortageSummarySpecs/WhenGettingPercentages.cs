@@ -15,7 +15,7 @@
             this.Sut = new ShortageSummary
             {
                 OnesTwos = 10,
-                Shortages = new List<ShortageResult>()
+                Shortages = new List<ShortageResult>
                 {
                     new ShortageResult
                     {
