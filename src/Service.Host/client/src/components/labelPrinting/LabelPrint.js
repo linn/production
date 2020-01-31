@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Dropdown,
@@ -52,7 +52,9 @@ function LabelPrint({
     supplierSearchLoading,
     supplierSearchResults,
     searchSuppliers,
-    clearSupplierSearch
+    clearSupplierSearch,
+    getAddressById,
+    addressReturnedForId
 }) {
     const printLinesInitialState = [
         {
@@ -271,7 +273,13 @@ function LabelPrint({
     const handleCopyFromSupplier = newValue => {
         console.info(newValue);
         handleLabelDetailsChange('supplierId', newValue.supplierId);
+
+        getAddressById(newValue.orderAddressId);
     };
+
+    useEffect(() => {
+       console.info(addressReturnedForId);
+    }, [addressReturnedForId]);
 
     const handlePrintClick = () => {
         const sendableDetails = {
@@ -307,7 +315,6 @@ function LabelPrint({
     };
 
     const handleClearClick = () => {
-        console.info(message);
         setLabelDetails(printLinesInitialState);
     };
 

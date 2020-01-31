@@ -32,6 +32,7 @@
             this.Get("production/maintenance/labels/print", _ => this.GetApp());
             this.Get("production/maintenance/labels/suppliers", _ => this.SearchSuppliers());
             this.Get("production/maintenance/labels/addresses", _ => this.SearchAddresses());
+            this.Get("production/maintenance/labels/address/{id*}", parameters => this.GetAddress(parameters.id));
             this.Post("production/maintenance/labels/print", _ => this.Print());
             this.Get("production/maintenance/labels/printers", _ => this.GetPrinters());
             this.Get("production/maintenance/labels/label-types", _ => this.GetLabelsTypes());
@@ -76,6 +77,16 @@
                 .WithView("Index");
         }
 
+        private object GetAddress(int id)
+        {
+            var result = this.addressService.GetById(id);
+
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+        
         private object Print()
         {
             var resource = this.Bind<LabelPrintResource>();
