@@ -35,13 +35,21 @@
                                     EnteredByName = "Colin",
                                     DateCreated = new DateTime().ToString("o"),
                                     ErrorType = "Error",
-                                    FaultCode = "Fault"
+                                    FaultCode = "Fault",
+                                    SerialNumber = 101
                                 };
 
             this.PartFailService.Create(Arg.Any<PartFail>())
                 .Returns(new PartFail { Id = 1 });
 
             this.result = this.Sut.Add(this.resource);
+        }
+
+        [Test]
+        public void ShouldCallService()
+        {
+            this.PartFailService.Received().Create(
+                Arg.Is<PartFail>(r => r.Id == this.resource.Id && r.SerialNumber == this.resource.SerialNumber));
         }
 
         [Test]

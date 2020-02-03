@@ -37,5 +37,7 @@
         public string StoragePlaceDescription { get; set; }
 
         public int? MinutesWasted { get; set; }
+
+        public int? SerialNumber { get; set; }
     }
 }

@@ -105,8 +105,6 @@
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
-        public DbQuery<PartFailLog> PartFailLogs { get; set; }
-
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
 
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
@@ -148,6 +146,8 @@
         public DbSet<Address> Addresses { get; set; }
 
         public DbQuery<PtlStat> PtlStats { get; set; }
+
+        public DbQuery<WswShortage> WswShortages { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
@@ -203,7 +203,6 @@
             this.QueryProductionTriggerAssemblies(builder);
             this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
-            this.QueryPartFailLogs(builder);
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
@@ -219,6 +218,7 @@
             this.QueryBuildPlanRules(builder);
             this.QueryBuiltThisWeekStatistics(builder);
             this.QueryPtlStats(builder);
+            this.QueryWswShortages(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
             this.BuildAddresses(builder);
@@ -552,23 +552,6 @@
             builder.Query<ProductionBackOrdersView>().Property(p => p.OldestDate).HasColumnName("OLDEST_DATE");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildQuantity).HasColumnName("CAN_BUILD_QTY");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildValue).HasColumnName("CAN_BUILD_VALUE");
-        }
-
-        private void QueryPartFailLogs(ModelBuilder builder)
-        {
-            var q = builder.Query<PartFailLog>();
-            q.ToView("PART_FAIL_LOG");
-            q.Property(t => t.Id).HasColumnName("ID");
-            q.Property(t => t.DateCreated).HasColumnName("DATE_CREATED");
-            q.HasOne<Part>(f => f.Part).WithMany(p => p.PartFailLogs).HasForeignKey("PART_NUMBER");
-            q.Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
-            q.Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
-            q.Property(t => t.Story).HasColumnName("STORY");
-            q.Property(t => t.Quantity).HasColumnName("QTY");
-            q.Property(t => t.MinutesWasted).HasColumnName("MINUTES_WASTED");
-            q.Property(t => t.ErrorType).HasColumnName("ERROR_TYPE");
-            q.Property(t => t.Batch).HasColumnName("BATCH");
-            q.Property(t => t.EnteredBy).HasColumnName("ENTERED_BY");
         }
 
         private void QueryOverdueOrderLines(ModelBuilder builder)
@@ -957,16 +940,16 @@
             e.ToTable("PART_FAIL_LOG");
             e.HasKey(f => f.Id);
             e.Property(f => f.Id).HasColumnName("ID");
-            e.Property(f => f.Batch).HasColumnName("BATCH");
+            e.Property(f => f.Batch).HasColumnName("BATCH").HasMaxLength(20);
             e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.PartFails).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(f => f.PurchaseOrderNumber).HasColumnName("PURCHASE_ORDER_NUMBER");
             e.Property(f => f.DateCreated).HasColumnName("DATE_CREATED");
             e.HasOne<Employee>(f => f.EnteredBy).WithMany(m => m.PartFailsEntered).HasForeignKey("ENTERED_BY");
             e.Property(f => f.MinutesWasted).HasColumnName("MINUTES_WASTED");
-            e.Property(f => f.Batch).HasColumnName("BATCH");
             e.HasOne<Part>(f => f.Part).WithMany(p => p.Fails).HasForeignKey("PART_NUMBER");
             e.Property(f => f.Quantity).HasColumnName("QTY");
-            e.Property(f => f.Story).HasColumnName("STORY");
+            e.Property(f => f.Story).HasColumnName("STORY").HasMaxLength(200);
+            e.Property(f => f.SerialNumber).HasColumnName("SERIAL_NUMBER");
             e.HasOne<PartFailFaultCode>(f => f.FaultCode).WithMany(c => c.PartFails).HasForeignKey("FAULT_CODE");
             e.HasOne<StorageLocation>(f => f.StorageLocation).WithMany(l => l.PartFails).HasForeignKey("LOCATION_ID");
             e.HasOne<PartFailErrorType>(f => f.ErrorType).WithMany(t => t.PartFails).HasForeignKey("ERROR_TYPE");
@@ -1201,6 +1184,24 @@
             q.Property(s => s.DateCompleted).HasColumnName("DATE_COMPLETED");
             q.Property(s => s.TriggerDate).HasColumnName("TRIGGER_DATE");
             q.Property(s => s.WorkingDays).HasColumnName("WORKING_DAYS");
+        }
+
+        private void QueryWswShortages(ModelBuilder builder)
+        {
+            var q = builder.Query<WswShortage>();
+            q.ToView("WSW_SHORTAGE_VIEW");
+            q.Property(s => s.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartNumber).HasColumnName("SHORT_PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartDescription).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(s => s.ShortageCategory).HasColumnName("SHORT_CAT").HasMaxLength(4);
+            q.Property(s => s.Required).HasColumnName("REQT");
+            q.Property(s => s.Stock).HasColumnName("STOCK");
+            q.Property(s => s.AdjustedAvailable).HasColumnName("ADJUSTED_AVAIL");
+            q.Property(s => s.QtyReserved).HasColumnName("QTY_RESERVED");
+            q.Property(s => s.KittingPriority).HasColumnName("KITTING_PRIORITY");
+            q.Property(s => s.CanBuild).HasColumnName("SHORTAGE_CAN_BUILD");
         }
     }
 }

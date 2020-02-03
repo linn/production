@@ -55,7 +55,6 @@ WorksOrdersBatchNotes.propTypes = {
     ),
     loading: PropTypes.bool,
     fetchItems: PropTypes.func.isRequired,
-    clearSearch: PropTypes.func.isRequired,
     history: PropTypes.shape({}).isRequired
 };
 

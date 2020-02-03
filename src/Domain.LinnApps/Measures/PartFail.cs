@@ -33,6 +33,8 @@
 
         public int? MinutesWasted { get; set; }
 
+        public int? SerialNumber { get; set; }
+
         public void UpdateFrom(PartFail updated)
         {
             this.PurchaseOrderNumber = updated.PurchaseOrderNumber;
@@ -45,6 +47,7 @@
             this.Quantity = updated.Quantity;
             this.Story = updated.Story;
             this.StorageLocation = updated.StorageLocation;
+            this.SerialNumber = updated.SerialNumber;
         }
     }
 }
