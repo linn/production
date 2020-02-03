@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Service.Modules
 {
     using System;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Exceptions;
@@ -24,8 +25,9 @@
             this.sernosPack = sernosPack;
 
             this.Get("/production/resources/purchase-orders", _ => this.GetPurchaseOrders());
-            this.Get("/production/resources/purchase-orders/{id}", parameters => this.GetPurchaseOrder(parameters.id));
             this.Post("/production/resources/purchase-orders/issue-sernos", _ => this.IssueSernos());
+            this.Post("/production/resources/purchase-orders/build-sernos", _ => this.BuildSernos());
+            this.Get("/production/resources/purchase-orders/{id}", parameters => this.GetPurchaseOrder(parameters.id));
         }
 
         private object GetPurchaseOrders()
@@ -67,6 +69,29 @@
             }
 
             return HttpStatusCode.OK;
+        }
+
+        private object BuildSernos()
+        {
+            var resource = this.Bind<BuildSernosRequestResource>();
+            var docType = "PO";
+            var userNumber = this.Context
+                .CurrentUser.Claims
+                .FirstOrDefault(c => c.Type == "employee")?.Value.Split("/").Last();
+
+            if (this.sernosPack.BuildSernos(
+                resource.OrderNumber,
+                docType,
+                resource.PartNumber,
+                1,
+                resource.FromSerial,
+                resource.ToSerial,
+                int.Parse(userNumber)))
+            {
+                return HttpStatusCode.OK;
+            }
+
+            return new BadRequestResult<string>(this.sernosPack.SernosMessage());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Facade.Tests.PurchaseOrderDomainServiceSpecs
+﻿namespace Linn.Production.Domain.Tests.PurchaseOrderDomainServiceSpecs
 {
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;

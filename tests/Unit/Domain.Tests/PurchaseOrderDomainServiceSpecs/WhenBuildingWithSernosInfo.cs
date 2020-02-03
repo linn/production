@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Facade.Tests.PurchaseOrderDomainServiceSpecs
+﻿namespace Linn.Production.Domain.Tests.PurchaseOrderDomainServiceSpecs
 {
     using System;
     using System.Collections.Generic;
@@ -57,12 +57,13 @@
         public void ShouldReturnPurchaseOrderWithSernosInfoOnTheDetails()
         {
             this.result.DetaisWithSernosInfo.Count().Should().Be(1);
-            this.result.DetaisWithSernosInfo.FirstOrDefault().QuantityReceived.Should().Be(1);
-            this.result.DetaisWithSernosInfo.FirstOrDefault().FirstSernos.Should().Be(1);
-            this.result.DetaisWithSernosInfo.FirstOrDefault().LastSernos.Should().Be(2);
+            this.result.DetaisWithSernosInfo.FirstOrDefault()?.QuantityReceived.Should().Be(1);
+            this.result.DetaisWithSernosInfo.FirstOrDefault()?.FirstSernos.Should().Be(1);
+            this.result.DetaisWithSernosInfo.FirstOrDefault()?.LastSernos.Should().Be(2);
             this.result.DetaisWithSernosInfo
-                .FirstOrDefault().SernosBuilt.Should().Be(2); // Count of Sernos Built returned by SernosBuiltRepository
-            this.result.DetaisWithSernosInfo.FirstOrDefault().QuantityReceived.Should().Be(1);
+                .FirstOrDefault()
+                ?.SernosBuilt.Should().Be(2); // Count of Sernos Built returned by SernosBuiltRepository
+            this.result.DetaisWithSernosInfo.FirstOrDefault()?.QuantityReceived.Should().Be(1);
         }
     }
 }
