@@ -101,6 +101,7 @@ import CreateAteTest from '../containers/ate/CreateAteTest';
 import BtwReport from '../containers/reports/BtwReport';
 import DelPerfReport from '../containers/reports/DelPerfReport';
 import DelPerfDetails from '../containers/reports/DelPerfDetails';
+import ShortageSummary from '../containers/reports/ShortageSummary';
 import LabelPrint from '../containers/labelPrinting/LabelPrint';
 import FailedPartsReport from '../containers/reports/FailedPartsReport';
 
@@ -610,10 +611,14 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/shortages"
+                                        component={ShortageSummary}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/maintenance/labels/print"
                                         component={LabelPrint}
                                     />
-
                                     <Route
                                         exact
                                         path="/production/reports/failed-parts"

@@ -147,6 +147,8 @@
 
         public DbQuery<PtlStat> PtlStats { get; set; }
 
+        public DbQuery<WswShortage> WswShortages { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         private DbQuery<PtlMaster> PtlMasterSet { get; set; }
@@ -216,6 +218,7 @@
             this.QueryBuildPlanRules(builder);
             this.QueryBuiltThisWeekStatistics(builder);
             this.QueryPtlStats(builder);
+            this.QueryWswShortages(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
             this.BuildAddresses(builder);
@@ -1181,6 +1184,24 @@
             q.Property(s => s.DateCompleted).HasColumnName("DATE_COMPLETED");
             q.Property(s => s.TriggerDate).HasColumnName("TRIGGER_DATE");
             q.Property(s => s.WorkingDays).HasColumnName("WORKING_DAYS");
+        }
+
+        private void QueryWswShortages(ModelBuilder builder)
+        {
+            var q = builder.Query<WswShortage>();
+            q.ToView("WSW_SHORTAGE_VIEW");
+            q.Property(s => s.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartNumber).HasColumnName("SHORT_PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartDescription).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(s => s.ShortageCategory).HasColumnName("SHORT_CAT").HasMaxLength(4);
+            q.Property(s => s.Required).HasColumnName("REQT");
+            q.Property(s => s.Stock).HasColumnName("STOCK");
+            q.Property(s => s.AdjustedAvailable).HasColumnName("ADJUSTED_AVAIL");
+            q.Property(s => s.QtyReserved).HasColumnName("QTY_RESERVED");
+            q.Property(s => s.KittingPriority).HasColumnName("KITTING_PRIORITY");
+            q.Property(s => s.CanBuild).HasColumnName("SHORTAGE_CAN_BUILD");
         }
     }
 }

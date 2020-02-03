@@ -259,7 +259,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -268,7 +268,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -277,7 +277,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -286,7 +286,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
