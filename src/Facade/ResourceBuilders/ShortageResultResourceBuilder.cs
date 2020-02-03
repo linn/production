@@ -17,9 +17,10 @@
                 PartNumber = result.PartNumber,
                 Priority = result.Priority,
                 CanBuild = result.CanBuild,
-                BackOrderQty = result.BackOrderQty,
+                BackOrderQty = result.BackOrderQty ?? 0,
                 Build = result.Build,
                 Kanban = result.Kanban,
+                EarliestRequestedDate = result.EarliestRequestedDate == null ? string.Empty : ((DateTime)result.EarliestRequestedDate).ToString("dd-MMM-yyyy"),
                 Results = new ReportReturnResource
                 {
                     ReportResults =

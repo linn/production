@@ -84,7 +84,7 @@
                     shortage.CanBuild = trigger.CanBuild;
                     shortage.Kanban = trigger.KanbanSize;
 
-                    var shortageBackOrders = backOrders.Where(o => o.ArticleNumber == shortage.PartNumber);
+                    var shortageBackOrders = backOrders.Where(o => o.ArticleNumber == shortage.PartNumber).ToList();
                     if (shortageBackOrders.Any())
                     {
                         shortage.BackOrderQty = shortageBackOrders.Sum(o => o.BackOrderQty);

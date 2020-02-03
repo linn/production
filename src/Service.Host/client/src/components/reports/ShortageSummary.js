@@ -23,12 +23,6 @@ const useStyles = makeStyles(theme => ({
     },
     spanRight: {
         marginRight: theme.spacing(4)
-    },
-    hide: {
-        display: 'none'
-    },
-    floatRight: {
-        float: 'right'
     }
 }));
 
@@ -113,10 +107,11 @@ function ShortageSummary({ summary, loading, history, options }) {
                                     <span className={classes.spanRight}>
                                         {`Kanban ${s.kanban}`}
                                     </span>
+                                    <span className={classes.spanRight}>
+                                        {s.earliestRequestedDate}
+                                    </span>
                                 </Grid>
-                                <Grid item xs={2}>
-                                    {s.earliestRequestedDate}
-                                </Grid>
+                                <Grid item xs={2}/>
                                 <ReportTable
                                     reportData={s.results.reportResults[0]}
                                     showTotals={false}
