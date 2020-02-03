@@ -20,7 +20,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
     const triggerBaseHref = '../reports/triggers';
     const daysRequiredBaseHref = 'days-required';
     const shortagesBaseHref = 'shortages';
-    const backOrdersBaseHref = 'back-orders';
+    const backOrdersBaseHref = 'production-back-orders';
     const builtThisWeekBaseHref = 'btw';
     const delPerfBaseHref = 'delperf';
     const fflagStockBaseHref = 'failed-parts';
