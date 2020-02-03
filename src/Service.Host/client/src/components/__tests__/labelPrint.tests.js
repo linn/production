@@ -85,28 +85,3 @@ describe('When viewing', () => {
         expect(clearButton).toBeInTheDocument();
     });
 });
-
-// describe('When Editing', () => {
-//     test('Should show different fields upon label type change', () => {
-//         const { getByText } = render(<LabelPrint {...defaultProps} editStatus="edit" />);
-//         const item = getByText('Save');
-//         expect(item).toBeInTheDocument();
-//         expect(item.closest('button')).not.toHaveAttribute('disabled');
-//     });
-
-//     test('Should have save button disabled and no description', () => {
-//         const noDescription = {
-//             resourceCode: 'TESTROUTECODE1',
-//             description: '',
-//             notes: 'some notes',
-//             operations: []
-//         };
-
-//         const { getByText } = render(
-//             <LabelPrint {...defaultProps} item={noDescription} editStatus="edit" />
-//         );
-//         const item = getByText('Save');
-//         expect(item).toBeInTheDocument();
-//         expect(item.closest('button')).toHaveAttribute('disabled');
-//     });
-// });
