@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from 'react';
+import React, { useState, useCallback, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Dropdown,
@@ -227,6 +227,7 @@ function LabelPrint({
     const [printer, setPrinter] = useState(3);
     const [quantity, setQuantity] = useState(1);
     const [labelDetails, setLabelDetails] = useState(printLinesInitialState);
+    const [addressReturned, setAddressReturned] = useState(null);
 
     const classes = useStyles();
 
@@ -258,7 +259,7 @@ function LabelPrint({
         setLabelDetails(updatedDetails);
     };
 
-    const handleCopyFromAddress = newValue => {
+    const handleCopyFromAddress = useCallback(newValue => {
         handleLabelDetailsChange('line1', newValue.line1);
         handleLabelDetailsChange('line2', newValue.line2);
         handleLabelDetailsChange('line3', newValue.line3);
@@ -268,17 +269,19 @@ function LabelPrint({
         handleLabelDetailsChange('addressee', newValue.addressee);
         handleLabelDetailsChange('addressee2', newValue.addressee2);
         handleLabelDetailsChange('addressId', newValue.id);
-    };
+    });
 
     const handleCopyFromSupplier = newValue => {
-        console.info(newValue);
         handleLabelDetailsChange('supplierId', newValue.supplierId);
-
         getAddressById(newValue.orderAddressId);
     };
 
     useEffect(() => {
-       console.info(addressReturnedForId);
+        if (addressReturnedForId && addressReturnedForId !== addressReturned) {
+            setAddressReturned(addressReturnedForId);
+            handleCopyFromAddress(addressReturnedForId);
+      console.log(addressReturnedForId);
+        }
     }, [addressReturnedForId]);
 
     const handlePrintClick = () => {
