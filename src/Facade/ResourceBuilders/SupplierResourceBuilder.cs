@@ -18,7 +18,6 @@
                 DateClosed = supplier.DateClosed?.ToString("o"),
                 InvoiceAddressId = supplier.InvoiceAddressId,
                 OrderAddressId = supplier.OrderAddressId,
-                
                 Links = this.BuildLinks(supplier).ToArray()
             };
         }
