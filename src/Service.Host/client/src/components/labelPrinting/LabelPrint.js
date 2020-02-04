@@ -252,24 +252,30 @@ function LabelPrint({
         }
     };
 
-    const handleLabelDetailsChange = (lineId, newValue) => {
-        const rowToUpdate = labelDetails.findIndex(x => x.id === lineId);
-        const updatedDetails = [...labelDetails];
-        updatedDetails[rowToUpdate].value = newValue;
-        setLabelDetails(updatedDetails);
-    };
+    const handleLabelDetailsChange = useCallback(
+        (lineId, newValue) => {
+            const rowToUpdate = labelDetails.findIndex(x => x.id === lineId);
+            const updatedDetails = [...labelDetails];
+            updatedDetails[rowToUpdate].value = newValue;
+            setLabelDetails(updatedDetails);
+        },
+        [setLabelDetails, labelDetails]
+    );
 
-    const handleCopyFromAddress = useCallback(newValue => {
-        handleLabelDetailsChange('line1', newValue.line1);
-        handleLabelDetailsChange('line2', newValue.line2);
-        handleLabelDetailsChange('line3', newValue.line3);
-        handleLabelDetailsChange('line4', newValue.line4);
-        handleLabelDetailsChange('postalCode', newValue.postCode);
-        handleLabelDetailsChange('country', newValue.country);
-        handleLabelDetailsChange('addressee', newValue.addressee);
-        handleLabelDetailsChange('addressee2', newValue.addressee2);
-        handleLabelDetailsChange('addressId', newValue.id);
-    });
+    const handleCopyFromAddress = useCallback(
+        newValue => {
+            handleLabelDetailsChange('line1', newValue.line1);
+            handleLabelDetailsChange('line2', newValue.line2);
+            handleLabelDetailsChange('line3', newValue.line3);
+            handleLabelDetailsChange('line4', newValue.line4);
+            handleLabelDetailsChange('postalCode', newValue.postCode);
+            handleLabelDetailsChange('country', newValue.country);
+            handleLabelDetailsChange('addressee', newValue.addressee);
+            handleLabelDetailsChange('addressee2', newValue.addressee2);
+            handleLabelDetailsChange('addressId', newValue.id);
+        },
+        [handleLabelDetailsChange]
+    );
 
     const handleCopyFromSupplier = newValue => {
         handleLabelDetailsChange('supplierId', newValue.supplierId);
@@ -280,9 +286,8 @@ function LabelPrint({
         if (addressReturnedForId && addressReturnedForId !== addressReturned) {
             setAddressReturned(addressReturnedForId);
             handleCopyFromAddress(addressReturnedForId);
-      console.log(addressReturnedForId);
         }
-    }, [addressReturnedForId]);
+    }, [addressReturnedForId, addressReturned, handleCopyFromAddress]);
 
     const handlePrintClick = () => {
         const sendableDetails = {
