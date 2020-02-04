@@ -46,7 +46,7 @@
         [Test]
         public void ShouldReturnOk()
         {
-            this.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest); // we need something resourcey?
+            this.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
         [Test]
