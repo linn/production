@@ -65,6 +65,11 @@
             {
                 this.ProcurementShortage = true;
             }
+
+            if (!string.IsNullOrEmpty(shortage.CrfStory))
+            {
+                this.Results.SetGridTextValue(row.RowIndex, this.Results.ColumnIndex("notes"), shortage.CrfStory);
+            }
         }
     }
 }

@@ -1202,6 +1202,7 @@
             q.Property(s => s.QtyReserved).HasColumnName("QTY_RESERVED");
             q.Property(s => s.KittingPriority).HasColumnName("KITTING_PRIORITY");
             q.Property(s => s.CanBuild).HasColumnName("SHORTAGE_CAN_BUILD");
+            q.Property(s => s.CrfStory).HasColumnName("CRF_STORY");
         }
     }
 }
