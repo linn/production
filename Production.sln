@@ -67,7 +67,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence.LinnApps", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{96FA36AF-D43B-4E06-8CE3-33CE0334577F}"
 	ProjectSection(SolutionItems) = preProject
-		failed_parts_report_view.sql = failed_parts_report_view.sql
+		sql\failed_parts_report_view.sql = sql\failed_parts_report_view.sql
 	EndProjectSection
 EndProject
 Global
