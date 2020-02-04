@@ -6,7 +6,6 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.BuildPlans;
-    using Linn.Production.Domain.LinnApps.ViewModels;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +44,7 @@
 
         public IQueryable<BuildPlanDetail> FindAll()
         {
-            return this.serviceDbContext.BuildPlanDetails.Include(b => b.Part);
+            return this.serviceDbContext.BuildPlanDetails.Include(b => b.Part).OrderBy(b => b.Part.PartNumber);
         }
 
         public void Add(BuildPlanDetail entity)

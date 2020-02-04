@@ -133,7 +133,6 @@ export default function BuildPlans({
         history.goBack();
     };
 
-    // TODO add these in with refs to the detail updated
     const handleUpdateBuildPlanDetail = buildPlanDetail => {
         updateBuildPlanDetail(null, buildPlanDetail);
     };
