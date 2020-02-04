@@ -33,7 +33,6 @@
                 with =>
                 {
                     with.Header("Accept", "application/json");
-                    with.Header("Accept", "application/json");
                     with.Query("citCode", "S");
                     with.Query("priority", "1");
                 }).Result;
