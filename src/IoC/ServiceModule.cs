@@ -53,6 +53,7 @@
             builder.RegisterType<DeliveryPeformanceReportService>().As<IDeliveryPerformanceReportService>();
             builder.RegisterType<CountComponentsService>().As<ICountComponents>();
             builder.RegisterType<PurchaseOrderDomainService>().As<IPurchaseOrderDomainService>();
+            builder.RegisterType<ShortageSummaryReportService>().As<IShortageSummaryReportService>();
             builder.RegisterType<FailsReportService>().As<IFailsReportService>();
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
 
@@ -133,6 +134,7 @@
             builder.RegisterType<BtwResultFacadeService>().As<IBtwResultFacadeService>();
             builder.RegisterType<DeliveryPerfResultFacadeService>().As<IDeliveryPerfResultFacadeService>();
             builder.RegisterType<CountComponentsFacadeService>().As<ICountComponentsFacadeService>();
+            builder.RegisterType<ShortageSummaryFacadeService>().As<IShortageSummaryFacadeService>();
             builder.RegisterType<AddressService>().As<IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource>>();
             builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
             builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();

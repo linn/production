@@ -20,7 +20,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
     const triggerBaseHref = '../reports/triggers';
     const daysRequiredBaseHref = 'days-required';
     const shortagesBaseHref = 'shortages';
-    const backOrdersBaseHref = 'back-orders';
+    const backOrdersBaseHref = 'production-back-orders';
     const builtThisWeekBaseHref = 'btw';
     const delPerfBaseHref = 'delperf';
     const fflagStockBaseHref = 'failed-parts';
@@ -259,7 +259,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -268,7 +268,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -277,7 +277,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -286,7 +286,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >

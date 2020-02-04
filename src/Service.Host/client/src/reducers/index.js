@@ -18,6 +18,7 @@ import buildsDetailReport from './buildsDetailReport';
 import btwReport from './btwReport';
 import delPerfReport from './delPerfReport';
 import delPerfDetails from './delPerfDetails';
+import shortageSummary from './shortageSummary';
 import outstandingWorksOrdersReport from './outstandingWorksOrdersReport';
 import productionMeasures from './productionMeasures';
 import productionTriggersReport from './productionTriggersReport';
@@ -174,6 +175,7 @@ const reducer = history =>
         salesArticles,
         serialNumbers,
         serialNumberReissue,
+        shortageSummary,
         smtShifts,
         smtOutstandingWorkOrderParts,
         startTriggerRun,

@@ -101,8 +101,10 @@ import CreateAteTest from '../containers/ate/CreateAteTest';
 import BtwReport from '../containers/reports/BtwReport';
 import DelPerfReport from '../containers/reports/DelPerfReport';
 import DelPerfDetails from '../containers/reports/DelPerfDetails';
-import LabelPrint from '../containers/labelPrinting/LabelPrint';
+import ShortageSummary from '../containers/reports/ShortageSummary';
+import LabelPrinter from '../containers/labelPrinting/LabelPrint';
 import FailedPartsReport from '../containers/reports/FailedPartsReport';
+import LabelPrint from '../containers/labels/LabelPrint';
 
 const Root = ({ store }) => (
     <div>
@@ -506,7 +508,7 @@ const Root = ({ store }) => (
                                     <Route
                                         exact
                                         path="/production/maintenance/labels/reprint"
-                                        component={LabelReprint}
+                                        component={LabelPrint}
                                     />
                                     <Route
                                         exact
@@ -610,10 +612,14 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/maintenance/labels/print"
-                                        component={LabelPrint}
+                                        path="/production/reports/shortages"
+                                        component={ShortageSummary}
                                     />
-
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/print"
+                                        component={LabelPrinter}
+                                    />
                                     <Route
                                         exact
                                         path="/production/reports/failed-parts"

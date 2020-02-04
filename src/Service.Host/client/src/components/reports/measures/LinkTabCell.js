@@ -1,4 +1,6 @@
 import React from 'react';
+import Link from '@material-ui/core/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/styles/makeStyles';
 import TabCell from './TabCell';
@@ -38,7 +40,9 @@ function LinkTabCell(props) {
             onMouseLeave={onMouseLeave}
             {...other}
         >
-            <a href={href}> {children} </a>
+            <Link component={RouterLink} to={href}>
+                {children}
+            </Link>
         </TabCell>
     );
 }

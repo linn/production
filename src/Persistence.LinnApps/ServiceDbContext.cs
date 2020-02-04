@@ -105,8 +105,6 @@
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
-        public DbQuery<PartFailLog> PartFailLogs { get; set; }
-
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
 
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
@@ -156,6 +154,7 @@
         public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
 
         public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
+        public DbQuery<WswShortage> WswShortages { get; set; }
 
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
@@ -211,7 +210,6 @@
             this.QueryProductionTriggerAssemblies(builder);
             this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
-            this.QueryPartFailLogs(builder);
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
@@ -227,6 +225,7 @@
             this.QueryBuildPlanRules(builder);
             this.QueryBuiltThisWeekStatistics(builder);
             this.QueryPtlStats(builder);
+            this.QueryWswShortages(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
             this.BuildCountries(builder);
@@ -564,23 +563,6 @@
             builder.Query<ProductionBackOrdersView>().Property(p => p.OldestDate).HasColumnName("OLDEST_DATE");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildQuantity).HasColumnName("CAN_BUILD_QTY");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildValue).HasColumnName("CAN_BUILD_VALUE");
-        }
-
-        private void QueryPartFailLogs(ModelBuilder builder)
-        {
-            var q = builder.Query<PartFailLog>();
-            q.ToView("PART_FAIL_LOG");
-            q.Property(t => t.Id).HasColumnName("ID");
-            q.Property(t => t.DateCreated).HasColumnName("DATE_CREATED");
-            q.HasOne<Part>(f => f.Part).WithMany(p => p.PartFailLogs).HasForeignKey("PART_NUMBER");
-            q.Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
-            q.Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
-            q.Property(t => t.Story).HasColumnName("STORY");
-            q.Property(t => t.Quantity).HasColumnName("QTY");
-            q.Property(t => t.MinutesWasted).HasColumnName("MINUTES_WASTED");
-            q.Property(t => t.ErrorType).HasColumnName("ERROR_TYPE");
-            q.Property(t => t.Batch).HasColumnName("BATCH");
-            q.Property(t => t.EnteredBy).HasColumnName("ENTERED_BY");
         }
 
         private void QueryOverdueOrderLines(ModelBuilder builder)
@@ -1258,6 +1240,24 @@
             q.Property(e => e.QuantityNetReceived).HasColumnName("QTY_NET_RECEIVED");
             q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
             q.Property(e => e.OrderLine).HasColumnName("ORDER_LINE");
+        }
+
+        private void QueryWswShortages(ModelBuilder builder)
+        {
+            var q = builder.Query<WswShortage>();
+            q.ToView("WSW_SHORTAGE_VIEW");
+            q.Property(s => s.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartNumber).HasColumnName("SHORT_PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartDescription).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(s => s.ShortageCategory).HasColumnName("SHORT_CAT").HasMaxLength(4);
+            q.Property(s => s.Required).HasColumnName("REQT");
+            q.Property(s => s.Stock).HasColumnName("STOCK");
+            q.Property(s => s.AdjustedAvailable).HasColumnName("ADJUSTED_AVAIL");
+            q.Property(s => s.QtyReserved).HasColumnName("QTY_RESERVED");
+            q.Property(s => s.KittingPriority).HasColumnName("KITTING_PRIORITY");
+            q.Property(s => s.CanBuild).HasColumnName("SHORTAGE_CAN_BUILD");
         }
     }
 }

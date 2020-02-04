@@ -70,7 +70,6 @@
             builder.RegisterType<ProductDataRepository>().As<IRepository<ProductData, int>>();
             builder.RegisterType<OverdueOrderLineRepository>().As<IQueryRepository<OverdueOrderLine>>();
             builder.RegisterType<BoardTestRepository>().As<IRepository<BoardTest, BoardTestKey>>();
-            builder.RegisterType<PartFailLogRepository>().As<IQueryRepository<PartFailLog>>();
             builder.RegisterType<EmployeeDepartmentViewRepository>().As<IQueryRepository<EmployeeDepartmentView>>();
             builder.RegisterType<WorksOrderLabelsRepository>().As<IRepository<WorksOrderLabel, WorksOrderLabelKey>>();
             builder.RegisterType<PartFailSuppliersViewRepository>().As<IQueryRepository<PartFailSupplierView>>();
@@ -99,6 +98,7 @@
             builder.RegisterType<SernosBuiltRepository>().As<IQueryRepository<SernosBuilt>>();
             builder.RegisterType<SernosIssuedRepository>().As<IQueryRepository<SernosIssued>>();
             builder.RegisterType<PurchaseOrdersReceivedRepository>().As<IQueryRepository<PurchaseOrdersReceived>>();
+            builder.RegisterType<WswShortageRepository>().As<IQueryRepository<WswShortage>>();
             builder.RegisterType<FailedPartsRepository>().As<IQueryRepository<FailedParts>>();
         }
     }

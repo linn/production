@@ -108,6 +108,12 @@
         public int? CanBuildExSubAssemblies { get; set; }
 
         public string ReportType { get; set; }
+
+        public bool IsShortage()
+        {
+            var build = (RemainingBuild ?? this.ReqtForInternalAndTriggerLevelBT) + (QtyBeingBuilt ?? 0);
+            return this.CanBuild < build;
+        }
     }
 }
 

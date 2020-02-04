@@ -124,10 +124,15 @@
             builder.RegisterType<IdAndNameResourceBuilder>().As<IResourceBuilder<IdAndName>>();
             builder.RegisterType<IdAndNameListResourceBuilder>().As<IResourceBuilder<IEnumerable<IdAndName>>>();
             builder.RegisterType<ComponentCountResourceBuilder>().As<IResourceBuilder<ComponentCount>>();
+<<<<<<< HEAD
             builder.RegisterType<PurchaseOrderDetailResourceBuilder>().As<IResourceBuilder<PurchaseOrderDetail>>();
             builder.RegisterType<PurchaseOrderDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PurchaseOrderDetail>>>();
             builder.RegisterType<PurchaseOrderWithSernosInfoResourceBuilder>()
                 .As<IResourceBuilder<PurchaseOrderWithSernosInfo>>();
+=======
+            builder.RegisterType<ShortageSummaryResourceBuilder>().As<IResourceBuilder<ShortageSummary>>();
+
+>>>>>>> master
             builder.RegisterType<AddressResourceBuilder>().As<IResourceBuilder<Address>>();
             builder.RegisterType<AddressesResourceBuilder>().As<IResourceBuilder<IEnumerable<Address>>>();
             builder.RegisterType<SupplierResourceBuilder>().As<IResourceBuilder<Supplier>>();
