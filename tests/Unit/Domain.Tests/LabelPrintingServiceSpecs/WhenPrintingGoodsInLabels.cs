@@ -36,7 +36,7 @@
         [Test]
         public void ShouldCallLabelPrintServiceForSmallLabel()
         {
-            var data = "\"77\", \"11\", \"PCAS\", \"PCSM\", \"99\", \"IC\", \"30 Jan 2020\"";
+            var data = "\"PCAS\", \"PCSM\", \"99\", \"IC\", \"30 Jan 2020\"";
             this.LabelService.Received().PrintLabel(Arg.Any<string>(), "ProdLbl2", 9, "c:\\lbl\\goods_in_2004.btw", data);
         }
 

@@ -95,6 +95,7 @@ import labelPrintTypes from './labelPrintTypes';
 import labelPrinters from './labelPrinters';
 import suppliers from './suppliers';
 import addresses from './addresses';
+import address from './address';
 import failedPartsReport from './failedPartsReport';
 
 const errors = fetchErrorReducer({
@@ -196,6 +197,7 @@ const reducer = history =>
         labelPrintTypes,
         suppliers,
         addresses,
+        address,
         ...sharedLibraryReducers
     });
 
