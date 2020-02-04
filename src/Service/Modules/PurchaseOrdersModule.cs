@@ -79,7 +79,7 @@
                 .CurrentUser.Claims
                 .FirstOrDefault(c => c.Type == "employee")?.Value.Split("/").Last();
 
-            if (this.sernosPack.BuildSernos(
+            if (!this.sernosPack.BuildSernos(
                 resource.OrderNumber,
                 docType,
                 resource.PartNumber,
@@ -88,14 +88,9 @@
                 resource.ToSerial,
                 int.Parse(userNumber)))
             {
-                return HttpStatusCode.OK;
+                return this.Negotiate.WithModel(new BadRequestResult<Error>(this.sernosPack.SernosMessage()));
             }
-
-            return new Response
-                       {
-                           StatusCode = HttpStatusCode.BadRequest,
-                           ReasonPhrase = this.sernosPack.SernosMessage()
-                       };
+            return HttpStatusCode.OK;
         }
     }
 }

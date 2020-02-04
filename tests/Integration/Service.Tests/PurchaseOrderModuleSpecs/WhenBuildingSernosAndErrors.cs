@@ -1,7 +1,10 @@
 ﻿namespace Linn.Production.Service.Tests.PurchaseOrderModuleSpecs
 {
+    using System.Linq;
+
     using FluentAssertions;
 
+    using Linn.Common.Resources;
     using Linn.Production.Resources;
 
     using Nancy;
@@ -63,9 +66,10 @@
         }
 
         [Test]
-        public void ShouldReturnMessage()
+        public void ShouldReturnError()
         {
-            this.Response.ReasonPhrase.Should().Be("Something went wrong");
+            var resource = this.Response.Body.DeserializeJson<ErrorResource>();
+            resource.Errors.First().Should().Be("Something went wrong");
         }
     }
 }
