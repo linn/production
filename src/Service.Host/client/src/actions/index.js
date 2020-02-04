@@ -235,9 +235,13 @@ export const btwReportActionTypes = makeReportActionTypes(reportTypes.btwReport.
 
 export const delPerfReportActionTypes = makeReportActionTypes(reportTypes.delPerfReport.actionType);
 
-export const shortageSummaryActionTypes = makeReportActionTypes(reportTypes.shortageSummary.actionType);
+export const shortageSummaryActionTypes = makeReportActionTypes(
+    reportTypes.shortageSummary.actionType
+);
 
-export const delPerfDetailsActionTypes = makeReportActionTypes(reportTypes.delPerfDetails.actionType);
+export const delPerfDetailsActionTypes = makeReportActionTypes(
+    reportTypes.delPerfDetails.actionType
+);
 
 export const buildPlansActionTypes = makeActionTypes(itemTypes.buildPlans.actionType);
 
@@ -280,3 +284,9 @@ export const suppliersActionTypes = makeActionTypes(itemTypes.suppliers.actionTy
 export const failedPartsReportActionTypes = makeReportActionTypes(
     reportTypes.failedPartsReport.actionType
 );
+
+export const issueSernosActionTypes = makeProcessActionTypes(processTypes.issueSernos.actionType);
+
+export const buildSernosActionTypes = makeProcessActionTypes(processTypes.buildSernos.actionType);
+
+export const purchaseOrderActionTypes = makeActionTypes(itemTypes.purchaseOrder.actionType);
