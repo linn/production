@@ -91,7 +91,11 @@
                 return HttpStatusCode.OK;
             }
 
-            return new BadRequestResult<string>(this.sernosPack.SernosMessage());
+            return new Response
+                       {
+                           StatusCode = HttpStatusCode.BadRequest,
+                           ReasonPhrase = this.sernosPack.SernosMessage()
+                       };
         }
     }
 }

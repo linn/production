@@ -55,6 +55,7 @@
                                     var claims = new List<Claim>
                                                      {
                                                          new Claim(ClaimTypes.Role, "employee"),
+                                                         new Claim("employee", "employees/1"),   
                                                          new Claim(ClaimTypes.NameIdentifier, "test-user")
                                                      };
 
