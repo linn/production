@@ -58,6 +58,7 @@
                                     AoiEscape = detail.AoiEscape,
                                     BatchNumber = detail.BatchNumber,
                                     BoardFailNumber = detail.BoardFailNumber,
+                                    NumberOfFails = detail.NumberOfFails,
                                     BoardSerialNumber = detail.BoardSerialNumber,
                                     CircuitRef = detail.CircuitRef,
                                     PartNumber = GetDetailPart(detail.CircuitRef, resource.PartNumber, this.pcasRevisionRepository),
@@ -67,6 +68,8 @@
                                     Machine = detail.Machine,
                                     Shift = detail.Shift,
                                     SmtOrPcb = detail.SmtOrPcb,
+                                    PcbOperator = detail.PcbOperator != null ?
+                                        this.employeeRepository.FindById((int)detail.PcbOperator) : null
                                 });
                 itemNo++;
             }
