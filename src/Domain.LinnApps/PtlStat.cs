@@ -26,7 +26,7 @@
 
         public decimal WorkingDays { get; set; }
 
-        public decimal TargetDays()
+        public int TargetDays()
         {
             if (this.BuildGroup == "EP")
             {
