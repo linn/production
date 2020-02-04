@@ -6,7 +6,7 @@
     using Linn.Production.Domain.LinnApps.Models;
     using NUnit.Framework;
 
-    public class WhenConstructingPtlStatPrioritySummary
+    public class WhenConstructingPtlStatPrioritySummaryFor3DayTarget
     {
         protected PtlStatPrioritySummary Sut { get; set; }
 
@@ -15,11 +15,11 @@
         {
             var stats = new List<PtlStat>()
             {
-                new PtlStat { PtlPriority = 1, WorkingDays = 0m, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 1m, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 2m, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 4m, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 8m, BuildGroup = "PP" }
+                new PtlStat { PtlPriority = 1, WorkingDays = 0m, BuildGroup = "CP" },
+                new PtlStat { PtlPriority = 1, WorkingDays = 1m, BuildGroup = "CP" },
+                new PtlStat { PtlPriority = 1, WorkingDays = 2m, BuildGroup = "CP" },
+                new PtlStat { PtlPriority = 1, WorkingDays = 4m, BuildGroup = "CP" },
+                new PtlStat { PtlPriority = 1, WorkingDays = 8m, BuildGroup = "CP" }
             };
 
             this.Sut = new PtlStatPrioritySummary(1);
@@ -61,7 +61,7 @@
         [Test]
         public void ShouldHaveCorrectpercByTargetDays()
         {
-            this.Sut.PercByTargetDays().Should().Be(80);
+            this.Sut.PercByTargetDays().Should().Be(60);
         }
     }
 }
