@@ -23,14 +23,6 @@
                                    PartNumber = "PART",
                                    DocumentType = "PO"
                                };
-            this.SernosPack.BuildSernos(
-                Arg.Any<int>(),
-                Arg.Any<string>(),
-                Arg.Any<string>(),
-                Arg.Any<int>(),
-                Arg.Any<int>(),
-                Arg.Any<int>(),
-                Arg.Any<int>()).Returns(false);
 
             this.Response = this.Browser.Post(
                 "/production/resources/purchase-orders/issue-sernos",

@@ -5,6 +5,7 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.ResourceBuilders;
@@ -44,10 +45,12 @@
                             new PurchaseOrderDetailResourceBuilder());
                         with.Dependency<ISernosPack>(this.SernosPack);
                         with.Module<PurchaseOrdersModule>();
+                        with.Dependency<IResourceBuilder<Error>>(new ErrorResourceBuilder());
 
                         with.ResponseProcessor<PurchaseOrderResponseProcessor>();
                         with.ResponseProcessor<PurchaseOrdersResponseProcessor>();
                         with.ResponseProcessor<PurchaseOrderWithSernosInfoResponseProcessor>();
+                        with.ResponseProcessor<ErrorResponseProcessor>();
 
                         with.RequestStartup(
                             (container, pipelines, context) =>

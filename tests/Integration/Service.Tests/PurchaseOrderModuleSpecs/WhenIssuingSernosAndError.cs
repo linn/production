@@ -1,7 +1,11 @@
 ﻿namespace Linn.Production.Service.Tests.PurchaseOrderModuleSpecs
 {
+    using System;
+    using System.Linq;
+
     using FluentAssertions;
 
+    using Linn.Common.Resources;
     using Linn.Production.Resources;
 
     using Nancy;
@@ -11,31 +15,30 @@
 
     using NUnit.Framework;
 
-    public class WhenBuildingSernosAndErrors : ContextBase
+    public class WhenIssuingSernosAndError : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
-            var resource = new BuildSernosRequestResource
+            var resource = new IssueSernosRequestResource()
                                {
-                                   FromSerial = 1,
-                                   OrderNumber = 1,
+                                   DocumentLine = 1,
+                                   DocumentNumber = 1,
                                    PartNumber = "PART",
-                                   ToSerial = 2
+                                   DocumentType = "PO"
                                };
-            this.SernosPack.BuildSernos(
+            this.SernosPack.When(fake => fake.IssueSernos(
                 Arg.Any<int>(),
                 Arg.Any<string>(),
+                Arg.Any<int>(),
                 Arg.Any<string>(),
                 Arg.Any<int>(),
                 Arg.Any<int>(),
-                Arg.Any<int>(),
-                Arg.Any<int>()).Returns(false);
+                Arg.Any<int>())).Do(call => throw new Exception("Fail"));
 
-            this.SernosPack.SernosMessage().Returns("Something went wrong");
 
             this.Response = this.Browser.Post(
-                "/production/resources/purchase-orders/build-sernos",
+                "/production/resources/purchase-orders/issue-sernos",
                 with =>
                     {
                         with.Header("Accept", "application/json");
@@ -44,7 +47,7 @@
         }
 
         [Test]
-        public void ShouldReturnOk()
+        public void ShouldReturnBadRequest()
         {
             this.Response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
@@ -52,20 +55,21 @@
         [Test]
         public void ShouldCallProxy()
         {
-            this.SernosPack.Received().BuildSernos(
+            this.SernosPack.Received().IssueSernos(
                 Arg.Any<int>(),
                 Arg.Any<string>(),
-                Arg.Any<string>(),
                 Arg.Any<int>(),
+                Arg.Any<string>(),
                 Arg.Any<int>(),
                 Arg.Any<int>(),
                 Arg.Any<int>());
         }
 
         [Test]
-        public void ShouldReturnMessage()
+        public void ShouldReturnError()
         {
-            this.Response.ReasonPhrase.Should().Be("Something went wrong");
+            var resource = this.Response.Body.DeserializeJson<ErrorResource>();
+            resource.Errors.First().Should().Be("Fail");
         }
     }
 }
