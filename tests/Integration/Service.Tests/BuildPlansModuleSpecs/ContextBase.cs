@@ -57,6 +57,7 @@
                         with.Dependency(this.BuildPlanRulesFacadeService);
                         with.Dependency(this.BuildPlanDetailsService);
                         with.Dependency(this.LinnWeekPack);
+                        with.Dependency(this.AuthorisationService);
 
                         with.Dependency<IResourceBuilder<ResponseModel<BuildPlan>>>(
                             new BuildPlanResourceBuilder(this.AuthorisationService));

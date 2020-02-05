@@ -2,7 +2,9 @@
 {
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
@@ -23,16 +25,20 @@
 
         private readonly IBuildPlanDetailsService buildPlanDetailsService;
 
+        private readonly IAuthorisationService authorisationService;
+
         public BuildPlansModule(
             IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource> buildPlanService,
             IBuildPlansReportFacadeService buildPlansReportService,
             IBuildPlanRulesFacadeService buildPlanRulesService,
-            IBuildPlanDetailsService buildPlanDetailsService)
+            IBuildPlanDetailsService buildPlanDetailsService,
+            IAuthorisationService authorisationService)
         {
             this.buildPlanService = buildPlanService;
             this.buildPlansReportService = buildPlansReportService;
             this.buildPlanRulesService = buildPlanRulesService;
             this.buildPlanDetailsService = buildPlanDetailsService;
+            this.authorisationService = authorisationService;
 
             this.Get("/production/maintenance/build-plans", _ => this.GetBuildPlans());
             this.Post("/production/maintenance/build-plans", _ => this.AddBuildPlan());
@@ -60,8 +66,13 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.buildPlanService.Add(resource, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanAdd, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanService.Add(resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<BuildPlan>("You are not authorised to create build plans"));
         }
 
         private object UpdateBuildPlan()
@@ -70,8 +81,13 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.buildPlanService.Update(resource.BuildPlanName, resource, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanUpdate, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanService.Update(resource.BuildPlanName, resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<BuildPlan>("You are not authorised to amend build plans"));
         }
 
         private object GetBuildPlanReportOptions()
@@ -127,8 +143,13 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.buildPlanDetailsService.Add(resource, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailAdd, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanDetailsService.Add(resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<BuildPlan>("You are not authorised to create build plan details"));
         }
 
         private object UpdateBuildPlanDetail()
@@ -137,8 +158,13 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.buildPlanDetailsService.UpdateBuildPlanDetail(resource, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailUpdate, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanDetailsService.UpdateBuildPlanDetail(resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<BuildPlan>("You are not authorised to amend build plan details"));
         }
     }
 }
