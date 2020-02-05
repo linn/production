@@ -103,11 +103,6 @@ function AssemblyFail({
         const exactMatch = boardPartsSearchResults.find(
             p => p.partNumber === assemblyFail.boardPartNumber
         );
-        // setAssemblyFail(a => ({
-        //     ...a,
-        //     circuitRef: '',
-        //     circuitPartNumber: ''
-        // }));
         if (assemblyFail.boardPartNumber === '') {
             setAssemblyFail(a => ({
                 ...a,
