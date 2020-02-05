@@ -97,6 +97,7 @@
             {
                 return new BadRequestResult<WorksOrder>(exception.Message);
             }
+
             this.transactionManager.Commit();
 
             return new SuccessResult<WorksOrder>(worksOrder);
@@ -115,7 +116,7 @@
                     w => w.GetType()
                         .GetProperty(
                             char.ToUpperInvariant(orderByDesc[0]) 
-                            + orderByDesc.Substring(1)));
+                            + orderByDesc.Substring(1)).GetValue(w, null)); 
             }
 
             if (limit != null)

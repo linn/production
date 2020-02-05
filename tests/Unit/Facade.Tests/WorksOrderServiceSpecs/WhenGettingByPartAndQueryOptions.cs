@@ -14,7 +14,7 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingByPartAndTooManyResults : ContextBase
+    public class WhenGettingByPartAndQueryOptions : ContextBase
     {
         private IResult<IEnumerable<WorksOrder>> result;
 
@@ -25,15 +25,15 @@
         {
             var results = new List<WorksOrder>();
 
-            for (int i = 0; i <= 2000; i++)
+            for (int i = 0; i <= 150; i++)
             {
-                results.Add(new WorksOrder { OrderNumber = i, Part = new Part { PartNumber = "part" } });
+                results.Add(new WorksOrder { OrderNumber = i, Part = new Part { PartNumber = "part" }, DateRaised = DateTime.UnixEpoch.AddDays(i) });
             }
 
             this.part = "part";
             this.WorksOrderRepository.FilterBy(Arg.Any<Expression<Func<WorksOrder, bool>>>())
                 .Returns(results.AsQueryable());
-            this.result = this.Sut.SearchByBoardNumber(this.part);
+            this.result = this.Sut.SearchByBoardNumber(this.part, 100, "dateRaised");
         }
 
         [Test]
@@ -46,15 +46,21 @@
         public void ShouldReturnSuccess()
         {
             this.result.Should().BeOfType<SuccessResult<IEnumerable<WorksOrder>>>();
-            var dataResult = ((SuccessResult<IEnumerable<WorksOrder>>)this.result).Data;
-            dataResult.Count().Should().Be(1000);
         }
 
         [Test]
         public void ShouldLimitResults()
         {
             var dataResult = ((SuccessResult<IEnumerable<WorksOrder>>)this.result).Data;
-            dataResult.Count().Should().Be(1000);
+            dataResult.Count().Should().Be(100);
+        }
+
+        [Test]
+        public void ShouldOrderResults()
+        {
+            var dataResult = ((SuccessResult<IEnumerable<WorksOrder>>)this.result).Data.ToList();
+            var expected = dataResult.OrderByDescending(w => w.DateRaised);
+            dataResult.SequenceEqual(expected).Should().BeTrue();
         }
     }
 }
