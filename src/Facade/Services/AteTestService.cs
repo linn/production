@@ -68,8 +68,8 @@
                                     Machine = detail.Machine,
                                     Shift = detail.Shift,
                                     SmtOrPcb = detail.SmtOrPcb,
-                                    PcbOperator = detail.PcbOperator != null ?
-                                        this.employeeRepository.FindById((int)detail.PcbOperator) : null
+                                    PcbOperator = detail.PcbOperator.HasValue ?
+                                        this.employeeRepository.FindById(detail.PcbOperator.Value) : null
                                 });
                 itemNo++;
             }

@@ -119,9 +119,9 @@
                             + orderByDesc.Substring(1)).GetValue(w, null)); 
             }
 
-            if (limit != null)
+            if (limit.HasValue)
             {
-                result = result.Take((int)limit);
+                result = result.Take(limit.Value);
             }
 
             return new SuccessResult<IEnumerable<WorksOrder>>(result);
