@@ -20,12 +20,12 @@
         {
             var statistics = new List<PtlStat>()
             {
-                new PtlStat { PtlPriority = 1, WorkingDays = 0.5m},
-                new PtlStat { PtlPriority = 1, WorkingDays = 1 },
-                new PtlStat { PtlPriority = 1, WorkingDays = 2.3m },
-                new PtlStat { PtlPriority = 1, WorkingDays = 10m },
-                new PtlStat { PtlPriority = 2, WorkingDays = 4.1m },
-                new PtlStat { PtlPriority = 2, WorkingDays = 4.1m }
+                new PtlStat { PtlPriority = 1, WorkingDays = 0.5m, BuildGroup = "PP" },
+                new PtlStat { PtlPriority = 1, WorkingDays = 1, BuildGroup = "PP" },
+                new PtlStat { PtlPriority = 1, WorkingDays = 2.3m, BuildGroup = "PP" },
+                new PtlStat { PtlPriority = 1, WorkingDays = 10m, BuildGroup = "PP" },
+                new PtlStat { PtlPriority = 2, WorkingDays = 4.1m, BuildGroup = "PP" },
+                new PtlStat { PtlPriority = 2, WorkingDays = 4.1m, BuildGroup = "PP" }
             };
             this.PtlStatRepository.FilterBy(Arg.Any<Expression<Func<PtlStat, bool>>>())
                 .Returns(statistics.AsQueryable());
@@ -82,10 +82,10 @@
         }
 
         [Test]
-        public void ShouldHaveCorrectPercBy5Day()
+        public void ShouldHaveCorrectPercByTargetDays()
         {
-            this.result.GetGridTextValue(this.result.RowIndex("1"), this.result.ColumnIndex("percBy5days")).Should().Be("75");
-            this.result.GetGridTextValue(this.result.RowIndex("2"), this.result.ColumnIndex("percBy5days")).Should().Be("100");
+            this.result.GetGridTextValue(this.result.RowIndex("1"), this.result.ColumnIndex("percByTargetDays")).Should().Be("75");
+            this.result.GetGridTextValue(this.result.RowIndex("2"), this.result.ColumnIndex("percByTargetDays")).Should().Be("100");
         }
     }
 }

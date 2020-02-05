@@ -20,7 +20,7 @@
 
         public Address FindById(int key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.Addresses.Where(f => f.Id == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<Address> FindAll()

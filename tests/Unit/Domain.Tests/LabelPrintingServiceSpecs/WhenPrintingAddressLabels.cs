@@ -39,7 +39,7 @@
         [Test]
         public void ShouldCallLabelPrintService()
         {
-            var data = "\"77\", \"11\", \"la addressee\", \"duexieme addressee\", \"Large and small\", "
+            var data = "\"la addressee\", \"duexieme addressee\", \"Large and small\", "
                        + "\"line2\", \"three\", \"four line\", \"G1\", \"schottland\"";
             this.LabelService.Received().PrintLabel(Arg.Any<string>(), "ProdLbl2", 6, "c:\\lbl\\genAddressLabel.btw", data);
         }

@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using System.Linq;
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
@@ -73,10 +72,6 @@
 
         public DbQuery<SmtShift> SmtShifts { get; set; }
 
-        public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
-
-        public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
-
         public DbQuery<ProductionTrigger> ProductionTriggers { get; set; }
 
         public DbQuery<ProductionBackOrder> ProductionBackOrders { get; set; }
@@ -106,8 +101,6 @@
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
-
-        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public DbSet<ProductData> ProductData { get; set; }
 
@@ -149,11 +142,9 @@
 
         public DbQuery<WswShortage> WswShortages { get; set; }
 
-        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
+        public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
 
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
-
-
+        public DbQuery<PtlMaster> PtlMaster { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -1158,6 +1149,7 @@
             q.Property(b => b.PostCode).HasColumnName("POSTAL_CODE");
             q.Property(b => b.DateInvalid).HasColumnName("DATE_INVALID");
         }
+
         private void BuildSuppliers(ModelBuilder builder)
         {
             var q = builder.Entity<Supplier>();

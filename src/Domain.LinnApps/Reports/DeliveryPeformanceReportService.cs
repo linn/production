@@ -27,6 +27,8 @@
             var stats = this.ptlStatRepository.FilterBy(s =>
                 s.CitCode == citCode && s.DateCompleted >= dates.fromDate && s.DateCompleted <= dates.toDate).ToList();
 
+            var targetDays = stats.FirstOrDefault()?.TargetDays();
+
             var model = new ResultsModel();
             model.ReportTitle = new NameModel($"Production Delivery Performance {dates.fromDate.ToString("dd-MMM-yy")} - {dates.toDate.ToString("dd-MMM-yy")}");
 
@@ -39,7 +41,7 @@
             model.AddColumn("3day", "3 Day");
             model.AddColumn("4day", "4 Day");
             model.AddColumn("5day", "5 Day");
-            model.AddColumn("percBy5days", "% by 5 days");
+            model.AddColumn("percByTargetDays", $"% by {targetDays} days");
             model.AddColumn("gt5day", "> 5 Day");
 
             var priorities = stats.Select(s => s.PtlPriority).Distinct().OrderBy(s => s);
@@ -70,7 +72,7 @@
                 model.SetGridTextValue(row.RowIndex, model.ColumnIndex("3day"), summary.ThreeDay.ToString());
                 model.SetGridTextValue(row.RowIndex, model.ColumnIndex("4day"), summary.FourDay.ToString());
                 model.SetGridTextValue(row.RowIndex, model.ColumnIndex("5day"), summary.FiveDay.ToString());
-                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("percBy5days"), summary.PercBy5Day().ToString());
+                model.SetGridTextValue(row.RowIndex, model.ColumnIndex("percByTargetDays"), summary.PercByTargetDays().ToString());
                 model.SetGridTextValue(row.RowIndex, model.ColumnIndex("gt5day"), summary.Gt5Day.ToString());
             }
 

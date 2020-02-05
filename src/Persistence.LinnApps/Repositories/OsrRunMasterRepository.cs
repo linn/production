@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Persistence.LinnApps.Repositories
 {
+    using System.Linq;
+
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Measures;
 
@@ -14,7 +16,7 @@
 
         public OsrRunMaster GetRecord()
         {
-            return this.serviceDbContext.OsrRunMaster;
+            return this.serviceDbContext.OsrRunMaster.ToList().FirstOrDefault();
         }
 
         public void UpdateRecord(OsrRunMaster newValues)

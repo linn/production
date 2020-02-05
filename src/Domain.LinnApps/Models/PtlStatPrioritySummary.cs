@@ -27,14 +27,18 @@
 
         public decimal Percentile95 { get; set; }
 
-        public decimal PercBy5Day()
+        public int? TargetDays { get; set; } = null;
+
+        public int WithinTargetDays { get; set; } = 0;
+
+        public decimal PercByTargetDays()
         {
             if (this.Triggers == 0)
             {
                 return 0;
             }
 
-            return decimal.Round((((decimal)(this.Triggers - this.Gt5Day)) / (decimal)this.Triggers) * 100);
+            return decimal.Round((((decimal)(this.WithinTargetDays)) / (decimal)this.Triggers) * 100);
         }
 
         public decimal AvgTurnaround()
@@ -74,6 +78,17 @@
             else
             {
                 this.Gt5Day++;
+            }
+
+            if (this.TargetDays == null)
+            {
+                this.TargetDays = stat.TargetDays();
+            }
+
+            if (stat.WorkingDays < (this.TargetDays + 1))
+            {
+                // remembering that 3.8 still counts as within 3 days cos thats how current stats work
+                this.WithinTargetDays++;
             }
         }
 
