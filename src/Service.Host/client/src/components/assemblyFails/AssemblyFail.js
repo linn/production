@@ -98,7 +98,7 @@ function AssemblyFail({
         );
     }, [assemblyFail.boardPartNumber, fetchPcasRevisionsForBoardPart]);
 
-    // sets boardDescription and clears circuitPart data when boardPart changes
+    // sets boardDescription when boardPart changes
     useEffect(() => {
         const exactMatch = boardPartsSearchResults.find(
             p => p.partNumber === assemblyFail.boardPartNumber
