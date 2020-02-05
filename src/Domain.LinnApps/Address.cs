@@ -11,8 +11,6 @@
 
         public string PostCode { get; set; }
 
-        public List<PurchaseOrder> PurchaseOrders { get; set; }
-
         public string Addressee2 { get; set; }
 
         public string Line1 { get; set; }
@@ -26,5 +24,7 @@
         public string Country { get; set; }
 
         public DateTime? DateInvalid { get; set; }
+
+        public List<PurchaseOrder> PurchaseOrders { get; set; }
     }
 }
