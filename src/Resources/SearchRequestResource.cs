@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Resources
 {
-    using System.Globalization;
-
     public class SearchRequestResource
     {
         public string SearchTerm { get; set; }
