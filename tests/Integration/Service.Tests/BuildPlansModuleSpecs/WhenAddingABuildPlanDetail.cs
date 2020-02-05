@@ -68,7 +68,6 @@
             var resource = this.Response.Body.DeserializeJson<BuildPlanDetailResource>();
             resource.BuildPlanName.Should().Be("name");
             resource.PartNumber.Should().Be("part");
-            // resource.FromDate.Should().Be("2007-02-20");
         }
     }
 }

@@ -12,8 +12,8 @@ import partsActions from '../../actions/partsActions';
 import partsSelectors from '../../selectors/partsSelectors';
 import buildPlanActions from '../../actions/buildPlanActions';
 import buildPlanDetailSelectors from '../../selectors/buildPlanDetailSelectors';
+import buildPlanSelectors from '../../selectors/buildPlanSelectors';
 
-// TODO just pull it out of here?
 const mapStateToProps = (state, { match }) => ({
     buildPlans: buildPlansSelectors.getItems(state),
     itemErrors: getItemErrors(state),
@@ -29,7 +29,9 @@ const mapStateToProps = (state, { match }) => ({
     selectedBuildPlan: match.params.id,
     selectedBuildPlanDetail: match.params.buildPlanDetail,
     buildPlanDetailLoading: buildPlanDetailSelectors.getLoading(state),
-    buildPlanDetail: buildPlanDetailSelectors.getItem(state)
+    buildPlanDetail: buildPlanDetailSelectors.getItem(state),
+    buildPlanSnackbarVisible: buildPlanSelectors.getSnackbarVisible(state),
+    buildPlanDetailSnackbarVisible: buildPlanDetailSelectors.getSnackbarVisible(state)
 });
 
 const initialise = () => dispatch => {
@@ -47,7 +49,9 @@ const mapDispatchToProps = {
     saveBuildPlanDetail: buildPlanDetailActions.add,
     fetchBuildPlans: buildPlansActions.fetch,
     fetchBuildPlanDetails: buildPlanDetailsActions.fetch,
-    fetchBuildPlanRules: buildPlanRulesActions.fetch
+    fetchBuildPlanRules: buildPlanRulesActions.fetch,
+    setBuildPlanSnackbarVisible: buildPlanActions.setSnackbarVisible,
+    setBuildPlanDetailSnackbarVisible: buildPlanDetailActions.setSnackbarVisible
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(BuildPlans));

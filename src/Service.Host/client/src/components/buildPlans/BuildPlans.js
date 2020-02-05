@@ -1,19 +1,21 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
     Title,
     Loading,
     InputField,
-    Dropdown,
+    // Dropdown,
     EditableTable,
     DatePicker,
     CreateButton,
-    SaveBackCancelButtons
+    SaveBackCancelButtons,
+    ErrorCard,
+    SnackbarMessage
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Page from '../../containers/Page';
-// TODO get from shared
-// import EditableTable from './EditableTable';
+import Dropdown from './Dropdown';
 
 export default function BuildPlans({
     itemErrors,
@@ -30,14 +32,17 @@ export default function BuildPlans({
     selectedBuildPlan,
     updateBuildPlan,
     history,
-    selectedBuildPlanDetail,
     updateBuildPlanDetail,
     saveBuildPlanDetail,
     buildPlanDetailLoading,
     buildPlanDetail,
     fetchBuildPlanDetails,
     fetchBuildPlans,
-    fetchBuildPlanRules
+    fetchBuildPlanRules,
+    buildPlanSnackbarVisible,
+    buildPlanDetailSnackbarVisible,
+    setBuildPlanSnackbarVisible,
+    setBuildPlanDetailSnackbarVisible
 }) {
     const [buildPlan, setBuildPlan] = useState({ buildPlanName: '', description: '' });
     const [buildPlanOptions, setBuildPlanOptions] = useState([{ id: '', displayText: '' }]);
@@ -52,17 +57,20 @@ export default function BuildPlans({
             fetchBuildPlans();
             fetchBuildPlanRules();
         }
-    }, [buildPlanDetail]);
+    }, [buildPlanDetail, fetchBuildPlanDetails, fetchBuildPlans, fetchBuildPlanRules]);
 
     useEffect(() => {
         if (buildPlans) {
-            setBuildPlanOptions(
-                buildPlans.map(bp => ({
+            const options = [{ id: '', displayText: '' }];
+
+            setBuildPlanOptions([
+                ...options,
+                ...buildPlans.map(bp => ({
                     ...bp,
                     id: bp.buildPlanName,
                     displayText: bp.buildPlanName
                 }))
-            );
+            ]);
         }
     }, [buildPlans]);
 
@@ -71,13 +79,6 @@ export default function BuildPlans({
             setBuildPlan(buildPlanOptions.find(bp => bp.buildPlanName === selectedBuildPlan));
         }
     }, [buildPlans, selectedBuildPlan, buildPlanOptions]);
-
-    useEffect(() => {
-        if (selectedBuildPlanDetail && buildPlanDetailOptions.length) {
-            const blop = buildPlanDetailOptions.find(bpd => bpd.id === selectedBuildPlanDetail);
-            console.log(blop);
-        }
-    }, [selectedBuildPlanDetail, buildPlanDetailOptions]);
 
     useEffect(() => {
         if (buildPlanDetails) {
@@ -133,12 +134,12 @@ export default function BuildPlans({
         history.goBack();
     };
 
-    const handleUpdateBuildPlanDetail = buildPlanDetail => {
-        updateBuildPlanDetail(null, buildPlanDetail);
+    const handleUpdateBuildPlanDetail = updatedBuildPlanDetail => {
+        updateBuildPlanDetail(null, updatedBuildPlanDetail);
     };
 
-    const handleSaveBuildPlanDetail = buildPlanDetail => {
-        saveBuildPlanDetail(buildPlanDetail);
+    const handleSaveBuildPlanDetail = updatedBuildPlanDetail => {
+        saveBuildPlanDetail(updatedBuildPlanDetail);
     };
 
     const handleFieldChange = (propertyName, newValue) => {
@@ -208,6 +209,14 @@ export default function BuildPlans({
                         <CreateButton createUrl="/production/maintenance/build-plans/create" />
                     </Fragment>
                 </Grid>
+
+                {itemErrors &&
+                    itemErrors?.map(itemError => (
+                        <Grid item xs={12}>
+                            <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
+                        </Grid>
+                    ))}
+
                 {buildPlansLoading ||
                 buildPlanDetailsLoading ||
                 buildPlanRulesLoading ||
@@ -217,6 +226,16 @@ export default function BuildPlans({
                     </Grid>
                 ) : (
                     <Fragment>
+                        <SnackbarMessage
+                            visible={buildPlanSnackbarVisible}
+                            onClose={() => setBuildPlanSnackbarVisible(false)}
+                            message="Save Successful"
+                        />
+                        <SnackbarMessage
+                            visible={buildPlanDetailSnackbarVisible}
+                            onClose={() => setBuildPlanDetailSnackbarVisible(false)}
+                            message="Save Successful"
+                        />
                         <Grid item xs={4}>
                             <Dropdown
                                 fullWidth
@@ -225,6 +244,8 @@ export default function BuildPlans({
                                 value={buildPlan.buildPlanName}
                                 onChange={handleFieldChange}
                                 propertyName="buildPlanName"
+                                allowNoValue={false}
+                                data-testid="buildPlanSelect"
                             />
                         </Grid>
                         <Grid item xs={4}>
@@ -299,3 +320,55 @@ export default function BuildPlans({
         </Page>
     );
 }
+
+BuildPlans.propTypes = {
+    itemErrors: PropTypes.arrayOf(
+        PropTypes.shape({
+            status: PropTypes.number,
+            statusText: PropTypes.string,
+            details: PropTypes.shape({}),
+            item: PropTypes.string
+        })
+    ),
+    buildPlans: PropTypes.arrayOf(PropTypes.shape({})),
+    buildPlansLoading: PropTypes.bool,
+    buildPlanDetails: PropTypes.arrayOf(PropTypes.shape({})),
+    buildPlanDetailsLoading: PropTypes.bool,
+    buildPlanRules: PropTypes.arrayOf(PropTypes.shape({})),
+    buildPlanRulesLoading: PropTypes.bool,
+    partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    partsSearchLoading: PropTypes.bool,
+    searchParts: PropTypes.func.isRequired,
+    clearPartsSearch: PropTypes.func.isRequired,
+    selectedBuildPlan: PropTypes.string,
+    updateBuildPlan: PropTypes.func.isRequired,
+    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    updateBuildPlanDetail: PropTypes.func.isRequired,
+    saveBuildPlanDetail: PropTypes.func.isRequired,
+    buildPlanDetailLoading: PropTypes.bool,
+    buildPlanDetail: PropTypes.shape({}),
+    fetchBuildPlanDetails: PropTypes.func.isRequired,
+    fetchBuildPlans: PropTypes.func.isRequired,
+    fetchBuildPlanRules: PropTypes.func.isRequired,
+    buildPlanSnackbarVisible: PropTypes.bool,
+    setBuildPlanSnackbarVisible: PropTypes.func.isRequired,
+    buildPlanDetailSnackbarVisible: PropTypes.bool,
+    setBuildPlanDetailSnackbarVisible: PropTypes.func.isRequired
+};
+
+BuildPlans.defaultProps = {
+    itemErrors: null,
+    buildPlans: [],
+    buildPlansLoading: false,
+    buildPlanDetails: [],
+    buildPlanDetailsLoading: false,
+    buildPlanRules: [],
+    buildPlanRulesLoading: false,
+    partsSearchResults: null,
+    partsSearchLoading: false,
+    selectedBuildPlan: null,
+    buildPlanDetailLoading: false,
+    buildPlanDetail: null,
+    buildPlanSnackbarVisible: false,
+    buildPlanDetailSnackbarVisible: false
+};
