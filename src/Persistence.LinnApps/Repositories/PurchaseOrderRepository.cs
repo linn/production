@@ -6,6 +6,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Services;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,9 @@
 
         public PurchaseOrder FindById(int key)
         {
-            return this.serviceDbContext.PurchaseOrders.Where(o => o.OrderNumber == key).Include(o => o.Details)
+            return this.serviceDbContext.PurchaseOrders.Where(o => o.OrderNumber == key)
+                .Include(o => o.Details).ThenInclude(o => o.Part)
+                .Include(o => o.OrderAddress)
                 .ToList().FirstOrDefault();
         }
 

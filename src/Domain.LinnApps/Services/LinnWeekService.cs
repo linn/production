@@ -32,13 +32,13 @@
 
         public DateTime LinnWeekStartDate(DateTime date)
         {
-            var days = -1 * LinnDayOfWeekInt(date);
-            return date.Date.AddDays(-1 * LinnDayOfWeekInt(date));
+            var days = -1 * this.LinnDayOfWeekInt(date);
+            return date.Date.AddDays(-1 * this.LinnDayOfWeekInt(date));
         }
 
         public DateTime LinnWeekEndDate(DateTime date)
         {
-            return date.Date.AddDays(6 - LinnDayOfWeekInt(date));
+            return date.Date.AddDays(6 - this.LinnDayOfWeekInt(date));
         }
 
         private int LinnDayOfWeekInt(DateTime date)
@@ -46,10 +46,10 @@
             // cos Microsoft DayOfWeek 0 is Monday and the weekend is 5 and 6
             if (date.DayOfWeek >= DayOfWeek.Saturday)
             {
-                return (date.DayOfWeek - DayOfWeek.Saturday);
+                return date.DayOfWeek - DayOfWeek.Saturday;
             }
 
-            return (date.DayOfWeek - DayOfWeek.Monday + 2);
+            return date.DayOfWeek - DayOfWeek.Monday + 2;
         }
     }
 }
