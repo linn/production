@@ -25,7 +25,7 @@
         {
             var results = new List<WorksOrder>();
 
-            for (int i = 0; i <= 150; i++)
+            for (int i = 0; i <= 9; i++)
             {
                 results.Add(new WorksOrder { OrderNumber = i, Part = new Part { PartNumber = "part" }, DateRaised = DateTime.UnixEpoch.AddDays(i) });
             }
@@ -33,7 +33,7 @@
             this.part = "part";
             this.WorksOrderRepository.FilterBy(Arg.Any<Expression<Func<WorksOrder, bool>>>())
                 .Returns(results.AsQueryable());
-            this.result = this.Sut.SearchByBoardNumber(this.part, 100, "dateRaised");
+            this.result = this.Sut.SearchByBoardNumber(this.part, 5, "dateRaised");
         }
 
         [Test]
@@ -52,7 +52,7 @@
         public void ShouldLimitResults()
         {
             var dataResult = ((SuccessResult<IEnumerable<WorksOrder>>)this.result).Data;
-            dataResult.Count().Should().Be(100);
+            dataResult.Count().Should().Be(5);
         }
 
         [Test]
