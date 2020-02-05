@@ -1,16 +1,12 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Resources
 {
-    public class PurchaseOrderDetail
+    public class PurchaseOrderDetailResource
     {
-        public PurchaseOrder PurchaseOrder { get; set; }
-
-        public int OrderNumber { get; set; }
-
         public int OrderLine { get; set; }
 
         public string PartNumber { get; set; }
 
-        public Part Part { get; set; }
+        public string PartDescription { get; set; }
 
         public int OrderQuantity { get; set; }
 

@@ -52,6 +52,7 @@
             builder.RegisterType<BuiltThisWeekReportService>().As<IBuiltThisWeekReportService>();
             builder.RegisterType<DeliveryPeformanceReportService>().As<IDeliveryPerformanceReportService>();
             builder.RegisterType<CountComponentsService>().As<ICountComponents>();
+            builder.RegisterType<PurchaseOrderDomainService>().As<IPurchaseOrderDomainService>();
             builder.RegisterType<ShortageSummaryReportService>().As<IShortageSummaryReportService>();
             builder.RegisterType<FailsReportService>().As<IFailsReportService>();
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
@@ -105,7 +106,7 @@
             builder.RegisterType<PartFailFaultCodeService>()
                 .As<IFacadeService<PartFailFaultCode, string, PartFailFaultCodeResource, PartFailFaultCodeResource>>();
             builder.RegisterType<PurchaseOrderService>()
-                .As<IFacadeService<PurchaseOrder, int, PurchaseOrderResource, PurchaseOrderResource>>();
+                .As<IPurchaseOrderService>();
             builder.RegisterType<OrdersReportsFacadeService>().As<IOrdersReportsFacadeService>();
             builder.RegisterType<PartsReportFacadeService>().As<IPartsReportFacadeService>();
             builder.RegisterType<BoardTestsService>()

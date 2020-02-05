@@ -132,14 +132,21 @@
 
         public DbSet<AteTestDetail> AteTestDetails { get; set; }
 
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Address> Addresses { get; set; } 
+
         public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
         public DbSet<Supplier> Suppliers { get; set; }
 
-        public DbSet<Address> Addresses { get; set; }
-
         public DbQuery<PtlStat> PtlStats { get; set; }
 
+        public DbQuery<SernosIssued> SernosIssuedView { get; set; }
+
+        public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
+
+        public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
         public DbQuery<WswShortage> WswShortages { get; set; }
 
         public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
@@ -212,7 +219,11 @@
             this.QueryWswShortages(builder);
             base.OnModelCreating(builder);
             this.BuildLabelTypes(builder);
+            this.BuildCountries(builder);
             this.BuildAddresses(builder);
+            this.QuerySernosBuiltView(builder);
+            this.QuerySernosIssuedView(builder);
+            this.QueryPurchaseOrdersReceivedView(builder);
             this.BuildSuppliers(builder);
         }
 
@@ -959,8 +970,13 @@
             builder.Entity<PurchaseOrder>().ToTable("PL_ORDERS");
             builder.Entity<PurchaseOrder>().HasKey(o => o.OrderNumber);
             builder.Entity<PurchaseOrder>().Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrder>().Property(o => o.DateOfOrder).HasColumnName("DATE_OF_ORDER");
+            builder.Entity<PurchaseOrder>().Property(o => o.OrderAddressId).HasColumnName("ORDER_ADDRESS_ID");
             builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
                 .HasForeignKey(d => d.OrderNumber);
+            builder.Entity<PurchaseOrder>().HasOne<Address>(p => p.OrderAddress).WithMany(a => a.PurchaseOrders).HasForeignKey(o => o.OrderAddressId);
+            builder.Entity<PurchaseOrder>().Property(o => o.DocumentType).HasColumnName("DOCUMENT_TYPE");
+            builder.Entity<PurchaseOrder>().Property(o => o.Remarks).HasColumnName("REMARKS");
         }
 
         private void BuildPurchaseOrderDetails(ModelBuilder builder)
@@ -970,6 +986,10 @@
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Entity<PurchaseOrderDetail>().HasOne(t => t.Part).WithMany().HasForeignKey(d => d.PartNumber);
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderQuantity).HasColumnName("ORDER_QTY");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OurUnitOfMeasure).HasColumnName("OUR_UNIT_OF_MEASURE");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.IssuedSerialNumbers).HasColumnName("ISSUED_SERIAL_NUMBERS");
         }
 
         private void QueryAccountingCompanies(ModelBuilder builder)
@@ -1176,6 +1196,42 @@
             q.Property(s => s.DateCompleted).HasColumnName("DATE_COMPLETED");
             q.Property(s => s.TriggerDate).HasColumnName("TRIGGER_DATE");
             q.Property(s => s.WorkingDays).HasColumnName("WORKING_DAYS");
+        }
+
+        private void BuildCountries(ModelBuilder builder)
+        {
+            builder.Entity<Country>().ToTable("COUNTRIES");
+            builder.Entity<Country>().HasKey(c => c.CountryCode);
+            builder.Entity<Country>().Property(c => c.CountryCode).HasColumnName("COUNTRY_CODE");
+            builder.Entity<Country>().Property(c => c.Name).HasColumnName("NAME");
+        }
+
+        private void QuerySernosBuiltView(ModelBuilder builder)
+        {
+            var q = builder.Query<SernosBuilt>();
+            q.ToView("SERNOS_BUILT_VIEW");
+            q.Property(e => e.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            q.Property(e => e.SernosGroup).HasColumnName("SERNOS_GROUP");
+            q.Property(e => e.SernosNumber).HasColumnName("SERNOS_NUMBER");
+        }
+
+        private void QuerySernosIssuedView(ModelBuilder builder)
+        {
+            var q = builder.Query<SernosIssued>();
+            q.ToView("SERNOS_ISSUED_VIEW");
+            q.Property(e => e.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+            q.Property(e => e.SernosGroup).HasColumnName("SERNOS_GROUP");
+            q.Property(e => e.SernosNumber).HasColumnName("SERNOS_NUMBER");
+            q.Property(e => e.DocumentType).HasColumnName("DOCUMENT_TYPE");
+        }
+
+        private void QueryPurchaseOrdersReceivedView(ModelBuilder builder)
+        {
+            var q = builder.Query<PurchaseOrdersReceived>();
+            q.ToView("PLOD_RECEIVED_VIEW");
+            q.Property(e => e.QuantityNetReceived).HasColumnName("QTY_NET_RECEIVED");
+            q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
+            q.Property(e => e.OrderLine).HasColumnName("ORDER_LINE");
         }
 
         private void QueryWswShortages(ModelBuilder builder)
