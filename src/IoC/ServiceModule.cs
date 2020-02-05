@@ -53,7 +53,7 @@
             builder.RegisterType<DeliveryPeformanceReportService>().As<IDeliveryPerformanceReportService>();
             builder.RegisterType<CountComponentsService>().As<ICountComponents>();
             builder.RegisterType<ShortageSummaryReportService>().As<IShortageSummaryReportService>();
-            builder.RegisterType<FailsReportService>().As<IFailsReportService>();
+            builder.RegisterType<ProductionMeasuresReportService>().As<IProductionMeasuresReportService>();
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
 
             // facade services

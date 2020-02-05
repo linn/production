@@ -97,6 +97,7 @@
             builder.RegisterType<PtlStatRepository>().As<IQueryRepository<PtlStat>>();
             builder.RegisterType<WswShortageRepository>().As<IQueryRepository<WswShortage>>();
             builder.RegisterType<FailedPartsRepository>().As<IQueryRepository<FailedParts>>();
+            builder.RegisterType<ProductionDaysRequiredRepository>().As<IQueryRepository<ProductionDaysRequired>>();
         }
     }
 }

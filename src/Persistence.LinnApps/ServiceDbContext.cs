@@ -38,6 +38,8 @@
 
         public DbQuery<FailedParts> FailedParts { get; set; }
 
+        public DbQuery<ProductionDaysRequired> ProductionDaysRequired { get; set; }
+
         public DbQuery<BomDetailExplodedPhantomPartView> BomDetailExplodedPhantomPartView { get; set; }
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
@@ -156,13 +158,12 @@
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
             this.QueryFailedParts(builder);
+            this.QueryDaysRequired(builder);
             this.QueryMCDLines(builder);
             this.BuildManufacturingResources(builder);
-
             this.BuildManufacturingSkills(builder);
             this.BuildManufacturingRoutes(builder);
             this.BuildManufacturingOperations(builder);
-
             this.BuildBoardFailTypes(builder);
             this.BuildTestMachines(builder);
             this.BuildBoardTests(builder);
@@ -493,6 +494,34 @@
             builder.Query<FailedParts>().Property(t => t.StoragePlace).HasColumnName("STORAGE_PLACE");
             builder.Query<FailedParts>().Property(t => t.PreferredSupplierId).HasColumnName("PREFERRED_SUPPLIER");
             builder.Query<FailedParts>().Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
+        }
+
+        private void QueryDaysRequired(ModelBuilder builder)
+        {
+            builder.Query<ProductionDaysRequired>().ToView("OSR_DAYS_REQUIRED_VIEW");
+            builder.Query<ProductionDaysRequired>().Property(t => t.Priority).HasColumnName("PRIORITY");
+            builder.Query<ProductionDaysRequired>().Property(t => t.JobRef).HasColumnName("JOBREF");
+            builder.Query<ProductionDaysRequired>().Property(t => t.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<ProductionDaysRequired>().Property(t => t.PartDescription).HasColumnName("DESCRIPTION");
+            builder.Query<ProductionDaysRequired>().Property(t => t.QtyBeingBuilt).HasColumnName("QTY_BEING_BUILT");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildQty).HasColumnName("BUILD");
+            builder.Query<ProductionDaysRequired>().Property(t => t.CanBuild).HasColumnName("CAN_BUILD");
+            builder.Query<ProductionDaysRequired>().Property(v => v.CanBuildExcludingSubAssemblies).HasColumnName("CAN_BUILD_EX_SUB_ASSEMBLIES");
+            builder.Query<ProductionDaysRequired>().Property(v => v.EffectiveKanbanSize).HasColumnName("EFFECTIVE_KANBAN_SIZE");
+            builder.Query<ProductionDaysRequired>().Property(v => v.QtyBeingBuiltDays).HasColumnName("QTY_BEING_BUILT_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(v => v.CanBuildDays).HasColumnName("CAN_BUILD_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildExcludingSubAssembliesDays).HasColumnName("EX_SUB_ASSEMBLIES_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.EarliestRequestedDate).HasColumnName("EARLIEST_REQUESTED_DATE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.SortOrder).HasColumnName("SORT_ORDER");
+            builder.Query<ProductionDaysRequired>().Property(t => t.MfgRouteCode).HasColumnName("MFG_ROUTE_CODE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.DaysToBuildKanban).HasColumnName("DAYS_TO_BUILD_KANBAN");
+            builder.Query<ProductionDaysRequired>().Property(t => t.DaysToSetUpKanban).HasColumnName("DAYS_TO_SETUP_KANBAN");
+            builder.Query<ProductionDaysRequired>().Property(t => t.RecommendedBuildQty).HasColumnName("BT");
+            builder.Query<ProductionDaysRequired>().Property(t => t.RecommendedBuildQtyDays).HasColumnName("BT_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.FixedBuild).HasColumnName("FIXED_BUILD");
+            builder.Query<ProductionDaysRequired>().Property(t => t.FixedBuildDays).HasColumnName("FIXED_BUILD_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildDays).HasColumnName("BUILD_DAYS");
         }
 
         private void QueryMCDLines(ModelBuilder builder)

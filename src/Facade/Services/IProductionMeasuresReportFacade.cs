@@ -14,5 +14,7 @@
         IResult<OsrInfo> GetOsrInfo();
 
         IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(string citCode);
+
+        IResult<IEnumerable<ResultsModel>> GetDaysRequiredReport(string citCode);
     }
 }

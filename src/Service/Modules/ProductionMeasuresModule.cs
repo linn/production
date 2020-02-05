@@ -19,6 +19,16 @@
             this.Get("/production/reports/measures/info", _ => this.GetProductionMeasuresInfo());
             this.Get("/production/reports/measures/export", _ => this.GetProductionMeasuresExport());
             this.Get("/production/reports/failed-parts", _ => this.GetFailedPartsReport());
+            this.Get("/production/reports/days-required", _ => this.GetDaysRequiredReport());
+        }
+
+        private object GetDaysRequiredReport()
+        {
+            var requestResource = this.Bind<CitCodeRequestResource>();
+            return this.Negotiate
+                .WithModel(this.productionMeasuresReportFacade.GetDaysRequiredReport(requestResource.CitCode))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetFailedPartsReport()
