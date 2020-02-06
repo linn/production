@@ -6,16 +6,21 @@ import productionTriggerLevelsSelectors from '../../selectors/productionTriggerL
 import citsActions from '../../actions/citsActions';
 import citsSelectors from '../../selectors/citsSelectors';
 import * as itemTypes from '../../itemTypes';
+import productionTriggerLevelsStateActions from '../../actions/productionTriggerLevelsStateActions';
+import productionTriggerLevelSelectors from '../../selectors/productionTriggerLevelSelectors';
 
 const mapStateToProps = state => ({
     items: productionTriggerLevelsSelectors.getItems(state),
     loading: productionTriggerLevelsSelectors.getLoading(state),
     itemError: getItemError(state, itemTypes.productionTriggerLevels.item),
-    cits: citsSelectors.getItems(state)
+    cits: citsSelectors.getItems(state),
+    applicationState: productionTriggerLevelsSelectors.getApplicationState(state),
+    editStatus: productionTriggerLevelSelectors.getEditStatus(state)
 });
 
 const initialise = () => dispatch => {
     dispatch(citsActions.fetch());
+    dispatch(productionTriggerLevelsStateActions.fetchState());
 };
 const mapDispatchToProps = {
     fetchItems: productionTriggerLevelsActions.fetchByQueryString,

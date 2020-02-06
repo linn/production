@@ -89,24 +89,14 @@
                 return new NotFoundResult<WorksOrder>();
             }
 
-            if (resource.ReasonCancelled != null)
+            try
             {
-                try
-                {
-                    worksOrder.CancelWorksOrder(resource.CancelledBy, resource.ReasonCancelled);
-                }
-                catch (DomainException exception)
-                {
-                    return new BadRequestResult<WorksOrder>(exception.Message);
-                }
-
-                this.transactionManager.Commit();
-
-                return new SuccessResult<WorksOrder>(worksOrder);
+                worksOrder.UpdateWorksOrder(resource.Quantity, resource.BatchNotes,resource.CancelledBy, resource.ReasonCancelled);
             }
-
-            this.UpdateFromResource(worksOrder, resource);
-
+            catch (DomainException exception)
+            {
+                return new BadRequestResult<WorksOrder>(exception.Message);
+            }
             this.transactionManager.Commit();
 
             return new SuccessResult<WorksOrder>(worksOrder);
@@ -114,7 +104,7 @@
 
         public IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(string boardNumber)
         {
-            var result = this.worksOrderRepository.FilterBy(w => w.Part.IsBoardPart() && w.Part.PartNumber.Contains(boardNumber.ToUpper()));
+            var result = this.worksOrderRepository.FilterBy(w => w.Part.IsBoardPart() && w.Part.PartNumber.Equals(boardNumber.ToUpper()));
 
             if (result.Count() > 1000)
             {
@@ -148,6 +138,8 @@
                            OrderNumber = resource.OrderNumber,
                            CancelledBy = resource.CancelledBy,
                            ReasonCancelled = resource.ReasonCancelled,
+                           BatchNotes = resource.BatchNotes,
+                           SaveBatchNotes = "Y",
                            RaisedBy = resource.RaisedBy,
                            RaisedByDepartment = resource.RaisedByDepartment,
                            DateCancelled = string.IsNullOrEmpty(resource.DateCancelled) ? (DateTime?)null : DateTime.Parse(resource.DateCancelled),
@@ -166,7 +158,11 @@
 
         protected override void UpdateFromResource(WorksOrder worksOrder, WorksOrderResource updateResource)
         {
-            worksOrder.UpdateWorksOrder(updateResource.Quantity);
+            worksOrder.UpdateWorksOrder(
+                updateResource.Quantity, 
+                updateResource.BatchNotes, 
+                updateResource.CancelledBy, 
+                updateResource.ReasonCancelled);
         }
 
         protected override Expression<Func<WorksOrder, bool>> SearchExpression(string searchTerm)

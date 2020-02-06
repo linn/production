@@ -12,6 +12,26 @@ export const buildsDetailReport = new ItemType(
     '/production/reports/builds-detail'
 );
 
+export const btwReport = new ItemType('btwReport', 'BTW_REPORT', '/production/reports/btw');
+
+export const delPerfReport = new ItemType(
+    'delPerfReport',
+    'DEL_PERF_REPORT',
+    '/production/reports/delperf'
+);
+
+export const delPerfDetails = new ItemType(
+    'delPerfDetails',
+    'DEL_PERF_DETAILS',
+    '/production/reports/delperf/details'
+);
+
+export const shortageSummary = new ItemType(
+    'shortageSummary',
+    'SHORTAGE_SUMMARY',
+    '/production/reports/shortages'
+);
+
 export const outstandingWorksOrdersReport = new ItemType(
     'outstandingWorksOrdersReport',
     'OUTSTANDING_WORKS_ORDERS_REPORT',
@@ -124,4 +144,22 @@ export const buildPlansReport = new ItemType(
     'buildPlansReport',
     'BUILD_PLANS_REPORT',
     '/production/reports/build-plans/report'
+);
+
+export const ateStatusReport = new ItemType(
+    'ateStatusReport',
+    'ATE_STATUS_REPORT',
+    '/production/reports/ate/status/report'
+);
+
+export const ateDetailsReport = new ItemType(
+    'ateDetailsReport',
+    'ATE_DETAILS_REPORT',
+    '/production/reports/ate/details/report'
+);
+
+export const failedPartsReport = new ItemType(
+    'failedPartsReport',
+    'FAILED_PARTS_REPORT',
+    '/production/reports/failed-parts'
 );

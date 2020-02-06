@@ -33,7 +33,9 @@
                            StartedByShift = worksOrder.StartedByShift,
                            DocType = worksOrder.DocType,
                            WorkStationCode = worksOrder.WorkStationCode,
-                           Links = this.BuildLinks(worksOrder).ToArray()
+                           BatchNotes = worksOrder.BatchNotes,
+                           Links = this.BuildLinks(worksOrder).ToArray(),
+                           QtyTested = worksOrder.AteTests?.Sum(t => t.NumberTested) ?? 0
                        };
         }
 

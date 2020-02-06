@@ -250,6 +250,24 @@ export const labelReprint = new ItemType(
     '/production/maintenance/labels/reprint-reasons'
 );
 
+export const labelPrint = new ItemType(
+    'labelPrint',
+    'LABEL_PRINT',
+    '/production/maintenance/labels/print'
+);
+
+export const labelPrinters = new ItemType(
+    'labelPrinters',
+    'LABEL_PRINTERS',
+    '/production/maintenance/labels/printers'
+);
+
+export const labelPrintTypes = new ItemType(
+    'labelPrintTypes',
+    'LABEL_PRINT_TYPES',
+    '/production/maintenance/labels/label-types'
+);
+
 export const workStations = new ItemType(
     'workStations',
     'WORK_STATIONS',
@@ -284,4 +302,28 @@ export const buildPlanRules = new ItemType(
     'buildPlanRules',
     'BUILD_PLAN_RULES',
     '/production/maintenance/build-plan-rules'
+);
+
+export const ateTest = new ItemType('ateTest', 'ATE_TEST', '/production/quality/ate-tests');
+
+export const ateTests = new ItemType('ateTests', 'ATE_TESTS', '/production/quality/ate-tests');
+
+export const componentCounts = new ItemType(
+    'componentCounts',
+    'COMPONENT_COUNTS',
+    '/production/quality/ate-tests/count-components/'
+);
+
+export const addresses = new ItemType(
+    'addresses',
+    'ADDRESSES',
+    '/production/maintenance/labels/addresses'
+);
+
+export const address = new ItemType('address', 'ADDRESS', '/production/maintenance/labels/address');
+
+export const suppliers = new ItemType(
+    'suppliers',
+    'SUPPLIERS',
+    '/production/maintenance/labels/suppliers'
 );

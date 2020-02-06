@@ -8,11 +8,11 @@ import configureStore from './configureStore';
 import Root from './components/Root';
 import userManager from './helpers/userManager';
 import 'typeface-roboto';
-import '../assets/printStyles.css';
 
 const initialState = {};
 const store = configureStore(initialState);
 const { user } = store.getState().oidc;
+const date = new Date().toLocaleString();
 
 const render = Component => {
     ReactDOM.render(
@@ -21,6 +21,7 @@ const render = Component => {
                 <AppContainer>
                     <div className="pageContainer">
                         <Component store={store} />
+                        <span className="date-for-printing">{date}</span>
                     </div>
                 </AppContainer>
             </SnackbarProvider>
@@ -43,7 +44,7 @@ if (
     if (module.hot) {
         //module.hot.accept('./reducers', () => store.replaceReducer(reducer));
         module.hot.accept('./components/Root', () => {
-            const NextRoot = require('./components/Root').default;
+            const NextRoot = Root.default;
             render(NextRoot);
         });
     }

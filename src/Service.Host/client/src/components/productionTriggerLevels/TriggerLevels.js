@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import {
     Loading,
     CreateButton,
@@ -9,11 +10,22 @@ import {
     PaginatedTable,
     useSearch,
     SearchInputField,
-    Dropdown
+    Dropdown,
+    utilities,
+    SnackbarMessage
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
-const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetchItems, cits }) => {
+const ViewProductionTriggerLevels = ({
+    loading,
+    itemError,
+    history,
+    items,
+    fetchItems,
+    cits,
+    applicationState,
+    editStatus
+}) => {
     const [pageOptions, setPageOptions] = useState({
         orderBy: '',
         orderAscending: false,
@@ -21,6 +33,8 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
         rowsPerPage: 10
     });
     const [rowsToDisplay, setRowsToDisplay] = useState([]);
+    const [allowedToCreate, setAllowedToCreate] = useState(false);
+    const [snackbarVisible, setSnackbarVisible] = useState(editStatus === 'deleted');
 
     useEffect(() => {
         const compare = (field, orderAscending) => (a, b) => {
@@ -43,10 +57,11 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                   partNumber: el.partNumber,
                   description: el.description,
                   citCode: `${el.citCode} - ${cits.find(x => x.code === el.citCode)?.name} `,
+                  routeCode: el.routeCode,
                   links: el.links,
                   id: el.partNumber,
                   overrideTriggerLevel: el.overrideTriggerLevel,
-                  VariableTriggerLevel: el.variableTriggerLevel
+                  variableTriggerLevel: el.variableTriggerLevel
               }))
             : [];
 
@@ -62,13 +77,16 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                     )
             );
         }
+
+        setAllowedToCreate(utilities.getHref(applicationState, 'edit') !== null);
     }, [
         pageOptions.currentPage,
         pageOptions.rowsPerPage,
         pageOptions.orderBy,
         pageOptions.orderAscending,
         items,
-        cits
+        cits,
+        applicationState
     ]);
 
     const [searchTerm, setSearchTerm] = useState(null);
@@ -114,8 +132,14 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
         partNumber: 'Part Number',
         description: 'Description',
         citCode: 'Cit',
+        routeCode: 'Route Code',
         overrideTriggerLevel: 'Override Trigger Level',
         VariableTriggerLevel: 'Auto Trigger Level'
+    };
+
+    const handleBPClick = () => {
+        //TODO - when Build plans is implemented, uncomment the link below
+        // history.push('/production/maintenance/build-plans');
     };
 
     return (
@@ -123,9 +147,18 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
             <Title text="Trigger Levels" />
             {itemError && <ErrorCard errorMessage={itemError.statusText} />}
 
-            <Fragment>
-                <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
-            </Fragment>
+            {allowedToCreate && (
+                <Fragment>
+                    <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
+                </Fragment>
+            )}
+
+            <SnackbarMessage
+                visible={snackbarVisible}
+                onClose={() => setSnackbarVisible(false)}
+                message="Deletion Successful"
+            />
+
             <Grid item xs={12} container>
                 <Grid item xs={4}>
                     <SearchInputField
@@ -197,6 +230,18 @@ const ViewProductionTriggerLevels = ({ loading, itemError, history, items, fetch
                     )}
                 </Fragment>
             )}
+            <Grid container>
+                <Grid item xs={12}>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={handleBPClick}
+                        style={{ float: 'right', marginTop: '20px' }}
+                    >
+                        Build Plans
+                    </Button>
+                </Grid>
+            </Grid>
         </Page>
     );
 };
@@ -212,12 +257,16 @@ ViewProductionTriggerLevels.propTypes = {
             name: PropTypes.string,
             code: PropTypes.string
         })
-    ).isRequired
+    ).isRequired,
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) }),
+    editStatus: PropTypes.string
 };
 
 ViewProductionTriggerLevels.defaultProps = {
     itemError: null,
-    items: []
+    items: [],
+    applicationState: null,
+    editStatus: ''
 };
 
 export default ViewProductionTriggerLevels;

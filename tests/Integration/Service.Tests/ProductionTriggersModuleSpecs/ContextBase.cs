@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Security.Claims;
     using Linn.Common.Facade;
+    using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.ResourceBuilders;
@@ -17,10 +19,13 @@
     {
         protected IProductionTriggersFacadeService ProductionTriggersFacadeService { get; private set; }
 
+        private IRepository<AteTest, int> AteTestRepository { get; set; }
+
         [SetUp]
         public void EstablishContext()
         {
             this.ProductionTriggersFacadeService = Substitute.For<IProductionTriggersFacadeService>();
+            this.AteTestRepository = Substitute.For<IRepository<AteTest, int>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>

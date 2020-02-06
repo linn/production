@@ -8,7 +8,6 @@
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Layouts;
     using Linn.Production.Domain.LinnApps.Services;
-    using Linn.Production.Domain.LinnApps.ViewModels;
 
     public class BuildPlansReportService : IBuildPlansReportService
     {

@@ -8,6 +8,7 @@
 
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
 
     using NSubstitute;
 
@@ -28,14 +29,12 @@
 
             this.toDate = new DateTime(2019, 10, 31).ToString("o");
 
-            this.PartFailLogRepository.FilterBy(Arg.Any<Expression<Func<PartFailLog, bool>>>())
+            this.PartFailLogRepository.FilterBy(Arg.Any<Expression<Func<PartFail, bool>>>())
                 .Returns(this.PartFailLogs.AsQueryable());
 
             this.LinnWeekPack.Wwsyy(DateTime.Parse(this.fromDate)).Returns("12/3");
 
             this.LinnWeekPack.Wwsyy(DateTime.Parse(this.toDate)).Returns("32/1");
-
-            this.PartRepository.FilterBy(Arg.Any<Expression<Func<Part, bool>>>()).Returns(this.Parts.AsQueryable());
 
             this.result = this.Sut.PartFailDetailsReport(null, this.fromDate, this.toDate, "All", "All", "All", "All");
         }
@@ -43,13 +42,7 @@
         [Test]
         public void ShouldCallPartFailLogRepository()
         {
-            this.PartFailLogRepository.Received().FilterBy(Arg.Any<Expression<Func<PartFailLog, bool>>>());
-        }
-
-        [Test]
-        public void ShouldCallPartRepository()
-        {
-            this.PartRepository.Received().FilterBy(Arg.Any<Expression<Func<Part, bool>>>());
+            this.PartFailLogRepository.Received().FilterBy(Arg.Any<Expression<Func<PartFail, bool>>>());
         }
 
         [Test]

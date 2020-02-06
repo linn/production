@@ -33,7 +33,7 @@
 
         public void Remove(ProductionTriggerLevel entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.ProductionTriggerLevels.Remove(entity);
         }
 
         public ProductionTriggerLevel FindBy(Expression<Func<ProductionTriggerLevel, bool>> expression)

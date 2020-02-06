@@ -10,5 +10,9 @@
         LinnWeek GetWeek(DateTime date, IEnumerable<LinnWeek> weeks);
 
         LinnWeek GetWeek(DateTime date);
+
+        DateTime LinnWeekStartDate(DateTime date);
+
+        DateTime LinnWeekEndDate(DateTime date);
     }
 }

@@ -14,9 +14,11 @@ import employeesSelectors from '../../selectors/employeesSelectors';
 import workStationActions from '../../actions/workStationActions';
 import workStationSelectors from '../../selectors/workStationSelectors';
 import * as itemTypes from '../../itemTypes';
+import productionTriggerLevelStateActions from '../../actions/productionTriggerLevelStateActions';
+import triggersActions from '../../actions/productionTriggerLevelsSearchActions';
+import triggersSelectors from '../../selectors/productionTriggerLevelsSearchSelectors';
 
 const mapStateToProps = state => ({
-    item: {},
     editStatus: productionTriggerLevelSelectors.getEditStatus(state),
     loading: productionTriggerLevelSelectors.getLoading(state),
     snackbarVisible: productionTriggerLevelSelectors.getSnackbarVisible(state),
@@ -28,7 +30,13 @@ const mapStateToProps = state => ({
     partsSearchResults: partsSelectors
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
-    partsSearchLoading: partsSelectors.getSearchLoading(state)
+    partsSearchLoading: partsSelectors.getSearchLoading(state),
+    applicationState: productionTriggerLevelSelectors.getApplicationState(state),
+    appStateLoading: productionTriggerLevelSelectors.getApplicationStateLoading(state),
+    triggersSearchLoading: triggersSelectors.getSearchLoading(state),
+    triggerSearchResults: triggersSelectors
+        .getSearchItems(state)
+        .map(s => ({ ...s, id: s.partNumber, name: s.partNumber }))
 });
 
 const initialise = () => dispatch => {
@@ -36,6 +44,8 @@ const initialise = () => dispatch => {
     dispatch(manufacturingRoutesActions.fetch(''));
     dispatch(citsActions.fetch());
     dispatch(employeesActions.fetch());
+    dispatch(productionTriggerLevelStateActions.fetchState());
+    dispatch(workStationActions.fetchByQueryString(''));
 };
 
 const mapDispatchToProps = {
@@ -43,9 +53,10 @@ const mapDispatchToProps = {
     addItem: productionTriggerLevelActions.add,
     setEditStatus: productionTriggerLevelActions.setEditStatus,
     setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
-    getWorkStationsForCit: workStationActions.fetchByQueryString,
     searchParts: partsActions.search,
-    clearPartsSearch: partsActions.clearSearch
+    clearPartsSearch: partsActions.clearSearch,
+    searchExistingTriggers: triggersActions.search,
+    clearTriggersSearch: triggersActions.clearSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TriggerLevel));

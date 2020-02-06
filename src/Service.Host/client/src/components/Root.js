@@ -1,8 +1,8 @@
 ﻿﻿import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Redirect, Switch } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 import { OidcProvider } from 'redux-oidc';
-import { Router } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Navigation } from '@linn-it/linn-form-components-library';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -64,7 +64,6 @@ import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFault
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
 import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
 import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
-import LabelPrint from '../containers/labels/LabelPrint';
 import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersReportOptions';
 import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
 import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
@@ -95,14 +94,27 @@ import ProductionTriggerLevel from '../containers/productionTriggerLevels/Produc
 import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
 import BuildPlans from '../containers/buildPlans/BuildPlans';
 import CreateBuildPlan from '../containers/buildPlans/CreateBuildPlan';
+import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
+import AteStatusReport from '../containers/reports/AteStatusReport';
+import AteDetailsReport from '../containers/reports/AteDetailsReport';
+import AteTest from '../containers/ate/AteTest';
+import AteTests from '../containers/ate/AteTests';
+import CreateAteTest from '../containers/ate/CreateAteTest';
+import BtwReport from '../containers/reports/BtwReport';
+import DelPerfReport from '../containers/reports/DelPerfReport';
+import DelPerfDetails from '../containers/reports/DelPerfDetails';
+import ShortageSummary from '../containers/reports/ShortageSummary';
+import LabelPrinter from '../containers/labelPrinting/LabelPrint';
+import FailedPartsReport from '../containers/reports/FailedPartsReport';
+import LabelPrint from '../containers/labels/LabelPrint';
 
 const Root = ({ store }) => (
     <div>
-        <div style={{ paddingTop: '40px' }}>
+        <div className="padding-top-when-not-printing">
             <Provider store={store}>
                 <OidcProvider store={store} userManager={userManager}>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                        <Router history={history}>
+                        <ConnectedRouter history={history}>
                             <div>
                                 <Navigation />
                                 <CssBaseline />
@@ -372,6 +384,26 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/ate/status/report"
+                                        component={AteStatusReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate/status"
+                                        component={AteStatusReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate/details/report"
+                                        component={AteDetailsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate"
+                                        render={() => <Redirect to="/production/maintenance" />}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/assembly-fails-details/report"
                                         component={AssemblyFailsDetails}
                                     />
@@ -571,10 +603,55 @@ const Root = ({ store }) => (
                                         component={BuildPlans}
                                     />
 
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate-tests/create"
+                                        component={CreateAteTest}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate-tests/:id"
+                                        component={AteTest}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/quality/ate-tests"
+                                        component={AteTests}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/btw"
+                                        component={BtwReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/delperf"
+                                        component={DelPerfReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/delperf/details"
+                                        component={DelPerfDetails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/shortages"
+                                        component={ShortageSummary}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/print"
+                                        component={LabelPrinter}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/failed-parts"
+                                        component={FailedPartsReport}
+                                    />
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>
-                        </Router>
+                        </ConnectedRouter>
                     </MuiPickersUtilsProvider>
                 </OidcProvider>
             </Provider>

@@ -24,7 +24,8 @@ const mapStateToProps = (state, { match }) => ({
     cits: citsSelectors.getItems(state),
     employees: employeesSelectors.getItems(state),
     itemErrors: getItemError(state, itemTypes.productionTriggerLevel.item),
-    workStations: workStationSelectors.getItems(state)
+    workStations: workStationSelectors.getItems(state),
+    triggerSearchResults: []
 });
 
 const initialise = ({ itemId }) => dispatch => {
@@ -32,6 +33,7 @@ const initialise = ({ itemId }) => dispatch => {
     dispatch(manufacturingRoutesActions.fetch(''));
     dispatch(citsActions.fetch());
     dispatch(employeesActions.fetch());
+    dispatch(workStationActions.fetchByQueryString(''));
 };
 
 const mapDispatchToProps = {
@@ -39,7 +41,7 @@ const mapDispatchToProps = {
     updateItem: productionTriggerLevelActions.update,
     setEditStatus: productionTriggerLevelActions.setEditStatus,
     setSnackbarVisible: productionTriggerLevelActions.setSnackbarVisible,
-    getWorkStationsForCit: workStationActions.fetchByQueryString
+    deleteTriggerLevel: productionTriggerLevelActions.delete
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TriggerLevel));

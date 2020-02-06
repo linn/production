@@ -116,6 +116,24 @@
             builder.RegisterType<BuildPlanDetailResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanDetail>>>();
             builder.RegisterType<BuildPlanDetailsResourceBuilder>()
                 .As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>>();
+            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
+            builder.RegisterType<AteTestsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTest>>>();
+            builder.RegisterType<AteTestDetailResourceBuilder>().As<IResourceBuilder<AteTestDetail>>();
+            builder.RegisterType<AteTestDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTestDetail>>>();
+            builder.RegisterType<LabelPrintResourceBuilder>().As<IResourceBuilder<LabelPrint>>();
+            builder.RegisterType<IdAndNameResourceBuilder>().As<IResourceBuilder<IdAndName>>();
+            builder.RegisterType<IdAndNameListResourceBuilder>().As<IResourceBuilder<IEnumerable<IdAndName>>>();
+            builder.RegisterType<ComponentCountResourceBuilder>().As<IResourceBuilder<ComponentCount>>();
+            builder.RegisterType<PurchaseOrderDetailResourceBuilder>().As<IResourceBuilder<PurchaseOrderDetail>>();
+            builder.RegisterType<PurchaseOrderDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PurchaseOrderDetail>>>();
+            builder.RegisterType<PurchaseOrderWithSernosInfoResourceBuilder>()
+                .As<IResourceBuilder<PurchaseOrderWithSernosInfo>>();
+            builder.RegisterType<ShortageSummaryResourceBuilder>().As<IResourceBuilder<ShortageSummary>>();
+
+            builder.RegisterType<AddressResourceBuilder>().As<IResourceBuilder<Address>>();
+            builder.RegisterType<AddressesResourceBuilder>().As<IResourceBuilder<IEnumerable<Address>>>();
+            builder.RegisterType<SupplierResourceBuilder>().As<IResourceBuilder<Supplier>>();
+            builder.RegisterType<SuppliersResourceBuilder>().As<IResourceBuilder<IEnumerable<Supplier>>>();
         }
     }
 }

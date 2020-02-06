@@ -91,7 +91,11 @@ export const assemblyFailsWaitingListReportActionTypes = makeReportActionTypes(
     reportTypes.assemblyFailsWaitingList.actionType
 );
 
-export const productionTriggerLevel = makeActionTypes(itemTypes.productionTriggerLevel.actionType);
+export const productionTriggerLevel = makeActionTypes(
+    itemTypes.productionTriggerLevel.actionType,
+    true,
+    true
+);
 
 export const productionTriggerLevels = makeActionTypes(
     itemTypes.productionTriggerLevels.actionType,
@@ -227,6 +231,18 @@ export const buildPlansReportActionTypes = makeReportActionTypes(
     reportTypes.buildPlansReport.actionType
 );
 
+export const btwReportActionTypes = makeReportActionTypes(reportTypes.btwReport.actionType);
+
+export const delPerfReportActionTypes = makeReportActionTypes(reportTypes.delPerfReport.actionType);
+
+export const shortageSummaryActionTypes = makeReportActionTypes(
+    reportTypes.shortageSummary.actionType
+);
+
+export const delPerfDetailsActionTypes = makeReportActionTypes(
+    reportTypes.delPerfDetails.actionType
+);
+
 export const buildPlansActionTypes = makeActionTypes(itemTypes.buildPlans.actionType);
 
 export const SELECT_DEFAULT_WORKS_ORDER_PRINTER = 'SELECT_DEFAULT_WORKS_ORDER_PRINTER';
@@ -239,6 +255,12 @@ export const labelTypesActionTypes = makeActionTypes(itemTypes.labelTypes.action
 
 export const labelReprintActionTypes = makeActionTypes(itemTypes.labelReprint.actionType);
 
+export const labelPrintActionTypes = makeActionTypes(itemTypes.labelPrint.actionType);
+
+export const labelPrinterActionTypes = makeActionTypes(itemTypes.labelPrinters.actionType);
+
+export const labelPrintTypeActionTypes = makeActionTypes(itemTypes.labelPrintTypes.actionType);
+
 export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);
 
 export const buildPlanActionTypes = makeActionTypes(itemTypes.buildPlan.actionType);
@@ -250,3 +272,27 @@ export const buildPlanDetailsActionTypes = makeActionTypes(itemTypes.buildPlanDe
 export const buildPlanRuleActionTypes = makeActionTypes(itemTypes.buildPlanRule.actionType);
 
 export const buildPlanRulesActionTypes = makeActionTypes(itemTypes.buildPlanRules.actionType);
+
+export const ateStatusReportActionTypes = makeReportActionTypes(
+    reportTypes.ateStatusReport.actionType
+);
+
+export const ateDetailsReportActionTypes = makeReportActionTypes(
+    reportTypes.ateDetailsReport.actionType
+);
+
+export const ateTestActionTypes = makeActionTypes(itemTypes.ateTest.actionType);
+
+export const ateTestsActionTypes = makeActionTypes(itemTypes.ateTests.actionType);
+
+export const componentCountsActionTypes = makeActionTypes(itemTypes.componentCounts.actionType);
+
+export const addressesActionTypes = makeActionTypes(itemTypes.addresses.actionType, false);
+
+export const addressActionTypes = makeActionTypes(itemTypes.address.actionType);
+
+export const suppliersActionTypes = makeActionTypes(itemTypes.suppliers.actionType, false);
+
+export const failedPartsReportActionTypes = makeReportActionTypes(
+    reportTypes.failedPartsReport.actionType
+);

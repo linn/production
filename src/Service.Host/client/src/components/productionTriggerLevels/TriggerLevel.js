@@ -1,6 +1,13 @@
 ﻿import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 import {
     SaveBackCancelButtons,
     InputField,
@@ -10,9 +17,12 @@ import {
     SnackbarMessage,
     utilities,
     Dropdown,
-    Typeahead
+    Typeahead,
+    CreateButton
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
+
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 function TriggerLevel({
     editStatus,
@@ -29,34 +39,52 @@ function TriggerLevel({
     cits,
     setSnackbarVisible,
     employees,
-    getWorkStationsForCit,
     workStations,
     partsSearchResults,
     searchParts,
     partsSearchLoading,
-    clearPartsSearch
+    clearPartsSearch,
+    applicationState,
+    appStateLoading,
+    deleteTriggerLevel,
+    searchExistingTriggers,
+    triggersSearchLoading,
+    triggerSearchResults,
+    clearTriggersSearch
 }) {
     const [triggerLevel, setTriggerLevel] = useState({});
     const [prevTriggerLevel, setPrevTriggerLevel] = useState({});
     const [allowedToEdit, setAllowedToEdit] = useState(false);
+    const [allowedToCreate, setAllowedToCreate] = useState(false);
+    const [allowedToDelete, setAllowedToDelete] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [copyFromPartNo, setcopyFromPartNo] = useState('');
 
     const creating = useCallback(() => editStatus === 'create', [editStatus]);
     const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
+    useEffect(() => {
+        if (creating()) {
+            setAllowedToEdit(utilities.getHref(applicationState, 'edit') !== null);
+        } else {
+            setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
+            setAllowedToCreate(utilities.getHref(item, 'edit') !== null);
+            setAllowedToDelete(utilities.getHref(item, 'edit') !== null);
+        }
+    }, [applicationState, item, creating]);
 
     useEffect(() => {
         if (item !== prevTriggerLevel) {
             setTriggerLevel(item);
             setPrevTriggerLevel(item);
-            if (item?.citCode) {
-                getWorkStationsForCit('searchTerm', item.citCode);
-            }
-
-            setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
         }
+    }, [item, prevTriggerLevel]);
 
-        setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
-    }, [item, prevTriggerLevel, editStatus, creating, getWorkStationsForCit]);
+    useEffect(() => {
+        if (editStatus === 'deleted') {
+            history.push('/production/maintenance/production-trigger-levels/');
+        }
+    }, [editStatus, history]);
 
     const partNumberInvalid = () => !triggerLevel.partNumber;
     const descriptionInvalid = () => !triggerLevel.description;
@@ -84,9 +112,10 @@ function TriggerLevel({
     };
 
     const handleCancelClick = () => {
-        setEditStatus('view');
+        if (!creating()) {
+            setEditStatus('view');
+        }
         setTriggerLevel(item);
-        getWorkStationsForCit('searchTerm', item.citCode);
     };
 
     const handleBackClick = () => {
@@ -100,9 +129,44 @@ function TriggerLevel({
         }
     };
 
-    const handleCitChange = (propertyName, newValue) => {
-        getWorkStationsForCit('searchTerm', newValue);
-        handleResourceFieldChange(propertyName, newValue);
+    const handlePartNoChange = newValue => {
+        setTriggerLevel({
+            ...triggerLevel,
+            partNumber: newValue.partNumber,
+            description: newValue.description
+        });
+    };
+
+    const handleCopyFromTriggerLevel = newValue => {
+        setcopyFromPartNo(newValue.partNumber);
+        setTriggerLevel({
+            ...triggerLevel,
+            citCode: newValue.citCode,
+            variableTriggerLevel: newValue.variableTriggerLevel,
+            overrideTriggerLevel: newValue.overrideTriggerLevel,
+            kanbanSize: newValue.kanbanSize,
+            maximumKanbans: newValue.maximumKanbans,
+            routeCode: newValue.variableTriggerLevel,
+            work: newValue.variableTriggerLevel,
+            workStationName: newValue.workStationName,
+            engineerId: newValue.engineerId,
+            temporary: newValue.temporary,
+            story: newValue.story
+        });
+    };
+
+    const handleOpenDialogRequest = () => {
+        setDialogOpen(true);
+    };
+
+    const handleCloseDialogRequest = () => {
+        setDialogOpen(false);
+    };
+
+    const handleDelete = () => {
+        if (allowedToDelete) {
+            deleteTriggerLevel(triggerLevel.partNumber);
+        }
     };
 
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
@@ -114,18 +178,24 @@ function TriggerLevel({
                     <Page>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
+                                {allowedToCreate && (
+                                    <Fragment>
+                                        <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
+                                    </Fragment>
+                                )}
                                 {creating() ? (
                                     <Title text="Create Production Trigger Level" />
                                 ) : (
                                     <Title text="Production Trigger Level" />
                                 )}
                             </Grid>
+
                             {itemErrors && (
                                 <Grid item xs={12}>
                                     <ErrorCard errorMessage={itemErrors.statusText} />
                                 </Grid>
                             )}
-                            {loading || !triggerLevel ? (
+                            {loading || appStateLoading || !triggerLevel ? (
                                 <Grid item xs={12}>
                                     <Loading />
                                 </Grid>
@@ -136,6 +206,11 @@ function TriggerLevel({
                                         onClose={() => setSnackbarVisible(false)}
                                         message="Save Successful"
                                     />
+                                    {!allowedToEdit && !creating() && (
+                                        <Grid item xs={12}>
+                                            <ErrorCard errorMessage="You are not authorised to update trigger levels" />
+                                        </Grid>
+                                    )}
                                     <Grid item xs={6}>
                                         {!creating() && (
                                             <InputField
@@ -150,13 +225,10 @@ function TriggerLevel({
                                                 propertyName="partNumber"
                                             />
                                         )}
-                                        {creating() && (
+                                        {creating() && allowedToEdit && (
                                             <Typeahead
                                                 onSelect={newValue => {
-                                                    handleResourceFieldChange(
-                                                        'partNumber',
-                                                        newValue.partNumber
-                                                    );
+                                                    handlePartNoChange(newValue);
                                                 }}
                                                 propertyName="partNumber"
                                                 label="Part Number"
@@ -171,25 +243,44 @@ function TriggerLevel({
                                             />
                                         )}
                                     </Grid>
+                                    <Grid item xs={6}>
+                                        {creating() && allowedToEdit && (
+                                            <Typeahead
+                                                onSelect={newValue => {
+                                                    handleCopyFromTriggerLevel(newValue);
+                                                }}
+                                                propertyName="copypartNumber"
+                                                label="Copy from existing trigger level"
+                                                modal
+                                                items={triggerSearchResults}
+                                                value={copyFromPartNo}
+                                                loading={triggersSearchLoading}
+                                                fetchItems={searchExistingTriggers}
+                                                links={false}
+                                                clearSearch={() => clearTriggersSearch}
+                                                placeholder="Search For Part Number"
+                                            />
+                                        )}
+                                    </Grid>
+                                    {!allowedToEdit && creating() && (
+                                        <Grid item xs={12}>
+                                            <ErrorCard errorMessage="You are not authorised to create trigger levels" />
+                                        </Grid>
+                                    )}
                                     <Grid item xs={12}>
                                         <InputField
                                             value={triggerLevel.description}
                                             label="Description"
-                                            maxLength={50}
                                             fullWidth
-                                            helperText={
-                                                descriptionInvalid() ? 'This field is required' : ''
-                                            }
-                                            required
-                                            onChange={handleResourceFieldChange}
                                             propertyName="description"
-                                            disabled={!allowedToEdit}
+                                            disabled
+                                            helperText="This field cannot be changed - description comes from part number"
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Grid item xs={6}>
                                             <Dropdown
-                                                onChange={handleCitChange}
+                                                onChange={handleResourceFieldChange}
                                                 items={cits.map(cit => ({
                                                     ...cit,
                                                     id: cit.code,
@@ -203,34 +294,38 @@ function TriggerLevel({
                                                 required
                                                 fullWidth
                                                 label="CIT Code"
-                                                allowNoValue={false}
+                                                allowNoValue
                                                 disabled={!allowedToEdit}
                                             />
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={6}>
-                                        <InputField
-                                            value={triggerLevel.variableTriggerLevel}
-                                            label="Auto Trigger Level"
-                                            type="number"
-                                            maxLength={2}
-                                            fullWidth
-                                            onChange={handleResourceFieldChange}
-                                            propertyName="variableTriggerLevel"
-                                            disabled={!allowedToEdit}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={6}>
-                                        <InputField
-                                            value={triggerLevel.overrideTriggerLevel}
-                                            label="Override Trigger Level"
-                                            maxLength={2}
-                                            type="number"
-                                            fullWidth
-                                            onChange={handleResourceFieldChange}
-                                            propertyName="overrideTriggerLevel"
-                                            disabled={!allowedToEdit}
-                                        />
+
+                                    {!creating() && (
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                value={triggerLevel.variableTriggerLevel}
+                                                label="Auto Trigger Level"
+                                                type="number"
+                                                maxLength={2}
+                                                fullWidth
+                                                propertyName="variableTriggerLevel"
+                                                disabled
+                                            />
+                                        </Grid>
+                                    )}
+                                    <Grid item xs={creating() ? 12 : 6}>
+                                        <Grid item xs={creating() ? 6 : 12}>
+                                            <InputField
+                                                value={triggerLevel.overrideTriggerLevel}
+                                                label="Override Trigger Level"
+                                                maxLength={2}
+                                                type="number"
+                                                fullWidth
+                                                onChange={handleResourceFieldChange}
+                                                propertyName="overrideTriggerLevel"
+                                                disabled={!allowedToEdit}
+                                            />
+                                        </Grid>
                                     </Grid>
                                     <Grid item xs={6}>
                                         <InputField
@@ -289,7 +384,7 @@ function TriggerLevel({
                                                 id: ws.workStationCode,
                                                 displayText: `${ws.workStationCode} - ${ws.description}`
                                             }))}
-                                            propertyName="workStation"
+                                            propertyName="workStationName"
                                             fullWidth
                                             value={triggerLevel.workStationName}
                                             label="Work Station"
@@ -337,6 +432,16 @@ function TriggerLevel({
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
+                                        {!creating() && (
+                                            <Button
+                                                color="default"
+                                                variant="contained"
+                                                style={{ float: 'left' }}
+                                                onClick={handleOpenDialogRequest}
+                                            >
+                                                Delete
+                                            </Button>
+                                        )}
                                         <SaveBackCancelButtons
                                             saveDisabled={viewing() || inputInvalid()}
                                             saveClick={handleSaveClick}
@@ -344,6 +449,41 @@ function TriggerLevel({
                                             backClick={handleBackClick}
                                         />
                                     </Grid>
+                                    {allowedToDelete && (
+                                        <Dialog
+                                            open={dialogOpen}
+                                            onClose={handleCloseDialogRequest}
+                                            aria-labelledby="alert-dialog-title"
+                                            aria-describedby="alert-dialog-description"
+                                            TransitionComponent={Transition}
+                                            fullWidth
+                                        >
+                                            <DialogTitle id="alert-dialog-title">
+                                                Are you sure you want to delete this Trigger Level?
+                                            </DialogTitle>
+                                            <DialogContent>
+                                                <DialogContentText id="alert-dialog-slide-description" />
+                                            </DialogContent>
+                                            <DialogActions>
+                                                <Button
+                                                    color="default"
+                                                    variant="contained"
+                                                    style={{ float: 'left' }}
+                                                    onClick={handleDelete}
+                                                >
+                                                    Delete
+                                                </Button>
+                                                <Button
+                                                    color="default"
+                                                    variant="contained"
+                                                    style={{ float: 'right' }}
+                                                    onClick={handleCloseDialogRequest}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                            </DialogActions>
+                                        </Dialog>
+                                    )}
                                 </Fragment>
                             )}
                         </Grid>
@@ -402,7 +542,6 @@ TriggerLevel.propTypes = {
             fullName: PropTypes.string
         })
     ),
-    getWorkStationsForCit: PropTypes.func.isRequired,
     workStations: PropTypes.arrayOf(
         PropTypes.shape({
             workStationCode: PropTypes.string,
@@ -411,7 +550,14 @@ TriggerLevel.propTypes = {
     ),
     searchParts: PropTypes.func,
     partsSearchLoading: PropTypes.bool,
-    clearPartsSearch: PropTypes.func
+    clearPartsSearch: PropTypes.func,
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) }),
+    appStateLoading: PropTypes.bool,
+    deleteTriggerLevel: PropTypes.func,
+    searchExistingTriggers: PropTypes.func,
+    triggersSearchLoading: PropTypes.bool,
+    triggerSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    clearTriggersSearch: PropTypes.func
 };
 
 TriggerLevel.defaultProps = {
@@ -428,7 +574,14 @@ TriggerLevel.defaultProps = {
     employees: [],
     searchParts: null,
     partsSearchLoading: false,
-    clearPartsSearch: null
+    clearPartsSearch: null,
+    applicationState: null,
+    appStateLoading: false,
+    deleteTriggerLevel: null,
+    searchExistingTriggers: null,
+    triggersSearchLoading: false,
+    triggerSearchResults: [],
+    clearTriggersSearch: null
 };
 
 export default TriggerLevel;

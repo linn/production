@@ -10,7 +10,7 @@
             string skillCode,
             string resourceCode,
             int setAndCleanTime,
-            int cycleTime,
+            decimal cycleTime,
             int labourPercentage,
             string citCode)
         {
@@ -44,7 +44,7 @@
 
         public int SetAndCleanTime { get; set; }
 
-        public int CycleTime { get; set; }
+        public decimal CycleTime { get; set; }
 
         public int LabourPercentage { get; set; }
 
