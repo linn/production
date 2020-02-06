@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System.Collections.Generic;
-    using System.Globalization;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.WorksOrders;
