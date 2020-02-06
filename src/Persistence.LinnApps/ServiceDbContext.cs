@@ -147,11 +147,7 @@
         public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
 
         public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
-        public DbQuery<WswShortage> WswShortages { get; set; }
 
-        public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
-
-        public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
         public DbQuery<WswShortage> WswShortages { get; set; }
 
         public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }

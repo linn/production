@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System.Collections.Generic;
+    using System.Globalization;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.WorksOrders;
@@ -12,7 +13,7 @@
 
         IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource);
 
-        IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(string boardNumber);
+        IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(string boardNumber, int limit, string orderByDesc);
 
         IResult<WorksOrderPartDetails> GetWorksOrderPartDetails(string partNumber);
     }
