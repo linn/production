@@ -86,6 +86,11 @@ import labelTypes from './labelTypes/labelTypes';
 import labelReprint from './labelReprint';
 import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
 import workStations from './workStations';
+import buildPlan from './buildPlan';
+import buildPlanDetails from './buildPlanDetails';
+import buildPlanDetail from './buildPlanDetail';
+import buildPlanRules from './buildPlanRules';
+import buildPlanRule from './buildPlanRule';
 import historyStore from './history';
 import ateStatusReport from './ateStatusReport';
 import ateDetailsReport from './ateDetailsReport';
@@ -131,7 +136,12 @@ const reducer = history =>
         boardTestsReport,
         btwReport,
         buildsDetailReport,
+        buildPlan,
         buildPlans,
+        buildPlanDetail,
+        buildPlanDetails,
+        buildPlanRule,
+        buildPlanRules,
         buildPlansReport,
         buildsSummaryReport,
         cits,

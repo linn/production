@@ -92,6 +92,8 @@ import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
 import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
 import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
 import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
+import BuildPlans from '../containers/buildPlans/BuildPlans';
+import CreateBuildPlan from '../containers/buildPlans/CreateBuildPlan';
 import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
@@ -581,6 +583,27 @@ const Root = ({ store }) => (
                                         path="/production/maintenance/production-trigger-levels"
                                         component={ProductionTriggerLevels}
                                     />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans"
+                                        component={BuildPlans}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans/create"
+                                        component={CreateBuildPlan}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans/:id"
+                                        component={BuildPlans}
+                                    />
+
+                                    <Route
+                                        path="/production/maintenance/build-plan-details"
+                                        component={BuildPlans}
+                                    />
+
                                     <Route
                                         exact
                                         path="/production/quality/ate-tests/create"
