@@ -74,7 +74,7 @@ function WorksOrder({
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
     const [raisedByEmployee, setRaisedByEmployee] = useState(null);
     const [cancelledByEmployee, setCancelledByEmployee] = useState(null);
-    const [searchTerm, setSearchTerm] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const [printerGroup, setPrinterGroup] = useState('Prod');
     const [viewSernos, setViewsernos] = useState(false);
 
