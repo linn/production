@@ -105,6 +105,7 @@ import ShortageSummary from '../containers/reports/ShortageSummary';
 import LabelPrinter from '../containers/labelPrinting/LabelPrint';
 import FailedPartsReport from '../containers/reports/FailedPartsReport';
 import LabelPrint from '../containers/labels/LabelPrint';
+import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
 
 const Root = ({ store }) => (
     <div>
@@ -624,6 +625,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/failed-parts"
                                         component={FailedPartsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/days-required"
+                                        component={DaysRequiredReport}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

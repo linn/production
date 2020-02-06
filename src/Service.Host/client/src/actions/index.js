@@ -282,3 +282,7 @@ export const suppliersActionTypes = makeActionTypes(itemTypes.suppliers.actionTy
 export const failedPartsReportActionTypes = makeReportActionTypes(
     reportTypes.failedPartsReport.actionType
 );
+
+export const daysRequiredReportActionTypes = makeReportActionTypes(
+    reportTypes.daysRequiredReport.actionType
+);

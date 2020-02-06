@@ -42,7 +42,12 @@
                     monthly));
         }
 
-        public IResult<IEnumerable<IEnumerable<string>>> GetBuildsDetailExport(DateTime from, DateTime to, string department, string quantityOrValue, bool monthly)
+        public IResult<IEnumerable<IEnumerable<string>>> GetBuildsDetailExport(
+            DateTime from,
+            DateTime to,
+            string department,
+            string quantityOrValue,
+            bool monthly)
         {
             var results = this.buildsDetailReportService
                 .GetBuildsDetailReport(from, to, department, quantityOrValue, monthly)

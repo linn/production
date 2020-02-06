@@ -97,6 +97,7 @@ import suppliers from './suppliers';
 import addresses from './addresses';
 import address from './address';
 import failedPartsReport from './failedPartsReport';
+import daysRequiredReport from './daysRequiredReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -109,6 +110,8 @@ const reducer = history =>
         oidc,
         historyStore,
         router: connectRouter(history),
+        address,
+        addresses,
         assemblyFail,
         assemblyFails,
         assemblyFailsDetails,
@@ -132,12 +135,17 @@ const reducer = history =>
         buildPlansReport,
         buildsSummaryReport,
         cits,
+        componentCounts,
+        daysRequiredReport,
         delPerfReport,
         delPerfDetails,
         departments,
         employees,
         errors,
         failedPartsReport,
+        labelPrint,
+        labelPrinters,
+        labelPrintTypes,
         labelReprint,
         labelType,
         labelTypes,
@@ -168,6 +176,7 @@ const reducer = history =>
         productionBackOrdersReport,
         productionTriggerLevels,
         productionMeasures,
+        productionTriggerLevel,
         productionTriggersReport,
         productionTriggerFacts,
         ptlSettings,
@@ -181,6 +190,7 @@ const reducer = history =>
         smtOutstandingWorkOrderParts,
         startTriggerRun,
         storagePlaces,
+        suppliers,
         whoBuiltWhat,
         whoBuiltWhatDetails,
         worksOrder,
@@ -188,16 +198,8 @@ const reducer = history =>
         worksOrderDetails,
         worksOrderLabel,
         worksOrderLabels,
-        wwdTriggerReport,
-        productionTriggerLevel,
         workStations,
-        componentCounts,
-        labelPrint,
-        labelPrinters,
-        labelPrintTypes,
-        suppliers,
-        addresses,
-        address,
+        wwdTriggerReport,
         ...sharedLibraryReducers
     });
 

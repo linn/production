@@ -100,6 +100,7 @@
             builder.RegisterType<PurchaseOrdersReceivedRepository>().As<IQueryRepository<PurchaseOrdersReceived>>();
             builder.RegisterType<WswShortageRepository>().As<IQueryRepository<WswShortage>>();
             builder.RegisterType<FailedPartsRepository>().As<IQueryRepository<FailedParts>>();
+            builder.RegisterType<ProductionDaysRequiredRepository>().As<IQueryRepository<ProductionDaysRequired>>();
         }
     }
 }

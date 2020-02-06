@@ -12,23 +12,23 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingFailsReport : ContextBase
+    public class WhenGettingDaysRequiredReport : ContextBase
     {
         private IResult<IEnumerable<ResultsModel>> results;
 
         [SetUp]
         public void SetUp()
         {
-            this.ProductionMeasuresReportService.FailedPartsReport("P").Returns(
+            this.ProductionMeasuresReportService.DayRequiredReport("P").Returns(
                 new List<ResultsModel> { new ResultsModel { ReportTitle = new NameModel("Title") } });
 
-            this.results = this.Sut.GetFailedPartsReport("P");
+            this.results = this.Sut.GetDaysRequiredReport("P");
         }
 
         [Test]
         public void ShouldGetReport()
         {
-            this.ProductionMeasuresReportService.Received().FailedPartsReport("P");
+            this.ProductionMeasuresReportService.Received().DayRequiredReport("P");
         }
 
         [Test]
