@@ -34,6 +34,8 @@ function WorksOrdersBatchNotes({ items, fetchItems, loading, history }) {
                         fetchItems={fetchItems}
                         clearSearch={() => {}}
                         loading={loading}
+                        minimumSearchTermLength={5}
+                        searchOptions="limit=10&orderByDesc=dateRaised"
                         title="Works Order Batch Notes"
                         history={history}
                         placeholder="Part Number..."
