@@ -1,13 +1,15 @@
 ﻿namespace Linn.Production.Service.ResponseProcessors
 {
+    using System.Collections.Generic;
+
     using Linn.Common.Facade;
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps;
 
-    public class AddressResponseProcessor : JsonResponseProcessor<Address>
+    public class AddressesResponseProcessor : JsonResponseProcessor<IEnumerable<Address>>
     {
-        public AddressResponseProcessor(IResourceBuilder<Address> resourceBuilder)
-            : base(resourceBuilder, "addresses", 1)
+        public AddressesResponseProcessor(IResourceBuilder<IEnumerable<Address>> resourceBuilder)
+            : base(resourceBuilder, "address", 1)
         {
         }
     }

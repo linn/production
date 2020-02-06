@@ -128,7 +128,6 @@
                 CommandType = CommandType.StoredProcedure
             };
 
-
             var result = new OracleParameter(null, OracleDbType.Int32)
                              {
                                  Direction = ParameterDirection.ReturnValue

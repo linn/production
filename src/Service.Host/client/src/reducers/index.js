@@ -95,6 +95,7 @@ import labelPrintTypes from './labelPrintTypes';
 import labelPrinters from './labelPrinters';
 import suppliers from './suppliers';
 import addresses from './addresses';
+import address from './address';
 import failedPartsReport from './failedPartsReport';
 import purchaseOrder from './purchaseOrders/purchaseOrder';
 import issueSernos from './purchaseOrders/issueSernos';
@@ -202,6 +203,7 @@ const reducer = history =>
         purchaseOrder,
         issueSernos,
         buildSernos,
+        address,
         ...sharedLibraryReducers
     });
 

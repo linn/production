@@ -290,6 +290,8 @@ export const addresses = new ItemType(
     '/production/maintenance/labels/addresses'
 );
 
+export const address = new ItemType('address', 'ADDRESS', '/production/maintenance/labels/address');
+
 export const suppliers = new ItemType(
     'suppliers',
     'SUPPLIERS',
