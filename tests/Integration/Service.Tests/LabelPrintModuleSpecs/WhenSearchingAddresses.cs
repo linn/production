@@ -15,8 +15,9 @@
         [SetUp]
         public void SetUp()
         {
-            this.AddressService.SearchReturnTen(Arg.Any<string>()).Returns(new SuccessResult<IEnumerable<Address>>(new List<Address>() { new Address() { Id = 15, Addressee = "Drumph" } }));
-
+            this.AddressService.SearchReturnTen(Arg.Any<string>()).Returns(
+                new SuccessResult<IEnumerable<Address>>(
+                    new List<Address>() { new Address() { Id = 15, Addressee = "Drumph", Country = new Country() } }));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/labels/addresses",

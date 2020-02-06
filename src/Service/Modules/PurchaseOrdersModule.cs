@@ -52,6 +52,10 @@
         {
             var resource = this.Bind<IssueSernosRequestResource>();
 
+            var userNumber = this.Context
+                .CurrentUser.Claims
+                .FirstOrDefault(c => c.Type == "employee")?.Value.Split("/").Last();
+
             try
             {
                 this.sernosPack.IssueSernos(
@@ -59,7 +63,7 @@
                     "PO", 
                     resource.DocumentLine,
                     resource.PartNumber, 
-                    resource.CreatedBy, 
+                    int.Parse(userNumber), 
                     resource.Quantity, 
                     resource.FirstSerialNumber);
             }

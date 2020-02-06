@@ -21,6 +21,10 @@
 
         public string PostCode { get; set; }
 
+        public string Country { get; set; }
+
+        public string Remarks { get; set; }
+
         public List<string> Parts { get; set; }
 
         public List<PurchaseOrderDetailResource> Details { get; set; }

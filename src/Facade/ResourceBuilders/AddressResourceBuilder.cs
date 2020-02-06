@@ -21,7 +21,7 @@
                 Line3 = address.Line3,
                 Line4 = address.Line4,
                 PostCode = address.PostCode,
-                Country = address.Country,
+                Country = address.Country.Name,
                 DateInvalid = address.DateInvalid?.ToString("o"),
                 Links = this.BuildLinks(address).ToArray()
             };

@@ -6,7 +6,6 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Services;
 
     using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +22,7 @@
         {
             return this.serviceDbContext.PurchaseOrders.Where(o => o.OrderNumber == key)
                 .Include(o => o.Details).ThenInclude(o => o.Part)
-                .Include(o => o.OrderAddress)
+                .Include(o => o.OrderAddress).ThenInclude(a => a.Country)
                 .ToList().FirstOrDefault();
         }
 

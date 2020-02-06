@@ -21,7 +21,7 @@
 
         public string Line4 { get; set; }
 
-        public string Country { get; set; }
+        public Country Country { get; set; }
 
         public DateTime? DateInvalid { get; set; }
 

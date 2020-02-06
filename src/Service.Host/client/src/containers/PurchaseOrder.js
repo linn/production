@@ -10,16 +10,17 @@ import purchaseOrderSelectors from '../selectors/purchaseOrderSelectors';
 import issueSernosSelectors from '../selectors/issueSernosSelectors';
 import * as itemTypes from '../itemTypes';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, { match }) => ({
     item: purchaseOrderSelectors.getItem(state),
+    itemId: match.params.id,
     itemLoading: purchaseOrderSelectors.getLoading(state),
-    snackbarVisible: issueSernosSelectors.getSnackbarVisible(state),
-    message: issueSernosSelectors.getItem(state),
-    itemError: getItemErrorDetailMessage(state, itemTypes.purchaseOrder.item),
+    snackbarVisible: issueSernosSelectors.getMessageVisible(state),
+    message: issueSernosSelectors.getMessageText(state),
+    itemError: getItemErrorDetailMessage(state, itemTypes.purchaseOrder.item)
 });
 
-const initialise = () => dispatch => {
-    dispatch(purchaseOrderActions.fetch());
+const initialise = ({ itemId }) => dispatch => {
+    dispatch(purchaseOrderActions.fetch(itemId));
 };
 
 const mapDispatchToProps = {

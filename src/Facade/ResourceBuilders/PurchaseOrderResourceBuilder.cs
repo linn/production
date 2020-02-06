@@ -23,6 +23,7 @@
                            Address3 = purchaseOrder.OrderAddress?.Line3,
                            Address4 = purchaseOrder.OrderAddress?.Line4,
                            PostCode = purchaseOrder.OrderAddress?.PostCode,
+                           Remarks = purchaseOrder.Remarks,
                            Parts = purchaseOrder.Details.Select(d => d.PartNumber).ToList(),
                            Details = purchaseOrder.Details.Select(
                                d => new PurchaseOrderDetailResource
