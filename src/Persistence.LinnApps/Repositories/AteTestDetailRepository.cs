@@ -7,6 +7,8 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.ATE;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class AteTestDetailRepository : IRepository<AteTestDetail, AteTestDetailKey>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -20,6 +22,7 @@
         {
             return this.serviceDbContext.AteTestDetails
                 .Where(d => d.TestId == key.TestId && d.ItemNumber == key.ItemNumber)
+                .Include(d => d.PcbOperator)
                 .ToList().FirstOrDefault();
         }
 

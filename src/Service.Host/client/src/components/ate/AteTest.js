@@ -319,7 +319,7 @@ function AteTest({
                             </Grid>
                             <Grid item xs={3}>
                                 <DatePicker
-                                    value={ateTest.flowSolderDate}
+                                    value={ateTest.flowSolderDate ? ateTest.flowSolderDate : null}
                                     label="Flow Solder Date"
                                     onChange={value => {
                                         setEditStatus('edit');
@@ -332,7 +332,7 @@ function AteTest({
                             </Grid>
                             <Grid item xs={3}>
                                 <DatePicker
-                                    value={ateTest.dateTested}
+                                    value={ateTest.dateTested ? ateTest.dateTested : new Date()}
                                     label="Date Tested"
                                     onChange={value => {
                                         setEditStatus('edit');
