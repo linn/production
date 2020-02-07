@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import {
     getItemErrorDetailMessage,
+    getItemError,
     initialiseOnMount
 } from '@linn-it/linn-form-components-library';
 import PurchaseOrder from '../components/PurchaseOrder';
@@ -10,6 +11,7 @@ import purchaseOrderActions from '../actions/purchaseOrderActions';
 import purchaseOrderSelectors from '../selectors/purchaseOrderSelectors';
 import issueSernosSelectors from '../selectors/issueSernosSelectors';
 import * as itemTypes from '../itemTypes';
+import * as processTypes from '../processTypes';
 
 const mapStateToProps = (state, { match }) => ({
     item: purchaseOrderSelectors.getItem(state),
@@ -18,7 +20,9 @@ const mapStateToProps = (state, { match }) => ({
     itemLoading: purchaseOrderSelectors.getLoading(state),
     snackbarVisible: issueSernosSelectors.getMessageVisible(state),
     message: issueSernosSelectors.getMessageText(state),
-    itemError: getItemErrorDetailMessage(state, itemTypes.purchaseOrder.item)
+    itemError: getItemErrorDetailMessage(state, itemTypes.purchaseOrder.item),
+    buildError: getItemError(state, processTypes.buildSernos),
+    issueError: getItemError(state, processTypes.issueSernos)
 });
 
 const initialise = ({ itemId }) => dispatch => {

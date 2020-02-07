@@ -37,7 +37,7 @@ export const issueSernos = new ItemType(
 );
 
 export const buildSernos = new ItemType(
-    'issueSernos',
+    'buildSernos',
     'BUILD_SERNOS',
     '/production/resources/purchase-orders/build-sernos'
 );

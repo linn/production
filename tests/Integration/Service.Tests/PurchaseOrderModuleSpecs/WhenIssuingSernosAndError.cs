@@ -34,7 +34,7 @@
                 Arg.Any<string>(),
                 Arg.Any<int>(),
                 Arg.Any<int>(),
-                Arg.Any<int>())).Do(call => throw new Exception("Fail"));
+                Arg.Any<int?>())).Do(call => throw new Exception("Fail"));
 
 
             this.Response = this.Browser.Post(
@@ -62,7 +62,7 @@
                 Arg.Any<string>(),
                 Arg.Any<int>(),
                 Arg.Any<int>(),
-                Arg.Any<int>());
+                Arg.Any<int?>());
         }
 
         [Test]

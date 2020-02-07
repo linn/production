@@ -14,6 +14,6 @@
 
         public int Quantity { get; set; }
 
-         public int FirstSerialNumber { get; set; }
+         public int? FirstSerialNumber { get; set; }
     }
 }

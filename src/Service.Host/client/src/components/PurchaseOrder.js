@@ -11,33 +11,29 @@ import {
     SaveBackCancelButtons,
     Dropdown
 } from '@linn-it/linn-form-components-library';
-import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import Page from '../containers/Page';
+import PurchaseOrderLine from './PurchaseOrderLine';
 
 function PurchaseOrder({
     editStatus,
     itemError,
-    history,
     itemId,
     item,
-    itemLoading,
     snackbarVisible,
     setEditStatus,
     setSnackbarVisible,
+    itemLoading,
+    issueSernos,
+    buildSernos,
+    buildError,
+    issueError,
+    history,
     updatePurchaseOrder
 }) {
     const [purchaseOrder, setPurchaseOrder] = useState({});
     const [prevPurchaseOrder, setPrevpurchaseOrder] = useState({});
-    const [qtyToBuild, setQtyToBuild] = useState();
-    const [qtyToIssue, setQtyToIssue] = useState();
-    const [from, setFrom] = useState();
-    const [to, setTo] = useState();
 
-
-
-    const creating = () => editStatus === 'create';
-    const editing = () => editStatus === 'edit';
     const viewing = () => editStatus === 'view';
 
     useEffect(() => {
@@ -54,22 +50,11 @@ function PurchaseOrder({
         setPurchaseOrder({ ...purchaseOrder, [propertyName]: newValue });
     };
 
-    const useStyles = makeStyles(theme => ({
-        marginTop: {
-            marginTop: theme.spacing(2),
-            marginLeft: theme.spacing(-2)
-        },
-        closeButton: {
-            height: theme.spacing(4.5),
-            marginTop: theme.spacing(4.5),
-            marginLeft: theme.spacing(-1)
-        }
-    }));
-
-    const classes = useStyles();
-
     const handleSaveClick = () => updatePurchaseOrder(itemId, purchaseOrder);
-    const handleCancelClick = () => {};
+    const handleCancelClick = () => {
+        setEditStatus('view');
+        setPurchaseOrder(item);
+    };
 
     const formatAddress = () => {
         let address = purchaseOrder.addressee;
@@ -126,7 +111,7 @@ ${purchaseOrder.country}`;
                 </Grid>
                 {itemError ? (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemError.statusText} />
+                        <ErrorCard errorMessage={itemError?.statusText} />
                     </Grid>
                 ) : (
                     <Fragment>
@@ -172,175 +157,24 @@ ${purchaseOrder.country}`;
                                         label="Supplier"
                                     />
                                 </Grid>
-                                <Grid item xs={6} />
                                 <Grid item xs={6}>
                                     <InputField
                                         fullWidth
-                                        rows={5}
+                                        rows={6}
                                         value={purchaseOrder.remarks}
                                         onChange={handleFieldChange}
                                         propertyName="remarks"
                                         label="Remarks"
                                     />
                                 </Grid>
-                                <Grid item xs={6} />
                                 {purchaseOrder.detailSernosInfos?.map(d => (
-                                    <Fragment key={d.orderLine}>
-                                        <Grid item xs={1}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.orderLine}
-                                                label="Line"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.partNumber}
-                                                label="Part"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.partDescription}
-                                                label="Description"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={5} />
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.orderQuantity}
-                                                label="Quantity Ordered"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.ourUnitOfMeasure}
-                                                label="Units"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <Dropdown
-                                                fullWidth
-                                                items={['', 'Y', 'N']}
-                                                label="Issued"
-                                                value={d.issuedSerialNumbers}
-                                                propertyName="issuedSerialNumbers"
-                                                allowNoValue
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3} />
-                                        <Grid item xs={1}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.quantityReceived}
-                                                label="Received"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={11} />
-                                        <Grid item xs={1}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.sernosIssued}
-                                                label="Issued"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.firstSernos}
-                                                label="First Serial"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.lastSernos}
-                                                label="Last Serial"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={5} />
-                                        <Grid item xs={1}>
-                                            <InputField
-                                                fullWidth
-                                                disabled
-                                                value={d.sernosBuilt}
-                                                label="Built"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={11} />
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                type="number"
-                                                propertyName="qtyToIssue"
-                                                onChange={handleFieldChange}
-                                                value={purchaseOrder.qtyToIssue}
-                                                label="Qty to Issue"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={8} />
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                type="number"
-                                                propertyName="qtyToBuild"
-                                                onChange={handleFieldChange}
-                                                value={purchaseOrder.qtyToBuild}
-                                                label="Qty to Build"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                type="number"
-                                                value={purchaseOrder.from}
-                                                label="From Serial"
-                                                propertyName="from"
-                                                onChange={handleFieldChange}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                type="number"
-                                                value={purchaseOrder.to}
-                                                label="To Serial"
-                                                propertyName="to"
-                                                onChange={handleFieldChange}
-                                            />
-                                        </Grid>
-                                        <Grid item xs={3} />
-                                        <Grid item xs={12}>
-                                            <Button
-                                                //className={classes.printButton}
-                                                onClick={() => {}}
-                                                variant="outlined"
-                                                color="primary"
-                                            >
-                                                Build
-                                            </Button>
-                                            <Button
-                                                onClick={() => {}}
-                                                variant="outlined"
-                                                color="primary"
-                                            >
-                                                Issue
-                                            </Button>
-                                        </Grid>
-                                    </Fragment>
+                                    <PurchaseOrderLine
+                                        detail={d}
+                                        partNumber={purchaseOrder.partNumber}
+                                        orderNumber={purchaseOrder.orderNumber}
+                                        issueSernos={issueSernos}
+                                        buildSernos={buildSernos}
+                                    />
                                 ))}
                             </Fragment>
                         )}
@@ -350,7 +184,7 @@ ${purchaseOrder.country}`;
                                 saveClick={handleSaveClick}
                                 cancelClick={handleCancelClick}
                                 backClick={() => {
-                                    // history.push(previousPath);
+                                    history.push('/production/resources');
                                 }}
                             />
                         </Grid>
@@ -367,18 +201,25 @@ PurchaseOrder.propTypes = {
     editStatus: PropTypes.string.isRequired,
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
-    loading: PropTypes.bool,
+    itemLoading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     itemError: PropTypes.shape({}),
-    setSnackbarVisible: PropTypes.func.isRequired
+    setSnackbarVisible: PropTypes.func.isRequired,
+    issueSernos: PropTypes.func.isRequired,
+    buildSernos: PropTypes.func.isRequired,
+    updatePurchaseOrder: PropTypes.shape({}).isRequired,
+    issueError: PropTypes.shape({}),
+    buildError: PropTypes.shape({})
 };
 
 PurchaseOrder.defaultProps = {
     item: {},
     snackbarVisible: false,
-    loading: null,
+    itemLoading: false,
     itemId: null,
-    itemError: null
+    itemError: null,
+    issueError: null,
+    buildError: null
 };
 
 export default PurchaseOrder;

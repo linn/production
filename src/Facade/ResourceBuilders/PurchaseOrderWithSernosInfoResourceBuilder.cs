@@ -38,7 +38,7 @@
                                                                                                 SernosIssued = x.SernosIssued,
                                                                                                 QuantityReceived = x.QuantityReceived,
                                                                                                 NumberOfSernos = x.NumberOfSernos
-                                                                                           }).ToList()
+                                                                                           }).OrderBy(d => d.OrderLine).ToList()
                        };
         }
 
