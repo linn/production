@@ -28,7 +28,7 @@
 
         public void Add(BuildPlan entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.BuildPlans.Add(entity);
         }
 
         public void Remove(BuildPlan entity)

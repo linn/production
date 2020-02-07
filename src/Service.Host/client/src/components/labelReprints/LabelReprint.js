@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {
-    SaveBackCancelButtons,
     InputField,
     Loading,
     Title,
@@ -94,6 +93,13 @@ function LabelReprint({
     const useStyles = makeStyles(theme => ({
         marginTop: {
             marginTop: theme.spacing(2)
+        },
+        floatRight: {
+            float: 'right'
+        },
+        buttonSpacing: {
+            marginRight: theme.spacing(1),
+            float: 'right'
         }
     }));
     const classes = useStyles();
@@ -266,12 +272,31 @@ function LabelReprint({
                                         </Grid>
                                         <Grid item xs={10} />
                                         <Grid item xs={12}>
-                                            <SaveBackCancelButtons
-                                                saveDisabled={viewing() || inputInvalid()}
-                                                saveClick={handleSaveClick}
-                                                cancelClick={handleCancelClick}
-                                                backClick={handleBackClick}
-                                            />
+                                            <Button
+                                                color="default"
+                                                variant="outlined"
+                                                disabled={inputInvalid()}
+                                                className={classes.floatRight}
+                                                onClick={handleSaveClick}
+                                            >
+                                                Print
+                                            </Button>
+                                            <Button
+                                                color="default"
+                                                variant="outlined"
+                                                className={classes.buttonSpacing}
+                                                onClick={handleCancelClick}
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                color="default"
+                                                variant="outlined"
+                                                className={classes.buttonSpacing}
+                                                onClick={handleBackClick}
+                                            >
+                                                Back
+                                            </Button>
                                         </Grid>
                                     </Fragment>
                                 )

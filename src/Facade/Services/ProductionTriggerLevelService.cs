@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Linq.Expressions;
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Facade;
@@ -46,8 +45,9 @@
             }
             catch (DomainException ex)
             {
-                return new BadRequestResult<ResponseModel<ProductionTriggerLevel>>(($"Error deleting trigger level part number {partNumber} - {ex}"));
+                return new BadRequestResult<ResponseModel<ProductionTriggerLevel>>($"Error deleting trigger level part number {partNumber} - {ex}");
             }
+
             this.transactionManager.Commit();
             return new SuccessResult<ResponseModel<ProductionTriggerLevel>>(new ResponseModel<ProductionTriggerLevel>(entity, privileges));
         }

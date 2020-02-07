@@ -13,6 +13,8 @@ import labelPrintersSelectors from '../../selectors/labelPrintersSelectors';
 import labelPrintSelectors from '../../selectors/labelPrintSelectors';
 import addressesActions from '../../actions/addressesActions';
 import addressesSelectors from '../../selectors/addressesSelectors';
+import addressActions from '../../actions/addressActions';
+import addressSelectors from '../../selectors/addressSelectors';
 import suppliersActions from '../../actions/suppliersActions';
 import suppliersSelectors from '../../selectors/suppliersSelectors';
 
@@ -32,7 +34,8 @@ const mapStateToProps = state => ({
     supplierSearchLoading: suppliersSelectors.getSearchLoading(state),
     supplierSearchResults: suppliersSelectors
         .getSearchItems(state)
-        .map(s => ({ ...s, name: s.supplierId, description: s.supplierName }))
+        .map(s => ({ ...s, name: s.supplierId, description: s.supplierName })),
+    addressReturnedForId: addressSelectors.getItem(state)
 });
 
 const initialise = () => dispatch => {
@@ -47,7 +50,8 @@ const mapDispatchToProps = {
     searchAddresses: addressesActions.search,
     clearAddressSearch: addressesActions.clearSearch,
     searchSuppliers: suppliersActions.search,
-    clearSupplierSearch: suppliersActions.clearSearch
+    clearSupplierSearch: suppliersActions.clearSearch,
+    getAddressById: addressActions.fetch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(LabelPrint));

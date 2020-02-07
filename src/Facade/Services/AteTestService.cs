@@ -47,7 +47,7 @@
         {
             var worksOrder = this.worksOrderRepository.FindById(resource.WorksOrderNumber);
             var id = this.databaseService.GetNextVal("ATE_TESTS_SEQ");
-            List<AteTestDetail> details = new List<AteTestDetail>();
+            var details = new List<AteTestDetail>();
             var itemNo = 1;
             foreach (var detail in resource.Details)
             {
@@ -58,6 +58,7 @@
                                     AoiEscape = detail.AoiEscape,
                                     BatchNumber = detail.BatchNumber,
                                     BoardFailNumber = detail.BoardFailNumber,
+                                    NumberOfFails = detail.NumberOfFails,
                                     BoardSerialNumber = detail.BoardSerialNumber,
                                     CircuitRef = detail.CircuitRef,
                                     PartNumber = GetDetailPart(detail.CircuitRef, resource.PartNumber, this.pcasRevisionRepository),
@@ -67,6 +68,8 @@
                                     Machine = detail.Machine,
                                     Shift = detail.Shift,
                                     SmtOrPcb = detail.SmtOrPcb,
+                                    PcbOperator = detail.PcbOperator.HasValue ?
+                                        this.employeeRepository.FindById(detail.PcbOperator.Value) : null
                                 });
                 itemNo++;
             }
