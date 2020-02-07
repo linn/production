@@ -8,7 +8,7 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
-    TypeaheadDialog,
+    SaveBackCancelButtons,
     Dropdown
 } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
@@ -24,7 +24,8 @@ function PurchaseOrder({
     itemLoading,
     snackbarVisible,
     setEditStatus,
-    setSnackbarVisible
+    setSnackbarVisible,
+    updatePurchaseOrder
 }) {
     const [purchaseOrder, setPurchaseOrder] = useState({});
     const [prevPurchaseOrder, setPrevpurchaseOrder] = useState({});
@@ -66,6 +67,9 @@ function PurchaseOrder({
     }));
 
     const classes = useStyles();
+
+    const handleSaveClick = () => updatePurchaseOrder(itemId, purchaseOrder);
+    const handleCancelClick = () => {};
 
     const formatAddress = () => {
         let address = purchaseOrder.addressee;
@@ -174,6 +178,8 @@ ${purchaseOrder.country}`;
                                         fullWidth
                                         rows={5}
                                         value={purchaseOrder.remarks}
+                                        onChange={handleFieldChange}
+                                        propertyName="remarks"
                                         label="Remarks"
                                     />
                                 </Grid>
@@ -338,6 +344,16 @@ ${purchaseOrder.country}`;
                                 ))}
                             </Fragment>
                         )}
+                        <Grid item xs={12}>
+                            <SaveBackCancelButtons
+                                saveDisabled={viewing()}
+                                saveClick={handleSaveClick}
+                                cancelClick={handleCancelClick}
+                                backClick={() => {
+                                    // history.push(previousPath);
+                                }}
+                            />
+                        </Grid>
                     </Fragment>
                 )}
             </Grid>

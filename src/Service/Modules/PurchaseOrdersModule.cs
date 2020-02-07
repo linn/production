@@ -79,8 +79,9 @@
         private object UpdatePurchaseOrder(int id)
         {
             var resource = this.Bind<PurchaseOrderResource>();
-            var purchaseOrder = this.service.Update(id, resource);
-            return this.Negotiate.WithModel(purchaseOrder).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+            this.service.Update(id, resource);
+            var purchaseOrderWithSernosInfo = this.service.GetPurchaseOrderWithSernosInfo(id);
+            return this.Negotiate.WithModel(purchaseOrderWithSernosInfo).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
 

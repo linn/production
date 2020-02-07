@@ -6,6 +6,7 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
@@ -31,12 +32,21 @@
                             Details = new List<PurchaseOrderDetail>()
                         };
 
+            var result = new PurchaseOrderWithSernosInfo
+                             {
+                                 OrderNumber = 1,
+                                 OrderAddress = new Address { Country = new Country() },
+                                 DetaisWithSernosInfo = new List<PurchaseOrderDetailWithSernosInfo>()
+            };
+
             this.requestResource = new PurchaseOrderResource()
                                        {
                                            OrderNumber = 1,
                                        };
 
             this.FacadeService.Update(1, Arg.Any<PurchaseOrderResource>()).Returns(new SuccessResult<PurchaseOrder>(a));
+            this.FacadeService.GetPurchaseOrderWithSernosInfo(Arg.Any<int>())
+                .Returns(new SuccessResult<PurchaseOrderWithSernosInfo>(result));
 
             this.Response = this.Browser.Put(
                 "/production/resources/purchase-orders/1",
@@ -64,7 +74,7 @@
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<PurchaseOrderResource>();
+            var resource = this.Response.Body.DeserializeJson<PurchaseOrderWithSernosInfoResource>();
             resource.OrderNumber.Should().Be(1);
         }
     }
