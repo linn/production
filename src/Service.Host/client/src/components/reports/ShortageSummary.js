@@ -15,7 +15,9 @@ import Page from '../../containers/Page';
 
 const useStyles = makeStyles(theme => ({
     subReport: {
-        marginBottom: theme.spacing(4)
+        marginBottom: theme.spacing(4),
+        paddingLeft: theme.spacing(2),
+        pageBreakInside: 'avoid'
     },
     subTitle: {
         marginLeft: theme.spacing(2),
@@ -32,6 +34,7 @@ const handleBackClick = history => {
 
 function ShortageSummary({ summary, loading, history, options }) {
     const classes = useStyles();
+    const colSizes = ['medium', 'large', '', '', '', '', '', '', 'medium'];
 
     return (
         <Fragment>
@@ -81,47 +84,59 @@ function ShortageSummary({ summary, loading, history, options }) {
                             <Grid item xs={2} />
                         </Grid>
                     </Page>
-                    {summary.shortages.map(s => (
-                        <Paper className={classes.subReport}>
-                            <Grid className="padding-top-when-not-printing" container spacing={3}>
-                                <Grid item xs={3}>
-                                    <span className={classes.subTitle}>{s.partNumber}</span>
+                    <Paper>
+                        {summary.shortages.map(s => (
+                            <Grid container className={classes.subReport} key={s.partNumber}>
+                                <Grid item xs={1} />
+                                <Grid item xs={10}>
+                                    <Grid
+                                        className="padding-top-when-not-printing"
+                                        container
+                                        spacing={3}
+                                    >
+                                        <Grid item xs={3}>
+                                            <span className={classes.subTitle}>{s.partNumber}</span>
+                                        </Grid>
+                                        <Grid item xs={9}>
+                                            <span className={classes.spanRight}>
+                                                {`Priority ${s.priority}`}
+                                            </span>
+                                            <span
+                                                className={classes.spanRight}
+                                            >{`Build ${s.build}`}</span>
+                                            <span className={classes.spanRight}>
+                                                Can Build{' '}
+                                                <Link
+                                                    component={RouterLink}
+                                                    to={`/production/reports/wwd?part-number=${s.partNumber}&ptlJobref=${options.ptlJobref}&citcode=${options.citCode}&qty=${s.build}`}
+                                                >
+                                                    {s.canBuild}
+                                                </Link>
+                                            </span>
+                                            <span className={classes.spanRight}>
+                                                {`Back Order ${s.backOrderQty}`}
+                                            </span>
+                                            <span className={classes.spanRight}>
+                                                {`Kanban ${s.kanban}`}
+                                            </span>
+                                            <span className={classes.spanRight}>
+                                                {s.earliestRequestedDate}
+                                            </span>
+                                        </Grid>
+                                        <ReportTable
+                                            reportData={s.results.reportResults[0]}
+                                            showTotals={false}
+                                            columnClasses={colSizes}
+                                        />
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={7}>
-                                    <span className={classes.spanRight}>
-                                        {`Priority ${s.priority}`}
-                                    </span>
-                                    <span className={classes.spanRight}>{`Build ${s.build}`}</span>
-                                    <span className={classes.spanRight}>
-                                        Can Build{' '}
-                                        <Link
-                                            component={RouterLink}
-                                            to={`/production/reports/wwd?part-number=${s.partNumber}&ptlJobref=${options.ptlJobref}&citcode=${options.citCode}&qty=${s.build}`}
-                                        >
-                                            {s.canBuild}
-                                        </Link>
-                                    </span>
-                                    <span className={classes.spanRight}>
-                                        {`Back Order ${s.backOrderQty}`}
-                                    </span>
-                                    <span className={classes.spanRight}>
-                                        {`Kanban ${s.kanban}`}
-                                    </span>
-                                    <span className={classes.spanRight}>
-                                        {s.earliestRequestedDate}
-                                    </span>
-                                </Grid>
-                                <Grid item xs={2}/>
-                                <ReportTable
-                                    reportData={s.results.reportResults[0]}
-                                    showTotals={false}
-                                />
+                                <Grid item xs={1} />
                             </Grid>
-                        </Paper>
-                    ))}
-                    <Grid item xs={12}>
-                        <BackButton backClick={() => handleBackClick(history)} />
-                    </Grid>
+                        ))}
+                        <Grid item xs={12}>
+                            <BackButton backClick={() => handleBackClick(history)} />
+                        </Grid>
+                    </Paper>
                 </Fragment>
             )}
         </Fragment>

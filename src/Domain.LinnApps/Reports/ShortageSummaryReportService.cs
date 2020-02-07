@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Linn.Common.Domain.Exceptions;
@@ -24,10 +25,12 @@
 
         private readonly IQueryRepository<WswShortage> shortageRepository;
 
+        private readonly IQueryRepository<WswShortageStory> shortageStoryRepository;
+
         public ShortageSummaryReportService(IRepository<AccountingCompany, string> accountingCompaniesRepository,
             ISingleRecordRepository<PtlMaster> masterRepository, IQueryRepository<ProductionTrigger> repository,
             IRepository<Cit, string> citRepository, IQueryRepository<ProductionBackOrder> backOrderRepository,
-            IQueryRepository<WswShortage> shortageRepository)
+            IQueryRepository<WswShortage> shortageRepository, IQueryRepository<WswShortageStory> shortageStoryRepository)
         {
             this.accountingCompaniesRepository = accountingCompaniesRepository;
             this.masterRepository = masterRepository;
@@ -35,6 +38,7 @@
             this.citRepository = citRepository;
             this.backOrderRepository = backOrderRepository;
             this.shortageRepository = shortageRepository;
+            this.shortageStoryRepository = shortageStoryRepository;
         }
 
         public ShortageSummary ShortageSummaryByCit(string citCode, string ptlJobref)
@@ -61,6 +65,7 @@
             var backOrders =
                 this.backOrderRepository.FilterBy(b => b.JobId == linnCompany.LatestSosJobId && b.CitCode == citCode).ToList();
             var wswShortages = this.shortageRepository.FilterBy(s => s.Jobref == ptlJobref && s.CitCode == citCode).ToList();
+            var wswShortagesStories = this.shortageStoryRepository.FilterBy(s => s.Jobref == ptlJobref && s.CitCode == citCode).ToList();
 
             var summary = new ShortageSummary();
             var shortages = new List<ShortageResult>();
@@ -96,6 +101,12 @@
                     foreach (var detail in details)
                     {
                         shortage.AddWswShortage(detail);
+
+                        var stories = wswShortagesStories.Where(w => w.ShortPartNumber == detail.ShortPartNumber && w.PartNumber == detail.PartNumber);
+                        foreach (var story in stories)
+                        {
+                            shortage.AddWswShortageStory(story);
+                        }
                     }
 
                     shortages.Add(shortage);
