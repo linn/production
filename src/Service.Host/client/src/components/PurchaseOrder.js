@@ -172,7 +172,6 @@ ${purchaseOrder.country}`;
                                 <Grid item xs={6}>
                                     <InputField
                                         fullWidth
-                                        disabled
                                         rows={5}
                                         value={purchaseOrder.remarks}
                                         label="Remarks"

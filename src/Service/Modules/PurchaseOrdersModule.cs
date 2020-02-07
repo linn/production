@@ -28,6 +28,7 @@
             this.Post("/production/resources/purchase-orders/issue-sernos", _ => this.IssueSernos());
             this.Post("/production/resources/purchase-orders/build-sernos", _ => this.BuildSernos());
             this.Get("/production/resources/purchase-orders/{id}", parameters => this.GetPurchaseOrder(parameters.id));
+            this.Put("/production/resources/purchase-orders/{id}", parameters => this.UpdatePurchaseOrder(parameters.id));
         }
 
         private object GetPurchaseOrders()
@@ -63,7 +64,7 @@
                     "PO", 
                     resource.DocumentLine,
                     resource.PartNumber, 
-                    int.Parse(userNumber), 
+                    int.Parse(userNumber ?? throw new InvalidOperationException()), 
                     resource.Quantity, 
                     resource.FirstSerialNumber);
             }
@@ -73,6 +74,14 @@
             }
 
             return HttpStatusCode.OK;
+        }
+
+        private object UpdatePurchaseOrder(int id)
+        {
+            var resource = this.Bind<PurchaseOrderResource>();
+            var purchaseOrder = this.service.Update(id, resource);
+            return this.Negotiate.WithModel(purchaseOrder).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object BuildSernos()
@@ -90,10 +99,11 @@
                 1,
                 resource.FromSerial,
                 resource.ToSerial,
-                int.Parse(userNumber)))
+                int.Parse(userNumber ?? throw new InvalidOperationException())))
             {
                 return this.Negotiate.WithModel(new BadRequestResult<Error>(this.sernosPack.SernosMessage()));
             }
+
             return HttpStatusCode.OK;
         }
     }
