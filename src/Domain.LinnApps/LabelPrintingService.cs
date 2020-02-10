@@ -19,7 +19,7 @@
 
             var dateTimeNow = DateTime.Now.ToString("ddMMMyyyyHH''mm''ss");
             var printer = ((LabelPrinters.Printers)resource.Printer).ToString();
-            if (printer == "Castlemilk")
+            if (printer == "Metalwork")
             {
                 printer = "Castlemilk Labels";
             }
