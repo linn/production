@@ -1,11 +1,8 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     using Linn.Common.Facade;
-    using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Resources;
 
@@ -30,10 +27,5 @@
         }
 
         object IResourceBuilder<StoragePlace>.Build(StoragePlace storagePlace) => this.Build(storagePlace);
-
-        private IEnumerable<LinkResource> BuildLinks(StoragePlace storagePlace)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

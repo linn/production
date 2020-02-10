@@ -25,7 +25,7 @@
                 TestPrinter = labelType.TestPrinter,
                 TestCommandFilename = labelType.TestCommandFilename,
                 Links = this.BuildLinks(labelType).ToArray()
-        };
+            };
         }
 
         public string GetLocation(LabelType labelType)
