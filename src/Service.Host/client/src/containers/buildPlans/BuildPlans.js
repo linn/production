@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { getItemErrors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import {
+    getItemErrors,
+    initialiseOnMount,
+    getItemErrorDetailMessage
+} from '@linn-it/linn-form-components-library';
 import buildPlansActions from '../../actions/buildPlansActions';
 import buildPlansSelectors from '../../selectors/buildPlansSelectors';
 import buildPlanDetailsActions from '../../actions/buildPlanDetailsActions';
@@ -13,6 +17,7 @@ import partsSelectors from '../../selectors/partsSelectors';
 import buildPlanActions from '../../actions/buildPlanActions';
 import buildPlanDetailSelectors from '../../selectors/buildPlanDetailSelectors';
 import buildPlanSelectors from '../../selectors/buildPlanSelectors';
+import * as itemTypes from '../../itemTypes';
 
 const mapStateToProps = (state, { match }) => ({
     buildPlans: buildPlansSelectors.getItems(state),
@@ -31,7 +36,12 @@ const mapStateToProps = (state, { match }) => ({
     buildPlanDetailLoading: buildPlanDetailSelectors.getLoading(state),
     buildPlanDetail: buildPlanDetailSelectors.getItem(state),
     buildPlanSnackbarVisible: buildPlanSelectors.getSnackbarVisible(state),
-    buildPlanDetailSnackbarVisible: buildPlanDetailSelectors.getSnackbarVisible(state)
+    buildPlanDetailSnackbarVisible: buildPlanDetailSelectors.getSnackbarVisible(state),
+    buildPlanErrorMessage: getItemErrorDetailMessage(state, itemTypes.buildPlan.item),
+    buildPlansErrorMessage: getItemErrorDetailMessage(state, itemTypes.buildPlans.item),
+    buildPlanDetailErrorMessage: getItemErrorDetailMessage(state, itemTypes.buildPlanDetail.item),
+    buildPlanDetailsErrorMessage: getItemErrorDetailMessage(state, itemTypes.buildPlanDetails.item),
+    buildPlanRulesErrorMessage: getItemErrorDetailMessage(state, itemTypes.buildPlanRules.item)
 });
 
 const initialise = () => dispatch => {

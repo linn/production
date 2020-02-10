@@ -41,7 +41,12 @@ export default function BuildPlans({
     buildPlanSnackbarVisible,
     buildPlanDetailSnackbarVisible,
     setBuildPlanSnackbarVisible,
-    setBuildPlanDetailSnackbarVisible
+    setBuildPlanDetailSnackbarVisible,
+    buildPlanErrorMessage,
+    buildPlansErrorMessage,
+    buildPlanDetailErrorMessage,
+    buildPlanDetailsErrorMessage,
+    buildPlanRulesErrorMessage
 }) {
     const [buildPlan, setBuildPlan] = useState({ buildPlanName: '', description: '' });
     const [buildPlanOptions, setBuildPlanOptions] = useState([{ id: '', displayText: '' }]);
@@ -209,12 +214,17 @@ export default function BuildPlans({
                     </Fragment>
                 </Grid>
 
-                {itemErrors &&
-                    itemErrors?.map(itemError => (
-                        <Grid item xs={12}>
-                            <ErrorCard errorMessage={`${itemError.item} ${itemError.statusText}`} />
-                        </Grid>
-                    ))}
+                {itemErrors && (
+                    <Grid item xs={12}>
+                        <ErrorCard
+                            errorMessage={`${buildPlanErrorMessage ||
+                                buildPlansErrorMessage ||
+                                buildPlanDetailErrorMessage ||
+                                buildPlanDetailsErrorMessage ||
+                                buildPlanRulesErrorMessage}`}
+                        />
+                    </Grid>
+                )}
 
                 {buildPlansLoading ||
                 buildPlanDetailsLoading ||
@@ -352,7 +362,12 @@ BuildPlans.propTypes = {
     buildPlanSnackbarVisible: PropTypes.bool,
     setBuildPlanSnackbarVisible: PropTypes.func.isRequired,
     buildPlanDetailSnackbarVisible: PropTypes.bool,
-    setBuildPlanDetailSnackbarVisible: PropTypes.func.isRequired
+    setBuildPlanDetailSnackbarVisible: PropTypes.func.isRequired,
+    buildPlanErrorMessage: PropTypes.string,
+    buildPlansErrorMessage: PropTypes.string,
+    buildPlanDetailErrorMessage: PropTypes.string,
+    buildPlanDetailsErrorMessage: PropTypes.string,
+    buildPlanRulesErrorMessage: PropTypes.string
 };
 
 BuildPlans.defaultProps = {
@@ -369,5 +384,10 @@ BuildPlans.defaultProps = {
     buildPlanDetailLoading: false,
     buildPlanDetail: null,
     buildPlanSnackbarVisible: false,
-    buildPlanDetailSnackbarVisible: false
+    buildPlanDetailSnackbarVisible: false,
+    buildPlanErrorMessage: '',
+    buildPlansErrorMessage: '',
+    buildPlanDetailErrorMessage: '',
+    buildPlanDetailsErrorMessage: '',
+    buildPlanRulesErrorMessage: ''
 };
