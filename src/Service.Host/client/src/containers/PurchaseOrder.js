@@ -10,6 +10,7 @@ import buildSernosActions from '../actions/buildSernosActions';
 import purchaseOrderActions from '../actions/purchaseOrderActions';
 import purchaseOrderSelectors from '../selectors/purchaseOrderSelectors';
 import issueSernosSelectors from '../selectors/issueSernosSelectors';
+import buildSernosSelectors from '../selectors/buildSernosSelectors';
 import * as itemTypes from '../itemTypes';
 import * as processTypes from '../processTypes';
 
@@ -18,11 +19,16 @@ const mapStateToProps = (state, { match }) => ({
     itemId: match.params.id,
     editStatus: purchaseOrderSelectors.getEditStatus(state),
     itemLoading: purchaseOrderSelectors.getLoading(state),
-    snackbarVisible: issueSernosSelectors.getMessageVisible(state),
-    message: issueSernosSelectors.getMessageText(state),
+    snackbarVisible: purchaseOrderSelectors.getSnackbarVisible(state),
+    issueMessage: issueSernosSelectors.getMessageText(state),
+    issueSernosSnackbarVisible: issueSernosSelectors.getMessageVisible(state),
+    buildSernosSnackbarVisible: buildSernosSelectors.getMessageVisible(state),
+    buildMessage: buildSernosSelectors.getMessageText(state),
     itemError: getItemErrorDetailMessage(state, itemTypes.purchaseOrder.item),
     buildError: getItemError(state, processTypes.buildSernos),
-    issueError: getItemError(state, processTypes.issueSernos)
+    issueError: getItemError(state, processTypes.issueSernos),
+    issueRequested: issueSernosSelectors.getWorking(state),
+    buildRequested: buildSernosSelectors.getWorking(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {
@@ -34,7 +40,10 @@ const mapDispatchToProps = {
     issueSernos: issueSernosActions.requestProcessStart,
     buildSernos: buildSernosActions.requestProcessStart,
     setEditStatus: purchaseOrderActions.setEditStatus,
-    updatePurchaseOrder: purchaseOrderActions.update
+    setSnackbarVisible: purchaseOrderActions.setSnackbarVisible,
+    updatePurchaseOrder: purchaseOrderActions.update,
+    setIssueMessageVisible: issueSernosActions.setMessageVisible,
+    setBuildMessageVisible: buildSernosActions.setMessageVisible
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(PurchaseOrder));

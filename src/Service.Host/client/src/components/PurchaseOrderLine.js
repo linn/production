@@ -1,15 +1,40 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import { InputField, Dropdown } from '@linn-it/linn-form-components-library';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 
 function PurchaseOrderLine({ detail, issueSernos, buildSernos, partNumber, orderNumber }) {
     const [details, setDetails] = useState({});
     const handleFieldChange = (propertyName, newValue) => {
         setDetails({ ...details, [propertyName]: newValue });
     };
+
+    const fromValid = () =>
+        details?.from >= detail?.firstSernos && details?.from <= detail?.lastSernos;
+
+    const buildInvalid = () => details?.qtyToBuild > detail?.sernosIssued - detail?.sernosBuilt;
+
+    const issueInvalid = () => details?.qtyToIssue > detail?.orderQuantity - detail?.sernosIssued;
+
+    useEffect(() => {
+        if (details.qtyToBuild) {
+            setDetails(d => ({
+                ...d,
+                from: detail?.firstSernos + detail?.sernosBuilt,
+                to: detail?.firstSernos + details.qtyToBuild
+            }));
+        } else {
+            setDetails(d => ({
+                ...d,
+                firstSernos: null,
+                lastSernos: null
+            }));
+        }
+    }, [details.qtyToBuild, detail, setDetails]);
+
     return (
         <Fragment key={details?.orderLine}>
             <Grid item xs={12}>
@@ -74,6 +99,12 @@ function PurchaseOrderLine({ detail, issueSernos, buildSernos, partNumber, order
                     propertyName="qtyToIssue"
                     onChange={handleFieldChange}
                     value={details?.qtyToIssue}
+                    error={details?.qtyToIssue && issueInvalid()}
+                    helperText={
+                        details?.qtyToIssue && issueInvalid()
+                            ? 'Cannot issue more than order quantiy'
+                            : ''
+                    }
                     label="Qty to Issue"
                 />
             </Grid>
@@ -85,6 +116,10 @@ function PurchaseOrderLine({ detail, issueSernos, buildSernos, partNumber, order
                     propertyName="qtyToBuild"
                     onChange={handleFieldChange}
                     value={details?.qtyToBuild}
+                    error={details?.qtyToBuild && buildInvalid()}
+                    helperText={
+                        details?.qtyToBuild && buildInvalid() ? 'Cannot build more than issued' : ''
+                    }
                     label="Qty to Build"
                 />
             </Grid>
@@ -95,6 +130,9 @@ function PurchaseOrderLine({ detail, issueSernos, buildSernos, partNumber, order
                     value={details?.from}
                     label="From Serial"
                     propertyName="from"
+                    error={details?.qtyToBuild && !fromValid()}
+                    helperText={fromValid() ? '' : 'Must be within range'}
+                    disabled={!details.qtyToBuild}
                     onChange={handleFieldChange}
                 />
             </Grid>
@@ -102,43 +140,50 @@ function PurchaseOrderLine({ detail, issueSernos, buildSernos, partNumber, order
                 <InputField
                     fullWidth
                     type="number"
-                    value={details?.to}
+                    value={details?.from + details?.qtyToBuild}
                     label="To Serial"
                     propertyName="to"
                     onChange={handleFieldChange}
+                    disabled
                 />
             </Grid>
             <Grid item xs={3} />
             <Grid item xs={12}>
                 <Button
                     onClick={() =>
+                        issueSernos({
+                            documentNumber: orderNumber,
+                            documentType: 'PO',
+                            documentLine: detail?.orderLine,
+                            partNumber,
+                            quantity: details?.qtyToIssue,
+                            firstSerialNumber: detail?.firstSernos
+                        })
+                    }
+                    disabled={!details?.qtyToIssue || issueInvalid()}
+                    variant="outlined"
+                    color="primary"
+                >
+                    Issue
+                </Button>
+                <Button
+                    onClick={() =>
                         buildSernos({
                             partNumber,
-                            fromSerial: details?.fromSerial,
-                            toSerial: details?.toSerial,
+                            fromSerial: details?.from,
+                            toSerial: details?.from + details?.qtyToBuild,
                             orderNumber
                         })
                     }
                     variant="outlined"
-                    color="primary"
+                    disabled={!details?.qtyToBuild || buildInvalid()}
+                    color="secondary"
                 >
                     Build
                 </Button>
-                <Button
-                    onClick={() =>
-                        issueSernos({
-                            documentNumber: orderNumber,
-                            documentType: 'PO',
-                            documentLine: details?.DocumentLine,
-                            partNumber,
-                            quantity: details?.qtyToIssue
-                        })
-                    }
-                    variant="outlined"
-                    color="secondary"
-                >
-                    Issue
-                </Button>
+            </Grid>
+            <Grid item xs={12}>
+                <Divider />
             </Grid>
         </Fragment>
     );

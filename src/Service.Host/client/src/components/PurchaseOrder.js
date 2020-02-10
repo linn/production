@@ -9,9 +9,7 @@ import {
     ErrorCard,
     SnackbarMessage,
     SaveBackCancelButtons,
-    Dropdown
 } from '@linn-it/linn-form-components-library';
-import Button from '@material-ui/core/Button';
 import Page from '../containers/Page';
 import PurchaseOrderLine from './PurchaseOrderLine';
 
@@ -28,8 +26,17 @@ function PurchaseOrder({
     buildSernos,
     buildError,
     issueError,
+    issueSernosSnackbarVisible,
+    buildSernosSnackbarVisible,
+    issueMessage,
+    buildMessage,
+    setIssueMessageVisible,
+    setBuildMessageVisible,
     history,
-    updatePurchaseOrder
+    updatePurchaseOrder,
+    issueRequested,
+    buildRequested,
+    initialise
 }) {
     const [purchaseOrder, setPurchaseOrder] = useState({});
     const [prevPurchaseOrder, setPrevpurchaseOrder] = useState({});
@@ -49,6 +56,13 @@ function PurchaseOrder({
         }
         setPurchaseOrder({ ...purchaseOrder, [propertyName]: newValue });
     };
+
+    useEffect(() => {
+        // re-initialise if a process is requested
+        if (issueRequested || buildRequested) {
+            initialise({ itemId });
+        }
+    }, [issueRequested, buildRequested, initialise, itemId]);
 
     const handleSaveClick = () => updatePurchaseOrder(itemId, purchaseOrder);
     const handleCancelClick = () => {
@@ -92,7 +106,7 @@ ${purchaseOrder.country}`;
 
     if (itemLoading) {
         return (
-            <Page showRequestErrors>
+            <Page>
                 <Grid item xs={12}>
                     <Title text="Purchase Order" />
                 </Grid>
@@ -104,11 +118,8 @@ ${purchaseOrder.country}`;
     }
 
     return (
-        <Page showRequestErrors>
+        <Page showRequestErrors={false}>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Title text="Purchase Order" />
-                </Grid>
                 {itemError ? (
                     <Grid item xs={12}>
                         <ErrorCard errorMessage={itemError?.statusText} />
@@ -122,16 +133,18 @@ ${purchaseOrder.country}`;
                                     onClose={() => setSnackbarVisible(false)}
                                     message="Save Successful"
                                 />
-
-                                <Grid item xs={4}>
-                                    <InputField
-                                        fullWidth
-                                        disabled
-                                        label="Order Number"
-                                        value={purchaseOrder.orderNumber}
-                                        propertyName="orderNumber"
-                                        onChange={() => {}}
-                                    />
+                                <SnackbarMessage
+                                    visible={issueSernosSnackbarVisible}
+                                    onClose={() => setIssueMessageVisible(false)}
+                                    message={issueMessage}
+                                />
+                                <SnackbarMessage
+                                    visible={buildSernosSnackbarVisible}
+                                    onClose={() => setBuildMessageVisible(false)}
+                                    message={buildMessage}
+                                />
+                                <Grid item xs={12}>
+                                    <Title text={`Purchase Order ${purchaseOrder.orderNumber}`} />
                                 </Grid>
                                 <Grid item xs={4}>
                                     <InputField
@@ -147,7 +160,7 @@ ${purchaseOrder.country}`;
                                         label="Date"
                                     />
                                 </Grid>
-                                <Grid item xs={4} />
+                                <Grid item xs={8} />
                                 <Grid item xs={6}>
                                     <InputField
                                         fullWidth
@@ -170,7 +183,7 @@ ${purchaseOrder.country}`;
                                 {purchaseOrder.detailSernosInfos?.map(d => (
                                     <PurchaseOrderLine
                                         detail={d}
-                                        partNumber={purchaseOrder.partNumber}
+                                        partNumber={d.partNumber}
                                         orderNumber={purchaseOrder.orderNumber}
                                         issueSernos={issueSernos}
                                         buildSernos={buildSernos}
