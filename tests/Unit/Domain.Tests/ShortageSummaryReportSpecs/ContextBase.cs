@@ -25,6 +25,8 @@
 
         protected IQueryRepository<WswShortage> ShortageRepository { get; private set; }
 
+        protected IQueryRepository<WswShortageStory> WswShortageStoryRepository { get; private set; }
+
         [SetUp]
         public void SetUpContext()
         {
@@ -34,8 +36,9 @@
             this.CitRepository = Substitute.For<IRepository<Cit, string>>();
             this.ProductionBackOrderRepository = Substitute.For<IQueryRepository<ProductionBackOrder>>();
             this.ShortageRepository = Substitute.For<IQueryRepository<WswShortage>>();
+            this.WswShortageStoryRepository = Substitute.For<IQueryRepository<WswShortageStory>>();
             this.Sut = new ShortageSummaryReportService(this.AccountingCompanyRepository, this.PtlMasterRepository,
-                this.ProductionTriggerRepository,this.CitRepository, this.ProductionBackOrderRepository, this.ShortageRepository);
+                this.ProductionTriggerRepository,this.CitRepository, this.ProductionBackOrderRepository, this.ShortageRepository, this.WswShortageStoryRepository);
         }
     }
 }

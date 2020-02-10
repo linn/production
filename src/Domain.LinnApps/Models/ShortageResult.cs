@@ -65,6 +65,32 @@
             {
                 this.ProcurementShortage = true;
             }
+
+            if (!string.IsNullOrEmpty(shortage.CrfStory))
+            {
+                this.AddToNotes(shortage.ShortPartNumber, shortage.CrfStory);
+            }
+        }
+
+        public void AddWswShortageStory(WswShortageStory story)
+        {
+            this.AddToNotes(story.ShortPartNumber, story.Story);
+        }
+
+        public void AddToNotes(string shortPartNumber, string note)
+        {
+            var rowIndex = this.Results.RowIndex(shortPartNumber);
+            var notes = this.Results.GetGridTextValue(rowIndex,
+                this.Results.ColumnIndex("notes"));
+            if (string.IsNullOrEmpty(notes))
+            {
+                notes = note;
+            }
+            else
+            {
+                notes += "   " + note;
+            }
+            this.Results.SetGridTextValue(rowIndex, this.Results.ColumnIndex("notes"), notes);
         }
     }
 }

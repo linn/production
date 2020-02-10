@@ -26,6 +26,8 @@
 
         public int? CanBuild { get; set; }
 
+        public string CrfStory { get; set; }
+
         public bool IsBoardShortage()
         {
             return ShortageCategory == "EP";
