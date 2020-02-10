@@ -357,7 +357,7 @@ function LabelPrint({
                                         color="primary"
                                         className={classes.floatRight}
                                     >
-                                        Reprint label
+                                        Reprint label form
                                     </Button>
                                 </Fragment>
                                 <Title text="General Purpose Label Printer" />
@@ -515,8 +515,7 @@ function LabelPrint({
                     </Page>
                 </Grid>
                 <Grid xs={3} item>
-                    {/* for once we know the actual printing works */}
-                    {/* <img src="https://small.linncdn.com/apps/images/smiley2.png" alt="Smiley" /> */}
+                    <img src="https://small.linncdn.com/apps/images/smiley2.png" alt="Smiley" />
                 </Grid>
             </Grid>
         </Fragment>
@@ -539,7 +538,9 @@ LabelPrint.propTypes = {
     supplierSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     searchSuppliers: PropTypes.func,
     clearSupplierSearch: PropTypes.func,
-    setSnackbarVisible: PropTypes.func
+    setSnackbarVisible: PropTypes.func,
+    getAddressById: PropTypes.func,
+    addressReturnedForId: PropTypes.shape({})
 };
 
 LabelPrint.defaultProps = {
@@ -557,6 +558,8 @@ LabelPrint.defaultProps = {
     supplierSearchResults: [{}],
     searchSuppliers: null,
     clearSupplierSearch: null,
-    setSnackbarVisible: null
+    setSnackbarVisible: null,
+    getAddressById: null,
+    addressReturnedForId: {}
 };
 export default LabelPrint;

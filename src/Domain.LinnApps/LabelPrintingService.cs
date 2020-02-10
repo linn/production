@@ -19,6 +19,10 @@
 
             var dateTimeNow = DateTime.Now.ToString("ddMMMyyyyHH''mm''ss");
             var printer = ((LabelPrinters.Printers)resource.Printer).ToString();
+            if (printer == "Metalwork")
+            {
+                printer = "Castlemilk Labels";
+            }
 
             var printMapper = new Dictionary<GeneralPurposeLabelTypes.Labels, Func<LabelPrint, string, string, LabelPrintResponse>>
                               {
@@ -48,21 +52,16 @@
                     string.IsNullOrWhiteSpace(resource.LinesForPrinting.ToPCNumber)
                         ? fromString
                         : resource.LinesForPrinting.ToPCNumber);
-
-                var pcNumbers = $"\"PC{fromString}\"";
-
-                for (int pcNumber = from += 1; pcNumber <= to; pcNumber++)
+                
+                for (int pcNumber = from; pcNumber <= to; pcNumber++)
                 {
-                    pcNumbers += $", \"PC{pcNumber}\"";
-                }
-
-                this.labelService.PrintLabel(
+                    this.labelService.PrintLabel(
                         $"PC{dateTimeNow}",
                         printer,
                         resource.Quantity,
                         "c:\\lbl\\PCLabel.btw",
-                        pcNumbers);
-                
+                        $"\"PC{pcNumber}\"");
+                }
 
                 return new LabelPrintResponse(
                         $"printed pc numbers {fromString} to {to}");
