@@ -14,6 +14,7 @@
             [Display(Name = "Goods In Labels (Small)")] GISmall,
             [Display(Name = "Production Label Printer (Small)")] ProdLbl1,
             [Display(Name = "Production Label Printer (Large)")] ProdLbl2,
+            [Display(Name = "Castlemilk Labels")] Castlemilk,
             [Display(Name = "SMT Labels")] SMTSmall,
             [Display(Name = "Test Label")] TestLabels2,
             [Display(Name = "Mat Hand Labels")] MatHandLabels,
