@@ -200,6 +200,7 @@ const reducer = history =>
         smtOutstandingWorkOrderParts,
         startTriggerRun,
         storagePlaces,
+        suppliers,
         whoBuiltWhat,
         whoBuiltWhatDetails,
         worksOrder,
@@ -209,15 +210,6 @@ const reducer = history =>
         worksOrderLabels,
         workStations,
         wwdTriggerReport,
-        productionTriggerLevel,
-        workStations,
-        componentCounts,
-        labelPrint,
-        labelPrinters,
-        labelPrintTypes,
-        suppliers,
-        addresses,
-        address,
         ...sharedLibraryReducers
     });
 
