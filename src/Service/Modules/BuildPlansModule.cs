@@ -72,7 +72,7 @@
                     .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
             }
 
-            return this.Negotiate.WithModel(new UnauthorisedResult<BuildPlan>("You are not authorised to create build plans"));
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlan>>("You are not authorised to create build plans"));
         }
 
         private object UpdateBuildPlan()
@@ -87,7 +87,7 @@
                     .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
             }
 
-            return this.Negotiate.WithModel(new UnauthorisedResult<BuildPlan>("You are not authorised to amend build plans"));
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlan>>("You are not authorised to amend build plans"));
         }
 
         private object GetBuildPlanReportOptions()
@@ -149,7 +149,7 @@
                     .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
             }
 
-            return this.Negotiate.WithModel(new UnauthorisedResult<BuildPlan>("You are not authorised to create build plan details"));
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlanDetail>>("You are not authorised to create build plan details"));
         }
 
         private object UpdateBuildPlanDetail()
@@ -164,7 +164,7 @@
                     .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
             }
 
-            return this.Negotiate.WithModel(new UnauthorisedResult<BuildPlan>("You are not authorised to amend build plan details"));
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlanDetail>>("You are not authorised to amend build plan details"));
         }
     }
 }
