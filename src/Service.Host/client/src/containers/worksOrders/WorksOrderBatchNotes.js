@@ -9,7 +9,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-    fetchItems: worksOrdersBatchNotesActions.search,
+    fetchItems: worksOrdersBatchNotesActions.searchWithOptions,
     clearSearch: worksOrdersBatchNotesActions.clearSearch,
     clearErrors: worksOrdersBatchNotesActions.clearErrors
 };

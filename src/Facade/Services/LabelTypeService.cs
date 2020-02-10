@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq.Expressions;
-    using System.Reflection.Emit;
 
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
@@ -11,7 +10,8 @@
 
     public class LabelTypeService : FacadeService<LabelType, string, LabelTypeResource, LabelTypeResource>
     {
-        public LabelTypeService(IRepository<LabelType, string> repository, ITransactionManager transactionManager) : base(repository, transactionManager)
+        public LabelTypeService(IRepository<LabelType, string> repository, ITransactionManager transactionManager)
+            : base(repository, transactionManager)
         {
         }
 

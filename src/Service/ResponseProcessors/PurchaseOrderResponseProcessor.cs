@@ -7,7 +7,7 @@
     public class PurchaseOrderResponseProcessor : JsonResponseProcessor<PurchaseOrder>
     {
         public PurchaseOrderResponseProcessor(IResourceBuilder<PurchaseOrder> resourceBuilder)
-            : base(resourceBuilder, "works-order", 1)
+            : base(resourceBuilder, "purchase-order", 1)
         {
         }
     }

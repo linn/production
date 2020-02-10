@@ -92,6 +92,8 @@ import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
 import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
 import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
 import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
+import BuildPlans from '../containers/buildPlans/BuildPlans';
+import CreateBuildPlan from '../containers/buildPlans/CreateBuildPlan';
 import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
@@ -105,6 +107,7 @@ import ShortageSummary from '../containers/reports/ShortageSummary';
 import LabelPrinter from '../containers/labelPrinting/LabelPrint';
 import FailedPartsReport from '../containers/reports/FailedPartsReport';
 import LabelPrint from '../containers/labels/LabelPrint';
+import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
 
 const Root = ({ store }) => (
     <div>
@@ -582,6 +585,27 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/maintenance/build-plans"
+                                        component={BuildPlans}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans/create"
+                                        component={CreateBuildPlan}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans/:id"
+                                        component={BuildPlans}
+                                    />
+
+                                    <Route
+                                        path="/production/maintenance/build-plan-details"
+                                        component={BuildPlans}
+                                    />
+
+                                    <Route
+                                        exact
                                         path="/production/quality/ate-tests/create"
                                         component={CreateAteTest}
                                     />
@@ -624,6 +648,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/failed-parts"
                                         component={FailedPartsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/days-required"
+                                        component={DaysRequiredReport}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

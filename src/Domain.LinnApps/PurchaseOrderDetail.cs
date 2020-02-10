@@ -9,5 +9,13 @@
         public int OrderLine { get; set; }
 
         public string PartNumber { get; set; }
+
+        public Part Part { get; set; }
+
+        public int OrderQuantity { get; set; }
+
+        public string OurUnitOfMeasure { get; set; }
+
+        public string IssuedSerialNumbers { get; set; }
     }
 }

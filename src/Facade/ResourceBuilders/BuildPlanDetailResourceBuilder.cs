@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -8,15 +9,19 @@
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.BuildPlans;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     public class BuildPlanDetailResourceBuilder : IResourceBuilder<ResponseModel<BuildPlanDetail>>
     {
         private readonly IAuthorisationService authorisationService;
 
-        public BuildPlanDetailResourceBuilder(IAuthorisationService authorisationService)
+        private readonly ILinnWeekPack linnWeekPack;
+
+        public BuildPlanDetailResourceBuilder(IAuthorisationService authorisationService, ILinnWeekPack linnWeekPack)
         {
             this.authorisationService = authorisationService;
+            this.linnWeekPack = linnWeekPack;
         }
 
         public BuildPlanDetailResource Build(ResponseModel<BuildPlanDetail> model)
@@ -27,17 +32,21 @@
                        {
                            BuildPlanName = buildPlanDetail.BuildPlanName,
                            PartNumber = buildPlanDetail.PartNumber,
-                           FromLinnWeekNumber = buildPlanDetail.FromLinnWeekNumber,
-                           ToLinnWeekNumber = buildPlanDetail.ToLinnWeekNumber,
+                           FromDate = this.linnWeekPack.LinnWeekStartDate(buildPlanDetail.FromLinnWeekNumber).ToString("o"),
+                           ToDate = buildPlanDetail.ToLinnWeekNumber == null || buildPlanDetail.ToLinnWeekNumber < 0
+                                        ? null
+                                        : this.linnWeekPack.LinnWeekStartDate((int)buildPlanDetail.ToLinnWeekNumber)
+                                            .ToString("o"),
                            RuleCode = buildPlanDetail.RuleCode,
                            Quantity = buildPlanDetail.Quantity,
+                           PartDescription = buildPlanDetail.Part?.Description,
                            Links = this.BuildLinks(model).ToArray()
                        };
         }
 
         public string GetLocation(ResponseModel<BuildPlanDetail> model)
         {
-            return $"/production/maintenance/build-plan-rules";
+            return "/production/maintenance/build-plan-details";
         }
 
         object IResourceBuilder<ResponseModel<BuildPlanDetail>>.Build(ResponseModel<BuildPlanDetail> model) =>

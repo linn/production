@@ -172,8 +172,11 @@
         private object GetWorksOrdersForPart()
         {
             var resource = this.Bind<SearchRequestResource>();
-
-            var worksOrders = this.worksOrdersService.SearchByBoardNumber(resource.SearchTerm);
+            
+            var worksOrders = this.worksOrdersService.SearchByBoardNumber(
+                resource.SearchTerm, 
+                resource.Limit,
+                resource.OrderByDesc);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");

@@ -18,18 +18,18 @@
 
         private readonly ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository;
 
-        private readonly IFailsReportService failsReportService;
+        private readonly IProductionMeasuresReportService productionMeasuresReportService;
 
         public ProductionMeasuresReportFacade(
             IRepository<ProductionMeasures, string> productionMeasuresRepository,
             ISingleRecordRepository<PtlMaster> ptlMasterRepository,
             ISingleRecordRepository<OsrRunMaster> osrRunMasterRepository,
-            IFailsReportService failsReportService)
+            IProductionMeasuresReportService productionMeasuresReportService)
         {
             this.productionMeasuresRepository = productionMeasuresRepository;
             this.ptlMasterRepository = ptlMasterRepository;
             this.osrRunMasterRepository = osrRunMasterRepository;
-            this.failsReportService = failsReportService;
+            this.productionMeasuresReportService = productionMeasuresReportService;
         }
 
         public IResult<IEnumerable<ProductionMeasures>> GetProductionMeasuresForCits()
@@ -59,7 +59,12 @@
 
         public IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(string citCode)
         {
-            return new SuccessResult<IEnumerable<ResultsModel>>(this.failsReportService.FailedPartsReport(citCode));
+            return new SuccessResult<IEnumerable<ResultsModel>>(this.productionMeasuresReportService.FailedPartsReport(citCode));
+        }
+
+        public IResult<IEnumerable<ResultsModel>> GetDaysRequiredReport(string citCode)
+        {
+            return new SuccessResult<IEnumerable<ResultsModel>>(this.productionMeasuresReportService.DayRequiredReport(citCode));
         }
     }
 }

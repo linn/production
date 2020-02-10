@@ -6,15 +6,16 @@
     using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.BuildPlans;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Resources;
 
     public class BuildPlanDetailsResourceBuilder : IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>
     {
         private readonly BuildPlanDetailResourceBuilder buildPlanDetailResourceBuilder;
 
-        public BuildPlanDetailsResourceBuilder(IAuthorisationService authorisationService)
+        public BuildPlanDetailsResourceBuilder(IAuthorisationService authorisationService, ILinnWeekPack linnWeekPack)
         {
-            this.buildPlanDetailResourceBuilder = new BuildPlanDetailResourceBuilder(authorisationService);
+            this.buildPlanDetailResourceBuilder = new BuildPlanDetailResourceBuilder(authorisationService, linnWeekPack);
         }
 
         public IEnumerable<BuildPlanDetailResource> Build(ResponseModel<IEnumerable<BuildPlanDetail>> model)

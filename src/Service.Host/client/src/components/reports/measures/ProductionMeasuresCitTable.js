@@ -16,7 +16,6 @@ function ProductionMeasuresCits({ citsData, infoData }) {
     const [tabValue, setValue] = React.useState(0);
     const [hoverHref, setHoverHref] = React.useState(null);
 
-    // TODO write these drill downs and check they are all still required
     const triggerBaseHref = '../reports/triggers';
     const daysRequiredBaseHref = 'days-required';
     const shortagesBaseHref = 'shortages';

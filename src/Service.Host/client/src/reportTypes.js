@@ -163,3 +163,9 @@ export const failedPartsReport = new ItemType(
     'FAILED_PARTS_REPORT',
     '/production/reports/failed-parts'
 );
+
+export const daysRequiredReport = new ItemType(
+    'daysRequiredReport',
+    'DAYS_REQUIRED_REPORT',
+    '/production/reports/days-required'
+);

@@ -4,8 +4,10 @@
 
     using Linn.Common.Reporting.Models;
 
-    public interface IFailsReportService
+    public interface IProductionMeasuresReportService
     {
         IEnumerable<ResultsModel> FailedPartsReport(string citCode);
+
+        IEnumerable<ResultsModel> DayRequiredReport(string citCode);
     }
 }

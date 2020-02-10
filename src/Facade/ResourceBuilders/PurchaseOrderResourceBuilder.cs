@@ -1,5 +1,5 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
-{ 
+{
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -16,7 +16,24 @@
             return new PurchaseOrderResource
                        {
                            OrderNumber = purchaseOrder.OrderNumber,
-                           Parts = purchaseOrder.Details.Select(d => d.PartNumber).ToList()
+                           DateOfOrder = purchaseOrder.DateOfOrder.ToString("o"),
+                           Addressee = purchaseOrder.OrderAddress?.Addressee,
+                           Address1 = purchaseOrder.OrderAddress?.Line1,
+                           Address2 = purchaseOrder.OrderAddress?.Line2,
+                           Address3 = purchaseOrder.OrderAddress?.Line3,
+                           Address4 = purchaseOrder.OrderAddress?.Line4,
+                           PostCode = purchaseOrder.OrderAddress?.PostCode,
+                           Parts = purchaseOrder.Details.Select(d => d.PartNumber).ToList(),
+                           Details = purchaseOrder.Details.Select(
+                               d => new PurchaseOrderDetailResource
+                                        {
+                                            OrderLine = d.OrderLine,
+                                            PartNumber = d.PartNumber,
+                                            PartDescription = d.Part?.Description,
+                                            OrderQuantity = d.OrderQuantity,
+                                            OurUnitOfMeasure = d.OurUnitOfMeasure,
+                                            IssuedSerialNumbers = d.IssuedSerialNumbers
+                                        }).ToList()
                        };
         }
 
@@ -25,7 +42,10 @@
             throw new NotImplementedException();
         }
 
-        object IResourceBuilder<PurchaseOrder>.Build(PurchaseOrder purchaseOrder) => this.Build(purchaseOrder);
+        object IResourceBuilder<PurchaseOrder>.Build(PurchaseOrder purchaseOrder)
+        {
+            return this.Build(purchaseOrder);
+        }
 
         private IEnumerable<LinkResource> BuildLinks(PurchaseOrder purchaseOrder)
         {

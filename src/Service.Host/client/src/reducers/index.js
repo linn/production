@@ -86,6 +86,11 @@ import labelTypes from './labelTypes/labelTypes';
 import labelReprint from './labelReprint';
 import productionTriggerLevel from './productionTriggerLevels/productionTriggerLevel';
 import workStations from './workStations';
+import buildPlan from './buildPlan';
+import buildPlanDetails from './buildPlanDetails';
+import buildPlanDetail from './buildPlanDetail';
+import buildPlanRules from './buildPlanRules';
+import buildPlanRule from './buildPlanRule';
 import historyStore from './history';
 import ateStatusReport from './ateStatusReport';
 import ateDetailsReport from './ateDetailsReport';
@@ -97,6 +102,7 @@ import suppliers from './suppliers';
 import addresses from './addresses';
 import address from './address';
 import failedPartsReport from './failedPartsReport';
+import daysRequiredReport from './daysRequiredReport';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -109,6 +115,8 @@ const reducer = history =>
         oidc,
         historyStore,
         router: connectRouter(history),
+        address,
+        addresses,
         assemblyFail,
         assemblyFails,
         assemblyFailsDetails,
@@ -128,16 +136,26 @@ const reducer = history =>
         boardTestsReport,
         btwReport,
         buildsDetailReport,
+        buildPlan,
         buildPlans,
+        buildPlanDetail,
+        buildPlanDetails,
+        buildPlanRule,
+        buildPlanRules,
         buildPlansReport,
         buildsSummaryReport,
         cits,
+        componentCounts,
+        daysRequiredReport,
         delPerfReport,
         delPerfDetails,
         departments,
         employees,
         errors,
         failedPartsReport,
+        labelPrint,
+        labelPrinters,
+        labelPrintTypes,
         labelReprint,
         labelType,
         labelTypes,
@@ -168,6 +186,7 @@ const reducer = history =>
         productionBackOrdersReport,
         productionTriggerLevels,
         productionMeasures,
+        productionTriggerLevel,
         productionTriggersReport,
         productionTriggerFacts,
         ptlSettings,
@@ -188,6 +207,7 @@ const reducer = history =>
         worksOrderDetails,
         worksOrderLabel,
         worksOrderLabels,
+        workStations,
         wwdTriggerReport,
         productionTriggerLevel,
         workStations,

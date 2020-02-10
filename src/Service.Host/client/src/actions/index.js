@@ -235,9 +235,13 @@ export const btwReportActionTypes = makeReportActionTypes(reportTypes.btwReport.
 
 export const delPerfReportActionTypes = makeReportActionTypes(reportTypes.delPerfReport.actionType);
 
-export const shortageSummaryActionTypes = makeReportActionTypes(reportTypes.shortageSummary.actionType);
+export const shortageSummaryActionTypes = makeReportActionTypes(
+    reportTypes.shortageSummary.actionType
+);
 
-export const delPerfDetailsActionTypes = makeReportActionTypes(reportTypes.delPerfDetails.actionType);
+export const delPerfDetailsActionTypes = makeReportActionTypes(
+    reportTypes.delPerfDetails.actionType
+);
 
 export const buildPlansActionTypes = makeActionTypes(itemTypes.buildPlans.actionType);
 
@@ -258,6 +262,16 @@ export const labelPrinterActionTypes = makeActionTypes(itemTypes.labelPrinters.a
 export const labelPrintTypeActionTypes = makeActionTypes(itemTypes.labelPrintTypes.actionType);
 
 export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);
+
+export const buildPlanActionTypes = makeActionTypes(itemTypes.buildPlan.actionType);
+
+export const buildPlanDetailActionTypes = makeActionTypes(itemTypes.buildPlanDetail.actionType);
+
+export const buildPlanDetailsActionTypes = makeActionTypes(itemTypes.buildPlanDetails.actionType);
+
+export const buildPlanRuleActionTypes = makeActionTypes(itemTypes.buildPlanRule.actionType);
+
+export const buildPlanRulesActionTypes = makeActionTypes(itemTypes.buildPlanRules.actionType);
 
 export const ateStatusReportActionTypes = makeReportActionTypes(
     reportTypes.ateStatusReport.actionType
@@ -281,4 +295,8 @@ export const suppliersActionTypes = makeActionTypes(itemTypes.suppliers.actionTy
 
 export const failedPartsReportActionTypes = makeReportActionTypes(
     reportTypes.failedPartsReport.actionType
+);
+
+export const daysRequiredReportActionTypes = makeReportActionTypes(
+    reportTypes.daysRequiredReport.actionType
 );
