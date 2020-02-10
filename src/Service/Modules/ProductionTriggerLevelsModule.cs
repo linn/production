@@ -139,7 +139,6 @@
         {
             var resource = this.Bind<ProductionTriggerLevelsSearchRequestResource>();
 
-            this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
             IResult<ResponseModel<IEnumerable<ProductionTriggerLevel>>> triggers;
