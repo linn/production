@@ -106,6 +106,7 @@ import LabelPrinter from '../containers/labelPrinting/LabelPrint';
 import FailedPartsReport from '../containers/reports/FailedPartsReport';
 import LabelPrint from '../containers/labels/LabelPrint';
 import PurchaseOrder from '../containers/PurchaseOrder';
+import PurchaseOrders from '../containers/PurchaseOrders';
 
 const Root = ({ store }) => (
     <div>
@@ -630,6 +631,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/resources/purchase-orders/:id"
                                         component={PurchaseOrder}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/purchase-orders"
+                                        component={PurchaseOrders}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

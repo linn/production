@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.InteropServices.WindowsRuntime;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
@@ -34,13 +35,14 @@
                                             OrderQuantity = d.OrderQuantity,
                                             OurUnitOfMeasure = d.OurUnitOfMeasure,
                                             IssuedSerialNumbers = d.IssuedSerialNumbers
-                                        }).ToList()
+                                        }).ToList(),
+                           Links = this.BuildLinks(purchaseOrder).ToArray(),
                        };
         }
 
         public string GetLocation(PurchaseOrder purchaseOrder)
         {
-            throw new NotImplementedException();
+            return $"/production/resources/purchase-orders/{purchaseOrder.OrderNumber}";
         }
 
         object IResourceBuilder<PurchaseOrder>.Build(PurchaseOrder purchaseOrder)
@@ -50,7 +52,7 @@
 
         private IEnumerable<LinkResource> BuildLinks(PurchaseOrder purchaseOrder)
         {
-            throw new NotImplementedException();
+            yield return new LinkResource { Rel = "self", Href = this.GetLocation(purchaseOrder) };
         }
     }
 }

@@ -2,8 +2,9 @@
 {
     using System.Collections.Generic;
 
+    using Linn.Common.Resources;
 
-    public class PurchaseOrderResource
+    public class PurchaseOrderResource : HypermediaResource
     {
         public int OrderNumber { get; set; }
 

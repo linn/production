@@ -226,7 +226,7 @@ ${purchaseOrder.country}`;
                                 saveClick={handleSaveClick}
                                 cancelClick={handleCancelClick}
                                 backClick={() => {
-                                    history.push('/production/resources');
+                                    history.push('/production/resources/purchase-orders');
                                 }}
                             />
                         </Grid>

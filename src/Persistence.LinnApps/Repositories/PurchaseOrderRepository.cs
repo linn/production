@@ -48,7 +48,9 @@
 
         public IQueryable<PurchaseOrder> FilterBy(Expression<Func<PurchaseOrder, bool>> expression)
         {
-            return this.serviceDbContext.PurchaseOrders.AsNoTracking().Include(o => o.Details).Where(expression);
+            return this.serviceDbContext.PurchaseOrders.AsNoTracking()
+                .Include(o => o.OrderAddress)
+                .Include(o => o.Details).Where(expression);
         }
     }
 }
