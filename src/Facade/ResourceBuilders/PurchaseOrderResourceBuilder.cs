@@ -1,9 +1,7 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime.InteropServices.WindowsRuntime;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;

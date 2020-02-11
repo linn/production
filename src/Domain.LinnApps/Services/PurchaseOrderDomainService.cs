@@ -54,8 +54,11 @@
                 var orderNumber = detail.OrderNumber;
                 var part = detail.PartNumber;
 
-                var detailWithSernosInfo = new PurchaseOrderDetailWithSernosInfo(detail);
-                detailWithSernosInfo.NumberOfSernos = this.sernosPack.GetNumberOfSernos(part);
+                var detailWithSernosInfo =
+                    new PurchaseOrderDetailWithSernosInfo(detail)
+                        {
+                            NumberOfSernos = this.sernosPack.GetNumberOfSernos(part)
+                        };
 
                 var sernos = this.sernosIssuedRepository.FilterBy(
                     s => PurchaseOrderDocTypes.Contains(s.DocumentType)
