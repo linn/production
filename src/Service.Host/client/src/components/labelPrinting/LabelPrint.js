@@ -475,7 +475,7 @@ function LabelPrint({
                                     {labelDetails.map(
                                         line =>
                                             line.displayForLabelTypes.includes(labelType) && (
-                                                <Fragment>
+                                                <Fragment key={line.displayName}>
                                                     <Grid item xs={line.width}>
                                                         {line.inputType !== 'typeahead' && (
                                                             <Fragment>
@@ -489,6 +489,7 @@ function LabelPrint({
                                                                     propertyName={line.id}
                                                                     value={line.value}
                                                                     className={getInputStyle()}
+                                                                    key={line.displayName}
                                                                 />
                                                             </Fragment>
                                                         )}
@@ -529,7 +530,7 @@ LabelPrint.propTypes = {
     labelPrintTypes: PropTypes.arrayOf(PropTypes.shape({})),
     labelPrinters: PropTypes.arrayOf(PropTypes.shape({})),
     print: PropTypes.func.isRequired,
-    message: PropTypes.shape(PropTypes.shape(PropTypes.string)),
+    message: PropTypes.shape({ data: PropTypes.shape({ message: PropTypes.string }) }),
     searchAddresses: PropTypes.func,
     addressSearchLoading: PropTypes.bool,
     addressSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
