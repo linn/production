@@ -14,7 +14,7 @@
     public class BuildPlanDetailService :
         FacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>,
         IBuildPlanDetailsService
-    { 
+    {
         private readonly ILinnWeekPack linnWeekPack;
 
         private readonly IRepository<BuildPlanDetail, BuildPlanDetailKey> repository;
@@ -36,7 +36,12 @@
         {
             var fromWeek = this.linnWeekPack.LinnWeekNumber(DateTime.Parse(resource.FromDate));
 
-            var key = new BuildPlanDetailKey { PartNumber = resource.PartNumber, BuildPlanName = resource.BuildPlanName, FromLinnWeekNumber = fromWeek };
+            var key = new BuildPlanDetailKey
+                          {
+                              PartNumber = resource.PartNumber,
+                              BuildPlanName = resource.BuildPlanName,
+                              FromLinnWeekNumber = fromWeek
+                          };
 
             var buildPlanDetail = this.repository.FindById(key);
 

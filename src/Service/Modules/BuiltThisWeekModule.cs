@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Service.Modules
 {
     using Linn.Production.Facade.Services;
-    using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Models;
     using Nancy;
