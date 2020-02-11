@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -23,6 +22,7 @@
                            Address3 = purchaseOrder.OrderAddress?.Line3,
                            Address4 = purchaseOrder.OrderAddress?.Line4,
                            PostCode = purchaseOrder.OrderAddress?.PostCode,
+                           Remarks = purchaseOrder.Remarks,
                            Parts = purchaseOrder.Details.Select(d => d.PartNumber).ToList(),
                            Details = purchaseOrder.Details.Select(
                                d => new PurchaseOrderDetailResource
@@ -33,13 +33,14 @@
                                             OrderQuantity = d.OrderQuantity,
                                             OurUnitOfMeasure = d.OurUnitOfMeasure,
                                             IssuedSerialNumbers = d.IssuedSerialNumbers
-                                        }).ToList()
+                                        }).ToList(),
+                           Links = this.BuildLinks(purchaseOrder).ToArray(),
                        };
         }
 
         public string GetLocation(PurchaseOrder purchaseOrder)
         {
-            throw new NotImplementedException();
+            return $"/production/resources/purchase-orders/{purchaseOrder.OrderNumber}";
         }
 
         object IResourceBuilder<PurchaseOrder>.Build(PurchaseOrder purchaseOrder)
@@ -49,7 +50,7 @@
 
         private IEnumerable<LinkResource> BuildLinks(PurchaseOrder purchaseOrder)
         {
-            throw new NotImplementedException();
+            yield return new LinkResource { Rel = "self", Href = this.GetLocation(purchaseOrder) };
         }
     }
 }

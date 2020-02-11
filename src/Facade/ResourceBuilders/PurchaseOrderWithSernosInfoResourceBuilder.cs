@@ -3,6 +3,8 @@
     using System.Linq;
 
     using Linn.Common.Facade;
+    using Linn.Common.Persistence;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Resources;
 
@@ -19,7 +21,9 @@
                             Address2 = model.OrderAddress.Line2,
                             Address3 = model.OrderAddress.Line3,
                             Address4 = model.OrderAddress.Line4,
+                            Remarks = model.Remarks,
                             PostCode = model.OrderAddress.PostCode,
+                            Country = model.OrderAddress.Country?.Name,
                             DetailSernosInfos = model.DetaisWithSernosInfo.Select(x => new PurchaseOrderDetaiWithSernosInfoResource
                                                                                            {
                                                                                                 OrderLine = x.OrderLine,
@@ -34,7 +38,7 @@
                                                                                                 SernosIssued = x.SernosIssued,
                                                                                                 QuantityReceived = x.QuantityReceived,
                                                                                                 NumberOfSernos = x.NumberOfSernos
-                                                                                           }).ToList()
+                                                                                           }).OrderBy(d => d.OrderLine).ToList()
                        };
         }
 

@@ -18,7 +18,7 @@
 
         private readonly IQueryRepository<PurchaseOrdersReceived> purchasedOrdersReceived;
 
-        private ISernosPack sernosPack;
+        private readonly ISernosPack sernosPack;
 
         public PurchaseOrderDomainService(
             IQueryRepository<SernosIssued> sernosIssuedRepository,
@@ -72,8 +72,9 @@
                     .Count();
 
                 detailWithSernosInfo.QuantityReceived = this.purchasedOrdersReceived
-                    .FilterBy(p => p.OrderNumber == orderNumber && p.OrderLine == detail.OrderLine)
-                    .ToList().FirstOrDefault()?.QuantityNetReceived;
+                    .FilterBy(p => p.OrderNumber == orderNumber && p.OrderLine == detail.OrderLine).ToList().FirstOrDefault()
+                    ?.QuantityNetReceived;
+                                               
 
                 detailWithSernosInfo.SernosBuilt = this.sernosBuiltRepository.FilterBy(
                     s => s.SernosGroup == sernosGroup

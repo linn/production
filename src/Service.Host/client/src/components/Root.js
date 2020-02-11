@@ -107,6 +107,8 @@ import ShortageSummary from '../containers/reports/ShortageSummary';
 import LabelPrinter from '../containers/labelPrinting/LabelPrint';
 import FailedPartsReport from '../containers/reports/FailedPartsReport';
 import LabelPrint from '../containers/labels/LabelPrint';
+import PurchaseOrder from '../containers/PurchaseOrder';
+import PurchaseOrders from '../containers/PurchaseOrders';
 import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
 
 const Root = ({ store }) => (
@@ -648,6 +650,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/failed-parts"
                                         component={FailedPartsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/purchase-orders/:id"
+                                        component={PurchaseOrder}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/purchase-orders"
+                                        component={PurchaseOrders}
                                     />
                                     <Route
                                         exact

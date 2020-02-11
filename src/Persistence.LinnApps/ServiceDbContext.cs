@@ -153,6 +153,7 @@
         public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
 
         public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
+
         public DbQuery<WswShortage> WswShortages { get; set; }
 
         public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
@@ -1200,9 +1201,9 @@
             q.Property(b => b.Line2).HasColumnName("ADDRESS_2").HasMaxLength(40);
             q.Property(b => b.Line3).HasColumnName("ADDRESS_3").HasMaxLength(40);
             q.Property(b => b.Line4).HasColumnName("ADDRESS_4").HasMaxLength(40);
-            q.Property(b => b.Country).HasColumnName("COUNTRY").HasMaxLength(2);
             q.Property(b => b.PostCode).HasColumnName("POSTAL_CODE");
             q.Property(b => b.DateInvalid).HasColumnName("DATE_INVALID");
+            q.HasOne(b => b.Country).WithMany(c => c.Addresses).HasForeignKey("COUNTRY");
         }
 
         private void BuildSuppliers(ModelBuilder builder)

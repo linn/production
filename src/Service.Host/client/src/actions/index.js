@@ -297,6 +297,12 @@ export const failedPartsReportActionTypes = makeReportActionTypes(
     reportTypes.failedPartsReport.actionType
 );
 
+export const issueSernosActionTypes = makeProcessActionTypes(processTypes.issueSernos.actionType);
+
+export const buildSernosActionTypes = makeProcessActionTypes(processTypes.buildSernos.actionType);
+
+export const purchaseOrderActionTypes = makeActionTypes(itemTypes.purchaseOrder.actionType);
+
 export const daysRequiredReportActionTypes = makeReportActionTypes(
     reportTypes.daysRequiredReport.actionType
 );

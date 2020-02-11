@@ -15,7 +15,12 @@
         [SetUp]
         public void SetUp()
         {
-            this.AddressService.GetById(Arg.Any<int>()).Returns(new SuccessResult<Address>( new Address() { Id = 15, Addressee = "Drumph" }));
+            this.AddressService.GetById(Arg.Any<int>()).Returns(new SuccessResult<Address>(new Address()
+                                                                                               {
+                                                                                                   Id = 15,
+                                                                                                   Country = new Country(),
+                                                                                                   Addressee = "Drumph"
+                                                                                               }));
 
 
             this.Response = this.Browser.Get(
