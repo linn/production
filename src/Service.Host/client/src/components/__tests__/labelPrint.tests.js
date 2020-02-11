@@ -15,12 +15,16 @@ const clearSupplierSearch = jest.fn();
 const labelPrintTypes = [
     { id: 0, name: 'wan' },
     { id: 2, name: 'two' },
-    { id: 1, name: 'buckle ma shoe' }
+    { id: 1, name: 'buckle ma shoe' },
+    { id: 3, name: '3' },
+    { id: 4, name: '4' }
 ];
 const labelPrinters = [
     { id: 3, name: 'three' },
     { id: 4, name: 'four' },
-    { id: 1, name: 'knock on the door' }
+    { id: 1, name: 'knock on the door' },
+    { id: 2, name: '2' },
+    { id: 0, name: '0' }
 ];
 
 const defaultProps = {

@@ -530,7 +530,7 @@ LabelPrint.propTypes = {
     labelPrintTypes: PropTypes.arrayOf(PropTypes.shape({})),
     labelPrinters: PropTypes.arrayOf(PropTypes.shape({})),
     print: PropTypes.func.isRequired,
-    message: PropTypes.shape(PropTypes.shape(PropTypes.string)),
+    message: PropTypes.shape({ data: PropTypes.shape({ message: PropTypes.string }) }),
     searchAddresses: PropTypes.func,
     addressSearchLoading: PropTypes.bool,
     addressSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
