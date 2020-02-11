@@ -40,8 +40,6 @@ function ManufacturingResource({
 
     const resourceCodeInvalid = () => !manufacturingResource.resourceCode;
 
-    const inputInvalid = () => resourceCodeInvalid();
-
     const handleSaveClick = () => {
         if (editing()) {
             updateItem(itemId, manufacturingResource);
@@ -143,7 +141,7 @@ function ManufacturingResource({
                 )}
                 <Grid item xs={12}>
                     <SaveBackCancelButtons
-                        saveDisabled={viewing() || inputInvalid()}
+                        saveDisabled={viewing() || resourceCodeInvalid()}
                         saveClick={handleSaveClick}
                         cancelClick={handleCancelClick}
                         backClick={handleBackClick}
