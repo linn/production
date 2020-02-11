@@ -6,7 +6,7 @@
 
     public class PartsReportFacadeService : IPartsReportFacadeService
     {
-        private IPartsReportService partsReportService;
+        private readonly IPartsReportService partsReportService;
 
         public PartsReportFacadeService(IPartsReportService partsReportService)
         {

@@ -23,6 +23,9 @@ function App() {
                 >
                     <Typography color="primary">Assembly Fail Fault Codes Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/maintenance/build-plans" button>
+                    <Typography color="primary">Build Plans Utility</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/quality/part-fails" button>
                     <Typography color="primary">Part Fail Log</Typography>
                 </ListItem>

@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Service.Modules
 {
-    using Linn.Production.Domain.LinnApps.Reports;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Models;

@@ -14,7 +14,7 @@
     {
         protected ProductionMeasuresReportFacade Sut { get; private set; }
 
-        protected IFailsReportService FailsReportService { get; private set; }
+        protected IProductionMeasuresReportService ProductionMeasuresReportService { get; private set; }
 
         protected IRepository<ProductionMeasures, string> ProductionMeasuresRepository { get; private set; }
 
@@ -25,7 +25,7 @@
         [SetUp]
         public void SetUpContext()
         {
-            this.FailsReportService = Substitute.For<IFailsReportService>();
+            this.ProductionMeasuresReportService = Substitute.For<IProductionMeasuresReportService>();
             this.ProductionMeasuresRepository = Substitute.For<IRepository<ProductionMeasures, string>>();
             this.PtlMasterRepository = Substitute.For<ISingleRecordRepository<PtlMaster>>();
             this.OsrRunMasterRepository = Substitute.For<ISingleRecordRepository<OsrRunMaster>>();
@@ -33,7 +33,7 @@
                 this.ProductionMeasuresRepository,
                 this.PtlMasterRepository,
                 this.OsrRunMasterRepository,
-                this.FailsReportService);
+                this.ProductionMeasuresReportService);
         }
     }
 }

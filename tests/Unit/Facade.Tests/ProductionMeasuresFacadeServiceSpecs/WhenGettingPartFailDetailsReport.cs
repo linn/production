@@ -19,7 +19,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.FailsReportService.FailedPartsReport("P").Returns(
+            this.ProductionMeasuresReportService.FailedPartsReport("P").Returns(
                 new List<ResultsModel> { new ResultsModel { ReportTitle = new NameModel("Title") } });
 
             this.results = this.Sut.GetFailedPartsReport("P");
@@ -28,7 +28,7 @@
         [Test]
         public void ShouldGetReport()
         {
-            this.FailsReportService.Received().FailedPartsReport("P");
+            this.ProductionMeasuresReportService.Received().FailedPartsReport("P");
         }
 
         [Test]

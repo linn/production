@@ -39,10 +39,6 @@ function ManufacturingResource({
     }, [item, prevManufacturingResource]);
 
     const resourceCodeInvalid = () => !manufacturingResource.resourceCode;
-    const descriptionInvalid = () => !manufacturingResource.description;
-    const costInvalid = () => !manufacturingResource.cost;
-
-    const inputInvalid = () => resourceCodeInvalid() || descriptionInvalid() || costInvalid();
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -124,10 +120,6 @@ function ManufacturingResource({
                                     label="Description"
                                     maxLength={50}
                                     fullWidth
-                                    helperText={
-                                        descriptionInvalid() ? 'This field is required' : ''
-                                    }
-                                    required
                                     onChange={handleFieldChange}
                                     propertyName="description"
                                 />
@@ -140,8 +132,6 @@ function ManufacturingResource({
                                     decimalPlaces={2}
                                     maxLength={14}
                                     fullWidth
-                                    helperText={costInvalid() ? 'This field is required' : ''}
-                                    required
                                     onChange={handleFieldChange}
                                     propertyName="cost"
                                 />
@@ -151,7 +141,7 @@ function ManufacturingResource({
                 )}
                 <Grid item xs={12}>
                     <SaveBackCancelButtons
-                        saveDisabled={viewing() || inputInvalid()}
+                        saveDisabled={viewing() || resourceCodeInvalid()}
                         saveClick={handleSaveClick}
                         cancelClick={handleCancelClick}
                         backClick={handleBackClick}

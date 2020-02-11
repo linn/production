@@ -54,7 +54,7 @@
             builder.RegisterType<CountComponentsService>().As<ICountComponents>();
             builder.RegisterType<PurchaseOrderDomainService>().As<IPurchaseOrderDomainService>();
             builder.RegisterType<ShortageSummaryReportService>().As<IShortageSummaryReportService>();
-            builder.RegisterType<FailsReportService>().As<IFailsReportService>();
+            builder.RegisterType<ProductionMeasuresReportService>().As<IProductionMeasuresReportService>();
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
 
             // facade services
@@ -75,6 +75,7 @@
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
             builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
+            builder.RegisterType<BuildPlanDetailService>().As<IBuildPlanDetailsService>();
             builder.RegisterType<ProductionTriggerLevelService>().As<IProductionTriggerLevelsService>();
             builder.RegisterType<PcasRevisionService>()
                 .As<IFacadeService<PcasRevision, string, PcasRevisionResource, PcasRevisionResource>>();
@@ -157,7 +158,6 @@
             builder.RegisterType<LabelPack>().As<ILabelPack>();
             builder.RegisterType<WwdTrigProxy>().As<IWwdTrigFunction>();
             builder.RegisterType<WorksOrderLabelPack>().As<IWorksOrderLabelPack>();
-            
 
             // rest client proxies
             builder.RegisterType<RestClient>().As<IRestClient>();

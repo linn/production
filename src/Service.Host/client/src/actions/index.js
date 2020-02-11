@@ -263,6 +263,16 @@ export const labelPrintTypeActionTypes = makeActionTypes(itemTypes.labelPrintTyp
 
 export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.actionType, false);
 
+export const buildPlanActionTypes = makeActionTypes(itemTypes.buildPlan.actionType);
+
+export const buildPlanDetailActionTypes = makeActionTypes(itemTypes.buildPlanDetail.actionType);
+
+export const buildPlanDetailsActionTypes = makeActionTypes(itemTypes.buildPlanDetails.actionType);
+
+export const buildPlanRuleActionTypes = makeActionTypes(itemTypes.buildPlanRule.actionType);
+
+export const buildPlanRulesActionTypes = makeActionTypes(itemTypes.buildPlanRules.actionType);
+
 export const ateStatusReportActionTypes = makeReportActionTypes(
     reportTypes.ateStatusReport.actionType
 );
@@ -292,3 +302,6 @@ export const issueSernosActionTypes = makeProcessActionTypes(processTypes.issueS
 export const buildSernosActionTypes = makeProcessActionTypes(processTypes.buildSernos.actionType);
 
 export const purchaseOrderActionTypes = makeActionTypes(itemTypes.purchaseOrder.actionType);
+export const daysRequiredReportActionTypes = makeReportActionTypes(
+    reportTypes.daysRequiredReport.actionType
+);

@@ -44,7 +44,6 @@
                                                                               DateOfOrder = purchaseOrder.DateOfOrder,
                                                                               Remarks = purchaseOrder.Remarks,
                                                                           };
-            
 
             foreach (var detail in purchaseOrder.Details)
             {
