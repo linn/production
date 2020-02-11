@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
 
+    using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
@@ -30,6 +31,8 @@
         public List<AssemblyFail> AssemblyFails { get; set; }
 
         public List<WorksOrder> WorksOrders { get; set; }
+
+        public List<BuildPlanDetail> BuildPlanDetails { get; set; }
 
         public IEnumerable<WorksOrderLabel> WorksOrderLabels { get; set; }
 

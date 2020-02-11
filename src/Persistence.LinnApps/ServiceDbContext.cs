@@ -38,6 +38,8 @@
 
         public DbQuery<FailedParts> FailedParts { get; set; }
 
+        public DbQuery<ProductionDaysRequired> ProductionDaysRequired { get; set; }
+
         public DbQuery<BomDetailExplodedPhantomPartView> BomDetailExplodedPhantomPartView { get; set; }
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
@@ -144,6 +146,10 @@
 
         public DbQuery<SernosIssued> SernosIssuedView { get; set; }
 
+        public DbQuery<WswShortageStory> WswShortageStories { get; set; }
+
+        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
+
         public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
 
         public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
@@ -163,13 +169,12 @@
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
             this.QueryFailedParts(builder);
+            this.QueryDaysRequired(builder);
             this.QueryMCDLines(builder);
             this.BuildManufacturingResources(builder);
-
             this.BuildManufacturingSkills(builder);
             this.BuildManufacturingRoutes(builder);
             this.BuildManufacturingOperations(builder);
-
             this.BuildBoardFailTypes(builder);
             this.BuildTestMachines(builder);
             this.BuildBoardTests(builder);
@@ -210,14 +215,14 @@
             this.BuildSerialNumbers(builder);
             this.BuildBuildPlans(builder);
             this.QueryBuildPlanDetailsReportLines(builder);
-            this.QueryBuildPlanDetails(builder);
+            this.BuildBuildPlanDetails(builder);
             this.BuildAteTests(builder);
             this.BuildAteTestDetails(builder);
             this.QueryBuildPlanRules(builder);
             this.QueryBuiltThisWeekStatistics(builder);
             this.QueryPtlStats(builder);
             this.QueryWswShortages(builder);
-            base.OnModelCreating(builder);
+            this.QueryWswShortageStories(builder);
             this.BuildLabelTypes(builder);
             this.BuildCountries(builder);
             this.BuildAddresses(builder);
@@ -225,6 +230,7 @@
             this.QuerySernosIssuedView(builder);
             this.QueryPurchaseOrdersReceivedView(builder);
             this.BuildSuppliers(builder);
+            base.OnModelCreating(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -504,6 +510,34 @@
             builder.Query<FailedParts>().Property(t => t.StoragePlace).HasColumnName("STORAGE_PLACE");
             builder.Query<FailedParts>().Property(t => t.PreferredSupplierId).HasColumnName("PREFERRED_SUPPLIER");
             builder.Query<FailedParts>().Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
+        }
+
+        private void QueryDaysRequired(ModelBuilder builder)
+        {
+            builder.Query<ProductionDaysRequired>().ToView("OSR_DAYS_REQUIRED_VIEW");
+            builder.Query<ProductionDaysRequired>().Property(t => t.Priority).HasColumnName("PRIORITY");
+            builder.Query<ProductionDaysRequired>().Property(t => t.JobRef).HasColumnName("JOBREF");
+            builder.Query<ProductionDaysRequired>().Property(t => t.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<ProductionDaysRequired>().Property(t => t.PartDescription).HasColumnName("DESCRIPTION");
+            builder.Query<ProductionDaysRequired>().Property(t => t.QtyBeingBuilt).HasColumnName("QTY_BEING_BUILT");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildQty).HasColumnName("BUILD");
+            builder.Query<ProductionDaysRequired>().Property(t => t.CanBuild).HasColumnName("CAN_BUILD");
+            builder.Query<ProductionDaysRequired>().Property(v => v.CanBuildExcludingSubAssemblies).HasColumnName("CAN_BUILD_EX_SUB_ASSEMBLIES");
+            builder.Query<ProductionDaysRequired>().Property(v => v.EffectiveKanbanSize).HasColumnName("EFFECTIVE_KANBAN_SIZE");
+            builder.Query<ProductionDaysRequired>().Property(v => v.QtyBeingBuiltDays).HasColumnName("QTY_BEING_BUILT_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(v => v.CanBuildDays).HasColumnName("CAN_BUILD_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildExcludingSubAssembliesDays).HasColumnName("EX_SUB_ASSEMBLIES_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.EarliestRequestedDate).HasColumnName("EARLIEST_REQUESTED_DATE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.SortOrder).HasColumnName("SORT_ORDER");
+            builder.Query<ProductionDaysRequired>().Property(t => t.MfgRouteCode).HasColumnName("MFG_ROUTE_CODE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.DaysToBuildKanban).HasColumnName("DAYS_TO_BUILD_KANBAN");
+            builder.Query<ProductionDaysRequired>().Property(t => t.DaysToSetUpKanban).HasColumnName("DAYS_TO_SETUP_KANBAN");
+            builder.Query<ProductionDaysRequired>().Property(t => t.RecommendedBuildQty).HasColumnName("BT");
+            builder.Query<ProductionDaysRequired>().Property(t => t.RecommendedBuildQtyDays).HasColumnName("BT_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.FixedBuild).HasColumnName("FIXED_BUILD");
+            builder.Query<ProductionDaysRequired>().Property(t => t.FixedBuildDays).HasColumnName("FIXED_BUILD_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildDays).HasColumnName("BUILD_DAYS");
         }
 
         private void QueryMCDLines(ModelBuilder builder)
@@ -867,16 +901,17 @@
             q.Property(e => e.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
         }
 
-        private void QueryBuildPlanDetails(ModelBuilder builder)
+        private void BuildBuildPlanDetails(ModelBuilder builder)
         {
             var e = builder.Entity<BuildPlanDetail>();
             e.ToTable("BUILD_PLAN_DETAILS");
             e.HasKey(b => new { b.BuildPlanName, b.PartNumber, b.FromLinnWeekNumber });
-            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
-            e.Property(b => b.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME").HasMaxLength(10);
+            e.HasOne(b => b.Part).WithMany(p => p.BuildPlanDetails).HasForeignKey(b => b.PartNumber);
+            e.Property(b => b.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             e.Property(b => b.FromLinnWeekNumber).HasColumnName("FROM_LINN_WEEK_NUMBER");
             e.Property(b => b.ToLinnWeekNumber).HasColumnName("TO_LINN_WEEK_NUMBER");
-            e.Property(b => b.RuleCode).HasColumnName("RULE_CODE");
+            e.Property(b => b.RuleCode).HasColumnName("RULE_CODE").HasMaxLength(10);
             e.Property(b => b.Quantity).HasColumnName("QUANTITY");
         }
 
@@ -1250,6 +1285,19 @@
             q.Property(s => s.QtyReserved).HasColumnName("QTY_RESERVED");
             q.Property(s => s.KittingPriority).HasColumnName("KITTING_PRIORITY");
             q.Property(s => s.CanBuild).HasColumnName("SHORTAGE_CAN_BUILD");
+            q.Property(s => s.CrfStory).HasColumnName("CRF_STORY").HasMaxLength(100);
+        }
+
+        private void QueryWswShortageStories(ModelBuilder builder)
+        {
+            var q = builder.Query<WswShortageStory>();
+            q.ToView("WSW_SHORTAGE_STORIES_VIEW");
+            q.Property(s => s.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartNumber).HasColumnName("SHORT_PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.Story).HasColumnName("STORY").HasMaxLength(100);
+            q.Property(s => s.SortDate).HasColumnName("SORT_DATE");
         }
     }
 }

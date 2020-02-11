@@ -99,7 +99,9 @@
             builder.RegisterType<SernosIssuedRepository>().As<IQueryRepository<SernosIssued>>();
             builder.RegisterType<PurchaseOrdersReceivedRepository>().As<IQueryRepository<PurchaseOrdersReceived>>();
             builder.RegisterType<WswShortageRepository>().As<IQueryRepository<WswShortage>>();
+            builder.RegisterType<WswShortageStoryRepository>().As<IQueryRepository<WswShortageStory>>();
             builder.RegisterType<FailedPartsRepository>().As<IQueryRepository<FailedParts>>();
+            builder.RegisterType<ProductionDaysRequiredRepository>().As<IQueryRepository<ProductionDaysRequired>>();
         }
     }
 }

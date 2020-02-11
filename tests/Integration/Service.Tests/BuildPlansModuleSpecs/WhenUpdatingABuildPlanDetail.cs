@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Service.Tests.BuildPlansModuleSpecs
 {
+    using System;
     using System.Collections.Generic;
 
     using FluentAssertions;
@@ -22,7 +23,7 @@
         public void SetUp()
         {
             BuildPlanDetailResource requestResource =
-                new BuildPlanDetailResource { BuildPlanName = "name", PartNumber = "part", FromLinnWeekNumber = 1 };
+                new BuildPlanDetailResource { BuildPlanName = "name", PartNumber = "part", FromDate = "2007-02-20" };
 
             var buildPlanDetail =
                 new BuildPlanDetail { BuildPlanName = "name", PartNumber = "part", FromLinnWeekNumber = 1 };
@@ -30,11 +31,10 @@
             this.AuthorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailUpdate, Arg.Any<List<string>>())
                 .Returns(true);
 
-            this.BuildPlanDetailsFacadeService
-                .Update(
-                    Arg.Any<BuildPlanDetailKey>(),
-                    Arg.Any<BuildPlanDetailResource>(),
-                    Arg.Any<IEnumerable<string>>()).Returns(
+            this.LinnWeekPack.LinnWeekNumber(Arg.Any<DateTime>()).Returns(1);
+
+            this.BuildPlanDetailsService
+                .UpdateBuildPlanDetail(Arg.Any<BuildPlanDetailResource>(), Arg.Any<IEnumerable<string>>()).Returns(
                     new SuccessResult<ResponseModel<BuildPlanDetail>>(
                         new ResponseModel<BuildPlanDetail>(buildPlanDetail, new List<string>())));
 
@@ -57,8 +57,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanDetailsFacadeService.Received().Update(
-                Arg.Any<BuildPlanDetailKey>(),
+            this.BuildPlanDetailsService.Received().UpdateBuildPlanDetail(
                 Arg.Any<BuildPlanDetailResource>(),
                 Arg.Any<IEnumerable<string>>());
         }
@@ -69,7 +68,6 @@
             var resource = this.Response.Body.DeserializeJson<BuildPlanDetailResource>();
             resource.BuildPlanName.Should().Be("name");
             resource.PartNumber.Should().Be("part");
-            resource.FromLinnWeekNumber.Should().Be(1);
         }
     }
 }

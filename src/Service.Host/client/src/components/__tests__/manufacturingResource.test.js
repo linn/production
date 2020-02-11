@@ -83,7 +83,7 @@ describe('When Editing', () => {
         expect(item.closest('button')).not.toHaveAttribute('disabled');
     });
 
-    test('Should have save button disabled and no description', () => {
+    test('Should have save button enabled and no description', () => {
         const noDescription = {
             resourceCode: 'TESTCODE1',
             description: '',
@@ -95,7 +95,7 @@ describe('When Editing', () => {
         );
         const item = getByText('Save');
         expect(item).toBeInTheDocument();
-        expect(item.closest('button')).toHaveAttribute('disabled');
+        expect(item.closest('button')).not.toHaveAttribute('disabled');
     });
 });
 

@@ -23,7 +23,7 @@
             var b1 = new BuildPlanDetail { BuildPlanName = "name", PartNumber = "p1" };
             var b2 = new BuildPlanDetail { BuildPlanName = "name", PartNumber = "p2" };
 
-            this.BuildPlanDetailsFacadeService.GetAll(Arg.Any<IEnumerable<string>>()).Returns(
+            this.BuildPlanDetailsService.GetAll(Arg.Any<IEnumerable<string>>()).Returns(
                 new SuccessResult<ResponseModel<IEnumerable<BuildPlanDetail>>>(
                     new ResponseModel<IEnumerable<BuildPlanDetail>>(
                         new List<BuildPlanDetail> { b1, b2 },
@@ -46,7 +46,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.BuildPlanDetailsFacadeService.Received().GetAll(Arg.Any<IEnumerable<string>>());
+            this.BuildPlanDetailsService.Received().GetAll(Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

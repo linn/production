@@ -17,7 +17,7 @@
 
         protected override BuildPlan CreateFromResource(BuildPlanResource resource)
         {
-            return new BuildPlan()
+            return new BuildPlan
                        {
                            BuildPlanName = resource.BuildPlanName,
                            Description = resource.Description,

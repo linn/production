@@ -19,10 +19,13 @@
 
             var dateTimeNow = DateTime.Now.ToString("ddMMMyyyyHH''mm''ss");
             var printer = ((LabelPrinters.Printers)resource.Printer).ToString();
+            if (printer == "Metalwork")
+            {
+                printer = "Castlemilk Labels";
+            }
 
             var printMapper = new Dictionary<GeneralPurposeLabelTypes.Labels, Func<LabelPrint, string, string, LabelPrintResponse>>
                               {
-                                  { GeneralPurposeLabelTypes.Labels.PCNumbers, this.PrintPcNumbers },
                                   { GeneralPurposeLabelTypes.Labels.AddressLabel, this.PrintAddressLabel },
                                   { GeneralPurposeLabelTypes.Labels.Small, this.PrintSmallLabel },
                                   { GeneralPurposeLabelTypes.Labels.SmallWeeText, this.PrintSmallWeeTextLabel },
@@ -35,40 +38,6 @@
             var result = printMapper[labelType](resource, dateTimeNow, printer);
 
             return result;
-        }
-
-        private LabelPrintResponse PrintPcNumbers(LabelPrint resource, string dateTimeNow, string printer)
-        {
-            if (!string.IsNullOrWhiteSpace(resource.LinesForPrinting.FromPCNumber))
-            {
-                var fromString = resource.LinesForPrinting.FromPCNumber;
-                var from = int.Parse(fromString);
-
-                var to = int.Parse(
-                    string.IsNullOrWhiteSpace(resource.LinesForPrinting.ToPCNumber)
-                        ? fromString
-                        : resource.LinesForPrinting.ToPCNumber);
-
-                var pcNumbers = $"\"PC{fromString}\"";
-
-                for (int pcNumber = from += 1; pcNumber <= to; pcNumber++)
-                {
-                    pcNumbers += $", \"PC{pcNumber}\"";
-                }
-
-                this.labelService.PrintLabel(
-                        $"PC{dateTimeNow}",
-                        printer,
-                        resource.Quantity,
-                        "c:\\lbl\\PCLabel.btw",
-                        pcNumbers);
-                
-
-                return new LabelPrintResponse(
-                        $"printed pc numbers {fromString} to {to}");
-            }
-
-            throw new ArgumentException("No PC number provided");
         }
 
         private LabelPrintResponse PrintSmallLabel(LabelPrint resource, string dateTimeNow, string printer)
