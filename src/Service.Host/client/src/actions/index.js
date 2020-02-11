@@ -302,6 +302,7 @@ export const issueSernosActionTypes = makeProcessActionTypes(processTypes.issueS
 export const buildSernosActionTypes = makeProcessActionTypes(processTypes.buildSernos.actionType);
 
 export const purchaseOrderActionTypes = makeActionTypes(itemTypes.purchaseOrder.actionType);
+
 export const daysRequiredReportActionTypes = makeReportActionTypes(
     reportTypes.daysRequiredReport.actionType
 );
