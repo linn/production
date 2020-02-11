@@ -475,7 +475,7 @@ function LabelPrint({
                                     {labelDetails.map(
                                         line =>
                                             line.displayForLabelTypes.includes(labelType) && (
-                                                <Fragment>
+                                                <Fragment key={line.displayName}>
                                                     <Grid item xs={line.width}>
                                                         {line.inputType !== 'typeahead' && (
                                                             <Fragment>
@@ -489,6 +489,7 @@ function LabelPrint({
                                                                     propertyName={line.id}
                                                                     value={line.value}
                                                                     className={getInputStyle()}
+                                                                    key={line.displayName}
                                                                 />
                                                             </Fragment>
                                                         )}
