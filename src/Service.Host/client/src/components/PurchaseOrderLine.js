@@ -66,9 +66,10 @@ function PurchaseOrderLine({ detail, issueSernos, buildSernos, partNumber, order
             <Grid item xs={3}>
                 <Dropdown
                     fullWidth
-                    items={['', 'Y', 'N']}
+                    items={['Y', 'N']}
                     label="Issued"
                     value={detail?.issuedSerialNumbers}
+                    onChange={handleFieldChange}
                     propertyName="issuedSerialNumbers"
                     allowNoValue
                 />
@@ -191,13 +192,9 @@ function PurchaseOrderLine({ detail, issueSernos, buildSernos, partNumber, order
 
 PurchaseOrderLine.propTypes = {
     item: PropTypes.shape({}),
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     itemError: PropTypes.shape({}),
     issueSernos: PropTypes.func.isRequired,
     buildSernos: PropTypes.func.isRequired,
-    updatePurchaseOrder: PropTypes.shape({}).isRequired,
-    issueError: PropTypes.shape({}).isRequired,
-    buildError: PropTypes.shape({}).isRequired,
     detail: PropTypes.shape({}).isRequired,
     partNumber: PropTypes.string.isRequired,
     orderNumber: PropTypes.number.isRequired

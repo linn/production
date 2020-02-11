@@ -25,13 +25,15 @@ const mapStateToProps = (state, { match }) => ({
     buildSernosSnackbarVisible: buildSernosSelectors.getMessageVisible(state),
     buildMessage: buildSernosSelectors.getMessageText(state),
     itemError: getItemErrorDetailMessage(state, itemTypes.purchaseOrder.item),
-    buildError: getItemError(state, processTypes.buildSernos),
-    issueError: getItemError(state, processTypes.issueSernos),
-    issueRequested: issueSernosSelectors.getWorking(state),
-    buildRequested: buildSernosSelectors.getWorking(state)
+    buildError: getItemError(state, processTypes.buildSernos.item),
+    issueError: getItemError(state, processTypes.issueSernos.item),
+    issueWorking: issueSernosSelectors.getWorking(state),
+    buildWorking: buildSernosSelectors.getWorking(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {
+    dispatch(issueSernosActions.clearErrorsForItem());
+    dispatch(buildSernosActions.clearErrorsForItem());
     dispatch(purchaseOrderActions.fetch(itemId));
 };
 
@@ -43,7 +45,9 @@ const mapDispatchToProps = {
     setSnackbarVisible: purchaseOrderActions.setSnackbarVisible,
     updatePurchaseOrder: purchaseOrderActions.update,
     setIssueMessageVisible: issueSernosActions.setMessageVisible,
-    setBuildMessageVisible: buildSernosActions.setMessageVisible
+    setBuildMessageVisible: buildSernosActions.setMessageVisible,
+    clearIssueErrors: issueSernosActions.clearErrorsForItem,
+    clearBuildSernosErrors: buildSernosActions.clearErrorsForItem
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(PurchaseOrder));

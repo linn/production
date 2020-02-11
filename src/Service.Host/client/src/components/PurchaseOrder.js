@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
@@ -8,10 +8,18 @@ import {
     Title,
     ErrorCard,
     SnackbarMessage,
-    SaveBackCancelButtons,
+    SaveBackCancelButtons
 } from '@linn-it/linn-form-components-library';
 import Page from '../containers/Page';
 import PurchaseOrderLine from './PurchaseOrderLine';
+
+function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+        ref.current = value;
+    });
+    return ref.current;
+}
 
 function PurchaseOrder({
     editStatus,
@@ -26,17 +34,17 @@ function PurchaseOrder({
     buildSernos,
     buildError,
     issueError,
+    history,
+    updatePurchaseOrder,
+    issueWorking,
+    buildWorking,
+    initialise,
     issueSernosSnackbarVisible,
     buildSernosSnackbarVisible,
     issueMessage,
     buildMessage,
     setIssueMessageVisible,
-    setBuildMessageVisible,
-    history,
-    updatePurchaseOrder,
-    issueRequested,
-    buildRequested,
-    initialise
+    setBuildMessageVisible
 }) {
     const [purchaseOrder, setPurchaseOrder] = useState({});
     const [prevPurchaseOrder, setPrevpurchaseOrder] = useState({});
@@ -57,12 +65,18 @@ function PurchaseOrder({
         setPurchaseOrder({ ...purchaseOrder, [propertyName]: newValue });
     };
 
+    const prevProps = usePrevious({ issueWorking, buildWorking });
+
     useEffect(() => {
-        // re-initialise if a process is requested
-        if (issueRequested || buildRequested) {
+        // if process loading state changes and process is complete
+        if (
+            (prevProps?.issueWorking !== issueWorking && issueWorking === false) ||
+            (prevProps?.buildWorking !== buildWorking && !buildWorking === false)
+        ) {
+            // reload the purchase order
             initialise({ itemId });
         }
-    }, [issueRequested, buildRequested, initialise, itemId]);
+    }, [issueWorking, buildWorking, initialise, itemId, prevProps]);
 
     const handleSaveClick = () => updatePurchaseOrder(itemId, purchaseOrder);
     const handleCancelClick = () => {
@@ -126,6 +140,20 @@ ${purchaseOrder.country}`;
                     </Grid>
                 ) : (
                     <Fragment>
+                        {issueError && (
+                            <Grid item xs={12}>
+                                <ErrorCard
+                                    errorMessage={`${issueError?.statusText} - ${issueError?.item}`}
+                                />
+                            </Grid>
+                        )}
+                        {buildError && (
+                            <Grid item xs={12}>
+                                <ErrorCard
+                                    errorMessage={`${buildError?.statusText} - ${buildError?.item}`}
+                                />
+                            </Grid>
+                        )}
                         {purchaseOrder && (
                             <Fragment>
                                 <SnackbarMessage
@@ -182,6 +210,7 @@ ${purchaseOrder.country}`;
                                 </Grid>
                                 {purchaseOrder.detailSernosInfos?.map(d => (
                                     <PurchaseOrderLine
+                                        key={d.orderLine}
                                         detail={d}
                                         partNumber={d.partNumber}
                                         orderNumber={purchaseOrder.orderNumber}
@@ -220,9 +249,18 @@ PurchaseOrder.propTypes = {
     setSnackbarVisible: PropTypes.func.isRequired,
     issueSernos: PropTypes.func.isRequired,
     buildSernos: PropTypes.func.isRequired,
-    updatePurchaseOrder: PropTypes.shape({}).isRequired,
+    updatePurchaseOrder: PropTypes.func.isRequired,
     issueError: PropTypes.shape({}),
-    buildError: PropTypes.shape({})
+    buildError: PropTypes.shape({}),
+    issueSernosSnackbarVisible: PropTypes.bool,
+    buildSernosSnackbarVisible: PropTypes.bool,
+    issueMessage: PropTypes.string,
+    buildMessage: PropTypes.string,
+    setIssueMessageVisible: PropTypes.func.isRequired,
+    setBuildMessageVisible: PropTypes.func.isRequired,
+    issueWorking: PropTypes.bool,
+    buildWorking: PropTypes.bool,
+    initialise: PropTypes.func.isRequired
 };
 
 PurchaseOrder.defaultProps = {
@@ -232,7 +270,13 @@ PurchaseOrder.defaultProps = {
     itemId: null,
     itemError: null,
     issueError: null,
-    buildError: null
+    buildError: null,
+    issueSernosSnackbarVisible: false,
+    buildSernosSnackbarVisible: false,
+    issueMessage: null,
+    buildMessage: null,
+    issueWorking: null,
+    buildWorking: null
 };
 
 export default PurchaseOrder;
