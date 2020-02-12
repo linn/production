@@ -136,7 +136,7 @@
 
         public DbSet<Country> Countries { get; set; }
 
-        public DbSet<Address> Addresses { get; set; } 
+        public DbSet<Address> Addresses { get; set; }
 
         public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
@@ -148,8 +148,6 @@
 
         public DbQuery<WswShortageStory> WswShortageStories { get; set; }
 
-        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
-
         public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
 
         public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
@@ -159,6 +157,10 @@
         public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
 
         public DbQuery<PtlMaster> PtlMaster { get; set; }
+
+        public DbSet<WorksOrderTiming> WorksOrderTimings { get; set; }
+
+        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -231,6 +233,7 @@
             this.QuerySernosIssuedView(builder);
             this.QueryPurchaseOrdersReceivedView(builder);
             this.BuildSuppliers(builder);
+            this.BuildWorksOrderTimings(builder);
             base.OnModelCreating(builder);
         }
 
@@ -1299,6 +1302,22 @@
             q.Property(s => s.ShortPartNumber).HasColumnName("SHORT_PART_NUMBER").HasMaxLength(14);
             q.Property(s => s.Story).HasColumnName("STORY").HasMaxLength(100);
             q.Property(s => s.SortDate).HasColumnName("SORT_DATE");
+        }
+
+        private void BuildWorksOrderTimings(ModelBuilder builder)
+        {
+            var e = builder.Entity<WorksOrderTiming>();
+            e.ToTable("ATE_TEST_DETAILS");
+            e.HasKey(d => d.OrderNumber);
+            e.Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
+            e.Property(d => d.OperationNumber).HasColumnName("OPERATION_NUMBER");
+            e.Property(d => d.OperationType).HasColumnName("OPERATION_TYPE").HasMaxLength(50);
+            e.Property(d => d.ResourceCode).HasColumnName("RESOURCE_CODE").HasMaxLength(50);
+            e.Property(d => d.RouteCode).HasColumnName("ROUTE_CODE").HasMaxLength(50);
+            e.Property(d => d.StartTime).HasColumnName("START_TIME");
+            e.Property(d => d.EndTime).HasColumnName("END_TIME");
+            e.Property(d => d.BuiltBy).HasColumnName("BUILT_BY");
+            e.Property(d => d.TimeTaken).HasColumnName("TIME_TAKEN");
         }
     }
 }
