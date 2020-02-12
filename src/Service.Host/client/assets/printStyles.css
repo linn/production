@@ -29,6 +29,11 @@
         padding-top: 0 !important;
         margin-top: -50px;
     }
+
+    .override-page-break-inside {
+        page-break-inside: auto !important;
+    }
+
 }
 
 .date-for-printing {
