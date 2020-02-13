@@ -21,11 +21,12 @@ export default function ProductionBackOrdersReport({ reportData, loading, error 
                     {loading ? (
                         <Loading />
                     ) : (
-                        <div className="zoomed-in-printing override-page-break-inside">
+                        <div className="zoomed-in-printing">
                             <MultiReportTable
                                 reportData={reportData}
                                 showRowTitles={false}
                                 showTotals
+                                allowPageBreakInside
                             />
                         </div>
                     )}
