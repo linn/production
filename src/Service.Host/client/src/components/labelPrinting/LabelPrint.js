@@ -343,14 +343,14 @@ function LabelPrint({
     };
 
     return (
-        <Fragment>
+        <>
             <Grid container alignItems="center" justify="center">
                 <Grid item xs={3} />
                 <Grid item xs={6}>
                     <Page showRequestErrors>
                         <Grid container>
                             <Grid item xs={12}>
-                                <Fragment>
+                                <>
                                     <Button
                                         href="/production/maintenance/labels/reprint-reasons/create"
                                         variant="outlined"
@@ -359,7 +359,7 @@ function LabelPrint({
                                     >
                                         Reprint label form
                                     </Button>
-                                </Fragment>
+                                </>
                                 <Title text="General Purpose Label Printer" />
                             </Grid>
                             <SnackbarMessage
@@ -377,7 +377,7 @@ function LabelPrint({
                                     <Loading />
                                 </Grid>
                             ) : (
-                                <Fragment>
+                                <>
                                     <Grid
                                         item
                                         xs={12}
@@ -478,7 +478,7 @@ function LabelPrint({
                                                 <Fragment key={line.displayName}>
                                                     <Grid item xs={line.width}>
                                                         {line.inputType !== 'typeahead' && (
-                                                            <Fragment>
+                                                            <>
                                                                 <InputField
                                                                     label={line.displayName}
                                                                     fullWidth
@@ -491,7 +491,7 @@ function LabelPrint({
                                                                     className={getInputStyle()}
                                                                     key={line.displayName}
                                                                 />
-                                                            </Fragment>
+                                                            </>
                                                         )}
                                                     </Grid>
                                                     {line.onOwnLine && <Grid item xs={12} />}
@@ -510,7 +510,7 @@ function LabelPrint({
                                             Clear
                                         </Button>
                                     </Grid>
-                                </Fragment>
+                                </>
                             )}
                         </Grid>
                     </Page>
@@ -519,7 +519,7 @@ function LabelPrint({
                     <img src="https://small.linncdn.com/apps/images/smiley2.png" alt="Smiley" />
                 </Grid>
             </Grid>
-        </Fragment>
+        </>
     );
 }
 
