@@ -49,10 +49,10 @@ function FactListItem({ children, header, secondary, avatar }) {
 }
 
 FactListItem.propTypes = {
-    children: PropTypes.shape({}),
-    header: PropTypes.shape({}),
-    secondary: PropTypes.shape({}),
-    avatar: PropTypes.shape({})
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({})), PropTypes.shape({})]),
+    header: PropTypes.string,
+    secondary: PropTypes.string,
+    avatar: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.shape({})])
 };
 
 FactListItem.defaultProps = {
