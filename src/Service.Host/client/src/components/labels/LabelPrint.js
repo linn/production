@@ -156,6 +156,7 @@ function LabelPrint({
                                     value={selectedSernosGroup || ''}
                                     label="Filter by Sernos Group"
                                     fullWidth
+                                    allowNoValue
                                     items={sernosGroups}
                                     onChange={handleFieldChange}
                                     propertyName="selectedSernosGroup"

@@ -345,10 +345,10 @@ function LabelPrint({
     return (
         <Fragment>
             <Grid container alignItems="center" justify="center">
-                <Grid xs={3} item />
-                <Grid xs={6} item>
+                <Grid item xs={3} />
+                <Grid item xs={6}>
                     <Page showRequestErrors>
-                        <Grid item container>
+                        <Grid container>
                             <Grid item xs={12}>
                                 <Fragment>
                                     <Button
@@ -397,7 +397,7 @@ function LabelPrint({
                                                 }))}
                                                 onChange={handleLabelTypeChange}
                                                 propertyName="labelType"
-                                                allowNoValue={false}
+                                                allowNoValue
                                             />
                                         </Grid>
                                         <Grid item xs={5} className={classes.spacingRight}>
@@ -429,7 +429,7 @@ function LabelPrint({
                                     </Grid>
 
                                     <Grid
-                                        container
+                                        item
                                         xs={12}
                                         className={
                                             labelType === 4 || labelType === 5 ? '' : classes.hide
