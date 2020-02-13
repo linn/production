@@ -327,3 +327,9 @@ export const suppliers = new ItemType(
     'SUPPLIERS',
     '/production/maintenance/labels/suppliers'
 );
+
+export const purchaseOrder = new ItemType(
+    'purchaseOrder',
+    'PURCHASE_ORDER',
+    '/production/resources/purchase-orders'
+);

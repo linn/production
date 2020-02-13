@@ -7,5 +7,7 @@
         public string CountryCode { get; set; }
 
         public string Name { get; set; }
+
+        public IEnumerable<Address> Addresses { get; set; }
     }
 }

@@ -2,8 +2,9 @@
 {
     using System.Collections.Generic;
 
+    using Linn.Common.Resources;
 
-    public class PurchaseOrderResource
+    public class PurchaseOrderResource : HypermediaResource
     {
         public int OrderNumber { get; set; }
 
@@ -20,6 +21,10 @@
         public string Address4 { get; set; }
 
         public string PostCode { get; set; }
+
+        public string Country { get; set; }
+
+        public string Remarks { get; set; }
 
         public List<string> Parts { get; set; }
 

@@ -20,7 +20,9 @@
 
         public Address FindById(int key)
         {
-            return this.serviceDbContext.Addresses.Where(f => f.Id == key).ToList().FirstOrDefault();
+            return this.serviceDbContext.Addresses
+                .Where(f => f.Id == key).Include(f => f.Country)
+                .ToList().FirstOrDefault();
         }
 
         public IQueryable<Address> FindAll()

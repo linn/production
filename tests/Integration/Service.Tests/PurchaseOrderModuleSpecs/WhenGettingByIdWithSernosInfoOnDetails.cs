@@ -29,7 +29,7 @@
             var l = new PurchaseOrderWithSernosInfo
                         {
                             OrderNumber = 1,
-                            OrderAddress = new Address(),
+                            OrderAddress = new Address { Country = new Country { CountryCode = "C" } },
                             DetaisWithSernosInfo = new List<PurchaseOrderDetailWithSernosInfo>
                                                        {
                                                            new PurchaseOrderDetailWithSernosInfo(detail)

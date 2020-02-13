@@ -29,3 +29,15 @@ export const printWorksOrderAioLabels = new ItemType(
     'PRINT_WORKS_ORDER_LABELS',
     '/production/works-orders/print-aio-labels'
 );
+
+export const issueSernos = new ItemType(
+    'issueSernos',
+    'ISSUE_SERNOS',
+    '/production/resources/purchase-orders/issue-sernos'
+);
+
+export const buildSernos = new ItemType(
+    'buildSernos',
+    'BUILD_SERNOS',
+    '/production/resources/purchase-orders/build-sernos'
+);

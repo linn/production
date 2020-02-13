@@ -102,6 +102,9 @@ import suppliers from './suppliers';
 import addresses from './addresses';
 import address from './address';
 import failedPartsReport from './failedPartsReport';
+import purchaseOrder from './purchaseOrders/purchaseOrder';
+import issueSernos from './purchaseOrders/issueSernos';
+import buildSernos from './purchaseOrders/buildSernos';
 import daysRequiredReport from './daysRequiredReport';
 
 const errors = fetchErrorReducer({
@@ -143,6 +146,7 @@ const reducer = history =>
         buildPlanRule,
         buildPlanRules,
         buildPlansReport,
+        buildSernos,
         buildsSummaryReport,
         cits,
         componentCounts,
@@ -153,6 +157,7 @@ const reducer = history =>
         employees,
         errors,
         failedPartsReport,
+        issueSernos,
         labelPrint,
         labelPrinters,
         labelPrintTypes,
@@ -190,6 +195,7 @@ const reducer = history =>
         productionTriggersReport,
         productionTriggerFacts,
         ptlSettings,
+        purchaseOrder,
         purchaseOrders,
         salesArticle,
         salesArticles,

@@ -39,7 +39,7 @@
 
         protected override void UpdateFromResource(PurchaseOrder entity, PurchaseOrderResource updateResource)
         {
-            throw new NotImplementedException();
+            entity.Remarks = updateResource.Remarks;
         }
 
         protected override Expression<Func<PurchaseOrder, bool>> SearchExpression(string searchTerm)

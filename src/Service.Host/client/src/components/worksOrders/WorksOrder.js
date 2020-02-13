@@ -102,12 +102,12 @@ function WorksOrder({
 
             setWorksOrder(item);
 
-            if (item && item.partNumber) {
-                fetchWorksOrderDetails(encodeURI(item.partNumber));
+            if (item && item?.partNumber) {
+                fetchWorksOrderDetails(encodeURI(item?.partNumber));
             }
 
-            if (item && item.orderNumber) {
-                fetchSerialNumbers('documentNumber', item.orderNumber);
+            if (item && item?.orderNumber) {
+                fetchSerialNumbers('documentNumber', item?.orderNumber);
             }
         }
     }, [item, prevWorksOrder, fetchWorksOrderDetails, fetchSerialNumbers, creating]);
@@ -131,9 +131,9 @@ function WorksOrder({
         if (creating() && worksOrderDetails) {
             setWorksOrder(wo => ({
                 ...wo,
-                workStationCode: worksOrderDetails.workStationCode,
-                raisedByDepartment: worksOrderDetails.departmentCode,
-                quantity: worksOrderDetails.quantityToBuild,
+                workStationCode: worksOrderDetails?.workStationCode,
+                raisedByDepartment: worksOrderDetails?.departmentCode,
+                quantity: worksOrderDetails?.quantityToBuild,
                 quantityBuilt: 0
             }));
         }
@@ -314,14 +314,14 @@ function WorksOrder({
                                 />
                             </Grid>
                             <Grid item xs={8} />
-                            {worksOrderDetails && worksOrderDetails.auditDisclaimer && (
+                            {worksOrderDetails && worksOrderDetails?.auditDisclaimer && (
                                 <Fragment>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
                                             disabled
                                             error
-                                            value={worksOrderDetails.auditDisclaimer}
+                                            value={worksOrderDetails?.auditDisclaimer}
                                             label="Audit Disclaimer"
                                         />
                                     </Grid>
@@ -360,7 +360,7 @@ function WorksOrder({
                                         disabled
                                         value={
                                             worksOrderDetails
-                                                ? worksOrderDetails.partDescription
+                                                ? worksOrderDetails?.partDescription
                                                 : ''
                                         }
                                         label="Description"
@@ -373,7 +373,8 @@ function WorksOrder({
                                     disabled
                                     value={
                                         creating()
-                                            ? worksOrderDetails && worksOrderDetails.workStationCode
+                                            ? worksOrderDetails &&
+                                              worksOrderDetails?.workStationCode
                                             : worksOrder.workStationCode
                                     }
                                     label="Work Station"
@@ -460,7 +461,7 @@ function WorksOrder({
                                     disabled
                                     value={
                                         worksOrderDetails
-                                            ? worksOrderDetails.departmentDescription
+                                            ? worksOrderDetails?.departmentDescription
                                             : ''
                                     }
                                     label="Department"
