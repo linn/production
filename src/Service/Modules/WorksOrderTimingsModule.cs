@@ -1,9 +1,11 @@
 ﻿namespace Linn.Production.Service.Modules
 {
     using System;
+    using System.Linq;
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.WorksOrders;
@@ -23,11 +25,12 @@
         private readonly IWorksOrderTimingsService worksOrderTimingsService;
         
 
-        public WorksOrderTimingsModule(IWorksOrdersService worksOrdersService)
+        public WorksOrderTimingsModule(IWorksOrderTimingsService worksOrderTimingsService)
         {
             this.worksOrderTimingsService = worksOrderTimingsService;
 
-            this.Get("/production/works-order-timings", _ => this.GetWorksOrderTimingsForDates());
+            this.Get("/production/works-orders/timings", _ => this.GetWorksOrderTimingsForDates());
+            this.Get("/production/works-orders/all-ops", _ => this.GetApp());
         }
 
 
@@ -38,6 +41,16 @@
             var worksOrders = this.worksOrderTimingsService.SearchByDates(resource.StartDate, resource.EndDate);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
+        }
+
+        private object GetApp()
+        {
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            return this.Negotiate
+                .WithModel(new SuccessResult<ResponseModel<WorksOrderTiming>>(new ResponseModel<WorksOrderTiming>(new WorksOrderTiming(), privileges)))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
     }
