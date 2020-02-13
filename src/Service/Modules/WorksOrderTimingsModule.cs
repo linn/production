@@ -33,9 +33,9 @@
 
         private object GetWorksOrderTimingsForDates()
         {
-            var resource = this.Bind<SearchRequestResource>();
+            var resource = this.Bind<SearchByDatesRequestResource>();
             //todo use new resource to take in two dates
-            var worksOrders = this.worksOrderTimingsService.SearchByDates();
+            var worksOrders = this.worksOrderTimingsService.SearchByDates(resource.StartDate, resource.EndDate);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");

@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.IoC
 {
     using Autofac;
-
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
     using Linn.Production.Domain.LinnApps;
@@ -20,7 +19,6 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
-
     using Microsoft.EntityFrameworkCore;
 
     public class PersistenceModule : Module
@@ -85,6 +83,7 @@
             builder.RegisterType<AddressRepository>().As<IRepository<Address, int>>();
             builder.RegisterType<SupplierRepository>().As<IRepository<Supplier, int>>();
             builder.RegisterType<CountryRepository>().As<IRepository<Country, string>>();
+            builder.RegisterType<WorksOrderTimingRepository>().As<IRepository<WorksOrderTiming, int>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

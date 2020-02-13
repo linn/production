@@ -4,10 +4,10 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps.WorksOrders;
 
-    public class WorksOrderResponseProcessor : JsonResponseProcessor<WorksOrder>
+    public class WorksOrderTimingResponseProcessor : JsonResponseProcessor<WorksOrderTiming>
     {
-        public WorksOrderResponseProcessor(IResourceBuilder<WorksOrder> resourceBuilder)
-            : base(resourceBuilder, "works-order", 1)
+        public WorksOrderTimingResponseProcessor(IResourceBuilder<WorksOrderTiming> resourceBuilder)
+            : base(resourceBuilder, "works-order-timing", 1)
         {
         }
     }
