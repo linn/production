@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -41,7 +41,7 @@ function LinkTabCell(props) {
             {...other}
         >
             <Link component={RouterLink} to={href}>
-                {children}
+                <Fragment> {children} </Fragment>
             </Link>
         </TabCell>
     );
