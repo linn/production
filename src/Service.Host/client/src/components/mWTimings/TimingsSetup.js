@@ -7,13 +7,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Page from '../../containers/Page';
 
-function BuildsDetailReportOptions({
-    history,
-    departments,
-    options,
-    prevOptions,
-    departmentsLoading
-}) {
+function TimingsSetup({ history, departments, options, prevOptions, departmentsLoading }) {
     const getFromDate = () => {
         if (options.fromDate) {
             return moment(options.fromDate.replace(' ', '+'));
@@ -154,7 +148,7 @@ function BuildsDetailReportOptions({
     );
 }
 
-BuildsDetailReportOptions.propTypes = {
+TimingsSetup.propTypes = {
     options: PropTypes.shape({
         fromDate: PropTypes.string,
         toDate: PropTypes.string,
@@ -172,11 +166,11 @@ BuildsDetailReportOptions.propTypes = {
     })
 };
 
-BuildsDetailReportOptions.defaultProps = {
+TimingsSetup.defaultProps = {
     departments: [],
     options: null,
     prevOptions: null,
     departmentsLoading: false
 };
 
-export default BuildsDetailReportOptions;
+export default TimingsSetup;

@@ -1307,7 +1307,7 @@
         private void BuildWorksOrderTimings(ModelBuilder builder)
         {
             var e = builder.Entity<WorksOrderTiming>();
-            e.ToTable("ATE_TEST_DETAILS");
+            e.ToTable("WORKS_ORDER_TIMINGS");
             e.HasKey(d => d.OrderNumber);
             e.Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
             e.Property(d => d.OperationNumber).HasColumnName("OPERATION_NUMBER");

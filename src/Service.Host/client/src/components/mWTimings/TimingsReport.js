@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function WorksOrder({
+function TimingsReport({
     item,
     editStatus,
     worksOrderDetailsError,
@@ -593,7 +593,7 @@ function WorksOrder({
     );
 }
 
-WorksOrder.propTypes = {
+TimingsReport.propTypes = {
     item: PropTypes.shape({}),
     worksOrderDetails: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
@@ -635,7 +635,7 @@ WorksOrder.propTypes = {
     previousPath: PropTypes.string.isRequired
 };
 
-WorksOrder.defaultProps = {
+TimingsReport.defaultProps = {
     item: {},
     worksOrderDetails: null,
     worksOrderDetailsError: null,
@@ -659,4 +659,4 @@ WorksOrder.defaultProps = {
     serialNumbers: []
 };
 
-export default WorksOrder;
+export default TimingsReport;

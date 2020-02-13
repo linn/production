@@ -333,3 +333,9 @@ export const purchaseOrder = new ItemType(
     'PURCHASE_ORDER',
     '/production/resources/purchase-orders'
 );
+
+export const worksOrderTimings = new ItemType(
+    'worksOrderTimings',
+    'WORKSORDERTIMINGS',
+    '/production/works-orders/timings'
+);
