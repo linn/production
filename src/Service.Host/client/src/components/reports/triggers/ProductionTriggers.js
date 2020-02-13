@@ -75,7 +75,7 @@ function ProductionTriggers({ reportData, loading, cits, fetchTriggers, history,
                     {loading ? <Loading /> : ''}
                 </Grid>
                 {itemError ? (
-                    <ErrorCard errorMessage={itemError.details?.message} />
+                    <ErrorCard errorMessage={itemError?.details?.message} />
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
@@ -139,12 +139,17 @@ function ProductionTriggers({ reportData, loading, cits, fetchTriggers, history,
 }
 
 ProductionTriggers.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({
+        citCode: PropTypes.string,
+        ptlJobref: PropTypes.string,
+        triggers: PropTypes.arrayOf(PropTypes.shape({})),
+        ptlRunDateTime: PropTypes.instanceOf(Date)
+    }),
     loading: PropTypes.bool,
     config: PropTypes.shape({}),
-    cits: PropTypes.shape({}),
+    cits: PropTypes.arrayOf(PropTypes.shape({})),
     fetchTriggers: PropTypes.func.isRequired,
-    history: PropTypes.shape({}),
+    history: PropTypes.shape({ push: PropTypes.func }),
     itemError: PropTypes.shape({})
 };
 

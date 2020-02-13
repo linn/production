@@ -58,8 +58,8 @@ function NotesPopover({ id, children }) {
 }
 
 NotesPopover.propTypes = {
-    id: PropTypes.shape({}).isRequired,
-    children: PropTypes.shape({}).isRequired
+    id: PropTypes.string.isRequired,
+    children: PropTypes.string.isRequired
 };
 
 export default NotesPopover;

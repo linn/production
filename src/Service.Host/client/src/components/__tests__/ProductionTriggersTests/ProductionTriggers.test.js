@@ -12,7 +12,8 @@ describe('<ProductionTriggers />', () => {
         reportFormat: 'FULL',
         loading: false,
         cits: [{ code: 'A', name: 'A CIT' }],
-        options: null
+        options: null,
+        fetchTriggers: () => {}
     };
 
     describe('When Loading', () => {
@@ -103,7 +104,7 @@ describe('<ProductionTriggers />', () => {
         };
 
         it('should display Yes', () => {
-            const { getByText, queryByText } = render(
+            const { getByText } = render(
                 <ProductionTriggers {...defaultProps} reportData={defaultReportData} />
             );
             const yes = getByText('Yes');
@@ -132,7 +133,7 @@ describe('<ProductionTriggers />', () => {
         };
 
         it('should display Yes', () => {
-            const { getByText, queryByText } = render(
+            const { getByText } = render(
                 <ProductionTriggers {...defaultProps} reportData={defaultReportData} />
             );
             const yes = getByText('Yes');

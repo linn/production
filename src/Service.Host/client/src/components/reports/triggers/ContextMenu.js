@@ -39,8 +39,8 @@ function ContextMenu({ children, id }) {
 }
 
 ContextMenu.propTypes = {
-    children: PropTypes.shape({}),
-    id: PropTypes.shape({})
+    children: PropTypes.arrayOf(PropTypes.shape({})),
+    id: PropTypes.string
 };
 
 ContextMenu.defaultProps = {
