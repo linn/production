@@ -16,7 +16,7 @@ function ContextMenu({ children, id }) {
     }
 
     return (
-        <Fragment>
+        <>
             <IconButton
                 aria-label="more"
                 aria-controls={id}
@@ -34,7 +34,7 @@ function ContextMenu({ children, id }) {
             >
                 {children}
             </Menu>
-        </Fragment>
+        </>
     );
 }
 

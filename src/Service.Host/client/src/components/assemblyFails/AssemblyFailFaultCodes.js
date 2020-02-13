@@ -76,7 +76,7 @@ export default function AssemblyFailFaultCodes({
                     </Grid>
                 ) : (
                     faultCodes.length > 0 && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -105,7 +105,7 @@ export default function AssemblyFailFaultCodes({
                                     ))}
                                 </TableBody>
                             </Table>
-                        </Fragment>
+                        </>
                     )
                 )}
             </Grid>

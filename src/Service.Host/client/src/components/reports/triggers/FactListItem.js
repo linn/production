@@ -31,12 +31,12 @@ function FactListItem({ children, header, secondary, avatar }) {
     };
 
     return (
-        <Fragment>
+        <>
             <ListItem button onClick={handleClick}>
                 <ListItemAvatar>
-                    <Fragment>
+                    <>
                         {showAvatar(avatar) ? <Avatar>{avatar}</Avatar> : <Fragment />}
-                    </Fragment>
+                    </>
                 </ListItemAvatar>
                 <ListItemText primary={header} secondary={secondary} />
                 {showExpand()}
@@ -44,7 +44,7 @@ function FactListItem({ children, header, secondary, avatar }) {
             <Collapse in={!open} timeout="auto" unmountOnExit>
                 {children}
             </Collapse>
-        </Fragment>
+        </>
     );
 }
 

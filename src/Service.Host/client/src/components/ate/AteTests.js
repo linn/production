@@ -16,9 +16,9 @@ function AteTests({ items, fetchItems, loading, clearSearch, history }) {
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Fragment>
+                    <>
                         <CreateButton createUrl="/production/quality/ate-tests/create" />
-                    </Fragment>
+                    </>
                     <Typeahead
                         items={searchItems}
                         fetchItems={fetchItems}

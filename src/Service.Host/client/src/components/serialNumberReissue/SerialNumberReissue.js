@@ -180,7 +180,7 @@ function SerialNumberReissue({
                     </Grid>
                 ) : (
                     serialNumbers.length > 0 && (
-                        <Fragment>
+                        <>
                             <Grid item xs={3} className={classes.marginTop}>
                                 <Dropdown
                                     value={selectedSernosGroup || ''}
@@ -193,7 +193,7 @@ function SerialNumberReissue({
                             </Grid>
                             <Grid item xs={9} />
                             {selectedSerialNumber && (
-                                <Fragment>
+                                <>
                                     <SnackbarMessage
                                         visible={snackbarVisible}
                                         onClose={() => setSnackbarVisible(false)}
@@ -286,9 +286,9 @@ function SerialNumberReissue({
                                             backClick={handleBackClick}
                                         />
                                     </Grid>
-                                </Fragment>
+                                </>
                             )}
-                        </Fragment>
+                        </>
                     )
                 )}
                 {!loading && !serialNumbersLoading && searchTerm && !serialNumbers.length && (

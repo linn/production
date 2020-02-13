@@ -61,10 +61,10 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
-                    <Fragment>
+                <>
+                    <>
                         <CreateButton createUrl="/production/quality/part-fail-fault-codes/create" />
-                    </Fragment>
+                    </>
                     <PaginatedTable
                         columns={columns}
                         sortable
@@ -74,7 +74,7 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
                         setPageOptions={setPageOptions}
                         totalItemCount={items ? items.length : 0}
                     />
-                </Fragment>
+                </>
             )}
         </Page>
     );

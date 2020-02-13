@@ -63,10 +63,10 @@ const PartFailErrorTypes = ({ loading, itemError, history, items }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
-                    <Fragment>
+                <>
+                    <>
                         <CreateButton createUrl="/production/quality/part-fail-error-types/create" />
-                    </Fragment>
+                    </>
 
                     <PaginatedTable
                         columns={columns}
@@ -77,7 +77,7 @@ const PartFailErrorTypes = ({ loading, itemError, history, items }) => {
                         setPageOptions={setPageOptions}
                         totalItemCount={items ? items.length : 0}
                     />
-                </Fragment>
+                </>
             )}
         </Page>
     );

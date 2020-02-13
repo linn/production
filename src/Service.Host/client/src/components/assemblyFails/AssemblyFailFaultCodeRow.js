@@ -54,7 +54,7 @@ export default function AssemblyFailFaultCodeRow({ item, updateAssemblyFailFault
         <TableRow key={faultCode.faultCode}>
             <TableCell>{faultCode.faultCode}</TableCell>
             {editing ? (
-                <Fragment>
+                <>
                     <TableCell>
                         <InputField
                             fullWidth
@@ -107,9 +107,9 @@ export default function AssemblyFailFaultCodeRow({ item, updateAssemblyFailFault
                             <Clear fontSize="small" />
                         </Button>
                     </TableCell>
-                </Fragment>
+                </>
             ) : (
-                <Fragment>
+                <>
                     <TableCell>{faultCode.description}</TableCell>
                     <TableCell>{faultCode.explanation}</TableCell>
                     <TableCell>
@@ -132,7 +132,7 @@ export default function AssemblyFailFaultCodeRow({ item, updateAssemblyFailFault
                         </Button>
                     </TableCell>
                     <TableCell />
-                </Fragment>
+                </>
             )}
         </TableRow>
     );

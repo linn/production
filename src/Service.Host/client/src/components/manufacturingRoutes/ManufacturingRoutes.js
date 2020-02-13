@@ -86,9 +86,9 @@ const ViewManufacturingRoutes = ({ loading, itemError, history, items, fetchItem
             <Title text="Manufacturing Routes" />
             {itemError && <ErrorCard errorMessage={itemError.statusText} />}
 
-            <Fragment>
+            <>
                 <CreateButton createUrl="/production/resources/manufacturing-routes/create" />
-            </Fragment>
+            </>
             <Grid item xs={8}>
                 <SearchInputField
                     label="Route Code"
@@ -103,7 +103,7 @@ const ViewManufacturingRoutes = ({ loading, itemError, history, items, fetchItem
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
+                <>
                     {rowsToDisplay.length > 0 && (
                         <PaginatedTable
                             columns={columns}
@@ -114,7 +114,7 @@ const ViewManufacturingRoutes = ({ loading, itemError, history, items, fetchItem
                             totalItemCount={items ? items.length : 0}
                         />
                     )}
-                </Fragment>
+                </>
             )}
         </Page>
     );

@@ -209,7 +209,7 @@ function ManufacturingRoute({
                         <Loading />
                     </Grid>
                 ) : (
-                    <Fragment>
+                    <>
                         <SnackbarMessage
                             visible={snackbarVisible}
                             onClose={() => setSnackbarVisible(false)}
@@ -255,14 +255,14 @@ function ManufacturingRoute({
                         </Grid>
 
                         {!creating() && manufacturingRoute.operations && (
-                            <Fragment>
+                            <>
                                 {OperationsTableAndInfo()}
                                 {!operationsComplete() && (
                                     <ErrorCard
                                         errorMessage={`One or more operations does not meet the criteria to allow saving. Problem columns: ${problemColumns()}`}
                                     />
                                 )}
-                            </Fragment>
+                            </>
                         )}
 
                         <Grid item xs={12}>
@@ -273,7 +273,7 @@ function ManufacturingRoute({
                                 backClick={handleBackClick}
                             />
                         </Grid>
-                    </Fragment>
+                    </>
                 )}
             </Grid>
         </Page>

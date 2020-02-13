@@ -83,7 +83,7 @@ export default function AssemblyFailFaultCode({
                 {loading ? (
                     <Loading />
                 ) : (
-                    <Fragment>
+                    <>
                         <SnackbarMessage
                             visible={snackbarVisible}
                             onClose={() => setSnackbarVisible(false)}
@@ -143,7 +143,7 @@ export default function AssemblyFailFaultCode({
                                 backClick={handleBackClick}
                             />
                         </Grid>
-                    </Fragment>
+                    </>
                 )}
             </Grid>
         </Page>

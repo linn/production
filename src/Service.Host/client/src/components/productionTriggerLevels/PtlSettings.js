@@ -88,7 +88,7 @@ function PtlSettings({
                         <Loading />
                     </Grid>
                 ) : (
-                    <Fragment>
+                    <>
                         <SnackbarMessage
                             visible={snackbarVisible}
                             onClose={() => setSnackbarVisible(false)}
@@ -145,7 +145,7 @@ function PtlSettings({
                         </Grid>
                         <Grid item xs={5} />
                         {startTriggerRunAllowed ? (
-                            <Fragment>
+                            <>
                                 <Grid item xs={12}>
                                     <div>
                                         Trigger runs start regularly throughout the day. Please do
@@ -162,11 +162,11 @@ function PtlSettings({
                                     </Button>
                                 </Grid>
                                 <Grid item xs={9} />
-                            </Fragment>
+                            </>
                         ) : (
                             ''
                         )}
-                    </Fragment>
+                    </>
                 )}
             </Grid>
         </Page>

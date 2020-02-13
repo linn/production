@@ -172,14 +172,14 @@ function PartFail({
                 ) : (
                     partFail.id !== '' &&
                     !itemErrors?.some(e => e.status === 404) && ( // don't render this form if things 404
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
                             {!creating() ? (
-                                <Fragment>
+                                <>
                                     <Grid item xs={2}>
                                         <InputField
                                             fullWidth
@@ -193,11 +193,11 @@ function PartFail({
                                         />
                                     </Grid>
                                     <Grid item xs={10} />
-                                </Fragment>
+                                </>
                             ) : (
                                 <Fragment />
                             )}
-                            <Fragment>
+                            <>
                                 <Grid item xs={3}>
                                     <InputField
                                         fullWidth
@@ -239,7 +239,7 @@ function PartFail({
                                     />
                                 </Grid>
                                 {partFail.partNumber && (
-                                    <Fragment>
+                                    <>
                                         <Grid item xs={6}>
                                             <InputField
                                                 fullWidth
@@ -454,10 +454,10 @@ function PartFail({
                                                 propertyName="serialNumber"
                                             />
                                         </Grid>
-                                    </Fragment>
+                                    </>
                                 )}
-                            </Fragment>
-                        </Fragment>
+                            </>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

@@ -53,7 +53,7 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading, history }) {
                     </Grid>
                     <Grid item xs={8} />
                     {options.reportType === 'CIT' && (
-                        <Fragment>
+                        <>
                             <Grid item xs={4}>
                                 <Dropdown
                                     label="CITs"
@@ -64,7 +64,7 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading, history }) {
                                 />
                             </Grid>
                             <Grid item xs={8} />
-                        </Fragment>
+                        </>
                     )}
                     <Grid item xs={12}>
                         <Button color="primary" variant="contained" onClick={handleClick}>

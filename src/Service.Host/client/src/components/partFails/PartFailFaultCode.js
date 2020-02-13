@@ -92,7 +92,7 @@ function PartFailFaultCode({
                     </Grid>
                 ) : (
                     partFailFaultCode && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -129,7 +129,7 @@ function PartFailFaultCode({
                                     propertyName="faultDescription"
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

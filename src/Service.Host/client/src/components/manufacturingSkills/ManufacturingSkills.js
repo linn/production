@@ -78,10 +78,10 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
-                    <Fragment>
+                <>
+                    <>
                         <CreateButton createUrl="/production/resources/manufacturing-skills/create" />
-                    </Fragment>
+                    </>
 
                     {rowsToDisplay.length > 0 && (
                         <PaginatedTable
@@ -93,7 +93,7 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
                             totalItemCount={items ? items.length : 0}
                         />
                     )}
-                </Fragment>
+                </>
             )}
         </Page>
     );

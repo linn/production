@@ -41,7 +41,7 @@ function LinkTabCell(props) {
             {...other}
         >
             <Link component={RouterLink} to={href}>
-                <Fragment> {children} </Fragment>
+                <> {children} </>
             </Link>
         </TabCell>
     );

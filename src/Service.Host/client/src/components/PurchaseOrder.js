@@ -139,7 +139,7 @@ ${purchaseOrder.country}`;
                         <ErrorCard errorMessage={itemError?.statusText} />
                     </Grid>
                 ) : (
-                    <Fragment>
+                    <>
                         {issueError && (
                             <Grid item xs={12}>
                                 <ErrorCard
@@ -155,7 +155,7 @@ ${purchaseOrder.country}`;
                             </Grid>
                         )}
                         {purchaseOrder && (
-                            <Fragment>
+                            <>
                                 <SnackbarMessage
                                     visible={snackbarVisible}
                                     onClose={() => setSnackbarVisible(false)}
@@ -218,7 +218,7 @@ ${purchaseOrder.country}`;
                                         buildSernos={buildSernos}
                                     />
                                 ))}
-                            </Fragment>
+                            </>
                         )}
                         <Grid item xs={12}>
                             <SaveBackCancelButtons
@@ -230,7 +230,7 @@ ${purchaseOrder.country}`;
                                 }}
                             />
                         </Grid>
-                    </Fragment>
+                    </>
                 )}
             </Grid>
         </Page>

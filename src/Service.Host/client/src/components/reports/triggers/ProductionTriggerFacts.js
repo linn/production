@@ -31,7 +31,7 @@ function ProductionTriggerFacts({ reportData, loading, itemError }) {
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
-                            <Fragment>
+                            <>
                                 <Title text="Production Trigger Facts for a Part" />
                                 <Link
                                     component={RouterLink}
@@ -83,11 +83,11 @@ function ProductionTriggerFacts({ reportData, loading, itemError }) {
                                         secondary="Required for sales customers back orders"
                                         avatar={reportData.reqtForSalesOrdersBE}
                                     >
-                                        <Fragment>
+                                        <>
                                             <SalesOrderList
                                                 salesOrders={reportData.productionBackOrders}
                                             />
-                                        </Fragment>
+                                        </>
                                     </FactListItem>
                                     <FactListItem
                                         header="Required for Internal Customers"
@@ -189,7 +189,7 @@ function ProductionTriggerFacts({ reportData, loading, itemError }) {
                                         avatar={<NotesIcon />}
                                     />
                                 </FactList>
-                            </Fragment>
+                            </>
                         ) : (
                             ''
                         )}

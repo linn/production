@@ -79,7 +79,7 @@ function ProductionTriggers({ reportData, loading, cits, fetchTriggers, history,
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
-                            <Fragment>
+                            <>
                                 <Grid container>
                                     <Grid item xs={4}>
                                         <Dropdown
@@ -127,7 +127,7 @@ function ProductionTriggers({ reportData, loading, cits, fetchTriggers, history,
                                     jobref={reportData.ptlJobref}
                                     citcode={reportData.citCode}
                                 />
-                            </Fragment>
+                            </>
                         ) : (
                             ''
                         )}

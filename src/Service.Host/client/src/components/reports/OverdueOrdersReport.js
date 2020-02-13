@@ -7,7 +7,7 @@ import Page from '../../containers/Page';
 
 export default function OverdueOrdersReport({ reportData, loading, options, error }) {
     return (
-        <Fragment>
+        <>
             <Page width="xl">
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
@@ -42,7 +42,7 @@ export default function OverdueOrdersReport({ reportData, loading, options, erro
                     </Grid>
                 </Grid>
             </Page>
-        </Fragment>
+        </>
     );
 }
 

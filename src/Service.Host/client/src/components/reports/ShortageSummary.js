@@ -37,13 +37,13 @@ function ShortageSummary({ summary, loading, history, options }) {
     const colSizes = ['medium', 'large', '', '', '', '', '', '', 'medium'];
 
     return (
-        <Fragment>
+        <>
             {loading || !summary ? (
                 <Page>
                     <Loading />
                 </Page>
             ) : (
-                <Fragment>
+                <>
                     <Page>
                         <Grid container spacing={3} justify="center">
                             <Grid item xs={12}>
@@ -137,9 +137,9 @@ function ShortageSummary({ summary, loading, history, options }) {
                             <BackButton backClick={() => handleBackClick(history)} />
                         </Grid>
                     </Paper>
-                </Fragment>
+                </>
             )}
-        </Fragment>
+        </>
     );
 }
 

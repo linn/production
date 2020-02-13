@@ -89,7 +89,7 @@ function PartFailErrorType({
                     </Grid>
                 ) : (
                     partFailErrorType && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -125,7 +125,7 @@ function PartFailErrorType({
                                     }}
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

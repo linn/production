@@ -284,14 +284,14 @@ function AteTest({
                 ) : (
                     ateTest &&
                     itemError?.faultCode !== 404 && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
                             {!creating() ? (
-                                <Fragment>
+                                <>
                                     <Grid item xs={2}>
                                         <InputField
                                             fullWidth
@@ -303,7 +303,7 @@ function AteTest({
                                         />
                                     </Grid>
                                     <Grid item xs={10} />{' '}
-                                </Fragment>
+                                </>
                             ) : (
                                 <Fragment />
                             )}
@@ -587,7 +587,7 @@ function AteTest({
                             </Grid>
                             <Grid item xs={1} />
                             {Table()}
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

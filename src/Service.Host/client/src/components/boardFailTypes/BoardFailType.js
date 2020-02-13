@@ -93,7 +93,7 @@ function BoardFailType({
                     </Grid>
                 ) : (
                     boardFailType && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -130,7 +130,7 @@ function BoardFailType({
                                     propertyName="description"
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

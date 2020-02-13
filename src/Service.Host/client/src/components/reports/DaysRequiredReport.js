@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 const Results = ({ reportData }) => (
-    <Fragment>
+    <>
         {reportData.length === 0 ? (
             <div>No results returned for selected parameters</div>
         ) : (
@@ -18,7 +18,7 @@ const Results = ({ reportData }) => (
                 showTitle
             />
         )}
-    </Fragment>
+    </>
 );
 
 const DaysRequiredReport = ({ reportData, loading }) => (

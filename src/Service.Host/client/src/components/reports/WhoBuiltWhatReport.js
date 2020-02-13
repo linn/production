@@ -6,7 +6,7 @@ import moment from 'moment';
 import Page from '../../containers/Page';
 
 const Results = ({ reportData }) => (
-    <Fragment>
+    <>
         {reportData.length === 0 ? (
             <div>No results returned for selected parameters</div>
         ) : (
@@ -19,7 +19,7 @@ const Results = ({ reportData }) => (
                 showTitle
             />
         )}
-    </Fragment>
+    </>
 );
 
 const WhoBuiltWhat = ({ reportData, loading, options }) => (

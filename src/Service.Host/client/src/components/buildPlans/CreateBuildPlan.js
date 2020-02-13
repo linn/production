@@ -34,7 +34,7 @@ export default function CreateBuildPlan({ loading, history, saveBuildPlan }) {
                 {loading ? (
                     <Loading />
                 ) : (
-                    <Fragment>
+                    <>
                         <Grid item xs={4}>
                             <InputField
                                 fullWidth
@@ -65,7 +65,7 @@ export default function CreateBuildPlan({ loading, history, saveBuildPlan }) {
                                 backClick={handleBackClick}
                             />
                         </Grid>
-                    </Fragment>
+                    </>
                 )}
             </Grid>
         </Page>

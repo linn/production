@@ -38,7 +38,7 @@ function WwdTriggerReport({ reportData, loading, itemError, options }) {
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
-                            <Fragment>
+                            <>
                                 <Title text="What Will Decrement From A Workstation" />
                                 <div className={classes.padbottom}>
                                     <Typography>
@@ -67,7 +67,7 @@ function WwdTriggerReport({ reportData, loading, itemError, options }) {
                                     {moment(reportData.wwdRunDatetime).format('DD-MMM HH:mm')} id{' '}
                                     {reportData.wwdJobId}
                                 </Typography>
-                            </Fragment>
+                            </>
                         ) : (
                             ''
                         )}

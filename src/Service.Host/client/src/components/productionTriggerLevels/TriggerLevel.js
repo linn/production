@@ -172,16 +172,16 @@ function TriggerLevel({
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
 
     return (
-        <Fragment>
+        <>
             <Grid container alignItems="center" justify="center">
                 <Grid xs={6} item>
                     <Page>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 {allowedToCreate && (
-                                    <Fragment>
+                                    <>
                                         <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
-                                    </Fragment>
+                                    </>
                                 )}
                                 {creating() ? (
                                     <Title text="Create Production Trigger Level" />
@@ -200,7 +200,7 @@ function TriggerLevel({
                                     <Loading />
                                 </Grid>
                             ) : (
-                                <Fragment>
+                                <>
                                     <SnackbarMessage
                                         visible={snackbarVisible}
                                         onClose={() => setSnackbarVisible(false)}
@@ -484,13 +484,13 @@ function TriggerLevel({
                                             </DialogActions>
                                         </Dialog>
                                     )}
-                                </Fragment>
+                                </>
                             )}
                         </Grid>
                     </Page>
                 </Grid>
             </Grid>
-        </Fragment>
+        </>
     );
 }
 

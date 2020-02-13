@@ -61,10 +61,10 @@ const BoardFailTypes = ({ loading, itemError, history, items }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
-                    <Fragment>
+                <>
+                    <>
                         <CreateButton createUrl="/production/resources/board-fail-types/create" />
-                    </Fragment>
+                    </>
                     {rowsToDisplay.length > 0 && (
                         <PaginatedTable
                             columns={columns}
@@ -76,7 +76,7 @@ const BoardFailTypes = ({ loading, itemError, history, items }) => {
                             totalItemCount={items ? items.length : 0}
                         />
                     )}
-                </Fragment>
+                </>
             )}
         </Page>
     );

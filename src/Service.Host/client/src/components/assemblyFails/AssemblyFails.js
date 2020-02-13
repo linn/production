@@ -15,9 +15,9 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Fragment>
+                    <>
                         <CreateButton createUrl="/production/quality/assembly-fails/create" />
-                    </Fragment>
+                    </>
                     <Typeahead
                         items={forecastItems.map(i => ({ ...i, name: i.name.toString() }))}
                         fetchItems={fetchItems}

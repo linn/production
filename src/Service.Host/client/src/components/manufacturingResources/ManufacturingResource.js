@@ -87,7 +87,7 @@ function ManufacturingResource({
                     </Grid>
                 ) : (
                     manufacturingResource && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -136,7 +136,7 @@ function ManufacturingResource({
                                     propertyName="cost"
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

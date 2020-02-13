@@ -91,7 +91,7 @@ function ManufacturingSkill({
                     </Grid>
                 ) : (
                     manufacturingSkill && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -151,7 +151,7 @@ function ManufacturingSkill({
                                     backClick={handleBackClick}
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
             </Grid>

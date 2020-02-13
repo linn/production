@@ -148,9 +148,9 @@ const ViewProductionTriggerLevels = ({
             {itemError && <ErrorCard errorMessage={itemError.statusText} />}
 
             {allowedToCreate && (
-                <Fragment>
+                <>
                     <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
-                </Fragment>
+                </>
             )}
 
             <SnackbarMessage
@@ -216,7 +216,7 @@ const ViewProductionTriggerLevels = ({
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
+                <>
                     {rowsToDisplay.length > 0 && (
                         <PaginatedTable
                             columns={columns}
@@ -228,7 +228,7 @@ const ViewProductionTriggerLevels = ({
                             expandable={false}
                         />
                     )}
-                </Fragment>
+                </>
             )}
             <Grid container>
                 <Grid item xs={12}>

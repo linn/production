@@ -78,7 +78,7 @@ function LabelType({
     };
 
     return (
-        <Fragment>
+        <>
             <Grid container alignItems="center" justify="center">
                 <Grid xs={6} item>
                     <Page>
@@ -101,7 +101,7 @@ function LabelType({
                                 </Grid>
                             ) : (
                                 labelType && (
-                                    <Fragment>
+                                    <>
                                         <SnackbarMessage
                                             visible={snackbarVisible}
                                             onClose={() => setSnackbarVisible(false)}
@@ -255,14 +255,14 @@ function LabelType({
                                                 backClick={handleBackClick}
                                             />
                                         </Grid>
-                                    </Fragment>
+                                    </>
                                 )
                             )}
                         </Grid>
                     </Page>
                 </Grid>
             </Grid>
-        </Fragment>
+        </>
     );
 }
 

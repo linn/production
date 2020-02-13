@@ -150,7 +150,7 @@ function LabelPrint({
                     </Grid>
                 ) : (
                     serialNumbers.length > 0 && (
-                        <Fragment>
+                        <>
                             <Grid item xs={3} className={classes.marginTop}>
                                 <Dropdown
                                     value={selectedSernosGroup || ''}
@@ -193,7 +193,7 @@ function LabelPrint({
                                 </Button>
                             </Grid>
                             <Grid item xs={5} />
-                        </Fragment>
+                        </>
                     )
                 )}
                 {!serialNumbersLoading && searchTerm && !serialNumbers.length && (

@@ -73,7 +73,7 @@ function AteFaultCodes({ loading, itemError, history, items }) {
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
+                <>
                     <CreateButton createUrl="/production/quality/ate/fault-codes/create" />
 
                     {rowsToDisplay.length > 0 && (
@@ -87,7 +87,7 @@ function AteFaultCodes({ loading, itemError, history, items }) {
                             totalItemCount={items ? items.length : 0}
                         />
                     )}
-                </Fragment>
+                </>
             )}
         </Page>
     );

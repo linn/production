@@ -13,7 +13,7 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
 
     if (reportData) {
         return (
-            <Fragment>
+            <>
                 <Page>
                     <Grid container spacing={3} justify="center">
                         <Grid item xs={12}>
@@ -98,7 +98,7 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                         <Grid item xs={6} />
                     </Grid>
                 </Page>
-            </Fragment>
+            </>
         );
     }
 

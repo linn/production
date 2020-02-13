@@ -103,7 +103,7 @@ function WorksOrderLabel({
                     </Grid>
                 ) : (
                     worksOrderLabel && (
-                        <Fragment>
+                        <>
                             <Grid item xs={12}>
                                 <Title text="Works Order Label" />
                             </Grid>
@@ -113,7 +113,7 @@ function WorksOrderLabel({
                                 message="Save Successful"
                             />
                             {creating() ? (
-                                <Fragment>
+                                <>
                                     <Grid item xs={5}>
                                         <InputField
                                             label="Part (click search icon to change)"
@@ -142,7 +142,7 @@ function WorksOrderLabel({
                                             />
                                         </div>
                                     </Grid>{' '}
-                                </Fragment>
+                                </>
                             ) : (
                                 <Grid item xs={12}>
                                     <InputField
@@ -166,7 +166,7 @@ function WorksOrderLabel({
                                     propertyName="labelText"
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

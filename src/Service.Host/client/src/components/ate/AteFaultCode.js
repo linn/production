@@ -92,7 +92,7 @@ function AteFaultCode({
                 ) : (
                     ateFaultCode &&
                     itemError?.faultCode !== 404 && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -152,7 +152,7 @@ function AteFaultCode({
                                     backClick={handleBackClick}
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
             </Grid>
