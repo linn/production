@@ -201,11 +201,36 @@ function ProductionTriggerFacts({ reportData, loading, itemError }) {
 }
 
 ProductionTriggerFacts.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({
+        story: PropTypes.string,
+        priority: PropTypes.string,
+        jobref: PropTypes.string,
+        citName: PropTypes.string,
+        citcode: PropTypes.string,
+        reqtForInternalAndTriggerLevelBT: PropTypes.number,
+        remainingBuild: PropTypes.number,
+        kanbanSize: PropTypes.number,
+        variableTriggerLevel: PropTypes.number,
+        effectiveTriggerLevel: PropTypes.number,
+        reqtForInternalCustomersGBI: PropTypes.number,
+        reqtForSalesOrdersBE: PropTypes.number,
+        overrideTriggerLevel: PropTypes.string,
+        whereUsedAssemblies: PropTypes.arrayOf(PropTypes.string),
+        productionBackOrders: PropTypes.arrayOf(PropTypes.string),
+        outstandingWorksOrders: PropTypes.arrayOf(PropTypes.string),
+        triggerLevelText: PropTypes.string,
+        qtyBeingBuilt: PropTypes.number,
+        qtyFFlagged: PropTypes.number,
+        qtyYFlagged: PropTypes.number,
+        qtyNFlagged: PropTypes.number,
+        partNumber: PropTypes.string,
+        qtyFree: PropTypes.number,
+        description: PropTypes.string
+    }),
     loading: PropTypes.bool,
     config: PropTypes.shape({}),
     history: PropTypes.shape({}).isRequired,
-    itemError: PropTypes.shape({})
+    itemError: PropTypes.shape({ statusText: PropTypes.string })
 };
 
 ProductionTriggerFacts.defaultProps = {
