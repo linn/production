@@ -26,6 +26,7 @@ export default function ProductionBackOrdersReport({ reportData, loading, error 
                                 reportData={reportData}
                                 showRowTitles={false}
                                 showTotals
+                                allowPageBreakInside
                             />
                         </div>
                     )}
