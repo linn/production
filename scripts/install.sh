@@ -12,7 +12,6 @@ then
 fi
 
 cd ./src/Service.Host
-rm -rf ./node_modules
 npm install
 npm run build
 cd ../..
