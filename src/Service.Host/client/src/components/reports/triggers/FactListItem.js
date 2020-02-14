@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -27,16 +27,14 @@ function FactListItem({ children, header, secondary, avatar }) {
             return !open ? <ExpandLess /> : <ExpandMore />;
         }
 
-        return <Fragment />;
+        return <> </>;
     };
 
     return (
         <>
             <ListItem button onClick={handleClick}>
                 <ListItemAvatar>
-                    <>
-                        {showAvatar(avatar) ? <Avatar>{avatar}</Avatar> : <Fragment />}
-                    </>
+                    <>{showAvatar(avatar) ? <Avatar>{avatar}</Avatar> : <></>}</>
                 </ListItemAvatar>
                 <ListItemText primary={header} secondary={secondary} />
                 {showExpand()}

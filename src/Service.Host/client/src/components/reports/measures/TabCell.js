@@ -3,11 +3,11 @@ import TableCell from '@material-ui/core/TableCell';
 import PropTypes from 'prop-types';
 
 function TabCell(props) {
-    const { children, value, index, ...other } = props;
+    const { children, value, index } = props;
 
     if (index !== value) return null;
 
-    return <TableCell {...other}>{children}</TableCell>;
+    return <TableCell>{children}</TableCell>;
 }
 
 TabCell.propTypes = {

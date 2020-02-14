@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Loading,
@@ -59,7 +59,7 @@ const PartFailErrorTypes = ({ loading, itemError, history, items }) => {
     return (
         <Page>
             <Title text="Part Fail Error Types" />
-            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
+            {itemError && <ErrorCard errorMessage={itemError?.statusText} />}
             {loading ? (
                 <Loading />
             ) : (

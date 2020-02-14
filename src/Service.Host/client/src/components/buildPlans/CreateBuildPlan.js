@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
@@ -73,7 +73,7 @@ export default function CreateBuildPlan({ loading, history, saveBuildPlan }) {
 }
 
 CreateBuildPlan.propTypes = {
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
     saveBuildPlan: PropTypes.func.isRequired
 };

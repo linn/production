@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { ReportTable, Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';

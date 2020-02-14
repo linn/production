@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -267,7 +267,7 @@ function AssemblyFail({
                                     <Grid item xs={10} />
                                 </>
                             ) : (
-                                <Fragment />
+                                <></>
                             )}
 
                             <>
@@ -665,7 +665,7 @@ function AssemblyFail({
                                     </Grid>
                                 </>
                             ) : (
-                                <Fragment />
+                                <></>
                             )}
                         </>
                     )

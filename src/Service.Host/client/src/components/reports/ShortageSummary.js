@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Loading, ReportTable, Title, BackButton } from '@linn-it/linn-form-components-library';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
@@ -144,10 +144,23 @@ function ShortageSummary({ summary, loading, history, options }) {
 }
 
 ShortageSummary.propTypes = {
-    summary: PropTypes.shape({}),
+    summary: PropTypes.shape({
+        citName: PropTypes.string,
+        ptlJobref: PropTypes.string,
+        onesTwos: PropTypes.string,
+        numShortages: PropTypes.number,
+        bAT: PropTypes.string,
+        metalwork: PropTypes.string,
+        procurement: PropTypes.string,
+        percShortages: PropTypes.string,
+        percBAT: PropTypes.string,
+        percMetalwork: PropTypes.string,
+        percProcurement: PropTypes.string,
+        shortages: PropTypes.arrayOf(PropTypes.shape({}))
+    }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
-    options: PropTypes.shape({})
+    options: PropTypes.shape({ ptlJobref: PropTypes.string, citCode: PropTypes.string })
 };
 
 ShortageSummary.defaultProps = {

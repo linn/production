@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, Fragment } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Dropdown,
@@ -93,7 +93,7 @@ function SerialNumberReissue({
         if (reissuedSerialNumber) {
             setSelectedSerialNumber(sernos => ({
                 ...sernos,
-                newSerialNumber: reissuedSerialNumber.newSerialNumber
+                newSerialNumber: reissuedSerialNumber?.newSerialNumber
             }));
         }
     }, [reissuedSerialNumber]);
@@ -216,7 +216,7 @@ function SerialNumberReissue({
                                             label="Description"
                                             type="string"
                                             propertyName="articleNumberDescription"
-                                            value={salesArticle ? salesArticle.description : ''}
+                                            value={salesArticle ? salesArticle?.description : ''}
                                             fullWidth
                                         />
                                     </Grid>
@@ -318,7 +318,7 @@ SerialNumberReissue.propTypes = {
     clearSalesArticlesSearch: PropTypes.func.isRequired,
     searchSalesArticles: PropTypes.func.isRequired,
     reissuedSerialNumber: PropTypes.shape({}),
-    options: PropTypes.shape({})
+    options: PropTypes.shape({ serialNumber: PropTypes.number })
 };
 
 SerialNumberReissue.defaultProps = {

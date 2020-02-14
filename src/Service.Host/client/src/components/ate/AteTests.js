@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typeahead, CreateButton } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function AteTests({ items, fetchItems, loading, clearSearch, history }) {
+function AteTests({ items, fetchItems, loading, history }) {
     const searchItems = items.map(item => ({
         ...item,
         id: item.testId,
@@ -44,7 +44,6 @@ AteTests.propTypes = {
     ).isRequired,
     loading: PropTypes.bool,
     fetchItems: PropTypes.func.isRequired,
-    clearSearch: PropTypes.func.isRequired,
     history: PropTypes.shape({}).isRequired
 };
 

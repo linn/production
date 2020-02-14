@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function LinkTabCell(props) {
-    const { children, href, hoverHref, setHoverHref, ...other } = props;
+    const { children, href, hoverHref, setHoverHref } = props;
     const classes = useStyles();
 
     function onMouseEnter() {
@@ -38,7 +38,6 @@ function LinkTabCell(props) {
             href={href}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            {...other}
         >
             <Link component={RouterLink} to={href}>
                 <> {children} </>

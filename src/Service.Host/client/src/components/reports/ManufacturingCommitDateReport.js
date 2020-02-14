@@ -114,9 +114,15 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
 };
 
 ManufacturingCommitDateReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({
+        results: PropTypes.arrayOf(PropTypes.shape({})),
+        totals: PropTypes.arrayOf(PropTypes.number),
+        incompleteLinesAnalysis: PropTypes.shape({
+            reportResults: PropTypes.arrayOf(PropTypes.shape)
+        })
+    }),
     loading: PropTypes.bool,
-    options: PropTypes.shape({})
+    options: PropTypes.shape({ date: PropTypes.instanceOf(Date) })
 };
 
 ManufacturingCommitDateReport.defaultProps = {

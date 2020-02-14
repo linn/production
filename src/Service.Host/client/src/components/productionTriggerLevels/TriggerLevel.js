@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -22,6 +22,7 @@ import {
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
+//eslint-disable-next-line react/jsx-props-no-spreading
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 function TriggerLevel({
@@ -192,7 +193,7 @@ function TriggerLevel({
 
                             {itemErrors && (
                                 <Grid item xs={12}>
-                                    <ErrorCard errorMessage={itemErrors.statusText} />
+                                    <ErrorCard errorMessage={itemErrors?.statusText} />
                                 </Grid>
                             )}
                             {loading || appStateLoading || !triggerLevel ? (

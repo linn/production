@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typeahead, CreateButton } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';

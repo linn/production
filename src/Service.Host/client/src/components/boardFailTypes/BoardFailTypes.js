@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Loading,
@@ -57,7 +57,7 @@ const BoardFailTypes = ({ loading, itemError, history, items }) => {
     return (
         <Page>
             <Title text="Board Fail Types" />
-            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
+            {itemError && <ErrorCard errorMessage={itemError?.statusText} />}
             {loading ? (
                 <Loading />
             ) : (

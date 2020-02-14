@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -201,7 +201,7 @@ function ManufacturingRoute({
                 </Grid>
                 {itemErrors && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemErrors.statusText} />
+                        <ErrorCard errorMessage={itemErrors?.statusText} />
                     </Grid>
                 )}
                 {loading || !manufacturingRoute ? (

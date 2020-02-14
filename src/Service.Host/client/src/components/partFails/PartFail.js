@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -73,8 +73,8 @@ function PartFail({
         if (editStatus === 'create' && profile) {
             setPartFail(a => ({
                 ...a,
-                enteredBy: profile.employee.replace('/employees/', ''), // the current user
-                enteredByName: profile.name
+                enteredBy: profile?.employee.replace('/employees/', ''), // the current user
+                enteredByName: profile?.name
             }));
         }
     }, [profile, editStatus]);
@@ -119,8 +119,8 @@ function PartFail({
     const handleCancelClick = () => {
         if (creating()) {
             setPartFail({
-                enteredBy: profile.employee.replace('/employees/', ''),
-                enteredByName: profile.name
+                enteredBy: profile?.employee.replace('/employees/', ''),
+                enteredByName: profile?.name
             });
         } else {
             setPartFail(item);
@@ -195,7 +195,7 @@ function PartFail({
                                     <Grid item xs={10} />
                                 </>
                             ) : (
-                                <Fragment />
+                                <></>
                             )}
                             <>
                                 <Grid item xs={3}>
@@ -474,7 +474,7 @@ function PartFail({
 }
 
 PartFail.propTypes = {
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
     profile: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
     snackbarVisible: PropTypes.bool,

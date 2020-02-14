@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Loading, Title, Dropdown } from '@linn-it/linn-form-components-library';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';

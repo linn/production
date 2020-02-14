@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -305,7 +305,7 @@ function AteTest({
                                     <Grid item xs={10} />{' '}
                                 </>
                             ) : (
-                                <Fragment />
+                                <></>
                             )}
                             <Grid item xs={4}>
                                 <InputField
