@@ -351,7 +351,7 @@ BuildPlans.propTypes = {
     clearPartsSearch: PropTypes.func.isRequired,
     selectedBuildPlan: PropTypes.string,
     updateBuildPlan: PropTypes.func.isRequired,
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
     updateBuildPlanDetail: PropTypes.func.isRequired,
     saveBuildPlanDetail: PropTypes.func.isRequired,
     buildPlanDetailLoading: PropTypes.bool,

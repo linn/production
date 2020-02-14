@@ -2,9 +2,7 @@ import React from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import PropTypes from 'prop-types';
 
-function TabCell(props) {
-    const { children, value, index } = props;
-
+function TabCell({ children, value, index }) {
     if (index !== value) return null;
 
     return <TableCell>{children}</TableCell>;
