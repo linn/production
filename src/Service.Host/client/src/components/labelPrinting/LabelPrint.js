@@ -164,23 +164,6 @@ function LabelPrint({
             inputType: 'string'
         },
         {
-            id: 'fromPCNumber',
-            displayName: 'From PC Number',
-            value: '',
-            width: 3,
-            displayForLabelTypes: [3],
-            inputType: 'number'
-        },
-        {
-            id: 'toPCNumber',
-            displayName: 'To PC Number',
-            value: '',
-            width: 3,
-            displayForLabelTypes: [3],
-            inputType: 'number',
-            onOwnLine: true
-        },
-        {
             id: 'poNumber',
             displayName: 'PO Number',
             value: '',
