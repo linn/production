@@ -61,7 +61,9 @@ const mapDispatchToProps = {
     fetchBuildPlanDetails: buildPlanDetailsActions.fetch,
     fetchBuildPlanRules: buildPlanRulesActions.fetch,
     setBuildPlanSnackbarVisible: buildPlanActions.setSnackbarVisible,
-    setBuildPlanDetailSnackbarVisible: buildPlanDetailActions.setSnackbarVisible
+    setBuildPlanDetailSnackbarVisible: buildPlanDetailActions.setSnackbarVisible,
+    clearBuildPlanErrors: buildPlanActions.clearErrorsForItem,
+    clearBuildPlanDetailErrors: buildPlanDetailActions.clearErrorsForItem
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(BuildPlans));

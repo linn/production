@@ -13,12 +13,16 @@ const searchSuppliers = jest.fn();
 const clearSupplierSearch = jest.fn();
 
 const labelPrintTypes = [
-    { id: 0, name: 'wan' },
-    { id: 2, name: 'two' },
-    { id: 1, name: 'buckle ma shoe' },
-    { id: 3, name: '3' },
-    { id: 4, name: '4' }
+    { id: 0, name: 'Large label (wee text)' },
+    { id: 1, name: 'Large label (big text)' },
+    { id: 2, name: 'Small' },
+    { id: 3, name: 'PC Numbers' },
+    { id: 4, name: 'Address Label' },
+    { id: 5, name: 'Goods In Label' },
+    { id: 6, name: 'Small (wee text)' },
+    { id: 7, name: 'Small (wee bold text)' }
 ];
+
 const labelPrinters = [
     { id: 3, name: 'three' },
     { id: 4, name: 'four' },
@@ -71,7 +75,7 @@ describe('When viewing', () => {
         expect(queryByRole('progressbar')).toBeNull();
     });
 
-    test('Should display form fields', () => {
+    test('Should display form fields for printer 0 (Large wee text)', () => {
         const { getByText } = render(<LabelPrint {...defaultProps} />);
         const item = getByText('Line 1');
         const item2 = getByText('Line 2');

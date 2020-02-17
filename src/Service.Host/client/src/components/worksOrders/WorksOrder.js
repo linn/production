@@ -68,7 +68,8 @@ function WorksOrder({
     clearErrors,
     serialNumbers,
     fetchSerialNumbers,
-    previousPath
+    previousPath,
+    options
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
@@ -138,6 +139,17 @@ function WorksOrder({
             }));
         }
     }, [worksOrderDetails, editStatus, creating]);
+
+    useEffect(() => {
+        if (creating() && options.partNumber && !worksOrder.partNumber) {
+            fetchWorksOrderDetails(options.partNumber);
+            setWorksOrder({
+                ...worksOrder,
+                docType: 'WO',
+                partNumber: options.partNumber
+            });
+        }
+    }, [options, creating, worksOrder, fetchWorksOrderDetails]);
 
     const handleCancelClick = () => {
         setWorksOrder(item);
@@ -639,7 +651,8 @@ WorksOrder.propTypes = {
     defaultWorksOrderPrinter: PropTypes.string,
     fetchSerialNumbers: PropTypes.func.isRequired,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
-    previousPath: PropTypes.string.isRequired
+    previousPath: PropTypes.string.isRequired,
+    options: PropTypes.shape({})
 };
 
 WorksOrder.defaultProps = {
@@ -663,7 +676,8 @@ WorksOrder.defaultProps = {
     searchParts: null,
     clearPartsSearch: null,
     defaultWorksOrderPrinter: 'Prod',
-    serialNumbers: []
+    serialNumbers: [],
+    options: {}
 };
 
 export default WorksOrder;
