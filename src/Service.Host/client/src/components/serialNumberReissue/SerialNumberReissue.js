@@ -93,7 +93,7 @@ function SerialNumberReissue({
         if (reissuedSerialNumber) {
             setSelectedSerialNumber(sernos => ({
                 ...sernos,
-                newSerialNumber: reissuedSerialNumber?.newSerialNumber
+                newSerialNumber: reissuedSerialNumber.newSerialNumber
             }));
         }
     }, [reissuedSerialNumber]);
@@ -317,7 +317,7 @@ SerialNumberReissue.propTypes = {
     salesArticlesSearchLoading: PropTypes.bool,
     clearSalesArticlesSearch: PropTypes.func.isRequired,
     searchSalesArticles: PropTypes.func.isRequired,
-    reissuedSerialNumber: PropTypes.shape({}),
+    reissuedSerialNumber: PropTypes.shape({ newSerialNumber: PropTypes.number }),
     options: PropTypes.shape({ serialNumber: PropTypes.number })
 };
 

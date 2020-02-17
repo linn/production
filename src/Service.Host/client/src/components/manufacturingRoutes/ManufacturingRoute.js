@@ -15,7 +15,7 @@ import Page from '../../containers/Page';
 
 function ManufacturingRoute({
     editStatus,
-    itemErrors,
+    itemError,
     history,
     itemId,
     item,
@@ -199,9 +199,9 @@ function ManufacturingRoute({
                         <Title text="Manufacturing Route" />
                     )}
                 </Grid>
-                {itemErrors && (
+                {itemError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemErrors?.statusText} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 )}
                 {loading || !manufacturingRoute ? (
@@ -288,7 +288,7 @@ ManufacturingRoute.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    itemErrors: PropTypes.shape({}),
+    itemError: PropTypes.shape({ statusText: PropTypes.string }),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -321,7 +321,7 @@ ManufacturingRoute.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    itemErrors: null,
+    itemError: null,
     itemId: null,
     cits: [],
     manufacturingResources: [],

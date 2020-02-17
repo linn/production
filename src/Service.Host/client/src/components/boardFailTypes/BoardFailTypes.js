@@ -57,7 +57,7 @@ const BoardFailTypes = ({ loading, itemError, history, items }) => {
     return (
         <Page>
             <Title text="Board Fail Types" />
-            {itemError && <ErrorCard errorMessage={itemError?.statusText} />}
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
@@ -86,7 +86,7 @@ BoardFailTypes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    itemError: PropTypes.shape({})
+    itemError: PropTypes.shape({ statusText: PropTypes.string })
 };
 
 BoardFailTypes.defaultProps = {

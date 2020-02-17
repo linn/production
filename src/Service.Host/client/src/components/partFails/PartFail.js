@@ -73,8 +73,8 @@ function PartFail({
         if (editStatus === 'create' && profile) {
             setPartFail(a => ({
                 ...a,
-                enteredBy: profile?.employee.replace('/employees/', ''), // the current user
-                enteredByName: profile?.name
+                enteredBy: profile.employee.replace('/employees/', ''), // the current user
+                enteredByName: profile.name
             }));
         }
     }, [profile, editStatus]);
@@ -475,7 +475,7 @@ function PartFail({
 
 PartFail.propTypes = {
     history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
-    profile: PropTypes.shape({}),
+    profile: PropTypes.shape({ employee: PropTypes.string, name: PropTypes.string }),
     editStatus: PropTypes.string.isRequired,
     snackbarVisible: PropTypes.bool,
     loading: PropTypes.bool,

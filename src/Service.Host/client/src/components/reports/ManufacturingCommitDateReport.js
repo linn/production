@@ -122,7 +122,7 @@ ManufacturingCommitDateReport.propTypes = {
         })
     }),
     loading: PropTypes.bool,
-    options: PropTypes.shape({ date: PropTypes.instanceOf(Date) })
+    options: PropTypes.shape({ date: PropTypes.string })
 };
 
 ManufacturingCommitDateReport.defaultProps = {
