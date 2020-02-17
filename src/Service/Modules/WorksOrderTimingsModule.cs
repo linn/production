@@ -30,7 +30,7 @@
             this.worksOrderTimingsService = worksOrderTimingsService;
 
             this.Get("/production/works-orders/timings", _ => this.GetWorksOrderTimingsForDates());
-            this.Get("/production/works-orders/all-ops", _ => this.GetApp());
+            this.Get("/production/works-orders/mw-timings-setup", _ => this.GetApp());
         }
 
 

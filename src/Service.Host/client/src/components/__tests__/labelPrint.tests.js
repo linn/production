@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { fireEvent, cleanup } from '@testing-library/react';
+import { cleanup } from '@testing-library/react';
 import render from '../../test-utils';
 import LabelPrint from '../labelPrinting/LabelPrint';
 
