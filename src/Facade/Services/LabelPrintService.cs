@@ -23,7 +23,7 @@
 
             var allPrinterValues = Enum.GetValues(typeof(LabelPrinters.Printers));
 
-            for (int i = 0; i < allPrinterValues.Length; i++)
+            foreach (int i in allPrinterValues)
             {
                 var enumValue = (LabelPrinters.Printers)i;
                 printerList.Add(new IdAndName(i, enumValue.GetDisplayName()));
@@ -38,7 +38,7 @@
 
             var allLabelValues = Enum.GetValues(typeof(GeneralPurposeLabelTypes.Labels));
 
-            for (int i = 0; i < allLabelValues.Length; i++)
+            foreach (int i in allLabelValues)
             {
                 var enumValue = (GeneralPurposeLabelTypes.Labels)i;
                 labelList.Add(new IdAndName(i, enumValue.GetDisplayName()));
