@@ -138,8 +138,7 @@ const ViewProductionTriggerLevels = ({
     };
 
     const handleBPClick = () => {
-        //TODO - when Build plans is implemented, uncomment the link below
-        // history.push('/production/maintenance/build-plans');
+        history.push('/production/maintenance/build-plans');
     };
 
     return (

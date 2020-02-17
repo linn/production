@@ -164,23 +164,6 @@ function LabelPrint({
             inputType: 'string'
         },
         {
-            id: 'fromPCNumber',
-            displayName: 'From PC Number',
-            value: '',
-            width: 3,
-            displayForLabelTypes: [3],
-            inputType: 'number'
-        },
-        {
-            id: 'toPCNumber',
-            displayName: 'To PC Number',
-            value: '',
-            width: 3,
-            displayForLabelTypes: [3],
-            inputType: 'number',
-            onOwnLine: true
-        },
-        {
             id: 'poNumber',
             displayName: 'PO Number',
             value: '',
@@ -245,7 +228,7 @@ function LabelPrint({
 
         if (newValue === '0' || newValue === '1' || newValue === '4') {
             setPrinter(3); //Large labels & address -> Prodlbl2
-        } else if (newValue === '2' || newValue === '3' || newValue === '6' || newValue === '7') {
+        } else if (newValue === '2' || newValue === '6' || newValue === '7') {
             setPrinter(2); //Small labels -> Prodlbl1
         } else if (newValue === '5') {
             setPrinter(0); //address & goods in labels -> goods in 1 GILabels
@@ -335,9 +318,6 @@ function LabelPrint({
         let styleClass = '';
         if (labelType === 7) {
             styleClass = classes.boldText;
-        }
-        if (labelType === 3) {
-            styleClass = classes.spacingRight;
         }
         return styleClass;
     };
