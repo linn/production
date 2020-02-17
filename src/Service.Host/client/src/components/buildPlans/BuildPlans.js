@@ -159,7 +159,6 @@ export default function BuildPlans({
     };
 
     const handleFieldChange = (propertyName, newValue) => {
-        console.log('HEY NOW');
         if (propertyName === 'buildPlanName') {
             setBuildPlan(buildPlanOptions.find(bp => bp.buildPlanName === newValue));
             return;
