@@ -73,7 +73,7 @@ export default function CreateBuildPlan({ loading, history, saveBuildPlan }) {
 }
 
 CreateBuildPlan.propTypes = {
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ push: PropTypes.func, goBack: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
     saveBuildPlan: PropTypes.func.isRequired
 };

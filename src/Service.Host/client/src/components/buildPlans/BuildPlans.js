@@ -46,7 +46,9 @@ export default function BuildPlans({
     buildPlansErrorMessage,
     buildPlanDetailErrorMessage,
     buildPlanDetailsErrorMessage,
-    buildPlanRulesErrorMessage
+    buildPlanRulesErrorMessage,
+    clearBuildPlanErrors,
+    clearBuildPlanDetailErrors
 }) {
     const [buildPlan, setBuildPlan] = useState({ buildPlanName: '', description: '' });
     const [buildPlanOptions, setBuildPlanOptions] = useState([{ id: '', displayText: '' }]);
@@ -107,6 +109,11 @@ export default function BuildPlans({
         }
     }, [buildPlanRules]);
 
+    const clearErrors = () => {
+        clearBuildPlanErrors();
+        clearBuildPlanDetailErrors();
+    };
+
     const selectPartSearchResult = (_propertyName, part, updatedItem) => {
         if (updatedItem.id) {
             setBuildPlanDetailOptions(
@@ -127,26 +134,32 @@ export default function BuildPlans({
     };
 
     const handleSaveClick = () => {
+        clearErrors();
         updateBuildPlan(buildPlan);
     };
 
     const handleCancelClick = () => {
+        clearErrors();
         setBuildPlan({ buildPlanName: '', description: '' });
     };
 
     const handleBackClick = () => {
+        clearErrors();
         history.goBack();
     };
 
     const handleUpdateBuildPlanDetail = updatedBuildPlanDetail => {
+        clearErrors();
         updateBuildPlanDetail(null, updatedBuildPlanDetail);
     };
 
     const handleSaveBuildPlanDetail = updatedBuildPlanDetail => {
+        clearErrors();
         saveBuildPlanDetail(updatedBuildPlanDetail);
     };
 
     const handleFieldChange = (propertyName, newValue) => {
+        console.log('HEY NOW');
         if (propertyName === 'buildPlanName') {
             setBuildPlan(buildPlanOptions.find(bp => bp.buildPlanName === newValue));
             return;
@@ -351,7 +364,7 @@ BuildPlans.propTypes = {
     clearPartsSearch: PropTypes.func.isRequired,
     selectedBuildPlan: PropTypes.string,
     updateBuildPlan: PropTypes.func.isRequired,
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ push: PropTypes.func, goBack: PropTypes.func }).isRequired,
     updateBuildPlanDetail: PropTypes.func.isRequired,
     saveBuildPlanDetail: PropTypes.func.isRequired,
     buildPlanDetailLoading: PropTypes.bool,
@@ -367,7 +380,9 @@ BuildPlans.propTypes = {
     buildPlansErrorMessage: PropTypes.string,
     buildPlanDetailErrorMessage: PropTypes.string,
     buildPlanDetailsErrorMessage: PropTypes.string,
-    buildPlanRulesErrorMessage: PropTypes.string
+    buildPlanRulesErrorMessage: PropTypes.string,
+    clearBuildPlanErrors: PropTypes.func.isRequired,
+    clearBuildPlanDetailErrors: PropTypes.func.isRequired
 };
 
 BuildPlans.defaultProps = {
