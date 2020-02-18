@@ -197,6 +197,13 @@
                         Quantity = fail.Part.BaseUnitPrice * fail.Quantity ?? 0,
                         ColumnId = "Total Price"
                     });
+                values.Add(
+                    new CalculationValueModel
+                        {
+                            RowId = fail.Id.ToString(),
+                            TextDisplay = fail.EnteredBy.FullName,
+                            ColumnId = "Entered By"
+                        });
             }
 
             return values;
@@ -242,7 +249,11 @@
                            new AxisDetailsModel("Total Price")
                                {
                                    SortOrder = 11, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
-                               }
+                               },
+                           new AxisDetailsModel("Entered By")
+                               {
+                                   SortOrder = 12, GridDisplayType = GridDisplayType.TextValue
+                               },
                        };
         }
     }
