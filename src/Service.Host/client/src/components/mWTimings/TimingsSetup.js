@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { DatePicker, Title, LinnWeekPicker } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
+import * as moment from 'moment';
 import Page from '../../containers/Page';
 
 function TimingsSetup({ history }) {
@@ -14,7 +15,10 @@ function TimingsSetup({ history }) {
         if (propertyName === 'week') {
             setFromDate(newValue);
             console.info(newValue);
-            setToDate(newValue.add(6, 'days'));
+            // let utc = moment(newValue).add(6, 'd');
+            // console.info(utc);
+            //todo - get adding days onto moment working. Ask adam maybe?
+            setToDate(newValue.add(6, 'd'));
         }
     };
     const handleClick = () =>

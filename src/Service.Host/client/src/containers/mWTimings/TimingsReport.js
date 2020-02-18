@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
-import BuildsDetailReport from '../../components/buildsbyDepartment/BuildsDetailReport';
+import TimingsReport from '../../components/mWTimings/TimingsReport';
 import actions from '../../actions/buildsDetailReportActions';
 import config from '../../config';
 import * as reportTypes from '../../reportTypes';
@@ -28,4 +28,4 @@ const mapDispatchToProps = {
     initialise
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(BuildsDetailReport));
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TimingsReport));
