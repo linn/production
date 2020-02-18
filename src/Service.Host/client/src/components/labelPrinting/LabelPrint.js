@@ -287,8 +287,6 @@ function LabelPrint({
             Line7: labelDetails.find(x => x.id === 'line7').value,
             PostalCode: labelDetails.find(x => x.id === 'postalCode').value,
             Country: labelDetails.find(x => x.id === 'country').value,
-            FromPCNumber: `${labelDetails.find(x => x.id === 'fromPCNumber').value}`,
-            ToPCNumber: `${labelDetails.find(x => x.id === 'toPCNumber').value}`,
             PoNumber: labelDetails.find(x => x.id === 'poNumber').value,
             PartNumber: labelDetails.find(x => x.id === 'partNumber').value,
             Qty: `${labelDetails.find(x => x.id === 'qty').value}`,
