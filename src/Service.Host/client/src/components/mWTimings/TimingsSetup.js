@@ -23,8 +23,8 @@ function TimingsSetup({ history }) {
     };
     const handleClick = () =>
         history.push({
-            pathname: `/production/reports/builds-summary`,
-            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}`
+            pathname: `/production/reports/mw-timings`,
+            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&monthly=false&department=0000016502&quantityOrValue=Mins`
         });
 
     return (
