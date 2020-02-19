@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
@@ -34,7 +34,7 @@ export default function CreateBuildPlan({ loading, history, saveBuildPlan }) {
                 {loading ? (
                     <Loading />
                 ) : (
-                    <Fragment>
+                    <>
                         <Grid item xs={4}>
                             <InputField
                                 fullWidth
@@ -65,7 +65,7 @@ export default function CreateBuildPlan({ loading, history, saveBuildPlan }) {
                                 backClick={handleBackClick}
                             />
                         </Grid>
-                    </Fragment>
+                    </>
                 )}
             </Grid>
         </Page>

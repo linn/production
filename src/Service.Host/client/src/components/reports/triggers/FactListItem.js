@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -27,16 +27,14 @@ function FactListItem({ children, header, secondary, avatar }) {
             return !open ? <ExpandLess /> : <ExpandMore />;
         }
 
-        return <Fragment />;
+        return <> </>;
     };
 
     return (
-        <Fragment>
+        <>
             <ListItem button onClick={handleClick}>
                 <ListItemAvatar>
-                    <Fragment>
-                        {showAvatar(avatar) ? <Avatar>{avatar}</Avatar> : <Fragment />}
-                    </Fragment>
+                    <>{showAvatar(avatar) ? <Avatar>{avatar}</Avatar> : <></>}</>
                 </ListItemAvatar>
                 <ListItemText primary={header} secondary={secondary} />
                 {showExpand()}
@@ -44,15 +42,15 @@ function FactListItem({ children, header, secondary, avatar }) {
             <Collapse in={!open} timeout="auto" unmountOnExit>
                 {children}
             </Collapse>
-        </Fragment>
+        </>
     );
 }
 
 FactListItem.propTypes = {
-    children: PropTypes.shape({}),
-    header: PropTypes.shape({}),
-    secondary: PropTypes.shape({}),
-    avatar: PropTypes.shape({})
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape({})), PropTypes.shape({})]),
+    header: PropTypes.string,
+    secondary: PropTypes.string,
+    avatar: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.shape({})])
 };
 
 FactListItem.defaultProps = {

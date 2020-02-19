@@ -46,7 +46,8 @@ const defaultProps = {
     printWorksOrderLabels: printWorksOrderLabelsMock,
     setDefaultWorksOrderPrinter: jest.fn(),
     clearErrors: jest.fn(),
-    fetchSerialNumbers: fetchSerialNumbersMock
+    fetchSerialNumbers: fetchSerialNumbersMock,
+    previousPath: '/path'
 };
 
 const employees = [

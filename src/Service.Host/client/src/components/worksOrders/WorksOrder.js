@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
@@ -239,7 +239,7 @@ function WorksOrder({
                 />
                 <Grid item xs={12}>
                     {creating() ? (
-                        <Fragment>
+                        <>
                             <Title text="Raise Works Order" />
                             <Button
                                 color="primary"
@@ -249,12 +249,12 @@ function WorksOrder({
                             >
                                 Search
                             </Button>
-                        </Fragment>
+                        </>
                     ) : (
-                        <Fragment>
+                        <>
                             <Title text="Works Order" />
                             <CreateButton createUrl="/production/works-orders/create" />
-                        </Fragment>
+                        </>
                     )}
                 </Grid>
                 {itemErrors &&
@@ -275,7 +275,7 @@ function WorksOrder({
                     </Grid>
                 )}
                 {!creating() && (
-                    <Fragment>
+                    <>
                         <Grid item xs={4}>
                             <SearchInputField
                                 label="Search for Order Number"
@@ -288,7 +288,7 @@ function WorksOrder({
                             />
                         </Grid>
                         <Grid item xs={8} />
-                    </Fragment>
+                    </>
                 )}
                 {loading || employeesLoading ? (
                     <Grid item xs={12}>
@@ -296,14 +296,14 @@ function WorksOrder({
                     </Grid>
                 ) : (
                     (worksOrder || creating()) && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
                             {!creating() && (
-                                <Fragment>
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -313,7 +313,7 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
-                                </Fragment>
+                                </>
                             )}
                             <Grid item xs={4}>
                                 <InputField
@@ -327,7 +327,7 @@ function WorksOrder({
                             </Grid>
                             <Grid item xs={8} />
                             {worksOrderDetails && worksOrderDetails?.auditDisclaimer && (
-                                <Fragment>
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -338,9 +338,9 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
-                                </Fragment>
+                                </>
                             )}
-                            <Fragment>
+                            <>
                                 <Grid item xs={4}>
                                     <InputField
                                         disabled
@@ -378,7 +378,7 @@ function WorksOrder({
                                         label="Description"
                                     />
                                 </Grid>
-                            </Fragment>
+                            </>
                             <Grid item xs={4}>
                                 <InputField
                                     fullWidth
@@ -408,7 +408,7 @@ function WorksOrder({
                                 />
                             </Grid>
                             {!creating() ? (
-                                <Fragment>
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -420,12 +420,12 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={4} />
-                                </Fragment>
+                                </>
                             ) : (
                                 <Grid item xs={8} />
                             )}
                             {!creating() && (
-                                <Fragment>
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -465,7 +465,7 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
-                                </Fragment>
+                                </>
                             )}
                             <Grid item xs={4}>
                                 <InputField
@@ -481,7 +481,7 @@ function WorksOrder({
                             </Grid>
                             <Grid item xs={8} />
                             {!creating() && (
-                                <Fragment>
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -544,11 +544,11 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
-                                </Fragment>
+                                </>
                             )}
                             <Grid item xs={12}>
                                 {!creating() && (
-                                    <Fragment>
+                                    <>
                                         <Button
                                             className={classes.printButton}
                                             onClick={handlePrintWorksOrderLabelsClick}
@@ -564,7 +564,7 @@ function WorksOrder({
                                         >
                                             Print AIO Labels
                                         </Button>
-                                    </Fragment>
+                                    </>
                                 )}
                             </Grid>
 
@@ -604,7 +604,7 @@ function WorksOrder({
                                     }}
                                 />{' '}
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
             </Grid>

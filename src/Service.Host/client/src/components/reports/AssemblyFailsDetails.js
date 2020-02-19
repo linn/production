@@ -55,10 +55,13 @@ const AssemblyFailsDetails = ({ reportData, loading, history, options, config })
 );
 
 AssemblyFailsDetails.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.string }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
-    options: PropTypes.shape({}),
+    options: PropTypes.shape({
+        fromDate: PropTypes.instanceOf(Date),
+        toDate: PropTypes.instanceOf(Date)
+    }),
     config: PropTypes.shape({ appRoot: PropTypes.string }).isRequired
 };
 

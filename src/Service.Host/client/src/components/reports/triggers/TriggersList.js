@@ -122,7 +122,7 @@ function TriggersList({ triggers, jobref, citcode }) {
 }
 
 TriggersList.propTypes = {
-    triggers: PropTypes.shape({}),
+    triggers: PropTypes.arrayOf(PropTypes.shape({})),
     citcode: PropTypes.string,
     jobref: PropTypes.string.isRequired
 };

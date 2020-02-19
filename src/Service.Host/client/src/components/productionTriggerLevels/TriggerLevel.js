@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -22,6 +22,7 @@ import {
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
+//eslint-disable-next-line react/jsx-props-no-spreading
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 function TriggerLevel({
@@ -172,16 +173,16 @@ function TriggerLevel({
     const temporaryItems = [{ displayText: 'Yes', id: 'Y' }];
 
     return (
-        <Fragment>
+        <>
             <Grid container alignItems="center" justify="center">
                 <Grid xs={6} item>
                     <Page>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 {allowedToCreate && (
-                                    <Fragment>
+                                    <>
                                         <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
-                                    </Fragment>
+                                    </>
                                 )}
                                 {creating() ? (
                                     <Title text="Create Production Trigger Level" />
@@ -192,7 +193,7 @@ function TriggerLevel({
 
                             {itemErrors && (
                                 <Grid item xs={12}>
-                                    <ErrorCard errorMessage={itemErrors.statusText} />
+                                    <ErrorCard errorMessage={itemErrors?.statusText} />
                                 </Grid>
                             )}
                             {loading || appStateLoading || !triggerLevel ? (
@@ -200,7 +201,7 @@ function TriggerLevel({
                                     <Loading />
                                 </Grid>
                             ) : (
-                                <Fragment>
+                                <>
                                     <SnackbarMessage
                                         visible={snackbarVisible}
                                         onClose={() => setSnackbarVisible(false)}
@@ -484,13 +485,13 @@ function TriggerLevel({
                                             </DialogActions>
                                         </Dialog>
                                     )}
-                                </Fragment>
+                                </>
                             )}
                         </Grid>
                     </Page>
                 </Grid>
             </Grid>
-        </Fragment>
+        </>
     );
 }
 

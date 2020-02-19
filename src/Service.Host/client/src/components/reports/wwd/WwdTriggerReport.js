@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Loading, Title, ErrorCard } from '@linn-it/linn-form-components-library';
 import Link from '@material-ui/core/Link';
@@ -34,11 +34,11 @@ function WwdTriggerReport({ reportData, loading, itemError, options }) {
                     ''
                 )}
                 {itemError ? (
-                    <ErrorCard errorMessage={itemError.details?.message} />
+                    <ErrorCard errorMessage={itemError?.details?.message} />
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
-                            <Fragment>
+                            <>
                                 <Title text="What Will Decrement From A Workstation" />
                                 <div className={classes.padbottom}>
                                     <Typography>
@@ -67,7 +67,7 @@ function WwdTriggerReport({ reportData, loading, itemError, options }) {
                                     {moment(reportData.wwdRunDatetime).format('DD-MMM HH:mm')} id{' '}
                                     {reportData.wwdJobId}
                                 </Typography>
-                            </Fragment>
+                            </>
                         ) : (
                             ''
                         )}
@@ -79,10 +79,22 @@ function WwdTriggerReport({ reportData, loading, itemError, options }) {
 }
 
 WwdTriggerReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({
+        partNumber: PropTypes.string,
+        wwdRunDatetime: PropTypes.instanceOf(Date),
+        wwdJobId: PropTypes.number,
+        qty: PropTypes.number,
+        wwdDetails: PropTypes.string,
+        ptlJobref: PropTypes.string,
+        workStationCode: PropTypes.string
+    }),
     loading: PropTypes.bool,
     itemError: PropTypes.shape({}),
-    options: PropTypes.shape({})
+    options: PropTypes.shape({
+        ptlJobref: PropTypes.string,
+        workStationCode: PropTypes.string,
+        citcode: PropTypes.string
+    })
 };
 
 WwdTriggerReport.defaultProps = {

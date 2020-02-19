@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -110,7 +110,7 @@ const ViewLabelTypes = ({ loading, itemError, history, items }) => {
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
+                <>
                     <div className={classes.actionsContainer}>
                         <CreateButton createUrl="/production/resources/label-types/create" />
                     </div>
@@ -123,7 +123,7 @@ const ViewLabelTypes = ({ loading, itemError, history, items }) => {
                         setPageOptions={setPageOptions}
                         totalItemCount={items ? items.length : 0}
                     />
-                </Fragment>
+                </>
             )}
         </Page>
     );

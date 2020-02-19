@@ -20,8 +20,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function LinkTabCell(props) {
-    const { children, href, hoverHref, setHoverHref, ...other } = props;
+function LinkTabCell({ index, value, href, setHoverHref, hoverHref, children }) {
     const classes = useStyles();
 
     function onMouseEnter() {
@@ -36,12 +35,13 @@ function LinkTabCell(props) {
         <TabCell
             className={href === hoverHref ? classes.hover : classes.link}
             href={href}
+            index={index}
+            value={value}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            {...other}
         >
             <Link component={RouterLink} to={href}>
-                {children}
+                <> {children} </>
             </Link>
         </TabCell>
     );
@@ -49,6 +49,8 @@ function LinkTabCell(props) {
 
 LinkTabCell.propTypes = {
     children: PropTypes.node,
+    index: PropTypes.number.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     href: PropTypes.string,
     hoverHref: PropTypes.string,
     setHoverHref: PropTypes.func.isRequired

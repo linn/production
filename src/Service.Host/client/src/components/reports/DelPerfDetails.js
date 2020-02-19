@@ -16,10 +16,10 @@ const DelPerfDetails = ({ reportData, loading, history, options }) => (
                     <Loading />
                 ) : (
                     <ReportTable
-                    reportData={reportData}
-                    title={reportData.title}
-                    showTitle
-                    showTotals={false}
+                        reportData={reportData}
+                        title={reportData.title}
+                        showTitle
+                        showTotals={false}
                     />
                 )}
             </Grid>
@@ -31,7 +31,7 @@ const DelPerfDetails = ({ reportData, loading, history, options }) => (
 );
 
 DelPerfDetails.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.string }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
     options: PropTypes.shape({})
