@@ -2,8 +2,7 @@
     @page {
         size: 210mm 297mm ; 
         
-        margin: 0mm;
-        margin-right: 0mm; 
+        margin: 10mm 0mm 0mm 0mm;
       }
       .pageContainer {
         width: 1100px;

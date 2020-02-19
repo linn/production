@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -16,7 +16,7 @@ function ContextMenu({ children, id }) {
     }
 
     return (
-        <Fragment>
+        <>
             <IconButton
                 aria-label="more"
                 aria-controls={id}
@@ -34,13 +34,13 @@ function ContextMenu({ children, id }) {
             >
                 {children}
             </Menu>
-        </Fragment>
+        </>
     );
 }
 
 ContextMenu.propTypes = {
-    children: PropTypes.shape({}),
-    id: PropTypes.shape({})
+    children: PropTypes.arrayOf(PropTypes.shape({})),
+    id: PropTypes.string
 };
 
 ContextMenu.defaultProps = {

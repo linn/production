@@ -27,7 +27,12 @@ function ProductionMeasuresInfo(props) {
 }
 
 ProductionMeasuresInfo.propTypes = {
-    infoData: PropTypes.shape({})
+    infoData: PropTypes.shape({
+        lastOSRRunDateTime: PropTypes.string,
+        lastPtlRunDateTime: PropTypes.string,
+        lastPtlJobref: PropTypes.string,
+        lastDaysToLookAhead: PropTypes.number
+    })
 };
 
 ProductionMeasuresInfo.defaultProps = {

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Loading, Title, Dropdown } from '@linn-it/linn-form-components-library';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -53,7 +53,7 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading, history }) {
                     </Grid>
                     <Grid item xs={8} />
                     {options.reportType === 'CIT' && (
-                        <Fragment>
+                        <>
                             <Grid item xs={4}>
                                 <Dropdown
                                     label="CITs"
@@ -64,7 +64,7 @@ function OutstandingWorksOrdersReportOptions({ cits, citsLoading, history }) {
                                 />
                             </Grid>
                             <Grid item xs={8} />
-                        </Fragment>
+                        </>
                     )}
                     <Grid item xs={12}>
                         <Button color="primary" variant="contained" onClick={handleClick}>

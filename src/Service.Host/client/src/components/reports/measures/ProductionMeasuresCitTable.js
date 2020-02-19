@@ -365,7 +365,9 @@ function ProductionMeasuresCits({ citsData, infoData }) {
 
 ProductionMeasuresCits.propTypes = {
     citsData: PropTypes.arrayOf(PropTypes.shape({})),
-    infoData: PropTypes.shape({})
+    infoData: PropTypes.shape({
+        lastPtlJobref: PropTypes.string
+    })
 };
 
 ProductionMeasuresCits.defaultProps = {

@@ -52,7 +52,7 @@ const AteDetailsReport = ({ reportData, loading, history, options }) => (
 );
 
 AteDetailsReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.string }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
     options: PropTypes.shape({})

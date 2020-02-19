@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -92,7 +92,7 @@ function AteFaultCode({
                 ) : (
                     ateFaultCode &&
                     itemError?.faultCode !== 404 && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -152,7 +152,7 @@ function AteFaultCode({
                                     backClick={handleBackClick}
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
             </Grid>

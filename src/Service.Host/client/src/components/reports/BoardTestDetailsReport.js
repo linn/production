@@ -27,7 +27,7 @@ const BoardTestsReport = ({ reportData, loading }) => (
 );
 
 BoardTestsReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.string }),
     loading: PropTypes.bool,
     options: PropTypes.shape({})
 };

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -144,12 +144,12 @@ const ViewProductionTriggerLevels = ({
     return (
         <Page>
             <Title text="Trigger Levels" />
-            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
+            {itemError && <ErrorCard errorMessage={itemError?.statusText} />}
 
             {allowedToCreate && (
-                <Fragment>
+                <>
                     <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
-                </Fragment>
+                </>
             )}
 
             <SnackbarMessage
@@ -215,7 +215,7 @@ const ViewProductionTriggerLevels = ({
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
+                <>
                     {rowsToDisplay.length > 0 && (
                         <PaginatedTable
                             columns={columns}
@@ -227,7 +227,7 @@ const ViewProductionTriggerLevels = ({
                             expandable={false}
                         />
                     )}
-                </Fragment>
+                </>
             )}
             <Grid container>
                 <Grid item xs={12}>

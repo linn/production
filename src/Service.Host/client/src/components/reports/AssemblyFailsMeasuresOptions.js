@@ -91,7 +91,8 @@ AssemblyFailsMeasuresOptions.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
-        toDate: PropTypes.string
+        toDate: PropTypes.string,
+        groupBy: PropTypes.string
     }).isRequired
 };
 

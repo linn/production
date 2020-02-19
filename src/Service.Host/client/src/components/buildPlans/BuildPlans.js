@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Title,
@@ -220,10 +220,10 @@ export default function BuildPlans({
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Fragment>
+                    <>
                         <Title text="Build Plans" />
                         <CreateButton createUrl="/production/maintenance/build-plans/create" />
-                    </Fragment>
+                    </>
                 </Grid>
 
                 {itemErrors && (
@@ -246,7 +246,7 @@ export default function BuildPlans({
                         <Loading />
                     </Grid>
                 ) : (
-                    <Fragment>
+                    <>
                         <SnackbarMessage
                             visible={buildPlanSnackbarVisible}
                             onClose={() => setBuildPlanSnackbarVisible(false)}
@@ -306,7 +306,7 @@ export default function BuildPlans({
                         </Grid>
                         <Grid item xs={4} />
                         {buildPlan.buildPlanName && (
-                            <Fragment>
+                            <>
                                 <Grid item xs={12}>
                                     <SaveBackCancelButtons
                                         saveDisabled={
@@ -333,9 +333,9 @@ export default function BuildPlans({
                                         saveRow={handleUpdateBuildPlanDetail}
                                     />
                                 </Grid>
-                            </Fragment>
+                            </>
                         )}
-                    </Fragment>
+                    </>
                 )}
             </Grid>
         </Page>

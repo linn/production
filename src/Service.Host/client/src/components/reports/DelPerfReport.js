@@ -31,7 +31,7 @@ const DelPerfReport = ({ reportData, loading, history }) => (
 );
 
 DelPerfReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.string }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
     options: PropTypes.shape({})

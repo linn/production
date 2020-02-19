@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect, useCallback } from 'react';
+﻿import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -15,7 +15,7 @@ import Page from '../../containers/Page';
 
 function ManufacturingRoute({
     editStatus,
-    itemErrors,
+    itemError,
     history,
     itemId,
     item,
@@ -199,9 +199,9 @@ function ManufacturingRoute({
                         <Title text="Manufacturing Route" />
                     )}
                 </Grid>
-                {itemErrors && (
+                {itemError && (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemErrors.statusText} />
+                        <ErrorCard errorMessage={itemError.statusText} />
                     </Grid>
                 )}
                 {loading || !manufacturingRoute ? (
@@ -209,7 +209,7 @@ function ManufacturingRoute({
                         <Loading />
                     </Grid>
                 ) : (
-                    <Fragment>
+                    <>
                         <SnackbarMessage
                             visible={snackbarVisible}
                             onClose={() => setSnackbarVisible(false)}
@@ -255,14 +255,14 @@ function ManufacturingRoute({
                         </Grid>
 
                         {!creating() && manufacturingRoute.operations && (
-                            <Fragment>
+                            <>
                                 {OperationsTableAndInfo()}
                                 {!operationsComplete() && (
                                     <ErrorCard
                                         errorMessage={`One or more operations does not meet the criteria to allow saving. Problem columns: ${problemColumns()}`}
                                     />
                                 )}
-                            </Fragment>
+                            </>
                         )}
 
                         <Grid item xs={12}>
@@ -273,7 +273,7 @@ function ManufacturingRoute({
                                 backClick={handleBackClick}
                             />
                         </Grid>
-                    </Fragment>
+                    </>
                 )}
             </Grid>
         </Page>
@@ -288,7 +288,7 @@ ManufacturingRoute.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    itemErrors: PropTypes.shape({}),
+    itemError: PropTypes.shape({ statusText: PropTypes.string }),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
@@ -321,7 +321,7 @@ ManufacturingRoute.defaultProps = {
     addItem: null,
     updateItem: null,
     loading: null,
-    itemErrors: null,
+    itemError: null,
     itemId: null,
     cits: [],
     manufacturingResources: [],

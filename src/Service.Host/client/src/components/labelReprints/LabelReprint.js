@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -113,13 +113,13 @@ function LabelReprint({
     };
 
     return (
-        <Fragment>
+        <>
             <Grid container alignItems="center" justify="center">
                 <Grid xs={6} item>
                     <Page>
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
-                                <Fragment>
+                                <>
                                     <Button
                                         href="/production/maintenance/labels/print"
                                         variant="outlined"
@@ -128,7 +128,7 @@ function LabelReprint({
                                     >
                                         G. P. label printer
                                     </Button>
-                                </Fragment>
+                                </>
                                 <Title text="Reprint / Reissue / Rebuild" />
                             </Grid>
                             {itemError && (
@@ -142,7 +142,7 @@ function LabelReprint({
                                 </Grid>
                             ) : (
                                 labelReprint && (
-                                    <Fragment>
+                                    <>
                                         <SnackbarMessage
                                             visible={snackbarVisible}
                                             onClose={() => setSnackbarVisible(false)}
@@ -298,14 +298,14 @@ function LabelReprint({
                                                 Back
                                             </Button>
                                         </Grid>
-                                    </Fragment>
+                                    </>
                                 )
                             )}
                         </Grid>
                     </Page>{' '}
                 </Grid>
             </Grid>
-        </Fragment>
+        </>
     );
 }
 

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -93,7 +93,7 @@ function BoardFailType({
                     </Grid>
                 ) : (
                     boardFailType && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -130,7 +130,7 @@ function BoardFailType({
                                     propertyName="description"
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

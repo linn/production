@@ -7,7 +7,7 @@ function FactList({ children, id }) {
 }
 
 FactList.propTypes = {
-    children: PropTypes.shape({}),
+    children: PropTypes.arrayOf(PropTypes.shape({})),
     id: PropTypes.shape({})
 };
 

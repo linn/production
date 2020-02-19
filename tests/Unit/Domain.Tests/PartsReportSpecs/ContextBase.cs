@@ -57,7 +57,7 @@
                                             {
                                                 Batch = "BATCH",
                                                 DateCreated = new DateTime(2019, 10, 28),
-                                                EnteredBy = new Employee { Id = 33067 },
+                                                EnteredBy = new Employee { Id = 33067, FullName = "name" },
                                                 Quantity = 1,
                                                 FaultCode = new PartFailFaultCode { FaultCode = "CODE1" },
                                                 ErrorType = new PartFailErrorType { ErrorType = "TYPE1" },
@@ -91,7 +91,7 @@
                                             {
                                                 Batch = "BATCH",
                                                 DateCreated = new DateTime(2019, 10, 28),
-                                                EnteredBy = new Employee { Id = 33067 },
+                                                EnteredBy = new Employee { Id = 33067, FullName = "name" },
                                                 Quantity = 1,
                                                 FaultCode = new PartFailFaultCode { FaultCode = "CODE2" },
                                                 ErrorType = new PartFailErrorType { ErrorType = "TYPE1" },
@@ -108,7 +108,7 @@
                                             {
                                                 Batch = "BATCH",
                                                 DateCreated = new DateTime(2019, 10, 28),
-                                                EnteredBy = new Employee { Id = 33067 },
+                                                EnteredBy = new Employee { Id = 33067, FullName = "name" },
                                                 Quantity = 1,
                                                 FaultCode = new PartFailFaultCode { FaultCode = "CODE1" },
                                                 ErrorType = new PartFailErrorType { ErrorType = "TYPE2" },
