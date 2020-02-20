@@ -159,7 +159,9 @@ BuildsDetailReportOptions.propTypes = {
         fromDate: PropTypes.string,
         toDate: PropTypes.string,
         departmentCode: PropTypes.string,
-        quantityOrValue: PropTypes.string
+        quantityOrValue: PropTypes.string,
+        monthly: PropTypes.string,
+        department: PropTypes.string
     }),
     departmentsLoading: PropTypes.bool,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
@@ -168,7 +170,10 @@ BuildsDetailReportOptions.propTypes = {
     ),
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
-        toDate: PropTypes.string
+        toDate: PropTypes.string,
+        quantityOrValue: PropTypes.string,
+        monthly: PropTypes.string,
+        department: PropTypes.string
     })
 };
 

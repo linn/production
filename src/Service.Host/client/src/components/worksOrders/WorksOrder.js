@@ -647,12 +647,12 @@ WorksOrder.propTypes = {
     clearPrintWorksOrderAioLabelsErrors: PropTypes.func.isRequired,
     setPrintWorksOrderAioLabelsMessageVisible: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
-    setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
-    defaultWorksOrderPrinter: PropTypes.string,
-    fetchSerialNumbers: PropTypes.func.isRequired,
+    setDefaultWorksOrderPrinter: PropTypes.func,
+    defaultWorksOrderPrinter: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
+    fetchSerialNumbers: PropTypes.func,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
     previousPath: PropTypes.string.isRequired,
-    options: PropTypes.shape({})
+    options: PropTypes.shape({ partNumber: PropTypes.string })
 };
 
 WorksOrder.defaultProps = {
@@ -677,7 +677,9 @@ WorksOrder.defaultProps = {
     clearPartsSearch: null,
     defaultWorksOrderPrinter: 'Prod',
     serialNumbers: [],
-    options: {}
+    options: {},
+    fetchSerialNumbers: null,
+    setDefaultWorksOrderPrinter: null
 };
 
 export default WorksOrder;

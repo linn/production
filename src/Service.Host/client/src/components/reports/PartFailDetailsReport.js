@@ -32,7 +32,7 @@ export default function PartFailDetailsReport({ reportData, loading, options, er
                                 reportData={reportData}
                                 showTotals={false}
                                 showTitle
-                                title={reportData.title.displayString}
+                                title={reportData?.title.displayString}
                             />
                         )
                     )}
@@ -44,7 +44,14 @@ export default function PartFailDetailsReport({ reportData, loading, options, er
 
 PartFailDetailsReport.propTypes = {
     reportData: PropTypes.shape({}),
-    options: PropTypes.shape({ daysMethod: PropTypes.string }),
+    options: PropTypes.shape({
+        daysMethod: PropTypes.string,
+        errorType: PropTypes.string,
+        partNumber: PropTypes.string,
+        fromWeek: PropTypes.string,
+        toWeek: PropTypes.string,
+        faultCode: PropTypes.string
+    }),
     loading: PropTypes.bool,
     error: PropTypes.string
 };
