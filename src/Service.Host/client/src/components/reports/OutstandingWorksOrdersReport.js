@@ -39,7 +39,7 @@ function OutstandingWorksOrdersReport({ reportData, loading, config }) {
 
 OutstandingWorksOrdersReport.propTypes = {
     reportData: PropTypes.shape({}),
-    config: PropTypes.shape({}),
+    config: PropTypes.shape({ appRoot: PropTypes.string }),
     loading: PropTypes.bool
 };
 

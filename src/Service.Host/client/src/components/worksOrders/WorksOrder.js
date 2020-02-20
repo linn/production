@@ -648,11 +648,11 @@ WorksOrder.propTypes = {
     setPrintWorksOrderAioLabelsMessageVisible: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
     setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
-    defaultWorksOrderPrinter: PropTypes.string,
+    defaultWorksOrderPrinter: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
     fetchSerialNumbers: PropTypes.func.isRequired,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
     previousPath: PropTypes.string.isRequired,
-    options: PropTypes.shape({})
+    options: PropTypes.shape({ partNumber: PropTypes.string })
 };
 
 WorksOrder.defaultProps = {
