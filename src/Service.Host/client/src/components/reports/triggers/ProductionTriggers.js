@@ -143,7 +143,7 @@ ProductionTriggers.propTypes = {
         citCode: PropTypes.string,
         ptlJobref: PropTypes.string,
         triggers: PropTypes.arrayOf(PropTypes.shape({})),
-        ptlRunDateTime: PropTypes.instanceOf(Date)
+        ptlRunDateTime: PropTypes.string
     }),
     loading: PropTypes.bool,
     config: PropTypes.shape({}),

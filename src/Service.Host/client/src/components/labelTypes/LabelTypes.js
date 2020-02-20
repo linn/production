@@ -106,7 +106,7 @@ const ViewLabelTypes = ({ loading, itemError, history, items }) => {
     return (
         <Page>
             <Title text="Label Types" />
-            {itemError && <ErrorCard errorMessage={itemError.status} />}
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
@@ -133,7 +133,7 @@ ViewLabelTypes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    itemError: PropTypes.shape({})
+    itemError: PropTypes.shape({ statusText: PropTypes.string })
 };
 
 ViewLabelTypes.defaultProps = {

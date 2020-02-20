@@ -160,7 +160,7 @@ BoardFailType.propTypes = {
     addItem: PropTypes.func,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
-    itemError: PropTypes.shape({}),
+    itemError: PropTypes.shape({ statusText: PropTypes.string }),
     setSnackbarVisible: PropTypes.func.isRequired
 };
 

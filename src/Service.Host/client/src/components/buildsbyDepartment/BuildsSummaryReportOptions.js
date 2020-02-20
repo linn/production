@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function BuildsByDepartmentReportOptions({ history }) {
-    const [fromDate, setFromDate] = useState(new Date());
-    const [toDate, setToDate] = useState(new Date());
+    const [fromDate, setFromDate] = useState(new Date().toISOString());
+    const [toDate, setToDate] = useState(new Date().toISOString());
     const [monthly, setMonthly] = useState(false);
 
     const handleClick = () =>
@@ -64,7 +64,11 @@ BuildsByDepartmentReportOptions.propTypes = {
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
         toDate: PropTypes.string
-    }).isRequired
+    })
+};
+
+BuildsByDepartmentReportOptions.defaultProps = {
+    prevOptions: null
 };
 
 export default BuildsByDepartmentReportOptions;
