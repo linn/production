@@ -56,6 +56,10 @@
             builder.RegisterType<ShortageSummaryReportService>().As<IShortageSummaryReportService>();
             builder.RegisterType<ProductionMeasuresReportService>().As<IProductionMeasuresReportService>();
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
+            builder.RegisterType<MWTimingsReportService>().As<IMWTimingsReportService>();
+            builder.RegisterType<MWTimingsReportProxy>().As<IMWTimingsDatabaseReportService>();
+
+
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
