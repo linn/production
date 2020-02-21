@@ -19,7 +19,7 @@
         {
             var sql = $@"select wo.order_number, wo.part_number, wo.qty, wt.operation_type, wt.resource_code, 
             to_char(wt.start_time, 'HH24:MI DD-MON-RRRR') start_time, to_char(wt.end_time, 'HH24:MI DD-MON-RRRR') end_time,
-            round(wt.time_taken / 60) minutes_taken, au.user_name built_by
+            au.user_name built_by, round(wt.time_taken / 60) minutes_taken
             from works_orders wo, works_order_timings wt, auth_user_name_view au
             where wo.order_number = wt.order_number and operation_type = 'OPERATION' and wt.built_by = au.user_number (+)
             and wt.start_time between to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')

@@ -1,11 +1,10 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Linq;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.RemoteServices;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class MWTimingsReportService : IMWTimingsReportService
     {
@@ -19,7 +18,7 @@
             this.databaseService = databaseService;
             this.reportingHelper = reportingHelper;
         }
-        
+
         public ResultsModel GetTimingsReport(DateTime from, DateTime to)
         {
             var allOps = this.databaseService.GetAllOpsDetail(from, to);
@@ -28,70 +27,72 @@
 
             var partGroups = allOps.Select().GroupBy(r => r[1]).ToList(); //groupby part no
 
-            //go through part groups, fire all into a list
-            //with each matching mwBuild and the sum after each one as a total
-            //fire to front end innit
-            //also add the blank rows at the bottom
+            var mwBuildsList = mwBuilds.Select().ToList();
 
-            var tableWithTotal = partGroups
-                .Select(
-                    g => ((DateTime)g.First().ItemArray[4])).Distinct().OrderBy(w => w).ToList();
-
-            //all from scots report also 
-            var colHeaders = new List<string> { "Part Number" };
-            colHeaders.AddRange(weeks.Select(w => w.ToShortDateString()));
-            colHeaders.Add("Total");
+            var colHeaders = new List<string>
+                                 {
+                                     "Order Number", "Part Number", "Quantity", "Operation Type", "Resource Code", "Start Time",
+                                     "End Time", "Built By", "Minutes Taken", "Days taken", "Expected days taken from routes"
+                                 };
 
             var results = new ResultsModel(colHeaders)
             {
                 ReportTitle = new NameModel(
-                    $"Builds {quantityOrValue} for {this.departmentRepository.FindById(department).Description}")
+                    $"Metal Work Timings Report")
             };
+
 
             var rowIndex = 0;
 
+
+            // go through part groups, fire all into a list
+            // with each matching mwBuild and the sum after each one as a total
+            // fire to front end innit
+            // also add the non matching rows of part number and
+            //// total at the bottom, for ones that were booked in but missing from stats
             foreach (var partGroup in partGroups)
             {
-                var partTotal = 0m;
-                results.AddRow(partGroup.Key.ToString());
-                results.SetGridTextValue(rowIndex, 0, partGroup.Key.ToString());
-
-                for (var i = 0; i < weeks.Count; i++)
+                var partNumber = partGroup.First().ItemArray[1];
+                //rows for part no
+                var totalMinsTakenForPart = 0;
+                foreach (var entry in partGroup)
                 {
-                    var valueExistsThisWeek = partGroup.FirstOrDefault(g =>
-                                          ((DateTime)g.ItemArray[4]).ToShortDateString()
-                                          == weeks.ElementAt(i).ToShortDateString()) != null;
-
-                    var val = valueExistsThisWeek
-                                  ? ConvertFromDbVal<decimal>(
-                                      partGroup.FirstOrDefault(
-                                          g => ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i).ToShortDateString())
-                                          ?.ItemArray[quantityOrValue == "Mins" ? 6 : 5])
-                                  : new decimal(0);
-
-                    results.SetColumnType(i + 1, GridDisplayType.Value);
-                    results.SetGridValue(rowIndex, i + 1, val, decimalPlaces: 2);
-
-                    if (!valueExistsThisWeek)
-                    {
-                        continue;
-                    }
-
-                    var itemArray = partGroup.First(
-                                g => ((DateTime)g.ItemArray[4]).ToShortDateString()
-                                     == weeks.ElementAt(i).ToShortDateString())
-                            ?.ItemArray;
-                    {
-                        if (itemArray != null)
-                        {
-                            partTotal += ConvertFromDbVal<decimal>(itemArray?[quantityOrValue == "Mins" ? 6 : 5]);
-                        }
-                    }
+                    results.AddRow(rowIndex.ToString());
+                    results.AddToGridValue(rowIndex, 0, (decimal)entry.ItemArray[0]);             //order no
+                    results.SetGridTextValue(rowIndex, 1, entry.ItemArray[1].ToString()); //part no
+                    results.AddToGridValue(rowIndex, 2, (decimal)entry.ItemArray[2]);              //qty
+                    results.SetGridTextValue(rowIndex, 3, entry.ItemArray[3].ToString()); //Operation type
+                    results.SetGridTextValue(rowIndex, 4, entry.ItemArray[4].ToString()); //resource code
+                    results.SetGridTextValue(rowIndex, 5, entry.ItemArray[5].ToString()); //start
+                    results.SetGridTextValue(rowIndex, 6, entry.ItemArray[6].ToString()); //end
+                    results.SetGridTextValue(rowIndex, 7, entry.ItemArray[7].ToString()); //built by
+                    results.AddToGridValue(rowIndex, 8, (decimal)entry.ItemArray[8]);              //mins taken
+                    rowIndex++;
+                    totalMinsTakenForPart += (int)entry.ItemArray[8];
                 }
 
-                results.SetColumnType(weeks.Count, GridDisplayType.Value);
+                var mwBuild = mwBuildsList.Find(x => x.ItemArray[0] == partNumber); //this might need to be comparing 2 strings, not sure how smart it'll be
+                mwBuildsList.Remove(mwBuild);
 
-                results.SetGridValue(rowIndex, weeks.Count + 1, partTotal, decimalPlaces: 2);
+                results.AddRow(rowIndex.ToString());
+                results.SetGridTextValue(rowIndex, 0, $"{partNumber} Total");
+                results.AddToGridValue(rowIndex, 8, totalMinsTakenForPart); //total mins taken
+
+                var totalDaysTakenForPart = totalMinsTakenForPart / 410;
+                results.AddToGridValue(rowIndex, 9, totalDaysTakenForPart); //% of day(s) taken
+                results.SetGridTextValue(rowIndex, 10, mwBuild.ItemArray[4].ToString()); //Expected days
+
+                rowIndex++;
+                results.AddRow(rowIndex.ToString());
+                rowIndex++;
+            }
+
+            foreach (var remainingBuild in mwBuildsList)
+            {
+                results.AddRow(rowIndex.ToString());
+                results.SetGridTextValue(rowIndex, 1, remainingBuild.ItemArray[0].ToString()); //part no
+                results.SetGridTextValue(rowIndex, 1, remainingBuild.ItemArray[4].ToString()); // expected total
+
                 rowIndex++;
             }
 

@@ -1,44 +1,31 @@
 ﻿namespace Linn.Production.Service.Modules
 {
-    using System;
     using System.Linq;
-
     using Linn.Common.Facade;
-    using Linn.Common.Resources;
-    using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Exceptions;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
-    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Extensions;
     using Linn.Production.Service.Models;
-
     using Nancy;
     using Nancy.ModelBinding;
-    using Nancy.Security;
 
-    public sealed class WorksOrderTimingsModule : NancyModule
+    public sealed class MetalWorkTimingsModule : NancyModule
     {
+        private readonly IMetalWorkTimingsService metalWorkTimingsService;
 
-        private readonly IWorksOrderTimingsService worksOrderTimingsService;
-        
-
-        public WorksOrderTimingsModule(IWorksOrderTimingsService worksOrderTimingsService)
+        public MetalWorkTimingsModule(IMetalWorkTimingsService metalWorkTimingsService)
         {
-            this.worksOrderTimingsService = worksOrderTimingsService;
+            this.metalWorkTimingsService = metalWorkTimingsService;
 
-            this.Get("/production/works-orders/timings", _ => this.GetWorksOrderTimingsForDates());
-            this.Get("/production/works-orders/mw-timings-setup", _ => this.GetApp());
+            this.Get("/production/reports/mw-timings", _ => this.GetWorksOrderTimingsForDates());
         }
-
 
         private object GetWorksOrderTimingsForDates()
         {
             var resource = this.Bind<SearchByDatesRequestResource>();
             //todo use new resource to take in two dates
-            var worksOrders = this.worksOrderTimingsService.SearchByDates(resource.StartDate, resource.EndDate);
+            var worksOrders = this.metalWorkTimingsService.GetMetalWorkTimingsReport(resource.StartDate, resource.EndDate);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
