@@ -18,10 +18,12 @@
         {
             this.metalWorkTimingsService = metalWorkTimingsService;
 
-            this.Get("/production/reports/mw-timings", _ => this.GetWorksOrderTimingsForDates());
+            this.Get("/production/reports/mw-timings", _ => this.GetMWTimingsForDates());
+            this.Get("/production/reports/mw-timings/export", _ => this.GetMWTimingsExportForDates());
+
         }
 
-        private object GetWorksOrderTimingsForDates()
+        private object GetMWTimingsForDates()
         {
             var resource = this.Bind<SearchByDatesRequestResource>();
             //todo use new resource to take in two dates
@@ -31,13 +33,14 @@
                 .WithView("Index");
         }
 
-        private object GetApp()
+        private object GetMWTimingsExportForDates()
         {
-            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+            var resource = this.Bind<SearchByDatesRequestResource>();
+            //todo use new resource to take in two dates
+            var worksOrders = this.metalWorkTimingsService.GetMetalWorkTimingsExport(resource.StartDate, resource.EndDate);
 
-            return this.Negotiate
-                .WithModel(new SuccessResult<ResponseModel<WorksOrderTiming>>(new ResponseModel<WorksOrderTiming>(new WorksOrderTiming(), privileges)))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithAllowedMediaRange("text/csv")
                 .WithView("Index");
         }
     }

@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import TimingsReport from '../../components/mWTimings/TimingsReport';
-import actions from '../../actions/buildsDetailReportActions';
+import actions from '../../actions/metalWorkTimingsReportActions';
 import config from '../../config';
 import * as reportTypes from '../../reportTypes';
 
-const reportSelectors = new ReportSelectors(reportTypes.buildsDetailReport.item);
+const reportSelectors = new ReportSelectors(reportTypes.metalWorkTimingsReport.item);
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);

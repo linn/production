@@ -311,3 +311,7 @@ export const worksOrderTimingsActionTypes = makeActionTypes(
     itemTypes.worksOrderTimings.actionType,
     false
 );
+
+export const metalWorkTimingsReportActionTypes = makeReportActionTypes(
+    reportTypes.metalWorkTimingsReport.actionType
+);

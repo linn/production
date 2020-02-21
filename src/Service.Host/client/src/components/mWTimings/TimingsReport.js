@@ -13,7 +13,7 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function TimingsReport({ reportData, loading, config, errorMessage, options }) {
-    const href = `${config.appRoot}/production/reports/builds-detail/export?fromDate=${options.fromDate}&toDate=${options.toDate}&monthly=${options.monthly}&department=${options.department}&quantityOrValue=${options.quantityOrValue}`;
+    const href = `${config.appRoot}/production/reports/mw-timings/export?fromDate=${options.fromDate}&toDate=${options.toDate}`;
 
     return (
         <Page>
@@ -24,7 +24,7 @@ function TimingsReport({ reportData, loading, config, errorMessage, options }) {
                     </Grid>
                 )}
                 <Grid item xs={8}>
-                    <Title text={reportData ? reportData.title.displayString : 'Loading'} />
+                    {loading ? <Loading /> : <Title text={reportData?.title?.displayString} />}
                 </Grid>
                 <Grid item xs={4}>
                     <ExportButton href={href} />
@@ -40,8 +40,8 @@ function TimingsReport({ reportData, loading, config, errorMessage, options }) {
                         reportData={reportData}
                         showTotals
                         placeholderRows={10}
-                        placeholderColumns={3}
-                        showTitle={false}
+                        placeholderColumns={11}
+                        showTitle
                     />
                 </Grid>
             </Grid>
