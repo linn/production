@@ -31,7 +31,7 @@
             };
 
             this.LabelTypeService.GetById("newTcode")
-                .Returns(new SuccessResult<LabelType>(labelType));
+                .Returns(new SuccessResult<LabelType>(this.labelType));
 
             this.Response = this.Browser.Get(
                 "/production/resources/label-types/newTcode",

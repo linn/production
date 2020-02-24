@@ -1,13 +1,9 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Reflection.Metadata;
 
     public static class LabelPrinters
     {
-
         public enum Printers
         {
             [Display(Name = "Goods In Labels (Large)")] GILabels,

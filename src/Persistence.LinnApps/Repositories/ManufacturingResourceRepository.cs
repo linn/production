@@ -18,7 +18,7 @@
 
         public ManufacturingResource FindById(string key)
         {
-            return this.serviceDbContext.ManufacturingResources 
+            return this.serviceDbContext.ManufacturingResources
                 .Where(f => f.ResourceCode == key).ToList().FirstOrDefault();
         }
 

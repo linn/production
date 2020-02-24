@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Resources
 {
-    using System.Collections.Generic;
-
     using Linn.Common.Resources;
 
     public class LabelPrintResource : HypermediaResource

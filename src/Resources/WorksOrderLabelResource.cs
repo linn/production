@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Resources
 {
-    using System.Dynamic;
-
     using Linn.Common.Resources;
 
     public class WorksOrderLabelResource : HypermediaResource

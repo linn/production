@@ -74,7 +74,6 @@
                 detailWithSernosInfo.QuantityReceived = this.purchasedOrdersReceived
                     .FilterBy(p => p.OrderNumber == orderNumber && p.OrderLine == detail.OrderLine).ToList().FirstOrDefault()
                     ?.QuantityNetReceived;
-                                               
 
                 detailWithSernosInfo.SernosBuilt = this.sernosBuiltRepository.FilterBy(
                     s => s.SernosGroup == sernosGroup

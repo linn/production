@@ -1,8 +1,5 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
-    using System;
-    using System.Collections.Generic;
-
     public class LabelPrintContents
     {
         public string SupplierId { get; set; }
