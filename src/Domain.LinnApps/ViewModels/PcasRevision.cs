@@ -9,5 +9,7 @@
         public string PartNumber { get; set; }
 
         public string PcasPartNumber { get; set; }
+
+        public string AssemblyTechnology { get; set; }
     }
 }

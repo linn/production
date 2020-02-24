@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {
     SaveBackCancelButtons,
-    TableWithInlineEditing,
     InputField,
     Loading,
     Title,
@@ -12,7 +11,8 @@ import {
     SnackbarMessage,
     Typeahead,
     Dropdown,
-    DatePicker
+    DatePicker,
+    TableWithInlineEditing
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -57,6 +57,8 @@ function AteTest({
         if (editStatus !== 'create' && item && item !== prevAteTest) {
             setAteTest(item);
             setPrevAteTest(item);
+        } else if (editStatus === 'create') {
+            setAteTest({ dateTested: new Date().toISOString(), details: [] });
         }
     }, [item, prevAteTest, editStatus]);
 
@@ -105,15 +107,11 @@ function AteTest({
         }
     }, [ateTest.worksOrderNumber, setAteTest, editStatus, worksOrdersSearchResults]);
 
-    const handleDetailFieldChange = (propertyName, newValue) => {
-        setAteTest({ ...ateTest, [propertyName]: newValue });
+    const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
         }
-    };
-
-    const updateOp = details => {
-        handleDetailFieldChange('details', details);
+        setAteTest({ ...ateTest, [propertyName]: newValue });
     };
 
     const inputInvalid = () =>
@@ -125,7 +123,7 @@ function AteTest({
     const Table = () => {
         const tableColumns = [
             {
-                title: 'No.',
+                title: '#',
                 key: 'itemNumber',
                 type: 'number',
                 notEditable: true
@@ -147,7 +145,22 @@ function AteTest({
                 options: detailParts?.map(p => ({
                     id: p.cref,
                     displayText: `${p.cref} - ${p.partNumber}`
-                }))
+                })),
+                updateValues: newValue => {
+                    let value;
+                    if (ateTest.flowSolderDate && !ateTest.dateTested) {
+                        value = 'FLOW SOLDER';
+                    } else {
+                        const assemblyTechnology = detailParts.find(p => p.cref === newValue);
+                        value = assemblyTechnology === 'SM' ? 'SMT' : 'PCB';
+                    }
+                    return [
+                        {
+                            propertyName: 'smtOrPcb',
+                            value
+                        }
+                    ];
+                }
             },
             {
                 title: 'Fault Code',
@@ -193,7 +206,21 @@ function AteTest({
                 title: 'PCB Operator',
                 key: 'pcbOperator',
                 type: 'dropdown',
-                options: employees.map(e => ({ id: e.id, displayText: e.fullName }))
+                options: employees.map(e => ({ id: e.id, displayText: e.fullName })),
+                updateValues: newValue => {
+                    const name = employees.find(e => e.id.toString() === newValue).fullName;
+                    return [
+                        {
+                            propertyName: 'pcbOperatorName',
+                            value: name
+                        }
+                    ];
+                }
+            },
+            {
+                title: 'PCB Operator Name',
+                key: 'pcbOperatorName',
+                type: 'text'
             },
             {
                 title: 'Comments',
@@ -222,7 +249,9 @@ function AteTest({
                         ...o,
                         id: o.itemNumber ? o.itemNumber : i + 1
                     }))}
-                    updateContent={updateOp}
+                    updateContent={details => {
+                        handleFieldChange('details', details);
+                    }}
                     editStatus={editStatus}
                     allowedToEdit
                     allowedToCreate
@@ -253,13 +282,6 @@ function AteTest({
 
     const handleBackClick = () => {
         history.goBack();
-    };
-
-    const handleFieldChange = (propertyName, newValue) => {
-        if (viewing()) {
-            setEditStatus('edit');
-        }
-        setAteTest({ ...ateTest, [propertyName]: newValue });
     };
 
     return (

@@ -15,7 +15,8 @@
             return new PcasRevisionResource
                        {
                            PartNumber = pcasRevision.PartNumber,
-                           Cref = pcasRevision.Cref
+                           Cref = pcasRevision.Cref,
+                           AssemblyTechnology = pcasRevision.AssemblyTechnology
                        };
         }
 
