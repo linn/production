@@ -57,7 +57,7 @@ function AteTest({
         if (editStatus !== 'create' && item && item !== prevAteTest) {
             setAteTest(item);
             setPrevAteTest(item);
-        } else if (editStatus === 'create' ) {
+        } else if (editStatus === 'create') {
             setAteTest({ dateTested: new Date().toISOString(), details: [] });
         }
     }, [item, prevAteTest, editStatus]);
