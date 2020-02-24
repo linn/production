@@ -9,14 +9,11 @@
     public class MWTimingsReportService : IMWTimingsReportService
     {
         private readonly IMWTimingsDatabaseReportService databaseService;
-
-        private readonly IReportingHelper reportingHelper;
-
+        
         public MWTimingsReportService(
-            IMWTimingsDatabaseReportService databaseService, IReportingHelper reportingHelper)
+            IMWTimingsDatabaseReportService databaseService)
         {
             this.databaseService = databaseService;
-            this.reportingHelper = reportingHelper;
         }
 
         public ResultsModel GetTimingsReport(DateTime from, DateTime to)
@@ -32,7 +29,7 @@
             var colHeaders = new List<string>
                                  {
                                      "Order Number", "Part Number", "Quantity", "Operation Type", "Resource Code", "Start Time",
-                                     "End Time", "Built By", "Minutes Taken", "Days taken", "Expected days taken from routes"
+                                     "End Time", "Built By", "Minutes Taken", "Days taken", "Expected days (from routes)"
                                  };
 
             var results = new ResultsModel(colHeaders)
@@ -40,16 +37,9 @@
                 ReportTitle = new NameModel(
                     $"Metal Work Timings Report")
             };
-
-
+            
             var rowIndex = 0;
 
-
-            // go through part groups, fire all into a list
-            // with each matching mwBuild and the sum after each one as a total
-            // fire to front end innit
-            // also add the non matching rows of part number and
-            //// total at the bottom, for ones that were booked in but missing from stats
             foreach (var partGroup in partGroups)
             {
                 var partNumber = partGroup.First().ItemArray[1];
@@ -75,7 +65,7 @@
                 mwBuildsList.Remove(mwBuild);
 
                 results.AddRow(rowIndex.ToString());
-                results.SetGridTextValue(rowIndex, 0, $"{partNumber} Total");
+                results.SetGridTextValue(rowIndex, 1, $"{partNumber} Total");
                 results.AddToGridValue(rowIndex, 8, totalMinsTakenForPart); //total mins taken
 
                 var totalDaysTakenForPart = totalMinsTakenForPart / 410;
@@ -91,7 +81,7 @@
             {
                 results.AddRow(rowIndex.ToString());
                 results.SetGridTextValue(rowIndex, 1, remainingBuild.ItemArray[0].ToString()); //part no
-                results.SetGridTextValue(rowIndex, 1, remainingBuild.ItemArray[4].ToString()); // expected total
+                results.SetGridTextValue(rowIndex, 10, remainingBuild.ItemArray[4].ToString()); // expected total
 
                 rowIndex++;
             }
