@@ -24,7 +24,7 @@ function BuildsDetailReport({ reportData, loading, config, errorMessage, options
                     </Grid>
                 )}
                 <Grid item xs={8}>
-                    <Title text={reportData ? reportData.title.displayString : 'Loading'} />
+                    <Title text={reportData ? reportData?.title?.displayString : 'Loading'} />
                 </Grid>
                 <Grid item xs={4}>
                     <ExportButton href={href} />
@@ -51,8 +51,14 @@ function BuildsDetailReport({ reportData, loading, config, errorMessage, options
 
 BuildsDetailReport.propTypes = {
     reportData: PropTypes.shape({}),
-    options: PropTypes.shape({}).isRequired,
-    config: PropTypes.shape({}),
+    options: PropTypes.shape({
+        fromDate: PropTypes.string,
+        toDate: PropTypes.string,
+        monthly: PropTypes.string,
+        department: PropTypes.string,
+        quantityOrValue: PropTypes.string
+    }).isRequired,
+    config: PropTypes.shape({ appRoot: PropTypes.string }),
     loading: PropTypes.bool,
     errorMessage: PropTypes.string
 };
