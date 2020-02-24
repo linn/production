@@ -33,8 +33,8 @@
             this.SernosBuiltRepository = Substitute.For<IQueryRepository<SernosBuilt>>();
             this.PurchaseOrdersReceivedRepository = Substitute.For<IQueryRepository<PurchaseOrdersReceived>>();
             this.Sut = new PurchaseOrderDomainService(
-                this.SernosIssuedRepository, 
-                this.SernosBuiltRepository, 
+                this.SernosIssuedRepository,
+                this.SernosBuiltRepository,
                 this.SernosPack,
                 this.PurchaseOrdersReceivedRepository);
         }

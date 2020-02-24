@@ -1,15 +1,20 @@
 ﻿namespace Linn.Production.Service.Tests.ManufacturingOperationsModuleSpecs
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
+
     using Nancy;
     using Nancy.Testing;
+
     using NSubstitute;
+
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class WhenGettingManufacturingOperations : ContextBase
     {
@@ -20,11 +25,36 @@
         public void SetUp()
         {
 
-            this.manufacturingOperation = new ManufacturingOperation("routecode 1", 77, 15, "descrip of op", "codeOfOperation", "res Code", 27, 54, 5, "cit code test");
-            this.manufacturingOperation2 = new ManufacturingOperation("routecode 2", 58, 22, "descrip of op2", "codeOfOperation2", "res Code2", 272, 542, 52, "cit code test2");
+            this.manufacturingOperation = new ManufacturingOperation(
+                "routecode 1",
+                77,
+                15,
+                "descrip of op",
+                "codeOfOperation",
+                "res Code",
+                27,
+                54,
+                5,
+                "cit code test");
+            this.manufacturingOperation2 = new ManufacturingOperation(
+                "routecode 2",
+                58,
+                22,
+                "descrip of op2",
+                "codeOfOperation2",
+                "res Code2",
+                272,
+                542,
+                52,
+                "cit code test2");
 
             this.ManufacturingOperationService.GetAll()
-                .Returns(new SuccessResult<IEnumerable<ManufacturingOperation>>(new List<ManufacturingOperation> { this.manufacturingOperation, this.manufacturingOperation2 }));
+                .Returns(
+                    new SuccessResult<IEnumerable<ManufacturingOperation>>(
+                        new List<ManufacturingOperation>
+                            {
+                                this.manufacturingOperation, this.manufacturingOperation2
+                            }));
 
             this.Response = this.Browser.Get(
                 "/production/resources/manufacturing-operations",

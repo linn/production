@@ -7,7 +7,7 @@
         public int? LastSernos { get; set; }
 
         public int? SernosIssued { get; set; }
-         
+
         public int? SernosBuilt { get; set; }
 
         public int? QuantityReceived { get; set; }

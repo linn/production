@@ -1,15 +1,20 @@
 ﻿namespace Linn.Production.Service.Tests.LabelTypesModuleSpecs
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
+
     using Nancy;
     using Nancy.Testing;
+
     using NSubstitute;
+
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class WhenGettingLabelTypes : ContextBase
     {

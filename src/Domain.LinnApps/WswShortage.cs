@@ -30,17 +30,17 @@
 
         public bool IsBoardShortage()
         {
-            return ShortageCategory == "EP";
+            return this.ShortageCategory == "EP";
         }
 
         public bool IsProcurementShortage()
         {
-            return ShortageCategory == "PROC";
+            return this.ShortageCategory == "PROC";
         }
 
         public bool IsMetalworkShortage()
         {
-            return ShortageCategory == "CP";
+            return this.ShortageCategory == "CP";
         }
     }
 }

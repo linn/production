@@ -3,7 +3,7 @@
     using FluentAssertions;
     using NUnit.Framework;
 
-    public class WhenNotAShortage: ContextBase
+    public class WhenNotAShortage : ContextBase
     {
         [SetUp]
         public void SetUp()

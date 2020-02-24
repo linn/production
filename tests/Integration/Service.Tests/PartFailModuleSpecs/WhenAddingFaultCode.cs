@@ -3,10 +3,7 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.ViewModels;
-    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     using Nancy;
@@ -24,14 +21,14 @@
         public void SetUp()
         {
             this.requestResource = new PartFailFaultCodeResource
-            {
-                FaultCode = "CODE"
-            };
+                                       {
+                                           FaultCode = "CODE"
+                                       };
 
             var partFailFaultCode = new PartFailFaultCode
-            {
-                FaultCode = "CODE"
-            };
+                                        {
+                                            FaultCode = "CODE"
+                                        };
 
             this.FaultCodeService.Add(Arg.Any<PartFailFaultCodeResource>())
                 .Returns(new CreatedResult<PartFailFaultCode>(partFailFaultCode));

@@ -41,8 +41,8 @@
                         {
                             var claims = new List<Claim>
                                                  {
-                                                         new Claim(ClaimTypes.Role, "employee"),
-                                                         new Claim(ClaimTypes.NameIdentifier, "test-user")
+                                                     new Claim(ClaimTypes.Role, "employee"),
+                                                     new Claim(ClaimTypes.NameIdentifier, "test-user")
                                                  };
 
                             var user = new ClaimsIdentity(claims, "jwt");

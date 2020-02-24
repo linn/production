@@ -20,17 +20,52 @@
         [SetUp]
         public void SetUp()
         {
-            this.PtlMasterRepository.GetRecord().Returns(new PtlMaster() {LastFullRunJobref = "AAAAAA"});
-            this.CitRepository.FindById("S").Returns(new Cit() {Code = "S", Name = "Final Assembly"});
+            this.PtlMasterRepository.GetRecord().Returns(new PtlMaster() { LastFullRunJobref = "AAAAAA" });
+            this.CitRepository.FindById("S").Returns(new Cit() { Code = "S", Name = "Final Assembly" });
 
             var triggers = new List<ProductionTrigger>
-            {
-                new ProductionTrigger {Priority = "1", PartNumber = "530/B", CanBuild = 3, ReqtForInternalAndTriggerLevelBT = 6, KanbanSize = 1},
-                new ProductionTrigger {Priority = "1", PartNumber = "S3 301/G", CanBuild = 0, ReqtForInternalAndTriggerLevelBT = 2, KanbanSize = 1},
-                new ProductionTrigger {Priority = "1", PartNumber = "LINGO 4 PSU", CanBuild = 1, ReqtForInternalAndTriggerLevelBT = 1, KanbanSize = 1},
-                new ProductionTrigger {Priority = "2", PartNumber = "LP12B/3", CanBuild = 0, ReqtForInternalAndTriggerLevelBT = 1, KanbanSize = 1},
-                new ProductionTrigger {Priority = "3", PartNumber = "AKITO/3B", CanBuild = 2, ReqtForInternalAndTriggerLevelBT = 3, KanbanSize = 6}
-            };
+                               {
+                                   new ProductionTrigger
+                                       {
+                                           Priority = "1",
+                                           PartNumber = "530/B",
+                                           CanBuild = 3,
+                                           ReqtForInternalAndTriggerLevelBT = 6,
+                                           KanbanSize = 1
+                                       },
+                                   new ProductionTrigger
+                                       {
+                                           Priority = "1",
+                                           PartNumber = "S3 301/G",
+                                           CanBuild = 0,
+                                           ReqtForInternalAndTriggerLevelBT = 2,
+                                           KanbanSize = 1
+                                       },
+                                   new ProductionTrigger
+                                       {
+                                           Priority = "1",
+                                           PartNumber = "LINGO 4 PSU",
+                                           CanBuild = 1,
+                                           ReqtForInternalAndTriggerLevelBT = 1,
+                                           KanbanSize = 1
+                                       },
+                                   new ProductionTrigger
+                                       {
+                                           Priority = "2",
+                                           PartNumber = "LP12B/3",
+                                           CanBuild = 0,
+                                           ReqtForInternalAndTriggerLevelBT = 1,
+                                           KanbanSize = 1
+                                       },
+                                   new ProductionTrigger
+                                       {
+                                           Priority = "3",
+                                           PartNumber = "AKITO/3B",
+                                           CanBuild = 2,
+                                           ReqtForInternalAndTriggerLevelBT = 3,
+                                           KanbanSize = 6
+                                       }
+                               };
             this.ProductionTriggerRepository.FilterBy(Arg.Any<Expression<Func<ProductionTrigger, bool>>>())
                 .Returns(triggers.AsQueryable());
 
@@ -38,12 +73,42 @@
             this.AccountingCompanyRepository.FindById("LINN").Returns(linn);
 
             var backOrders = new List<ProductionBackOrder>
-            {
-                new ProductionBackOrder {ArticleNumber = "530/B", OrderNumber = 1, BackOrderQty = 1, RequestedDeliveryDate = new DateTime(2020,1,6)},
-                new ProductionBackOrder {ArticleNumber = "530/B", OrderNumber = 2, BackOrderQty = 1, RequestedDeliveryDate = new DateTime(2019,12,17)},
-                new ProductionBackOrder {ArticleNumber = "530/B", OrderNumber = 3, BackOrderQty = 1, RequestedDeliveryDate = new DateTime(2020,1,28)},
-                new ProductionBackOrder {ArticleNumber = "530/B", OrderNumber = 4, BackOrderQty = 1, RequestedDeliveryDate = new DateTime(2019,12,19)},
-                new ProductionBackOrder {ArticleNumber = "530/B", OrderNumber = 5, BackOrderQty = 1, RequestedDeliveryDate = new DateTime(2020,1,22)},
+                                 {
+                                     new ProductionBackOrder
+                                         {
+                                             ArticleNumber = "530/B",
+                                             OrderNumber = 1,
+                                             BackOrderQty = 1,
+                                             RequestedDeliveryDate = new DateTime(2020, 1, 6)
+                                         },
+                                     new ProductionBackOrder
+                                         {
+                                             ArticleNumber = "530/B",
+                                             OrderNumber = 2,
+                                             BackOrderQty = 1,
+                                             RequestedDeliveryDate = new DateTime(2019, 12, 17)
+                                         },
+                                     new ProductionBackOrder
+                                         {
+                                             ArticleNumber = "530/B",
+                                             OrderNumber = 3,
+                                             BackOrderQty = 1,
+                                             RequestedDeliveryDate = new DateTime(2020, 1, 28)
+                                         },
+                                     new ProductionBackOrder
+                                         {
+                                             ArticleNumber = "530/B",
+                                             OrderNumber = 4,
+                                             BackOrderQty = 1,
+                                             RequestedDeliveryDate = new DateTime(2019, 12, 19)
+                                         },
+                                     new ProductionBackOrder
+                                         {
+                                             ArticleNumber = "530/B",
+                                             OrderNumber = 5,
+                                             BackOrderQty = 1,
+                                             RequestedDeliveryDate = new DateTime(2020, 1, 22)
+                                         },
             };
             this.ProductionBackOrderRepository.FilterBy(Arg.Any<Expression<Func<ProductionBackOrder, bool>>>())
                 .Returns(backOrders.AsQueryable());
