@@ -303,6 +303,7 @@
             builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
             builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
             builder.Query<PcasRevision>().Property(r => r.BoardCode).HasColumnName("BOARD_CODE");
+            builder.Query<PcasRevision>().Property(r => r.AssemblyTechnology).HasColumnName("ASSEMBLY_TECHNOLOGY");
         }
 
         private void BuildWorkOrders(ModelBuilder builder)

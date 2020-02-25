@@ -41,10 +41,10 @@ const defaultProps = {
     message: { data: { message: 'printed labels' } },
     searchAddresses,
     addressSearchLoading: false,
-    addressSearchResults: [{}],
+    addressSearchResults: [],
     clearAddressSearch,
     supplierSearchLoading: false,
-    supplierSearchResults: [{}],
+    supplierSearchResults: [],
     searchSuppliers,
     clearSupplierSearch
 };
