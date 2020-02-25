@@ -1,11 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Loading, Title, MultiReportTable } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 const Results = ({ reportData }) => (
-    <Fragment>
+    <>
         {reportData.length === 0 ? (
             <div>No results returned for selected parameters</div>
         ) : (
@@ -18,7 +18,7 @@ const Results = ({ reportData }) => (
                 showTitle
             />
         )}
-    </Fragment>
+    </>
 );
 
 const FailedPartsReport = ({ reportData, loading }) => (

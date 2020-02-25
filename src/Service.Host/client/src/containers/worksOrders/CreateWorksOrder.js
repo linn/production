@@ -20,6 +20,7 @@ import printWorksOrderLabelsSelectors from '../../selectors/printWorksOrderLabel
 import printWorksOrderAioLabelsSelectors from '../../selectors/printWorksOrderAioLabelsSelectors';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
+import getPreviousPath from '../../selectors/getPreviousPath';
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);
@@ -53,7 +54,8 @@ const mapStateToProps = (state, ownProps) => ({
     printWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelsSelectors.getMessageVisible(
         state
     ),
-    printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state)
+    printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state),
+    previousPath: getPreviousPath(state)
 });
 
 const initialise = () => dispatch => {

@@ -16,8 +16,24 @@
         [SetUp]
         public void SetUp()
         {
-            var a = new WorkStation { WorkStationCode = "wscd1", Description = "d", CitCode = "citcode1", AlternativeWorkStationCode = "2", VaxWorkStation = "vax?", ZoneType = "smt1"};
-            var b = new WorkStation { WorkStationCode = "wscd2", Description = "d", CitCode = "citcode1", AlternativeWorkStationCode = "2", VaxWorkStation = "vax?", ZoneType = "smt1" };
+            var a = new WorkStation
+                        {
+                            WorkStationCode = "wscd1",
+                            Description = "d",
+                            CitCode = "citcode1",
+                            AlternativeWorkStationCode = "2",
+                            VaxWorkStation = "vax?",
+                            ZoneType = "smt1"
+                        };
+            var b = new WorkStation
+                        {
+                            WorkStationCode = "wscd2",
+                            Description = "d",
+                            CitCode = "citcode1",
+                            AlternativeWorkStationCode = "2",
+                            VaxWorkStation = "vax?",
+                            ZoneType = "smt1"
+                        };
 
             var workStations = new List<WorkStation> { a, b };
 

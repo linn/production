@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -106,11 +106,11 @@ const ViewLabelTypes = ({ loading, itemError, history, items }) => {
     return (
         <Page>
             <Title text="Label Types" />
-            {itemError && <ErrorCard errorMessage={itemError.status} />}
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
+                <>
                     <div className={classes.actionsContainer}>
                         <CreateButton createUrl="/production/resources/label-types/create" />
                     </div>
@@ -123,7 +123,7 @@ const ViewLabelTypes = ({ loading, itemError, history, items }) => {
                         setPageOptions={setPageOptions}
                         totalItemCount={items ? items.length : 0}
                     />
-                </Fragment>
+                </>
             )}
         </Page>
     );
@@ -133,7 +133,7 @@ ViewLabelTypes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    itemError: PropTypes.shape({})
+    itemError: PropTypes.shape({ statusText: PropTypes.string })
 };
 
 ViewLabelTypes.defaultProps = {

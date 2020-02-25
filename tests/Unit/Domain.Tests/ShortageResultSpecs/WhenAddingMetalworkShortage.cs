@@ -16,7 +16,7 @@
                 ShortageCategory = "CP",
                 Required = 12,
                 Stock = 0,
-                AdjustedAvailable =0,
+                AdjustedAvailable = 0,
                 QtyReserved = 0
             };
 

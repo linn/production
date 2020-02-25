@@ -13,14 +13,14 @@
         [SetUp]
         public void SetUp()
         {
-            var stats = new List<PtlStat>()
-            {
-                new PtlStat { PtlPriority = 1, WorkingDays = 0m, BuildGroup = "CP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 1m, BuildGroup = "CP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 2m, BuildGroup = "CP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 4m, BuildGroup = "CP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 8m, BuildGroup = "CP" }
-            };
+            var stats = new List<PtlStat>
+                            {
+                                new PtlStat { PtlPriority = 1, WorkingDays = 0m, BuildGroup = "CP" },
+                                new PtlStat { PtlPriority = 1, WorkingDays = 1m, BuildGroup = "CP" },
+                                new PtlStat { PtlPriority = 1, WorkingDays = 2m, BuildGroup = "CP" },
+                                new PtlStat { PtlPriority = 1, WorkingDays = 4m, BuildGroup = "CP" },
+                                new PtlStat { PtlPriority = 1, WorkingDays = 8m, BuildGroup = "CP" }
+                            };
 
             this.Sut = new PtlStatPrioritySummary(1);
             foreach (var stat in stats)
@@ -59,7 +59,7 @@
         }
 
         [Test]
-        public void ShouldHaveCorrectpercByTargetDays()
+        public void ShouldHaveCorrectPercentageByTargetDays()
         {
             this.Sut.PercByTargetDays().Should().Be(60);
         }

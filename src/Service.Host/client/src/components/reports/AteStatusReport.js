@@ -37,7 +37,7 @@ const AteStatusReport = ({ reportData, loading, history }) => (
 );
 
 AteStatusReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.string }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     loading: PropTypes.bool,
     options: PropTypes.shape({})

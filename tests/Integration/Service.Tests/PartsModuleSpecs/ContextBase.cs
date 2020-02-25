@@ -19,9 +19,9 @@
 
     public class ContextBase : NancyContextBase
     {
-        protected IPartsFacadeService PartsFacadeService;
+        protected IPartsFacadeService PartsFacadeService { get; private set; }
 
-        protected IRepository<Part, string> PartRepository;
+        protected IRepository<Part, string> PartRepository { get; private set; }
 
         [SetUp]
         public void EstablishContext()

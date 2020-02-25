@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -87,7 +87,7 @@ function ManufacturingResource({
                     </Grid>
                 ) : (
                     manufacturingResource && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -136,7 +136,7 @@ function ManufacturingResource({
                                     propertyName="cost"
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>
@@ -160,7 +160,7 @@ ManufacturingResource.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    itemError: PropTypes.shape({}),
+    itemError: PropTypes.shape({ statusText: PropTypes.string }),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,

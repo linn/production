@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
     Title,
@@ -76,7 +76,7 @@ export default function AssemblyFailFaultCodes({
                     </Grid>
                 ) : (
                     faultCodes.length > 0 && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -105,7 +105,7 @@ export default function AssemblyFailFaultCodes({
                                     ))}
                                 </TableBody>
                             </Table>
-                        </Fragment>
+                        </>
                     )
                 )}
             </Grid>

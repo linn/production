@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Service.Tests.LabelPrintModuleSpecs
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -15,12 +13,13 @@
         [SetUp]
         public void SetUp()
         {
-            this.AddressService.GetById(Arg.Any<int>()).Returns(new SuccessResult<Address>(new Address()
-                                                                                               {
-                                                                                                   Id = 15,
-                                                                                                   Country = new Country(),
-                                                                                                   Addressee = "Drumph"
-                                                                                               }));
+            this.AddressService.GetById(Arg.Any<int>())
+                .Returns(new SuccessResult<Address>(new Address
+                                                        {
+                                                            Id = 15,
+                                                            Country = new Country(),
+                                                            Addressee = "Drumph"
+                                                        }));
 
 
             this.Response = this.Browser.Get(
@@ -49,7 +48,6 @@
             var resource = this.Response.Body.DeserializeJson<Address>();
             resource.Id.Should().Be(15);
             resource.Addressee.Should().Be("Drumph");
-
         }
     }
 }

@@ -11,8 +11,7 @@ function BuildsSummaryReport({ reportData, loading, history, itemError }) {
     if (loading) {
         return (
             <Page showRequestErrors>
-                {' '}
-                <Loading />{' '}
+                <Loading />
             </Page>
         );
     }
@@ -46,9 +45,9 @@ function BuildsSummaryReport({ reportData, loading, history, itemError }) {
 
 BuildsSummaryReport.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.shape({}) }),
     loading: PropTypes.bool,
-    itemError: PropTypes.shape({})
+    itemError: PropTypes.shape({ details: PropTypes.shape({}) })
 };
 
 BuildsSummaryReport.defaultProps = {

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import {
     Loading,
@@ -79,7 +79,7 @@ function ProductionTriggers({ reportData, loading, cits, fetchTriggers, history,
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
-                            <Fragment>
+                            <>
                                 <Grid container>
                                     <Grid item xs={4}>
                                         <Dropdown
@@ -127,7 +127,7 @@ function ProductionTriggers({ reportData, loading, cits, fetchTriggers, history,
                                     jobref={reportData.ptlJobref}
                                     citcode={reportData.citCode}
                                 />
-                            </Fragment>
+                            </>
                         ) : (
                             ''
                         )}
@@ -139,13 +139,18 @@ function ProductionTriggers({ reportData, loading, cits, fetchTriggers, history,
 }
 
 ProductionTriggers.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({
+        citCode: PropTypes.string,
+        ptlJobref: PropTypes.string,
+        triggers: PropTypes.arrayOf(PropTypes.shape({})),
+        ptlRunDateTime: PropTypes.string
+    }),
     loading: PropTypes.bool,
     config: PropTypes.shape({}),
-    cits: PropTypes.shape({}),
+    cits: PropTypes.arrayOf(PropTypes.shape({})),
     fetchTriggers: PropTypes.func.isRequired,
-    history: PropTypes.shape({}),
-    itemError: PropTypes.shape({})
+    history: PropTypes.shape({ push: PropTypes.func }),
+    itemError: PropTypes.shape({ details: PropTypes.shape({}) })
 };
 
 ProductionTriggers.defaultProps = {

@@ -20,7 +20,7 @@ const mapStateToProps = (state, { match }) => ({
     manufacturingSkills: manufacturingSkillsSelectors.getItems(state),
     manufacturingResources: manufacturingResourcesSelectors.getItems(state),
     cits: citsSelectors.getItems(state),
-    itemErrors: getItemError(state, itemTypes.manufacturingRoute.item)
+    itemError: getItemError(state, itemTypes.manufacturingRoute.item)
 });
 
 const initialise = ({ itemId }) => dispatch => {

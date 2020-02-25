@@ -33,15 +33,15 @@
             };
 
             var partFail = new PartFail
-                        {
-                            Id = 1,
-                            WorksOrder = new WorksOrder { OrderNumber = 1, PartNumber = "A", Part = new Part { Description = "desc" } },
-                            EnteredBy = new Employee { Id = 1, FullName = "name" },
-                            Part = new Part { PartNumber = "A", Description = "B" },
-                            StorageLocation = new StorageLocation { LocationId = 1, LocationCode = "LOC" },
-                            ErrorType = new PartFailErrorType { ErrorType = "Error", DateInvalid = null },
-                            FaultCode = new PartFailFaultCode { FaultCode = "F", Description = "Fault" }
-                        };
+                               {
+                                   Id = 1,
+                                   WorksOrder = new WorksOrder { OrderNumber = 1, PartNumber = "A", Part = new Part { Description = "desc" } },
+                                   EnteredBy = new Employee { Id = 1, FullName = "name" },
+                                   Part = new Part { PartNumber = "A", Description = "B" },
+                                   StorageLocation = new StorageLocation { LocationId = 1, LocationCode = "LOC" },
+                                   ErrorType = new PartFailErrorType { ErrorType = "Error", DateInvalid = null },
+                                   FaultCode = new PartFailFaultCode { FaultCode = "F", Description = "Fault" }
+                               };
 
             this.FacadeService.Add(Arg.Any<PartFailResource>())
                 .Returns(new CreatedResult<PartFail>(partFail));

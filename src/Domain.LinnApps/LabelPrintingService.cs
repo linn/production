@@ -12,7 +12,7 @@
         {
             this.labelService = labelService;
         }
-        
+
         public LabelPrintResponse PrintLabel(LabelPrint resource)
         {
             var labelType = (GeneralPurposeLabelTypes.Labels)resource.LabelType;

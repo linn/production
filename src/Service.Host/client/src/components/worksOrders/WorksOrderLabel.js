@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -99,11 +99,11 @@ function WorksOrderLabel({
             <Grid container spacing={3}>
                 {itemError ? (
                     <Grid item xs={12}>
-                        <ErrorCard errorMessage={itemError.statusText} />
+                        <ErrorCard errorMessage={itemError?.statusText} />
                     </Grid>
                 ) : (
                     worksOrderLabel && (
-                        <Fragment>
+                        <>
                             <Grid item xs={12}>
                                 <Title text="Works Order Label" />
                             </Grid>
@@ -113,7 +113,7 @@ function WorksOrderLabel({
                                 message="Save Successful"
                             />
                             {creating() ? (
-                                <Fragment>
+                                <>
                                     <Grid item xs={5}>
                                         <InputField
                                             label="Part (click search icon to change)"
@@ -142,7 +142,7 @@ function WorksOrderLabel({
                                             />
                                         </div>
                                     </Grid>{' '}
-                                </Fragment>
+                                </>
                             ) : (
                                 <Grid item xs={12}>
                                     <InputField
@@ -166,7 +166,7 @@ function WorksOrderLabel({
                                     propertyName="labelText"
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>

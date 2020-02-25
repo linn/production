@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, Fragment } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Dropdown,
@@ -150,12 +150,13 @@ function LabelPrint({
                     </Grid>
                 ) : (
                     serialNumbers.length > 0 && (
-                        <Fragment>
+                        <>
                             <Grid item xs={3} className={classes.marginTop}>
                                 <Dropdown
                                     value={selectedSernosGroup || ''}
                                     label="Filter by Sernos Group"
                                     fullWidth
+                                    allowNoValue
                                     items={sernosGroups}
                                     onChange={handleFieldChange}
                                     propertyName="selectedSernosGroup"
@@ -192,7 +193,7 @@ function LabelPrint({
                                 </Button>
                             </Grid>
                             <Grid item xs={5} />
-                        </Fragment>
+                        </>
                     )
                 )}
                 {!serialNumbersLoading && searchTerm && !serialNumbers.length && (

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, Fragment } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Dropdown,
@@ -180,7 +180,7 @@ function SerialNumberReissue({
                     </Grid>
                 ) : (
                     serialNumbers.length > 0 && (
-                        <Fragment>
+                        <>
                             <Grid item xs={3} className={classes.marginTop}>
                                 <Dropdown
                                     value={selectedSernosGroup || ''}
@@ -193,7 +193,7 @@ function SerialNumberReissue({
                             </Grid>
                             <Grid item xs={9} />
                             {selectedSerialNumber && (
-                                <Fragment>
+                                <>
                                     <SnackbarMessage
                                         visible={snackbarVisible}
                                         onClose={() => setSnackbarVisible(false)}
@@ -216,7 +216,7 @@ function SerialNumberReissue({
                                             label="Description"
                                             type="string"
                                             propertyName="articleNumberDescription"
-                                            value={salesArticle ? salesArticle.description : ''}
+                                            value={salesArticle ? salesArticle?.description : ''}
                                             fullWidth
                                         />
                                     </Grid>
@@ -286,9 +286,9 @@ function SerialNumberReissue({
                                             backClick={handleBackClick}
                                         />
                                     </Grid>
-                                </Fragment>
+                                </>
                             )}
-                        </Fragment>
+                        </>
                     )
                 )}
                 {!loading && !serialNumbersLoading && searchTerm && !serialNumbers.length && (
@@ -317,8 +317,8 @@ SerialNumberReissue.propTypes = {
     salesArticlesSearchLoading: PropTypes.bool,
     clearSalesArticlesSearch: PropTypes.func.isRequired,
     searchSalesArticles: PropTypes.func.isRequired,
-    reissuedSerialNumber: PropTypes.shape({}),
-    options: PropTypes.shape({})
+    reissuedSerialNumber: PropTypes.shape({ newSerialNumber: PropTypes.number }),
+    options: PropTypes.shape({ serialNumber: PropTypes.number })
 };
 
 SerialNumberReissue.defaultProps = {

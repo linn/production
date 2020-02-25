@@ -7,7 +7,6 @@
     using FluentAssertions;
 
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
 
     using NSubstitute;
@@ -55,6 +54,23 @@
         public void ShouldSetReportValues()
         {
             this.result.Rows.Should().HaveCount(4);
+        }
+
+        [Test]
+        public void ShouldSetColumnValues()
+        {
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Part Number");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Part Description");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Date Created");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Batch");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Fault Code");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Story");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Quantity");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Minutes Wasted");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Error Type");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Base Unit Price");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Total Price");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Entered By");
         }
     }
 }

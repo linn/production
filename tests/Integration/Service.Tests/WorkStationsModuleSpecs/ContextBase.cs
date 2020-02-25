@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Security.Claims;
 
-    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.ResourceBuilders;

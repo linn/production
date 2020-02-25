@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { Link as RouterLink } from 'react-router-dom';
@@ -31,7 +31,7 @@ function ProductionTriggerFacts({ reportData, loading, itemError }) {
                 ) : (
                     <Grid item xs={12}>
                         {reportData ? (
-                            <Fragment>
+                            <>
                                 <Title text="Production Trigger Facts for a Part" />
                                 <Link
                                     component={RouterLink}
@@ -83,11 +83,11 @@ function ProductionTriggerFacts({ reportData, loading, itemError }) {
                                         secondary="Required for sales customers back orders"
                                         avatar={reportData.reqtForSalesOrdersBE}
                                     >
-                                        <Fragment>
+                                        <>
                                             <SalesOrderList
                                                 salesOrders={reportData.productionBackOrders}
                                             />
-                                        </Fragment>
+                                        </>
                                     </FactListItem>
                                     <FactListItem
                                         header="Required for Internal Customers"
@@ -189,7 +189,7 @@ function ProductionTriggerFacts({ reportData, loading, itemError }) {
                                         avatar={<NotesIcon />}
                                     />
                                 </FactList>
-                            </Fragment>
+                            </>
                         ) : (
                             ''
                         )}
@@ -201,11 +201,36 @@ function ProductionTriggerFacts({ reportData, loading, itemError }) {
 }
 
 ProductionTriggerFacts.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({
+        story: PropTypes.string,
+        priority: PropTypes.string,
+        jobref: PropTypes.string,
+        citName: PropTypes.string,
+        citcode: PropTypes.string,
+        reqtForInternalAndTriggerLevelBT: PropTypes.number,
+        remainingBuild: PropTypes.number,
+        kanbanSize: PropTypes.number,
+        variableTriggerLevel: PropTypes.number,
+        effectiveTriggerLevel: PropTypes.number,
+        reqtForInternalCustomersGBI: PropTypes.number,
+        reqtForSalesOrdersBE: PropTypes.number,
+        overrideTriggerLevel: PropTypes.string,
+        whereUsedAssemblies: PropTypes.arrayOf(PropTypes.string),
+        productionBackOrders: PropTypes.arrayOf(PropTypes.string),
+        outstandingWorksOrders: PropTypes.arrayOf(PropTypes.string),
+        triggerLevelText: PropTypes.string,
+        qtyBeingBuilt: PropTypes.number,
+        qtyFFlagged: PropTypes.number,
+        qtyYFlagged: PropTypes.number,
+        qtyNFlagged: PropTypes.number,
+        partNumber: PropTypes.string,
+        qtyFree: PropTypes.number,
+        description: PropTypes.string
+    }),
     loading: PropTypes.bool,
     config: PropTypes.shape({}),
     history: PropTypes.shape({}).isRequired,
-    itemError: PropTypes.shape({})
+    itemError: PropTypes.shape({ statusText: PropTypes.string })
 };
 
 ProductionTriggerFacts.defaultProps = {

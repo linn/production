@@ -7,12 +7,12 @@
 
     public class WhenGettingPercentages
     {
-        private ShortageSummary Sut;
+        private ShortageSummary sut;
 
         [SetUp]
         public void SetUp()
         {
-            this.Sut = new ShortageSummary
+            this.sut = new ShortageSummary
             {
                 OnesTwos = 10,
                 Shortages = new List<ShortageResult>
@@ -60,25 +60,25 @@
         [Test]
         public void NumShortagesPercShouldBe60()
         {
-            this.Sut.ShortagePerc().Should().Be(60);
+            this.sut.ShortagePerc().Should().Be(60);
         }
 
         [Test]
         public void BATPercShouldBe20()
         {
-            this.Sut.BATPerc().Should().Be(20);
+            this.sut.BATPerc().Should().Be(20);
         }
 
         [Test]
         public void MetalworkPercShouldBe10()
         {
-            this.Sut.MetalworkPerc().Should().Be(10);
+            this.sut.MetalworkPerc().Should().Be(10);
         }
 
         [Test]
         public void ProcurementPercShouldBe30()
         {
-            this.Sut.ProcurementPerc().Should().Be(30);
+            this.sut.ProcurementPerc().Should().Be(30);
         }
     }
 }
