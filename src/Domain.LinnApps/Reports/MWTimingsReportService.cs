@@ -61,7 +61,7 @@
                     totalMinsTakenForPart += (int)entry.ItemArray[8];
                 }
 
-                var mwBuild = mwBuildsList.Find(x => x.ItemArray[0] == partNumber); //this might need to be comparing 2 strings, not sure how smart it'll be
+                var mwBuild = mwBuildsList.Find(x => x.ItemArray[0] == partNumber);
                 mwBuildsList.Remove(mwBuild);
 
                 results.AddRow(rowIndex.ToString());

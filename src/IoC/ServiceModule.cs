@@ -2,7 +2,6 @@
 {
     using System.Data;
     using Autofac;
-
     using Linn.Common.Authorisation;
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
@@ -58,8 +57,6 @@
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
             builder.RegisterType<MWTimingsReportService>().As<IMWTimingsReportService>();
             builder.RegisterType<MWTimingsReportProxy>().As<IMWTimingsDatabaseReportService>();
-
-
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
