@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Domain.Tests.ShortageResultSpecs
 {
-    using System.Dynamic;
     using Linn.Production.Domain.LinnApps.Models;
     using NUnit.Framework;
 
@@ -11,7 +10,7 @@
         [SetUp]
         public void SetUpContext()
         {
-            this.Sut = new ShortageResult();            
+            this.Sut = new ShortageResult();
         }
     }
 }

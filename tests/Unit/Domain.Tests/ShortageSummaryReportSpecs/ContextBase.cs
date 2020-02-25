@@ -37,8 +37,14 @@
             this.ProductionBackOrderRepository = Substitute.For<IQueryRepository<ProductionBackOrder>>();
             this.ShortageRepository = Substitute.For<IQueryRepository<WswShortage>>();
             this.WswShortageStoryRepository = Substitute.For<IQueryRepository<WswShortageStory>>();
-            this.Sut = new ShortageSummaryReportService(this.AccountingCompanyRepository, this.PtlMasterRepository,
-                this.ProductionTriggerRepository,this.CitRepository, this.ProductionBackOrderRepository, this.ShortageRepository, this.WswShortageStoryRepository);
+            this.Sut = new ShortageSummaryReportService(
+                this.AccountingCompanyRepository,
+                this.PtlMasterRepository,
+                this.ProductionTriggerRepository,
+                this.CitRepository,
+                this.ProductionBackOrderRepository,
+                this.ShortageRepository,
+                this.WswShortageStoryRepository);
         }
     }
 }

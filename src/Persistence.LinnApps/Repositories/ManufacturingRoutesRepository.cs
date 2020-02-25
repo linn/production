@@ -20,7 +20,9 @@
 
         public ManufacturingRoute FindById(string key)
         {
-            return this.serviceDbContext.ManufacturingRoutes.Include(x => x.Operations).Where(f => f.RouteCode == key).ToList().FirstOrDefault();
+            return this.serviceDbContext.ManufacturingRoutes
+                .Include(x => x.Operations)
+                .Where(f => f.RouteCode == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<ManufacturingRoute> FindAll()

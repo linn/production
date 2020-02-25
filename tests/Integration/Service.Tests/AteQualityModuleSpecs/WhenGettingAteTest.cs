@@ -42,10 +42,8 @@
                                        NumberOfSmtBoardFails = 1,
                                        PcbOperator = new Employee { Id = 1, FullName = "Name" },
                                        Details = new List<AteTestDetail> { new AteTestDetail { ItemNumber = 1, TestId = 1 } }
-
-            };
-            this.AteTestService.GetById(1)
-                .Returns(new SuccessResult<AteTest>(ateTest));
+                                   };
+            this.AteTestService.GetById(1).Returns(new SuccessResult<AteTest>(ateTest));
 
             this.Response = this.Browser.Get(
                 "/production/quality/ate-tests/1",

@@ -20,7 +20,7 @@
         {
             return this.serviceDbContext.Countries
                 .Where(c => c.CountryCode == key)
-                .ToList().FirstOrDefault(); 
+                .ToList().FirstOrDefault();
         }
 
         public IQueryable<Country> FindAll()

@@ -4,7 +4,6 @@
     using System.Linq;
 
     using FluentAssertions;
-    using FluentAssertions.Extensions;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -22,7 +21,10 @@
         [SetUp]
         public void SetUp()
         {
-            this.LabelPrintService.GetLabelTypes().Returns(new SuccessResult<IEnumerable<IdAndName>>(new List<IdAndName>() { new IdAndName(1, "trumpeached label") }));
+            this.LabelPrintService.GetLabelTypes()
+                .Returns(
+                    new SuccessResult<IEnumerable<IdAndName>>(
+                        new List<IdAndName> { new IdAndName(1, "trumpeached label") }));
 
 
             this.Response = this.Browser.Get(
@@ -49,7 +51,7 @@
         public void ShouldReturnResource()
         {
             var resource = this.Response.Body.DeserializeJson<IEnumerable<IdAndNameResource>>().ToList();
-            resource.Count().Should().Be(1);
+            resource.Count.Should().Be(1);
             resource.Any(x => x.Id == 1 & x.Name == "trumpeached label").Should().BeTrue();
         }
     }

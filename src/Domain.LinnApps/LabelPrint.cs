@@ -1,8 +1,5 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
-    using System;
-    using System.Collections.Generic;
-
     public class LabelPrint
     {
         public int LabelType { get; set; }

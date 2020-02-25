@@ -1,10 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.WwdModuleSpecs
 {
-    using System.Collections.Generic;
-    using System.Security.Claims;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Service.Modules;

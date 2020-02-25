@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class PtlStat 
+    public class PtlStat
     {
         public int TriggerId { get; set; }
 

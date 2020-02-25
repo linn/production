@@ -19,7 +19,17 @@
         public void SetUp()
         {
 
-            this.manufacturingOperation = new ManufacturingOperation("routecode 1", 77, 15, "descrip of op", "codeOfOperation", "res Code", 27, 54, 5, "cit code test");
+            this.manufacturingOperation = new ManufacturingOperation(
+                "routecode 1",
+                77,
+                15,
+                "descrip of op",
+                "codeOfOperation",
+                "res Code",
+                27,
+                54,
+                5,
+                "cit code test");
 
             this.requestResource = new ManufacturingOperationResource
             {
@@ -58,7 +68,10 @@
         public void ShouldCallService()
         {
             this.ManufacturingOperationService.Received()
-                .Add(Arg.Is<ManufacturingOperationResource>(r => r.ResourceCode == this.requestResource.ResourceCode && r.ManufacturingId == this.manufacturingOperation.ManufacturingId));
+                .Add(
+                    Arg.Is<ManufacturingOperationResource>(
+                        r => r.ResourceCode == this.requestResource.ResourceCode
+                             && r.ManufacturingId == this.manufacturingOperation.ManufacturingId));
         }
 
         [Test]

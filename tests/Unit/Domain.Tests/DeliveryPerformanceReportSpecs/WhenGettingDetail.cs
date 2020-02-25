@@ -17,20 +17,52 @@
         [SetUp]
         public void SetUp()
         {
-            var statistics = new List<PtlStat>()
-            {
-                new PtlStat { PtlPriority = 1, WorkingDays = 10m, PartNumber = "LP12/M/O/50", TriggerId = 4, TriggerDate = new DateTime(2019,12,13), DateCompleted = new DateTime(2019,12,23)},
-                new PtlStat { PtlPriority = 1, WorkingDays = 2.3m, PartNumber = "S3 302/C", TriggerId = 3, TriggerDate = new DateTime(2019,12,19), DateCompleted = new DateTime(2019,12,21)},
-                new PtlStat { PtlPriority = 1, WorkingDays = 1, PartNumber = "TWIN/1/BP", TriggerId = 2, TriggerDate = new DateTime(2019,12,20), DateCompleted = new DateTime(2019,12,21)},
-                new PtlStat { PtlPriority = 1, WorkingDays = 0.5m, PartNumber = "S3 301/C", TriggerId = 1, TriggerDate = new DateTime(2019,12,3), DateCompleted = new DateTime(2019,12,3)}
-            };
+            var statistics = new List<PtlStat>
+                                 {
+                                     new PtlStat
+                                         {
+                                             PtlPriority = 1,
+                                             WorkingDays = 10m,
+                                             PartNumber = "LP12/M/O/50",
+                                             TriggerId = 4,
+                                             TriggerDate = new DateTime(2019, 12, 13),
+                                             DateCompleted = new DateTime(2019, 12, 23)
+                                         },
+                                     new PtlStat
+                                         {
+                                             PtlPriority = 1,
+                                             WorkingDays = 2.3m,
+                                             PartNumber = "S3 302/C",
+                                             TriggerId = 3,
+                                             TriggerDate = new DateTime(2019, 12, 19),
+                                             DateCompleted = new DateTime(2019, 12, 21)
+                                         },
+                                     new PtlStat
+                                         {
+                                             PtlPriority = 1,
+                                             WorkingDays = 1,
+                                             PartNumber = "TWIN/1/BP",
+                                             TriggerId = 2,
+                                             TriggerDate = new DateTime(2019, 12, 20),
+                                             DateCompleted = new DateTime(2019, 12, 21)
+                                         },
+                                     new PtlStat
+                                         {
+                                             PtlPriority = 1,
+                                             WorkingDays = 0.5m,
+                                             PartNumber = "S3 301/C",
+                                             TriggerId = 1,
+                                             TriggerDate = new DateTime(2019, 12, 3),
+                                             DateCompleted = new DateTime(2019, 12, 3)
+                                         }
+                                 };
             this.PtlStatRepository.FilterBy(Arg.Any<Expression<Func<PtlStat, bool>>>())
                 .Returns(statistics.AsQueryable());
 
             this.LinnWeekService.LinnWeekStartDate(Arg.Any<DateTime>()).Returns(new DateTime(2019, 12, 14));
             this.LinnWeekService.LinnWeekEndDate(Arg.Any<DateTime>()).Returns(new DateTime(2020, 1, 10));
 
-            this.result = this.Sut.GetDeliveryPerformanceDetail("S",1);
+            this.result = this.Sut.GetDeliveryPerformanceDetail("S", 1);
         }
 
         [Test]

@@ -18,15 +18,15 @@
         [SetUp]
         public void SetUp()
         {
-            var statistics = new List<PtlStat>()
-            {
-                new PtlStat { PtlPriority = 1, WorkingDays = 0.5m, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 1, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 2.3m, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 1, WorkingDays = 10m, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 2, WorkingDays = 4.1m, BuildGroup = "PP" },
-                new PtlStat { PtlPriority = 2, WorkingDays = 4.1m, BuildGroup = "PP" }
-            };
+            var statistics = new List<PtlStat>
+                                 {
+                                     new PtlStat { PtlPriority = 1, WorkingDays = 0.5m, BuildGroup = "PP" },
+                                     new PtlStat { PtlPriority = 1, WorkingDays = 1, BuildGroup = "PP" },
+                                     new PtlStat { PtlPriority = 1, WorkingDays = 2.3m, BuildGroup = "PP" },
+                                     new PtlStat { PtlPriority = 1, WorkingDays = 10m, BuildGroup = "PP" },
+                                     new PtlStat { PtlPriority = 2, WorkingDays = 4.1m, BuildGroup = "PP" },
+                                     new PtlStat { PtlPriority = 2, WorkingDays = 4.1m, BuildGroup = "PP" }
+                                 };
             this.PtlStatRepository.FilterBy(Arg.Any<Expression<Func<PtlStat, bool>>>())
                 .Returns(statistics.AsQueryable());
 

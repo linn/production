@@ -5,16 +5,16 @@
 
     public class OracleFunctionCall<T>
     {
-        private OracleConnection connection;
+        private readonly OracleConnection connection;
 
-        private OracleCommand cmd;
+        private readonly OracleCommand cmd;
 
-        private OracleParameter result;
+        private readonly OracleParameter result;
 
         public OracleFunctionCall(string functionName)
         {
             this.connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
-            this.cmd = new OracleCommand(functionName, connection)
+            this.cmd = new OracleCommand(functionName, this.connection)
             {
                 CommandType = CommandType.StoredProcedure
             };
@@ -35,7 +35,7 @@
                 };
             }
 
-            this.cmd.Parameters.Add(result);
+            this.cmd.Parameters.Add(this.result);
         }
 
         public void AddParameter(string paramName, string value, int size)
@@ -63,7 +63,7 @@
             this.cmd.ExecuteNonQuery();
             this.connection.Close();
 
-            return (T)result.Value;
+            return (T)this.result.Value;
         }
     }
 }

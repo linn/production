@@ -7,7 +7,6 @@
     using FluentAssertions;
 
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
 
     using NSubstitute;
