@@ -61,7 +61,7 @@
                     totalMinsTakenForPart += (int)entry.ItemArray[8];
                 }
 
-                var mwBuild = mwBuildsList.Find(x => x.ItemArray[0] == partNumber);
+                var mwBuild = mwBuildsList.Find(x => x.ItemArray[0] == partNumber); 
                 mwBuildsList.Remove(mwBuild);
 
                 results.AddRow(rowIndex.ToString());
