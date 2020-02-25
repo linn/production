@@ -2,24 +2,22 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { DatePicker, Title, LinnWeekPicker } from '@linn-it/linn-form-components-library';
+import {
+    DatePicker,
+    Title,
+    LinnWeekPicker,
+    getWeekEndDate
+} from '@linn-it/linn-form-components-library/cjs/';
 import PropTypes from 'prop-types';
-import * as moment from 'moment';
 import Page from '../../containers/Page';
 
 function TimingsSetup({ history }) {
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
 
-    const handleDateChange = (propertyName, newValue) => {
-        if (propertyName === 'week') {
-            setFromDate(newValue);
-            console.info(newValue);
-            // let utc = moment(newValue).add(6, 'd');
-            // console.info(utc);
-            //todo - get adding days onto moment working. Ask adam maybe?
-            setToDate(newValue.add(6, 'd'));
-        }
+    const handleWeekChange = (propertyName, newValue) => {
+        setFromDate(newValue);
+        setToDate(getWeekEndDate(newValue));
     };
     const handleClick = () =>
         history.push({
@@ -40,8 +38,9 @@ function TimingsSetup({ history }) {
                     <LinnWeekPicker
                         label="Week beginning"
                         selectedDate={fromDate.toString()}
-                        setWeekStartDate={handleDateChange}
+                        setWeekStartDate={handleWeekChange}
                         propertyName="week"
+                        required
                     />
                 </Grid>
                 <Grid item xs={3} />

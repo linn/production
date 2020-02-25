@@ -26,22 +26,24 @@
         private object GetMWTimingsForDates()
         {
             var resource = this.Bind<SearchByDatesRequestResource>();
-            //todo use new resource to take in two dates
-            var worksOrders = this.metalWorkTimingsService.GetMetalWorkTimingsReport(resource.StartDate, resource.EndDate);
 
-            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+            var result = this.metalWorkTimingsService.GetMetalWorkTimingsReport(resource.StartDate, resource.EndDate);
+
+            return this.Negotiate.WithModel(result).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
 
         private object GetMWTimingsExportForDates()
         {
             var resource = this.Bind<SearchByDatesRequestResource>();
-            //todo use new resource to take in two dates
-            var worksOrders = this.metalWorkTimingsService.GetMetalWorkTimingsExport(resource.StartDate, resource.EndDate);
 
-            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+            var result = this.metalWorkTimingsService.GetMetalWorkTimingsExport(resource.StartDate, resource.EndDate);
+
+            var response = this.Negotiate.WithModel(result)
                 .WithAllowedMediaRange("text/csv")
                 .WithView("Index");
+
+            return response;
         }
     }
 }

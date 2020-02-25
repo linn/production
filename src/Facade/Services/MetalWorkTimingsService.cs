@@ -2,14 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq.Expressions;
     using Linn.Common.Facade;
-    using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
+    using Linn.Common.Reporting.Resources.Extensions;
     using Linn.Production.Domain.LinnApps.Reports;
-    using Linn.Production.Domain.LinnApps.WorksOrders;
-    using Linn.Production.Resources;
 
     public class MetalWorkTimingsService : IMetalWorkTimingsService
     { 
@@ -22,7 +18,8 @@
 
         public IResult<IEnumerable<IEnumerable<string>>> GetMetalWorkTimingsExport(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+            var result = this.reportService.GetTimingsReport(startDate, endDate).ConvertToCsvList();
+            return new SuccessResult<IEnumerable<IEnumerable<string>>>(result);
         }
 
         public IResult<ResultsModel> GetMetalWorkTimingsReport(DateTime startDate, DateTime endDate)

@@ -127,8 +127,6 @@
             builder.RegisterType<PurchaseOrderWithSernosInfoResourceBuilder>()
                 .As<IResourceBuilder<PurchaseOrderWithSernosInfo>>();
             builder.RegisterType<ShortageSummaryResourceBuilder>().As<IResourceBuilder<ShortageSummary>>();
-            builder.RegisterType<WorksOrderTimingResourceBuilder>().As<IResourceBuilder<WorksOrderTiming>>();
-            builder.RegisterType<WorksOrderTimingsResourceBuilder>().As<IResourceBuilder<IEnumerable<WorksOrderTiming>>>();
             builder.RegisterType<AddressResourceBuilder>().As<IResourceBuilder<Address>>();
             builder.RegisterType<AddressesResourceBuilder>().As<IResourceBuilder<IEnumerable<Address>>>();
             builder.RegisterType<SupplierResourceBuilder>().As<IResourceBuilder<Supplier>>();

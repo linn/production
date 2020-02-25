@@ -1,7 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import Button from '@material-ui/core/Button';
 import { Link as RouterLink } from 'react-router-dom';
 import {
     ReportTable,
@@ -14,7 +13,7 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function TimingsReport({ reportData, loading, config, errorMessage, options }) {
-    const href = `${config.appRoot}/production/reports/mw-timings/export?fromDate=${options.startDate}&toDate=${options.endDate}`;
+    const href = `${config.appRoot}/production/reports/mw-timings/export?startDate=${options.startDate}&endDate=${options.endDate}`;
 
     return (
         <Page>
@@ -25,22 +24,15 @@ function TimingsReport({ reportData, loading, config, errorMessage, options }) {
                     </Grid>
                 )}
                 <Grid item xs={8}>
-                    {loading ? <Loading /> : <Title text={reportData?.title?.displayString} />}
+                    <Title text={reportData?.title?.displayString} />
                 </Grid>
                 <Grid item xs={4}>
                     <ExportButton href={href} />
                 </Grid>
                 <Grid item xs={12}>
                     <Link component={RouterLink} to="/production/reports/mw-timings-setup">
-                        Run this report for different paramuuuters
+                        Run this report for different parameters
                     </Link>
-                    <Button
-                        onClick={() => console.info(reportData)}
-                        variant="outlined"
-                        color="primary"
-                    >
-                        see data
-                    </Button>
                 </Grid>
                 <Grid item xs={12}>
                     {loading ? <Loading /> : ''}

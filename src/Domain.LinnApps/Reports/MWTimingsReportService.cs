@@ -43,8 +43,8 @@
             foreach (var partGroup in partGroups)
             {
                 var partNumber = partGroup.First().ItemArray[1];
-                //rows for part no
                 var totalMinsTakenForPart = 0;
+
                 foreach (var entry in partGroup)
                 {
                     results.AddRow(rowIndex.ToString());

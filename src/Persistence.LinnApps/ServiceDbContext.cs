@@ -231,7 +231,6 @@
             this.QuerySernosIssuedView(builder);
             this.QueryPurchaseOrdersReceivedView(builder);
             this.BuildSuppliers(builder);
-            this.BuildWorksOrderTimings(builder);
             base.OnModelCreating(builder);
         }
 

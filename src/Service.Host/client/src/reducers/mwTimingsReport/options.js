@@ -1,11 +1,11 @@
 import { reportOptionsFactory } from '@linn-it/linn-form-components-library';
-import { buildsSummaryReportActionTypes as actionTypes } from '../../actions';
+import { metalWorkTimingsReportActionTypes as actionTypes } from '../../actions';
 import * as reportTypes from '../../reportTypes';
 
 const defaultState = {};
 
 export default reportOptionsFactory(
-    reportTypes.buildsSummaryReport.actionType,
+    reportTypes.metalWorkTimingsReport.actionType,
     actionTypes,
     defaultState
 );

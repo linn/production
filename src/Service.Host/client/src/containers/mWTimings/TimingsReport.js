@@ -13,15 +13,12 @@ const getOptions = ownProps => {
     return options;
 };
 
-const mapStateToProps = (state, ownProps) => {
-    console.info(reportTypes.metalWorkTimingsReport);
-    return {
-        reportData: reportSelectors.getReportData(state),
-        loading: reportSelectors.getReportLoading(state),
-        options: getOptions(ownProps),
-        config
-    };
-};
+const mapStateToProps = (state, ownProps) => ({
+    reportData: reportSelectors.getReportData(state),
+    loading: reportSelectors.getReportLoading(state),
+    options: getOptions(ownProps),
+    config
+});
 
 const initialise = props => dispatch => {
     dispatch(actions.fetchReport(props.options));
