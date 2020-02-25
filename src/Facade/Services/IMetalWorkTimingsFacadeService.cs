@@ -7,7 +7,7 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
-    public interface IMetalWorkTimingsService
+    public interface IMetalWorkTimingsFacadeService
     {
         IResult<ResultsModel> GetMetalWorkTimingsReport(
             DateTime startDate,

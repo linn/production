@@ -7,11 +7,11 @@
     using Linn.Common.Reporting.Resources.Extensions;
     using Linn.Production.Domain.LinnApps.Reports;
 
-    public class MetalWorkTimingsService : IMetalWorkTimingsService
+    public class MetalWorkTimingsFacadeService : IMetalWorkTimingsFacadeService
     { 
         private readonly IMWTimingsReportService reportService;
         
-        public MetalWorkTimingsService(IMWTimingsReportService reportService)
+        public MetalWorkTimingsFacadeService(IMWTimingsReportService reportService)
         {
             this.reportService = reportService;
         }

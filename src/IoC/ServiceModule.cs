@@ -143,7 +143,7 @@
             builder.RegisterType<AddressService>().As<IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource>>();
             builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
             builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
-            builder.RegisterType<MetalWorkTimingsService>().As<IMetalWorkTimingsService>();
+            builder.RegisterType<MetalWorkTimingsFacadeService>().As<IMetalWorkTimingsFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

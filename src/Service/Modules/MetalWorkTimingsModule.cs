@@ -12,9 +12,9 @@
 
     public sealed class MetalWorkTimingsModule : NancyModule
     {
-        private readonly IMetalWorkTimingsService metalWorkTimingsService;
+        private readonly IMetalWorkTimingsFacadeService metalWorkTimingsService;
 
-        public MetalWorkTimingsModule(IMetalWorkTimingsService metalWorkTimingsService)
+        public MetalWorkTimingsModule(IMetalWorkTimingsFacadeService metalWorkTimingsService)
         {
             this.metalWorkTimingsService = metalWorkTimingsService;
 
