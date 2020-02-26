@@ -39,7 +39,7 @@
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Board Part Number")).Should().Be("part 1");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Operator")).Should().Be("Emp 1");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Item")).Should().Be("1");
-            this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Batch Number")).Should().Be("bn 1");
+            this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Batch Number")).Should().Be("1");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Circuit Ref")).Should().Be("circuit 12");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Part Number")).Should().Be("comp 2");
             this.result.GetGridTextValue(this.result.RowIndex("1/001"), this.result.ColumnIndex("Fault Code")).Should().Be("fault 1");

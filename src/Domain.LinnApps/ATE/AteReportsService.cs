@@ -446,7 +446,7 @@
                                        SmtOrPcb = detail.SmtOrPcb,
                                        NumberOfFails = detail.NumberOfFails,
                                        AteTestFaultCode = detail.AteTestFaultCode,
-                                       BatchNumber = detail.BatchNumber,
+                                       BatchNumber = detail.BatchNumber?.ToString(),
                                        CircuitRef = detail.CircuitRef,
                                        ComponentPartNumber = detail.PartNumber,
                                        PcbOperatorNumber = a.PcbOperator?.Id,
