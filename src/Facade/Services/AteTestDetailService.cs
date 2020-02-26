@@ -45,7 +45,7 @@
                             AteTestFaultCode = resource.AteTestFaultCode,
                             SmtOrPcb = resource.SmtOrPcb,
                             Shift = resource.Shift,
-                            BatchNumber = resource.BatchNumber,
+                            BatchNumber = resource.BatchNumber.ToString(),
                             PcbOperator = this.employeeRepository.FilterBy(e => e.FullName == resource.PcbOperatorName)
                                 .ToList().FirstOrDefault(),
                             Comments = resource.Comments,
@@ -66,7 +66,7 @@
             entity.AteTestFaultCode = resource.AteTestFaultCode;
             entity.SmtOrPcb = resource.SmtOrPcb;
             entity.Shift = resource.Shift;
-            entity.BatchNumber = resource.BatchNumber;
+            entity.BatchNumber = resource.BatchNumber.ToString();
             entity.PcbOperator = this.employeeRepository.FilterBy(e => e.FullName == resource.PcbOperatorName)
                 .ToList().FirstOrDefault();
             entity.Comments = resource.Comments;
