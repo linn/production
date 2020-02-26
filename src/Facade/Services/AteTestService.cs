@@ -56,7 +56,7 @@
                                 {
                                     AteTestFaultCode = detail.AteTestFaultCode,
                                     AoiEscape = detail.AoiEscape,
-                                    BatchNumber = detail.BatchNumber,
+                                    BatchNumber = detail.BatchNumber.ToString(),
                                     BoardFailNumber = detail.BoardFailNumber,
                                     NumberOfFails = detail.NumberOfFails,
                                     BoardSerialNumber = detail.BoardSerialNumber,

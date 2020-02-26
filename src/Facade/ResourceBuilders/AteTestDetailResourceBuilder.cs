@@ -22,7 +22,8 @@
                            AteTestFaultCode = detail.AteTestFaultCode,
                            SmtOrPcb = detail.SmtOrPcb,
                            Shift = detail.Shift,
-                           BatchNumber = detail.BatchNumber,
+                           BatchNumber = int.TryParse(detail.BatchNumber, out int batchNumber) 
+                                             ? batchNumber : (int?)null,
                            PcbOperator = detail.PcbOperator?.Id,
                            PcbOperatorName = detail.PcbOperator?.FullName,
                            Comments = detail.Comments,
