@@ -306,3 +306,7 @@ export const purchaseOrderActionTypes = makeActionTypes(itemTypes.purchaseOrder.
 export const daysRequiredReportActionTypes = makeReportActionTypes(
     reportTypes.daysRequiredReport.actionType
 );
+
+export const metalWorkTimingsReportActionTypes = makeReportActionTypes(
+    reportTypes.metalWorkTimingsReport.actionType
+);

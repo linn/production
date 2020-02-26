@@ -2,7 +2,6 @@
 {
     using System.Data;
     using Autofac;
-
     using Linn.Common.Authorisation;
     using Linn.Common.Configuration;
     using Linn.Common.Facade;
@@ -56,6 +55,8 @@
             builder.RegisterType<ShortageSummaryReportService>().As<IShortageSummaryReportService>();
             builder.RegisterType<ProductionMeasuresReportService>().As<IProductionMeasuresReportService>();
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
+            builder.RegisterType<MWTimingsReportService>().As<IMWTimingsReportService>();
+            builder.RegisterType<MWTimingsReportProxy>().As<IMWTimingsDatabaseReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -139,6 +140,7 @@
             builder.RegisterType<AddressService>().As<IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource>>();
             builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
             builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
+            builder.RegisterType<MetalWorkTimingsFacadeService>().As<IMetalWorkTimingsFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

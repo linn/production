@@ -106,6 +106,7 @@ import purchaseOrder from './purchaseOrders/purchaseOrder';
 import issueSernos from './purchaseOrders/issueSernos';
 import buildSernos from './purchaseOrders/buildSernos';
 import daysRequiredReport from './daysRequiredReport';
+import metalWorkTimingsReport from './mwTimingsReport/index';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -216,6 +217,7 @@ const reducer = history =>
         worksOrderLabels,
         workStations,
         wwdTriggerReport,
+        metalWorkTimingsReport,
         ...sharedLibraryReducers
     });
 
