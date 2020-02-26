@@ -133,6 +133,9 @@ function App() {
                 <ListItem component={Link} to="/production/reports/overdue-orders" button>
                     <Typography color="primary">Overdue Orders Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/metalWorkTimings/setup" button>
+                    <Typography color="primary">Overdue Orders Report</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/reports/triggers" button>
                     <Typography color="primary">Production Triggers Report</Typography>
                 </ListItem>
@@ -162,6 +165,9 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/failed-parts" button>
                     <Typography color="primary">Failed Parts Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/mw-timings-setup" button>
+                    <Typography color="primary">MW Timings</Typography>
                 </ListItem>
             </List>
         </Page>

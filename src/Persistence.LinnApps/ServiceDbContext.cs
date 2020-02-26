@@ -136,7 +136,7 @@
 
         public DbSet<Country> Countries { get; set; }
 
-        public DbSet<Address> Addresses { get; set; } 
+        public DbSet<Address> Addresses { get; set; }
 
         public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
@@ -148,8 +148,6 @@
 
         public DbQuery<WswShortageStory> WswShortageStories { get; set; }
 
-        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
-
         public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
 
         public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
@@ -159,6 +157,8 @@
         public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
 
         public DbQuery<PtlMaster> PtlMaster { get; set; }
+        
+        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

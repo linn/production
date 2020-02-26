@@ -110,6 +110,8 @@ import LabelPrint from '../containers/labels/LabelPrint';
 import PurchaseOrder from '../containers/PurchaseOrder';
 import PurchaseOrders from '../containers/PurchaseOrders';
 import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
+import mWTimingsReport from '../containers/mWTimings/TimingsReport';
+import mWTimingsSetup from '../containers/mWTimings/TimingsSetup';
 
 const Root = ({ store }) => (
     <div>
@@ -665,6 +667,16 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/days-required"
                                         component={DaysRequiredReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/mw-timings-setup"
+                                        component={mWTimingsSetup}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/mw-timings"
+                                        component={mWTimingsReport}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.IoC
 {
     using Autofac;
-
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
     using Linn.Production.Domain.LinnApps;
@@ -20,7 +19,6 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
-
     using Microsoft.EntityFrameworkCore;
 
     public class PersistenceModule : Module
