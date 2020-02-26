@@ -1,9 +1,7 @@
 ﻿namespace Linn.Production.IoC
 {
     using System.Collections.Generic;
-
     using Autofac;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
@@ -129,7 +127,6 @@
             builder.RegisterType<PurchaseOrderWithSernosInfoResourceBuilder>()
                 .As<IResourceBuilder<PurchaseOrderWithSernosInfo>>();
             builder.RegisterType<ShortageSummaryResourceBuilder>().As<IResourceBuilder<ShortageSummary>>();
-
             builder.RegisterType<AddressResourceBuilder>().As<IResourceBuilder<Address>>();
             builder.RegisterType<AddressesResourceBuilder>().As<IResourceBuilder<IEnumerable<Address>>>();
             builder.RegisterType<SupplierResourceBuilder>().As<IResourceBuilder<Supplier>>();
