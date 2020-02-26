@@ -12,6 +12,7 @@
     {
         public AteTestDetailResource Build(AteTestDetail detail)
         {
+            int.TryParse(detail.BatchNumber, out var batchNumber);
             return new AteTestDetailResource
                        {
                            ItemNumber = detail.ItemNumber,
@@ -22,7 +23,7 @@
                            AteTestFaultCode = detail.AteTestFaultCode,
                            SmtOrPcb = detail.SmtOrPcb,
                            Shift = detail.Shift,
-                           BatchNumber = int.Parse(detail.BatchNumber),
+                           BatchNumber = batchNumber,
                            PcbOperator = detail.PcbOperator?.Id,
                            PcbOperatorName = detail.PcbOperator?.FullName,
                            Comments = detail.Comments,
