@@ -22,8 +22,10 @@
             au.user_name built_by, round(wt.time_taken / 60) minutes_taken
             from works_orders wo, works_order_timings wt, auth_user_name_view au
             where wo.order_number = wt.order_number and operation_type = 'OPERATION' and wt.built_by = au.user_number (+)
-            and wt.start_time between to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')
-            and to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') + 0.9999
+            and ((wt.start_time between to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')
+            and to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') + 0.9999)
+            or wt.start_time between to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')
+            and to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') + 0.9999)
             order by wo.part_number, wo.order_number, wt.operation_number, wt.start_time";
 
             return this.db.ExecuteQuery(sql).Tables[0];
