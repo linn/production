@@ -22,7 +22,7 @@
                            AteTestFaultCode = detail.AteTestFaultCode,
                            SmtOrPcb = detail.SmtOrPcb,
                            Shift = detail.Shift,
-                           BatchNumber = detail.BatchNumber,
+                           BatchNumber = int.Parse(detail.BatchNumber),
                            PcbOperator = detail.PcbOperator?.Id,
                            PcbOperatorName = detail.PcbOperator?.FullName,
                            Comments = detail.Comments,
