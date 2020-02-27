@@ -1,19 +1,16 @@
 ﻿namespace Linn.Production.Service.Tests.MetalWorkTimingsReportModuleSpecs
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
-
     using FluentAssertions;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Common.Reporting.Resources.ReportResultResources;
-
+    using Linn.Production.Domain.LinnApps;
     using Nancy;
     using Nancy.Testing;
-
     using NSubstitute;
-
     using NUnit.Framework;
 
     public class WhenGettingTimingsdReport : ContextBase
@@ -22,18 +19,21 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.service.GetMetalWorkTimingsReport(
+            this.Service.GetMetalWorkTimingsReport(
                     DateTime.UnixEpoch,
                     DateTime.UnixEpoch)
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
-                {
-                    Data = new ResultsModel
                     {
-                        ReportTitle =
+                        Data = new ResultsModel
+                        {
+                            ReportTitle =
                             new NameModel("title")
-                    }
-                });
+                        }
+                    });
+
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.MetalWorkTimings, Arg.Any<List<string>>())
+                .Returns(true);
 
             this.Response = this.Browser.Get(
                 "/production/reports/mw-timings",
@@ -55,7 +55,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.service.Received().GetMetalWorkTimingsReport(
+            this.Service.Received().GetMetalWorkTimingsReport(
                 DateTime.UnixEpoch,
                 DateTime.UnixEpoch);
         }

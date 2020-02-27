@@ -2,17 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-
     using FluentAssertions;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Common.Reporting.Resources.Extensions;
-
+    using Linn.Production.Domain.LinnApps;
     using Nancy;
-
     using NSubstitute;
-
     using NUnit.Framework;
 
     public class WhenGettingBuildsDetailExport : ContextBase
@@ -21,7 +17,7 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" }).ConvertToCsvList();
-            this.service.GetMetalWorkTimingsExport(
+            this.Service.GetMetalWorkTimingsExport(
                     DateTime.UnixEpoch,
                     DateTime.UnixEpoch)
                 .Returns(
@@ -29,6 +25,9 @@
                     {
                         Data = new List<List<string>> { new List<string> { "string" } }
                     });
+
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.MetalWorkTimings, Arg.Any<List<string>>())
+                .Returns(true);
 
             this.Response = this.Browser.Get(
                 "/production/reports/mw-timings/export",
@@ -50,7 +49,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.service.Received().GetMetalWorkTimingsExport(
+            this.Service.Received().GetMetalWorkTimingsExport(
                 DateTime.UnixEpoch,
                 DateTime.UnixEpoch);
         }
