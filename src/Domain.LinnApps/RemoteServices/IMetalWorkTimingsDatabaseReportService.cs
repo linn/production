@@ -3,7 +3,7 @@
     using System;
     using System.Data;
 
-    public interface IMWTimingsDatabaseReportService
+    public interface IMetalWorkTimingsDatabaseReportService
     {
         DataTable GetCondensedMWBuildsDetail(
             DateTime from,

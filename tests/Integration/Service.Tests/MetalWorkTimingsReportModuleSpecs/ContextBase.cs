@@ -2,34 +2,34 @@
 {
     using System.Collections.Generic;
     using System.Security.Claims;
-
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Service.Modules;
-    using Linn.Production.Service.Modules.Reports;
     using Linn.Production.Service.ResponseProcessors;
-
     using Nancy.Testing;
-
     using NSubstitute;
-
     using NUnit.Framework;
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IMetalWorkTimingsFacadeService service { get; private set; }
+        protected IMetalWorkTimingsFacadeService Service { get; private set; }
+
+        protected IAuthorisationService AuthorisationService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.service = Substitute.For<IMetalWorkTimingsFacadeService>();
+            this.Service = Substitute.For<IMetalWorkTimingsFacadeService>();
+            this.AuthorisationService = Substitute.For<IAuthorisationService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                     {
-                        with.Dependency(this.service);
+                        with.Dependency(this.Service);
+                        with.Dependency(this.AuthorisationService);
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<ResultsModel>>>(
                             new ResultsModelsResourceBuilder());
