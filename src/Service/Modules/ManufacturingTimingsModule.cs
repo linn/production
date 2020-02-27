@@ -36,7 +36,7 @@
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
             var resource = this.Bind<ManufacturingTimingsRequestResource>();
 
-            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.MetalWorkTimings, privileges)
+            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.ManufacturingTimings, privileges)
                              ? this.manufacturingTimingsService.GetManufacturingTimingsReport(resource.StartDate, resource.EndDate, resource.CitCode)
                 : new UnauthorisedResult<ResultsModel>("You are not authorised to view timings report.");
 
@@ -50,7 +50,7 @@
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
             var resource = this.Bind<ManufacturingTimingsRequestResource>();
 
-            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.MetalWorkTimings, privileges)
+            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.ManufacturingTimings, privileges)
                              ? this.manufacturingTimingsService.GetManufacturingTimingsExport(resource.StartDate, resource.EndDate, resource.CitCode)
                              : new UnauthorisedResult<IEnumerable<IEnumerable<string>>>("You are not authorised to view timings report.");
 

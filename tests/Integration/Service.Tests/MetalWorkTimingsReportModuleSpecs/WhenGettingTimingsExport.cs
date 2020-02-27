@@ -27,7 +27,7 @@
                         Data = new List<List<string>> { new List<string> { "string" } }
                     });
 
-            this.AuthorisationService.HasPermissionFor(AuthorisedAction.MetalWorkTimings, Arg.Any<List<string>>())
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingTimings, Arg.Any<List<string>>())
                 .Returns(true);
 
             this.Response = this.Browser.Get(
