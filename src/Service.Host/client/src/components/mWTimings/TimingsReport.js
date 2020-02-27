@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function TimingsReport({ reportData, loading, config, itemErrors, options }) {
+function TimingsReport({ reportData, loading, config, itemError, options }) {
     const href = `${config.appRoot}/production/reports/mw-timings/export?startDate=${options.startDate}&endDate=${options.endDate}`;
     const classes = useStyles();
 
@@ -29,10 +29,10 @@ function TimingsReport({ reportData, loading, config, itemErrors, options }) {
         <>
             <Page>
                 <Grid container spacing={3} justify="center">
-                    {itemErrors && (
+                    {itemError && (
                         <Grid item xs={12}>
                             <ErrorCard
-                                errorMessage={`${itemErrors?.statusText} - ${itemErrors?.details.errors[0]}`}
+                                errorMessage={`${itemError.statusText} - ${itemError.details?.errors[0]}`}
                             />
                         </Grid>
                     )}
@@ -68,14 +68,14 @@ TimingsReport.propTypes = {
     options: PropTypes.shape({ startDate: PropTypes.string, endDate: PropTypes.string }).isRequired,
     config: PropTypes.shape({ appRoot: PropTypes.string }),
     loading: PropTypes.bool,
-    errorMessage: PropTypes.string
+    itemError: PropTypes.shape({ statusText: PropTypes.string, details: PropTypes.shape({}) })
 };
 
 TimingsReport.defaultProps = {
     reportData: null,
     config: {},
     loading: false,
-    errorMessage: ''
+    itemError: null
 };
 
 export default TimingsReport;
