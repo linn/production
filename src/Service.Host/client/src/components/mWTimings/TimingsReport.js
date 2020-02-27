@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function TimingsReport({ reportData, loading, config, errorMessage, options }) {
+function TimingsReport({ reportData, loading, config, itemErrors, options }) {
     const href = `${config.appRoot}/production/reports/mw-timings/export?startDate=${options.startDate}&endDate=${options.endDate}`;
     const classes = useStyles();
 
@@ -29,9 +29,11 @@ function TimingsReport({ reportData, loading, config, errorMessage, options }) {
         <>
             <Page>
                 <Grid container spacing={3} justify="center">
-                    {errorMessage && (
+                    {itemErrors && (
                         <Grid item xs={12}>
-                            <ErrorCard errorMessage={errorMessage} />
+                            <ErrorCard
+                                errorMessage={`${itemErrors?.statusText} - ${itemErrors?.details.errors[0]}`}
+                            />
                         </Grid>
                     )}
                     <Grid item xs={8}>

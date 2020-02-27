@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { ReportSelectors, initialiseOnMount } from '@linn-it/linn-form-components-library';
+import {
+    ReportSelectors,
+    initialiseOnMount,
+    getItemError
+} from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import TimingsReport from '../../components/mWTimings/TimingsReport';
 import actions from '../../actions/metalWorkTimingsReportActions';
@@ -17,7 +21,8 @@ const mapStateToProps = (state, ownProps) => ({
     reportData: reportSelectors.getReportData(state),
     loading: reportSelectors.getReportLoading(state),
     options: getOptions(ownProps),
-    config
+    config,
+    itemErrors: getItemError(state, reportTypes.metalWorkTimingsReport.item)
 });
 
 const initialise = props => dispatch => {

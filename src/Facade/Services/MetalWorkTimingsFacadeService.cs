@@ -9,9 +9,9 @@
 
     public class MetalWorkTimingsFacadeService : IMetalWorkTimingsFacadeService
     { 
-        private readonly IMWTimingsReportService reportService;
+        private readonly IMetalWorkTimingsReportService reportService;
         
-        public MetalWorkTimingsFacadeService(IMWTimingsReportService reportService)
+        public MetalWorkTimingsFacadeService(IMetalWorkTimingsReportService reportService)
         {
             this.reportService = reportService;
         }

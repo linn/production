@@ -6,11 +6,11 @@
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
 
-    public class MWTimingsReportProxy : IMWTimingsDatabaseReportService
+    public class MetalWorkTimingsReportProxy : IMetalWorkTimingsDatabaseReportService
     {
         private readonly IDatabaseService db;
 
-        public MWTimingsReportProxy(IDatabaseService db)
+        public MetalWorkTimingsReportProxy(IDatabaseService db)
         {
             this.db = db;
         }

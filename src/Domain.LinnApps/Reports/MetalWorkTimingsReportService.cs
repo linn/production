@@ -1,17 +1,17 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
-    using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
 
-    public class MWTimingsReportService : IMWTimingsReportService
+    public class MetalWorkTimingsReportService : IMetalWorkTimingsReportService
     {
-        private readonly IMWTimingsDatabaseReportService databaseService;
+        private readonly IMetalWorkTimingsDatabaseReportService databaseService;
         
-        public MWTimingsReportService(
-            IMWTimingsDatabaseReportService databaseService)
+        public MetalWorkTimingsReportService(
+            IMetalWorkTimingsDatabaseReportService databaseService)
         {
             this.databaseService = databaseService;
         }
@@ -20,11 +20,11 @@
         {
             var allOps = this.databaseService.GetAllOpsDetail(from, to);
 
-            var mwBuilds = this.databaseService.GetCondensedMWBuildsDetail(from, to);
+            var metalWorkBuilds = this.databaseService.GetCondensedMWBuildsDetail(from, to);
 
             var partGroups = allOps.Select().GroupBy(r => r[1]).ToList(); //groupby part no
 
-            var mwBuildsList = mwBuilds.Select().ToList();
+            var buildsList = metalWorkBuilds.Select().ToList();
 
             var colHeaders = new List<string>
                                  {
@@ -61,7 +61,7 @@
                     totalMinsTakenForPart += (decimal)entry.ItemArray[8];
                 }
 
-                var mwBuild = mwBuildsList.FirstOrDefault(x => x.ItemArray[0].ToString() == partNumber);
+                var build = buildsList.FirstOrDefault(x => x.ItemArray[0].ToString() == partNumber);
 
                 results.AddRow(rowIndex.ToString());
                 results.SetGridTextValue(rowIndex, 1, $"{partNumber} Total");
@@ -70,10 +70,10 @@
                 decimal totalDaysTakenForPart = Math.Round(totalMinsTakenForPart / 410, 2);
                 results.SetGridTextValue(rowIndex, 9, totalDaysTakenForPart.ToString()); //% of day(s) taken
 
-                if (mwBuild != null)
+                if (build != null)
                 {
-                    mwBuildsList.Remove(mwBuild);
-                    results.SetGridTextValue(rowIndex, 10, mwBuild.ItemArray[4].ToString()); //Expected days
+                    buildsList.Remove(build);
+                    results.SetGridTextValue(rowIndex, 10, build.ItemArray[4].ToString()); //Expected days
                 }
                 else
                 {
@@ -85,7 +85,7 @@
                 rowIndex++;
             }
 
-            foreach (var remainingBuild in mwBuildsList)
+            foreach (var remainingBuild in buildsList)
             {
                 results.AddRow(rowIndex.ToString());
                 results.SetGridTextValue(rowIndex, 1, remainingBuild.ItemArray[0].ToString()); //part no
