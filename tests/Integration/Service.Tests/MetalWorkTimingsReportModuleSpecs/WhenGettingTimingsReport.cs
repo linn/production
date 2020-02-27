@@ -19,9 +19,9 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.Service.GetMetalWorkTimingsReport(
+            this.Service.GetManufacturingTimingsReport(
                     DateTime.UnixEpoch,
-                    DateTime.UnixEpoch)
+                    DateTime.UnixEpoch, Arg.Any<char>())
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
                     {
@@ -43,6 +43,7 @@
                     with.Header("Accept", "application/json");
                     with.Query("startDate", DateTime.UnixEpoch.ToString("d"));
                     with.Query("endDate", DateTime.UnixEpoch.ToString("d"));
+                    with.Query("citCode", "K");
                 }).Result;
         }
 
@@ -55,9 +56,9 @@
         [Test]
         public void ShouldCallService()
         {
-            this.Service.Received().GetMetalWorkTimingsReport(
+            this.Service.Received().GetManufacturingTimingsReport(
                 DateTime.UnixEpoch,
-                DateTime.UnixEpoch);
+                DateTime.UnixEpoch, Arg.Any<char>());
         }
 
         [Test]

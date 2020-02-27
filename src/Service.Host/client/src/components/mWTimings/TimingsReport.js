@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TimingsReport({ reportData, loading, config, itemErrors, options }) {
-    const href = `${config.appRoot}/production/reports/mw-timings/export?startDate=${options.startDate}&endDate=${options.endDate}`;
+    const href = `${config.appRoot}/production/reports/mw-timings/export?startDate=${options.startDate}&endDate=${options.endDate}&cit=${options.citCode}`;
     const classes = useStyles();
 
     return (
@@ -65,17 +65,23 @@ function TimingsReport({ reportData, loading, config, itemErrors, options }) {
 
 TimingsReport.propTypes = {
     reportData: PropTypes.shape({}),
-    options: PropTypes.shape({}).isRequired,
-    config: PropTypes.shape({}),
+    config: PropTypes.shape({ appRoot: PropTypes.string.isRequired }).isRequired,
     loading: PropTypes.bool,
-    errorMessage: PropTypes.string
+    itemErrors: PropTypes.shape({
+        statusText: PropTypes.string,
+        details: PropTypes.arrayOf(PropTypes.string)
+    }),
+    options: PropTypes.shape({
+        startDate: PropTypes.string,
+        endDate: PropTypes.string,
+        citCode: PropTypes.string
+    }).isRequired
 };
 
 TimingsReport.defaultProps = {
     reportData: null,
-    config: {},
     loading: false,
-    errorMessage: ''
+    itemErrors: null
 };
 
 export default TimingsReport;

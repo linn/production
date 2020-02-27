@@ -17,9 +17,10 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" }).ConvertToCsvList();
-            this.Service.GetMetalWorkTimingsExport(
+            this.Service.GetManufacturingTimingsExport(
                     DateTime.UnixEpoch,
-                    DateTime.UnixEpoch)
+                    DateTime.UnixEpoch,
+                    Arg.Any<char>())
                 .Returns(
                     new SuccessResult<IEnumerable<IEnumerable<string>>>(results)
                     {
@@ -37,6 +38,7 @@
                     with.Header("Accept", "application/json");
                     with.Query("startDate", DateTime.UnixEpoch.ToString("d"));
                     with.Query("endDate", DateTime.UnixEpoch.ToString("d"));
+                    with.Query("citCode", "K");
                 }).Result;
         }
 
@@ -49,9 +51,10 @@
         [Test]
         public void ShouldCallService()
         {
-            this.Service.Received().GetMetalWorkTimingsExport(
+            this.Service.Received().GetManufacturingTimingsExport(
                 DateTime.UnixEpoch,
-                DateTime.UnixEpoch);
+                DateTime.UnixEpoch,
+                Arg.Any<char>());
         }
     }
 }
