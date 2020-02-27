@@ -22,7 +22,7 @@ const mapStateToProps = (state, ownProps) => ({
     loading: reportSelectors.getReportLoading(state),
     options: getOptions(ownProps),
     config,
-    itemErrors: getItemError(state, reportTypes.metalWorkTimingsReport.item)
+    itemError: getItemError(state, reportTypes.metalWorkTimingsReport.item)
 });
 
 const initialise = props => dispatch => {
