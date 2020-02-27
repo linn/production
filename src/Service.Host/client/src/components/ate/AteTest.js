@@ -156,7 +156,7 @@ function AteTest({
                     if (ateTest.flowSolderDate && !ateTest.dateTested) {
                         value = 'FLOW SOLDER';
                     } else {
-                        const assemblyTechnology = detailParts.find(p => p.cref === newValue);
+                        const { assemblyTechnology } = detailParts.find(p => p.cref === newValue);
                         value = assemblyTechnology === 'SM' ? 'SMT' : 'PCB';
                     }
                     return [
@@ -387,7 +387,7 @@ function AteTest({
                                     disabled={!creating()}
                                     items={worksOrdersSearchResults.map(w => ({
                                         ...w,
-                                        name: w.orderNumber,
+                                        name: w.orderNumber.toString(),
                                         description: w.partNumber
                                     }))}
                                     value={`${
