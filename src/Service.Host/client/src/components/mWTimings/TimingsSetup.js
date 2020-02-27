@@ -44,7 +44,7 @@ function TimingsSetup({ history, cits, citsLoading }) {
 
     return (
         <Page>
-            <Title text="Metalwork Timings Setup" />
+            <Title text="Manufacturing Timings Setup" />
             <Grid className={classes.topMargin} container spacing={3} justify="center">
                 <Grid item xs={3}>
                     <Typography variant="h6" gutterBottom>

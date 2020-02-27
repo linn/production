@@ -35,7 +35,7 @@
             var results = new ResultsModel(colHeaders)
             {
                 ReportTitle = new NameModel(
-                    $"Metal Work Timings Report")
+                    $"Manufacturing Timings Report")
             };
             
             var rowIndex = 0;
