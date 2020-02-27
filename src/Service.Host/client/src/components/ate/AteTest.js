@@ -664,7 +664,8 @@ AteTest.propTypes = {
     }),
     getComponentCounts: PropTypes.func.isRequired,
     getDetailParts: PropTypes.func.isRequired,
-    detailParts: PropTypes.arrayOf(PropTypes.shape({}))
+    detailParts: PropTypes.arrayOf(PropTypes.shape({})),
+    employeesLoading: PropTypes.bool
 };
 
 AteTest.defaultProps = {
@@ -676,6 +677,7 @@ AteTest.defaultProps = {
     itemError: null,
     itemId: null,
     employees: [],
+    employeesLoading: false,
     ateFaultCodes: [],
     profile: { name: '' },
     worksOrdersSearchResults: null,
