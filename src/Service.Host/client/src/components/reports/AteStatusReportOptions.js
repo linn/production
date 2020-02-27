@@ -26,7 +26,7 @@ function AteStatusReportOptions({ history, prevOptions }) {
     );
     const [smtOrPcb, setSmtOrPcb] = useState(prevOptions.smtOrPcb ? prevOptions.smtOrPcb : 'SMT');
     const [placeFound, setPlaceFound] = useState(
-        prevOptions.placeFound ? prevOptions.placeFound : 'ATE'
+        prevOptions.placeFound ? prevOptions.placeFound : ''
     );
 
     const handleWeekChange = (propertyName, newValue) => {

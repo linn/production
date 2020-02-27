@@ -112,7 +112,7 @@
                 resultsModel,
                 resultsModel.ColumnIndex("Test Id"),
                 new[] { resultsModel.ColumnIndex("Test Id"), resultsModel.ColumnIndex("Board Part Number") });
-            
+
             return resultsModel;
         }
 
@@ -133,14 +133,14 @@
             var columns = new List<AxisDetailsModel>();
             foreach (var linnWeek in weeks)
             {
-                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-tests", $"Tests w/e {linnWeek.WeekEndingDDMON}"));
-                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-fails", "Fails"));
-                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-percentage", "Pass%"));
+                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-tests", $"Tests w/e {linnWeek.WeekEndingDDMON}") { SortOrder = (linnWeek.LinnWeekNumber * 10) + 1 });
+                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-fails", "Fails") { SortOrder = (linnWeek.LinnWeekNumber * 10) + 2 });
+                columns.Add(new AxisDetailsModel($"{linnWeek.LinnWeekNumber}-percentage", "Pass%") { SortOrder = (linnWeek.LinnWeekNumber * 10) + 3 });
             }
 
-            columns.Add(new AxisDetailsModel($"total-tests", $"Total Tests"));
-            columns.Add(new AxisDetailsModel($"total-fails", "Total Fails"));
-            columns.Add(new AxisDetailsModel($"total-percentage", "Pass%"));
+            columns.Add(new AxisDetailsModel($"total-tests", $"Total Tests") { SortOrder = int.MaxValue - 3 });
+            columns.Add(new AxisDetailsModel($"total-fails", "Total Fails") { SortOrder = int.MaxValue - 2 });
+            columns.Add(new AxisDetailsModel($"total-percentage", "Pass%") { SortOrder = int.MaxValue - 1 });
 
             resultsModel.AddSortedColumns(columns);
             this.reportingHelper.AddResultsToModel(
@@ -366,7 +366,7 @@
                                {
                                    RowId = rowId,
                                    ColumnId = "Operator",
-                                   TextDisplay = ateTestReportDetail.PcbOperatorNumber != null ? 
+                                   TextDisplay = ateTestReportDetail.PcbOperatorNumber != null ?
                                                      this.employeeRepository.FindById((int)ateTestReportDetail.PcbOperatorNumber).FullName : null,
                                });
                 models.Add(new CalculationValueModel
