@@ -31,7 +31,7 @@
                 .Returns(true);
 
             this.Response = this.Browser.Get(
-                "/production/reports/mw-timings/export",
+                "/production/reports/manufacturing-timings/export",
                 with =>
                 {
                     with.Header("Accept", "text/csv");

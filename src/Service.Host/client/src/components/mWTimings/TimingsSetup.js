@@ -34,7 +34,7 @@ function TimingsSetup({ history, cits, citsLoading }) {
     };
     const handleClick = () =>
         history.push({
-            pathname: `/production/reports/mw-timings`,
+            pathname: `/production/reports/manufacturing-timings`,
             search: `?startDate=${fromDate.toISOString()}&endDate=${toDate.toISOString()}&citCode=${selectedCit}`
         });
 

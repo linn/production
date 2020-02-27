@@ -26,8 +26,8 @@
             this.manufacturingTimingsService = manufacturingTimingsService;
             this.authorisationService = authorisationService;
 
-            this.Get("/production/reports/mw-timings", _ => this.GetTimingsReport());
-            this.Get("/production/reports/mw-timings/export", _ => this.GetTimingsExport());
+            this.Get("/production/reports/manufacturing-timings", _ => this.GetTimingsReport());
+            this.Get("/production/reports/manufacturing-timings/export", _ => this.GetTimingsExport());
         }
 
         private object GetTimingsReport()

@@ -36,7 +36,7 @@
                 .Returns(true);
 
             this.Response = this.Browser.Get(
-                "/production/reports/mw-timings",
+                "/production/reports/manufacturing-timings",
                 with =>
                 {
                     with.Header("Accept", "application/json");

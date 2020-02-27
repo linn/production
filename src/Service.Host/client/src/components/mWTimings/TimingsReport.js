@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TimingsReport({ reportData, loading, config, itemErrors, options }) {
-    const href = `${config.appRoot}/production/reports/mw-timings/export?startDate=${options.startDate}&endDate=${options.endDate}&cit=${options.citCode}`;
+    const href = `${config.appRoot}/production/reports/manufacturing-timings/export?startDate=${options.startDate}&endDate=${options.endDate}&cit=${options.citCode}`;
     const classes = useStyles();
 
     return (
@@ -43,7 +43,7 @@ function TimingsReport({ reportData, loading, config, itemErrors, options }) {
                         <ExportButton href={href} />
                     </Grid>
                     <Grid item xs={12}>
-                        <Link component={RouterLink} to="/production/reports/mw-timings-setup">
+                        <Link component={RouterLink} to="/production/reports/manufacturing-timings-setup">
                             Run this report for different dates
                         </Link>
                     </Grid>
