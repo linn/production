@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
 import {
     SaveBackCancelButtons,
@@ -34,6 +35,7 @@ function AteTest({
     searchWorksOrders,
     clearWorksOrdersSearch,
     employees,
+    employeesLoading,
     ateFaultCodes,
     componentCounts,
     getComponentCounts,
@@ -73,16 +75,6 @@ function AteTest({
     }, [profile, editStatus]);
 
     useEffect(() => {
-        if (employees && ateTest.pcbOperator) {
-            setAteTest(a => ({
-                ...a,
-                pcbOperatorName: employees.find(e => Number(e.id) === Number(a.pcbOperator))
-                    ?.fullName
-            }));
-        }
-    }, [employees, ateTest.pcbOperator]);
-
-    useEffect(() => {
         if (ateTest.partNumber) {
             getDetailParts('searchTerm', ateTest.partNumber);
         }
@@ -119,6 +111,19 @@ function AteTest({
         !ateTest.pcbOperator ||
         !ateTest.userNumber ||
         ateTest.details.some(d => !d.circuitRef || !d.aoiEscape);
+
+    const pcbOperatorsOptions = () => {
+        const options = employees
+            .filter(c => !!c.fullName)
+            .map(c => ({
+                id: c.id,
+                displayText: c.fullName
+            }));
+        if (employees.length && !employees.find(e => e.id === ateTest.pcbOperator)) {
+            options.push({ id: ateTest.pcbOperator, displayText: ateTest.pcbOperatorName });
+        }
+        return options;
+    };
 
     const Table = () => {
         const tableColumns = [
@@ -549,21 +554,20 @@ function AteTest({
                             </Grid>
                             <Grid item xs={2} />
                             <Grid item xs={4}>
-                                <Dropdown
-                                    label="PCB Operator"
-                                    type="number"
-                                    propertyName="pcbOperator"
-                                    allowNoValue
-                                    items={employees
-                                        .filter(c => !!c.fullName)
-                                        .map(c => ({
-                                            id: c.id,
-                                            displayText: c.fullName
-                                        }))}
-                                    fullWidth
-                                    value={ateTest.pcbOperator}
-                                    onChange={handleFieldChange}
-                                />
+                                {employeesLoading ? (
+                                    <LinearProgress />
+                                ) : (
+                                    <Dropdown
+                                        label="PCB Operator"
+                                        type="number"
+                                        propertyName="pcbOperator"
+                                        allowNoValue
+                                        items={pcbOperatorsOptions()}
+                                        fullWidth
+                                        value={ateTest.pcbOperator}
+                                        onChange={handleFieldChange}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={2}>
                                 <InputField
