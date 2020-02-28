@@ -19,9 +19,9 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" });
-            this.Service.GetMetalWorkTimingsReport(
+            this.Service.GetManufacturingTimingsReport(
                     DateTime.UnixEpoch,
-                    DateTime.UnixEpoch)
+                    DateTime.UnixEpoch, Arg.Any<char>())
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
                     {
@@ -32,17 +32,18 @@
                         }
                     });
 
-            this.AuthorisationService.HasPermissionFor(AuthorisedAction.MetalWorkTimings, Arg.Any<List<string>>())
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingTimings, Arg.Any<List<string>>())
                 .Returns(true);
 
             this.Response = this.Browser.Get(
-                "/production/reports/mw-timings",
+                "/production/reports/manufacturing-timings",
                 with =>
                 {
                     with.Header("Accept", "application/json");
                     with.Header("Accept", "application/json");
                     with.Query("startDate", DateTime.UnixEpoch.ToString("d"));
                     with.Query("endDate", DateTime.UnixEpoch.ToString("d"));
+                    with.Query("citCode", "K");
                 }).Result;
         }
 
@@ -55,9 +56,9 @@
         [Test]
         public void ShouldCallService()
         {
-            this.Service.Received().GetMetalWorkTimingsReport(
+            this.Service.Received().GetManufacturingTimingsReport(
                 DateTime.UnixEpoch,
-                DateTime.UnixEpoch);
+                DateTime.UnixEpoch, Arg.Any<char>());
         }
 
         [Test]

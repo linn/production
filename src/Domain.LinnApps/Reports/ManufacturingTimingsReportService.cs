@@ -6,21 +6,21 @@
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
-    public class MetalWorkTimingsReportService : IMetalWorkTimingsReportService
+    public class ManufacturingTimingsReportService : IManufacturingTimingsReportService
     {
-        private readonly IMetalWorkTimingsDatabaseReportService databaseService;
+        private readonly IManufacturingTimingsDatabaseReportService databaseService;
         
-        public MetalWorkTimingsReportService(
-            IMetalWorkTimingsDatabaseReportService databaseService)
+        public ManufacturingTimingsReportService(
+            IManufacturingTimingsDatabaseReportService databaseService)
         {
             this.databaseService = databaseService;
         }
 
-        public ResultsModel GetTimingsReport(DateTime from, DateTime to)
+        public ResultsModel GetTimingsReport(DateTime from, DateTime to, char citCode)
         {
-            var allOps = this.databaseService.GetAllOpsDetail(from, to);
+            var allOps = this.databaseService.GetAllOpsDetail(from, to, citCode);
 
-            var metalWorkBuilds = this.databaseService.GetCondensedMWBuildsDetail(from, to);
+            var metalWorkBuilds = this.databaseService.GetCondensedBuildsDetail(from, to, citCode);
 
             var partGroups = allOps.Select().GroupBy(r => r[1]).ToList(); //groupby part no
 
@@ -35,7 +35,7 @@
             var results = new ResultsModel(colHeaders)
             {
                 ReportTitle = new NameModel(
-                    $"Metal Work Timings Report")
+                    $"Manufacturing Timings Report")
             };
             
             var rowIndex = 0;

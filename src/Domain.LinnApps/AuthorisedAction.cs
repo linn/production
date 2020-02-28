@@ -20,6 +20,6 @@
 
         public const string BuildPlanDetailUpdate = "build-plans.admin";
 
-        public const string MetalWorkTimings = "metal-work-timings.admin";
+        public const string ManufacturingTimings = "manufacturing-timings.admin";
     }
 }

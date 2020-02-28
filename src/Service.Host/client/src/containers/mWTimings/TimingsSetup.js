@@ -1,13 +1,24 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { ReportSelectors } from '@linn-it/linn-form-components-library';
+import { initialiseOnMount, ReportSelectors } from '@linn-it/linn-form-components-library';
 import TimingsSetup from '../../components/mWTimings/TimingsSetup';
 import * as reportTypes from '../../reportTypes';
+import citsActions from '../../actions/citsActions';
+import citsSelectors from '../../selectors/citsSelectors';
 
 const reportSelectors = new ReportSelectors(reportTypes.metalWorkTimingsReport.item);
 
 const mapStateToProps = state => ({
-    prevOptions: reportSelectors.getReportOptions(state)
+    prevOptions: reportSelectors.getReportOptions(state),
+    cits: citsSelectors.getItems(state),
+    citsLoading: citsSelectors.getLoading(state)
 });
 
-export default connect(mapStateToProps, null)(withRouter(TimingsSetup));
+const initialise = () => dispatch => {
+    dispatch(citsActions.fetch());
+};
+
+const mapDispatchToProps = {
+    initialise
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(TimingsSetup));

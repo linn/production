@@ -2,10 +2,12 @@
 {
     using System;
 
-    public class SearchByDatesRequestResource
+    public class ManufacturingTimingsRequestResource
     {
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+
+        public char CitCode { get; set; }
     }
 }

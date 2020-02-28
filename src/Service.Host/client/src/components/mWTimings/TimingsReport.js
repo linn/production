@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TimingsReport({ reportData, loading, config, itemError, options }) {
-    const href = `${config.appRoot}/production/reports/mw-timings/export?startDate=${options.startDate}&endDate=${options.endDate}`;
+    const href = `${config.appRoot}/production/reports/manufacturing-timings/export?startDate=${options.startDate}&endDate=${options.endDate}&cit=${options.citCode}`;
     const classes = useStyles();
 
     return (
@@ -32,7 +32,7 @@ function TimingsReport({ reportData, loading, config, itemError, options }) {
                     {itemError && (
                         <Grid item xs={12}>
                             <ErrorCard
-                                errorMessage={`${itemError.statusText} - ${itemError.details?.errors[0]}`}
+                                errorMessage={`${itemError?.statusText} - ${itemError?.details.errors[0]}`}
                             />
                         </Grid>
                     )}
@@ -43,7 +43,10 @@ function TimingsReport({ reportData, loading, config, itemError, options }) {
                         <ExportButton href={href} />
                     </Grid>
                     <Grid item xs={12}>
-                        <Link component={RouterLink} to="/production/reports/mw-timings-setup">
+                        <Link
+                            component={RouterLink}
+                            to="/production/reports/manufacturing-timings-setup"
+                        >
                             Run this report for different dates
                         </Link>
                     </Grid>
@@ -65,15 +68,21 @@ function TimingsReport({ reportData, loading, config, itemError, options }) {
 
 TimingsReport.propTypes = {
     reportData: PropTypes.shape({}),
-    options: PropTypes.shape({ startDate: PropTypes.string, endDate: PropTypes.string }).isRequired,
-    config: PropTypes.shape({ appRoot: PropTypes.string }),
+    config: PropTypes.shape({ appRoot: PropTypes.string.isRequired }).isRequired,
     loading: PropTypes.bool,
-    itemError: PropTypes.shape({ statusText: PropTypes.string, details: PropTypes.shape({}) })
+    itemError: PropTypes.shape({
+        statusText: PropTypes.string,
+        details: PropTypes.arrayOf(PropTypes.string)
+    }),
+    options: PropTypes.shape({
+        startDate: PropTypes.string,
+        endDate: PropTypes.string,
+        citCode: PropTypes.string
+    }).isRequired
 };
 
 TimingsReport.defaultProps = {
     reportData: null,
-    config: {},
     loading: false,
     itemError: null
 };

@@ -3,10 +3,11 @@
     using System;
     using Linn.Common.Reporting.Models;
 
-    public interface IMetalWorkTimingsReportService
+    public interface IManufacturingTimingsReportService
     {
         ResultsModel GetTimingsReport(
             DateTime from,
-            DateTime to);
+            DateTime to,
+            char citCode);
     }
 }

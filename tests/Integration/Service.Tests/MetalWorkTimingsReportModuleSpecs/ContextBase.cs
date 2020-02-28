@@ -15,14 +15,14 @@
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IMetalWorkTimingsFacadeService Service { get; private set; }
+        protected IManufacturingTimingsFacadeService Service { get; private set; }
 
         protected IAuthorisationService AuthorisationService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.Service = Substitute.For<IMetalWorkTimingsFacadeService>();
+            this.Service = Substitute.For<IManufacturingTimingsFacadeService>();
             this.AuthorisationService = Substitute.For<IAuthorisationService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
@@ -33,7 +33,7 @@
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<ResultsModel>>>(
                             new ResultsModelsResourceBuilder());
-                        with.Module<MetalWorkTimingsModule>();
+                        with.Module<ManufacturingTimingsModule>();
 
                         with.ResponseProcessor<ResultsModelsJsonResponseProcessor>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();

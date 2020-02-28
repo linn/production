@@ -670,12 +670,12 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/mw-timings-setup"
+                                        path="/production/reports/manufacturing-timings-setup"
                                         component={mWTimingsSetup}
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/mw-timings"
+                                        path="/production/reports/manufacturing-timings"
                                         component={mWTimingsReport}
                                     />
                                     <Route component={NotFound} />

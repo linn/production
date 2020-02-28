@@ -17,26 +17,28 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" }).ConvertToCsvList();
-            this.Service.GetMetalWorkTimingsExport(
+            this.Service.GetManufacturingTimingsExport(
                     DateTime.UnixEpoch,
-                    DateTime.UnixEpoch)
+                    DateTime.UnixEpoch,
+                    Arg.Any<char>())
                 .Returns(
                     new SuccessResult<IEnumerable<IEnumerable<string>>>(results)
                     {
                         Data = new List<List<string>> { new List<string> { "string" } }
                     });
 
-            this.AuthorisationService.HasPermissionFor(AuthorisedAction.MetalWorkTimings, Arg.Any<List<string>>())
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingTimings, Arg.Any<List<string>>())
                 .Returns(true);
 
             this.Response = this.Browser.Get(
-                "/production/reports/mw-timings/export",
+                "/production/reports/manufacturing-timings/export",
                 with =>
                 {
                     with.Header("Accept", "text/csv");
                     with.Header("Accept", "application/json");
                     with.Query("startDate", DateTime.UnixEpoch.ToString("d"));
                     with.Query("endDate", DateTime.UnixEpoch.ToString("d"));
+                    with.Query("citCode", "K");
                 }).Result;
         }
 
@@ -49,9 +51,10 @@
         [Test]
         public void ShouldCallService()
         {
-            this.Service.Received().GetMetalWorkTimingsExport(
+            this.Service.Received().GetManufacturingTimingsExport(
                 DateTime.UnixEpoch,
-                DateTime.UnixEpoch);
+                DateTime.UnixEpoch,
+                Arg.Any<char>());
         }
     }
 }
