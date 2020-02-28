@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-function TimingsReport({ reportData, loading, config, itemErrors, options }) {
+function TimingsReport({ reportData, loading, config, itemError, options }) {
     const href = `${config.appRoot}/production/reports/manufacturing-timings/export?startDate=${options.startDate}&endDate=${options.endDate}&cit=${options.citCode}`;
     const classes = useStyles();
 
@@ -29,10 +29,10 @@ function TimingsReport({ reportData, loading, config, itemErrors, options }) {
         <>
             <Page>
                 <Grid container spacing={3} justify="center">
-                    {itemErrors && (
+                    {itemError && (
                         <Grid item xs={12}>
                             <ErrorCard
-                                errorMessage={`${itemErrors?.statusText} - ${itemErrors?.details.errors[0]}`}
+                                errorMessage={`${itemError?.statusText} - ${itemError?.details.errors[0]}`}
                             />
                         </Grid>
                     )}
@@ -43,7 +43,10 @@ function TimingsReport({ reportData, loading, config, itemErrors, options }) {
                         <ExportButton href={href} />
                     </Grid>
                     <Grid item xs={12}>
-                        <Link component={RouterLink} to="/production/reports/manufacturing-timings-setup">
+                        <Link
+                            component={RouterLink}
+                            to="/production/reports/manufacturing-timings-setup"
+                        >
                             Run this report for different dates
                         </Link>
                     </Grid>
@@ -67,7 +70,7 @@ TimingsReport.propTypes = {
     reportData: PropTypes.shape({}),
     config: PropTypes.shape({ appRoot: PropTypes.string.isRequired }).isRequired,
     loading: PropTypes.bool,
-    itemErrors: PropTypes.shape({
+    itemError: PropTypes.shape({
         statusText: PropTypes.string,
         details: PropTypes.arrayOf(PropTypes.string)
     }),
@@ -81,7 +84,7 @@ TimingsReport.propTypes = {
 TimingsReport.defaultProps = {
     reportData: null,
     loading: false,
-    itemErrors: null
+    itemError: null
 };
 
 export default TimingsReport;
