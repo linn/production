@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { initialiseOnMount, ReportSelectors } from '@linn-it/linn-form-components-library';
-import TimingsSetup from '../../components/mWTimings/TimingsSetup';
+import TimingsSetup from '../../components/manufacturingTimings/TimingsSetup';
 import * as reportTypes from '../../reportTypes';
 import citsActions from '../../actions/citsActions';
 import citsSelectors from '../../selectors/citsSelectors';
 
-const reportSelectors = new ReportSelectors(reportTypes.metalWorkTimingsReport.item);
+const reportSelectors = new ReportSelectors(reportTypes.manufacturingTimingsReport.item);
 
 const mapStateToProps = state => ({
     prevOptions: reportSelectors.getReportOptions(state),
