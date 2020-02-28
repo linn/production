@@ -47,7 +47,7 @@
             where ptl.cit_code = '{citCode}'
             and bu_date between trunc(to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') ) 
             and trunc(to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) +1
-            and cr_dept = '0000016502' and a.part_number = ptl.part_number(+)
+            and a.part_number = ptl.part_number(+)
             group by a.part_number , ptl.kanban_size , 
             decode('WEEK', 'MONTH', last_day(TRUNC(bu_date)), 'WEEK', linn_week_pack.linn_week_end_date(bu_date))";
 
