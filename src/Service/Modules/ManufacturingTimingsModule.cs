@@ -32,13 +32,9 @@
 
         private object GetTimingsReport()
         {
-            this.RequiresAuthentication();
-            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
             var resource = this.Bind<ManufacturingTimingsRequestResource>();
 
-            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.ManufacturingTimings, privileges)
-                             ? this.manufacturingTimingsService.GetManufacturingTimingsReport(resource.StartDate, resource.EndDate, resource.CitCode)
-                : new UnauthorisedResult<ResultsModel>("You are not authorised to view timings report.");
+            var result = this.manufacturingTimingsService.GetManufacturingTimingsReport(resource.StartDate, resource.EndDate, resource.CitCode);
 
             return this.Negotiate.WithModel(result).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
@@ -46,13 +42,12 @@
 
         private object GetTimingsExport()
         {
-            this.RequiresAuthentication();
-            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
             var resource = this.Bind<ManufacturingTimingsRequestResource>();
 
-            var result = this.authorisationService.HasPermissionFor(AuthorisedAction.ManufacturingTimings, privileges)
-                             ? this.manufacturingTimingsService.GetManufacturingTimingsExport(resource.StartDate, resource.EndDate, resource.CitCode)
-                             : new UnauthorisedResult<IEnumerable<IEnumerable<string>>>("You are not authorised to view timings report.");
+            var result = this.manufacturingTimingsService.GetManufacturingTimingsExport(
+                                 resource.StartDate,
+                                 resource.EndDate,
+                                 resource.CitCode);
 
             var response = this.Negotiate.WithModel(result)
                 .WithAllowedMediaRange("text/csv")

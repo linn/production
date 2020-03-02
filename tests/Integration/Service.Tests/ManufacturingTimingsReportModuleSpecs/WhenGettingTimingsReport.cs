@@ -1,13 +1,11 @@
 ﻿namespace Linn.Production.Service.Tests.MetalWorkTimingsReportModuleSpecs
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Common.Reporting.Resources.ReportResultResources;
-    using Linn.Production.Domain.LinnApps;
     using Nancy;
     using Nancy.Testing;
     using NSubstitute;
@@ -32,19 +30,16 @@
                         }
                     });
 
-            this.AuthorisationService.HasPermissionFor(AuthorisedAction.ManufacturingTimings, Arg.Any<List<string>>())
-                .Returns(true);
-
             this.Response = this.Browser.Get(
-                "/production/reports/manufacturing-timings",
-                with =>
-                {
-                    with.Header("Accept", "application/json");
-                    with.Header("Accept", "application/json");
-                    with.Query("startDate", DateTime.UnixEpoch.ToString("d"));
-                    with.Query("endDate", DateTime.UnixEpoch.ToString("d"));
-                    with.Query("citCode", "K");
-                }).Result;
+               "/production/reports/manufacturing-timings",
+               with =>
+               {
+                   with.Header("Accept", "application/json");
+                   with.Header("Accept", "application/json");
+                   with.Query("startDate", DateTime.UnixEpoch.ToString("d"));
+                   with.Query("endDate", DateTime.UnixEpoch.ToString("d"));
+                   with.Query("citCode", "K");
+               }).Result;
         }
 
         [Test]
