@@ -1,18 +1,18 @@
 ﻿namespace Linn.Production.Service.Modules
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.Services;
-    using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Extensions;
     using Linn.Production.Service.Models;
     using Nancy;
     using Nancy.ModelBinding;
     using Nancy.Security;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public sealed class ManufacturingTimingsModule : NancyModule
     {

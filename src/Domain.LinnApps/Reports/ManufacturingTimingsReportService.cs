@@ -16,8 +16,13 @@
             this.databaseService = databaseService;
         }
 
-        public ResultsModel GetTimingsReport(DateTime from, DateTime to, char citCode)
+        public ResultsModel GetTimingsReport(DateTime from, DateTime to, string citCode)
         {
+            if (citCode == "MW")
+            {
+                citCode = "K' or ptl.cit_code = 'G' or ptl.cit_code = 'H' or ptl.cit_code = 'N";
+            }
+
             var allOps = this.databaseService.GetAllOpsDetail(from, to, citCode);
 
             var metalWorkBuilds = this.databaseService.GetCondensedBuildsDetail(from, to, citCode);

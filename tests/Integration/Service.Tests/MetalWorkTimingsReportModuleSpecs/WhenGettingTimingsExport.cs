@@ -20,7 +20,7 @@
             this.Service.GetManufacturingTimingsExport(
                     DateTime.UnixEpoch,
                     DateTime.UnixEpoch,
-                    Arg.Any<char>())
+                    Arg.Any<string>())
                 .Returns(
                     new SuccessResult<IEnumerable<IEnumerable<string>>>(results)
                     {
@@ -38,7 +38,7 @@
                     with.Header("Accept", "application/json");
                     with.Query("startDate", DateTime.UnixEpoch.ToString("d"));
                     with.Query("endDate", DateTime.UnixEpoch.ToString("d"));
-                    with.Query("citCode", "K");
+                    with.Query("citCode", "MW");
                 }).Result;
         }
 
@@ -54,7 +54,7 @@
             this.Service.Received().GetManufacturingTimingsExport(
                 DateTime.UnixEpoch,
                 DateTime.UnixEpoch,
-                Arg.Any<char>());
+                Arg.Any<string>());
         }
     }
 }

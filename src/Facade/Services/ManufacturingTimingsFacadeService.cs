@@ -16,13 +16,13 @@
             this.reportService = reportService;
         }
 
-        public IResult<IEnumerable<IEnumerable<string>>> GetManufacturingTimingsExport(DateTime startDate, DateTime endDate, char citCode)
+        public IResult<IEnumerable<IEnumerable<string>>> GetManufacturingTimingsExport(DateTime startDate, DateTime endDate, string citCode)
         {
             var result = this.reportService.GetTimingsReport(startDate, endDate, citCode).ConvertToCsvList();
             return new SuccessResult<IEnumerable<IEnumerable<string>>>(result);
         }
 
-        public IResult<ResultsModel> GetManufacturingTimingsReport(DateTime startDate, DateTime endDate, char citCode)
+        public IResult<ResultsModel> GetManufacturingTimingsReport(DateTime startDate, DateTime endDate, string citCode)
         {
            return new SuccessResult<ResultsModel>(this.reportService.GetTimingsReport(startDate, endDate, citCode));
         }

@@ -10,11 +10,11 @@
         IResult<ResultsModel> GetManufacturingTimingsReport(
             DateTime startDate,
             DateTime endDate,
-            char citCode);
+            string citCode);
 
         IResult<IEnumerable<IEnumerable<string>>> GetManufacturingTimingsExport(
             DateTime startDate,
             DateTime endDate,
-            char citCode);
+            string citCode);
     }
 }

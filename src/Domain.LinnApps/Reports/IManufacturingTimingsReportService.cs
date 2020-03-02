@@ -8,6 +8,6 @@
         ResultsModel GetTimingsReport(
             DateTime from,
             DateTime to,
-            char citCode);
+            string citCode);
     }
 }

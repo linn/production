@@ -21,7 +21,7 @@
             var results = new ResultsModel(new[] { "col1" });
             this.Service.GetManufacturingTimingsReport(
                     DateTime.UnixEpoch,
-                    DateTime.UnixEpoch, Arg.Any<char>())
+                    DateTime.UnixEpoch, Arg.Any<string>())
                 .Returns(
                     new SuccessResult<ResultsModel>(results)
                     {
@@ -58,7 +58,7 @@
         {
             this.Service.Received().GetManufacturingTimingsReport(
                 DateTime.UnixEpoch,
-                DateTime.UnixEpoch, Arg.Any<char>());
+                DateTime.UnixEpoch, Arg.Any<string>());
         }
 
         [Test]

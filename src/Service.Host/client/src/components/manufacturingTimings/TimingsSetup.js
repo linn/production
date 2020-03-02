@@ -26,7 +26,7 @@ function TimingsSetup({ history, cits, citsLoading }) {
     const classes = useStyles();
     const [fromDate, setFromDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
-    const [selectedCit, setSelectedCit] = useState('K');
+    const [selectedCit, setSelectedCit] = useState('MW');
 
     const handleWeekChange = (propertyName, newValue) => {
         setFromDate(newValue);
@@ -41,6 +41,13 @@ function TimingsSetup({ history, cits, citsLoading }) {
     const handleCitChange = (propertyName, newValue) => {
         setSelectedCit(newValue);
     };
+    const allCits = () => [
+        { id: 'MW', displayText: 'MW - All MetalWork cits' },
+        ...cits.map(s => ({
+            id: s.code,
+            displayText: `${s.code} (${s.name})`
+        }))
+    ];
 
     return (
         <Page>
@@ -64,10 +71,7 @@ function TimingsSetup({ history, cits, citsLoading }) {
                     <Dropdown
                         label="CitCode"
                         propertyName="cit"
-                        items={cits.map(s => ({
-                            id: s.code,
-                            displayText: `${s.code} (${s.name})`
-                        }))}
+                        items={allCits()}
                         fullWidth
                         value={selectedCit}
                         onChange={handleCitChange}
@@ -92,12 +96,16 @@ function TimingsSetup({ history, cits, citsLoading }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                    <DatePicker label="From Date" value={fromDate} onChange={setFromDate} />
+                    <DatePicker
+                        label="From Date"
+                        value={fromDate.toString()}
+                        onChange={setFromDate}
+                    />
                 </Grid>
                 <Grid item xs={3}>
                     <DatePicker
                         label="To Date"
-                        value={toDate}
+                        value={toDate.toString()}
                         minDate={fromDate}
                         onChange={setToDate}
                     />
@@ -120,7 +128,7 @@ TimingsSetup.propTypes = {
 
 TimingsSetup.defaultProps = {
     citsLoading: false,
-    cits: null
+    cits: [{}]
 };
 
 export default TimingsSetup;
