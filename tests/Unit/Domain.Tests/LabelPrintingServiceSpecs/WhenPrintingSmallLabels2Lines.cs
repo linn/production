@@ -6,7 +6,7 @@
     using NSubstitute;
     using NUnit.Framework;
 
-    public class WhenPrintingSmallLabels : ContextBase
+    public class WhenPrintingSmallLabels1Line: ContextBase
     {
         private LabelPrintResponse result;
 
@@ -18,7 +18,7 @@
                 LabelType = (int)GeneralPurposeLabelTypes.Labels.Small,
                 Printer = (int)LabelPrinters.Printers.ProdLbl1,
                 Quantity = 2,
-                LinesForPrinting = new LabelPrintContents { Line1 = "this line 1", Line2 = "twoooo" }
+                LinesForPrinting = new LabelPrintContents { Line1 = "this line 1", Line2 = " " }
             };
 
             this.result = this.Sut.PrintLabel(labelPrint);
@@ -27,7 +27,7 @@
         [Test]
         public void ShouldCallLabelPrintServiceForSmallLabel()
         {
-            this.LabelService.Received().PrintLabel(Arg.Any<string>(), "ProdLbl1", 2, "c:\\lbl\\genSmallLabel.btw", "\"this line 1\", \"twoooo\"");
+            this.LabelService.Received().PrintLabel(Arg.Any<string>(), "ProdLbl1", 2, "c:\\lbl\\genSmallLabel.btw", "this line 1");
         }
 
         [Test]

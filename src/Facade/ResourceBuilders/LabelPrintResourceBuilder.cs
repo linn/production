@@ -30,8 +30,6 @@
                                                       Line7 = model.LinesForPrinting.Line7,
                                                       PostalCode = model.LinesForPrinting.PostalCode,
                                                       Country = model.LinesForPrinting.Country,
-                                                      FromPCNumber = model.LinesForPrinting.FromPCNumber,
-                                                      ToPCNumber = model.LinesForPrinting.ToPCNumber,
                                                       PoNumber = model.LinesForPrinting.PoNumber,
                                                       PartNumber = model.LinesForPrinting.PartNumber,
                                                       Qty = model.LinesForPrinting.Qty,
