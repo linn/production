@@ -224,10 +224,6 @@ function LabelPrint({
     };
 
     const handleLabelTypeChange = (name, newValue) => {
-        if(newValue == '0'){
-            console.info(newValue);
-            console.log(parseInt(newValue, 10));
-        }
         setLabelType(parseInt(newValue, 10));
 
         if (newValue === '0' || newValue === '1' || newValue === '4') {
