@@ -28,10 +28,6 @@
 
         public string Country { get; set; }
 
-        public string FromPCNumber { get; set; }
-
-        public string ToPCNumber { get; set; }
-
         public string PoNumber { get; set; }
 
         public string PartNumber { get; set; }
