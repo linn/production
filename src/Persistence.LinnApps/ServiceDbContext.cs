@@ -1014,6 +1014,7 @@
             builder.Entity<PurchaseOrder>().HasOne<Address>(p => p.OrderAddress).WithMany(a => a.PurchaseOrders).HasForeignKey(o => o.OrderAddressId);
             builder.Entity<PurchaseOrder>().Property(o => o.DocumentType).HasColumnName("DOCUMENT_TYPE");
             builder.Entity<PurchaseOrder>().Property(o => o.Remarks).HasColumnName("REMARKS");
+            builder.Entity<PurchaseOrder>().Property(o => o.SupplierId).HasColumnName("SUPP_SUPPLIER_ID");
         }
 
         private void BuildPurchaseOrderDetails(ModelBuilder builder)
