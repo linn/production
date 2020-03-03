@@ -15,7 +15,7 @@
             this.db = db;
         }
 
-        public DataTable GetAllOpsDetail(DateTime from, DateTime to, char citCode)
+        public DataTable GetAllOpsDetail(DateTime from, DateTime to, string citCode)
         {
             var sql = $@"select wo.order_number, wo.part_number, wo.qty, wt.operation_type, wt.resource_code, to_char(wt.start_time, 'HH24:MI DD-MON-RRRR') start_time, to_char(wt.end_time, 'HH24:MI DD-MON-RRRR') end_time,
             au.user_name built_by, round(wt.time_taken / 60) minutes_taken
@@ -23,7 +23,7 @@
             production_trigger_levels ptl, works_order_timings wt, auth_user_name_view au
             where wo.order_number = wt.order_number and operation_type = 'OPERATION' and wt.built_by = au.user_number (+)
             and wo.part_number = ptl.part_number (+)
-            and ptl.cit_code = '{citCode}' 
+            and (ptl.cit_code = '{citCode}')
             and wt.start_time between to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')
             and to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') + 0.9999
             order by wo.part_number, wo.order_number, wt.operation_number, wt.start_time
@@ -33,7 +33,7 @@
             return this.db.ExecuteQuery(sql).Tables[0];
         }
 
-        public DataTable GetCondensedBuildsDetail(DateTime from, DateTime to, char citCode)
+        public DataTable GetCondensedBuildsDetail(DateTime from, DateTime to, string citCode)
         {
             var sql = $@"select a.part_number, decode(ptl.kanban_size, 0, 1, null, 1, kanban_size) kanban_size,
             decode('WEEK', 'MONTH', last_day(TRUNC(bu_date)), 'WEEK', linn_week_pack.linn_week_end_date(bu_date))
@@ -43,7 +43,7 @@
                   + lrp_pack.days_to_build_kanban(a.part_number)
                   * (sum(QUANTITY) / decode(ptl.kanban_size, 0, 1, null, 1, kanban_size)), 2) sum
                 from v_builds a, linn_departments d, production_trigger_levels ptl
-            where ptl.cit_code = '{citCode}'
+            where (ptl.cit_code = '{citCode}')
             and bu_date between trunc(to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') ) 
             and trunc(to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) +1
             and a.part_number = ptl.part_number(+)

@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Resources
+﻿namespace Linn.Production.Resources.RequestResources
 {
     using System;
 
@@ -8,6 +8,6 @@
 
         public DateTime EndDate { get; set; }
 
-        public char CitCode { get; set; }
+        public string CitCode { get; set; }
     }
 }
