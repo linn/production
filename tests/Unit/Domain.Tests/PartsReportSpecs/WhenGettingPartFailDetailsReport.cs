@@ -7,6 +7,7 @@
     using FluentAssertions;
 
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
 
     using NSubstitute;
@@ -42,6 +43,18 @@
         public void ShouldCallPartFailLogRepository()
         {
             this.PartFailLogRepository.Received().FilterBy(Arg.Any<Expression<Func<PartFail, bool>>>());
+        }
+
+        [Test]
+        public void ShouldCallPurchaseOrderRepository()
+        {
+            this.PurchaseOrderRepository.Received().FilterBy(Arg.Any<Expression<Func<PurchaseOrder, bool>>>());
+        }
+
+        [Test]
+        public void ShouldCallSupplierRepository()
+        {
+            this.SupplierRepository.Received().FilterBy(Arg.Any<Expression<Func<Supplier, bool>>>());
         }
 
         [Test]

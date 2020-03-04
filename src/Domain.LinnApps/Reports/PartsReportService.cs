@@ -20,15 +20,23 @@
 
         private readonly ILinnWeekPack linnWeekPack;
 
+        private readonly IRepository<Supplier, int> supplierRepository;
+
+        private readonly IRepository<PurchaseOrder, int> purchaseOrderRepository;
+
         public PartsReportService(
             IRepository<PartFail, int> partFailLogRepository,
             IQueryRepository<EmployeeDepartmentView> employeeDepartmentViewRepository,
             IReportingHelper reportingHelper,
-            ILinnWeekPack linnWeekPack)
+            ILinnWeekPack linnWeekPack,
+            IRepository<Supplier, int> supplierRepository,
+            IRepository<PurchaseOrder, int> purchaseOrderRepository)
         {
             this.partFailLogRepository = partFailLogRepository;
             this.reportingHelper = reportingHelper;
             this.linnWeekPack = linnWeekPack;
+            this.supplierRepository = supplierRepository;
+            this.purchaseOrderRepository = purchaseOrderRepository;
             this.employeeDepartmentViewRepository = employeeDepartmentViewRepository;
         }
 
@@ -45,6 +53,12 @@
             var toDate = DateTime.Parse(toWeek);
 
             var fails = this.partFailLogRepository.FilterBy(p => p.DateCreated > fromDate && p.DateCreated < toDate);
+
+            var purchaseOrders =
+                this.purchaseOrderRepository.FilterBy(p => fails.Any(f => f.PurchaseOrderNumber == p.OrderNumber));
+
+            var suppliers =
+                this.supplierRepository.FilterBy(s => purchaseOrders.Any(p => p.SupplierId == s.SupplierId));
 
             if (partNumber != "All")
             {
@@ -87,7 +101,7 @@
 
             model.AddSortedColumns(columns);
 
-            var values = this.SetModelRows(fails);
+            var values = this.SetModelRows(fails, suppliers, purchaseOrders);
 
             this.reportingHelper.AddResultsToModel(model, values, CalculationValueModelType.Quantity, true);
 
@@ -107,12 +121,16 @@
             return model;
         }
 
-        private List<CalculationValueModel> SetModelRows(IEnumerable<PartFail> fails)
+        private List<CalculationValueModel> SetModelRows(IEnumerable<PartFail> fails, IEnumerable<Supplier> suppliers, IEnumerable<PurchaseOrder> purchaseOrders)
         {
             var values = new List<CalculationValueModel>();
 
             foreach (var fail in fails)
             {
+                var purchaseOrder = purchaseOrders.FirstOrDefault(p => p.OrderNumber == fail.PurchaseOrderNumber);
+
+                var supplier = suppliers.FirstOrDefault(s => purchaseOrder != null && s.SupplierId == purchaseOrder.SupplierId);
+
                 values.Add(
                     new CalculationValueModel
                         {
@@ -204,6 +222,13 @@
                             TextDisplay = fail.EnteredBy.FullName,
                             ColumnId = "Entered By"
                         });
+                values.Add(
+                    new CalculationValueModel
+                        {
+                            RowId = fail.Id.ToString(),
+                            TextDisplay = supplier?.SupplierName,
+                            ColumnId = "Supplier"
+                    });
             }
 
             return values;
@@ -254,6 +279,10 @@
                                {
                                    SortOrder = 12, GridDisplayType = GridDisplayType.TextValue
                                },
+                           new AxisDetailsModel("Supplier")
+                               {
+                                   SortOrder = 13, GridDisplayType = GridDisplayType.TextValue
+                               }
                        };
         }
     }

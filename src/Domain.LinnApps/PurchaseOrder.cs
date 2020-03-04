@@ -20,6 +20,8 @@
 
         public IEnumerable<PurchaseOrderDetail> Details { get; set; }
 
+        public int SupplierId { get; set; }
+
         public bool ContainsPart(string partNumber)
         {
             return this.Details.Any(d => d.PartNumber == partNumber);

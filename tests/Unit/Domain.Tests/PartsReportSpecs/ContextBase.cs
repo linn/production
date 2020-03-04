@@ -31,6 +31,10 @@
 
         protected ILinnWeekPack LinnWeekPack { get; private set; }
 
+        protected IRepository<Supplier, int> SupplierRepository { get; private set; }
+
+        protected IRepository<PurchaseOrder, int> PurchaseOrderRepository { get; private set; }
+
         [SetUp]
         public void SetUpContext()
         {
@@ -38,12 +42,16 @@
             this.EmployeeDepartmentViewRepository = Substitute.For<IQueryRepository<EmployeeDepartmentView>>();
             this.ReportingHelper = new ReportingHelper();
             this.LinnWeekPack = Substitute.For<ILinnWeekPack>();
+            this.SupplierRepository = Substitute.For<IRepository<Supplier, int>>();
+            this.PurchaseOrderRepository = Substitute.For<IRepository<PurchaseOrder, int>>();
 
             this.Sut = new PartsReportService(
                 this.PartFailLogRepository,
                 this.EmployeeDepartmentViewRepository,
                 this.ReportingHelper,
-                this.LinnWeekPack);
+                this.LinnWeekPack,
+                this.SupplierRepository,
+                this.PurchaseOrderRepository);
 
             this.Parts = new List<Part>
                              {
