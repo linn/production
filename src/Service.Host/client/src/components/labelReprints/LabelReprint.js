@@ -54,7 +54,6 @@ function LabelReprint({
     }, [item, prevLabelReprint]);
 
     const reasonInvalid = () => !labelReprint.reason;
-    const serialNumberInvalid = () => !labelReprint.serialNumber;
     const inputInvalid = () => reasonInvalid();
 
     const handleSaveClick = () => {
@@ -235,12 +234,6 @@ function LabelReprint({
                                                 maxLength={50}
                                                 fullWidth
                                                 type="number"
-                                                helperText={
-                                                    serialNumberInvalid()
-                                                        ? 'This field is required'
-                                                        : ''
-                                                }
-                                                required
                                                 onChange={handleFieldChange}
                                                 propertyName="serialNumber"
                                             />
