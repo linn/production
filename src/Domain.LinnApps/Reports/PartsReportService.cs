@@ -163,20 +163,6 @@
                     new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
-                        TextDisplay = fail.Batch,
-                        ColumnId = "Batch"
-                    });
-                values.Add(
-                    new CalculationValueModel
-                    {
-                        RowId = fail.Id.ToString(),
-                        TextDisplay = fail.FaultCode.FaultCode,
-                        ColumnId = "Fault Code"
-                    });
-                values.Add(
-                    new CalculationValueModel
-                    {
-                        RowId = fail.Id.ToString(),
                         TextDisplay = fail.Story,
                         ColumnId = "Story"
                     });
@@ -186,13 +172,6 @@
                         RowId = fail.Id.ToString(),
                         Quantity = fail.Quantity ?? 0,
                         ColumnId = "Quantity"
-                    });
-                values.Add(
-                    new CalculationValueModel
-                    {
-                        RowId = fail.Id.ToString(),
-                        Quantity = fail.MinutesWasted ?? 0,
-                        ColumnId = "Minutes Wasted"
                     });
                 values.Add(
                     new CalculationValueModel
@@ -252,32 +231,23 @@
                                {
                                    SortOrder = 3, GridDisplayType = GridDisplayType.TextValue, AllowWrap = false
                                },
-                           new AxisDetailsModel("Batch") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
-                           new AxisDetailsModel("Fault Code")
-                               {
-                                   SortOrder = 5, GridDisplayType = GridDisplayType.TextValue
-                               },
-                           new AxisDetailsModel("Story") { SortOrder = 6, GridDisplayType = GridDisplayType.TextValue },
-                           new AxisDetailsModel("Quantity") { SortOrder = 7, GridDisplayType = GridDisplayType.Value },
-                           new AxisDetailsModel("Minutes Wasted")
-                               {
-                                   SortOrder = 8, GridDisplayType = GridDisplayType.Value
-                               },
+                           new AxisDetailsModel("Story") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
+                           new AxisDetailsModel("Quantity") { SortOrder = 5, GridDisplayType = GridDisplayType.Value },
                            new AxisDetailsModel("Error Type")
                                {
-                                   SortOrder = 9, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 6, GridDisplayType = GridDisplayType.TextValue
                                },
                            new AxisDetailsModel("Base Unit Price")
                                {
-                                   SortOrder = 10, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
+                                   SortOrder = 7, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
                                },
                            new AxisDetailsModel("Total Price")
                                {
-                                   SortOrder = 11, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
+                                   SortOrder = 8, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
                                },
                            new AxisDetailsModel("Entered By")
                                {
-                                   SortOrder = 12, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 9, GridDisplayType = GridDisplayType.TextValue
                                },
                            new AxisDetailsModel("Supplier")
                                {
