@@ -254,7 +254,11 @@ function WorksOrder({
             <Grid item xs={8} />
             <Grid item xs={4}>
                 <DatePicker
-                    value={worksOrder?.dateCancelled ? worksOrder.dateCancelled : null}
+                    value={
+                        worksOrder?.dateCancelled
+                            ? worksOrder.dateCancelled
+                            : new Date().toISOString()
+                    }
                     label="Date Cancelled"
                     disabled={!dialogOpen && worksOrder?.dateCancelled}
                     onChange={value => {
@@ -289,7 +293,15 @@ function WorksOrder({
                 data-testid="modal"
                 open={dialogOpen}
                 className={classes.modal}
-                onClose={() => setDialogOpen(false)}
+                onClose={() => {
+                    setWorksOrder(w => ({
+                        ...w,
+                        dateCancelled: null,
+                        reasonCancelled: null,
+                        cancelledBy: null
+                    }));
+                    setDialogOpen(false);
+                }}
                 fullWidth
                 maxWidth="md"
             >
@@ -618,7 +630,7 @@ function WorksOrder({
                                     <Grid item xs={8} />{' '}
                                 </>
                             )}
-                            {worksOrder.dateCancelled && !dialogOpen ? (
+                            {worksOrder?.dateCancelled && !dialogOpen ? (
                                 <>{cancellationFields()}</>
                             ) : (
                                 <> </>
@@ -643,7 +655,8 @@ function WorksOrder({
                                                 cancelledBy: profile?.employee.replace(
                                                     '/employees/',
                                                     ''
-                                                )
+                                                ),
+                                                dateCancelled: new Date().toISOString()
                                             }));
                                             setDialogOpen(true);
                                         }}
