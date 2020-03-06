@@ -407,6 +407,39 @@ function WorksOrder({
                                     <Grid item xs={8} />
                                 </>
                             )}
+                            {!creating() && (
+                                <>
+                                    <Grid item xs={4}>
+                                        <Dropdown
+                                            fullWidth
+                                            items={printerGroups}
+                                            label="Label Printer Group"
+                                            value={defaultWorksOrderPrinter || 'Prod'}
+                                            onChange={handleFieldChange}
+                                            propertyName="printer"
+                                            allowNoValue
+                                        />
+                                    </Grid>
+                                    <Grid item xs={8} />
+                                    <Grid item xs={12}>
+                                        <Button
+                                            className={classes.printButton}
+                                            onClick={handlePrintWorksOrderLabelsClick}
+                                            variant="outlined"
+                                            color="primary"
+                                        >
+                                            Print Labels
+                                        </Button>
+                                        <Button
+                                            onClick={handlePrintWorksOrderAioLabelsClick}
+                                            variant="outlined"
+                                            color="primary"
+                                        >
+                                            Print AIO Labels
+                                        </Button>
+                                    </Grid>
+                                </>
+                            )}
                             <Grid item xs={4}>
                                 <InputField
                                     fullWidth
@@ -584,44 +617,10 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
-                                    <Grid item xs={4}>
-                                        <Dropdown
-                                            fullWidth
-                                            items={printerGroups}
-                                            label="Label Printer Group"
-                                            value={defaultWorksOrderPrinter || 'Prod'}
-                                            onChange={handleFieldChange}
-                                            propertyName="printer"
-                                            allowNoValue
-                                        />
-                                    </Grid>
-                                    <Grid item xs={8} />
                                 </>
                             ) : (
                                 <> </>
                             )}
-                            <Grid item xs={12}>
-                                {!creating() && (
-                                    <>
-                                        <Button
-                                            className={classes.printButton}
-                                            onClick={handlePrintWorksOrderLabelsClick}
-                                            variant="outlined"
-                                            color="primary"
-                                        >
-                                            Print Labels
-                                        </Button>
-                                        <Button
-                                            onClick={handlePrintWorksOrderAioLabelsClick}
-                                            variant="outlined"
-                                            color="primary"
-                                        >
-                                            Print AIO Labels
-                                        </Button>
-                                    </>
-                                )}
-                            </Grid>
-
                             <Grid item xs={12}>
                                 <Button
                                     className={classes.printButton}
