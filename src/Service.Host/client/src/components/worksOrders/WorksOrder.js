@@ -35,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 
 function WorksOrder({
     item,
+    profile,
     editStatus,
     worksOrderDetailsError,
     worksOrderError,
@@ -242,6 +243,7 @@ function WorksOrder({
                     label="Cancelled By"
                     type="number"
                     propertyName="cancelledBy"
+                    disabled={!dialogOpen && worksOrder?.cancelledBy}
                     allowNoValue
                     items={cancelledByOptions()}
                     fullWidth
@@ -254,6 +256,7 @@ function WorksOrder({
                 <DatePicker
                     value={worksOrder?.dateCancelled ? worksOrder.dateCancelled : null}
                     label="Date Cancelled"
+                    disabled={!dialogOpen && worksOrder?.dateCancelled}
                     onChange={value => {
                         setEditStatus('edit');
                         setWorksOrder(a => ({
@@ -269,13 +272,14 @@ function WorksOrder({
                     fullWidth
                     required={editing()}
                     value={worksOrder?.reasonCancelled}
+                    disabled={!dialogOpen && worksOrder?.reasonCancelled}
                     label="Reason Cancelled"
                     helperText={editing() ? 'Reason is required if cancelling a works order' : ''}
                     propertyName="reasonCancelled"
                     onChange={handleFieldChange}
                 />
             </Grid>
-            <Grid item xs={8} />{' '}
+            <Grid item xs={8} />
         </>
     );
 
@@ -568,7 +572,7 @@ function WorksOrder({
                                 />
                             </Grid>
                             <Grid item xs={8} />
-                            {worksOrder.dateCancelled ? (
+                            {worksOrder.dateCancelled && !dialogOpen ? (
                                 <>
                                     {cancellationFields()}
                                     <Grid item xs={4}>
@@ -632,7 +636,16 @@ function WorksOrder({
                                 <Grid item xs={12}>
                                     <Button
                                         className={classes.printButton}
-                                        onClick={() => setDialogOpen(true)}
+                                        onClick={() => {
+                                            setWorksOrder(w => ({
+                                                ...w,
+                                                cancelledBy: profile?.employee.replace(
+                                                    '/employees/',
+                                                    ''
+                                                )
+                                            }));
+                                            setDialogOpen(true);
+                                        }}
                                         variant="outlined"
                                         color="secondary"
                                         disabled={worksOrder.dateCancelled}
@@ -715,11 +728,13 @@ WorksOrder.propTypes = {
     fetchSerialNumbers: PropTypes.func,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
     previousPath: PropTypes.string.isRequired,
-    options: PropTypes.shape({ partNumber: PropTypes.string })
+    options: PropTypes.shape({ partNumber: PropTypes.string }),
+    profile: PropTypes.shape({})
 };
 
 WorksOrder.defaultProps = {
     item: {},
+    profile: null,
     worksOrderDetails: null,
     worksOrderDetailsError: null,
     worksOrderError: null,
