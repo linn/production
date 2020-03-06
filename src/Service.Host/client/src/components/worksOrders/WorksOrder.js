@@ -101,7 +101,7 @@ function WorksOrder({
                 id: c.id,
                 displayText: c.fullName
             }));
-        if (employees.length && !employees.find(e => e.id === worksOrder?.cancelledBy)) {
+        if (employees?.length && !employees?.find(e => e.id === worksOrder?.cancelledBy)) {
             list.push({ id: worksOrder?.cancelledBy, displayText: 'Name not found' });
         }
         return list;
@@ -272,7 +272,7 @@ function WorksOrder({
                     fullWidth
                     required={editing()}
                     value={worksOrder?.reasonCancelled}
-                    disabled={!dialogOpen && worksOrder?.reasonCancelled}
+                    disabled={!dialogOpen && !!worksOrder?.reasonCancelled}
                     label="Reason Cancelled"
                     helperText={editing() ? 'Reason is required if cancelling a works order' : ''}
                     propertyName="reasonCancelled"
@@ -605,9 +605,8 @@ function WorksOrder({
                                 />
                             </Grid>
                             <Grid item xs={8} />
-                            {worksOrder.dateCancelled && !dialogOpen ? (
+                            {!creating() && (
                                 <>
-                                    {cancellationFields()}
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -616,8 +615,11 @@ function WorksOrder({
                                             label="Kitted Short"
                                         />
                                     </Grid>
-                                    <Grid item xs={8} />
+                                    <Grid item xs={8} />{' '}
                                 </>
+                            )}
+                            {worksOrder.dateCancelled && !dialogOpen ? (
+                                <>{cancellationFields()}</>
                             ) : (
                                 <> </>
                             )}
@@ -647,7 +649,7 @@ function WorksOrder({
                                         }}
                                         variant="outlined"
                                         color="secondary"
-                                        disabled={worksOrder.dateCancelled}
+                                        disabled={!!worksOrder.dateCancelled}
                                     >
                                         Cancel Works Order
                                     </Button>
