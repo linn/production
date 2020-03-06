@@ -80,8 +80,6 @@
                 return new BadRequestResult<WorksOrder>("Must supply an employee number when updating a works order");
             }
 
-            resource.CancelledBy = employee.Href.ParseId();
-
             var worksOrder = this.worksOrderRepository.FindById(resource.OrderNumber);
 
             if (worksOrder == null)

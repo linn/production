@@ -24,11 +24,13 @@ import serialNumberSelectors from '../../selectors/serialNumberSelectors';
 import getPreviousPath from '../../selectors/getPreviousPath';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
+import getProfile from '../../selectors/userSelectors';
 
 const mapStateToProps = (state, { match }) => ({
     item: worksOrderSelectors.getItem(state),
     itemErrors: getItemErrors(state),
     orderNumber: match.params.id,
+    profile: getProfile(state),
     worksOrderError: getItemErrorDetailMessage(state, itemTypes.worksOrder.item),
     worksOrderDetailsError: getItemErrorDetailMessage(state, itemTypes.worksOrderDetails.item),
     editStatus: worksOrderSelectors.getEditStatus(state),

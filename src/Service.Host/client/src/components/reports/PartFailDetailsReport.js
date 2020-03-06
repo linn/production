@@ -61,7 +61,8 @@ PartFailDetailsReport.propTypes = {
         partNumber: PropTypes.string,
         fromWeek: PropTypes.string,
         toWeek: PropTypes.string,
-        faultCode: PropTypes.string
+        faultCode: PropTypes.string,
+        department: PropTypes.string
     }),
     loading: PropTypes.bool,
     error: PropTypes.string
