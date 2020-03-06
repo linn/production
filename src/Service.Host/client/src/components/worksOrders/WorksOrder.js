@@ -74,7 +74,6 @@ function WorksOrder({
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
     const [raisedByEmployee, setRaisedByEmployee] = useState(null);
-    const [cancelledByEmployee, setCancelledByEmployee] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [printerGroup, setPrinterGroup] = useState('Prod');
     const [viewSernos, setViewsernos] = useState(false);
@@ -89,12 +88,24 @@ function WorksOrder({
 
     const classes = useStyles();
 
+    const cancelledByOptions = () => {
+        const list = employees
+            ?.filter(c => !!c.fullName)
+            .map(c => ({
+                id: c.id,
+                displayText: c.fullName
+            }));
+        if (employees.length && !employees.find(e => e.id === worksOrder.cancelledBy)) {
+            list.push({ id: worksOrder.cancelledBy, displayText: 'Name not found' });
+        }
+        return list;
+    };
+
     useEffect(() => {
         if (item !== prevWorksOrder) {
             setPrevWorksOrder(item);
 
             setRaisedByEmployee(null);
-            setCancelledByEmployee(null);
 
             if (creating()) {
                 setWorksOrder({ ...item, docType: 'WO', quantity: null });
@@ -118,11 +129,6 @@ function WorksOrder({
             if (worksOrder.raisedBy) {
                 setRaisedByEmployee(
                     employees.find(employee => employee.id === worksOrder.raisedBy)
-                );
-            }
-            if (worksOrder.cancelledBy) {
-                setCancelledByEmployee(
-                    employees.find(employee => employee.id === worksOrder.cancelledBy)
                 );
             }
         }
@@ -483,13 +489,15 @@ function WorksOrder({
                             {!creating() && (
                                 <>
                                     <Grid item xs={4}>
-                                        <InputField
-                                            fullWidth
-                                            disabled
-                                            value={
-                                                cancelledByEmployee && cancelledByEmployee.fullName
-                                            }
+                                        <Dropdown
                                             label="Cancelled By"
+                                            type="number"
+                                            propertyName="cancelledBy"
+                                            allowNoValue
+                                            items={cancelledByOptions()}
+                                            fullWidth
+                                            value={worksOrder.cancelledBy}
+                                            onChange={handleFieldChange}
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
