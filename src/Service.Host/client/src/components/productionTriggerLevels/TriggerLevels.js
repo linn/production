@@ -61,7 +61,8 @@ const ViewProductionTriggerLevels = ({
                   links: el.links,
                   id: el.partNumber,
                   overrideTriggerLevel: el.overrideTriggerLevel,
-                  variableTriggerLevel: el.variableTriggerLevel
+                  variableTriggerLevel: el.variableTriggerLevel,
+                  kanbanSize: el.kanbanSize
               }))
             : [];
 
@@ -134,7 +135,8 @@ const ViewProductionTriggerLevels = ({
         citCode: 'Cit',
         routeCode: 'Route Code',
         overrideTriggerLevel: 'Override Trigger Level',
-        VariableTriggerLevel: 'Auto Trigger Level'
+        VariableTriggerLevel: 'Auto Trigger Level',
+        kanbanSize: 'Kanban Size'
     };
 
     const handleBPClick = () => {
