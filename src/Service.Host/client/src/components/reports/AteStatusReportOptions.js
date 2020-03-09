@@ -91,7 +91,7 @@ function AteStatusReportOptions({ history, prevOptions, byDate }) {
                         </Grid>
                         <Grid item xs={4}>
                             <Link component={RouterLink} to="/production/reports/ate/status">
-                                Run for Weeks?{' '}
+                                Run for Weeks?
                             </Link>
                         </Grid>
                     </>
@@ -120,7 +120,7 @@ function AteStatusReportOptions({ history, prevOptions, byDate }) {
                                 component={RouterLink}
                                 to="/production/reports/ate/status-by-date"
                             >
-                                Run for specified days?{' '}
+                                Run for specified days?
                             </Link>
                         </Grid>
                     </>
