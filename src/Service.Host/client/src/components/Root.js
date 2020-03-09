@@ -95,6 +95,7 @@ import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/
 import BuildPlans from '../containers/buildPlans/BuildPlans';
 import CreateBuildPlan from '../containers/buildPlans/CreateBuildPlan';
 import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
+import AteStatusReportByDateOptions from '../containers/reports/AteStatusReportByDateOptions';
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
 import AteTest from '../containers/ate/AteTest';
@@ -396,6 +397,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/ate/status"
                                         component={AteStatusReportOptions}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/ate/status-by-date"
+                                        component={AteStatusReportByDateOptions}
                                     />
                                     <Route
                                         exact

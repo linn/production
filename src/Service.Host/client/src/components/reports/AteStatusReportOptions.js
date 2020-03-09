@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { Title, Dropdown, LinnWeekPicker } from '@linn-it/linn-form-components-library';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import { Title, Dropdown, LinnWeekPicker, DatePicker } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
-function AteStatusReportOptions({ history, prevOptions }) {
+function AteStatusReportOptions({ history, prevOptions, byDate }) {
     const defaultStartDate = new Date();
     function nextWeekdayDate(date, dayInWeek) {
         const ret = new Date(date || new Date());
@@ -67,25 +69,62 @@ function AteStatusReportOptions({ history, prevOptions }) {
                         Choose a date range:
                     </Typography>
                 </Grid>
-                <Grid item xs={4}>
-                    <LinnWeekPicker
-                        label="From Week Starting"
-                        selectedDate={fromDate.toString()}
-                        setWeekStartDate={handleWeekChange}
-                        propertyName="fromDate"
-                        required
-                    />
-                </Grid>
-                <Grid item xs={4}>
-                    <LinnWeekPicker
-                        label="To Week Starting"
-                        selectedDate={toDate.toString()}
-                        setWeekStartDate={handleWeekChange}
-                        propertyName="toDate"
-                        required
-                    />
-                </Grid>
-                <Grid item xs={4} />
+                {byDate ? (
+                    <>
+                        <Grid item xs={4}>
+                            <DatePicker
+                                label="From Date"
+                                value={fromDate.toString()}
+                                onChange={setFromDate}
+                                propertyName="fromDate"
+                                required
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <DatePicker
+                                label="To Date"
+                                selectedDate={toDate.toString()}
+                                setWeekStartDate={setToDate}
+                                propertyName="toDate"
+                                required
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Link component={RouterLink} to="/production/reports/ate/status">
+                                Run for Weeks?{' '}
+                            </Link>
+                        </Grid>
+                    </>
+                ) : (
+                    <>
+                        <Grid item xs={4}>
+                            <LinnWeekPicker
+                                label="From Week Starting"
+                                selectedDate={fromDate.toString()}
+                                setWeekStartDate={handleWeekChange}
+                                propertyName="fromDate"
+                                required
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <LinnWeekPicker
+                                label="To Week Starting"
+                                selectedDate={toDate.toString()}
+                                setWeekStartDate={handleWeekChange}
+                                propertyName="toDate"
+                                required
+                            />
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Link
+                                component={RouterLink}
+                                to="/production/reports/ate/status-by-date"
+                            >
+                                Run for specified days?{' '}
+                            </Link>
+                        </Grid>
+                    </>
+                )}
                 <Grid item xs={3}>
                     <Dropdown
                         label="Group By"
@@ -147,6 +186,7 @@ function AteStatusReportOptions({ history, prevOptions }) {
 
 AteStatusReportOptions.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    byDate: PropTypes.bool.isRequired,
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
         toDate: PropTypes.string,
