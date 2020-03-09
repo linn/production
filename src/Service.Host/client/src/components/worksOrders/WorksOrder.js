@@ -6,6 +6,9 @@ import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+
 import {
     Title,
     ErrorCard,
@@ -26,6 +29,9 @@ import Page from '../../containers/Page';
 const useStyles = makeStyles(theme => ({
     marginTop: {
         marginTop: theme.spacing(2)
+    },
+    pullRight: {
+        float: 'right'
     },
     printButton: {
         paddingRight: theme.spacing(2)
@@ -73,8 +79,8 @@ function WorksOrder({
     clearErrors,
     serialNumbers,
     fetchSerialNumbers,
-    previousPath,
-    options
+    options,
+    previousPaths
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
@@ -179,8 +185,13 @@ function WorksOrder({
     };
 
     const handleBackClick = () => {
-        setEditStatus('view');
-        history.push('/production');
+        if (previousPaths?.[previousPaths.length - 1].includes('signin-oidc')) {
+            window.history.go(-3);
+        } else if (previousPaths?.length) {
+            history.goBack();
+        } else {
+            window.history.back();
+        }
     };
 
     const handlePartSelect = part => {
@@ -306,6 +317,13 @@ function WorksOrder({
                 maxWidth="md"
             >
                 <div className={classes.modal}>
+                    <IconButton
+                        className={classes.pullRight}
+                        aria-label="Close"
+                        onClick={() => setDialogOpen(false)}
+                    >
+                        <CloseIcon />
+                    </IconButton>
                     <Typography variant="h5" gutterBottom>
                         Cancellation Details
                     </Typography>
@@ -325,7 +343,7 @@ function WorksOrder({
                                 !worksOrder?.cancelledBy
                             }
                         >
-                            Cancel
+                            Confirm
                         </Button>
                     </Grid>
                 </div>
@@ -689,9 +707,7 @@ function WorksOrder({
                                     saveDisabled={viewing() || !(createValid() || updateValid())}
                                     saveClick={handleSaveClick}
                                     cancelClick={handleCancelClick}
-                                    backClick={() => {
-                                        history.push(previousPath);
-                                    }}
+                                    backClick={handleBackClick}
                                 />
                             </Grid>
                         </>
@@ -715,7 +731,7 @@ WorksOrder.propTypes = {
     setEditStatus: PropTypes.func.isRequired,
     addItem: PropTypes.func.isRequired,
     updateItem: PropTypes.func.isRequired,
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
     fetchWorksOrder: PropTypes.func.isRequired,
     searchParts: PropTypes.func,
     clearPartsSearch: PropTypes.func,
@@ -741,9 +757,9 @@ WorksOrder.propTypes = {
     defaultWorksOrderPrinter: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
     fetchSerialNumbers: PropTypes.func,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
-    previousPath: PropTypes.string.isRequired,
     options: PropTypes.shape({ partNumber: PropTypes.string }),
-    profile: PropTypes.shape({})
+    profile: PropTypes.shape({}),
+    previousPaths: PropTypes.arrayOf(PropTypes.string)
 };
 
 WorksOrder.defaultProps = {
@@ -771,7 +787,8 @@ WorksOrder.defaultProps = {
     serialNumbers: [],
     options: {},
     fetchSerialNumbers: null,
-    setDefaultWorksOrderPrinter: null
+    setDefaultWorksOrderPrinter: null,
+    previousPaths: []
 };
 
 export default WorksOrder;

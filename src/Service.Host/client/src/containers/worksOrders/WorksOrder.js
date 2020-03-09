@@ -21,7 +21,6 @@ import printWorksOrderAioLabelsSelectors from '../../selectors/printWorksOrderAi
 import getWorksOrderDefaultPrinter from '../../selectors/localStorageSelectors';
 import serialNumberActions from '../../actions/serialNumberActions';
 import serialNumberSelectors from '../../selectors/serialNumberSelectors';
-import getPreviousPath from '../../selectors/getPreviousPath';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
 import getProfile from '../../selectors/userSelectors';
@@ -56,7 +55,7 @@ const mapStateToProps = (state, { match }) => ({
     defaultWorksOrderPrinter: getWorksOrderDefaultPrinter(state),
     serialNumbers: serialNumberSelectors.getItems(state),
     serialNumbersLoading: serialNumberSelectors.getLoading(state),
-    previousPath: getPreviousPath(state)
+    previousPaths: state.historyStore
 });
 
 const initialise = ({ orderNumber }) => dispatch => {
