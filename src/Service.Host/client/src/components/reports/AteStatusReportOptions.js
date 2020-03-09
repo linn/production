@@ -62,7 +62,7 @@ function AteStatusReportOptions({ history, prevOptions, byDate }) {
 
     return (
         <Page width="s">
-            <Title text="ATE Status Report" />
+            <Title text={`ATE Status Report${byDate ? ' By Date' : ''}`} />
             <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
                 <Grid item xs={12}>
                     <Typography variant="h6" gutterBottom>
