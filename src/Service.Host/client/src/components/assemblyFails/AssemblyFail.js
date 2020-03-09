@@ -66,7 +66,6 @@ function AssemblyFail({
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
     const aoiEscapeValues = ['Y', 'N'];
-    const completed = () => !!item?.dateTimeComplete;
     const inputInvalid = () => !assemblyFail.worksOrderNumber;
 
     // Effects
@@ -300,7 +299,6 @@ function AssemblyFail({
                                     <Grid item xs={3}>
                                         <InputField
                                             fullWidth
-                                            disabled
                                             value={assemblyFail.enteredByName}
                                             label="Entered By"
                                             maxLength={10}
@@ -312,14 +310,12 @@ function AssemblyFail({
                                         <DateTimePicker
                                             value={assemblyFail.dateTimeFound}
                                             label="Found"
-                                            disabled
                                         />
                                     </Grid>
                                     <Grid item xs={6} />
                                     <Grid item xs={3}>
                                         <InputField
                                             fullWidth
-                                            disabled
                                             value={assemblyFail.partNumber}
                                             label="Part Number"
                                             maxLength={10}
@@ -330,7 +326,6 @@ function AssemblyFail({
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
-                                            disabled
                                             rows={3}
                                             value={assemblyFail.partDescription}
                                             label="Description"
@@ -343,7 +338,6 @@ function AssemblyFail({
                                     <Grid item xs={2}>
                                         <InputField
                                             fullWidth
-                                            disabled={completed()}
                                             value={assemblyFail.serialNumber}
                                             label="Serial Number"
                                             type="number"
@@ -356,7 +350,6 @@ function AssemblyFail({
                                         <InputField
                                             fullWidth
                                             value={assemblyFail.inSlot}
-                                            disabled={completed()}
                                             label="In Slot"
                                             onChange={handleFieldChange}
                                             propertyName="inSlot"
@@ -366,7 +359,6 @@ function AssemblyFail({
                                         <InputField
                                             fullWidth
                                             value={assemblyFail.machine}
-                                            disabled={completed()}
                                             label="Machine"
                                             onChange={handleFieldChange}
                                             propertyName="machine"
@@ -375,7 +367,6 @@ function AssemblyFail({
                                     <Grid item xs={2}>
                                         <InputField
                                             fullWidth
-                                            disabled={completed()}
                                             value={assemblyFail.numberOfFails}
                                             label="Num Fails"
                                             maxLength={10}
@@ -390,7 +381,6 @@ function AssemblyFail({
                                             fullWidth
                                             rows={4}
                                             value={assemblyFail.reportedFault}
-                                            disabled={completed()}
                                             label="Fault"
                                             onChange={handleFieldChange}
                                             propertyName="reportedFault"
@@ -399,7 +389,6 @@ function AssemblyFail({
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
-                                            disabled={completed()}
                                             rows={4}
                                             value={assemblyFail.analysis}
                                             label="Analysis"
@@ -421,7 +410,6 @@ function AssemblyFail({
                                         <Dropdown
                                             label="Fault Code"
                                             propertyName="faultCode"
-                                            disabled={completed()}
                                             items={faultCodes.map(c => ({
                                                 id: c.faultCode,
                                                 displayText: `${c.faultCode} - ${c.description}`
@@ -436,7 +424,7 @@ function AssemblyFail({
                                         <Dropdown
                                             label="Shift"
                                             propertyName="shift"
-                                            disabled={smtShifts?.length === 0 || completed()}
+                                            disabled={smtShifts?.length === 0}
                                             items={smtShifts.map(s => ({
                                                 id: s.shift,
                                                 displayText: `${s.shift}  -  ${s.description}`
@@ -450,7 +438,6 @@ function AssemblyFail({
                                     <Grid item xs={3}>
                                         <InputField
                                             fullWidth
-                                            disabled={completed()}
                                             value={assemblyFail.batch}
                                             label="Batch"
                                             onChange={handleFieldChange}
@@ -461,7 +448,6 @@ function AssemblyFail({
                                         <Dropdown
                                             label="AOI Escape"
                                             propertyName="aoiEscape"
-                                            disabled={completed()}
                                             items={aoiEscapeValues}
                                             fullWidth
                                             value={assemblyFail.aoiEscape || ''}
@@ -482,7 +468,6 @@ function AssemblyFail({
                                             modal
                                             items={boardPartsSearchResults}
                                             value={assemblyFail.boardPartNumber}
-                                            disabled={completed()}
                                             loading={boardPartsSearchLoading}
                                             fetchItems={searchBoardParts}
                                             links={false}
@@ -508,7 +493,7 @@ function AssemblyFail({
                                         <Dropdown
                                             label="Circuit Ref"
                                             propertyName="circuitRef"
-                                            disabled={pcasRevisions?.length === 0 || completed()}
+                                            disabled={pcasRevisions?.length === 0}
                                             items={pcasRevisions.map(p => ({
                                                 id: p.cref,
                                                 displayText: p.cref
@@ -522,7 +507,6 @@ function AssemblyFail({
                                     <Grid item xs={3}>
                                         <InputField
                                             fullWidth
-                                            disabled={completed()}
                                             value={assemblyFail.boardSerial}
                                             label="Board Serial"
                                             onChange={handleFieldChange}
@@ -534,7 +518,6 @@ function AssemblyFail({
                                         <Dropdown
                                             label="CIT Responsible"
                                             propertyName="citResponsible"
-                                            disabled={completed()}
                                             items={[
                                                 ...new Set(
                                                     cits.map(c => ({
@@ -553,7 +536,6 @@ function AssemblyFail({
                                             label="Person Responsible"
                                             type="number"
                                             propertyName="personResponsible"
-                                            disabled={completed()}
                                             items={employees
                                                 .filter(c => !!c.fullName)
                                                 .map(c => ({
@@ -570,7 +552,6 @@ function AssemblyFail({
                                         <DateTimePicker
                                             value={assemblyFail?.dateTimeComplete}
                                             label="Complete"
-                                            disabled={completed()}
                                             onChange={value => {
                                                 setEditStatus('edit');
                                                 setAssemblyFail(a => ({
@@ -585,7 +566,6 @@ function AssemblyFail({
                                             label="Completed By"
                                             propertyName="completedBy"
                                             type="number"
-                                            disabled={completed()}
                                             items={employees
                                                 .filter(c => !!c.fullName)
                                                 .map(c => ({
@@ -600,7 +580,6 @@ function AssemblyFail({
                                     <Grid item xs={2}>
                                         <InputField
                                             fullWidth
-                                            disabled={completed()}
                                             value={assemblyFail.outSlot}
                                             label="Out Slot"
                                             onChange={handleFieldChange}
@@ -613,7 +592,6 @@ function AssemblyFail({
                                             label="Returned By"
                                             type="number"
                                             propertyName="returnedBy"
-                                            disabled={completed()}
                                             fullWidth
                                             items={employees
                                                 .filter(c => !!c.fullName)
