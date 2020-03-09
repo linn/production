@@ -744,7 +744,6 @@ WorksOrder.propTypes = {
     defaultWorksOrderPrinter: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
     fetchSerialNumbers: PropTypes.func,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
-    previousPath: PropTypes.string.isRequired,
     options: PropTypes.shape({ partNumber: PropTypes.string }),
     profile: PropTypes.shape({}),
     previousPaths: PropTypes.arrayOf(PropTypes.string)
