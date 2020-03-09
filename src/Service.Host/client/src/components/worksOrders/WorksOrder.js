@@ -73,8 +73,8 @@ function WorksOrder({
     clearErrors,
     serialNumbers,
     fetchSerialNumbers,
-    previousPath,
-    options
+    options,
+    previousPaths
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
@@ -179,8 +179,13 @@ function WorksOrder({
     };
 
     const handleBackClick = () => {
-        setEditStatus('view');
-        history.push('/production');
+        if (previousPaths?.[previousPaths.length - 1].includes('signin-oidc')) {
+            window.history.go(-3);
+        } else if (previousPaths?.length) {
+            history.goBack();
+        } else {
+            window.history.back();
+        }
     };
 
     const handlePartSelect = part => {
@@ -689,9 +694,7 @@ function WorksOrder({
                                     saveDisabled={viewing() || !(createValid() || updateValid())}
                                     saveClick={handleSaveClick}
                                     cancelClick={handleCancelClick}
-                                    backClick={() => {
-                                        history.push(previousPath);
-                                    }}
+                                    backClick={handleBackClick}
                                 />
                             </Grid>
                         </>
@@ -715,7 +718,7 @@ WorksOrder.propTypes = {
     setEditStatus: PropTypes.func.isRequired,
     addItem: PropTypes.func.isRequired,
     updateItem: PropTypes.func.isRequired,
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
     fetchWorksOrder: PropTypes.func.isRequired,
     searchParts: PropTypes.func,
     clearPartsSearch: PropTypes.func,
@@ -743,7 +746,8 @@ WorksOrder.propTypes = {
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
     previousPath: PropTypes.string.isRequired,
     options: PropTypes.shape({ partNumber: PropTypes.string }),
-    profile: PropTypes.shape({})
+    profile: PropTypes.shape({}),
+    previousPaths: PropTypes.arrayOf(PropTypes.string)
 };
 
 WorksOrder.defaultProps = {
@@ -771,7 +775,8 @@ WorksOrder.defaultProps = {
     serialNumbers: [],
     options: {},
     fetchSerialNumbers: null,
-    setDefaultWorksOrderPrinter: null
+    setDefaultWorksOrderPrinter: null,
+    previousPaths: []
 };
 
 export default WorksOrder;
