@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TimingsReport({ reportData, loading, config, itemError, options }) {
-    const href = `${config.appRoot}/production/reports/manufacturing-timings/export?startDate=${options.startDate}&endDate=${options.endDate}&cit=${options.citCode}`;
+    const href = `${config.appRoot}/production/reports/manufacturing-timings/export?startDate=${options.startDate}&endDate=${options.endDate}&citCode=${options.citCode}`;
     const classes = useStyles();
 
     return (
