@@ -7,7 +7,7 @@ const reportSelectors = new ReportSelectors('ateStatusReport');
 
 const mapStateToProps = state => ({
     prevOptions: reportSelectors.getReportOptions(state),
-    byDate: false
+    byDate: true
 });
 
 export default connect(mapStateToProps, null)(withRouter(AteStatusReportOptions));
