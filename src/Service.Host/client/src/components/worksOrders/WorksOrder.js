@@ -6,6 +6,9 @@ import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+
 import {
     Title,
     ErrorCard,
@@ -26,6 +29,9 @@ import Page from '../../containers/Page';
 const useStyles = makeStyles(theme => ({
     marginTop: {
         marginTop: theme.spacing(2)
+    },
+    pullRight: {
+        float: 'right'
     },
     printButton: {
         paddingRight: theme.spacing(2)
@@ -311,6 +317,13 @@ function WorksOrder({
                 maxWidth="md"
             >
                 <div className={classes.modal}>
+                    <IconButton
+                        className={classes.pullRight}
+                        aria-label="Close"
+                        onClick={() => setDialogOpen(false)}
+                    >
+                        <CloseIcon />
+                    </IconButton>
                     <Typography variant="h5" gutterBottom>
                         Cancellation Details
                     </Typography>
@@ -330,7 +343,7 @@ function WorksOrder({
                                 !worksOrder?.cancelledBy
                             }
                         >
-                            Cancel
+                            Confirm
                         </Button>
                     </Grid>
                 </div>
