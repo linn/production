@@ -14,7 +14,7 @@ function BuildsByDepartmentReportOptions({ history }) {
     const handleClick = () =>
         history.push({
             pathname: `/production/reports/builds-summary`,
-            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&monthly=${monthly}`
+            search: `?fromDate=${fromDate}&toDate=${toDate}&monthly=${monthly}`
         });
 
     return (
