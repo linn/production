@@ -14,7 +14,7 @@
         public IEnumerable<ManufacturingOperationResource> Build(IEnumerable<ManufacturingOperation> manufacturingOperations)
         {
             return manufacturingOperations
-                .OrderBy(b => b.ResourceCode)
+                .OrderBy(b => b.OperationNumber)
                 .Select(a => this.manufacturingOperationResourceBuilder.Build(a));
         }
 
