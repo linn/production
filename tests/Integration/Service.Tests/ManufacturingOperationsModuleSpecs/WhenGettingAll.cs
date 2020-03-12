@@ -28,7 +28,7 @@
             this.manufacturingOperation = new ManufacturingOperation(
                 "routecode 1",
                 77,
-                15,
+                25,
                 "descrip of op",
                 "codeOfOperation",
                 "res Code",
@@ -80,6 +80,14 @@
             resources.Should().HaveCount(2);
             resources.Should().Contain(a => a.RouteCode == this.manufacturingOperation.RouteCode && a.ManufacturingId == this.manufacturingOperation.ManufacturingId);
             resources.Should().Contain(a => a.RouteCode == this.manufacturingOperation2.RouteCode && a.ManufacturingId == this.manufacturingOperation2.ManufacturingId);
+        }
+
+        [Test]
+        public void ShouldOrderOperations()
+        {
+            var resources = this.Response.Body.DeserializeJson<IEnumerable<ManufacturingOperationResource>>().ToList();
+            resources.First().OperationNumber.Should().Be(22);
+            resources.Last().OperationNumber.Should().Be(25);
         }
     }
 }
