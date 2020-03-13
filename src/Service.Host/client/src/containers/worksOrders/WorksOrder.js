@@ -8,7 +8,8 @@ import {
 import WorksOrder from '../../components/worksOrders/WorksOrder';
 import worksOrderSelectors from '../../selectors/worksOrderSelectors';
 import worksOrderActions, {
-    getDefaultWorksOrderPrinter
+    getDefaultWorksOrderPrinter,
+    setDefaultWorksOrderPrinter
 } from '../../actions/worksOrderActions';
 import employeesSelectors from '../../selectors/employeesSelectors';
 import employeesActions from '../../actions/employeesActions';
