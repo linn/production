@@ -8,8 +8,7 @@ import {
 import WorksOrder from '../../components/worksOrders/WorksOrder';
 import worksOrderSelectors from '../../selectors/worksOrderSelectors';
 import worksOrderActions, {
-    getDefaultWorksOrderPrinter,
-    setDefaultWorksOrderPrinter,
+    getDefaultWorksOrderPrinter
 } from '../../actions/worksOrderActions';
 import employeesSelectors from '../../selectors/employeesSelectors';
 import employeesActions from '../../actions/employeesActions';
@@ -25,6 +24,7 @@ import serialNumberSelectors from '../../selectors/serialNumberSelectors';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
 import getProfile from '../../selectors/userSelectors';
+import partsActions from '../../actions/partsActions';
 
 const mapStateToProps = (state, { match }) => ({
     item: worksOrderSelectors.getItem(state),
@@ -85,7 +85,8 @@ const mapDispatchToProps = {
     setPrintWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelActions.setMessageVisible,
     clearErrors: worksOrderActions.clearErrorsForItem,
     setDefaultWorksOrderPrinter,
-    fetchSerialNumbers: serialNumberActions.fetchByQueryString
+    fetchSerialNumbers: serialNumberActions.fetchByQueryString,
+    searchParts: partsActions.search
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WorksOrder));

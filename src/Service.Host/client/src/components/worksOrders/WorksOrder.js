@@ -184,7 +184,6 @@ function WorksOrder({
         }
     };
 
-
     const handlePartSelect = part => {
         fetchWorksOrderDetails(encodeURIComponent(part.partNumber));
         setWorksOrder({ ...worksOrder, partNumber: part.partNumber });
@@ -358,7 +357,7 @@ function WorksOrder({
                                 color="primary"
                                 variant="outlined"
                                 style={{ float: 'right' }}
-                                onClick={history.push('/production/works-orders')}
+                                onClick={() => history.push('/production/works-orders')}
                             >
                                 Search
                             </Button>
@@ -698,7 +697,9 @@ function WorksOrder({
                                     saveDisabled={viewing() || !(createValid() || updateValid())}
                                     saveClick={handleSaveClick}
                                     cancelClick={handleCancelClick}
-                                    backClick={() => smartGoBack(previousPaths, history.goBack)}
+                                    backClick={() => {
+                                        smartGoBack(previousPaths, history.goBack);
+                                    }}
                                 />
                             </Grid>
                         </>
@@ -722,7 +723,7 @@ WorksOrder.propTypes = {
     setEditStatus: PropTypes.func.isRequired,
     addItem: PropTypes.func.isRequired,
     updateItem: PropTypes.func.isRequired,
-    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func, push: PropTypes.func }).isRequired,
     fetchWorksOrder: PropTypes.func.isRequired,
     searchParts: PropTypes.func,
     clearPartsSearch: PropTypes.func,
