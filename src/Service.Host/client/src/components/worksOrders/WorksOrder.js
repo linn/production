@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-
 import {
     Title,
     ErrorCard,
@@ -21,7 +20,8 @@ import {
     SearchInputField,
     Dropdown,
     useSearch,
-    DatePicker
+    DatePicker,
+    smartGoBack
 } from '@linn-it/linn-form-components-library';
 import WorksOrderSerialNumbers from './WorksOrderSerialNumbers';
 import Page from '../../containers/Page';
@@ -184,15 +184,6 @@ function WorksOrder({
         }
     };
 
-    const handleBackClick = () => {
-        if (previousPaths?.[previousPaths.length - 1].includes('signin-oidc')) {
-            window.history.go(-3);
-        } else if (previousPaths?.length) {
-            history.goBack();
-        } else {
-            window.history.back();
-        }
-    };
 
     const handlePartSelect = part => {
         fetchWorksOrderDetails(encodeURIComponent(part.partNumber));
@@ -367,7 +358,7 @@ function WorksOrder({
                                 color="primary"
                                 variant="outlined"
                                 style={{ float: 'right' }}
-                                onClick={handleBackClick}
+                                onClick={history.push('/production/works-orders')}
                             >
                                 Search
                             </Button>
@@ -707,7 +698,7 @@ function WorksOrder({
                                     saveDisabled={viewing() || !(createValid() || updateValid())}
                                     saveClick={handleSaveClick}
                                     cancelClick={handleCancelClick}
-                                    backClick={handleBackClick}
+                                    backClick={() => smartGoBack(previousPaths, history.goBack)}
                                 />
                             </Grid>
                         </>
