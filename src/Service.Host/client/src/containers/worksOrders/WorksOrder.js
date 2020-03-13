@@ -2,13 +2,14 @@ import { connect } from 'react-redux';
 import {
     getItemErrors,
     getItemErrorDetailMessage,
-    initialiseOnMount
+    initialiseOnMount,
+    getPreviousPaths
 } from '@linn-it/linn-form-components-library';
 import WorksOrder from '../../components/worksOrders/WorksOrder';
 import worksOrderSelectors from '../../selectors/worksOrderSelectors';
 import worksOrderActions, {
     getDefaultWorksOrderPrinter,
-    setDefaultWorksOrderPrinter
+    setDefaultWorksOrderPrinter,
 } from '../../actions/worksOrderActions';
 import employeesSelectors from '../../selectors/employeesSelectors';
 import employeesActions from '../../actions/employeesActions';
@@ -55,7 +56,7 @@ const mapStateToProps = (state, { match }) => ({
     defaultWorksOrderPrinter: getWorksOrderDefaultPrinter(state),
     serialNumbers: serialNumberSelectors.getItems(state),
     serialNumbersLoading: serialNumberSelectors.getLoading(state),
-    previousPaths: state.historyStore
+    previousPaths: getPreviousPaths(state)
 });
 
 const initialise = ({ orderNumber }) => dispatch => {
