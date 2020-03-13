@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import {
     getItemErrors,
     getItemErrorDetailMessage,
-    initialiseOnMount
+    initialiseOnMount,
+    getPreviousPaths
 } from '@linn-it/linn-form-components-library';
 import queryString from 'query-string';
 import WorksOrder from '../../components/worksOrders/WorksOrder';
@@ -20,7 +21,6 @@ import printWorksOrderLabelsSelectors from '../../selectors/printWorksOrderLabel
 import printWorksOrderAioLabelsSelectors from '../../selectors/printWorksOrderAioLabelsSelectors';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
-import getPreviousPath from '../../selectors/getPreviousPath';
 
 const getOptions = ownProps => {
     const options = queryString.parse(ownProps.location.search);
@@ -55,7 +55,7 @@ const mapStateToProps = (state, ownProps) => ({
         state
     ),
     printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state),
-    previousPath: getPreviousPath(state)
+    previousPaths: getPreviousPaths(state)
 });
 
 const initialise = () => dispatch => {
