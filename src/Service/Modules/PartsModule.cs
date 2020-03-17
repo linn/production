@@ -24,7 +24,7 @@
              this.Get("/production/maintenance/parts/mech-part-source", _ => this.GetMechPartSource());
         }
 
-        // TODO test these
+        // TODO test these and IoC
         private object GetPartById(string id)
         {
             return this.Negotiate.WithModel(this.partsFacadeService.GetById(id))
