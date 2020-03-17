@@ -5,10 +5,11 @@
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
 
+    // TODO delete this
     public interface IPartsFacadeService
     {
-        SuccessResult<IEnumerable<Part>> SearchParts(string searchTerm);
+        // SuccessResult<IEnumerable<Part>> SearchParts(string searchTerm);
 
-        SuccessResult<IEnumerable<Part>> GetAll();
+        // SuccessResult<IEnumerable<Part>> GetAll();
     }
 }

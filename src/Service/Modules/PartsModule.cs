@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Modules
 {
+    using System;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.Services;
@@ -11,27 +13,38 @@
 
     public sealed class PartsModule : NancyModule
     {
-        private readonly IPartsFacadeService partsFacadeService;
+        private readonly IFacadeService<Part, string, PartResource, PartResource> partsFacadeService;
 
-        public PartsModule(IPartsFacadeService partsFacadeService)
+        public PartsModule(IFacadeService<Part, string, PartResource, PartResource> partsFacadeService)
          {
              this.partsFacadeService = partsFacadeService;
              this.Get("/production/maintenance/parts", _ => this.GetParts());
-             this.Put("/production/maintenance/parts", _ => this.UpdatePart());
+             this.Put("/production/maintenance/parts/{id}", parameters => this.UpdatePart(parameters.id));
              this.Get("/production/maintenance/parts/{id}", parameters => this.GetPartById(parameters.id));
              this.Get("/production/maintenance/parts/mech-part-source", _ => this.GetMechPartSource());
         }
 
+        // TODO test these
         private object GetPartById(string id)
         {
-            // var part = this.partsFacadeService.get
-            throw new System.NotImplementedException();
+            return this.Negotiate.WithModel(this.partsFacadeService.GetById(id))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
 
-        private object UpdatePart()
+        private object UpdatePart(string id)
         {
-
-            throw new System.NotImplementedException();
+            var resource = this.Bind<PartResource>();
+            try
+            {
+                var result = this.partsFacadeService.Update(id, resource);
+                return this.Negotiate.WithModel(result).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
+            catch (Exception e)
+            {
+                return this.Negotiate.WithModel(new BadRequestResult<Part>(e.Message))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            }
         }
 
         private object GetParts()
@@ -39,7 +52,7 @@
             var resource = this.Bind<SearchRequestResource>();
             var results = string.IsNullOrEmpty(resource.SearchTerm)
                               ? this.partsFacadeService.GetAll()
-                              : this.partsFacadeService.SearchParts(resource.SearchTerm);
+                              : this.partsFacadeService.Search(resource.SearchTerm);
             return this.Negotiate.WithModel(results).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
