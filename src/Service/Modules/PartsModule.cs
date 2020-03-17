@@ -17,7 +17,21 @@
          {
              this.partsFacadeService = partsFacadeService;
              this.Get("/production/maintenance/parts", _ => this.GetParts());
+             this.Put("/production/maintenance/parts", _ => this.UpdatePart());
+             this.Get("/production/maintenance/parts/{id}", parameters => this.GetPartById(parameters.id));
              this.Get("/production/maintenance/parts/mech-part-source", _ => this.GetMechPartSource());
+        }
+
+        private object GetPartById(string id)
+        {
+            // var part = this.partsFacadeService.get
+            throw new System.NotImplementedException();
+        }
+
+        private object UpdatePart()
+        {
+
+            throw new System.NotImplementedException();
         }
 
         private object GetParts()
