@@ -26,6 +26,10 @@
 
         public int? PreferredSupplier { get; set; }
 
+        public string FootprintRef { get; set; }
+
+        public string LibraryRef { get; set; }
+
         public List<PartFail> Fails { get; set; }
 
         public List<AssemblyFail> AssemblyFails { get; set; }
