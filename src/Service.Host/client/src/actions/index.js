@@ -147,6 +147,8 @@ export const smtOutstandingWorkOrderPartsActionTypes = makeReportActionTypes(
 
 export const partsActionsTypes = makeActionTypes(itemTypes.parts.actionType, false);
 
+export const partActionTypes = makeActionTypes(itemTypes.part.actionType);
+
 export const smtShiftsActionTypes = makeActionTypes(itemTypes.smtShifts.actionType);
 
 export const ptlSettingsActionTypes = makeActionTypes(itemTypes.ptlSettings.actionType);

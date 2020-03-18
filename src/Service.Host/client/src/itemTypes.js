@@ -156,6 +156,8 @@ export const manufacturingRoutes = new ItemType(
 
 export const parts = new ItemType('parts', 'PARTS', '/production/maintenance/parts');
 
+export const part = new ItemType('part', 'PART', '/production/maintenance/parts');
+
 export const smtShifts = new ItemType(
     'smtShifts',
     'SMT_SHIFTS',

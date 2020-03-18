@@ -107,6 +107,7 @@ import issueSernos from './purchaseOrders/issueSernos';
 import buildSernos from './purchaseOrders/buildSernos';
 import daysRequiredReport from './daysRequiredReport';
 import manufacturingTimingsReport from './manufacturingTimingsReport/index';
+import part from './part';
 
 const errors = fetchErrorReducer({
     ...itemTypes,
@@ -176,6 +177,8 @@ const reducer = history =>
         manufacturingTimingsReport,
         outstandingWorksOrdersReport,
         overdueOrders,
+        part,
+        parts,
         partFail,
         partFailDetailsReport,
         partFailErrorType,
@@ -184,7 +187,6 @@ const reducer = history =>
         partFailFaultCodes,
         partFails,
         partFailSuppliers,
-        parts,
         pcasRevisions,
         printAllLabelsForProduct,
         printMACLabels,
