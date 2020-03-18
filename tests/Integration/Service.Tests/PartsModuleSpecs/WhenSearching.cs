@@ -24,7 +24,7 @@
             var part1 = new Part { PartNumber = "P1", Description = "desc1" };
             var part2 = new Part { PartNumber = "P2", Description = "desc2" };
 
-            this.PartsFacadeService.SearchParts("P")
+            this.PartsFacadeService.Search("P")
                 .Returns(new SuccessResult<IEnumerable<Part>>(new List<Part> { part1, part2 }));
 
 
@@ -46,7 +46,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.PartsFacadeService.Received().SearchParts("P");
+            this.PartsFacadeService.Received().Search("P");
         }
 
         [Test]
