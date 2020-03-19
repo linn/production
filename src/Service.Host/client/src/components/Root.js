@@ -681,7 +681,7 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/maintenance/parts/mech-part-source"
+                                        path="/production/maintenance/mech-part-source"
                                         component={MechPartSource}
                                     />
                                     <Route component={NotFound} />

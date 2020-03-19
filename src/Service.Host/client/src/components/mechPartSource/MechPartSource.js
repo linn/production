@@ -4,61 +4,77 @@ import {
     Title,
     Loading,
     InputField,
+    SearchInputField,
     SaveBackCancelButtons,
-    Typeahead,
     SnackbarMessage,
-    ErrorCard
+    ErrorCard,
+    useSearch
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import Page from '../../containers/Page';
 
 export default function MechPartSource({
-    partsSearchResults,
-    partsSearchLoading,
-    itemErrors,
-    partLoading,
+    loading,
     item,
-    searchParts,
-    clearPartsSearch,
-    updatePart,
-    partSnackbarVisible,
-    setPartSnackbarVisible,
-    history
+    snackbarVisible,
+    itemErrors,
+    fetchMechPartSource,
+    updateMechPartSource,
+    editStatus,
+    setEditStatus,
+    history,
+    setSnackbarVisible
 }) {
-    const [part, setPart] = useState(null);
-    const [editing, setEditing] = useState(false);
+    const [mechPartSource, setMechPartSource] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    useSearch(fetchMechPartSource, searchTerm, null);
+
+    const editing = () => editStatus === 'edit';
 
     useEffect(() => {
-        setPart(item);
+        setMechPartSource(item);
     }, [item]);
 
     const handleFieldChange = (propertyName, newValue) => {
-        setEditing(true);
-        setPart({ ...part, [propertyName]: newValue });
-    };
-
-    const handleSaveClick = () => {
-        updatePart(part.partNumber, part);
+        if (propertyName === 'searchTerm') {
+            setEditStatus('view');
+            setSearchTerm(newValue);
+        } else {
+            setEditStatus('edit');
+            setMechPartSource({ ...mechPartSource, [propertyName]: newValue });
+        }
     };
 
     const handleCancelClick = () => {
-        setPart(item);
-        setEditing(false);
+        setMechPartSource(item);
+        setEditStatus('view');
     };
 
     const handleBackClick = () => {
+        setEditStatus('view');
         history.goBack();
+    };
+
+    const handleSaveClick = () => {
+        updateMechPartSource(mechPartSource.msId, mechPartSource);
     };
 
     return (
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Title text="Mech Part Utility" />
+                    <Title text="Mech Part Source" />
                 </Grid>
 
+                <SnackbarMessage
+                    visible={snackbarVisible}
+                    onClose={() => setSnackbarVisible(false)}
+                    message="Save Succesful"
+                />
+
                 {itemErrors &&
-                    !partLoading &&
+                    !loading &&
                     itemErrors?.map(itemError => (
                         <Grid item xs={12}>
                             <ErrorCard
@@ -67,38 +83,48 @@ export default function MechPartSource({
                         </Grid>
                     ))}
 
-                {partLoading ? (
-                    <Loading />
+                <Grid item xs={4}>
+                    <SearchInputField
+                        label="Mech Part Source ID"
+                        fullWidth
+                        placeHolder="Search for Mech Part Source"
+                        onChange={handleFieldChange}
+                        propertyName="searchTerm"
+                        value={searchTerm}
+                    />
+                </Grid>
+                <Grid item xs={8} />
+
+                {loading ? (
+                    <Grid item xs={12}>
+                        <Loading />
+                    </Grid>
                 ) : (
                     <>
-                        <SnackbarMessage
-                            visible={partSnackbarVisible}
-                            onClose={() => setPartSnackbarVisible(false)}
-                            message="Save Succesful"
-                        />
-                        <Grid item xs={4}>
-                            <Typeahead
-                                onSelect={newValue => {
-                                    setPart(newValue);
-                                }}
-                                label="Part"
-                                modal
-                                items={partsSearchResults}
-                                value={part?.partNumber}
-                                loading={partsSearchLoading}
-                                fetchItems={searchParts}
-                                links={false}
-                                clearSearch={() => clearPartsSearch}
-                                placeholder="Search by Part Number"
-                            />
-                        </Grid>
-                        <Grid item xs={8} />
-                        {part && (
+                        {mechPartSource && (
                             <>
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        value={part.footprintRef}
+                                        disabled
+                                        value={mechPartSource.partNumber}
+                                        label="Part Number"
+                                    />
+                                </Grid>
+                                <Grid item xs={8} />
+                                <Grid item xs={8}>
+                                    <InputField
+                                        fullWidth
+                                        disabled
+                                        value={mechPartSource.description}
+                                        label="Description"
+                                    />
+                                </Grid>
+                                <Grid item xs={4} />
+                                <Grid item xs={4}>
+                                    <InputField
+                                        fullWidth
+                                        value={mechPartSource.footprintRef}
                                         label="Footprint Ref"
                                         maxLength={30}
                                         onChange={handleFieldChange}
@@ -109,7 +135,7 @@ export default function MechPartSource({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        value={part.libraryRef}
+                                        value={mechPartSource.libraryRef}
                                         label="Library Ref"
                                         maxLength={30}
                                         onChange={handleFieldChange}
@@ -136,8 +162,6 @@ export default function MechPartSource({
 
 MechPartSource.propTypes = {
     history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
-    partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
-    partsSearchLoading: PropTypes.bool,
     itemErrors: PropTypes.arrayOf(
         PropTypes.shape({
             status: PropTypes.number,
@@ -146,20 +170,20 @@ MechPartSource.propTypes = {
             item: PropTypes.string
         })
     ),
-    partLoading: PropTypes.bool,
+    loading: PropTypes.bool,
     item: PropTypes.shape({}),
-    searchParts: PropTypes.func.isRequired,
-    clearPartsSearch: PropTypes.func.isRequired,
-    updatePart: PropTypes.func.isRequired,
-    partSnackbarVisible: PropTypes.bool,
-    setPartSnackbarVisible: PropTypes.func.isRequired
+    snackbarVisible: PropTypes.bool,
+    fetchMechPartSource: PropTypes.func.isRequired,
+    updateMechPartSource: PropTypes.func.isRequired,
+    editStatus: PropTypes.string,
+    setEditStatus: PropTypes.func.isRequired,
+    setSnackbarVisible: PropTypes.func.isRequired
 };
 
 MechPartSource.defaultProps = {
-    partsSearchResults: null,
-    partsSearchLoading: false,
+    snackbarVisible: false,
     itemErrors: null,
-    partLoading: false,
+    loading: false,
     item: null,
-    partSnackbarVisible: false
+    editStatus: 'view'
 };

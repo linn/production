@@ -312,3 +312,5 @@ export const daysRequiredReportActionTypes = makeReportActionTypes(
 export const manufacturingTimingsReportActionTypes = makeReportActionTypes(
     reportTypes.manufacturingTimingsReport.actionType
 );
+
+export const mechPartSourceActionTypes = makeActionTypes(itemTypes.mechPartSource.actionType);

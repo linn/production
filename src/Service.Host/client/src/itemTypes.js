@@ -335,3 +335,9 @@ export const purchaseOrder = new ItemType(
     'PURCHASE_ORDER',
     '/production/resources/purchase-orders'
 );
+
+export const mechPartSource = new ItemType(
+    'mechPartSource',
+    'MECH_PART_SOURCE',
+    '/production/maintenance/mech-part-source'
+);
