@@ -41,7 +41,6 @@
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
             builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
-            builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
             builder.RegisterType<ProductionTriggerLevelRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
@@ -50,6 +49,7 @@
             builder.RegisterType<PtlMasterRepository>().As<ISingleRecordRepository<PtlMaster>>();
             builder.RegisterType<OsrRunMasterRepository>().As<ISingleRecordRepository<OsrRunMaster>>();
             builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
+            builder.RegisterType<MechPartSourceRepository>().As<IRepository<MechPartSource, int>>();
             builder.RegisterType<WorkStationsRepository>().As<IRepository<WorkStation, string>>();
             builder.RegisterType<PcasBoardForAuditRepository>().As<IRepository<PcasBoardForAudit, string>>();
             builder.RegisterType<ProductionTriggerLevelsRepository>().As<IRepository<ProductionTriggerLevel, string>>();

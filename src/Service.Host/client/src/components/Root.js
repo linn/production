@@ -113,6 +113,7 @@ import PurchaseOrders from '../containers/PurchaseOrders';
 import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
 import manufacturingTimingsReport from '../containers/manufacturingTimings/TimingsReport';
 import manufacturingTimingsSetup from '../containers/manufacturingTimings/TimingsSetup';
+import MechPartSource from '../containers/mechPartSource/MechPartSource';
 
 const Root = ({ store }) => (
     <div>
@@ -683,6 +684,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/manufacturing-timings"
                                         component={manufacturingTimingsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/mech-part-source"
+                                        component={MechPartSource}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>
