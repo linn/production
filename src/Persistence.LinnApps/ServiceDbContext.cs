@@ -755,8 +755,6 @@
             e.Property(p => p.AccountingCompany).HasColumnName("ACCOUNTING_COMPANY").HasMaxLength(10);
             e.Property(p => p.BaseUnitPrice).HasColumnName("BASE_UNIT_PRICE");
             e.Property(p => p.PreferredSupplier).HasColumnName("PREFERRED_SUPPLIER");
-            e.Property(p => p.FootprintRef).HasColumnName("FOOTPRINT_REF").HasMaxLength(30);
-            e.Property(p => p.LibraryRef).HasColumnName("LIBRARY_REF").HasMaxLength(30);
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)

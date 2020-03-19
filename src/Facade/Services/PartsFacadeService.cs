@@ -20,11 +20,9 @@
             throw new NotImplementedException();
         }
 
-        // TODO delete this
         protected override void UpdateFromResource(Part entity, PartResource updateResource)
         {
-            entity.LibraryRef = updateResource.LibraryRef;
-            entity.FootprintRef = updateResource.FootprintRef;
+            throw new NotImplementedException();
         }
 
         protected override Expression<Func<Part, bool>> SearchExpression(string searchTerm)

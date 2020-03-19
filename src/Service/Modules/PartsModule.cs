@@ -14,36 +14,17 @@
     {
         private readonly IFacadeService<Part, string, PartResource, PartResource> partsFacadeService;
 
-        // TODO update and delete these things
         public PartsModule(IFacadeService<Part, string, PartResource, PartResource> partsFacadeService)
          {
              this.partsFacadeService = partsFacadeService;
              this.Get("/production/maintenance/parts", _ => this.GetParts());
-             this.Put("/production/maintenance/parts/{id}", parameters => this.UpdatePart(parameters.id));
              this.Get("/production/maintenance/parts/{id}", parameters => this.GetPartById(parameters.id));
-             this.Get("/production/maintenance/parts/mech-part-source", _ => this.GetMechPartSource());
         }
 
         private object GetPartById(string id)
         {
             return this.Negotiate.WithModel(this.partsFacadeService.GetById(id))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
-        }
-
-        private object UpdatePart(string id)
-        {
-            var resource = this.Bind<PartResource>();
-            try
-            {
-                var result = this.partsFacadeService.Update(id, resource);
-                return this.Negotiate.WithModel(result).WithMediaRangeModel("text/html", ApplicationSettings.Get)
-                    .WithView("Index");
-            }
-            catch (Exception e)
-            {
-                return this.Negotiate.WithModel(new BadRequestResult<Part>(e.Message))
-                    .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
-            }
         }
 
         private object GetParts()
@@ -54,11 +35,6 @@
                               : this.partsFacadeService.Search(resource.SearchTerm);
             return this.Negotiate.WithModel(results).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
-        }
-
-        private object GetMechPartSource()
-        {
-            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
     }
 }

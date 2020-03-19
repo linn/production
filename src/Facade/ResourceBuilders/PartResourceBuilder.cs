@@ -19,8 +19,6 @@
                            BomId = part.BomId,
                            BomType = part.BomType,
                            DecrementRule = part.DecrementRule,
-                           FootprintRef = part.FootprintRef,
-                           LibraryRef = part.LibraryRef
                        };
         }
 
