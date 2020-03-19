@@ -96,6 +96,8 @@
                 .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>, IServiceWithRemove<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
             builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
+            builder.RegisterType<MechPartSourceService>()
+                .As<IFacadeService<MechPartSource, int, MechPartSourceResource, MechPartSourceResource>>();
             builder.RegisterType<SmtShiftsService>()
                 .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
             builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();

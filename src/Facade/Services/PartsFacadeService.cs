@@ -20,6 +20,7 @@
             throw new NotImplementedException();
         }
 
+        // TODO delete this
         protected override void UpdateFromResource(Part entity, PartResource updateResource)
         {
             entity.LibraryRef = updateResource.LibraryRef;

@@ -4,7 +4,6 @@
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
 
@@ -15,6 +14,7 @@
     {
         private readonly IFacadeService<Part, string, PartResource, PartResource> partsFacadeService;
 
+        // TODO update and delete these things
         public PartsModule(IFacadeService<Part, string, PartResource, PartResource> partsFacadeService)
          {
              this.partsFacadeService = partsFacadeService;
