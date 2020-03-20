@@ -338,6 +338,6 @@ export const purchaseOrder = new ItemType(
 
 export const partCadInfo = new ItemType(
     'partCadInfo',
-    'MECH_PART_SOURCE',
+    'PART_CAD_INFO',
     '/production/maintenance/part-cad-info'
 );
