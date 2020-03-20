@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Security.Claims;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
@@ -23,21 +24,24 @@
 
         protected IRepository<PartCadInfo, int> PartCadInfoRepository { get; private set; }
 
+        protected IAuthorisationService AuthorisationService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
             this.PartCadInfoService = Substitute
                 .For<IFacadeService<PartCadInfo, int, PartCadInfoResource, PartCadInfoResource>>();
-
             this.PartCadInfoRepository = Substitute.For<IRepository<PartCadInfo, int>>();
+            this.AuthorisationService = Substitute.For<IAuthorisationService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                     {
                         with.Dependency(this.PartCadInfoService);
                         with.Dependency(this.PartCadInfoRepository);
-                        with.Dependency<IResourceBuilder<PartCadInfo>>(new PartCadInfoResourceBuilder());
+                        with.Dependency(this.AuthorisationService);
+                        with.Dependency<IResourceBuilder<ResponseModel<PartCadInfo>>>(
+                            new PartCadInfoResourceBuilder(this.AuthorisationService));
                         with.Module<PartCadInfoModule>();
                         with.ResponseProcessor<PartCadInfoResponseProcessor>();
                         with.RequestStartup(

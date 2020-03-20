@@ -4,9 +4,9 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps;
 
-    public class PartCadInfoResponseProcessor : JsonResponseProcessor<PartCadInfo>
+    public class PartCadInfoResponseProcessor : JsonResponseProcessor<ResponseModel<PartCadInfo>>
     {
-        public PartCadInfoResponseProcessor(IResourceBuilder<PartCadInfo> resourceBuilder)
+        public PartCadInfoResponseProcessor(IResourceBuilder<ResponseModel<PartCadInfo>> resourceBuilder)
             : base(resourceBuilder, "part-cad-info", 1)
         {
         }

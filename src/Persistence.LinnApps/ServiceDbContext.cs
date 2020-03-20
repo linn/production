@@ -1257,6 +1257,7 @@
             e.Property(m => m.Description).HasColumnName("PART_DESCRIPTION");
             e.Property(m => m.FootprintRef).HasColumnName("FOOTPRINT_REF");
             e.Property(m => m.LibraryRef).HasColumnName("LIBRARY_REF");
+            e.Property(m => m.LibraryName).HasColumnName("LIBRARY_NAME");
         }
 
         private void QuerySernosBuiltView(ModelBuilder builder)

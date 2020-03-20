@@ -145,6 +145,17 @@ export default function PartCadInfo({
                                     />
                                 </Grid>
                                 <Grid item xs={8} />
+                                <Grid item xs={4}>
+                                    <InputField
+                                        fullWidth
+                                        value={partCadInfo.libraryName}
+                                        label="Library Name"
+                                        maxLength={30}
+                                        onChange={handleFieldChange}
+                                        propertyName="libraryName"
+                                    />
+                                </Grid>
+                                <Grid item xs={8} />
                                 <Grid item xs={12}>
                                     <SaveBackCancelButtons
                                         saveDisabled={!editing}

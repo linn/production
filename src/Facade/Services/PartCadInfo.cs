@@ -24,6 +24,7 @@
         {
             entity.LibraryRef = updateResource.LibraryRef;
             entity.FootprintRef = updateResource.FootprintRef;
+            entity.LibraryName = updateResource.LibraryName;
         }
 
         protected override Expression<Func<PartCadInfo, bool>> SearchExpression(string searchTerm)

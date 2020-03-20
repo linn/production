@@ -11,5 +11,7 @@
         public string LibraryRef { get; set; }
 
         public string Description { get; set; }
+
+        public string LibraryName { get; set; }
     }
 }
