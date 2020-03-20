@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.MechPartSourceModuleSpecs
+﻿namespace Linn.Production.Service.Tests.PartCadInfoModuleSpecs
 {
     using System.Collections.Generic;
     using System.Security.Claims;
@@ -19,27 +19,27 @@
 
     public class ContextBase : NancyContextBase
     {
-        protected IFacadeService<MechPartSource, int, MechPartSourceResource, MechPartSourceResource> MechPartSourceService { get; private set; }
+        protected IFacadeService<PartCadInfo, int, PartCadInfoResource, PartCadInfoResource> PartCadInfoService { get; private set; }
 
-        protected IRepository<MechPartSource, int> MechPartSourceRepository { get; private set; }
+        protected IRepository<PartCadInfo, int> PartCadInfoRepository { get; private set; }
 
 
         [SetUp]
         public void EstablishContext()
         {
-            this.MechPartSourceService = Substitute
-                .For<IFacadeService<MechPartSource, int, MechPartSourceResource, MechPartSourceResource>>();
+            this.PartCadInfoService = Substitute
+                .For<IFacadeService<PartCadInfo, int, PartCadInfoResource, PartCadInfoResource>>();
 
-            this.MechPartSourceRepository = Substitute.For<IRepository<MechPartSource, int>>();
+            this.PartCadInfoRepository = Substitute.For<IRepository<PartCadInfo, int>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                     {
-                        with.Dependency(this.MechPartSourceService);
-                        with.Dependency(this.MechPartSourceRepository);
-                        with.Dependency<IResourceBuilder<MechPartSource>>(new MechPartSourceResourceBuilder());
-                        with.Module<MechPartSourceModule>();
-                        with.ResponseProcessor<MechPartSourceResponseProcessor>();
+                        with.Dependency(this.PartCadInfoService);
+                        with.Dependency(this.PartCadInfoRepository);
+                        with.Dependency<IResourceBuilder<PartCadInfo>>(new PartCadInfoResourceBuilder());
+                        with.Module<PartCadInfoModule>();
+                        with.ResponseProcessor<PartCadInfoResponseProcessor>();
                         with.RequestStartup(
                             (container, pipelines, context) =>
                                 {

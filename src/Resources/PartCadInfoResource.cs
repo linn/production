@@ -1,6 +1,8 @@
-﻿namespace Linn.Production.Domain.LinnApps
+﻿namespace Linn.Production.Resources
 {
-    public class MechPartSource
+    using Linn.Common.Resources;
+
+    public class PartCadInfoResource : HypermediaResource
     {
         public int MsId { get; set; }
 

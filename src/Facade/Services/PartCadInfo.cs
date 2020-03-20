@@ -8,25 +8,25 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class MechPartSourceService : FacadeService<MechPartSource, int, MechPartSourceResource, MechPartSourceResource>
+    public class PartCadInfoService : FacadeService<PartCadInfo, int, PartCadInfoResource, PartCadInfoResource>
     {
-        public MechPartSourceService(IRepository<MechPartSource, int> repository, ITransactionManager transactionManager)
+        public PartCadInfoService(IRepository<PartCadInfo, int> repository, ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
         }
 
-        protected override MechPartSource CreateFromResource(MechPartSourceResource resource)
+        protected override PartCadInfo CreateFromResource(PartCadInfoResource resource)
         {
             throw new NotImplementedException();
         }
 
-        protected override void UpdateFromResource(MechPartSource entity, MechPartSourceResource updateResource)
+        protected override void UpdateFromResource(PartCadInfo entity, PartCadInfoResource updateResource)
         {
             entity.LibraryRef = updateResource.LibraryRef;
             entity.FootprintRef = updateResource.FootprintRef;
         }
 
-        protected override Expression<Func<MechPartSource, bool>> SearchExpression(string searchTerm)
+        protected override Expression<Func<PartCadInfo, bool>> SearchExpression(string searchTerm)
         {
             throw new NotImplementedException();
         }

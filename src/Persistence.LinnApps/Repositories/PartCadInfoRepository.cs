@@ -7,41 +7,41 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
 
-    public class MechPartSourceRepository : IRepository<MechPartSource, int>
+    public class PartCadInfoRepository : IRepository<PartCadInfo, int>
     {
         private readonly ServiceDbContext serviceDbContext;
 
-        public MechPartSourceRepository(ServiceDbContext serviceDbContext)
+        public PartCadInfoRepository(ServiceDbContext serviceDbContext)
         {
             this.serviceDbContext = serviceDbContext;
         }
 
-        public MechPartSource FindById(int key)
+        public PartCadInfo FindById(int key)
         {
-            return this.serviceDbContext.MechPartSources.Where(m => m.MsId == key).ToList().FirstOrDefault();
+            return this.serviceDbContext.PartCadInfos.Where(m => m.MsId == key).ToList().FirstOrDefault();
         }
 
-        public IQueryable<MechPartSource> FindAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Add(MechPartSource entity)
+        public IQueryable<PartCadInfo> FindAll()
         {
             throw new NotImplementedException();
         }
 
-        public void Remove(MechPartSource entity)
+        public void Add(PartCadInfo entity)
         {
             throw new NotImplementedException();
         }
 
-        public MechPartSource FindBy(Expression<Func<MechPartSource, bool>> expression)
+        public void Remove(PartCadInfo entity)
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<MechPartSource> FilterBy(Expression<Func<MechPartSource, bool>> expression)
+        public PartCadInfo FindBy(Expression<Func<PartCadInfo, bool>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IQueryable<PartCadInfo> FilterBy(Expression<Func<PartCadInfo, bool>> expression)
         {
             throw new NotImplementedException();
         }

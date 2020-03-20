@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.MechPartSourceModuleSpecs
+﻿namespace Linn.Production.Service.Tests.PartCadInfoModuleSpecs
 {
     using FluentAssertions;
 
@@ -18,12 +18,12 @@
         [SetUp]
         public void SetUp()
         {
-            var mechPartSource = new MechPartSource { MsId = 123 };
+            var partCadInfo = new PartCadInfo { MsId = 123 };
 
-            this.MechPartSourceService.GetById(123).Returns(new SuccessResult<MechPartSource>(mechPartSource));
+            this.PartCadInfoService.GetById(123).Returns(new SuccessResult<PartCadInfo>(partCadInfo));
 
             this.Response = this.Browser.Get(
-                "/production/maintenance/mech-part-source/123",
+                "/production/maintenance/part-cad-info/123",
                 with => { with.Header("Accept", "application/json"); }).Result;
         }
 
@@ -36,13 +36,13 @@
         [Test]
         public void ShouldCallService()
         {
-            this.MechPartSourceService.Received().GetById(123);
+            this.PartCadInfoService.Received().GetById(123);
         }
 
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<MechPartSourceResource>();
+            var resource = this.Response.Body.DeserializeJson<PartCadInfoResource>();
             resource.MsId.Should().Be(123);
         }
     }
