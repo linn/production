@@ -10,7 +10,6 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    // TODO IoC update test imports etc
     public class PartCadInfoResourceBuilder : IResourceBuilder<ResponseModel<PartCadInfo>>
     {
         private readonly IAuthorisationService authorisationService;
