@@ -13,27 +13,27 @@ import {
 import Grid from '@material-ui/core/Grid';
 import Page from '../../containers/Page';
 
-export default function MechPartSource({
+export default function PartCadInfo({
     loading,
     item,
     snackbarVisible,
     itemErrors,
-    fetchMechPartSource,
-    updateMechPartSource,
+    fetchPartCadInfo,
+    updatePartCadInfo,
     editStatus,
     setEditStatus,
     history,
     setSnackbarVisible
 }) {
-    const [mechPartSource, setMechPartSource] = useState(null);
+    const [partCadInfo, setPartCadInfo] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
 
-    useSearch(fetchMechPartSource, searchTerm, null);
+    useSearch(fetchPartCadInfo, searchTerm, null);
 
     const editing = () => editStatus === 'edit';
 
     useEffect(() => {
-        setMechPartSource(item);
+        setPartCadInfo(item);
     }, [item]);
 
     const handleFieldChange = (propertyName, newValue) => {
@@ -42,12 +42,12 @@ export default function MechPartSource({
             setSearchTerm(newValue);
         } else {
             setEditStatus('edit');
-            setMechPartSource({ ...mechPartSource, [propertyName]: newValue });
+            setPartCadInfo({ ...partCadInfo, [propertyName]: newValue });
         }
     };
 
     const handleCancelClick = () => {
-        setMechPartSource(item);
+        setPartCadInfo(item);
         setEditStatus('view');
     };
 
@@ -57,7 +57,7 @@ export default function MechPartSource({
     };
 
     const handleSaveClick = () => {
-        updateMechPartSource(mechPartSource.msId, mechPartSource);
+        updatePartCadInfo(partCadInfo.msId, partCadInfo);
     };
 
     return (
@@ -78,7 +78,9 @@ export default function MechPartSource({
                     itemErrors?.map(itemError => (
                         <Grid item xs={12}>
                             <ErrorCard
-                                errorMessage={`${itemError.item} ${itemError.statusText} - ${itemError.details?.errors?.[0]}`}
+                                errorMessage={`${itemError.item} ${
+                                    itemError.statusText
+                                } - ${itemError.details?.errors?.[0] || ''}`}
                             />
                         </Grid>
                     ))}
@@ -101,13 +103,13 @@ export default function MechPartSource({
                     </Grid>
                 ) : (
                     <>
-                        {mechPartSource && (
+                        {partCadInfo && (
                             <>
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
                                         disabled
-                                        value={mechPartSource.partNumber}
+                                        value={partCadInfo.partNumber}
                                         label="Part Number"
                                     />
                                 </Grid>
@@ -116,7 +118,7 @@ export default function MechPartSource({
                                     <InputField
                                         fullWidth
                                         disabled
-                                        value={mechPartSource.description}
+                                        value={partCadInfo.description}
                                         label="Description"
                                     />
                                 </Grid>
@@ -124,7 +126,7 @@ export default function MechPartSource({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        value={mechPartSource.footprintRef}
+                                        value={partCadInfo.footprintRef}
                                         label="Footprint Ref"
                                         maxLength={30}
                                         onChange={handleFieldChange}
@@ -135,11 +137,22 @@ export default function MechPartSource({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        value={mechPartSource.libraryRef}
+                                        value={partCadInfo.libraryRef}
                                         label="Library Ref"
                                         maxLength={30}
                                         onChange={handleFieldChange}
                                         propertyName="libraryRef"
+                                    />
+                                </Grid>
+                                <Grid item xs={8} />
+                                <Grid item xs={4}>
+                                    <InputField
+                                        fullWidth
+                                        value={partCadInfo.libraryName}
+                                        label="Library Name"
+                                        maxLength={30}
+                                        onChange={handleFieldChange}
+                                        propertyName="libraryName"
                                     />
                                 </Grid>
                                 <Grid item xs={8} />
@@ -160,7 +173,7 @@ export default function MechPartSource({
     );
 }
 
-MechPartSource.propTypes = {
+PartCadInfo.propTypes = {
     history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
     itemErrors: PropTypes.arrayOf(
         PropTypes.shape({
@@ -173,14 +186,14 @@ MechPartSource.propTypes = {
     loading: PropTypes.bool,
     item: PropTypes.shape({}),
     snackbarVisible: PropTypes.bool,
-    fetchMechPartSource: PropTypes.func.isRequired,
-    updateMechPartSource: PropTypes.func.isRequired,
+    fetchPartCadInfo: PropTypes.func.isRequired,
+    updatePartCadInfo: PropTypes.func.isRequired,
     editStatus: PropTypes.string,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired
 };
 
-MechPartSource.defaultProps = {
+PartCadInfo.defaultProps = {
     snackbarVisible: false,
     itemErrors: null,
     loading: false,

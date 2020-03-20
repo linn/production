@@ -2,7 +2,7 @@
 {
     using Linn.Common.Resources;
 
-    public class MechPartSourceResource : HypermediaResource
+    public class PartCadInfoResource : HypermediaResource
     {
         public int MsId { get; set; }
 
@@ -13,5 +13,7 @@
         public string LibraryRef { get; set; }
 
         public string Description { get; set; }
+
+        public string LibraryName { get; set; }
     }
 }

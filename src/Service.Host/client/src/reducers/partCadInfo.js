@@ -1,5 +1,5 @@
 import { itemStoreFactory } from '@linn-it/linn-form-components-library';
-import { mechPartSourceActionTypes as actionTypes } from '../actions';
+import { partCadInfoActionTypes as actionTypes } from '../actions';
 import * as itemTypes from '../itemTypes';
 
 const defaultState = {
@@ -8,4 +8,4 @@ const defaultState = {
     editStatus: 'view'
 };
 
-export default itemStoreFactory(itemTypes.mechPartSource.actionType, actionTypes, defaultState);
+export default itemStoreFactory(itemTypes.partCadInfo.actionType, actionTypes, defaultState);

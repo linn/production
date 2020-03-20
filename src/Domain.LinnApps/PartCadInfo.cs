@@ -1,6 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
-    public class MechPartSource
+    public class PartCadInfo
     {
         public int MsId { get; set; }
 
@@ -11,5 +11,7 @@
         public string LibraryRef { get; set; }
 
         public string Description { get; set; }
+
+        public string LibraryName { get; set; }
     }
 }

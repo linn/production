@@ -113,7 +113,7 @@ import PurchaseOrders from '../containers/PurchaseOrders';
 import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
 import manufacturingTimingsReport from '../containers/manufacturingTimings/TimingsReport';
 import manufacturingTimingsSetup from '../containers/manufacturingTimings/TimingsSetup';
-import MechPartSource from '../containers/mechPartSource/MechPartSource';
+import PartCadInfo from '../containers/partCadInfo/PartCadInfo';
 
 const Root = ({ store }) => (
     <div>
@@ -687,8 +687,8 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/maintenance/mech-part-source"
-                                        component={MechPartSource}
+                                        path="/production/maintenance/part-cad-info"
+                                        component={PartCadInfo}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

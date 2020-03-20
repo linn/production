@@ -313,4 +313,4 @@ export const manufacturingTimingsReportActionTypes = makeReportActionTypes(
     reportTypes.manufacturingTimingsReport.actionType
 );
 
-export const mechPartSourceActionTypes = makeActionTypes(itemTypes.mechPartSource.actionType);
+export const partCadInfoActionTypes = makeActionTypes(itemTypes.partCadInfo.actionType);

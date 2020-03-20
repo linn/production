@@ -336,8 +336,8 @@ export const purchaseOrder = new ItemType(
     '/production/resources/purchase-orders'
 );
 
-export const mechPartSource = new ItemType(
-    'mechPartSource',
-    'MECH_PART_SOURCE',
-    '/production/maintenance/mech-part-source'
+export const partCadInfo = new ItemType(
+    'partCadInfo',
+    'PART_CAD_INFO',
+    '/production/maintenance/part-cad-info'
 );

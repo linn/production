@@ -156,7 +156,7 @@
 
         public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
 
-        public DbSet<MechPartSource> MechPartSources { get; set; }
+        public DbSet<PartCadInfo> PartCadInfos { get; set; }
 
         public DbQuery<PtlMaster> PtlMaster { get; set; }
         
@@ -233,7 +233,7 @@
             this.QuerySernosIssuedView(builder);
             this.QueryPurchaseOrdersReceivedView(builder);
             this.BuildSuppliers(builder);
-            this.BuildMechPartSources(builder);
+            this.BuildPartCadInfo(builder);
             base.OnModelCreating(builder);
         }
 
@@ -1247,9 +1247,9 @@
             builder.Entity<Country>().Property(c => c.Name).HasColumnName("NAME");
         }
 
-        private void BuildMechPartSources(ModelBuilder builder)
+        private void BuildPartCadInfo(ModelBuilder builder)
         {
-            var e = builder.Entity<MechPartSource>();
+            var e = builder.Entity<PartCadInfo>();
             e.ToTable("MECH_PART_SOURCES");
             e.HasKey(m => m.MsId);
             e.Property(m => m.MsId).HasColumnName("MS_ID");
@@ -1257,6 +1257,7 @@
             e.Property(m => m.Description).HasColumnName("PART_DESCRIPTION");
             e.Property(m => m.FootprintRef).HasColumnName("FOOTPRINT_REF");
             e.Property(m => m.LibraryRef).HasColumnName("LIBRARY_REF");
+            e.Property(m => m.LibraryName).HasColumnName("LIBRARY_NAME");
         }
 
         private void QuerySernosBuiltView(ModelBuilder builder)
