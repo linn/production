@@ -64,7 +64,7 @@ export default function PartCadInfo({
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Title text="Mech Part Source" />
+                    <Title text="Part Cad Info" />
                 </Grid>
 
                 <SnackbarMessage
