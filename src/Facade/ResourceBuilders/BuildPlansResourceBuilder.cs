@@ -8,7 +8,6 @@
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Resources;
 
-
     public class BuildPlansResourceBuilder : IResourceBuilder<ResponseModel<IEnumerable<BuildPlan>>>
     {
         private readonly BuildPlanResourceBuilder buildPlanResourceBuilder;
