@@ -29,7 +29,7 @@
 
         protected override Expression<Func<PartCadInfo, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
+            return p => p.PartNumber.Contains(searchTerm.ToUpper());
         }
     }
 }

@@ -55,7 +55,17 @@
 
         private object GetPartCadInfo()
         {
-            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
+            var resource = this.Bind<SearchRequestResource>();
+
+            if (string.IsNullOrEmpty(resource.SearchTerm))
+            {
+                return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
+            }
+
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            return this.Negotiate.WithModel(this.partCadInfoFacadeService.Search(resource.SearchTerm, privileges))
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
         }
     }
 }
