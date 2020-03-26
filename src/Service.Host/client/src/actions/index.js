@@ -314,3 +314,5 @@ export const manufacturingTimingsReportActionTypes = makeReportActionTypes(
 );
 
 export const partCadInfoActionTypes = makeActionTypes(itemTypes.partCadInfo.actionType);
+
+export const partCadInfosActionTypes = makeActionTypes(itemTypes.partCadInfos.actionType);

@@ -42,8 +42,11 @@
                         with.Dependency(this.AuthorisationService);
                         with.Dependency<IResourceBuilder<ResponseModel<PartCadInfo>>>(
                             new PartCadInfoResourceBuilder(this.AuthorisationService));
+                        with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<PartCadInfo>>>>(
+                            new PartCadInfosResourceBuilder(this.AuthorisationService));
                         with.Module<PartCadInfoModule>();
                         with.ResponseProcessor<PartCadInfoResponseProcessor>();
+                        with.ResponseProcessor<PartCadInfosResponseProcessor>();
                         with.RequestStartup(
                             (container, pipelines, context) =>
                                 {

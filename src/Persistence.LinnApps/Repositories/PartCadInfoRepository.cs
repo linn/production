@@ -43,7 +43,7 @@
 
         public IQueryable<PartCadInfo> FilterBy(Expression<Func<PartCadInfo, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.PartCadInfos.Where(expression).ToList().AsQueryable();
         }
     }
 }

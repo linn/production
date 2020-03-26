@@ -8,7 +8,8 @@ import {
     SaveBackCancelButtons,
     SnackbarMessage,
     ErrorCard,
-    useSearch
+    useSearch,
+    Typeahead
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
 import Page from '../../containers/Page';
@@ -18,17 +19,17 @@ export default function PartCadInfo({
     item,
     snackbarVisible,
     itemErrors,
-    fetchPartCadInfo,
     updatePartCadInfo,
     editStatus,
     setEditStatus,
     history,
-    setSnackbarVisible
+    setSnackbarVisible,
+    partCadInfosSearchResults,
+    partCadInfosSearchLoading,
+    searchPartCadInfos,
+    clearPartCadInfosSearch
 }) {
     const [partCadInfo, setPartCadInfo] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
-
-    useSearch(fetchPartCadInfo, searchTerm, null);
 
     const editing = () => editStatus === 'edit';
 
@@ -37,13 +38,8 @@ export default function PartCadInfo({
     }, [item]);
 
     const handleFieldChange = (propertyName, newValue) => {
-        if (propertyName === 'searchTerm') {
-            setEditStatus('view');
-            setSearchTerm(newValue);
-        } else {
-            setEditStatus('edit');
-            setPartCadInfo({ ...partCadInfo, [propertyName]: newValue });
-        }
+        setEditStatus('edit');
+        setPartCadInfo({ ...partCadInfo, [propertyName]: newValue });
     };
 
     const handleCancelClick = () => {
@@ -86,13 +82,20 @@ export default function PartCadInfo({
                     ))}
 
                 <Grid item xs={4}>
-                    <SearchInputField
-                        label="Mech Part Source ID"
-                        fullWidth
-                        placeHolder="Search for Mech Part Source"
-                        onChange={handleFieldChange}
-                        propertyName="searchTerm"
-                        value={searchTerm}
+                    <Typeahead
+                        onSelect={newValue => {
+                            setEditStatus('edit');
+                            setPartCadInfo(newValue);
+                        }}
+                        label="Part"
+                        modal
+                        items={partCadInfosSearchResults}
+                        value={partCadInfo?.partNumber || ''}
+                        loading={partCadInfosSearchLoading}
+                        fetchItems={searchPartCadInfos}
+                        links={false}
+                        clearSearch={() => clearPartCadInfosSearch}
+                        placeholder="Search By Part Number"
                     />
                 </Grid>
                 <Grid item xs={8} />
@@ -105,15 +108,6 @@ export default function PartCadInfo({
                     <>
                         {partCadInfo && (
                             <>
-                                <Grid item xs={4}>
-                                    <InputField
-                                        fullWidth
-                                        disabled
-                                        value={partCadInfo.partNumber}
-                                        label="Part Number"
-                                    />
-                                </Grid>
-                                <Grid item xs={8} />
                                 <Grid item xs={8}>
                                     <InputField
                                         fullWidth
@@ -186,11 +180,14 @@ PartCadInfo.propTypes = {
     loading: PropTypes.bool,
     item: PropTypes.shape({}),
     snackbarVisible: PropTypes.bool,
-    fetchPartCadInfo: PropTypes.func.isRequired,
     updatePartCadInfo: PropTypes.func.isRequired,
     editStatus: PropTypes.string,
     setEditStatus: PropTypes.func.isRequired,
-    setSnackbarVisible: PropTypes.func.isRequired
+    setSnackbarVisible: PropTypes.func.isRequired,
+    partCadInfosSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    partCadInfosSearchLoading: PropTypes.bool,
+    searchPartCadInfos: PropTypes.func.isRequired,
+    clearPartCadInfosSearch: PropTypes.func.isRequired
 };
 
 PartCadInfo.defaultProps = {
@@ -198,5 +195,7 @@ PartCadInfo.defaultProps = {
     itemErrors: null,
     loading: false,
     item: null,
-    editStatus: 'view'
+    editStatus: 'view',
+    partCadInfosSearchResults: [],
+    partCadInfosSearchLoading: false
 };
