@@ -26,14 +26,18 @@ function BuildsByDepartmentReportOptions({ history }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                    <DatePicker label="From Date" value={fromDate} onChange={setFromDate} />
+                    <DatePicker
+                        label="From Date"
+                        value={fromDate}
+                        onChange={newVal => setFromDate(newVal?.toISOString())}
+                    />
                 </Grid>
                 <Grid item xs={3}>
                     <DatePicker
                         label="To Date"
                         value={toDate}
                         minDate={fromDate}
-                        onChange={setToDate}
+                        onChange={newVal => setToDate(newVal?.toISOString())}
                     />
                 </Grid>
                 <Grid item xs={3}>
