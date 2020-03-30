@@ -6,9 +6,9 @@
     using Linn.Common.Nancy.Facade;
     using Linn.Production.Domain.LinnApps;
 
-    public class PartsResponseProcessor : JsonResponseProcessor<IEnumerable<Part>>
+    public class PartsResponseProcessor : JsonResponseProcessor<ResponseModel<IEnumerable<Part>>>
     {
-        public PartsResponseProcessor(IResourceBuilder<IEnumerable<Part>> resourceBuilder)
+        public PartsResponseProcessor(IResourceBuilder<ResponseModel<IEnumerable<Part>>> resourceBuilder)
             : base(resourceBuilder, "parts", 1)
         {
         }

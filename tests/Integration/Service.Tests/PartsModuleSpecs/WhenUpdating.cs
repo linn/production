@@ -15,22 +15,31 @@
 
     using NUnit.Framework;
 
-    public class WhenGettingById : ContextBase
+    public class WhenUpdating : ContextBase
     {
+        private PartResource requestResource;
+
         [SetUp]
         public void SetUp()
         {
-            var part = new Part { PartNumber = "PART", Description = "DESC" };
+            this.requestResource = new PartResource { PartNumber = "PART", LibraryName = "LIB" };
+
+            var part = new Part { PartNumber = "PART", LibraryName = "LIB" };
 
             this.AuthorisationService.HasPermissionFor(AuthorisedAction.PartUpdate, Arg.Any<List<string>>())
                 .Returns(true);
 
-            this.PartsFacadeService.GetById("PART", Arg.Any<IEnumerable<string>>()).Returns(
+            this.PartsFacadeService.Update("PART", Arg.Any<PartResource>(), Arg.Any<List<string>>()).Returns(
                 new SuccessResult<ResponseModel<Part>>(new ResponseModel<Part>(part, new List<string>())));
 
-            this.Response = this.Browser.Get(
+            this.Response = this.Browser.Put(
                 "/production/maintenance/parts/PART",
-                with => { with.Header("Accept", "application/json"); }).Result;
+                with =>
+                    {
+                        with.Header("Accept", "application/json");
+                        with.Header("Content-Type", "application/json");
+                        with.JsonBody(this.requestResource);
+                    }).Result;
         }
 
         [Test]
@@ -42,16 +51,15 @@
         [Test]
         public void ShouldCallService()
         {
-            this.PartsFacadeService.Received().GetById("PART", Arg.Any<IEnumerable<string>>());
+            this.PartsFacadeService.Received().Update("PART", Arg.Any<PartResource>(), Arg.Any<IEnumerable<string>>());
         }
 
         [Test]
-
         public void ShouldReturnResource()
         {
             var resource = this.Response.Body.DeserializeJson<PartResource>();
             resource.PartNumber.Should().Be("PART");
-            resource.Description.Should().Be("DESC");
+            resource.LibraryName.Should().Be("LIB");
         }
     }
 }

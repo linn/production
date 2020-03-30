@@ -2,16 +2,27 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class PartResourceBuilder : IResourceBuilder<Part>
+    public class PartResourceBuilder : IResourceBuilder<ResponseModel<Part>>
     {
-        public PartResource Build(Part part)
+        private readonly IAuthorisationService authorisationService;
+
+        public PartResourceBuilder(IAuthorisationService authorisationService)
         {
+            this.authorisationService = authorisationService;
+        }
+
+        public PartResource Build(ResponseModel<Part> model)
+        {
+            var part = model.ResponseData;
+
             return new PartResource
                        {
                            PartNumber = part.PartNumber,
@@ -19,19 +30,28 @@
                            BomId = part.BomId,
                            BomType = part.BomType,
                            DecrementRule = part.DecrementRule,
+                           LibraryName = part.LibraryName,
+                           LibraryRef = part.LibraryRef,
+                           FootprintRef = part.FootprintRef,
+                           Links = this.BuildLinks(model).ToArray()
                        };
         }
 
-        public string GetLocation(Part part)
+        public string GetLocation(ResponseModel<Part> model)
         {
-            throw new NotImplementedException();
+            return $"/production/maintenance/parts/{model.ResponseData.PartNumber}";
         }
 
-        object IResourceBuilder<Part>.Build(Part part) => this.Build(part);
+        object IResourceBuilder<ResponseModel<Part>>.Build(ResponseModel<Part> part) => this.Build(part);
 
-        private IEnumerable<LinkResource> BuildLinks(Part part)
+        private IEnumerable<LinkResource> BuildLinks(ResponseModel<Part> model)
         {
-            throw new NotImplementedException();
+            yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
+
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.PartUpdate, model.Privileges))
+            {
+                yield return new LinkResource { Rel = "update", Href = this.GetLocation(model) };
+            }
         }
     }
 }

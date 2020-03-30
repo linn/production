@@ -14,6 +14,12 @@
 
         public string DecrementRule { get; set; }
 
+        public string LibraryRef { get; set; }
+
+        public string LibraryName { get; set; }
+
+        public string FootprintRef { get; set; }
+
         public string SernosSequence { get; set; }
     }
 }

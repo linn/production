@@ -22,7 +22,9 @@
 
         protected override void UpdateFromResource(Part entity, PartResource updateResource)
         {
-            throw new NotImplementedException();
+            entity.LibraryRef = updateResource.LibraryRef;
+            entity.FootprintRef = updateResource.FootprintRef;
+            entity.LibraryName = updateResource.LibraryName;
         }
 
         protected override Expression<Func<Part, bool>> SearchExpression(string searchTerm)

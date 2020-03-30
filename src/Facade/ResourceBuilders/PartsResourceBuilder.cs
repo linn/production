@@ -4,24 +4,32 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class PartsResourceBuilder : IResourceBuilder<IEnumerable<Part>>
+    public class PartsResourceBuilder : IResourceBuilder<ResponseModel<IEnumerable<Part>>>
     {
-        private readonly PartResourceBuilder partResourceBuilder = new PartResourceBuilder();
+        private readonly PartResourceBuilder partResourceBuilder;
 
-        public IEnumerable<PartResource> Build(IEnumerable<Part> parts)
+        public PartsResourceBuilder(IAuthorisationService authorisationService)
         {
-            return parts
-                .OrderBy(b => b.PartNumber)
-                .Select(a => this.partResourceBuilder.Build(a));
+            this.partResourceBuilder = new PartResourceBuilder(authorisationService);
         }
 
-        object IResourceBuilder<IEnumerable<Part>>.Build(IEnumerable<Part> parts) => this.Build(parts);
+        public IEnumerable<PartResource> Build(ResponseModel<IEnumerable<Part>> model)
+        {
+            var parts = model.ResponseData;
 
-        public string GetLocation(IEnumerable<Part> parts)
+            return parts
+                .OrderBy(b => b.PartNumber)
+                .Select(a => this.partResourceBuilder.Build(new ResponseModel<Part>(a, model.Privileges)));
+        }
+
+        object IResourceBuilder<ResponseModel<IEnumerable<Part>>>.Build(ResponseModel<IEnumerable<Part>> parts) => this.Build(parts);
+
+        public string GetLocation(ResponseModel<IEnumerable<Part>> model)
         {
             throw new NotImplementedException();
         }
