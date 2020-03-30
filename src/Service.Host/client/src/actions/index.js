@@ -312,7 +312,3 @@ export const daysRequiredReportActionTypes = makeReportActionTypes(
 export const manufacturingTimingsReportActionTypes = makeReportActionTypes(
     reportTypes.manufacturingTimingsReport.actionType
 );
-
-export const partCadInfoActionTypes = makeActionTypes(itemTypes.partCadInfo.actionType);
-
-export const partCadInfosActionTypes = makeActionTypes(itemTypes.partCadInfos.actionType);

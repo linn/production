@@ -43,7 +43,7 @@
             }
 
             return this.Negotiate.WithModel(
-                new UnauthorisedResult<ResponseModel<PartCadInfo>>("You are not authorised to update Parts"));
+                new UnauthorisedResult<ResponseModel<Part>>("You are not authorised to update Parts"));
         }
 
         private object GetPartById(string id)

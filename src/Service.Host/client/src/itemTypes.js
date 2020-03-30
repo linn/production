@@ -335,15 +335,3 @@ export const purchaseOrder = new ItemType(
     'PURCHASE_ORDER',
     '/production/resources/purchase-orders'
 );
-
-export const partCadInfo = new ItemType(
-    'partCadInfo',
-    'PART_CAD_INFO',
-    '/production/maintenance/part-cad-info'
-);
-
-export const partCadInfos = new ItemType(
-    'partCadInfos',
-    'PART_CAD_INFOS',
-    '/production/maintenance/part-cad-info'
-);

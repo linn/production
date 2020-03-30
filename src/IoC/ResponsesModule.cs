@@ -75,9 +75,6 @@
             builder.RegisterType<ProductionTriggersReportResourceBuilder>().As<IResourceBuilder<ProductionTriggersReport>>();
             builder.RegisterType<ProductionTriggersFactsResourceBuilder>().As<IResourceBuilder<ProductionTriggerFacts>>();
             builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<ResponseModel<Part>>>();
-            builder.RegisterType<PartCadInfoResourceBuilder>().As<IResourceBuilder<ResponseModel<PartCadInfo>>>();
-            builder.RegisterType<PartCadInfosResourceBuilder>()
-                .As<IResourceBuilder<ResponseModel<IEnumerable<PartCadInfo>>>>();
             builder.RegisterType<PartsResourceBuilder>().As<IResourceBuilder<ResponseModel<IEnumerable<Part>>>>();
             builder.RegisterType<PartFailSupplierResourceBuilder>().As<IResourceBuilder<PartFailSupplierView>>();
             builder.RegisterType<PartFailSuppliersResourceBuilder>()
