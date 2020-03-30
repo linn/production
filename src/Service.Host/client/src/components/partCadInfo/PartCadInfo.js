@@ -4,11 +4,9 @@ import {
     Title,
     Loading,
     InputField,
-    SearchInputField,
     SaveBackCancelButtons,
     SnackbarMessage,
     ErrorCard,
-    useSearch,
     Typeahead
 } from '@linn-it/linn-form-components-library';
 import Grid from '@material-ui/core/Grid';
@@ -19,31 +17,33 @@ export default function PartCadInfo({
     item,
     snackbarVisible,
     itemErrors,
-    updatePartCadInfo,
+    updatePart,
     editStatus,
     setEditStatus,
     history,
     setSnackbarVisible,
-    partCadInfosSearchResults,
-    partCadInfosSearchLoading,
-    searchPartCadInfos,
-    clearPartCadInfosSearch
+    partsSearchResults,
+    partsSearchLoading,
+    searchParts,
+    clearPartsSearch
 }) {
-    const [partCadInfo, setPartCadInfo] = useState(null);
+    const [part, setPart] = useState(null);
 
     const editing = () => editStatus === 'edit';
 
     useEffect(() => {
-        setPartCadInfo(item);
+        setPart(item);
     }, [item]);
 
     const handleFieldChange = (propertyName, newValue) => {
-        setEditStatus('edit');
-        setPartCadInfo({ ...partCadInfo, [propertyName]: newValue });
+        if (editStatus !== 'edit') {
+            setEditStatus('edit');
+        }
+        setPart({ ...part, [propertyName]: newValue });
     };
 
     const handleCancelClick = () => {
-        setPartCadInfo(item);
+        setPart(item);
         setEditStatus('view');
     };
 
@@ -53,7 +53,7 @@ export default function PartCadInfo({
     };
 
     const handleSaveClick = () => {
-        updatePartCadInfo(partCadInfo.msId, partCadInfo);
+        updatePart(part.partNumber, part);
     };
 
     return (
@@ -85,16 +85,16 @@ export default function PartCadInfo({
                     <Typeahead
                         onSelect={newValue => {
                             setEditStatus('edit');
-                            setPartCadInfo(newValue);
+                            setPart(newValue);
                         }}
                         label="Part"
                         modal
-                        items={partCadInfosSearchResults}
-                        value={partCadInfo?.partNumber || ''}
-                        loading={partCadInfosSearchLoading}
-                        fetchItems={searchPartCadInfos}
+                        items={partsSearchResults}
+                        value={part?.partNumber || ''}
+                        loading={partsSearchLoading}
+                        fetchItems={searchParts}
                         links={false}
-                        clearSearch={() => clearPartCadInfosSearch}
+                        clearSearch={() => clearPartsSearch}
                         placeholder="Search By Part Number"
                     />
                 </Grid>
@@ -106,13 +106,13 @@ export default function PartCadInfo({
                     </Grid>
                 ) : (
                     <>
-                        {partCadInfo && (
+                        {part && (
                             <>
                                 <Grid item xs={8}>
                                     <InputField
                                         fullWidth
                                         disabled
-                                        value={partCadInfo.description}
+                                        value={part.description}
                                         label="Description"
                                     />
                                 </Grid>
@@ -120,7 +120,7 @@ export default function PartCadInfo({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        value={partCadInfo.footprintRef}
+                                        value={part.footprintRef}
                                         label="Footprint Ref"
                                         maxLength={30}
                                         onChange={handleFieldChange}
@@ -131,7 +131,7 @@ export default function PartCadInfo({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        value={partCadInfo.libraryRef}
+                                        value={part.libraryRef}
                                         label="Library Ref"
                                         maxLength={30}
                                         onChange={handleFieldChange}
@@ -142,7 +142,7 @@ export default function PartCadInfo({
                                 <Grid item xs={4}>
                                     <InputField
                                         fullWidth
-                                        value={partCadInfo.libraryName}
+                                        value={part.libraryName}
                                         label="Library Name"
                                         maxLength={30}
                                         onChange={handleFieldChange}
@@ -180,14 +180,14 @@ PartCadInfo.propTypes = {
     loading: PropTypes.bool,
     item: PropTypes.shape({}),
     snackbarVisible: PropTypes.bool,
-    updatePartCadInfo: PropTypes.func.isRequired,
+    updatePart: PropTypes.func.isRequired,
     editStatus: PropTypes.string,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
-    partCadInfosSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
-    partCadInfosSearchLoading: PropTypes.bool,
-    searchPartCadInfos: PropTypes.func.isRequired,
-    clearPartCadInfosSearch: PropTypes.func.isRequired
+    partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    partsSearchLoading: PropTypes.bool,
+    searchParts: PropTypes.func.isRequired,
+    clearPartsSearch: PropTypes.func.isRequired
 };
 
 PartCadInfo.defaultProps = {
@@ -196,6 +196,6 @@ PartCadInfo.defaultProps = {
     loading: false,
     item: null,
     editStatus: 'view',
-    partCadInfosSearchResults: [],
-    partCadInfosSearchLoading: false
+    partsSearchResults: [],
+    partsSearchLoading: false
 };
