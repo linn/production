@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.PartsModuleSpecs
+﻿namespace Linn.Production.Service.Tests.PartCadInfoModuleSpecs
 {
     using System.Collections.Generic;
 
@@ -26,14 +26,14 @@
 
             var part = new Part { PartNumber = "PART", LibraryName = "LIB" };
 
-            this.AuthorisationService.HasPermissionFor(AuthorisedAction.PartUpdate, Arg.Any<List<string>>())
+            this.AuthorisationService.HasPermissionFor(AuthorisedAction.PartCadInfoUpdate, Arg.Any<List<string>>())
                 .Returns(true);
 
-            this.PartsFacadeService.Update("PART", Arg.Any<PartResource>(), Arg.Any<List<string>>()).Returns(
+            this.PartsService.Update("PART", Arg.Any<PartResource>(), Arg.Any<List<string>>()).Returns(
                 new SuccessResult<ResponseModel<Part>>(new ResponseModel<Part>(part, new List<string>())));
 
             this.Response = this.Browser.Put(
-                "/production/maintenance/parts/PART",
+                "/production/maintenance/part-cad-info/PART",
                 with =>
                     {
                         with.Header("Accept", "application/json");
@@ -51,7 +51,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.PartsFacadeService.Received().Update("PART", Arg.Any<PartResource>(), Arg.Any<IEnumerable<string>>());
+            this.PartsService.Received().Update("PART", Arg.Any<PartResource>(), Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

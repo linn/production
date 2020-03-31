@@ -22,9 +22,6 @@
         {
             var part = new Part { PartNumber = "PART", Description = "DESC" };
 
-            this.AuthorisationService.HasPermissionFor(AuthorisedAction.PartUpdate, Arg.Any<List<string>>())
-                .Returns(true);
-
             this.PartsFacadeService.GetById("PART", Arg.Any<IEnumerable<string>>()).Returns(
                 new SuccessResult<ResponseModel<Part>>(new ResponseModel<Part>(part, new List<string>())));
 

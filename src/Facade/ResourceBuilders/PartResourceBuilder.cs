@@ -47,11 +47,6 @@
         private IEnumerable<LinkResource> BuildLinks(ResponseModel<Part> model)
         {
             yield return new LinkResource { Rel = "self", Href = this.GetLocation(model) };
-
-            if (this.authorisationService.HasPermissionFor(AuthorisedAction.PartUpdate, model.Privileges))
-            {
-                yield return new LinkResource { Rel = "update", Href = this.GetLocation(model) };
-            }
         }
     }
 }

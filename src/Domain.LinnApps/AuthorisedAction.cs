@@ -22,9 +22,6 @@
 
         public const string ManufacturingTimings = "manufacturing-timings.admin";
 
-        // TODO remove this
         public const string PartCadInfoUpdate = "part-cad-info.admin";
-
-        public const string PartUpdate = "part.admin";
     }
 }

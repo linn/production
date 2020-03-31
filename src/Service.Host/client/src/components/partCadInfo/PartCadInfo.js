@@ -17,7 +17,7 @@ export default function PartCadInfo({
     item,
     snackbarVisible,
     itemErrors,
-    updatePart,
+    updatePartCadInfo,
     editStatus,
     setEditStatus,
     history,
@@ -53,7 +53,8 @@ export default function PartCadInfo({
     };
 
     const handleSaveClick = () => {
-        updatePart(part.partNumber, part);
+        clearPartsSearch();
+        updatePartCadInfo(part.partNumber, part);
     };
 
     return (
@@ -180,7 +181,7 @@ PartCadInfo.propTypes = {
     loading: PropTypes.bool,
     item: PropTypes.shape({}),
     snackbarVisible: PropTypes.bool,
-    updatePart: PropTypes.func.isRequired,
+    updatePartCadInfo: PropTypes.func.isRequired,
     editStatus: PropTypes.string,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
