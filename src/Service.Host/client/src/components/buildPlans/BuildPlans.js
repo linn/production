@@ -135,7 +135,7 @@ export default function BuildPlans({
 
     const handleSaveClick = () => {
         clearErrors();
-        updateBuildPlan(buildPlan);
+        updateBuildPlan(null, buildPlan);
     };
 
     const handleCancelClick = () => {
