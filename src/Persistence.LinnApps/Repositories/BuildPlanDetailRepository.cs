@@ -45,7 +45,7 @@
         public IQueryable<BuildPlanDetail> FindAll()
         {
             return this.serviceDbContext.BuildPlanDetails.Include(b => b.Part).OrderBy(b => b.Part.PartNumber)
-                .ThenByDescending(b => b.FromLinnWeekNumber);
+                .ThenBy(b => b.FromLinnWeekNumber);
         }
 
         public void Add(BuildPlanDetail entity)
