@@ -18,7 +18,7 @@
 
         public BuildPlan FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.BuildPlans.Where(b => b.BuildPlanName == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<BuildPlan> FindAll()
