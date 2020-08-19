@@ -156,8 +156,6 @@
 
         public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
 
-        public DbSet<PartCadInfo> PartCadInfos { get; set; }
-
         public DbQuery<PtlMaster> PtlMaster { get; set; }
         
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
@@ -233,7 +231,6 @@
             this.QuerySernosIssuedView(builder);
             this.QueryPurchaseOrdersReceivedView(builder);
             this.BuildSuppliers(builder);
-            this.BuildPartCadInfo(builder);
             base.OnModelCreating(builder);
         }
 
@@ -755,6 +752,9 @@
             e.Property(p => p.AccountingCompany).HasColumnName("ACCOUNTING_COMPANY").HasMaxLength(10);
             e.Property(p => p.BaseUnitPrice).HasColumnName("BASE_UNIT_PRICE");
             e.Property(p => p.PreferredSupplier).HasColumnName("PREFERRED_SUPPLIER");
+            e.Property(p => p.FootprintRef).HasColumnName("FOOTPRINT_REF");
+            e.Property(p => p.LibraryRef).HasColumnName("LIBRARY_REF");
+            e.Property(p => p.LibraryName).HasColumnName("LIBRARY_NAME");
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)
@@ -1245,19 +1245,6 @@
             builder.Entity<Country>().HasKey(c => c.CountryCode);
             builder.Entity<Country>().Property(c => c.CountryCode).HasColumnName("COUNTRY_CODE");
             builder.Entity<Country>().Property(c => c.Name).HasColumnName("NAME");
-        }
-
-        private void BuildPartCadInfo(ModelBuilder builder)
-        {
-            var e = builder.Entity<PartCadInfo>();
-            e.ToTable("MECH_PART_SOURCES");
-            e.HasKey(m => m.MsId);
-            e.Property(m => m.MsId).HasColumnName("MS_ID");
-            e.Property(m => m.PartNumber).HasColumnName("PART_NUMBER");
-            e.Property(m => m.Description).HasColumnName("PART_DESCRIPTION");
-            e.Property(m => m.FootprintRef).HasColumnName("FOOTPRINT_REF");
-            e.Property(m => m.LibraryRef).HasColumnName("LIBRARY_REF");
-            e.Property(m => m.LibraryName).HasColumnName("LIBRARY_NAME");
         }
 
         private void QuerySernosBuiltView(ModelBuilder builder)

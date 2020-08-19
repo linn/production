@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import { getItemErrors } from '@linn-it/linn-form-components-library';
 import partCadInfoActions from '../../actions/partCadInfoActions';
 import partCadInfoSelectors from '../../selectors/partCadInfoSelectors';
-import partCadInfosActions from '../../actions/partCadInfosActions';
-import partCadInfosSelectors from '../../selectors/partCadInfosSelectors';
+import partsActions from '../../actions/partsActions';
+import partsSelectors from '../../selectors/partsSelectors';
 import PartCadInfo from '../../components/partCadInfo/PartCadInfo';
 
 const mapStateToProps = state => ({
@@ -12,15 +12,15 @@ const mapStateToProps = state => ({
     snackbarVisible: partCadInfoSelectors.getSnackbarVisible(state),
     itemErrors: getItemErrors(state),
     editStatus: partCadInfoSelectors.getEditStatus(state),
-    partCadInfosSearchResults: partCadInfosSelectors
+    partsSearchResults: partsSelectors
         .getSearchItems(state)
-        .map(p => ({ ...p, id: p.msId, name: p.partNumber })),
-    partCadInfosSearchLoading: partCadInfosSelectors.getSearchLoading(state)
+        .map(p => ({ ...p, id: p.partNumber, name: p.partNumber })),
+    partsSearchLoading: partsSelectors.getSearchLoading(state)
 });
 
 const mapDispatchToProps = {
-    searchPartCadInfos: partCadInfosActions.search,
-    clearPartCadInfosSearch: partCadInfosActions.clearSearch,
+    searchParts: partsActions.search,
+    clearPartsSearch: partsActions.clearSearch,
     updatePartCadInfo: partCadInfoActions.update,
     setSnackbarVisible: partCadInfoActions.setSnackbarVisible,
     setEditStatus: partCadInfoActions.setEditStatus

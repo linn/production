@@ -24,8 +24,9 @@
             var part1 = new Part { PartNumber = "P1", Description = "desc1" };
             var part2 = new Part { PartNumber = "P2", Description = "desc2" };
 
-            this.PartsFacadeService.Search("P")
-                .Returns(new SuccessResult<IEnumerable<Part>>(new List<Part> { part1, part2 }));
+            this.PartsFacadeService.Search("P", Arg.Any<IEnumerable<string>>()).Returns(
+                new SuccessResult<ResponseModel<IEnumerable<Part>>>(
+                    new ResponseModel<IEnumerable<Part>>(new List<Part> { part1, part2 }, new List<string>())));
 
 
             this.Response = this.Browser.Get(
@@ -46,7 +47,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.PartsFacadeService.Received().Search("P");
+            this.PartsFacadeService.Received().Search("P", Arg.Any<IEnumerable<string>>());
         }
 
         [Test]

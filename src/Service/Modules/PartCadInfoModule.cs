@@ -14,58 +14,39 @@
 
     public sealed class PartCadInfoModule : NancyModule
     {
-        private readonly IFacadeService<PartCadInfo, int, PartCadInfoResource, PartCadInfoResource> partCadInfoFacadeService;
+        private readonly IFacadeService<Part, string, PartResource, PartResource> partsFacadeService;
 
         private readonly IAuthorisationService authorisationService;
 
         public PartCadInfoModule(
-            IFacadeService<PartCadInfo, int, PartCadInfoResource, PartCadInfoResource> partCadInfoFacadeService,
+            IFacadeService<Part, string, PartResource, PartResource> partsFacadeService,
             IAuthorisationService authorisationService)
         {
-            this.partCadInfoFacadeService = partCadInfoFacadeService;
+            this.partsFacadeService = partsFacadeService;
             this.authorisationService = authorisationService;
             this.Get("/production/maintenance/part-cad-info", _ => this.GetPartCadInfo());
-            this.Get("/production/maintenance/part-cad-info/{id}", parameters => this.GetById(parameters.id));
-            this.Put("/production/maintenance/part-cad-info/{id}", parameters => this.UpdateById(parameters.id));
+            this.Put("/production/maintenance/part-cad-info/{id}", parameters => this.UpdatePart(parameters.id));
         }
 
-        private object UpdateById(int id)
+        private object UpdatePart(string id)
         {
-            var resource = this.Bind<PartCadInfoResource>();
+            var resource = this.Bind<PartResource>();
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
             if (this.authorisationService.HasPermissionFor(AuthorisedAction.PartCadInfoUpdate, privileges))
             {
-                return this.Negotiate.WithModel(this.partCadInfoFacadeService.Update(id, resource, privileges))
+                return this.Negotiate.WithModel(this.partsFacadeService.Update(id, resource, privileges))
                     .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
             }
 
             return this.Negotiate.WithModel(
-                new UnauthorisedResult<ResponseModel<PartCadInfo>>("You are not authorised to update Part Cad Info"));
-        }
-
-        private object GetById(int id)
-        {
-            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-
-            return this.Negotiate.WithModel(this.partCadInfoFacadeService.GetById(id, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+                new UnauthorisedResult<ResponseModel<Part>>("You are not authorised to update Part Cad Info"));
         }
 
         private object GetPartCadInfo()
         {
-            var resource = this.Bind<SearchRequestResource>();
-
-            if (string.IsNullOrEmpty(resource.SearchTerm))
-            {
-                return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
-            }
-
-            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
-
-            return this.Negotiate.WithModel(this.partCadInfoFacadeService.Search(resource.SearchTerm, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
     }
 }

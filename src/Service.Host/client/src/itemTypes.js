@@ -341,9 +341,3 @@ export const partCadInfo = new ItemType(
     'PART_CAD_INFO',
     '/production/maintenance/part-cad-info'
 );
-
-export const partCadInfos = new ItemType(
-    'partCadInfos',
-    'PART_CAD_INFOS',
-    '/production/maintenance/part-cad-info'
-);

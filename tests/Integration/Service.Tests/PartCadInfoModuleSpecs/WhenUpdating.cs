@@ -17,24 +17,23 @@
 
     public class WhenUpdating : ContextBase
     {
-        private PartCadInfoResource requestResource;
+        private PartResource requestResource;
 
         [SetUp]
         public void SetUp()
         {
-            this.requestResource = new PartCadInfoResource { MsId = 123, Description = "DESC" };
+            this.requestResource = new PartResource { PartNumber = "PART", LibraryName = "LIB" };
 
-            var partCadInfo = new PartCadInfo { MsId = 123, Description = "DESC" };
+            var part = new Part { PartNumber = "PART", LibraryName = "LIB" };
 
             this.AuthorisationService.HasPermissionFor(AuthorisedAction.PartCadInfoUpdate, Arg.Any<List<string>>())
                 .Returns(true);
 
-            this.PartCadInfoService.Update(123, Arg.Any<PartCadInfoResource>(), Arg.Any<List<string>>()).Returns(
-                new SuccessResult<ResponseModel<PartCadInfo>>(
-                    new ResponseModel<PartCadInfo>(partCadInfo, new List<string>())));
+            this.PartsService.Update("PART", Arg.Any<PartResource>(), Arg.Any<List<string>>()).Returns(
+                new SuccessResult<ResponseModel<Part>>(new ResponseModel<Part>(part, new List<string>())));
 
             this.Response = this.Browser.Put(
-                "/production/maintenance/part-cad-info/123",
+                "/production/maintenance/part-cad-info/PART",
                 with =>
                     {
                         with.Header("Accept", "application/json");
@@ -52,18 +51,15 @@
         [Test]
         public void ShouldCallService()
         {
-            this.PartCadInfoService.Received().Update(
-                123,
-                Arg.Any<PartCadInfoResource>(),
-                Arg.Any<IEnumerable<string>>());
+            this.PartsService.Received().Update("PART", Arg.Any<PartResource>(), Arg.Any<IEnumerable<string>>());
         }
 
         [Test]
         public void ShouldReturnResource()
         {
-            var resource = this.Response.Body.DeserializeJson<PartCadInfoResource>();
-            resource.MsId.Should().Be(123);
-            resource.Description.Should().Be("DESC");
+            var resource = this.Response.Body.DeserializeJson<PartResource>();
+            resource.PartNumber.Should().Be("PART");
+            resource.LibraryName.Should().Be("LIB");
         }
     }
 }

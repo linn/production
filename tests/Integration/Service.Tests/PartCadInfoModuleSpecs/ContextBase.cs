@@ -20,46 +20,45 @@
 
     public class ContextBase : NancyContextBase
     {
-        protected IFacadeService<PartCadInfo, int, PartCadInfoResource, PartCadInfoResource> PartCadInfoService { get; private set; }
+        protected IFacadeService<Part, string, PartResource, PartResource> PartsService { get; private set; }
 
-        protected IRepository<PartCadInfo, int> PartCadInfoRepository { get; private set; }
+        protected IRepository<Part, string> PartsRepository { get; private set; }
 
         protected IAuthorisationService AuthorisationService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.PartCadInfoService = Substitute
-                .For<IFacadeService<PartCadInfo, int, PartCadInfoResource, PartCadInfoResource>>();
-            this.PartCadInfoRepository = Substitute.For<IRepository<PartCadInfo, int>>();
+            this.PartsService = Substitute.For<IFacadeService<Part, string, PartResource, PartResource>>();
+            this.PartsRepository = Substitute.For<IRepository<Part, string>>();
             this.AuthorisationService = Substitute.For<IAuthorisationService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
-                    {
-                        with.Dependency(this.PartCadInfoService);
-                        with.Dependency(this.PartCadInfoRepository);
-                        with.Dependency(this.AuthorisationService);
-                        with.Dependency<IResourceBuilder<ResponseModel<PartCadInfo>>>(
-                            new PartCadInfoResourceBuilder(this.AuthorisationService));
-                        with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<PartCadInfo>>>>(
-                            new PartCadInfosResourceBuilder(this.AuthorisationService));
-                        with.Module<PartCadInfoModule>();
-                        with.ResponseProcessor<PartCadInfoResponseProcessor>();
-                        with.ResponseProcessor<PartCadInfosResponseProcessor>();
-                        with.RequestStartup(
-                            (container, pipelines, context) =>
-                                {
-                                    var claims = new List<Claim>
-                                                     {
+                {
+                    with.Dependency(this.PartsService);
+                    with.Dependency(this.PartsRepository);
+                    with.Dependency(this.AuthorisationService);
+                    with.Dependency<IResourceBuilder<ResponseModel<Part>>>(
+                        new PartResourceBuilder(this.AuthorisationService));
+                    with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<Part>>>>(
+                        new PartsResourceBuilder(this.AuthorisationService));
+                    with.Module<PartCadInfoModule>();
+                    with.ResponseProcessor<PartResponseProcessor>();
+                    with.ResponseProcessor<PartsResponseProcessor>();
+                    with.RequestStartup(
+                        (container, pipelines, context) =>
+                        {
+                            var claims = new List<Claim>
+                                                 {
                                                          new Claim(ClaimTypes.Role, "employee"),
                                                          new Claim(ClaimTypes.NameIdentifier, "test-user")
-                                                     };
-                                    var user = new ClaimsIdentity(claims, "jwt");
+                                                 };
+                            var user = new ClaimsIdentity(claims, "jwt");
 
-                                    context.CurrentUser = new ClaimsPrincipal(user);
-                                });
-                    });
+                            context.CurrentUser = new ClaimsPrincipal(user);
+                        });
+                });
 
             this.Browser = new Browser(bootstrapper);
         }

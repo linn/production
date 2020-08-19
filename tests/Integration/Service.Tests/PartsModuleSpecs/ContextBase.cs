@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Security.Claims;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
@@ -23,6 +24,8 @@
 
         protected IRepository<Part, string> PartRepository { get; private set; }
 
+        protected IAuthorisationService AuthorisationService { get; private set; }
+
         [SetUp]
         public void EstablishContext()
         {
@@ -30,13 +33,16 @@
 
             this.PartRepository = Substitute.For<IRepository<Part, string>>();
 
+            this.AuthorisationService = Substitute.For<IAuthorisationService>();
+
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.PartsFacadeService);
                     with.Dependency(this.PartRepository);
-                    with.Dependency<IResourceBuilder<Part>>(new PartResourceBuilder());
-                    with.Dependency<IResourceBuilder<IEnumerable<Part>>>(new PartsResourceBuilder());
+                    with.Dependency(this.AuthorisationService);
+                    with.Dependency<IResourceBuilder<ResponseModel<Part>>>(new PartResourceBuilder(this.AuthorisationService));
+                    with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<Part>>>>(new PartsResourceBuilder(this.AuthorisationService));
                     with.Module<PartsModule>();
                     with.ResponseProcessor<PartResponseProcessor>();
                     with.ResponseProcessor<PartsResponseProcessor>();

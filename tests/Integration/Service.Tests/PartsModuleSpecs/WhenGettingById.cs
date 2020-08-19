@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.PartsModuleSpecs
 {
+    using System.Collections.Generic;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -20,7 +22,8 @@
         {
             var part = new Part { PartNumber = "PART", Description = "DESC" };
 
-            this.PartsFacadeService.GetById("PART").Returns(new SuccessResult<Part>(part));
+            this.PartsFacadeService.GetById("PART", Arg.Any<IEnumerable<string>>()).Returns(
+                new SuccessResult<ResponseModel<Part>>(new ResponseModel<Part>(part, new List<string>())));
 
             this.Response = this.Browser.Get(
                 "/production/maintenance/parts/PART",
@@ -36,7 +39,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.PartsFacadeService.Received().GetById("PART");
+            this.PartsFacadeService.Received().GetById("PART", Arg.Any<IEnumerable<string>>());
         }
 
         [Test]
