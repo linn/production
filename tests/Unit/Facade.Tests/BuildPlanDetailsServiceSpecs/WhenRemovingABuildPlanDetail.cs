@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using FluentAssertions;
+
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Resources;
@@ -11,7 +13,7 @@
 
     using NUnit.Framework;
 
-    public class WhenUpdatingBuildPlanDetail : ContextBase
+    public class WhenRemovingABuildPlanDetail : ContextBase
     {
         private IResult<ResponseModel<BuildPlanDetail>> result;
 
@@ -34,13 +36,27 @@
 
             this.BuildPlanDetailRepository.FindById(Arg.Any<BuildPlanDetailKey>()).Returns(this.buildPlanDetail);
 
-            this.result = this.Sut.UpdateBuildPlanDetail(this.resource, new List<string>());
+            this.result = this.Sut.RemoveBuildPlanDetail(this.resource, new List<string>());
         }
 
         [Test]
-        public void ShouldCallRepository()
+        public void ShouldGetBuildPlanDetail()
         {
             this.BuildPlanDetailRepository.Received().FindById(Arg.Any<BuildPlanDetailKey>());
+        }
+
+        [Test]
+        public void ShouldRemoveBuildPlanDetail()
+        {
+            this.BuildPlanDetailRepository.Received().Remove(this.buildPlanDetail);
+        }
+
+        [Test]
+        public void ShouldReturnBuildPlanDetail()
+        {
+            var dataResult = ((SuccessResult<ResponseModel<BuildPlanDetail>>)this.result).Data;
+            dataResult.ResponseData.PartNumber.Should().Be("PART");
+            dataResult.ResponseData.BuildPlanName.Should().Be("NAME");
         }
     }
 }

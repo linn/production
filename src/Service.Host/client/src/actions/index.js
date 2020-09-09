@@ -267,7 +267,11 @@ export const workStationsActionTypes = makeActionTypes(itemTypes.workStations.ac
 
 export const buildPlanActionTypes = makeActionTypes(itemTypes.buildPlan.actionType);
 
-export const buildPlanDetailActionTypes = makeActionTypes(itemTypes.buildPlanDetail.actionType);
+export const buildPlanDetailActionTypes = makeActionTypes(
+    itemTypes.buildPlanDetail.actionType,
+    true,
+    true
+);
 
 export const buildPlanDetailsActionTypes = makeActionTypes(itemTypes.buildPlanDetails.actionType);
 

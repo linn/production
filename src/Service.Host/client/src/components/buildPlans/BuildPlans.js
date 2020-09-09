@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import {
     Title,
     Loading,
@@ -48,7 +49,8 @@ export default function BuildPlans({
     buildPlanDetailsErrorMessage,
     buildPlanRulesErrorMessage,
     clearBuildPlanErrors,
-    clearBuildPlanDetailErrors
+    clearBuildPlanDetailErrors,
+    deleteBuildPlanDetail
 }) {
     const [buildPlan, setBuildPlan] = useState({ buildPlanName: '', description: '' });
     const [buildPlanOptions, setBuildPlanOptions] = useState([{ id: '', displayText: '' }]);
@@ -167,12 +169,29 @@ export default function BuildPlans({
         setBuildPlan(bp => ({ ...bp, [propertyName]: newValue }));
     };
 
+    const handleDeleteBuildPlanDetail = item => {
+        clearErrors();
+        deleteBuildPlanDetail(null, item);
+    };
+
+    const updateRow = (item, setItem, propertyName, newValue) => {
+        if (propertyName === 'fromDate' && !item.toDate) {
+            setItem({ ...item, [propertyName]: newValue, toDate: newValue });
+            return;
+        }
+        setItem({ ...item, [propertyName]: newValue });
+    };
+
+    const validateRow = item => {
+        return moment(item.toDate).isSameOrAfter(item.fromDate, 'day');
+    };
+
     const columns = [
         {
             title: 'Part Number',
             id: 'partNumber',
             type: 'search',
-            editable: true,
+            editable: false,
             search: searchParts,
             clearSearch: clearPartsSearch,
             searchResults: partsSearchResults,
@@ -185,7 +204,7 @@ export default function BuildPlans({
             title: 'From Week',
             id: 'fromDate',
             type: 'linnWeek',
-            editable: true,
+            editable: false,
             required: true
         },
         {
@@ -331,6 +350,9 @@ export default function BuildPlans({
                                         newRow={newRow}
                                         createRow={handleSaveBuildPlanDetail}
                                         saveRow={handleUpdateBuildPlanDetail}
+                                        updateRow={updateRow}
+                                        validateRow={validateRow}
+                                        deleteRow={handleDeleteBuildPlanDetail}
                                     />
                                 </Grid>
                             </>
@@ -381,7 +403,8 @@ BuildPlans.propTypes = {
     buildPlanDetailsErrorMessage: PropTypes.string,
     buildPlanRulesErrorMessage: PropTypes.string,
     clearBuildPlanErrors: PropTypes.func.isRequired,
-    clearBuildPlanDetailErrors: PropTypes.func.isRequired
+    clearBuildPlanDetailErrors: PropTypes.func.isRequired,
+    deleteBuildPlanDetail: PropTypes.func.isRequired
 };
 
 BuildPlans.defaultProps = {
