@@ -19,5 +19,9 @@
         public const string BuildPlanDetailAdd = "build-plans.admin";
 
         public const string BuildPlanDetailUpdate = "build-plans.admin";
+
+        public const string ManufacturingTimings = "manufacturing-timings.admin";
+
+        public const string PartCadInfoUpdate = "part-cad-info.admin";
     }
 }

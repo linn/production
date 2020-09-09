@@ -75,7 +75,7 @@
                                                                           NumberOfFails = 1,
                                                                           PartNumber = "comp 2",
                                                                           ItemNumber = 1,
-                                                                          BatchNumber = 1,
+                                                                          BatchNumber = "1",
                                                                           CircuitRef = "circuit 12",
                                                                           PcbOperator = new Employee { Id = 2, FullName = "NAME" }
                                                                       }
@@ -100,7 +100,7 @@
                                                                           NumberOfFails = 1,
                                                                           PartNumber = "comp 1",
                                                                           ItemNumber = 1,
-                                                                          BatchNumber = 45
+                                                                          BatchNumber = "45"
                                                                       }
                                                               }
                                             },
@@ -124,7 +124,7 @@
                                                                           NumberOfFails = 1,
                                                                           PartNumber = "comp 1",
                                                                           ItemNumber = 1,
-                                                                          BatchNumber = 1,
+                                                                          BatchNumber = "1",
                                                                           CircuitRef = "circuit 1"
                                                                       }
                                                               }

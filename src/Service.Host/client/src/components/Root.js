@@ -95,6 +95,7 @@ import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/
 import BuildPlans from '../containers/buildPlans/BuildPlans';
 import CreateBuildPlan from '../containers/buildPlans/CreateBuildPlan';
 import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
+import AteStatusReportByDateOptions from '../containers/reports/AteStatusReportByDateOptions';
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
 import AteTest from '../containers/ate/AteTest';
@@ -110,8 +111,9 @@ import LabelPrint from '../containers/labels/LabelPrint';
 import PurchaseOrder from '../containers/PurchaseOrder';
 import PurchaseOrders from '../containers/PurchaseOrders';
 import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
-import mWTimingsReport from '../containers/mWTimings/TimingsReport';
-import mWTimingsSetup from '../containers/mWTimings/TimingsSetup';
+import manufacturingTimingsReport from '../containers/manufacturingTimings/TimingsReport';
+import manufacturingTimingsSetup from '../containers/manufacturingTimings/TimingsSetup';
+import PartCadInfo from '../containers/partCadInfo/PartCadInfo';
 
 const Root = ({ store }) => (
     <div>
@@ -399,6 +401,11 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/ate/status-by-date"
+                                        component={AteStatusReportByDateOptions}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/ate/details/report"
                                         component={AteDetailsReport}
                                     />
@@ -670,13 +677,18 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/mw-timings-setup"
-                                        component={mWTimingsSetup}
+                                        path="/production/reports/manufacturing-timings-setup"
+                                        component={manufacturingTimingsSetup}
                                     />
                                     <Route
                                         exact
-                                        path="/production/reports/mw-timings"
-                                        component={mWTimingsReport}
+                                        path="/production/reports/manufacturing-timings"
+                                        component={manufacturingTimingsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/part-cad-info"
+                                        component={PartCadInfo}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

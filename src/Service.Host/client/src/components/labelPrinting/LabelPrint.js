@@ -375,7 +375,7 @@ function LabelPrint({
                                                 }))}
                                                 onChange={handleLabelTypeChange}
                                                 propertyName="labelType"
-                                                allowNoValue
+                                                allowNoValue={false}
                                             />
                                         </Grid>
                                         <Grid item xs={5} className={classes.spacingRight}>

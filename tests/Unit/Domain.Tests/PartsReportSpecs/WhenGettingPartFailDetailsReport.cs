@@ -7,6 +7,7 @@
     using FluentAssertions;
 
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
 
     using NSubstitute;
@@ -45,6 +46,18 @@
         }
 
         [Test]
+        public void ShouldCallPurchaseOrderRepository()
+        {
+            this.PurchaseOrderRepository.Received().FilterBy(Arg.Any<Expression<Func<PurchaseOrder, bool>>>());
+        }
+
+        [Test]
+        public void ShouldCallSupplierRepository()
+        {
+            this.SupplierRepository.Received().FilterBy(Arg.Any<Expression<Func<Supplier, bool>>>());
+        }
+
+        [Test]
         public void ShouldGetReportTitle()
         {
             this.result.ReportTitle.DisplayValue.Should().Be("Part Fail - Details for weeks 12/3 - 32/1");
@@ -62,11 +75,8 @@
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Part Number");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Part Description");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Date Created");
-            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Batch");
-            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Fault Code");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Story");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Quantity");
-            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Minutes Wasted");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Error Type");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Base Unit Price");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Total Price");

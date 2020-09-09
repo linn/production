@@ -42,11 +42,16 @@
 
         private LabelPrintResponse PrintSmallLabel(LabelPrint resource, string dateTimeNow, string printer)
         {
-            var data = string.IsNullOrWhiteSpace(resource.LinesForPrinting.Line2)
-                           ? resource.LinesForPrinting.Line1
-                           : $"\"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\"";
+           var data = resource.LinesForPrinting.Line1;
+           var template = "c:\\lbl\\genSmallLabel.btw";
 
-            this.labelService.PrintLabel($"S{dateTimeNow}", printer, resource.Quantity, "c:\\lbl\\genSmallLabel.btw", data);
+            if (!string.IsNullOrWhiteSpace(resource.LinesForPrinting.Line2))
+            {
+                data = $"\"{resource.LinesForPrinting.Line1}\", \"{resource.LinesForPrinting.Line2}\"";
+                template = "c:\\lbl\\genSmallLabel2.btw";
+            }
+
+            this.labelService.PrintLabel($"S{dateTimeNow}", printer, resource.Quantity, template, data);
 
             return new LabelPrintResponse($"printed small label{(resource.Quantity != 1 ? "s" : "")}");
         }

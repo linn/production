@@ -147,6 +147,8 @@ export const smtOutstandingWorkOrderPartsActionTypes = makeReportActionTypes(
 
 export const partsActionsTypes = makeActionTypes(itemTypes.parts.actionType, false);
 
+export const partActionTypes = makeActionTypes(itemTypes.part.actionType);
+
 export const smtShiftsActionTypes = makeActionTypes(itemTypes.smtShifts.actionType);
 
 export const ptlSettingsActionTypes = makeActionTypes(itemTypes.ptlSettings.actionType);
@@ -307,6 +309,8 @@ export const daysRequiredReportActionTypes = makeReportActionTypes(
     reportTypes.daysRequiredReport.actionType
 );
 
-export const metalWorkTimingsReportActionTypes = makeReportActionTypes(
-    reportTypes.metalWorkTimingsReport.actionType
+export const manufacturingTimingsReportActionTypes = makeReportActionTypes(
+    reportTypes.manufacturingTimingsReport.actionType
 );
+
+export const partCadInfoActionTypes = makeActionTypes(itemTypes.partCadInfo.actionType);

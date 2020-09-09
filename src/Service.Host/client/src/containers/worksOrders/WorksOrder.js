@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import {
     getItemErrors,
     getItemErrorDetailMessage,
-    initialiseOnMount
+    initialiseOnMount,
+    getPreviousPaths
 } from '@linn-it/linn-form-components-library';
 import WorksOrder from '../../components/worksOrders/WorksOrder';
 import worksOrderSelectors from '../../selectors/worksOrderSelectors';
@@ -21,14 +22,16 @@ import printWorksOrderAioLabelsSelectors from '../../selectors/printWorksOrderAi
 import getWorksOrderDefaultPrinter from '../../selectors/localStorageSelectors';
 import serialNumberActions from '../../actions/serialNumberActions';
 import serialNumberSelectors from '../../selectors/serialNumberSelectors';
-import getPreviousPath from '../../selectors/getPreviousPath';
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
+import getProfile from '../../selectors/userSelectors';
+import partsActions from '../../actions/partsActions';
 
 const mapStateToProps = (state, { match }) => ({
     item: worksOrderSelectors.getItem(state),
     itemErrors: getItemErrors(state),
     orderNumber: match.params.id,
+    profile: getProfile(state),
     worksOrderError: getItemErrorDetailMessage(state, itemTypes.worksOrder.item),
     worksOrderDetailsError: getItemErrorDetailMessage(state, itemTypes.worksOrderDetails.item),
     editStatus: worksOrderSelectors.getEditStatus(state),
@@ -54,7 +57,7 @@ const mapStateToProps = (state, { match }) => ({
     defaultWorksOrderPrinter: getWorksOrderDefaultPrinter(state),
     serialNumbers: serialNumberSelectors.getItems(state),
     serialNumbersLoading: serialNumberSelectors.getLoading(state),
-    previousPath: getPreviousPath(state)
+    previousPaths: getPreviousPaths(state)
 });
 
 const initialise = ({ orderNumber }) => dispatch => {
@@ -83,7 +86,8 @@ const mapDispatchToProps = {
     setPrintWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelActions.setMessageVisible,
     clearErrors: worksOrderActions.clearErrorsForItem,
     setDefaultWorksOrderPrinter,
-    fetchSerialNumbers: serialNumberActions.fetchByQueryString
+    fetchSerialNumbers: serialNumberActions.fetchByQueryString,
+    searchParts: partsActions.search
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(WorksOrder));

@@ -6,7 +6,8 @@ import AteStatusReportOptions from '../../components/reports/AteStatusReportOpti
 const reportSelectors = new ReportSelectors('ateStatusReport');
 
 const mapStateToProps = state => ({
-    prevOptions: reportSelectors.getReportOptions(state)
+    prevOptions: reportSelectors.getReportOptions(state),
+    byDate: false
 });
 
 export default connect(mapStateToProps, null)(withRouter(AteStatusReportOptions));

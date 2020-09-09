@@ -1,13 +1,13 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
     using System;
-
     using Linn.Common.Reporting.Models;
 
-    public interface IMWTimingsReportService
+    public interface IManufacturingTimingsReportService
     {
         ResultsModel GetTimingsReport(
             DateTime from,
-            DateTime to);
+            DateTime to,
+            string citCode);
     }
 }

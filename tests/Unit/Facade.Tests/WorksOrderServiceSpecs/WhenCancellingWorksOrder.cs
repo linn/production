@@ -30,6 +30,7 @@
                                 {
                                     OrderNumber = 1234,
                                     ReasonCancelled = "Reason",
+                                    CancelledBy = 33067,
                                     Links = new[] { new LinkResource("updated-by", $"/employees/{this.updatedBy}") }
             };
 

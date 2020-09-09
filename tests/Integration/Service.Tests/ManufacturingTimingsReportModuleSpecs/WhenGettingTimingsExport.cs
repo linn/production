@@ -2,17 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-
     using FluentAssertions;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Common.Reporting.Resources.Extensions;
-
+    using Linn.Production.Domain.LinnApps;
     using Nancy;
-
     using NSubstitute;
-
     using NUnit.Framework;
 
     public class WhenGettingBuildsDetailExport : ContextBase
@@ -21,9 +17,10 @@
         public void SetUp()
         {
             var results = new ResultsModel(new[] { "col1" }).ConvertToCsvList();
-            this.service.GetMetalWorkTimingsExport(
+            this.Service.GetManufacturingTimingsExport(
                     DateTime.UnixEpoch,
-                    DateTime.UnixEpoch)
+                    DateTime.UnixEpoch,
+                    Arg.Any<string>())
                 .Returns(
                     new SuccessResult<IEnumerable<IEnumerable<string>>>(results)
                     {
@@ -31,13 +28,14 @@
                     });
 
             this.Response = this.Browser.Get(
-                "/production/reports/mw-timings/export",
+                "/production/reports/manufacturing-timings/export",
                 with =>
                 {
                     with.Header("Accept", "text/csv");
                     with.Header("Accept", "application/json");
                     with.Query("startDate", DateTime.UnixEpoch.ToString("d"));
                     with.Query("endDate", DateTime.UnixEpoch.ToString("d"));
+                    with.Query("citCode", "MW");
                 }).Result;
         }
 
@@ -50,9 +48,10 @@
         [Test]
         public void ShouldCallService()
         {
-            this.service.Received().GetMetalWorkTimingsExport(
+            this.Service.Received().GetManufacturingTimingsExport(
                 DateTime.UnixEpoch,
-                DateTime.UnixEpoch);
+                DateTime.UnixEpoch,
+                Arg.Any<string>());
         }
     }
 }

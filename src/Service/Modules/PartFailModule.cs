@@ -57,6 +57,7 @@
             this.Post("/production/quality/part-fail-fault-codes", parameters => this.AddFaultCode());
 
             this.Get("/production/quality/part-fails/detail-report/report", _ => this.GetPartFailDetailsReport());
+            this.Get("/production/quality/part-fails/detail-report/report/export", _ => this.GetPartFailDetailsReportExport());
             this.Get("/production/quality/part-fails/detail-report", _ => this.GetPartFailsDetailReportOptions());
 
             this.Get("/production/quality/part-fails/suppliers", _ => this.GetPartFailSuppliers());
@@ -228,6 +229,22 @@
                 .WithModel(results)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
+        }
+
+        private object GetPartFailDetailsReportExport()
+        {
+            var resource = this.Bind<PartFailDetailsReportRequestResource>();
+
+            return this.Negotiate
+                .WithModel(
+                    this.partsReportFacadeService.GetPartFailDetailsReportCsv(
+                        resource.SupplierId,
+                        resource.FromWeek,
+                        resource.ToWeek,
+                        resource.ErrorType,
+                        resource.FaultCode,
+                        resource.PartNumber,
+                        resource.Department)).WithAllowedMediaRange("text/csv").WithView("Index");
         }
 
         private object GetPartFailSuppliers()

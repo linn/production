@@ -53,6 +53,7 @@
                     with.Dependency(this.ErrorTypeService);
                     with.Dependency(this.PartsReportFacadeService);
                     with.Dependency(this.PartFailSupplierService);
+
                     with.Dependency<IResourceBuilder<PartFail>>(new PartFailResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<PartFail>>>(new PartFailsResourceBuilder());
                     with.Dependency<IResourceBuilder<PartFailErrorType>>(new PartFailErrorTypeResourceBuilder());
@@ -65,7 +66,9 @@
                     with.Dependency<IResourceBuilder<PartFailSupplierView>>(new PartFailSupplierResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<PartFailSupplierView>>>(
                         new PartFailSuppliersResourceBuilder());
+
                     with.Module<PartFailsModule>();
+
                     with.ResponseProcessor<PartFailResponseProcessor>();
                     with.ResponseProcessor<PartFailsResponseProcessor>();
                     with.ResponseProcessor<PartFailErrorTypeResponseProcessor>();
@@ -76,6 +79,7 @@
                     with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
                     with.ResponseProcessor<PartFailSupplierResponseProcessor>();
                     with.ResponseProcessor<PartFailSuppliersResponseProcessor>();
+                    with.ResponseProcessor<IEnumerableCsvResponseProcessor>();
                     with.RequestStartup(
                         (container, pipelines, context) =>
                         {

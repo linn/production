@@ -1,30 +1,35 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Reports
 {
-    using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps.RemoteServices;
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
 
-    public class MWTimingsReportService : IMWTimingsReportService
+    public class ManufacturingTimingsReportService : IManufacturingTimingsReportService
     {
-        private readonly IMWTimingsDatabaseReportService databaseService;
+        private readonly IManufacturingTimingsDatabaseReportService databaseService;
         
-        public MWTimingsReportService(
-            IMWTimingsDatabaseReportService databaseService)
+        public ManufacturingTimingsReportService(
+            IManufacturingTimingsDatabaseReportService databaseService)
         {
             this.databaseService = databaseService;
         }
 
-        public ResultsModel GetTimingsReport(DateTime from, DateTime to)
+        public ResultsModel GetTimingsReport(DateTime from, DateTime to, string citCode)
         {
-            var allOps = this.databaseService.GetAllOpsDetail(from, to);
+            if (citCode == "MW")
+            {
+                citCode = "K' or ptl.cit_code = 'G' or ptl.cit_code = 'H' or ptl.cit_code = 'N";
+            }
 
-            var mwBuilds = this.databaseService.GetCondensedMWBuildsDetail(from, to);
+            var allOps = this.databaseService.GetAllOpsDetail(from, to, citCode);
+
+            var metalWorkBuilds = this.databaseService.GetCondensedBuildsDetail(from, to, citCode);
 
             var partGroups = allOps.Select().GroupBy(r => r[1]).ToList(); //groupby part no
 
-            var mwBuildsList = mwBuilds.Select().ToList();
+            var buildsList = metalWorkBuilds.Select().ToList();
 
             var colHeaders = new List<string>
                                  {
@@ -35,49 +40,57 @@
             var results = new ResultsModel(colHeaders)
             {
                 ReportTitle = new NameModel(
-                    $"Metal Work Timings Report")
+                    $"Manufacturing Timings Report")
             };
             
             var rowIndex = 0;
 
             foreach (var partGroup in partGroups)
             {
-                var partNumber = partGroup.First().ItemArray[1];
-                var totalMinsTakenForPart = 0;
+                var partNumber = partGroup.First().ItemArray[1].ToString();
+                decimal totalMinsTakenForPart = 0;
 
                 foreach (var entry in partGroup)
                 {
                     results.AddRow(rowIndex.ToString());
-                    results.AddToGridValue(rowIndex, 0, (decimal)entry.ItemArray[0]);             //order no
+                    results.SetGridTextValue(rowIndex, 0, entry.ItemArray[0].ToString());             //order no
                     results.SetGridTextValue(rowIndex, 1, entry.ItemArray[1].ToString()); //part no
-                    results.AddToGridValue(rowIndex, 2, (decimal)entry.ItemArray[2]);              //qty
+                    results.SetGridTextValue(rowIndex, 2, entry.ItemArray[2].ToString());              //qty
                     results.SetGridTextValue(rowIndex, 3, entry.ItemArray[3].ToString()); //Operation type
                     results.SetGridTextValue(rowIndex, 4, entry.ItemArray[4].ToString()); //resource code
                     results.SetGridTextValue(rowIndex, 5, entry.ItemArray[5].ToString()); //start
                     results.SetGridTextValue(rowIndex, 6, entry.ItemArray[6].ToString()); //end
                     results.SetGridTextValue(rowIndex, 7, entry.ItemArray[7].ToString()); //built by
-                    results.AddToGridValue(rowIndex, 8, (decimal)entry.ItemArray[8]);              //mins taken
+                    results.SetGridTextValue(rowIndex, 8, entry.ItemArray[8].ToString());              //mins taken
                     rowIndex++;
-                    totalMinsTakenForPart += (int)entry.ItemArray[8];
+                    totalMinsTakenForPart += (decimal)entry.ItemArray[8];
                 }
 
-                var mwBuild = mwBuildsList.Find(x => x.ItemArray[0] == partNumber); 
-                mwBuildsList.Remove(mwBuild);
+                var build = buildsList.FirstOrDefault(x => x.ItemArray[0].ToString() == partNumber);
 
                 results.AddRow(rowIndex.ToString());
                 results.SetGridTextValue(rowIndex, 1, $"{partNumber} Total");
-                results.AddToGridValue(rowIndex, 8, totalMinsTakenForPart); //total mins taken
+                results.SetGridTextValue(rowIndex, 8, totalMinsTakenForPart.ToString()); //total mins taken
 
-                var totalDaysTakenForPart = totalMinsTakenForPart / 410;
-                results.AddToGridValue(rowIndex, 9, totalDaysTakenForPart); //% of day(s) taken
-                results.SetGridTextValue(rowIndex, 10, mwBuild.ItemArray[4].ToString()); //Expected days
+                decimal totalDaysTakenForPart = Math.Round(totalMinsTakenForPart / 410, 2);
+                results.SetGridTextValue(rowIndex, 9, totalDaysTakenForPart.ToString()); //% of day(s) taken
+
+                if (build != null)
+                {
+                    buildsList.Remove(build);
+                    results.SetGridTextValue(rowIndex, 10, build.ItemArray[4].ToString()); //Expected days
+                }
+                else
+                {
+                    results.SetGridTextValue(rowIndex, 10, "Error"); //Expected days
+                }
 
                 rowIndex++;
                 results.AddRow(rowIndex.ToString());
                 rowIndex++;
             }
 
-            foreach (var remainingBuild in mwBuildsList)
+            foreach (var remainingBuild in buildsList)
             {
                 results.AddRow(rowIndex.ToString());
                 results.SetGridTextValue(rowIndex, 1, remainingBuild.ItemArray[0].ToString()); //part no

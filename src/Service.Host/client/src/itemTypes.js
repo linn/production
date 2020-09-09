@@ -156,6 +156,8 @@ export const manufacturingRoutes = new ItemType(
 
 export const parts = new ItemType('parts', 'PARTS', '/production/maintenance/parts');
 
+export const part = new ItemType('part', 'PART', '/production/maintenance/parts');
+
 export const smtShifts = new ItemType(
     'smtShifts',
     'SMT_SHIFTS',
@@ -332,4 +334,10 @@ export const purchaseOrder = new ItemType(
     'purchaseOrder',
     'PURCHASE_ORDER',
     '/production/resources/purchase-orders'
+);
+
+export const partCadInfo = new ItemType(
+    'partCadInfo',
+    'PART_CAD_INFO',
+    '/production/maintenance/part-cad-info'
 );

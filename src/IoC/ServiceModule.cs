@@ -55,8 +55,8 @@
             builder.RegisterType<ShortageSummaryReportService>().As<IShortageSummaryReportService>();
             builder.RegisterType<ProductionMeasuresReportService>().As<IProductionMeasuresReportService>();
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
-            builder.RegisterType<MWTimingsReportService>().As<IMWTimingsReportService>();
-            builder.RegisterType<MWTimingsReportProxy>().As<IMWTimingsDatabaseReportService>();
+            builder.RegisterType<ManufacturingTimingsReportService>().As<IManufacturingTimingsReportService>();
+            builder.RegisterType<ManufacturingTimingsReportProxy>().As<IManufacturingTimingsDatabaseReportService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
@@ -95,7 +95,7 @@
             builder.RegisterType<ManufacturingOperationsService>()
                 .As<IFacadeService<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>, IServiceWithRemove<ManufacturingOperation, int, ManufacturingOperationResource, ManufacturingOperationResource>>();
             builder.RegisterType<SmtReportsFacadeService>().As<ISmtReportsFacadeService>();
-            builder.RegisterType<PartsFacadeService>().As<IPartsFacadeService>();
+            builder.RegisterType<PartsFacadeService>().As<IFacadeService<Part, string, PartResource, PartResource>>();
             builder.RegisterType<SmtShiftsService>()
                 .As<IFacadeService<SmtShift, string, SmtShiftResource, SmtShiftResource>>();
             builder.RegisterType<PtlSettingsFacadeService>().As<ISingleRecordFacadeService<PtlSettings, PtlSettingsResource>>();
@@ -140,7 +140,7 @@
             builder.RegisterType<AddressService>().As<IFacadeWithSearchReturnTen<Address, int, AddressResource, AddressResource>>();
             builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
             builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
-            builder.RegisterType<MetalWorkTimingsFacadeService>().As<IMetalWorkTimingsFacadeService>();
+            builder.RegisterType<ManufacturingTimingsFacadeService>().As<IManufacturingTimingsFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

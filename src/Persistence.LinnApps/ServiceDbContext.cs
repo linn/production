@@ -752,6 +752,9 @@
             e.Property(p => p.AccountingCompany).HasColumnName("ACCOUNTING_COMPANY").HasMaxLength(10);
             e.Property(p => p.BaseUnitPrice).HasColumnName("BASE_UNIT_PRICE");
             e.Property(p => p.PreferredSupplier).HasColumnName("PREFERRED_SUPPLIER");
+            e.Property(p => p.FootprintRef).HasColumnName("FOOTPRINT_REF");
+            e.Property(p => p.LibraryRef).HasColumnName("LIBRARY_REF");
+            e.Property(p => p.LibraryName).HasColumnName("LIBRARY_NAME");
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)
@@ -1014,6 +1017,7 @@
             builder.Entity<PurchaseOrder>().HasOne<Address>(p => p.OrderAddress).WithMany(a => a.PurchaseOrders).HasForeignKey(o => o.OrderAddressId);
             builder.Entity<PurchaseOrder>().Property(o => o.DocumentType).HasColumnName("DOCUMENT_TYPE");
             builder.Entity<PurchaseOrder>().Property(o => o.Remarks).HasColumnName("REMARKS");
+            builder.Entity<PurchaseOrder>().Property(o => o.SupplierId).HasColumnName("SUPP_SUPPLIER_ID");
         }
 
         private void BuildPurchaseOrderDetails(ModelBuilder builder)

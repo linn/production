@@ -20,7 +20,7 @@
 
         public string Shift { get; set; }
 
-        public int? BatchNumber { get; set; }
+        public string BatchNumber { get; set; }
 
         public Employee PcbOperator { get; set; }
 

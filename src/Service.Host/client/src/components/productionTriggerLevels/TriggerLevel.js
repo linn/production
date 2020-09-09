@@ -332,7 +332,7 @@ function TriggerLevel({
                                         <InputField
                                             value={triggerLevel.kanbanSize}
                                             label="Kanban Size"
-                                            maxLength={2}
+                                            maxLength={3}
                                             type="number"
                                             fullWidth
                                             helperText={
@@ -349,7 +349,7 @@ function TriggerLevel({
                                             value={triggerLevel.maximumKanbans}
                                             label="Maximum Kanbans"
                                             type="number"
-                                            maxLength={2}
+                                            maxLength={3}
                                             fullWidth
                                             helperText={
                                                 maximumKanbansInvalid()

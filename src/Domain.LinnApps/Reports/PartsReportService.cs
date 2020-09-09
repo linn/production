@@ -20,15 +20,23 @@
 
         private readonly ILinnWeekPack linnWeekPack;
 
+        private readonly IRepository<Supplier, int> supplierRepository;
+
+        private readonly IRepository<PurchaseOrder, int> purchaseOrderRepository;
+
         public PartsReportService(
             IRepository<PartFail, int> partFailLogRepository,
             IQueryRepository<EmployeeDepartmentView> employeeDepartmentViewRepository,
             IReportingHelper reportingHelper,
-            ILinnWeekPack linnWeekPack)
+            ILinnWeekPack linnWeekPack,
+            IRepository<Supplier, int> supplierRepository,
+            IRepository<PurchaseOrder, int> purchaseOrderRepository)
         {
             this.partFailLogRepository = partFailLogRepository;
             this.reportingHelper = reportingHelper;
             this.linnWeekPack = linnWeekPack;
+            this.supplierRepository = supplierRepository;
+            this.purchaseOrderRepository = purchaseOrderRepository;
             this.employeeDepartmentViewRepository = employeeDepartmentViewRepository;
         }
 
@@ -45,6 +53,12 @@
             var toDate = DateTime.Parse(toWeek);
 
             var fails = this.partFailLogRepository.FilterBy(p => p.DateCreated > fromDate && p.DateCreated < toDate);
+
+            var purchaseOrders =
+                this.purchaseOrderRepository.FilterBy(p => fails.Any(f => f.PurchaseOrderNumber == p.OrderNumber));
+
+            var suppliers =
+                this.supplierRepository.FilterBy(s => purchaseOrders.Any(p => p.SupplierId == s.SupplierId));
 
             if (partNumber != "All")
             {
@@ -87,7 +101,7 @@
 
             model.AddSortedColumns(columns);
 
-            var values = this.SetModelRows(fails);
+            var values = this.SetModelRows(fails, suppliers, purchaseOrders);
 
             this.reportingHelper.AddResultsToModel(model, values, CalculationValueModelType.Quantity, true);
 
@@ -107,12 +121,16 @@
             return model;
         }
 
-        private List<CalculationValueModel> SetModelRows(IEnumerable<PartFail> fails)
+        private List<CalculationValueModel> SetModelRows(IEnumerable<PartFail> fails, IEnumerable<Supplier> suppliers, IEnumerable<PurchaseOrder> purchaseOrders)
         {
             var values = new List<CalculationValueModel>();
 
             foreach (var fail in fails)
             {
+                var purchaseOrder = purchaseOrders.FirstOrDefault(p => p.OrderNumber == fail.PurchaseOrderNumber);
+
+                var supplier = suppliers.FirstOrDefault(s => purchaseOrder != null && s.SupplierId == purchaseOrder.SupplierId);
+
                 values.Add(
                     new CalculationValueModel
                         {
@@ -145,20 +163,6 @@
                     new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
-                        TextDisplay = fail.Batch,
-                        ColumnId = "Batch"
-                    });
-                values.Add(
-                    new CalculationValueModel
-                    {
-                        RowId = fail.Id.ToString(),
-                        TextDisplay = fail.FaultCode.FaultCode,
-                        ColumnId = "Fault Code"
-                    });
-                values.Add(
-                    new CalculationValueModel
-                    {
-                        RowId = fail.Id.ToString(),
                         TextDisplay = fail.Story,
                         ColumnId = "Story"
                     });
@@ -168,13 +172,6 @@
                         RowId = fail.Id.ToString(),
                         Quantity = fail.Quantity ?? 0,
                         ColumnId = "Quantity"
-                    });
-                values.Add(
-                    new CalculationValueModel
-                    {
-                        RowId = fail.Id.ToString(),
-                        Quantity = fail.MinutesWasted ?? 0,
-                        ColumnId = "Minutes Wasted"
                     });
                 values.Add(
                     new CalculationValueModel
@@ -204,6 +201,13 @@
                             TextDisplay = fail.EnteredBy.FullName,
                             ColumnId = "Entered By"
                         });
+                values.Add(
+                    new CalculationValueModel
+                        {
+                            RowId = fail.Id.ToString(),
+                            TextDisplay = supplier?.SupplierName,
+                            ColumnId = "Supplier"
+                    });
             }
 
             return values;
@@ -227,33 +231,28 @@
                                {
                                    SortOrder = 3, GridDisplayType = GridDisplayType.TextValue, AllowWrap = false
                                },
-                           new AxisDetailsModel("Batch") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
-                           new AxisDetailsModel("Fault Code")
-                               {
-                                   SortOrder = 5, GridDisplayType = GridDisplayType.TextValue
-                               },
-                           new AxisDetailsModel("Story") { SortOrder = 6, GridDisplayType = GridDisplayType.TextValue },
-                           new AxisDetailsModel("Quantity") { SortOrder = 7, GridDisplayType = GridDisplayType.Value },
-                           new AxisDetailsModel("Minutes Wasted")
-                               {
-                                   SortOrder = 8, GridDisplayType = GridDisplayType.Value
-                               },
+                           new AxisDetailsModel("Story") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
+                           new AxisDetailsModel("Quantity") { SortOrder = 5, GridDisplayType = GridDisplayType.Value },
                            new AxisDetailsModel("Error Type")
                                {
-                                   SortOrder = 9, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 6, GridDisplayType = GridDisplayType.TextValue
                                },
                            new AxisDetailsModel("Base Unit Price")
                                {
-                                   SortOrder = 10, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
+                                   SortOrder = 7, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
                                },
                            new AxisDetailsModel("Total Price")
                                {
-                                   SortOrder = 11, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
+                                   SortOrder = 8, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
                                },
                            new AxisDetailsModel("Entered By")
                                {
-                                   SortOrder = 12, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 9, GridDisplayType = GridDisplayType.TextValue
                                },
+                           new AxisDetailsModel("Supplier")
+                               {
+                                   SortOrder = 13, GridDisplayType = GridDisplayType.TextValue
+                               }
                        };
         }
     }

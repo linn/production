@@ -170,8 +170,8 @@ export const daysRequiredReport = new ItemType(
     '/production/reports/days-required'
 );
 
-export const metalWorkTimingsReport = new ItemType(
-    'metalWorkTimingsReport',
-    'MW_TIMINGS_REPORT',
-    '/production/reports/mw-timings'
+export const manufacturingTimingsReport = new ItemType(
+    'manufacturingTimingsReport',
+    'MANUFACTURING_TIMINGS_REPORT',
+    '/production/reports/manufacturing-timings'
 );

@@ -67,8 +67,6 @@
                                                                   Line7 = resource.LinesForPrinting.Line7,
                                                                   PostalCode = resource.LinesForPrinting.PostalCode,
                                                                   Country = resource.LinesForPrinting.Country,
-                                                                  FromPCNumber = resource.LinesForPrinting.FromPCNumber,
-                                                                  ToPCNumber = resource.LinesForPrinting.ToPCNumber,
                                                                   PoNumber = resource.LinesForPrinting.PoNumber,
                                                                   PartNumber = resource.LinesForPrinting.PartNumber,
                                                                   Qty = resource.LinesForPrinting.Qty,
