@@ -98,7 +98,7 @@
             var buildPlanDetail = new BuildPlanDetail
                                       {
                                           BuildPlanName = resource.BuildPlanName,
-                                          FromLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(DateTime.Parse(resource.FromDate)),
+                                          FromLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(DateTime.Parse(resource.FromDate).ToLocalTime()),
                                           PartNumber = resource.PartNumber,
                                           Quantity = resource.Quantity,
                                           RuleCode = resource.RuleCode,
