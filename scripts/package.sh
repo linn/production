@@ -13,7 +13,7 @@ else
 fi
 
 # create a docker
-docker build --no-cache -t linn/production:$TRAVIS_BUILD_NUMBER --build-arg gitBranch=$GIT_BRANCH ./src/Service.Host/
+docker build --no-cache -t linn/production:$TRAVIS_BUILD_NUMBER -e TZ=Europe/London --build-arg gitBranch=$GIT_BRANCH ./src/Service.Host/
 docker build --no-cache -t linn/production-messaging:$TRAVIS_BUILD_NUMBER --build-arg gitBranch=$GIT_BRANCH ./src/Messaging.Host/
 
 # push to dockerhub
