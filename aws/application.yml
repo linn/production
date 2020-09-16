@@ -159,7 +159,7 @@ Resources:
             Fn::ImportValue:
               !Sub "kms-key-alias${environmentSuffix}"
         - Name: TZ
-          Value: !Ref tz
+          Value: "Europe\London"
   productionMessagingTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
@@ -205,8 +205,6 @@ Resources:
           Value: !Ref loggingMaxInnerExceptionDepth
         - Name: awsRegion
           Value: !Ref AWS::Region
-        - Name: TZ
-          Value: !Ref tz
   productionService:
     Type: AWS::ECS::Service
     Properties:
