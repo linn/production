@@ -57,6 +57,9 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Description: Name of production cluster
     Default: ProductionClusterName
+  tz:
+    type: String
+    description: Timezone
 
 Conditions:
   isTesting: !Equals [!Ref environmentSuffix, "-sys"]
@@ -155,6 +158,8 @@ Resources:
           Value:
             Fn::ImportValue:
               !Sub "kms-key-alias${environmentSuffix}"
+        - Name: TZ
+          Value: !Ref tz
   productionMessagingTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
