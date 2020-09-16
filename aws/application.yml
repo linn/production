@@ -205,6 +205,8 @@ Resources:
           Value: !Ref loggingMaxInnerExceptionDepth
         - Name: awsRegion
           Value: !Ref AWS::Region
+        - Name: TZ
+          Value: !Ref tz
   productionService:
     Type: AWS::ECS::Service
     Properties:
