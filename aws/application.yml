@@ -57,6 +57,10 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Description: Name of production cluster
     Default: ProductionClusterName
+  tz:
+    Type: String
+    Description: Timezone
+    Default: Europe\London
 
 Conditions:
   isTesting: !Equals [!Ref environmentSuffix, "-sys"]
@@ -156,7 +160,7 @@ Resources:
             Fn::ImportValue:
               !Sub "kms-key-alias${environmentSuffix}"
         - Name: TZ
-          Value: "Europe\London"
+          Value: !ref tz
   productionMessagingTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
