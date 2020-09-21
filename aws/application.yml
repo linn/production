@@ -60,7 +60,7 @@ Parameters:
   tz:
     Type: String
     Description: Timezone
-    Default: Europe\London
+    Default: 'Europe\London'
 
 Conditions:
   isTesting: !Equals [!Ref environmentSuffix, "-sys"]
