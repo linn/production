@@ -160,7 +160,7 @@ Resources:
             Fn::ImportValue:
               !Sub "kms-key-alias${environmentSuffix}"
         - Name: TZ
-          Value: !ref tz
+          Value: !Ref tz
   productionMessagingTaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
