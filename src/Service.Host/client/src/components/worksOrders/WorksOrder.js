@@ -357,7 +357,10 @@ function WorksOrder({
                                 color="primary"
                                 variant="outlined"
                                 style={{ float: 'right' }}
-                                onClick={() => history.push('/production/works-orders')}
+                                onClick={() => {
+                                    history.push('/production/works-orders');
+                                    setEditStatus('edit');
+                                }}
                             >
                                 Search
                             </Button>
