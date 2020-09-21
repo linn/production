@@ -11,6 +11,6 @@ COPY views/ /app/views/
      
 ENV APP_PATH /app/
 ENV GIT_BRANCH $gitBranch
-ENV TZ UTC
+ENV TZ=Europe/London
 
 CMD dotnet /app/bin/Linn.Production.Service.Host.dll

@@ -63,7 +63,8 @@ const mapDispatchToProps = {
     setBuildPlanSnackbarVisible: buildPlanActions.setSnackbarVisible,
     setBuildPlanDetailSnackbarVisible: buildPlanDetailActions.setSnackbarVisible,
     clearBuildPlanErrors: buildPlanActions.clearErrorsForItem,
-    clearBuildPlanDetailErrors: buildPlanDetailActions.clearErrorsForItem
+    clearBuildPlanDetailErrors: buildPlanDetailActions.clearErrorsForItem,
+    deleteBuildPlanDetail: buildPlanDetailActions.delete
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(BuildPlans));

@@ -20,7 +20,7 @@
 
         public void Remove(BuildPlanDetail entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.BuildPlanDetails.Remove(entity);
         }
 
         public BuildPlanDetail FindBy(Expression<Func<BuildPlanDetail, bool>> expression)
