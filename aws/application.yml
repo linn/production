@@ -214,7 +214,7 @@ Resources:
         - isTesting
         - !Sub ${TestClusterName}
         - !Sub ${ProductionClusterName}
-      DesiredCount: !If [ isTesting, 0, 1]
+      DesiredCount: !If [ isTesting, 1, 2]
       PlacementStrategies:
         - Field: attribute:ecs.availability-zone
           Type: spread
@@ -236,5 +236,5 @@ Resources:
         - isTesting
         - !Sub ${TestClusterName}
         - !Sub ${ProductionClusterName}
-      DesiredCount: !If [ isTesting, 0, 1]
+      DesiredCount: !If [ isTesting, 1, 1]
       TaskDefinition: !Ref productionMessagingTaskDefinition
