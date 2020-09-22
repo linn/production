@@ -359,7 +359,7 @@ function WorksOrder({
                                 style={{ float: 'right' }}
                                 onClick={() => {
                                     history.push('/production/works-orders');
-                                    setEditStatus('edit');
+                                    setEditStatus('view');
                                 }}
                             >
                                 Search
