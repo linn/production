@@ -127,7 +127,6 @@
 
         private object GetProductionTriggerLevel(string partNumber)
         {
-            this.RequiresAuthentication();
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
             return this.Negotiate.WithModel(this.productionTriggerLevelsService.GetById(partNumber, privileges))
