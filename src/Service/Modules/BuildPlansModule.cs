@@ -50,6 +50,7 @@
             this.Get("/production/maintenance/build-plan-details", _ => this.GetBuildPlanDetails());
             this.Post("/production/maintenance/build-plan-details", _ => this.AddBuildPlanDetail());
             this.Put("/production/maintenance/build-plan-details", _ => this.UpdateBuildPlanDetail());
+            this.Delete("/production/maintenance/build-plan-details", _ => this.DeleteBuildPlanDetail());
         }
 
         private object GetBuildPlans()
@@ -165,6 +166,21 @@
             }
 
             return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlanDetail>>("You are not authorised to amend build plan details"));
+        }
+
+        private object DeleteBuildPlanDetail()
+        {
+            var resource = this.Bind<BuildPlanDetailResource>();
+
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailDelete, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanDetailsService.RemoveBuildPlanDetail(resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlanDetail>>("You are not authorised to delete build plan details"));
         }
     }
 }

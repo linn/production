@@ -65,12 +65,40 @@
                 new ResponseModel<BuildPlanDetail>(buildPlanDetail, privileges));
         }
 
+        public IResult<ResponseModel<BuildPlanDetail>> RemoveBuildPlanDetail(
+            BuildPlanDetailResource resource,
+            IEnumerable<string> privileges)
+        {
+            var fromWeek = this.linnWeekPack.LinnWeekNumber(DateTime.Parse(resource.FromDate));
+
+            var key = new BuildPlanDetailKey
+                          {
+                              PartNumber = resource.PartNumber,
+                              BuildPlanName = resource.BuildPlanName,
+                              FromLinnWeekNumber = fromWeek
+                          };
+
+            var entity = this.repository.FindById(key);
+
+            try
+            {
+                this.repository.Remove(entity);
+            }
+            catch (DomainException ex)
+            {
+                return new BadRequestResult<ResponseModel<BuildPlanDetail>>("Error deleting build plan detail - {ex}");
+            }
+
+            this.transactionManager.Commit();
+            return new SuccessResult<ResponseModel<BuildPlanDetail>>(new ResponseModel<BuildPlanDetail>(entity, privileges));
+        }
+
         protected override BuildPlanDetail CreateFromResource(BuildPlanDetailResource resource)
         {
             var buildPlanDetail = new BuildPlanDetail
                                       {
                                           BuildPlanName = resource.BuildPlanName,
-                                          FromLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(DateTime.Parse(resource.FromDate)),
+                                          FromLinnWeekNumber = this.linnWeekPack.LinnWeekNumber(DateTime.Parse(resource.FromDate).ToLocalTime()),
                                           PartNumber = resource.PartNumber,
                                           Quantity = resource.Quantity,
                                           RuleCode = resource.RuleCode,

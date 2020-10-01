@@ -12,5 +12,9 @@
         IResult<ResponseModel<BuildPlanDetail>> UpdateBuildPlanDetail(
             BuildPlanDetailResource resource,
             IEnumerable<string> privileges);
+
+        IResult<ResponseModel<BuildPlanDetail>> RemoveBuildPlanDetail(
+            BuildPlanDetailResource resource,
+            IEnumerable<string> privileges);
     }
 }
