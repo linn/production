@@ -68,6 +68,33 @@ function AssemblyFail({
     const aoiEscapeValues = ['Y', 'N'];
     const inputInvalid = () => !assemblyFail.worksOrderNumber;
 
+    const getFaultCodesOptions = () => {
+        const options = faultCodes.map(c => ({
+            id: c.faultCode,
+            displayText: `${c.faultCode} - ${c.description}`
+        }));
+        if (assemblyFail.faultCode && !options.some(f => f.id === assemblyFail.faultCode)) {
+            options.push({ id: assemblyFail.faultCode, displayText: assemblyFail.faultCode });
+        }
+        return options;
+    };
+
+    const getEmployeeOptions = currentValue => {
+        const options = employees
+            .filter(c => !!c.fullName)
+            .map(c => ({
+                id: c.id,
+                displayText: c.fullName
+            }));
+        if (currentValue && !options.some(e => e.id === currentValue)) {
+            options.push({
+                id: currentValue,
+                displayText: `Employee ${currentValue} no longer valid`
+            });
+        }
+        return options;
+    };
+
     // Effects
 
     // initialisation
@@ -410,10 +437,7 @@ function AssemblyFail({
                                         <Dropdown
                                             label="Fault Code"
                                             propertyName="faultCode"
-                                            items={faultCodes.map(c => ({
-                                                id: c.faultCode,
-                                                displayText: `${c.faultCode} - ${c.description}`
-                                            }))}
+                                            items={getFaultCodesOptions()}
                                             fullWidth
                                             value={assemblyFail.faultCode || ''}
                                             onChange={handleFieldChange}
@@ -536,14 +560,12 @@ function AssemblyFail({
                                             label="Person Responsible"
                                             type="number"
                                             propertyName="personResponsible"
-                                            items={employees
-                                                .filter(c => !!c.fullName)
-                                                .map(c => ({
-                                                    id: c.id,
-                                                    displayText: c.fullName
-                                                }))}
+                                            items={getEmployeeOptions(
+                                                assemblyFail.personResponsible
+                                            )}
                                             fullWidth
-                                            value={assemblyFail.personResponsible || ''}
+                                            allowNoValue
+                                            value={assemblyFail.personResponsible}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -566,14 +588,10 @@ function AssemblyFail({
                                             label="Completed By"
                                             propertyName="completedBy"
                                             type="number"
-                                            items={employees
-                                                .filter(c => !!c.fullName)
-                                                .map(c => ({
-                                                    id: c.id,
-                                                    displayText: c.fullName
-                                                }))}
+                                            items={getEmployeeOptions(assemblyFail.completedBy)}
                                             fullWidth
-                                            value={assemblyFail.completedBy || ''}
+                                            allowNoValue
+                                            value={assemblyFail.completedBy}
                                             onChange={handleFieldChange}
                                         />
                                     </Grid>
@@ -593,12 +611,7 @@ function AssemblyFail({
                                             type="number"
                                             propertyName="returnedBy"
                                             fullWidth
-                                            items={employees
-                                                .filter(c => !!c.fullName)
-                                                .map(c => ({
-                                                    id: c.id,
-                                                    displayText: c.fullName
-                                                }))}
+                                            items={getEmployeeOptions(assemblyFail.returnedBy)}
                                             value={assemblyFail.returnedBy}
                                             optionsLoading={employeesLoading}
                                             onChange={handleFieldChange}
