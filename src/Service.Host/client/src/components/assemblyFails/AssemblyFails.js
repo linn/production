@@ -7,7 +7,7 @@ import Page from '../../containers/Page';
 function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
     const forecastItems = items.map(item => ({
         ...item,
-        name: item.id,
+        name: `${item.id} - ${item.partNumber}`,
         description: item.reportedFault
     }));
 
@@ -19,11 +19,13 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
                         <CreateButton createUrl="/production/quality/assembly-fails/create" />
                     </>
                     <Typeahead
-                        items={forecastItems.map(i => ({ ...i, name: i.name.toString() }))}
+                        items={forecastItems
+                            .map(i => ({ ...i, name: i.name.toString() }))
+                            .sort((a, b) => (a.id > b.id ? 1 : -1))}
                         fetchItems={fetchItems}
                         clearSearch={clearSearch}
                         loading={loading}
-                        title="Search For Assembly Fail"
+                        title="Search Assembly Fails"
                         history={history}
                     />
                 </Grid>
