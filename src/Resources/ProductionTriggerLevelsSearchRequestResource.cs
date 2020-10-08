@@ -10,5 +10,6 @@
 
         public string AutoSearchTerm { get; set; }
 
+        public string WorkStationSearchTerm { get; set; }
     }
 }

@@ -145,7 +145,8 @@
             if (!string.IsNullOrWhiteSpace(resource.SearchTerm)
                 || !string.IsNullOrWhiteSpace(resource.CitSearchTerm)
                 || (!string.IsNullOrWhiteSpace(resource.OverrideSearchTerm) && resource.OverrideSearchTerm != "null")
-                || (!string.IsNullOrWhiteSpace(resource.AutoSearchTerm) && resource.AutoSearchTerm != "null"))
+                || (!string.IsNullOrWhiteSpace(resource.AutoSearchTerm) && resource.AutoSearchTerm != "null")
+                || (!string.IsNullOrWhiteSpace(resource.WorkStationSearchTerm) && resource.WorkStationSearchTerm != "null"))
             {
                 triggers = this.productionTriggerLevelsService.Search(resource, privileges);
             }
