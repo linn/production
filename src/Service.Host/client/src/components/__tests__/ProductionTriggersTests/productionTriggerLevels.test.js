@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { cleanup } from '@testing-library/react';
+import { cleanup, getByLabelText } from '@testing-library/react';
 import render from '../../../test-utils';
 import ProductionTriggerLevels from '../../productionTriggerLevels/TriggerLevels';
 

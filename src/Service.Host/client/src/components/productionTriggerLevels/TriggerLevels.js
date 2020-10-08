@@ -58,6 +58,7 @@ const ViewProductionTriggerLevels = ({
                   description: el.description,
                   citCode: `${el.citCode} - ${cits.find(x => x.code === el.citCode)?.name} `,
                   routeCode: el.routeCode,
+                  workStationName: el.workStationName,
                   links: el.links,
                   id: el.partNumber,
                   overrideTriggerLevel: el.overrideTriggerLevel,
@@ -95,6 +96,7 @@ const ViewProductionTriggerLevels = ({
     const [citSearch, setCitSearch] = useState('');
     const [overrideSearch, setOverrideSearch] = useState(null);
     const [autoSearch, setAutoSearch] = useState(null);
+    const [workStationSearch, setWorkStationSearch] = useState(null);
 
     useSearch(fetchItems, searchTerm, null, 'searchTerm');
 
@@ -102,31 +104,37 @@ const ViewProductionTriggerLevels = ({
         setPartSearch(args[1]);
         setSearchTerm(`${args[1]};${citSearch};${overrideSearch};${autoSearch}`);
         setSearchTerm(
-            `${args[1]}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${autoSearch}`
+            `${args[1]}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${autoSearch}&workStationSearchTerm=${workStationSearch}`
         );
     };
 
     const handleCitSearchChange = (...args) => {
         setCitSearch(args[1]);
         setSearchTerm(
-            `${partSearch}&citSearchTerm=${args[1]}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${autoSearch}`
+            `${partSearch}&citSearchTerm=${args[1]}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${autoSearch}&workStationSearchTerm=${workStationSearch}`
         );
     };
 
     const handleOverrideSearchChange = (...args) => {
         setOverrideSearch(args[1]);
         setSearchTerm(
-            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${args[1]}&autoSearchTerm=${autoSearch}`
+            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${args[1]}&autoSearchTerm=${autoSearch}&workStationSearchTerm=${workStationSearch}`
         );
     };
 
     const handleAutoSearchChange = (...args) => {
         setAutoSearch(args[1]);
         setSearchTerm(
-            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${args[1]}`
+            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${args[1]}&workStationSearchTerm=${workStationSearch}`
         );
     };
 
+    const handleWorkStationSearchChange = (...args) => {
+        setWorkStationSearch(args[1]);
+        setSearchTerm(
+            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${args[1]}&workStationSearchTerm=${args[1]}`
+        );
+    };
     const handleRowLinkClick = href => history.push(href);
 
     const columns = {
@@ -134,6 +142,7 @@ const ViewProductionTriggerLevels = ({
         description: 'Description',
         citCode: 'Cit',
         routeCode: 'Route Code',
+        workStationName: 'Work Station',
         overrideTriggerLevel: 'Override Trigger Level',
         VariableTriggerLevel: 'Auto Trigger Level',
         kanbanSize: 'Kanban Size'
@@ -161,7 +170,7 @@ const ViewProductionTriggerLevels = ({
             />
 
             <Grid item xs={12} container>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                     <SearchInputField
                         label="Part Number"
                         fullWidth
@@ -189,6 +198,17 @@ const ViewProductionTriggerLevels = ({
                         fullWidth
                         label="Cit"
                         allowNoValue
+                    />
+                </Grid>
+                <Grid item xs={1} />
+                <Grid item xs={1}>
+                    <SearchInputField
+                        label="Work Station"
+                        fullWidth
+                        onChange={handleWorkStationSearchChange}
+                        propertyName="workStatonSearchTerm"
+                        type="text"
+                        value={workStationSearch}
                     />
                 </Grid>
                 <Grid item xs={1} />
