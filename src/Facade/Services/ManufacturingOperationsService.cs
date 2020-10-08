@@ -41,7 +41,7 @@
                 resource.SkillCode,
                 resource.ResourceCode,
                 resource.SetAndCleanTime,
-                resource.CycleTime,
+                decimal.Round(resource.CycleTime, 1),
                 resource.LabourPercentage,
                 resource.CITCode);
         }
@@ -55,7 +55,7 @@
             entity.SkillCode = updateResource.SkillCode;
             entity.ResourceCode = updateResource.ResourceCode;
             entity.SetAndCleanTime = updateResource.SetAndCleanTime;
-            entity.CycleTime = updateResource.CycleTime;
+            entity.CycleTime = decimal.Round(updateResource.CycleTime, 1);
             entity.LabourPercentage = updateResource.LabourPercentage;
             entity.CITCode = updateResource.CITCode;
         }

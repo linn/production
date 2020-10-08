@@ -16,13 +16,13 @@ function ProductionMeasuresCits({ citsData, infoData }) {
     const [tabValue, setValue] = React.useState(0);
     const [hoverHref, setHoverHref] = React.useState(null);
 
-    // TODO write these drill downs and check they are all still required
     const triggerBaseHref = '../reports/triggers';
     const daysRequiredBaseHref = 'days-required';
     const shortagesBaseHref = 'shortages';
-    const backOrdersBaseHref = 'back-orders';
+    const backOrdersBaseHref = 'production-back-orders';
     const builtThisWeekBaseHref = 'btw';
-    const fflagStockBaseHref = '../stock/f-flag'; // may already exist in linnapps
+    const delPerfBaseHref = 'delperf';
+    const fflagStockBaseHref = 'failed-parts';
 
     function handleChange(event, newValue) {
         setValue(newValue);
@@ -238,17 +238,27 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <TabCell index={0} value={tabValue}>
                                 {m.fives}
                             </TabCell>
-                            <TabCell index={1} value={tabValue}>
-                                {m.deliveryPerformance1s}
-                            </TabCell>
-                            <TabCell index={1} value={tabValue}>
-                                {m.deliveryPerformance2s}
-                            </TabCell>
+                            <LinkTabCell
+                                index={1}
+                                value={tabValue}
+                                href={`${delPerfBaseHref}?citCode=${m.citCode}`}
+                                setHoverHref={setHoverHref}
+                            >
+                                {round(m.deliveryPerformance1s)}
+                            </LinkTabCell>
+                            <LinkTabCell
+                                index={1}
+                                value={tabValue}
+                                href={`${delPerfBaseHref}?citCode=${m.citCode}`}
+                                setHoverHref={setHoverHref}
+                            >
+                                {round(m.deliveryPerformance2s)}
+                            </LinkTabCell>
                             <TabCell index={1} value={tabValue} />
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -257,7 +267,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -266,7 +276,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -275,7 +285,7 @@ function ProductionMeasuresCits({ citsData, infoData }) {
                             <LinkTabCell
                                 index={2}
                                 value={tabValue}
-                                href={`${shortagesBaseHref}?citCode=${m.citCode}`}
+                                href={`${shortagesBaseHref}?citCode=${m.citCode}&ptlJobref=${infoData.lastPtlJobref}`}
                                 setHoverHref={setHoverHref}
                                 hoverHref={hoverHref}
                             >
@@ -355,7 +365,9 @@ function ProductionMeasuresCits({ citsData, infoData }) {
 
 ProductionMeasuresCits.propTypes = {
     citsData: PropTypes.arrayOf(PropTypes.shape({})),
-    infoData: PropTypes.shape({})
+    infoData: PropTypes.shape({
+        lastPtlJobref: PropTypes.string
+    })
 };
 
 ProductionMeasuresCits.defaultProps = {

@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Loading,
@@ -73,7 +73,7 @@ function AteFaultCodes({ loading, itemError, history, items }) {
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
+                <>
                     <CreateButton createUrl="/production/quality/ate/fault-codes/create" />
 
                     {rowsToDisplay.length > 0 && (
@@ -87,7 +87,7 @@ function AteFaultCodes({ loading, itemError, history, items }) {
                             totalItemCount={items ? items.length : 0}
                         />
                     )}
-                </Fragment>
+                </>
             )}
         </Page>
     );
@@ -97,7 +97,7 @@ AteFaultCodes.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    itemError: PropTypes.shape({})
+    itemError: PropTypes.shape({ statusText: PropTypes.string })
 };
 
 AteFaultCodes.defaultProps = {

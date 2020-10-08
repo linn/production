@@ -16,8 +16,15 @@
 
         public int? Quantity { get; set; }
 
+        public Part Part { get; set; }
+
         public void Validate()
         {
+            if (this.FromLinnWeekNumber < 0)
+            {
+                throw new BuildPlanDetailInvalidException("You must provide a from date");
+            }
+
             if (this.RuleCode == "TRIGGER")
             {
                 this.Quantity = null;

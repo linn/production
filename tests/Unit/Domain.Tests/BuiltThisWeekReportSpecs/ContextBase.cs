@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Domain.Tests.BuiltThisWeekReportSpecs
 {
     using Linn.Common.Persistence;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Models;
     using Linn.Production.Domain.LinnApps.Reports;
     using NSubstitute;

@@ -27,7 +27,12 @@
                                    {
                                        TestId = 1,
                                        User = new Employee {Id = 1, FullName = "Name"},
-                                       WorksOrder = new WorksOrder { OrderNumber = 1, Part = new Part { PartNumber = "P", Description = "D"} },
+                                       WorksOrder = new WorksOrder
+                                                        {
+                                                            OrderNumber = 1,
+                                                            Part = new Part { PartNumber = "P", Description = "D"},
+                                                            AteTests = new List<AteTest>()
+                                                        },
                                        NumberTested = 1,
                                        NumberOfSmtComponents = 1,
                                        NumberOfPcbComponents = 1,
@@ -37,10 +42,8 @@
                                        NumberOfSmtBoardFails = 1,
                                        PcbOperator = new Employee { Id = 1, FullName = "Name" },
                                        Details = new List<AteTestDetail> { new AteTestDetail { ItemNumber = 1, TestId = 1 } }
-
-            };
-            this.AteTestService.GetById(1)
-                .Returns(new SuccessResult<AteTest>(ateTest));
+                                   };
+            this.AteTestService.GetById(1).Returns(new SuccessResult<AteTest>(ateTest));
 
             this.Response = this.Browser.Get(
                 "/production/quality/ate-tests/1",

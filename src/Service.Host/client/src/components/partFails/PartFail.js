@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -119,8 +119,8 @@ function PartFail({
     const handleCancelClick = () => {
         if (creating()) {
             setPartFail({
-                enteredBy: profile.employee.replace('/employees/', ''),
-                enteredByName: profile.name
+                enteredBy: profile?.employee.replace('/employees/', ''),
+                enteredByName: profile?.name
             });
         } else {
             setPartFail(item);
@@ -172,14 +172,14 @@ function PartFail({
                 ) : (
                     partFail.id !== '' &&
                     !itemErrors?.some(e => e.status === 404) && ( // don't render this form if things 404
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
                             {!creating() ? (
-                                <Fragment>
+                                <>
                                     <Grid item xs={2}>
                                         <InputField
                                             fullWidth
@@ -193,11 +193,11 @@ function PartFail({
                                         />
                                     </Grid>
                                     <Grid item xs={10} />
-                                </Fragment>
+                                </>
                             ) : (
-                                <Fragment />
+                                <></>
                             )}
-                            <Fragment>
+                            <>
                                 <Grid item xs={3}>
                                     <InputField
                                         fullWidth
@@ -239,7 +239,7 @@ function PartFail({
                                     />
                                 </Grid>
                                 {partFail.partNumber && (
-                                    <Fragment>
+                                    <>
                                         <Grid item xs={6}>
                                             <InputField
                                                 fullWidth
@@ -444,10 +444,20 @@ function PartFail({
                                                 propertyName="minutesWasted"
                                             />
                                         </Grid>
-                                    </Fragment>
+                                        <Grid item xs={3}>
+                                            <InputField
+                                                fullWidth
+                                                type="number"
+                                                value={partFail.serialNumber}
+                                                label="Serial Number"
+                                                onChange={handleFieldChange}
+                                                propertyName="serialNumber"
+                                            />
+                                        </Grid>
+                                    </>
                                 )}
-                            </Fragment>
-                        </Fragment>
+                            </>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>
@@ -464,8 +474,8 @@ function PartFail({
 }
 
 PartFail.propTypes = {
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    profile: PropTypes.shape({}),
+    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
+    profile: PropTypes.shape({ employee: PropTypes.string, name: PropTypes.string }),
     editStatus: PropTypes.string.isRequired,
     snackbarVisible: PropTypes.bool,
     loading: PropTypes.bool,

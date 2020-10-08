@@ -1,9 +1,13 @@
-import React, { Fragment, useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
+import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
 import {
     Title,
     ErrorCard,
@@ -15,7 +19,9 @@ import {
     SaveBackCancelButtons,
     SearchInputField,
     Dropdown,
-    useSearch
+    useSearch,
+    DatePicker,
+    smartGoBack
 } from '@linn-it/linn-form-components-library';
 import WorksOrderSerialNumbers from './WorksOrderSerialNumbers';
 import Page from '../../containers/Page';
@@ -24,13 +30,18 @@ const useStyles = makeStyles(theme => ({
     marginTop: {
         marginTop: theme.spacing(2)
     },
+    pullRight: {
+        float: 'right'
+    },
     printButton: {
         paddingRight: theme.spacing(2)
-    }
+    },
+    modal: { margin: theme.spacing(6), minWidth: theme.spacing(62) }
 }));
 
 function WorksOrder({
     item,
+    profile,
     editStatus,
     worksOrderDetailsError,
     worksOrderError,
@@ -68,15 +79,16 @@ function WorksOrder({
     clearErrors,
     serialNumbers,
     fetchSerialNumbers,
-    previousPath
+    options,
+    previousPaths
 }) {
     const [worksOrder, setWorksOrder] = useState({});
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
     const [raisedByEmployee, setRaisedByEmployee] = useState(null);
-    const [cancelledByEmployee, setCancelledByEmployee] = useState(null);
-    const [searchTerm, setSearchTerm] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const [printerGroup, setPrinterGroup] = useState('Prod');
     const [viewSernos, setViewsernos] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState(false);
 
     const printerGroups = ['Prod', 'DSM', 'Flexible', 'Kiko', 'LP12', 'Metalwork', 'SpeakerCover'];
 
@@ -88,12 +100,24 @@ function WorksOrder({
 
     const classes = useStyles();
 
+    const cancelledByOptions = () => {
+        const list = employees
+            ?.filter(c => !!c.fullName)
+            .map(c => ({
+                id: c.id,
+                displayText: c.fullName
+            }));
+        if (employees?.length && !employees?.find(e => e.id === worksOrder?.cancelledBy)) {
+            list.push({ id: worksOrder?.cancelledBy, displayText: 'Name not found' });
+        }
+        return list;
+    };
+
     useEffect(() => {
         if (item !== prevWorksOrder) {
             setPrevWorksOrder(item);
 
             setRaisedByEmployee(null);
-            setCancelledByEmployee(null);
 
             if (creating()) {
                 setWorksOrder({ ...item, docType: 'WO', quantity: null });
@@ -102,12 +126,12 @@ function WorksOrder({
 
             setWorksOrder(item);
 
-            if (item && item.partNumber) {
-                fetchWorksOrderDetails(encodeURI(item.partNumber));
+            if (item && item?.partNumber) {
+                fetchWorksOrderDetails(encodeURI(item?.partNumber));
             }
 
-            if (item && item.orderNumber) {
-                fetchSerialNumbers('documentNumber', item.orderNumber);
+            if (item && item?.orderNumber) {
+                fetchSerialNumbers('documentNumber', item?.orderNumber);
             }
         }
     }, [item, prevWorksOrder, fetchWorksOrderDetails, fetchSerialNumbers, creating]);
@@ -119,11 +143,6 @@ function WorksOrder({
                     employees.find(employee => employee.id === worksOrder.raisedBy)
                 );
             }
-            if (worksOrder.cancelledBy) {
-                setCancelledByEmployee(
-                    employees.find(employee => employee.id === worksOrder.cancelledBy)
-                );
-            }
         }
     }, [employees, worksOrder]);
 
@@ -131,13 +150,24 @@ function WorksOrder({
         if (creating() && worksOrderDetails) {
             setWorksOrder(wo => ({
                 ...wo,
-                workStationCode: worksOrderDetails.workStationCode,
-                raisedByDepartment: worksOrderDetails.departmentCode,
-                quantity: worksOrderDetails.quantityToBuild,
+                workStationCode: worksOrderDetails?.workStationCode,
+                raisedByDepartment: worksOrderDetails?.departmentCode,
+                quantity: worksOrderDetails?.quantityToBuild,
                 quantityBuilt: 0
             }));
         }
     }, [worksOrderDetails, editStatus, creating]);
+
+    useEffect(() => {
+        if (creating() && options.partNumber && !worksOrder.partNumber) {
+            fetchWorksOrderDetails(options.partNumber);
+            setWorksOrder({
+                ...worksOrder,
+                docType: 'WO',
+                partNumber: options.partNumber
+            });
+        }
+    }, [options, creating, worksOrder, fetchWorksOrderDetails]);
 
     const handleCancelClick = () => {
         setWorksOrder(item);
@@ -152,11 +182,6 @@ function WorksOrder({
             addItem(worksOrder);
             setEditStatus('view');
         }
-    };
-
-    const handleBackClick = () => {
-        setEditStatus('view');
-        history.push('/production');
     };
 
     const handlePartSelect = part => {
@@ -212,8 +237,107 @@ function WorksOrder({
         setViewsernos(!viewSernos);
     };
 
+    const cancellationFields = () => (
+        <>
+            <Grid item xs={4}>
+                <Dropdown
+                    label="Cancelled By"
+                    type="number"
+                    propertyName="cancelledBy"
+                    disabled={!dialogOpen && worksOrder?.cancelledBy}
+                    allowNoValue
+                    items={cancelledByOptions()}
+                    fullWidth
+                    value={worksOrder?.cancelledBy}
+                    onChange={handleFieldChange}
+                />
+            </Grid>
+            <Grid item xs={8} />
+            <Grid item xs={4}>
+                <DatePicker
+                    value={
+                        worksOrder?.dateCancelled
+                            ? worksOrder.dateCancelled
+                            : new Date().toISOString()
+                    }
+                    label="Date Cancelled"
+                    disabled={!dialogOpen && worksOrder?.dateCancelled}
+                    onChange={value => {
+                        setEditStatus('edit');
+                        setWorksOrder(a => ({
+                            ...a,
+                            dateCancelled: value
+                        }));
+                    }}
+                />
+            </Grid>
+            <Grid item xs={8} />
+            <Grid item xs={4}>
+                <InputField
+                    fullWidth
+                    required={editing()}
+                    value={worksOrder?.reasonCancelled}
+                    disabled={!dialogOpen && !!worksOrder?.reasonCancelled}
+                    label="Reason Cancelled"
+                    helperText={editing() ? 'Reason is required if cancelling a works order' : ''}
+                    propertyName="reasonCancelled"
+                    onChange={handleFieldChange}
+                />
+            </Grid>
+            <Grid item xs={8} />
+        </>
+    );
+
     return (
         <Page>
+            <Dialog
+                data-testid="modal"
+                open={dialogOpen}
+                className={classes.modal}
+                onClose={() => {
+                    setWorksOrder(w => ({
+                        ...w,
+                        dateCancelled: null,
+                        reasonCancelled: null,
+                        cancelledBy: null
+                    }));
+                    setDialogOpen(false);
+                }}
+                fullWidth
+                maxWidth="md"
+            >
+                <div className={classes.modal}>
+                    <IconButton
+                        className={classes.pullRight}
+                        aria-label="Close"
+                        onClick={() => setDialogOpen(false)}
+                    >
+                        <CloseIcon />
+                    </IconButton>
+                    <Typography variant="h5" gutterBottom>
+                        Cancellation Details
+                    </Typography>
+                    {cancellationFields()}
+                    <Grid item xs={12}>
+                        <Button
+                            className={classes.printButton}
+                            onClick={() => {
+                                setDialogOpen(false);
+                                handleSaveClick();
+                            }}
+                            variant="outlined"
+                            color="secondary"
+                            disabled={
+                                !worksOrder?.reasonCancelled ||
+                                !worksOrder?.dateCancelled ||
+                                !worksOrder?.cancelledBy
+                            }
+                        >
+                            Confirm
+                        </Button>
+                    </Grid>
+                </div>
+            </Dialog>
             <Grid container spacing={3}>
                 <SnackbarMessage
                     visible={printWorksOrderLabelsMessageVisible}
@@ -227,22 +351,25 @@ function WorksOrder({
                 />
                 <Grid item xs={12}>
                     {creating() ? (
-                        <Fragment>
+                        <>
                             <Title text="Raise Works Order" />
                             <Button
                                 color="primary"
                                 variant="outlined"
                                 style={{ float: 'right' }}
-                                onClick={handleBackClick}
+                                onClick={() => {
+                                    history.push('/production/works-orders');
+                                    setEditStatus('view');
+                                }}
                             >
                                 Search
                             </Button>
-                        </Fragment>
+                        </>
                     ) : (
-                        <Fragment>
+                        <>
                             <Title text="Works Order" />
                             <CreateButton createUrl="/production/works-orders/create" />
-                        </Fragment>
+                        </>
                     )}
                 </Grid>
                 {itemErrors &&
@@ -263,7 +390,7 @@ function WorksOrder({
                     </Grid>
                 )}
                 {!creating() && (
-                    <Fragment>
+                    <>
                         <Grid item xs={4}>
                             <SearchInputField
                                 label="Search for Order Number"
@@ -276,7 +403,7 @@ function WorksOrder({
                             />
                         </Grid>
                         <Grid item xs={8} />
-                    </Fragment>
+                    </>
                 )}
                 {loading || employeesLoading ? (
                     <Grid item xs={12}>
@@ -284,14 +411,14 @@ function WorksOrder({
                     </Grid>
                 ) : (
                     (worksOrder || creating()) && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
                             {!creating() && (
-                                <Fragment>
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -301,7 +428,40 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
-                                </Fragment>
+                                </>
+                            )}
+                            {!creating() && (
+                                <>
+                                    <Grid item xs={4}>
+                                        <Dropdown
+                                            fullWidth
+                                            items={printerGroups}
+                                            label="Label Printer Group"
+                                            value={defaultWorksOrderPrinter || 'Prod'}
+                                            onChange={handleFieldChange}
+                                            propertyName="printer"
+                                            allowNoValue
+                                        />
+                                    </Grid>
+                                    <Grid item xs={8} />
+                                    <Grid item xs={12}>
+                                        <Button
+                                            className={classes.printButton}
+                                            onClick={handlePrintWorksOrderLabelsClick}
+                                            variant="outlined"
+                                            color="primary"
+                                        >
+                                            Print Labels
+                                        </Button>
+                                        <Button
+                                            onClick={handlePrintWorksOrderAioLabelsClick}
+                                            variant="outlined"
+                                            color="primary"
+                                        >
+                                            Print AIO Labels
+                                        </Button>
+                                    </Grid>
+                                </>
                             )}
                             <Grid item xs={4}>
                                 <InputField
@@ -314,21 +474,21 @@ function WorksOrder({
                                 />
                             </Grid>
                             <Grid item xs={8} />
-                            {worksOrderDetails && worksOrderDetails.auditDisclaimer && (
-                                <Fragment>
+                            {worksOrderDetails && worksOrderDetails?.auditDisclaimer && (
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
                                             disabled
                                             error
-                                            value={worksOrderDetails.auditDisclaimer}
+                                            value={worksOrderDetails?.auditDisclaimer}
                                             label="Audit Disclaimer"
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
-                                </Fragment>
+                                </>
                             )}
-                            <Fragment>
+                            <>
                                 <Grid item xs={4}>
                                     <InputField
                                         disabled
@@ -360,20 +520,21 @@ function WorksOrder({
                                         disabled
                                         value={
                                             worksOrderDetails
-                                                ? worksOrderDetails.partDescription
+                                                ? worksOrderDetails?.partDescription
                                                 : ''
                                         }
                                         label="Description"
                                     />
                                 </Grid>
-                            </Fragment>
+                            </>
                             <Grid item xs={4}>
                                 <InputField
                                     fullWidth
                                     disabled
                                     value={
                                         creating()
-                                            ? worksOrderDetails && worksOrderDetails.workStationCode
+                                            ? worksOrderDetails &&
+                                              worksOrderDetails?.workStationCode
                                             : worksOrder.workStationCode
                                     }
                                     label="Work Station"
@@ -395,7 +556,7 @@ function WorksOrder({
                                 />
                             </Grid>
                             {!creating() ? (
-                                <Fragment>
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -407,12 +568,12 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={4} />
-                                </Fragment>
+                                </>
                             ) : (
                                 <Grid item xs={8} />
                             )}
                             {!creating() && (
-                                <Fragment>
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -452,7 +613,7 @@ function WorksOrder({
                                         />
                                     </Grid>
                                     <Grid item xs={8} />
-                                </Fragment>
+                                </>
                             )}
                             <Grid item xs={4}>
                                 <InputField
@@ -460,7 +621,7 @@ function WorksOrder({
                                     disabled
                                     value={
                                         worksOrderDetails
-                                            ? worksOrderDetails.departmentDescription
+                                            ? worksOrderDetails?.departmentDescription
                                             : ''
                                     }
                                     label="Department"
@@ -468,48 +629,7 @@ function WorksOrder({
                             </Grid>
                             <Grid item xs={8} />
                             {!creating() && (
-                                <Fragment>
-                                    <Grid item xs={4}>
-                                        <InputField
-                                            fullWidth
-                                            disabled
-                                            value={
-                                                cancelledByEmployee && cancelledByEmployee.fullName
-                                            }
-                                            label="Cancelled By"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={8} />
-                                    <Grid item xs={4}>
-                                        <InputField
-                                            fullWidth
-                                            disabled
-                                            value={
-                                                worksOrder.dateCancelled &&
-                                                moment(worksOrder.dateCancelled).format(
-                                                    'DD-MMM-YYYY'
-                                                )
-                                            }
-                                            label="Date Cancelled"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={8} />
-                                    <Grid item xs={4}>
-                                        <InputField
-                                            fullWidth
-                                            required={editing()}
-                                            value={worksOrder.reasonCancelled}
-                                            label="Reason Cancelled"
-                                            helperText={
-                                                editing()
-                                                    ? 'Reason is required if cancelling a works order'
-                                                    : ''
-                                            }
-                                            propertyName="reasonCancelled"
-                                            onChange={handleFieldChange}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={8} />
+                                <>
                                     <Grid item xs={4}>
                                         <InputField
                                             fullWidth
@@ -518,43 +638,14 @@ function WorksOrder({
                                             label="Kitted Short"
                                         />
                                     </Grid>
-                                    <Grid item xs={8} />
-                                    <Grid item xs={4}>
-                                        <Dropdown
-                                            fullWidth
-                                            items={printerGroups}
-                                            label="Label Printer Group"
-                                            value={defaultWorksOrderPrinter || 'Prod'}
-                                            onChange={handleFieldChange}
-                                            propertyName="printer"
-                                            allowNoValue
-                                        />
-                                    </Grid>
-                                    <Grid item xs={8} />
-                                </Fragment>
+                                    <Grid item xs={8} />{' '}
+                                </>
                             )}
-                            <Grid item xs={12}>
-                                {!creating() && (
-                                    <Fragment>
-                                        <Button
-                                            className={classes.printButton}
-                                            onClick={handlePrintWorksOrderLabelsClick}
-                                            variant="outlined"
-                                            color="primary"
-                                        >
-                                            Print Labels
-                                        </Button>
-                                        <Button
-                                            onClick={handlePrintWorksOrderAioLabelsClick}
-                                            variant="outlined"
-                                            color="primary"
-                                        >
-                                            Print AIO Labels
-                                        </Button>
-                                    </Fragment>
-                                )}
-                            </Grid>
-
+                            {worksOrder?.dateCancelled && !dialogOpen ? (
+                                <>{cancellationFields()}</>
+                            ) : (
+                                <> </>
+                            )}
                             <Grid item xs={12}>
                                 <Button
                                     className={classes.printButton}
@@ -565,6 +656,29 @@ function WorksOrder({
                                     View Serial Numbers
                                 </Button>
                             </Grid>
+                            {!worksOrder.dateCancelled && (
+                                <Grid item xs={12}>
+                                    <Button
+                                        className={classes.printButton}
+                                        onClick={() => {
+                                            setWorksOrder(w => ({
+                                                ...w,
+                                                cancelledBy: profile?.employee.replace(
+                                                    '/employees/',
+                                                    ''
+                                                ),
+                                                dateCancelled: new Date().toISOString()
+                                            }));
+                                            setDialogOpen(true);
+                                        }}
+                                        variant="outlined"
+                                        color="secondary"
+                                        disabled={!!worksOrder.dateCancelled}
+                                    >
+                                        Cancel Works Order
+                                    </Button>
+                                </Grid>
+                            )}
                             {viewSernos && (
                                 <WorksOrderSerialNumbers
                                     employees={employees}
@@ -587,11 +701,11 @@ function WorksOrder({
                                     saveClick={handleSaveClick}
                                     cancelClick={handleCancelClick}
                                     backClick={() => {
-                                        history.push(previousPath);
+                                        smartGoBack(previousPaths, history.goBack);
                                     }}
-                                />{' '}
+                                />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
             </Grid>
@@ -612,7 +726,7 @@ WorksOrder.propTypes = {
     setEditStatus: PropTypes.func.isRequired,
     addItem: PropTypes.func.isRequired,
     updateItem: PropTypes.func.isRequired,
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func, push: PropTypes.func }).isRequired,
     fetchWorksOrder: PropTypes.func.isRequired,
     searchParts: PropTypes.func,
     clearPartsSearch: PropTypes.func,
@@ -634,15 +748,18 @@ WorksOrder.propTypes = {
     clearPrintWorksOrderAioLabelsErrors: PropTypes.func.isRequired,
     setPrintWorksOrderAioLabelsMessageVisible: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
-    setDefaultWorksOrderPrinter: PropTypes.func.isRequired,
-    defaultWorksOrderPrinter: PropTypes.string,
-    fetchSerialNumbers: PropTypes.func.isRequired,
+    setDefaultWorksOrderPrinter: PropTypes.func,
+    defaultWorksOrderPrinter: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({})]),
+    fetchSerialNumbers: PropTypes.func,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
-    previousPath: PropTypes.string.isRequired
+    options: PropTypes.shape({ partNumber: PropTypes.string }),
+    profile: PropTypes.shape({}),
+    previousPaths: PropTypes.arrayOf(PropTypes.string)
 };
 
 WorksOrder.defaultProps = {
     item: {},
+    profile: null,
     worksOrderDetails: null,
     worksOrderDetailsError: null,
     worksOrderError: null,
@@ -662,7 +779,11 @@ WorksOrder.defaultProps = {
     searchParts: null,
     clearPartsSearch: null,
     defaultWorksOrderPrinter: 'Prod',
-    serialNumbers: []
+    serialNumbers: [],
+    options: {},
+    fetchSerialNumbers: null,
+    setDefaultWorksOrderPrinter: null,
+    previousPaths: []
 };
 
 export default WorksOrder;

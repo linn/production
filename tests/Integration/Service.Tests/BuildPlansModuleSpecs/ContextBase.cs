@@ -7,6 +7,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.BuildPlans;
+    using Linn.Production.Domain.LinnApps.RemoteServices;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
@@ -31,13 +32,11 @@
 
         protected IBuildPlanRulesFacadeService BuildPlanRulesFacadeService { get; private set; }
 
-        protected IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource> BuildPlanDetailsFacadeService
-        {
-            get;
-            private set;
-        }
+        protected IBuildPlanDetailsService BuildPlanDetailsService { get; private set; }
 
         protected IAuthorisationService AuthorisationService { get; private set; }
+
+        protected ILinnWeekPack LinnWeekPack { get; private set; }
 
         [SetUp]
         public void EstablishContext()
@@ -46,9 +45,9 @@
                 Substitute.For<IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource>>();
             this.BuildPlansReportFacadeService = Substitute.For<IBuildPlansReportFacadeService>();
             this.BuildPlanRulesFacadeService = Substitute.For<IBuildPlanRulesFacadeService>();
-            this.BuildPlanDetailsFacadeService = Substitute
-                .For<IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>>();
+            this.BuildPlanDetailsService = Substitute.For<IBuildPlanDetailsService>();
             this.AuthorisationService = Substitute.For<IAuthorisationService>();
+            this.LinnWeekPack = Substitute.For<ILinnWeekPack>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
@@ -56,7 +55,10 @@
                         with.Dependency(this.BuildPlanFacadeService);
                         with.Dependency(this.BuildPlansReportFacadeService);
                         with.Dependency(this.BuildPlanRulesFacadeService);
-                        with.Dependency(this.BuildPlanDetailsFacadeService);
+                        with.Dependency(this.BuildPlanDetailsService);
+                        with.Dependency(this.LinnWeekPack);
+                        with.Dependency(this.AuthorisationService);
+
                         with.Dependency<IResourceBuilder<ResponseModel<BuildPlan>>>(
                             new BuildPlanResourceBuilder(this.AuthorisationService));
                         with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<BuildPlan>>>>(
@@ -67,10 +69,11 @@
                             new BuildPlanRulesResourceBuilder(this.AuthorisationService));
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
                         with.Dependency<IResourceBuilder<ResponseModel<BuildPlanDetail>>>(
-                            new BuildPlanDetailResourceBuilder(this.AuthorisationService));
+                            new BuildPlanDetailResourceBuilder(this.AuthorisationService, this.LinnWeekPack));
                         with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>>(
-                            new BuildPlanDetailsResourceBuilder(this.AuthorisationService));
+                            new BuildPlanDetailsResourceBuilder(this.AuthorisationService, this.LinnWeekPack));
                         with.Module<BuildPlansModule>();
+
                         with.ResponseProcessor<BuildPlanResponseProcessor>();
                         with.ResponseProcessor<BuildPlansResponseProcessor>();
                         with.ResponseProcessor<BuildPlanRuleResponseProcessor>();
@@ -78,6 +81,7 @@
                         with.ResponseProcessor<BuildPlanDetailResponseProcessor>();
                         with.ResponseProcessor<BuildPlanDetailsResponseProcessor>();
                         with.ResponseProcessor<ResultsModelJsonResponseProcessor>();
+
                         with.RequestStartup(
                             (container, pipelines, context) =>
                                 {

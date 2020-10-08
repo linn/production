@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Loading,
@@ -57,14 +57,14 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
     return (
         <Page>
             <Title text="Part Fail Fault Codes" />
-            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
+            {itemError && <ErrorCard errorMessage={itemError?.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
-                    <Fragment>
+                <>
+                    <>
                         <CreateButton createUrl="/production/quality/part-fail-fault-codes/create" />
-                    </Fragment>
+                    </>
                     <PaginatedTable
                         columns={columns}
                         sortable
@@ -74,7 +74,7 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
                         setPageOptions={setPageOptions}
                         totalItemCount={items ? items.length : 0}
                     />
-                </Fragment>
+                </>
             )}
         </Page>
     );

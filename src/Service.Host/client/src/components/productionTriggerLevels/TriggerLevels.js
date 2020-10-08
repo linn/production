@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -61,7 +61,8 @@ const ViewProductionTriggerLevels = ({
                   links: el.links,
                   id: el.partNumber,
                   overrideTriggerLevel: el.overrideTriggerLevel,
-                  variableTriggerLevel: el.variableTriggerLevel
+                  variableTriggerLevel: el.variableTriggerLevel,
+                  kanbanSize: el.kanbanSize
               }))
             : [];
 
@@ -134,23 +135,23 @@ const ViewProductionTriggerLevels = ({
         citCode: 'Cit',
         routeCode: 'Route Code',
         overrideTriggerLevel: 'Override Trigger Level',
-        VariableTriggerLevel: 'Auto Trigger Level'
+        VariableTriggerLevel: 'Auto Trigger Level',
+        kanbanSize: 'Kanban Size'
     };
 
     const handleBPClick = () => {
-        //TODO - when Build plans is implemented, uncomment the link below
-        // history.push('/production/maintenance/build-plans');
+        history.push('/production/maintenance/build-plans');
     };
 
     return (
         <Page>
             <Title text="Trigger Levels" />
-            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
+            {itemError && <ErrorCard errorMessage={itemError?.statusText} />}
 
             {allowedToCreate && (
-                <Fragment>
+                <>
                     <CreateButton createUrl="/production/maintenance/production-trigger-levels/create" />
-                </Fragment>
+                </>
             )}
 
             <SnackbarMessage
@@ -216,7 +217,7 @@ const ViewProductionTriggerLevels = ({
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
+                <>
                     {rowsToDisplay.length > 0 && (
                         <PaginatedTable
                             columns={columns}
@@ -228,7 +229,7 @@ const ViewProductionTriggerLevels = ({
                             expandable={false}
                         />
                     )}
-                </Fragment>
+                </>
             )}
             <Grid container>
                 <Grid item xs={12}>

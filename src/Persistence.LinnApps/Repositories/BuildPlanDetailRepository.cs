@@ -6,7 +6,8 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.BuildPlans;
-    using Linn.Production.Domain.LinnApps.ViewModels;
+
+    using Microsoft.EntityFrameworkCore;
 
     public class BuildPlanDetailRepository : IRepository<BuildPlanDetail, BuildPlanDetailKey>
     {
@@ -19,7 +20,7 @@
 
         public void Remove(BuildPlanDetail entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.BuildPlanDetails.Remove(entity);
         }
 
         public BuildPlanDetail FindBy(Expression<Func<BuildPlanDetail, bool>> expression)
@@ -29,22 +30,27 @@
 
         public IQueryable<BuildPlanDetail> FilterBy(Expression<Func<BuildPlanDetail, bool>> expression)
         {
-            return this.serviceDbContext.BuildPlanDetails.Where(expression);
+            return this.serviceDbContext.BuildPlanDetails.Include(b => b.Part).Where(expression);
         }
 
         public BuildPlanDetail FindById(BuildPlanDetailKey key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.BuildPlanDetails.Where(
+                    bpd => bpd.PartNumber == key.PartNumber && bpd.BuildPlanName == key.BuildPlanName
+                                                            && bpd.FromLinnWeekNumber == key.FromLinnWeekNumber)
+                .ToList()
+                .FirstOrDefault();
         }
 
         public IQueryable<BuildPlanDetail> FindAll()
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.BuildPlanDetails.Include(b => b.Part).OrderBy(b => b.Part.PartNumber)
+                .ThenBy(b => b.FromLinnWeekNumber);
         }
 
         public void Add(BuildPlanDetail entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.BuildPlanDetails.Add(entity);
         }
     }
 }

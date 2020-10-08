@@ -62,6 +62,7 @@ WorksOrderLabels.propTypes = {
         PropTypes.shape({
             id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
             name: PropTypes.string,
+            partNumber: PropTypes.string,
             description: PropTypes.string,
             href: PropTypes.string
         })

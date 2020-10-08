@@ -10,7 +10,8 @@
 
     public class AteTestResourceBuilder : IResourceBuilder<AteTest>
     {
-        private readonly IResourceBuilder<AteTestDetail> detailResourceBuilder = new AteTestDetailResourceBuilder();
+        private readonly IResourceBuilder<AteTestDetail> detailResourceBuilder 
+            = new AteTestDetailResourceBuilder();
 
         public AteTestResource Build(AteTest test)
         {
@@ -27,6 +28,7 @@
                            NumberOfSmtFails = test.NumberOfSmtFails,
                            NumberOfPcbFails = test.NumberOfPcbFails,
                            NumberOfSmtBoardFails = test.NumberOfSmtBoardFails,
+                           NumberOfPcbBoardFails = test.NumberOfPcbBoardFails,
                            PcbOperator = test.PcbOperator.Id,
                            PcbOperatorName = test.PcbOperator.FullName,
                            MinutesSpent = test.MinutesSpent,
@@ -40,7 +42,8 @@
                            FlowSolderDate = test.FlowSolderDate?.ToString("o"),
                            Details = test
                                .Details?.OrderBy(d => d.ItemNumber)
-                               .Select(d => (AteTestDetailResource)this.detailResourceBuilder?.Build(d)),
+                               .Select(d => (AteTestDetailResource)this.detailResourceBuilder
+                                   ?.Build(d)),
                            Links = this.BuildLinks(test).ToArray()
             };
         }

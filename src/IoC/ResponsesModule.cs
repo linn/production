@@ -1,9 +1,7 @@
 ﻿namespace Linn.Production.IoC
 {
     using System.Collections.Generic;
-
     using Autofac;
-
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
@@ -76,8 +74,8 @@
             builder.RegisterType<WorksOrderPartDetailsResourceBuilder>().As<IResourceBuilder<WorksOrderPartDetails>>();
             builder.RegisterType<ProductionTriggersReportResourceBuilder>().As<IResourceBuilder<ProductionTriggersReport>>();
             builder.RegisterType<ProductionTriggersFactsResourceBuilder>().As<IResourceBuilder<ProductionTriggerFacts>>();
-            builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<Part>>();
-            builder.RegisterType<PartsResourceBuilder>().As<IResourceBuilder<IEnumerable<Part>>>();
+            builder.RegisterType<PartResourceBuilder>().As<IResourceBuilder<ResponseModel<Part>>>();
+            builder.RegisterType<PartsResourceBuilder>().As<IResourceBuilder<ResponseModel<IEnumerable<Part>>>>();
             builder.RegisterType<PartFailSupplierResourceBuilder>().As<IResourceBuilder<PartFailSupplierView>>();
             builder.RegisterType<PartFailSuppliersResourceBuilder>()
                 .As<IResourceBuilder<IEnumerable<PartFailSupplierView>>>();
@@ -116,7 +114,7 @@
             builder.RegisterType<BuildPlanDetailResourceBuilder>().As<IResourceBuilder<ResponseModel<BuildPlanDetail>>>();
             builder.RegisterType<BuildPlanDetailsResourceBuilder>()
                 .As<IResourceBuilder<ResponseModel<IEnumerable<BuildPlanDetail>>>>();
-                            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
+            builder.RegisterType<AteTestResourceBuilder>().As<IResourceBuilder<AteTest>>();
             builder.RegisterType<AteTestsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTest>>>();
             builder.RegisterType<AteTestDetailResourceBuilder>().As<IResourceBuilder<AteTestDetail>>();
             builder.RegisterType<AteTestDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<AteTestDetail>>>();
@@ -124,7 +122,15 @@
             builder.RegisterType<IdAndNameResourceBuilder>().As<IResourceBuilder<IdAndName>>();
             builder.RegisterType<IdAndNameListResourceBuilder>().As<IResourceBuilder<IEnumerable<IdAndName>>>();
             builder.RegisterType<ComponentCountResourceBuilder>().As<IResourceBuilder<ComponentCount>>();
-
+            builder.RegisterType<PurchaseOrderDetailResourceBuilder>().As<IResourceBuilder<PurchaseOrderDetail>>();
+            builder.RegisterType<PurchaseOrderDetailsResourceBuilder>().As<IResourceBuilder<IEnumerable<PurchaseOrderDetail>>>();
+            builder.RegisterType<PurchaseOrderWithSernosInfoResourceBuilder>()
+                .As<IResourceBuilder<PurchaseOrderWithSernosInfo>>();
+            builder.RegisterType<ShortageSummaryResourceBuilder>().As<IResourceBuilder<ShortageSummary>>();
+            builder.RegisterType<AddressResourceBuilder>().As<IResourceBuilder<Address>>();
+            builder.RegisterType<AddressesResourceBuilder>().As<IResourceBuilder<IEnumerable<Address>>>();
+            builder.RegisterType<SupplierResourceBuilder>().As<IResourceBuilder<Supplier>>();
+            builder.RegisterType<SuppliersResourceBuilder>().As<IResourceBuilder<IEnumerable<Supplier>>>();
         }
     }
 }

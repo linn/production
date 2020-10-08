@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Persistence.LinnApps.Repositories
 {
+    using System.Linq;
+
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.Triggers;
 
@@ -14,7 +16,7 @@
 
         public PtlMaster GetRecord()
         {
-            return this.serviceDbContext.PtlMaster;
+            return this.serviceDbContext.PtlMaster.ToList().FirstOrDefault();
         }
 
         public void UpdateRecord(PtlMaster newValues)

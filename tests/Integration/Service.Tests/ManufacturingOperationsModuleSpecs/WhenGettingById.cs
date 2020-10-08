@@ -17,7 +17,17 @@
         public void SetUp()
         {
 
-            this.manufacturingOperation = new ManufacturingOperation("routecode1", 77, 15, "descrip of op", "codeOfOperation", "res Code", 27, 54, 5, "cit code test");
+            this.manufacturingOperation = new ManufacturingOperation(
+                "routecode1",
+                77,
+                15,
+                "descrip of op",
+                "codeOfOperation",
+                "res Code",
+                27,
+                54,
+                5,
+                "cit code test");
 
             this.ManufacturingOperationService.GetById(77)
                 .Returns(new SuccessResult<ManufacturingOperation>(this.manufacturingOperation));

@@ -41,7 +41,7 @@ const defaultProps = {
     },
     setSnackbarVisible: jest.fn(),
     cits: [
-        { code: '', name: '' },
+        { code: 'cit0', name: 'c' },
         { code: 'cit1', name: 'a' },
         { code: 'cit2', name: 'b' }
     ],

@@ -2,7 +2,9 @@
 {
     using System.Linq;
 
+    using Linn.Common.Authorisation;
     using Linn.Common.Facade;
+    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.BuildPlans;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
@@ -21,20 +23,23 @@
 
         private readonly IBuildPlanRulesFacadeService buildPlanRulesService;
 
-        private readonly
-            IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource>
-            buildPlanDetailService;
+        private readonly IBuildPlanDetailsService buildPlanDetailsService;
+
+        private readonly IAuthorisationService authorisationService;
 
         public BuildPlansModule(
             IFacadeService<BuildPlan, string, BuildPlanResource, BuildPlanResource> buildPlanService,
             IBuildPlansReportFacadeService buildPlansReportService,
             IBuildPlanRulesFacadeService buildPlanRulesService,
-            IFacadeService<BuildPlanDetail, BuildPlanDetailKey, BuildPlanDetailResource, BuildPlanDetailResource> buildPlanDetailService)
+            IBuildPlanDetailsService buildPlanDetailsService,
+            IAuthorisationService authorisationService)
         {
             this.buildPlanService = buildPlanService;
             this.buildPlansReportService = buildPlansReportService;
             this.buildPlanRulesService = buildPlanRulesService;
-            this.buildPlanDetailService = buildPlanDetailService;
+            this.buildPlanDetailsService = buildPlanDetailsService;
+            this.authorisationService = authorisationService;
+
             this.Get("/production/maintenance/build-plans", _ => this.GetBuildPlans());
             this.Post("/production/maintenance/build-plans", _ => this.AddBuildPlan());
             this.Put("/production/maintenance/build-plans", _ => this.UpdateBuildPlan());
@@ -45,6 +50,7 @@
             this.Get("/production/maintenance/build-plan-details", _ => this.GetBuildPlanDetails());
             this.Post("/production/maintenance/build-plan-details", _ => this.AddBuildPlanDetail());
             this.Put("/production/maintenance/build-plan-details", _ => this.UpdateBuildPlanDetail());
+            this.Delete("/production/maintenance/build-plan-details", _ => this.DeleteBuildPlanDetail());
         }
 
         private object GetBuildPlans()
@@ -61,8 +67,13 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.buildPlanService.Add(resource, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanAdd, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanService.Add(resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlan>>("You are not authorised to create build plans"));
         }
 
         private object UpdateBuildPlan()
@@ -71,8 +82,13 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.buildPlanService.Update(resource.BuildPlanName, resource, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanUpdate, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanService.Update(resource.BuildPlanName, resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlan>>("You are not authorised to amend build plans"));
         }
 
         private object GetBuildPlanReportOptions()
@@ -114,11 +130,11 @@
 
             if (string.IsNullOrEmpty(resource.BuildPlanName))
             {
-                return this.Negotiate.WithModel(this.buildPlanDetailService.GetAll(privileges))
+                return this.Negotiate.WithModel(this.buildPlanDetailsService.GetAll(privileges))
                     .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
             }
 
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Search(resource.BuildPlanName, privileges))
+            return this.Negotiate.WithModel(this.buildPlanDetailsService.Search(resource.BuildPlanName, privileges))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
         }
 
@@ -128,8 +144,13 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Add(resource, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailAdd, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanDetailsService.Add(resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlanDetail>>("You are not authorised to create build plan details"));
         }
 
         private object UpdateBuildPlanDetail()
@@ -138,15 +159,28 @@
 
             var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
 
-            var key = new BuildPlanDetailKey
-                          {
-                              BuildPlanName = resource.BuildPlanName,
-                              PartNumber = resource.PartNumber,
-                              FromLinnWeekNumber = resource.FromLinnWeekNumber
-                          };
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailUpdate, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanDetailsService.UpdateBuildPlanDetail(resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            }
 
-            return this.Negotiate.WithModel(this.buildPlanDetailService.Update(key, resource, privileges))
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlanDetail>>("You are not authorised to amend build plan details"));
+        }
+
+        private object DeleteBuildPlanDetail()
+        {
+            var resource = this.Bind<BuildPlanDetailResource>();
+
+            var privileges = this.Context?.CurrentUser?.GetPrivileges().ToList();
+
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.BuildPlanDetailDelete, privileges))
+            {
+                return this.Negotiate.WithModel(this.buildPlanDetailsService.RemoveBuildPlanDetail(resource, privileges))
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get()).WithView("Index");
+            }
+
+            return this.Negotiate.WithModel(new UnauthorisedResult<ResponseModel<BuildPlanDetail>>("You are not authorised to delete build plan details"));
         }
     }
 }

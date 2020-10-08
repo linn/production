@@ -64,7 +64,6 @@ import AssemblyFailFaultCode from '../containers/assemblyFails/AssemblyFailFault
 import CreateAssemblyFailFaultCode from '../containers/assemblyFails/CreateAssemblyFailFaultCode';
 import ManufacturingCommitDateReportOptions from '../containers/reports/ManufacturingCommitDateReportOptions';
 import ManufacturingCommitDateReport from '../containers/reports/ManufacturingCommitDateReport';
-import LabelPrint from '../containers/labels/LabelPrint';
 import OverdueOrdersReportOptions from '../containers/reports/OverdueOrdersReportOptions';
 import OverdueOrdersReport from '../containers/reports/OverdueOrdersReport';
 import PartFailErrorTypes from '../containers/partFails/PartFailErrorTypes';
@@ -93,13 +92,28 @@ import CreateLabelReprint from '../containers/labelReprints/CreateLabelReprint';
 import ProductionTriggerLevels from '../containers/productionTriggerLevels/ProductionTriggerLevels';
 import ProductionTriggerLevel from '../containers/productionTriggerLevels/ProductionTriggerLevel';
 import CreateProductionTriggerLevel from '../containers/productionTriggerLevels/CreateProductionTriggerLevel';
+import BuildPlans from '../containers/buildPlans/BuildPlans';
+import CreateBuildPlan from '../containers/buildPlans/CreateBuildPlan';
 import AteStatusReportOptions from '../containers/reports/AteStatusReportOptions';
+import AteStatusReportByDateOptions from '../containers/reports/AteStatusReportByDateOptions';
 import AteStatusReport from '../containers/reports/AteStatusReport';
 import AteDetailsReport from '../containers/reports/AteDetailsReport';
 import AteTest from '../containers/ate/AteTest';
 import AteTests from '../containers/ate/AteTests';
 import CreateAteTest from '../containers/ate/CreateAteTest';
 import BtwReport from '../containers/reports/BtwReport';
+import DelPerfReport from '../containers/reports/DelPerfReport';
+import DelPerfDetails from '../containers/reports/DelPerfDetails';
+import ShortageSummary from '../containers/reports/ShortageSummary';
+import LabelPrinter from '../containers/labelPrinting/LabelPrint';
+import FailedPartsReport from '../containers/reports/FailedPartsReport';
+import LabelPrint from '../containers/labels/LabelPrint';
+import PurchaseOrder from '../containers/PurchaseOrder';
+import PurchaseOrders from '../containers/PurchaseOrders';
+import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
+import manufacturingTimingsReport from '../containers/manufacturingTimings/TimingsReport';
+import manufacturingTimingsSetup from '../containers/manufacturingTimings/TimingsSetup';
+import PartCadInfo from '../containers/partCadInfo/PartCadInfo';
 
 const Root = ({ store }) => (
     <div>
@@ -387,6 +401,11 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/reports/ate/status-by-date"
+                                        component={AteStatusReportByDateOptions}
+                                    />
+                                    <Route
+                                        exact
                                         path="/production/reports/ate/details/report"
                                         component={AteDetailsReport}
                                     />
@@ -577,6 +596,27 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
+                                        path="/production/maintenance/build-plans"
+                                        component={BuildPlans}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans/create"
+                                        component={CreateBuildPlan}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/build-plans/:id"
+                                        component={BuildPlans}
+                                    />
+
+                                    <Route
+                                        path="/production/maintenance/build-plan-details"
+                                        component={BuildPlans}
+                                    />
+
+                                    <Route
+                                        exact
                                         path="/production/quality/ate-tests/create"
                                         component={CreateAteTest}
                                     />
@@ -594,6 +634,61 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/reports/btw"
                                         component={BtwReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/delperf"
+                                        component={DelPerfReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/delperf/details"
+                                        component={DelPerfDetails}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/shortages"
+                                        component={ShortageSummary}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/labels/print"
+                                        component={LabelPrinter}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/failed-parts"
+                                        component={FailedPartsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/purchase-orders/:id"
+                                        component={PurchaseOrder}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/resources/purchase-orders"
+                                        component={PurchaseOrders}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/days-required"
+                                        component={DaysRequiredReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/manufacturing-timings-setup"
+                                        component={manufacturingTimingsSetup}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/reports/manufacturing-timings"
+                                        component={manufacturingTimingsReport}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/part-cad-info"
+                                        component={PartCadInfo}
                                     />
                                     <Route component={NotFound} />
                                 </Switch>

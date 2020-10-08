@@ -3,10 +3,7 @@
     using FluentAssertions;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.ViewModels;
-    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     using Nancy;

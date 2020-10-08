@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import {
@@ -39,10 +39,6 @@ function ManufacturingResource({
     }, [item, prevManufacturingResource]);
 
     const resourceCodeInvalid = () => !manufacturingResource.resourceCode;
-    const descriptionInvalid = () => !manufacturingResource.description;
-    const costInvalid = () => !manufacturingResource.cost;
-
-    const inputInvalid = () => resourceCodeInvalid() || descriptionInvalid() || costInvalid();
 
     const handleSaveClick = () => {
         if (editing()) {
@@ -91,7 +87,7 @@ function ManufacturingResource({
                     </Grid>
                 ) : (
                     manufacturingResource && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
@@ -124,10 +120,6 @@ function ManufacturingResource({
                                     label="Description"
                                     maxLength={50}
                                     fullWidth
-                                    helperText={
-                                        descriptionInvalid() ? 'This field is required' : ''
-                                    }
-                                    required
                                     onChange={handleFieldChange}
                                     propertyName="description"
                                 />
@@ -140,18 +132,16 @@ function ManufacturingResource({
                                     decimalPlaces={2}
                                     maxLength={14}
                                     fullWidth
-                                    helperText={costInvalid() ? 'This field is required' : ''}
-                                    required
                                     onChange={handleFieldChange}
                                     propertyName="cost"
                                 />
                             </Grid>
-                        </Fragment>
+                        </>
                     )
                 )}
                 <Grid item xs={12}>
                     <SaveBackCancelButtons
-                        saveDisabled={viewing() || inputInvalid()}
+                        saveDisabled={viewing() || resourceCodeInvalid()}
                         saveClick={handleSaveClick}
                         cancelClick={handleCancelClick}
                         backClick={handleBackClick}
@@ -170,7 +160,7 @@ ManufacturingResource.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    itemError: PropTypes.shape({}),
+    itemError: PropTypes.shape({ statusText: PropTypes.string }),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,

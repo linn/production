@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.IoC
 {
     using Autofac;
-
     using Linn.Common.Persistence;
     using Linn.Common.Persistence.EntityFramework;
     using Linn.Production.Domain.LinnApps;
@@ -20,7 +19,6 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Persistence.LinnApps;
     using Linn.Production.Persistence.LinnApps.Repositories;
-
     using Microsoft.EntityFrameworkCore;
 
     public class PersistenceModule : Module
@@ -43,7 +41,6 @@
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
             builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
-            builder.RegisterType<PartsRepository>().As<IRepository<Part, string>>();
             builder.RegisterType<ProductionTriggerLevelRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
@@ -70,7 +67,6 @@
             builder.RegisterType<ProductDataRepository>().As<IRepository<ProductData, int>>();
             builder.RegisterType<OverdueOrderLineRepository>().As<IQueryRepository<OverdueOrderLine>>();
             builder.RegisterType<BoardTestRepository>().As<IRepository<BoardTest, BoardTestKey>>();
-            builder.RegisterType<PartFailLogRepository>().As<IQueryRepository<PartFailLog>>();
             builder.RegisterType<EmployeeDepartmentViewRepository>().As<IQueryRepository<EmployeeDepartmentView>>();
             builder.RegisterType<WorksOrderLabelsRepository>().As<IRepository<WorksOrderLabel, WorksOrderLabelKey>>();
             builder.RegisterType<PartFailSuppliersViewRepository>().As<IQueryRepository<PartFailSupplierView>>();
@@ -83,7 +79,10 @@
             builder.RegisterType<BuildPlanRuleRepository>().As<IQueryRepository<BuildPlanRule>>();
             builder.RegisterType<AteTestRepository>().As<IRepository<AteTest, int>>();
             builder.RegisterType<AteTestDetailRepository>().As<IRepository<AteTestDetail, AteTestDetailKey>>();
-                
+            builder.RegisterType<AddressRepository>().As<IRepository<Address, int>>();
+            builder.RegisterType<SupplierRepository>().As<IRepository<Supplier, int>>();
+            builder.RegisterType<CountryRepository>().As<IRepository<Country, string>>();
+
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();
             builder.RegisterType<ProductionTriggerQueryRepository>().As<IQueryRepository<ProductionTrigger>>();
@@ -93,6 +92,14 @@
             builder.RegisterType<WwdDetailQueryRepository>().As<IQueryRepository<WwdDetail>>();
             builder.RegisterType<ProductionBackOrdersViewRepository>().As<IQueryRepository<ProductionBackOrdersView>>();
             builder.RegisterType<BuiltThisWeekStatisticRepository>().As<IQueryRepository<BuiltThisWeekStatistic>>();
+            builder.RegisterType<PtlStatRepository>().As<IQueryRepository<PtlStat>>();
+            builder.RegisterType<SernosBuiltRepository>().As<IQueryRepository<SernosBuilt>>();
+            builder.RegisterType<SernosIssuedRepository>().As<IQueryRepository<SernosIssued>>();
+            builder.RegisterType<PurchaseOrdersReceivedRepository>().As<IQueryRepository<PurchaseOrdersReceived>>();
+            builder.RegisterType<WswShortageRepository>().As<IQueryRepository<WswShortage>>();
+            builder.RegisterType<WswShortageStoryRepository>().As<IQueryRepository<WswShortageStory>>();
+            builder.RegisterType<FailedPartsRepository>().As<IQueryRepository<FailedParts>>();
+            builder.RegisterType<ProductionDaysRequiredRepository>().As<IQueryRepository<ProductionDaysRequired>>();
         }
     }
 }

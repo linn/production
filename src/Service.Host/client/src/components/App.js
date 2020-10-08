@@ -23,6 +23,9 @@ function App() {
                 >
                     <Typography color="primary">Assembly Fail Fault Codes Utility</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/maintenance/build-plans" button>
+                    <Typography color="primary">Build Plans Utility</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/quality/part-fails" button>
                     <Typography color="primary">Part Fail Log</Typography>
                 </ListItem>
@@ -47,6 +50,9 @@ function App() {
                     button
                 >
                     <Typography color="primary">Label Reprint Reissue Utility</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/maintenance/labels/print" button>
+                    <Typography color="primary">General Purpose Label Printer</Typography>
                 </ListItem>
                 <ListItem
                     component={Link}
@@ -127,6 +133,9 @@ function App() {
                 <ListItem component={Link} to="/production/reports/overdue-orders" button>
                     <Typography color="primary">Overdue Orders Report</Typography>
                 </ListItem>
+                <ListItem component={Link} to="/production/metalWorkTimings/setup" button>
+                    <Typography color="primary">Overdue Orders Report</Typography>
+                </ListItem>
                 <ListItem component={Link} to="/production/reports/triggers" button>
                     <Typography color="primary">Production Triggers Report</Typography>
                 </ListItem>
@@ -153,6 +162,16 @@ function App() {
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/who-built-what" button>
                     <Typography color="primary">Who Built What Report</Typography>
+                </ListItem>
+                <ListItem component={Link} to="/production/reports/failed-parts" button>
+                    <Typography color="primary">Failed Parts Report</Typography>
+                </ListItem>
+                <ListItem
+                    component={Link}
+                    to="/production/reports/manufacturing-timings-setup"
+                    button
+                >
+                    <Typography color="primary">Manufacturing Timings</Typography>
                 </ListItem>
             </List>
         </Page>

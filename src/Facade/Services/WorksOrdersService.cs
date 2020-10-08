@@ -80,8 +80,6 @@
                 return new BadRequestResult<WorksOrder>("Must supply an employee number when updating a works order");
             }
 
-            resource.CancelledBy = employee.Href.ParseId();
-
             var worksOrder = this.worksOrderRepository.FindById(resource.OrderNumber);
 
             if (worksOrder == null)
@@ -91,24 +89,37 @@
 
             try
             {
-                worksOrder.UpdateWorksOrder(resource.Quantity, resource.BatchNotes,resource.CancelledBy, resource.ReasonCancelled);
+                worksOrder.UpdateWorksOrder(resource.Quantity, resource.BatchNotes, resource.CancelledBy, resource.ReasonCancelled);
             }
             catch (DomainException exception)
             {
                 return new BadRequestResult<WorksOrder>(exception.Message);
             }
+
             this.transactionManager.Commit();
 
             return new SuccessResult<WorksOrder>(worksOrder);
         }
 
-        public IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(string boardNumber)
+        public IResult<IEnumerable<WorksOrder>> SearchByBoardNumber(
+            string boardNumber,
+            int? limit,
+            string orderByDesc)
         {
-            var result = this.worksOrderRepository.FilterBy(w => w.Part.IsBoardPart() && w.Part.PartNumber.Equals(boardNumber.ToUpper()));
-
-            if (result.Count() > 1000)
+            var result = this.worksOrderRepository.FilterBy(
+                w => w.Part.IsBoardPart() && w.Part.PartNumber.Contains(boardNumber.ToUpper()));
+            if (orderByDesc != null)
             {
-                result = result.Take(1000);
+                result = result.OrderByDescending(
+                    w => w.GetType()
+                        .GetProperty(
+                            char.ToUpperInvariant(orderByDesc[0]) 
+                            + orderByDesc.Substring(1)).GetValue(w, null)); 
+            }
+
+            if (limit.HasValue)
+            {
+                result = result.Take(limit.Value);
             }
 
             return new SuccessResult<IEnumerable<WorksOrder>>(result);
@@ -138,6 +149,8 @@
                            OrderNumber = resource.OrderNumber,
                            CancelledBy = resource.CancelledBy,
                            ReasonCancelled = resource.ReasonCancelled,
+                           BatchNotes = resource.BatchNotes,
+                           SaveBatchNotes = "Y",
                            RaisedBy = resource.RaisedBy,
                            RaisedByDepartment = resource.RaisedByDepartment,
                            DateCancelled = string.IsNullOrEmpty(resource.DateCancelled) ? (DateTime?)null : DateTime.Parse(resource.DateCancelled),

@@ -156,6 +156,8 @@ export const manufacturingRoutes = new ItemType(
 
 export const parts = new ItemType('parts', 'PARTS', '/production/maintenance/parts');
 
+export const part = new ItemType('part', 'PART', '/production/maintenance/parts');
+
 export const smtShifts = new ItemType(
     'smtShifts',
     'SMT_SHIFTS',
@@ -250,10 +252,58 @@ export const labelReprint = new ItemType(
     '/production/maintenance/labels/reprint-reasons'
 );
 
+export const labelPrint = new ItemType(
+    'labelPrint',
+    'LABEL_PRINT',
+    '/production/maintenance/labels/print'
+);
+
+export const labelPrinters = new ItemType(
+    'labelPrinters',
+    'LABEL_PRINTERS',
+    '/production/maintenance/labels/printers'
+);
+
+export const labelPrintTypes = new ItemType(
+    'labelPrintTypes',
+    'LABEL_PRINT_TYPES',
+    '/production/maintenance/labels/label-types'
+);
+
 export const workStations = new ItemType(
     'workStations',
     'WORK_STATIONS',
     '/production/maintenance/work-stations'
+);
+
+export const buildPlan = new ItemType(
+    'buildPlan',
+    'BUILD_PLAN',
+    '/production/maintenance/build-plans'
+);
+
+export const buildPlanDetail = new ItemType(
+    'buildPlanDetail',
+    'BUILD_PLAN_DETAIL',
+    '/production/maintenance/build-plan-details'
+);
+
+export const buildPlanDetails = new ItemType(
+    'buildPlanDetails',
+    'BUILD_PLAN_DETAILS',
+    '/production/maintenance/build-plan-details'
+);
+
+export const buildPlanRule = new ItemType(
+    'buildPlanRule',
+    'BUILD_PLAN_RULE',
+    '/production/maintenance/build-plan-rules'
+);
+
+export const buildPlanRules = new ItemType(
+    'buildPlanRules',
+    'BUILD_PLAN_RULES',
+    '/production/maintenance/build-plan-rules'
 );
 
 export const ateTest = new ItemType('ateTest', 'ATE_TEST', '/production/quality/ate-tests');
@@ -264,4 +314,30 @@ export const componentCounts = new ItemType(
     'componentCounts',
     'COMPONENT_COUNTS',
     '/production/quality/ate-tests/count-components/'
+);
+
+export const addresses = new ItemType(
+    'addresses',
+    'ADDRESSES',
+    '/production/maintenance/labels/addresses'
+);
+
+export const address = new ItemType('address', 'ADDRESS', '/production/maintenance/labels/address');
+
+export const suppliers = new ItemType(
+    'suppliers',
+    'SUPPLIERS',
+    '/production/maintenance/labels/suppliers'
+);
+
+export const purchaseOrder = new ItemType(
+    'purchaseOrder',
+    'PURCHASE_ORDER',
+    '/production/resources/purchase-orders'
+);
+
+export const partCadInfo = new ItemType(
+    'partCadInfo',
+    'PART_CAD_INFO',
+    '/production/maintenance/part-cad-info'
 );

@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Resources
 {
-    using System.Collections.Generic;
-
     using Linn.Common.Resources;
 
     public class LabelPrintResource : HypermediaResource
@@ -12,6 +10,6 @@
 
         public int Quantity { get; set; }
 
-        public IEnumerable<string> LinesForPrinting { get; set; }
+        public LabelPrintContentsResource LinesForPrinting { get; set; }
     }
 }

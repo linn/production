@@ -90,9 +90,28 @@ function TriggersList({ triggers, jobref, citcode }) {
                                 >
                                     <MenuItem>Facts</MenuItem>
                                 </Link>
-                                <MenuItem>Edit Story</MenuItem>
-                                <MenuItem>Works Order</MenuItem>
-                                <MenuItem>Build Plan</MenuItem>
+                                <Link
+                                    component={RouterLink}
+                                    to={`/production/maintenance/production-trigger-levels/${encodeURIComponent(
+                                        m.partNumber
+                                    )}`}
+                                >
+                                    <MenuItem>Edit Trigger</MenuItem>
+                                </Link>
+                                <Link
+                                    component={RouterLink}
+                                    to={`/production/works-orders/create?partNumber=${encodeURIComponent(
+                                        m.partNumber
+                                    )}`}
+                                >
+                                    <MenuItem>Raise Works Order</MenuItem>
+                                </Link>
+                                <Link
+                                    component={RouterLink}
+                                    to="/production/maintenance/build-plans"
+                                >
+                                    <MenuItem>Build Plan</MenuItem>
+                                </Link>
                             </ContextMenu>
                         </TableCell>
                     </TableRow>
@@ -103,7 +122,7 @@ function TriggersList({ triggers, jobref, citcode }) {
 }
 
 TriggersList.propTypes = {
-    triggers: PropTypes.shape({}),
+    triggers: PropTypes.arrayOf(PropTypes.shape({})),
     citcode: PropTypes.string,
     jobref: PropTypes.string.isRequired
 };

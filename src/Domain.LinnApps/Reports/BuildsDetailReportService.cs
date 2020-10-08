@@ -56,7 +56,7 @@
                 for (var i = 0; i < weeks.Count; i++)
                 {
                     var valueExistsThisWeek = partGroup.FirstOrDefault(g =>
-                                          ((DateTime)g.ItemArray[4]).ToShortDateString() 
+                                          ((DateTime)g.ItemArray[4]).ToShortDateString()
                                           == weeks.ElementAt(i).ToShortDateString()) != null;
 
                     var val = valueExistsThisWeek
@@ -75,7 +75,7 @@
                     }
 
                     var itemArray = partGroup.First(
-                                g => ((DateTime)g.ItemArray[4]).ToShortDateString() 
+                                g => ((DateTime)g.ItemArray[4]).ToShortDateString()
                                      == weeks.ElementAt(i).ToShortDateString())
                             ?.ItemArray;
                         {
@@ -87,7 +87,7 @@
                 }
 
                 results.SetColumnType(weeks.Count, GridDisplayType.Value);
-                
+
                 results.SetGridValue(rowIndex, weeks.Count + 1, partTotal, decimalPlaces: 2);
                 rowIndex++;
             }

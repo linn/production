@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Typeahead, CreateButton } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
@@ -15,9 +15,9 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
         <Page>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Fragment>
+                    <>
                         <CreateButton createUrl="/production/quality/assembly-fails/create" />
-                    </Fragment>
+                    </>
                     <Typeahead
                         items={forecastItems.map(i => ({ ...i, name: i.name.toString() }))}
                         fetchItems={fetchItems}

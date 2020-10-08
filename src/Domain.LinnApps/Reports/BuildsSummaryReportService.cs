@@ -41,7 +41,7 @@
             {
                 values.Add(
                     new CalculationValueModel
-                        {    
+                        {
                             RowId = rowId.ToString(), TextDisplay = summary.WeekEnd.ToShortDateString(), ColumnId = "WeekEnd"
                         });
                 values.Add(new CalculationValueModel { RowId = rowId.ToString(), TextDisplay = summary.DepartmentDescription, ColumnId = "Department" });
@@ -60,7 +60,7 @@
             }
 
             this.reportingHelper.AddResultsToModel(model, values, CalculationValueModelType.Value, true);
-            
+
             this.reportingHelper.SubtotalRowsByTextColumnValue(
                 model,
                 model.ColumnIndex("WeekEnd"),

@@ -23,6 +23,7 @@ const worksOrder = {
     partNumber: 'KEEL',
     quantity: 12,
     docType: 'WO',
+    KittedShort: 'N',
     workStationCode: 'CODE',
     raisedByDepartment: 'DEPT'
 };
@@ -46,7 +47,8 @@ const defaultProps = {
     printWorksOrderLabels: printWorksOrderLabelsMock,
     setDefaultWorksOrderPrinter: jest.fn(),
     clearErrors: jest.fn(),
-    fetchSerialNumbers: fetchSerialNumbersMock
+    fetchSerialNumbers: fetchSerialNumbersMock,
+    previousPath: '/path'
 };
 
 const employees = [
@@ -101,10 +103,6 @@ describe('when viewing', () => {
         expect(getByText('Raised By')).toBeInTheDocument();
         expect(getByText('Date Raised')).toBeInTheDocument();
         expect(getByText('Batch Number')).toBeInTheDocument();
-        expect(getByText('Cancelled By')).toBeInTheDocument();
-        expect(getByText('Date Cancelled')).toBeInTheDocument();
-        expect(getByText('Reason Cancelled')).toBeInTheDocument();
-        expect(getByText('Kitted Short')).toBeInTheDocument();
     });
 
     it('should display works order fields', () => {

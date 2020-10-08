@@ -6,7 +6,6 @@
     using System.Linq.Expressions;
     using FluentAssertions;
     using Linn.Common.Reporting.Models;
-    using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Models;
     using NSubstitute;
     using NUnit.Framework;
@@ -19,10 +18,28 @@
         public void SetUp()
         {
             var statistics = new List<BuiltThisWeekStatistic>()
-            {
-                new BuiltThisWeekStatistic { PartNumber="KLI SYS HUB", Description = "KLIMAX SYSTEM HUB", BuiltThisWeek = 1, Value = 977, Days=0.13, CitCode = "S", CitName = "FinalAssembly"},
-                new BuiltThisWeekStatistic { PartNumber="LP12 OIL KIT", Description = "OIL BOTTLE", BuiltThisWeek = 36, Value = 9, Days=0.44, CitCode = "S", CitName = "FinalAssembly"}
-            };
+                                 {
+                                     new BuiltThisWeekStatistic
+                                         {
+                                             PartNumber = "KLI SYS HUB",
+                                             Description = "KLIMAX SYSTEM HUB",
+                                             BuiltThisWeek = 1,
+                                             Value = 977,
+                                             Days = 0.13,
+                                             CitCode = "S",
+                                             CitName = "FinalAssembly"
+                                         },
+                                     new BuiltThisWeekStatistic
+                                         {
+                                             PartNumber = "LP12 OIL KIT",
+                                             Description = "OIL BOTTLE",
+                                             BuiltThisWeek = 36,
+                                             Value = 9,
+                                             Days = 0.44,
+                                             CitCode = "S",
+                                             CitName = "FinalAssembly"
+                                         }
+                                 };
             this.BuiltThisWeekStatisticRepository.FilterBy(Arg.Any<Expression<Func<BuiltThisWeekStatistic, bool>>>())
                 .Returns(statistics.AsQueryable());
 

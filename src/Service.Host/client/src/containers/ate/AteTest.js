@@ -13,6 +13,8 @@ import ateFaultCodesSelectors from '../../selectors/ateFaultCodesSelectors';
 import ateFaultCodeActions from '../../actions/ateFaultCodesActions';
 import componentCountsActions from '../../actions/componentCountsActions';
 import componentCountsSelectors from '../../selectors/componentCountsSelectors';
+import pcasRevisionsActions from '../../actions/pcasRevisionsActions';
+import pcasRevisionsSelectors from '../../selectors/pcasRevisionsSelectors';
 
 const mapStateToProps = (state, { match }) => ({
     item: ateTestSelectors.getItem(state),
@@ -29,7 +31,8 @@ const mapStateToProps = (state, { match }) => ({
         .map(s => ({ ...s, id: s.orderNumber, name: s.orderNumber })),
     worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
     ateFaultCodes: ateFaultCodesSelectors.getItems(state),
-    componentCounts: componentCountsSelectors.getItem(state)
+    componentCounts: componentCountsSelectors.getItem(state),
+    detailParts: pcasRevisionsSelectors.getItems(state)
 });
 
 const initialise = ({ itemId }) => dispatch => {
@@ -45,7 +48,8 @@ const mapDispatchToProps = {
     setSnackbarVisible: ateTestActions.setSnackbarVisible,
     searchWorksOrders: worksOrdersActions.search,
     clearWorksOrdersSearch: worksOrdersActions.clearSearch,
-    getComponentCounts: componentCountsActions.fetch
+    getComponentCounts: componentCountsActions.fetch,
+    getDetailParts: pcasRevisionsActions.fetchByQueryString
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(AteTest));

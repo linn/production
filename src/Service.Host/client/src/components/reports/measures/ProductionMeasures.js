@@ -7,7 +7,7 @@ import ProductionMeasuresCits from './ProductionMeasuresCitTable';
 import Page from '../../../containers/Page';
 
 function ProductionMeasures({ loading, citsData, infoData, config }) {
-    const href = `${config.appRoot}/production/reports/measures/export`;
+    const href = `${config?.appRoot}/production/reports/measures/export`;
 
     return (
         <Page>

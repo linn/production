@@ -7,14 +7,14 @@ import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
 function BuildsByDepartmentReportOptions({ history }) {
-    const [fromDate, setFromDate] = useState(new Date());
-    const [toDate, setToDate] = useState(new Date());
+    const [fromDate, setFromDate] = useState(new Date().toISOString());
+    const [toDate, setToDate] = useState(new Date().toISOString());
     const [monthly, setMonthly] = useState(false);
 
     const handleClick = () =>
         history.push({
             pathname: `/production/reports/builds-summary`,
-            search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&monthly=${monthly}`
+            search: `?fromDate=${fromDate}&toDate=${toDate}&monthly=${monthly}`
         });
 
     return (
@@ -26,14 +26,18 @@ function BuildsByDepartmentReportOptions({ history }) {
                     </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                    <DatePicker label="From Date" value={fromDate} onChange={setFromDate} />
+                    <DatePicker
+                        label="From Date"
+                        value={fromDate}
+                        onChange={newVal => setFromDate(newVal?.toISOString())}
+                    />
                 </Grid>
                 <Grid item xs={3}>
                     <DatePicker
                         label="To Date"
                         value={toDate}
                         minDate={fromDate}
-                        onChange={setToDate}
+                        onChange={newVal => setToDate(newVal?.toISOString())}
                     />
                 </Grid>
                 <Grid item xs={3}>
@@ -64,7 +68,11 @@ BuildsByDepartmentReportOptions.propTypes = {
     prevOptions: PropTypes.shape({
         fromDate: PropTypes.string,
         toDate: PropTypes.string
-    }).isRequired
+    })
+};
+
+BuildsByDepartmentReportOptions.defaultProps = {
+    prevOptions: null
 };
 
 export default BuildsByDepartmentReportOptions;

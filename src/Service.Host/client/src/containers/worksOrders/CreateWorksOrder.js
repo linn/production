@@ -2,8 +2,10 @@ import { connect } from 'react-redux';
 import {
     getItemErrors,
     getItemErrorDetailMessage,
-    initialiseOnMount
+    initialiseOnMount,
+    getPreviousPaths
 } from '@linn-it/linn-form-components-library';
+import queryString from 'query-string';
 import WorksOrder from '../../components/worksOrders/WorksOrder';
 import worksOrderSelectors from '../../selectors/worksOrderSelectors';
 import worksOrderActions from '../../actions/worksOrderActions';
@@ -20,12 +22,18 @@ import printWorksOrderAioLabelsSelectors from '../../selectors/printWorksOrderAi
 import * as itemTypes from '../../itemTypes';
 import * as processTypes from '../../processTypes';
 
-const mapStateToProps = state => ({
+const getOptions = ownProps => {
+    const options = queryString.parse(ownProps.location.search);
+    return options || {};
+};
+
+const mapStateToProps = (state, ownProps) => ({
     itemErrors: getItemErrors(state),
     worksOrderError: getItemErrorDetailMessage(state, itemTypes.worksOrder.item),
     worksOrderDetailsError: getItemErrorDetailMessage(state, itemTypes.worksOrderDetails.item),
     editStatus: 'create',
     loading: worksOrderSelectors.getLoading(state),
+    options: getOptions(ownProps),
     snackbarVisible: worksOrderSelectors.getSnackbarVisible(state),
     employees: employeesSelectors.getItems(state),
     worksOrderDetails: worksOrderDetailsSelectors.getItem(state),
@@ -46,7 +54,8 @@ const mapStateToProps = state => ({
     printWorksOrderAioLabelsMessageVisible: printWorksOrderAioLabelsSelectors.getMessageVisible(
         state
     ),
-    printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state)
+    printWorksOrderAioLabelsMessageText: printWorksOrderAioLabelsSelectors.getMessageText(state),
+    previousPaths: getPreviousPaths(state)
 });
 
 const initialise = () => dispatch => {

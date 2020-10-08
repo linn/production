@@ -15,7 +15,6 @@
 
         public string DepartmentCode { get; set; }
 
-
         public DateTime? DateInvalid { get; set; }
 
         public ProductionMeasures Measures { get; set; }

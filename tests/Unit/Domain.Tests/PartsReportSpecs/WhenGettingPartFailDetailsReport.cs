@@ -8,6 +8,7 @@
 
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Measures;
 
     using NSubstitute;
 
@@ -28,7 +29,7 @@
 
             this.toDate = new DateTime(2019, 10, 31).ToString("o");
 
-            this.PartFailLogRepository.FilterBy(Arg.Any<Expression<Func<PartFailLog, bool>>>())
+            this.PartFailLogRepository.FilterBy(Arg.Any<Expression<Func<PartFail, bool>>>())
                 .Returns(this.PartFailLogs.AsQueryable());
 
             this.LinnWeekPack.Wwsyy(DateTime.Parse(this.fromDate)).Returns("12/3");
@@ -41,7 +42,19 @@
         [Test]
         public void ShouldCallPartFailLogRepository()
         {
-            this.PartFailLogRepository.Received().FilterBy(Arg.Any<Expression<Func<PartFailLog, bool>>>());
+            this.PartFailLogRepository.Received().FilterBy(Arg.Any<Expression<Func<PartFail, bool>>>());
+        }
+
+        [Test]
+        public void ShouldCallPurchaseOrderRepository()
+        {
+            this.PurchaseOrderRepository.Received().FilterBy(Arg.Any<Expression<Func<PurchaseOrder, bool>>>());
+        }
+
+        [Test]
+        public void ShouldCallSupplierRepository()
+        {
+            this.SupplierRepository.Received().FilterBy(Arg.Any<Expression<Func<Supplier, bool>>>());
         }
 
         [Test]
@@ -54,6 +67,20 @@
         public void ShouldSetReportValues()
         {
             this.result.Rows.Should().HaveCount(4);
+        }
+
+        [Test]
+        public void ShouldSetColumnValues()
+        {
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Part Number");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Part Description");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Date Created");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Story");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Quantity");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Error Type");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Base Unit Price");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Total Price");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "Entered By");
         }
     }
 }

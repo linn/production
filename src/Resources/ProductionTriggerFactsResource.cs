@@ -70,7 +70,7 @@
         public int? ShortNowBackOrdered { get; set; }
 
         public int? ShortNowMonthEnd { get; set; }
-        
+
         public double? QtyBeingBuiltDays { get; set; }
 
         public double? ReqtForSalesOrdersBEDays { get; set; }
@@ -84,7 +84,7 @@
         public int? QtyNFlagged { get; set; }
 
         public int? QtyFFlagged { get; set; }
-        
+
         public int? QtyYFlagged { get; set; }
 
         public string EarliestRequestedDate { get; set; }

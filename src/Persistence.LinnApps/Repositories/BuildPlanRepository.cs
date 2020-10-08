@@ -18,7 +18,7 @@
 
         public BuildPlan FindById(string key)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.BuildPlans.Where(b => b.BuildPlanName == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<BuildPlan> FindAll()
@@ -28,7 +28,7 @@
 
         public void Add(BuildPlan entity)
         {
-            throw new NotImplementedException();
+            this.serviceDbContext.BuildPlans.Add(entity);
         }
 
         public void Remove(BuildPlan entity)

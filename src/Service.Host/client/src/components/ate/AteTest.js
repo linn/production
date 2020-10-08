@@ -1,14 +1,10 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Typography from '@material-ui/core/Typography';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
     SaveBackCancelButtons,
-    TableWithInlineEditing,
     InputField,
     Loading,
     Title,
@@ -16,7 +12,8 @@ import {
     SnackbarMessage,
     Typeahead,
     Dropdown,
-    DatePicker
+    DatePicker,
+    TableWithInlineEditing
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -38,18 +35,32 @@ function AteTest({
     searchWorksOrders,
     clearWorksOrdersSearch,
     employees,
+    employeesLoading,
     ateFaultCodes,
     componentCounts,
-    getComponentCounts
+    getComponentCounts,
+    detailParts,
+    getDetailParts
 }) {
-    const [ateTest, setAteTest] = useState({ pcbOperator: null, details: [] });
+    const creating = () => editStatus === 'create';
+    const editing = () => editStatus === 'edit';
+    const viewing = () => editStatus === 'view';
+
+    const [ateTest, setAteTest] = useState({
+        pcbOperator: null,
+        details: [],
+        numberTested: 0
+    });
     const [prevAteTest, setPrevAteTest] = useState({});
-    const [detailsOpen, setDetailsOpen] = useState(false);
+
+    const dpmo = (instances, failures) => Math.round((1000000 / instances) * failures);
 
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevAteTest) {
             setAteTest(item);
             setPrevAteTest(item);
+        } else if (editStatus === 'create') {
+            setAteTest({ dateTested: new Date().toISOString(), details: [] });
         }
     }, [item, prevAteTest, editStatus]);
 
@@ -64,14 +75,10 @@ function AteTest({
     }, [profile, editStatus]);
 
     useEffect(() => {
-        if (employees && ateTest.pcbOperator) {
-            setAteTest(a => ({
-                ...a,
-                pcbOperatorName: employees.find(e => Number(e.id) === Number(a.pcbOperator))
-                    ?.fullName
-            }));
+        if (ateTest.partNumber) {
+            getDetailParts('searchTerm', ateTest.partNumber);
         }
-    }, [employees, ateTest.pcbOperator]);
+    }, [ateTest.partNumber, getDetailParts]);
 
     useEffect(() => {
         if (ateTest.partNumber) {
@@ -79,30 +86,49 @@ function AteTest({
         }
     }, [getComponentCounts, ateTest.partNumber]);
 
-    const creating = () => editStatus === 'create';
-    const editing = () => editStatus === 'edit';
-    const viewing = () => editStatus === 'view';
-    const handleDetailFieldChange = (propertyName, newValue) => {
-        setAteTest({ ...ateTest, [propertyName]: newValue });
+    useEffect(() => {
+        const worksOrder = worksOrdersSearchResults?.find(
+            w => w.orderNumber === ateTest.worksOrderNumber
+        );
+        if (editStatus === 'create') {
+            setAteTest(a => ({
+                ...a,
+                numberTested: worksOrder?.qtyTested,
+                worksOrderQuantity: worksOrder?.quantity
+            }));
+        }
+    }, [ateTest.worksOrderNumber, setAteTest, editStatus, worksOrdersSearchResults]);
+
+    const handleFieldChange = (propertyName, newValue) => {
         if (viewing()) {
             setEditStatus('edit');
         }
-    };
-
-    const updateOp = details => {
-        handleDetailFieldChange('details', details);
+        setAteTest({ ...ateTest, [propertyName]: newValue });
     };
 
     const inputInvalid = () =>
         !ateTest.worksOrderNumber ||
         !ateTest.pcbOperator ||
         !ateTest.userNumber ||
-        ateTest.details.some(d => !d.partNumber || !d.aoiEscape);
+        ateTest.details.some(d => !d.circuitRef || !d.aoiEscape);
+
+    const pcbOperatorsOptions = () => {
+        const options = employees
+            .filter(c => !!c.fullName)
+            .map(c => ({
+                id: c.id,
+                displayText: c.fullName
+            }));
+        if (employees.length && !employees.find(e => e.id === ateTest.pcbOperator)) {
+            options.push({ id: ateTest.pcbOperator, displayText: ateTest.pcbOperatorName });
+        }
+        return options;
+    };
 
     const Table = () => {
         const tableColumns = [
             {
-                title: 'No.',
+                title: '#',
                 key: 'itemNumber',
                 type: 'number',
                 notEditable: true
@@ -120,13 +146,26 @@ function AteTest({
             {
                 title: 'Circuit Ref',
                 key: 'circuitRef',
-                type: 'text'
-            },
-            {
-                title: 'Part',
-                key: 'partNumber',
-                required: true,
-                type: 'text'
+                type: 'dropdown',
+                options: detailParts?.map(p => ({
+                    id: p.cref,
+                    displayText: `${p.cref} - ${p.partNumber}`
+                })),
+                updateValues: newValue => {
+                    let value;
+                    if (ateTest.flowSolderDate && !ateTest.dateTested) {
+                        value = 'FLOW SOLDER';
+                    } else {
+                        const { assemblyTechnology } = detailParts.find(p => p.cref === newValue);
+                        value = assemblyTechnology === 'SM' ? 'SMT' : 'PCB';
+                    }
+                    return [
+                        {
+                            propertyName: 'smtOrPcb',
+                            value
+                        }
+                    ];
+                }
             },
             {
                 title: 'Fault Code',
@@ -170,9 +209,23 @@ function AteTest({
             },
             {
                 title: 'PCB Operator',
-                key: 'pcbOperatorName',
+                key: 'pcbOperator',
                 type: 'dropdown',
-                options: [...new Set(employees.filter(c => !!c.fullName).map(c => c.fullName))]
+                options: employees.map(e => ({ id: e.id, displayText: e.fullName })),
+                updateValues: newValue => {
+                    const name = employees.find(e => e.id.toString() === newValue).fullName;
+                    return [
+                        {
+                            propertyName: 'pcbOperatorName',
+                            value: name
+                        }
+                    ];
+                }
+            },
+            {
+                title: 'PCB Operator Name',
+                key: 'pcbOperatorName',
+                type: 'text'
             },
             {
                 title: 'Comments',
@@ -193,34 +246,22 @@ function AteTest({
 
         return (
             <Grid item xs={12}>
-                <ExpansionPanel
-                    style={{ overflow: 'auto' }}
-                    TransitionProps={{ unmountOnExit: true }}
-                    expanded={detailsOpen}
-                    onChange={() => setDetailsOpen(!detailsOpen)}
-                >
-                    <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
-                    >
-                        <Typography variant="h5">Details (click to show/hide)</Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <TableWithInlineEditing
-                            columnsInfo={tableColumns}
-                            content={ateTest.details.map((o, i) => ({
-                                ...o,
-                                id: o.itemNumber ? o.itemNumber : i + 1
-                            }))}
-                            updateContent={updateOp}
-                            editStatus={editStatus}
-                            allowedToEdit
-                            allowedToCreate
-                            allowedToDelete={false}
-                        />
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                <Typography variant="h5">Details</Typography>
+
+                <TableWithInlineEditing
+                    columnsInfo={tableColumns}
+                    content={ateTest.details.map((o, i) => ({
+                        ...o,
+                        id: o.itemNumber ? o.itemNumber : i + 1
+                    }))}
+                    updateContent={details => {
+                        handleFieldChange('details', details);
+                    }}
+                    editStatus={editStatus}
+                    allowedToEdit
+                    allowedToCreate
+                    allowedToDelete={creating()}
+                />
             </Grid>
         );
     };
@@ -248,13 +289,6 @@ function AteTest({
         history.goBack();
     };
 
-    const handleFieldChange = (propertyName, newValue) => {
-        if (viewing()) {
-            setEditStatus('edit');
-        }
-        setAteTest({ ...ateTest, [propertyName]: newValue });
-    };
-
     return (
         <Page>
             <Grid container spacing={3}>
@@ -277,14 +311,14 @@ function AteTest({
                 ) : (
                     ateTest &&
                     itemError?.faultCode !== 404 && (
-                        <Fragment>
+                        <>
                             <SnackbarMessage
                                 visible={snackbarVisible}
                                 onClose={() => setSnackbarVisible(false)}
                                 message="Save Successful"
                             />
                             {!creating() ? (
-                                <Fragment>
+                                <>
                                     <Grid item xs={2}>
                                         <InputField
                                             fullWidth
@@ -296,9 +330,9 @@ function AteTest({
                                         />
                                     </Grid>
                                     <Grid item xs={10} />{' '}
-                                </Fragment>
+                                </>
                             ) : (
-                                <Fragment />
+                                <></>
                             )}
                             <Grid item xs={4}>
                                 <InputField
@@ -312,7 +346,7 @@ function AteTest({
                             </Grid>
                             <Grid item xs={3}>
                                 <DatePicker
-                                    value={ateTest.flowSolderDate}
+                                    value={ateTest.flowSolderDate ? ateTest.flowSolderDate : null}
                                     label="Flow Solder Date"
                                     onChange={value => {
                                         setEditStatus('edit');
@@ -325,7 +359,7 @@ function AteTest({
                             </Grid>
                             <Grid item xs={3}>
                                 <DatePicker
-                                    value={ateTest.dateTested}
+                                    value={ateTest.dateTested ? ateTest.dateTested : new Date()}
                                     label="Date Tested"
                                     onChange={value => {
                                         setEditStatus('edit');
@@ -353,7 +387,7 @@ function AteTest({
                                     disabled={!creating()}
                                     items={worksOrdersSearchResults.map(w => ({
                                         ...w,
-                                        name: w.orderNumber,
+                                        name: w.orderNumber.toString(),
                                         description: w.partNumber
                                     }))}
                                     value={`${
@@ -366,7 +400,17 @@ function AteTest({
                                     placeholder="Search By Order Number"
                                 />
                             </Grid>
-                            <Grid item xs={3}>
+                            <Grid item xs={1}>
+                                <InputField
+                                    fullWidth
+                                    disabled
+                                    value={ateTest?.worksOrderQuantity}
+                                    label="Qty"
+                                    onChange={() => {}}
+                                    propertyName="worksOrderQuantity"
+                                />
+                            </Grid>
+                            <Grid item xs={2}>
                                 <InputField
                                     fullWidth
                                     disabled
@@ -400,7 +444,7 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     value={ateTest.numberOfPcbBoardFails}
-                                    label="No. PCB Fails"
+                                    label="No. PCB Board Fails"
                                     onChange={handleFieldChange}
                                     propertyName="numberOfPcbBoardFails"
                                 />
@@ -424,7 +468,7 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     value={ateTest.numberOfSmtBoardFails}
-                                    label="No. SMT Fails"
+                                    label="No. SMT Board Fails"
                                     onChange={handleFieldChange}
                                     propertyName="numberOfSmtBoardFails"
                                 />
@@ -466,9 +510,9 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    value={Math.round(
-                                        (ateTest.numberOfSmtFails / ateTest.numberOfSmtComponents) *
-                                            1000000
+                                    value={dpmo(
+                                        componentCounts?.smtComponents * ateTest.numberTested,
+                                        ateTest.numberOfSmtFails
                                     )}
                                     label="SMT DPMO"
                                     onChange={handleFieldChange}
@@ -499,9 +543,9 @@ function AteTest({
                                 <InputField
                                     fullWidth
                                     disabled
-                                    value={Math.round(
-                                        (ateTest.numberOfPcbFails / ateTest.numberOfPcbComponents) *
-                                            1000000
+                                    value={dpmo(
+                                        componentCounts?.pcbComponents * ateTest.numberTested,
+                                        ateTest.numberOfPcbFails
                                     )}
                                     label="PCB DPMO"
                                     onChange={handleFieldChange}
@@ -510,21 +554,20 @@ function AteTest({
                             </Grid>
                             <Grid item xs={2} />
                             <Grid item xs={4}>
-                                <Dropdown
-                                    label="PCB Operator"
-                                    type="number"
-                                    propertyName="pcbOperator"
-                                    allowNoValue
-                                    items={employees
-                                        .filter(c => !!c.fullName)
-                                        .map(c => ({
-                                            id: c.id,
-                                            displayText: c.fullName
-                                        }))}
-                                    fullWidth
-                                    value={ateTest.pcbOperator}
-                                    onChange={handleFieldChange}
-                                />
+                                {employeesLoading ? (
+                                    <LinearProgress />
+                                ) : (
+                                    <Dropdown
+                                        label="PCB Operator"
+                                        type="number"
+                                        propertyName="pcbOperator"
+                                        allowNoValue
+                                        items={pcbOperatorsOptions()}
+                                        fullWidth
+                                        value={ateTest.pcbOperator}
+                                        onChange={handleFieldChange}
+                                    />
+                                )}
                             </Grid>
                             <Grid item xs={2}>
                                 <InputField
@@ -569,8 +612,8 @@ function AteTest({
                                 />
                             </Grid>
                             <Grid item xs={1} />
-                            {!creating() && ateTest.details && Table()}
-                        </Fragment>
+                            {Table()}
+                        </>
                     )
                 )}
                 <Grid item xs={12}>
@@ -619,7 +662,10 @@ AteTest.propTypes = {
         smtComponents: PropTypes.number,
         pcbComponents: PropTypes.number
     }),
-    getComponentCounts: PropTypes.func.isRequired
+    getComponentCounts: PropTypes.func.isRequired,
+    getDetailParts: PropTypes.func.isRequired,
+    detailParts: PropTypes.arrayOf(PropTypes.shape({})),
+    employeesLoading: PropTypes.bool
 };
 
 AteTest.defaultProps = {
@@ -631,13 +677,15 @@ AteTest.defaultProps = {
     itemError: null,
     itemId: null,
     employees: [],
+    employeesLoading: false,
     ateFaultCodes: [],
     profile: { name: '' },
     worksOrdersSearchResults: null,
     worksOrdersSearchLoading: false,
     searchWorksOrders: PropTypes.arrayOf(PropTypes.shape({})),
     clearWorksOrdersSearch: PropTypes.func,
-    componentCounts: { smtComponents: 0, pcbComponents: 0 }
+    componentCounts: { smtComponents: 0, pcbComponents: 0 },
+    detailParts: []
 };
 
 export default AteTest;

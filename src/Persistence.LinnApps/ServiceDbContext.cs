@@ -1,6 +1,5 @@
 ﻿namespace Linn.Production.Persistence.LinnApps
 {
-    using System.Linq;
     using Linn.Common.Configuration;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.ATE;
@@ -37,6 +36,10 @@
 
         public DbQuery<WhoBuiltWhat> WhoBuiltWhat { get; set; }
 
+        public DbQuery<FailedParts> FailedParts { get; set; }
+
+        public DbQuery<ProductionDaysRequired> ProductionDaysRequired { get; set; }
+
         public DbQuery<BomDetailExplodedPhantomPartView> BomDetailExplodedPhantomPartView { get; set; }
 
         public DbSet<ManufacturingSkill> ManufacturingSkills { get; set; }
@@ -71,10 +74,6 @@
 
         public DbQuery<SmtShift> SmtShifts { get; set; }
 
-        public PtlMaster PtlMaster => this.PtlMasterSet.ToList().FirstOrDefault();
-
-        public OsrRunMaster OsrRunMaster => this.OsrRunMasterSet.ToList().FirstOrDefault();
-
         public DbQuery<ProductionTrigger> ProductionTriggers { get; set; }
 
         public DbQuery<ProductionBackOrder> ProductionBackOrders { get; set; }
@@ -103,11 +102,7 @@
 
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 
-        public DbQuery<PartFailLog> PartFailLogs { get; set; }
-
         public DbQuery<EmployeeDepartmentView> EmployeeDepartmentView { get; set; }
-
-        public DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
 
         public DbSet<ProductData> ProductData { get; set; }
 
@@ -139,11 +134,31 @@
 
         public DbSet<AteTestDetail> AteTestDetails { get; set; }
 
+        public DbSet<Country> Countries { get; set; }
+
+        public DbSet<Address> Addresses { get; set; }
+
         public DbQuery<BuiltThisWeekStatistic> BuiltThisWeekStatistics { get; set; }
 
-        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
 
-        private DbQuery<PtlMaster> PtlMasterSet { get; set; }
+        public DbQuery<PtlStat> PtlStats { get; set; }
+
+        public DbQuery<SernosIssued> SernosIssuedView { get; set; }
+
+        public DbQuery<WswShortageStory> WswShortageStories { get; set; }
+
+        public DbQuery<SernosBuilt> SernosBuiltView { get; set; }
+
+        public DbQuery<PurchaseOrdersReceived> PurchaseOrdersReceivedView { get; set; }
+
+        public DbQuery<WswShortage> WswShortages { get; set; }
+
+        public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
+
+        public DbQuery<PtlMaster> PtlMaster { get; set; }
+        
+        private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -154,13 +169,13 @@
             this.BuildCits(builder);
             this.BuildProductionMeasures(builder);
             this.QueryWhoBuildWhat(builder);
+            this.QueryFailedParts(builder);
+            this.QueryDaysRequired(builder);
             this.QueryMCDLines(builder);
             this.BuildManufacturingResources(builder);
-
             this.BuildManufacturingSkills(builder);
             this.BuildManufacturingRoutes(builder);
             this.BuildManufacturingOperations(builder);
-
             this.BuildBoardFailTypes(builder);
             this.BuildTestMachines(builder);
             this.BuildBoardTests(builder);
@@ -192,7 +207,6 @@
             this.QueryProductionTriggerAssemblies(builder);
             this.BuildPurchaseOrderDetails(builder);
             this.QueryOverdueOrderLines(builder);
-            this.QueryPartFailLogs(builder);
             this.QueryEmployeeDepartmentView(builder);
             this.BuildProductData(builder);
             this.BuildWorksOrdersLabels(builder);
@@ -202,13 +216,22 @@
             this.BuildSerialNumbers(builder);
             this.BuildBuildPlans(builder);
             this.QueryBuildPlanDetailsReportLines(builder);
-            this.QueryBuildPlanDetails(builder);
+            this.BuildBuildPlanDetails(builder);
             this.BuildAteTests(builder);
             this.BuildAteTestDetails(builder);
             this.QueryBuildPlanRules(builder);
             this.QueryBuiltThisWeekStatistics(builder);
-            base.OnModelCreating(builder);
+            this.QueryPtlStats(builder);
+            this.QueryWswShortages(builder);
+            this.QueryWswShortageStories(builder);
             this.BuildLabelTypes(builder);
+            this.BuildCountries(builder);
+            this.BuildAddresses(builder);
+            this.QuerySernosBuiltView(builder);
+            this.QuerySernosIssuedView(builder);
+            this.QueryPurchaseOrdersReceivedView(builder);
+            this.BuildSuppliers(builder);
+            base.OnModelCreating(builder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -280,6 +303,7 @@
             builder.Query<PcasRevision>().Property(r => r.PartNumber).HasColumnName("PART_NUMBER");
             builder.Query<PcasRevision>().Property(r => r.PcasPartNumber).HasColumnName("PCAS_PART_NUMBER");
             builder.Query<PcasRevision>().Property(r => r.BoardCode).HasColumnName("BOARD_CODE");
+            builder.Query<PcasRevision>().Property(r => r.AssemblyTechnology).HasColumnName("ASSEMBLY_TECHNOLOGY");
         }
 
         private void BuildWorkOrders(ModelBuilder builder)
@@ -306,6 +330,7 @@
             q.Property(e => e.Outstanding).HasColumnName("OUTSTANDING").HasMaxLength(1);
             q.Property(e => e.ZoneName).HasColumnName("ZONE_NAME").HasMaxLength(20);
             q.Property(e => e.BatchNotes).HasColumnName("QUALITY_ISSUES");
+            q.Property(e => e.SaveBatchNotes).HasColumnName("SAVE_BATCH_NOTES");
             q.HasOne<Part>(o => o.Part).WithMany(w => w.WorksOrders).HasForeignKey(o => o.PartNumber);
         }
 
@@ -470,6 +495,53 @@
             builder.Query<WhoBuiltWhat>().Property(t => t.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
         }
 
+        private void QueryFailedParts(ModelBuilder builder)
+        {
+            builder.Query<FailedParts>().ToView("FAILED_PARTS_REPORT_VIEW");
+            builder.Query<FailedParts>().Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<FailedParts>().Property(t => t.PartDescription).HasColumnName("DESCRIPTION");
+            builder.Query<FailedParts>().Property(t => t.Qty).HasColumnName("QTY");
+            builder.Query<FailedParts>().Property(t => t.BatchRef).HasColumnName("BATCH_REF");
+            builder.Query<FailedParts>().Property(t => t.DateBooked).HasColumnName("DATE_BOOKED");
+            builder.Query<FailedParts>().Property(t => t.StockRotationDate).HasColumnName("STOCK_ROTATION_DATE");
+            builder.Query<FailedParts>().Property(v => v.TotalValue).HasColumnName("TOTAL_VALUE");
+            builder.Query<FailedParts>().Property(v => v.StockLocatorRemarks).HasColumnName("STOCK_LOCATOR_REMARKS");
+            builder.Query<FailedParts>().Property(v => v.CreatedBy).HasColumnName("CREATED_BY");
+            builder.Query<FailedParts>().Property(v => v.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<FailedParts>().Property(t => t.CitName).HasColumnName("CIT_NAME");
+            builder.Query<FailedParts>().Property(t => t.StoragePlace).HasColumnName("STORAGE_PLACE");
+            builder.Query<FailedParts>().Property(t => t.PreferredSupplierId).HasColumnName("PREFERRED_SUPPLIER");
+            builder.Query<FailedParts>().Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
+        }
+
+        private void QueryDaysRequired(ModelBuilder builder)
+        {
+            builder.Query<ProductionDaysRequired>().ToView("OSR_DAYS_REQUIRED_VIEW");
+            builder.Query<ProductionDaysRequired>().Property(t => t.Priority).HasColumnName("PRIORITY");
+            builder.Query<ProductionDaysRequired>().Property(t => t.JobRef).HasColumnName("JOBREF");
+            builder.Query<ProductionDaysRequired>().Property(t => t.CitCode).HasColumnName("CIT_CODE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Query<ProductionDaysRequired>().Property(t => t.PartDescription).HasColumnName("DESCRIPTION");
+            builder.Query<ProductionDaysRequired>().Property(t => t.QtyBeingBuilt).HasColumnName("QTY_BEING_BUILT");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildQty).HasColumnName("BUILD");
+            builder.Query<ProductionDaysRequired>().Property(t => t.CanBuild).HasColumnName("CAN_BUILD");
+            builder.Query<ProductionDaysRequired>().Property(v => v.CanBuildExcludingSubAssemblies).HasColumnName("CAN_BUILD_EX_SUB_ASSEMBLIES");
+            builder.Query<ProductionDaysRequired>().Property(v => v.EffectiveKanbanSize).HasColumnName("EFFECTIVE_KANBAN_SIZE");
+            builder.Query<ProductionDaysRequired>().Property(v => v.QtyBeingBuiltDays).HasColumnName("QTY_BEING_BUILT_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(v => v.CanBuildDays).HasColumnName("CAN_BUILD_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildExcludingSubAssembliesDays).HasColumnName("EX_SUB_ASSEMBLIES_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.EarliestRequestedDate).HasColumnName("EARLIEST_REQUESTED_DATE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.SortOrder).HasColumnName("SORT_ORDER");
+            builder.Query<ProductionDaysRequired>().Property(t => t.MfgRouteCode).HasColumnName("MFG_ROUTE_CODE");
+            builder.Query<ProductionDaysRequired>().Property(t => t.DaysToBuildKanban).HasColumnName("DAYS_TO_BUILD_KANBAN");
+            builder.Query<ProductionDaysRequired>().Property(t => t.DaysToSetUpKanban).HasColumnName("DAYS_TO_SETUP_KANBAN");
+            builder.Query<ProductionDaysRequired>().Property(t => t.RecommendedBuildQty).HasColumnName("BT");
+            builder.Query<ProductionDaysRequired>().Property(t => t.RecommendedBuildQtyDays).HasColumnName("BT_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.FixedBuild).HasColumnName("FIXED_BUILD");
+            builder.Query<ProductionDaysRequired>().Property(t => t.FixedBuildDays).HasColumnName("FIXED_BUILD_DAYS");
+            builder.Query<ProductionDaysRequired>().Property(t => t.BuildDays).HasColumnName("BUILD_DAYS");
+        }
+
         private void QueryMCDLines(ModelBuilder builder)
         {
             builder.Query<MCDLine>().ToView("MCD_VIEW");
@@ -518,23 +590,6 @@
             builder.Query<ProductionBackOrdersView>().Property(p => p.OldestDate).HasColumnName("OLDEST_DATE");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildQuantity).HasColumnName("CAN_BUILD_QTY");
             builder.Query<ProductionBackOrdersView>().Property(p => p.CanBuildValue).HasColumnName("CAN_BUILD_VALUE");
-        }
-
-        private void QueryPartFailLogs(ModelBuilder builder)
-        {
-            var q = builder.Query<PartFailLog>();
-            q.ToView("PART_FAIL_LOG");
-            q.Property(t => t.Id).HasColumnName("ID");
-            q.Property(t => t.DateCreated).HasColumnName("DATE_CREATED");
-            q.HasOne<Part>(f => f.Part).WithMany(p => p.PartFailLogs).HasForeignKey("PART_NUMBER");
-            q.Property(t => t.PartNumber).HasColumnName("PART_NUMBER");
-            q.Property(t => t.FaultCode).HasColumnName("FAULT_CODE");
-            q.Property(t => t.Story).HasColumnName("STORY");
-            q.Property(t => t.Quantity).HasColumnName("QTY");
-            q.Property(t => t.MinutesWasted).HasColumnName("MINUTES_WASTED");
-            q.Property(t => t.ErrorType).HasColumnName("ERROR_TYPE");
-            q.Property(t => t.Batch).HasColumnName("BATCH");
-            q.Property(t => t.EnteredBy).HasColumnName("ENTERED_BY");
         }
 
         private void QueryOverdueOrderLines(ModelBuilder builder)
@@ -697,6 +752,9 @@
             e.Property(p => p.AccountingCompany).HasColumnName("ACCOUNTING_COMPANY").HasMaxLength(10);
             e.Property(p => p.BaseUnitPrice).HasColumnName("BASE_UNIT_PRICE");
             e.Property(p => p.PreferredSupplier).HasColumnName("PREFERRED_SUPPLIER");
+            e.Property(p => p.FootprintRef).HasColumnName("FOOTPRINT_REF");
+            e.Property(p => p.LibraryRef).HasColumnName("LIBRARY_REF");
+            e.Property(p => p.LibraryName).HasColumnName("LIBRARY_NAME");
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)
@@ -848,16 +906,17 @@
             q.Property(e => e.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
         }
 
-        private void QueryBuildPlanDetails(ModelBuilder builder)
+        private void BuildBuildPlanDetails(ModelBuilder builder)
         {
             var e = builder.Entity<BuildPlanDetail>();
             e.ToTable("BUILD_PLAN_DETAILS");
             e.HasKey(b => new { b.BuildPlanName, b.PartNumber, b.FromLinnWeekNumber });
-            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME");
-            e.Property(b => b.PartNumber).HasColumnName("PART_NUMBER");
+            e.Property(b => b.BuildPlanName).HasColumnName("BUILD_PLAN_NAME").HasMaxLength(10);
+            e.HasOne(b => b.Part).WithMany(p => p.BuildPlanDetails).HasForeignKey(b => b.PartNumber);
+            e.Property(b => b.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
             e.Property(b => b.FromLinnWeekNumber).HasColumnName("FROM_LINN_WEEK_NUMBER");
             e.Property(b => b.ToLinnWeekNumber).HasColumnName("TO_LINN_WEEK_NUMBER");
-            e.Property(b => b.RuleCode).HasColumnName("RULE_CODE");
+            e.Property(b => b.RuleCode).HasColumnName("RULE_CODE").HasMaxLength(10);
             e.Property(b => b.Quantity).HasColumnName("QUANTITY");
         }
 
@@ -923,16 +982,16 @@
             e.ToTable("PART_FAIL_LOG");
             e.HasKey(f => f.Id);
             e.Property(f => f.Id).HasColumnName("ID");
-            e.Property(f => f.Batch).HasColumnName("BATCH");
+            e.Property(f => f.Batch).HasColumnName("BATCH").HasMaxLength(20);
             e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.PartFails).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(f => f.PurchaseOrderNumber).HasColumnName("PURCHASE_ORDER_NUMBER");
             e.Property(f => f.DateCreated).HasColumnName("DATE_CREATED");
             e.HasOne<Employee>(f => f.EnteredBy).WithMany(m => m.PartFailsEntered).HasForeignKey("ENTERED_BY");
             e.Property(f => f.MinutesWasted).HasColumnName("MINUTES_WASTED");
-            e.Property(f => f.Batch).HasColumnName("BATCH");
             e.HasOne<Part>(f => f.Part).WithMany(p => p.Fails).HasForeignKey("PART_NUMBER");
             e.Property(f => f.Quantity).HasColumnName("QTY");
-            e.Property(f => f.Story).HasColumnName("STORY");
+            e.Property(f => f.Story).HasColumnName("STORY").HasMaxLength(200);
+            e.Property(f => f.SerialNumber).HasColumnName("SERIAL_NUMBER");
             e.HasOne<PartFailFaultCode>(f => f.FaultCode).WithMany(c => c.PartFails).HasForeignKey("FAULT_CODE");
             e.HasOne<StorageLocation>(f => f.StorageLocation).WithMany(l => l.PartFails).HasForeignKey("LOCATION_ID");
             e.HasOne<PartFailErrorType>(f => f.ErrorType).WithMany(t => t.PartFails).HasForeignKey("ERROR_TYPE");
@@ -951,8 +1010,14 @@
             builder.Entity<PurchaseOrder>().ToTable("PL_ORDERS");
             builder.Entity<PurchaseOrder>().HasKey(o => o.OrderNumber);
             builder.Entity<PurchaseOrder>().Property(o => o.OrderNumber).HasColumnName("ORDER_NUMBER");
+            builder.Entity<PurchaseOrder>().Property(o => o.DateOfOrder).HasColumnName("DATE_OF_ORDER");
+            builder.Entity<PurchaseOrder>().Property(o => o.OrderAddressId).HasColumnName("ORDER_ADDRESS_ID");
             builder.Entity<PurchaseOrder>().HasMany<PurchaseOrderDetail>(o => o.Details).WithOne(d => d.PurchaseOrder)
                 .HasForeignKey(d => d.OrderNumber);
+            builder.Entity<PurchaseOrder>().HasOne<Address>(p => p.OrderAddress).WithMany(a => a.PurchaseOrders).HasForeignKey(o => o.OrderAddressId);
+            builder.Entity<PurchaseOrder>().Property(o => o.DocumentType).HasColumnName("DOCUMENT_TYPE");
+            builder.Entity<PurchaseOrder>().Property(o => o.Remarks).HasColumnName("REMARKS");
+            builder.Entity<PurchaseOrder>().Property(o => o.SupplierId).HasColumnName("SUPP_SUPPLIER_ID");
         }
 
         private void BuildPurchaseOrderDetails(ModelBuilder builder)
@@ -962,6 +1027,10 @@
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderNumber).HasColumnName("ORDER_NUMBER");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderLine).HasColumnName("ORDER_LINE");
             builder.Entity<PurchaseOrderDetail>().Property(d => d.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Entity<PurchaseOrderDetail>().HasOne(t => t.Part).WithMany().HasForeignKey(d => d.PartNumber);
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OrderQuantity).HasColumnName("ORDER_QTY");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.OurUnitOfMeasure).HasColumnName("OUR_UNIT_OF_MEASURE");
+            builder.Entity<PurchaseOrderDetail>().Property(d => d.IssuedSerialNumbers).HasColumnName("ISSUED_SERIAL_NUMBERS");
         }
 
         private void QueryAccountingCompanies(ModelBuilder builder)
@@ -1124,6 +1193,117 @@
             q.Property(b => b.BuiltThisWeek).HasColumnName("BUILT_THIS_WEEK");
             q.Property(b => b.Value).HasColumnName("VALUE");
             q.Property(b => b.Days).HasColumnName("DAYS");
+        }
+
+        private void BuildAddresses(ModelBuilder builder)
+        {
+            var q = builder.Entity<Address>();
+            q.ToTable("ADDRESSES");
+            q.Property(b => b.Id).HasColumnName("ADDRESS_ID").HasMaxLength(38);
+            q.Property(b => b.Addressee).HasColumnName("ADDRESSEE").HasMaxLength(40);
+            q.Property(b => b.Addressee2).HasColumnName("ADDRESSEE_2").HasMaxLength(40);
+            q.Property(b => b.Line1).HasColumnName("ADDRESS_1").HasMaxLength(40);
+            q.Property(b => b.Line2).HasColumnName("ADDRESS_2").HasMaxLength(40);
+            q.Property(b => b.Line3).HasColumnName("ADDRESS_3").HasMaxLength(40);
+            q.Property(b => b.Line4).HasColumnName("ADDRESS_4").HasMaxLength(40);
+            q.Property(b => b.PostCode).HasColumnName("POSTAL_CODE");
+            q.Property(b => b.DateInvalid).HasColumnName("DATE_INVALID");
+            q.HasOne(b => b.Country).WithMany(c => c.Addresses).HasForeignKey("COUNTRY");
+        }
+
+        private void BuildSuppliers(ModelBuilder builder)
+        {
+            var q = builder.Entity<Supplier>();
+            q.ToTable("SUPPLIERS");
+            q.Property(b => b.SupplierId).HasColumnName("SUPPLIER_ID").HasMaxLength(6);
+            q.Property(b => b.SupplierName).HasColumnName("SUPPLIER_NAME").HasMaxLength(50);
+            q.Property(b => b.OrderAddressId).HasColumnName("ORD_ADDRESS_ID").HasMaxLength(10);
+            q.Property(b => b.InvoiceAddressId).HasColumnName("INV_ADDRESS_ID").HasMaxLength(10);
+            q.Property(b => b.DateClosed).HasColumnName("DATE_CLOSED");
+        }
+
+        private void QueryPtlStats(ModelBuilder builder)
+        {
+            var q = builder.Query<PtlStat>();
+            q.ToView("PTL_STAT_VIEW");
+            q.Property(s => s.BuildGroup).HasColumnName("BUILD_GROUP").HasMaxLength(2);
+            q.Property(s => s.CitName).HasColumnName("NAME").HasMaxLength(50);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.PartDescription).HasColumnName("PART_DESCRIPTION").HasMaxLength(200);
+            q.Property(s => s.TriggerId).HasColumnName("TRIGGER_ID");
+            q.Property(s => s.PtlPriority).HasColumnName("PRIORITY");
+            q.Property(s => s.SortOrder).HasColumnName("SORT_ORDER");
+            q.Property(s => s.DateCompleted).HasColumnName("DATE_COMPLETED");
+            q.Property(s => s.TriggerDate).HasColumnName("TRIGGER_DATE");
+            q.Property(s => s.WorkingDays).HasColumnName("WORKING_DAYS");
+        }
+
+        private void BuildCountries(ModelBuilder builder)
+        {
+            builder.Entity<Country>().ToTable("COUNTRIES");
+            builder.Entity<Country>().HasKey(c => c.CountryCode);
+            builder.Entity<Country>().Property(c => c.CountryCode).HasColumnName("COUNTRY_CODE");
+            builder.Entity<Country>().Property(c => c.Name).HasColumnName("NAME");
+        }
+
+        private void QuerySernosBuiltView(ModelBuilder builder)
+        {
+            var q = builder.Query<SernosBuilt>();
+            q.ToView("SERNOS_BUILT_VIEW");
+            q.Property(e => e.ArticleNumber).HasColumnName("ARTICLE_NUMBER");
+            q.Property(e => e.SernosGroup).HasColumnName("SERNOS_GROUP");
+            q.Property(e => e.SernosNumber).HasColumnName("SERNOS_NUMBER");
+        }
+
+        private void QuerySernosIssuedView(ModelBuilder builder)
+        {
+            var q = builder.Query<SernosIssued>();
+            q.ToView("SERNOS_ISSUED_VIEW");
+            q.Property(e => e.DocumentNumber).HasColumnName("DOCUMENT_NUMBER");
+            q.Property(e => e.SernosGroup).HasColumnName("SERNOS_GROUP");
+            q.Property(e => e.SernosNumber).HasColumnName("SERNOS_NUMBER");
+            q.Property(e => e.DocumentType).HasColumnName("DOCUMENT_TYPE");
+        }
+
+        private void QueryPurchaseOrdersReceivedView(ModelBuilder builder)
+        {
+            var q = builder.Query<PurchaseOrdersReceived>();
+            q.ToView("PLOD_RECEIVED_VIEW");
+            q.Property(e => e.QuantityNetReceived).HasColumnName("QTY_NET_RECEIVED");
+            q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
+            q.Property(e => e.OrderLine).HasColumnName("ORDER_LINE");
+        }
+
+        private void QueryWswShortages(ModelBuilder builder)
+        {
+            var q = builder.Query<WswShortage>();
+            q.ToView("WSW_SHORTAGE_VIEW");
+            q.Property(s => s.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartNumber).HasColumnName("SHORT_PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartDescription).HasColumnName("DESCRIPTION").HasMaxLength(200);
+            q.Property(s => s.ShortageCategory).HasColumnName("SHORT_CAT").HasMaxLength(4);
+            q.Property(s => s.Required).HasColumnName("REQT");
+            q.Property(s => s.Stock).HasColumnName("STOCK");
+            q.Property(s => s.AdjustedAvailable).HasColumnName("ADJUSTED_AVAIL");
+            q.Property(s => s.QtyReserved).HasColumnName("QTY_RESERVED");
+            q.Property(s => s.KittingPriority).HasColumnName("KITTING_PRIORITY");
+            q.Property(s => s.CanBuild).HasColumnName("SHORTAGE_CAN_BUILD");
+            q.Property(s => s.CrfStory).HasColumnName("CRF_STORY").HasMaxLength(100);
+        }
+
+        private void QueryWswShortageStories(ModelBuilder builder)
+        {
+            var q = builder.Query<WswShortageStory>();
+            q.ToView("WSW_SHORTAGE_STORIES_VIEW");
+            q.Property(s => s.Jobref).HasColumnName("JOBREF").HasMaxLength(6);
+            q.Property(s => s.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            q.Property(s => s.PartNumber).HasColumnName("PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.ShortPartNumber).HasColumnName("SHORT_PART_NUMBER").HasMaxLength(14);
+            q.Property(s => s.Story).HasColumnName("STORY").HasMaxLength(100);
+            q.Property(s => s.SortDate).HasColumnName("SORT_DATE");
         }
     }
 }

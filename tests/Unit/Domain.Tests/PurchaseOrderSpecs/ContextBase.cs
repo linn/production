@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Domain.Tests.PurchaseOrderSpecs
 {
-    using System.Collections.Generic;
-
     using Linn.Production.Domain.LinnApps;
 
     using NUnit.Framework;

@@ -16,20 +16,24 @@
 
         private readonly IRepository<AteTest, int> ateTestRepository;
 
+        private readonly IRepository<PcasRevision, string> pcasRepository;
+
         public AteTestDetailService(
             IRepository<AteTestDetail, AteTestDetailKey> repository,
             IRepository<Employee, int> employeeRepository,
             IRepository<AteTest, int> ateTestRepository,
+            IRepository<PcasRevision, string> pcasRepository,
             ITransactionManager transactionManager)
             : base(repository, transactionManager)
         {
             this.employeeRepository = employeeRepository;
             this.ateTestRepository = ateTestRepository;
+            this.pcasRepository = pcasRepository;
         }
 
         protected override AteTestDetail CreateFromResource(AteTestDetailResource resource)
         {
-            var existingDetails = this.ateTestRepository.FindById(resource.TestId).Details 
+            var existingDetails = this.ateTestRepository.FindById(resource.TestId)?.Details 
                                   != null && this.ateTestRepository.FindById(resource.TestId).Details.Any();
             return new AteTestDetail
                        {
@@ -41,7 +45,7 @@
                             AteTestFaultCode = resource.AteTestFaultCode,
                             SmtOrPcb = resource.SmtOrPcb,
                             Shift = resource.Shift,
-                            BatchNumber = resource.BatchNumber,
+                            BatchNumber = resource.BatchNumber.ToString(),
                             PcbOperator = this.employeeRepository.FilterBy(e => e.FullName == resource.PcbOperatorName)
                                 .ToList().FirstOrDefault(),
                             Comments = resource.Comments,
@@ -62,7 +66,7 @@
             entity.AteTestFaultCode = resource.AteTestFaultCode;
             entity.SmtOrPcb = resource.SmtOrPcb;
             entity.Shift = resource.Shift;
-            entity.BatchNumber = resource.BatchNumber;
+            entity.BatchNumber = resource.BatchNumber.ToString();
             entity.PcbOperator = this.employeeRepository.FilterBy(e => e.FullName == resource.PcbOperatorName)
                 .ToList().FirstOrDefault();
             entity.Comments = resource.Comments;

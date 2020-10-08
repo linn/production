@@ -13,7 +13,7 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
 
     if (reportData) {
         return (
-            <Fragment>
+            <>
                 <Page>
                     <Grid container spacing={3} justify="center">
                         <Grid item xs={12}>
@@ -98,7 +98,7 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
                         <Grid item xs={6} />
                     </Grid>
                 </Page>
-            </Fragment>
+            </>
         );
     }
 
@@ -114,9 +114,15 @@ const ManufacturingCommitDateReport = ({ reportData, loading, options }) => {
 };
 
 ManufacturingCommitDateReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({
+        results: PropTypes.arrayOf(PropTypes.shape({})),
+        totals: PropTypes.arrayOf(PropTypes.number),
+        incompleteLinesAnalysis: PropTypes.shape({
+            reportResults: PropTypes.arrayOf(PropTypes.shape)
+        })
+    }),
     loading: PropTypes.bool,
-    options: PropTypes.shape({})
+    options: PropTypes.shape({ date: PropTypes.string })
 };
 
 ManufacturingCommitDateReport.defaultProps = {

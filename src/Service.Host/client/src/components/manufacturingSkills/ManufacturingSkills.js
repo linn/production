@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
     Loading,
@@ -74,14 +74,14 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
     return (
         <Page>
             <Title text="Manufacturing Skills" />
-            {itemError && <ErrorCard errorMessage={itemError.status} />}
+            {itemError && <ErrorCard errorMessage={itemError.statusText} />}
             {loading ? (
                 <Loading />
             ) : (
-                <Fragment>
-                    <Fragment>
+                <>
+                    <>
                         <CreateButton createUrl="/production/resources/manufacturing-skills/create" />
-                    </Fragment>
+                    </>
 
                     {rowsToDisplay.length > 0 && (
                         <PaginatedTable
@@ -93,7 +93,7 @@ const ViewManufacturingSkills = ({ loading, itemError, history, items }) => {
                             totalItemCount={items ? items.length : 0}
                         />
                     )}
-                </Fragment>
+                </>
             )}
         </Page>
     );
@@ -103,7 +103,7 @@ ViewManufacturingSkills.propTypes = {
     loading: PropTypes.bool.isRequired,
     items: PropTypes.arrayOf(PropTypes.shape({})),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
-    itemError: PropTypes.shape({})
+    itemError: PropTypes.shape({ statusText: PropTypes.string })
 };
 
 ViewManufacturingSkills.defaultProps = {
