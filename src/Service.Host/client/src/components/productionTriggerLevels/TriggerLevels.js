@@ -132,7 +132,7 @@ const ViewProductionTriggerLevels = ({
     const handleWorkStationSearchChange = (...args) => {
         setWorkStationSearch(args[1]);
         setSearchTerm(
-            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${args[1]}&workStationSearchTerm=${args[1]}`
+            `${partSearch}&citSearchTerm=${citSearch}&overrideSearchTerm=${overrideSearch}&autoSearchTerm=${autoSearch}&workStationSearchTerm=${args[1]}`
         );
     };
     const handleRowLinkClick = href => history.push(href);
