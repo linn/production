@@ -499,7 +499,7 @@ function AssemblyFail({
                                             placeholder="Enter Board Part Number"
                                         />
                                     </Grid>
-                                    <Grid item xs={8}>
+                                    <Grid item xs={5}>
                                         <InputField
                                             fullWidth
                                             disabled
@@ -514,6 +514,15 @@ function AssemblyFail({
                                         />
                                     </Grid>
                                     <Grid item xs={3}>
+                                        <InputField
+                                            fullWidth
+                                            value={assemblyFail.boardSerial}
+                                            label="Board Serial"
+                                            onChange={handleFieldChange}
+                                            propertyName="boardSerial"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={3}>
                                         <Dropdown
                                             label="Circuit Ref"
                                             propertyName="circuitRef"
@@ -523,7 +532,8 @@ function AssemblyFail({
                                                 displayText: p.cref
                                             }))}
                                             fullWidth
-                                            value={assemblyFail.circuitRef || ''}
+                                            allowNoValue
+                                            value={assemblyFail.circuitRef}
                                             onChange={handleFieldChange}
                                             optionsLoading={pcasRevisionsLoading}
                                         />
@@ -531,10 +541,11 @@ function AssemblyFail({
                                     <Grid item xs={3}>
                                         <InputField
                                             fullWidth
-                                            value={assemblyFail.boardSerial}
-                                            label="Board Serial"
+                                            value={assemblyFail.circuitPartNumber}
+                                            label="Circuit Part"
+                                            disabled
                                             onChange={handleFieldChange}
-                                            propertyName="boardSerial"
+                                            propertyName="circuitPartNumber"
                                         />
                                     </Grid>
                                     <Grid item xs={6} />
