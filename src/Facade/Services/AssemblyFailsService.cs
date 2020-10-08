@@ -139,7 +139,9 @@
 
         protected override Expression<Func<AssemblyFail, bool>> SearchExpression(string searchTerm)
         {
-            return w => w.Id.ToString().Contains(searchTerm);
+            return w => w.Id.ToString().Equals(searchTerm) 
+                        || w.WorksOrder.PartNumber.ToUpper().Equals(searchTerm.ToUpper())
+                        || w.ReportedFault.ToUpper().Contains(searchTerm.ToUpper());
         }
     }
 }
