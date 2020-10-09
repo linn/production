@@ -102,6 +102,7 @@
         {
             return w =>
                 (string.IsNullOrWhiteSpace(searchTerms.SearchTerm) || w.PartNumber.ToUpper().Contains(searchTerms.SearchTerm.ToUpper()))
+                && (string.IsNullOrWhiteSpace(searchTerms.WorkStationSearchTerm) || w.WorkStationName.ToUpper().Contains(searchTerms.WorkStationSearchTerm.ToUpper()))
                 && (string.IsNullOrWhiteSpace(searchTerms.CitSearchTerm) || w.CitCode == searchTerms.CitSearchTerm)
                 && (string.IsNullOrWhiteSpace(searchTerms.OverrideSearchTerm) || searchTerms.OverrideSearchTerm == "null" || w.OverrideTriggerLevel > int.Parse(searchTerms.OverrideSearchTerm))
                 && (string.IsNullOrWhiteSpace(searchTerms.AutoSearchTerm) || searchTerms.AutoSearchTerm == "null" || w.VariableTriggerLevel > int.Parse(searchTerms.AutoSearchTerm));
