@@ -2,7 +2,9 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Models;
 
     using Nancy;
@@ -10,14 +12,14 @@
 
     public sealed class AssemblyFailsModule : NancyModule
     {
-         private readonly IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> assemblyFailService;
+         private readonly IAssemblyFailsService assemblyFailService;
 
          private readonly
              IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>
              faultCodeService;
 
          public AssemblyFailsModule(
-             IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> assemblyFailService,
+             IAssemblyFailsService assemblyFailService,
              IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource> faultCodeService)
          {
              this.faultCodeService = faultCodeService;
@@ -70,14 +72,28 @@
 
         private object Search()
         {
-            var resource = this.Bind<SearchRequestResource>();
+            var resource = this.Bind<AssemblyFailsSearchRequestResource>();
 
-            var result = this.assemblyFailService.Search(resource.SearchTerm);
+            if (resource.SearchTerm != null)
+            {
+                var result = this.assemblyFailService.Search(resource.SearchTerm);
 
-            return this.Negotiate
-                .WithModel(result)
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
-                .WithView("Index");
+                return this.Negotiate
+                    .WithModel(result)
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
+            
+            var refinedResult = this.assemblyFailService.RefinedSearch(
+                    resource.PartNumber,
+                    resource.ProductId,
+                    resource.Date,
+                    resource.BoardPart,
+                    resource.CircuitPart);
+                return this.Negotiate
+                    .WithModel(refinedResult)
+                    .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
         }
 
         private object GetFaultCodes()

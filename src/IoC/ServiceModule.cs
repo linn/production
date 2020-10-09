@@ -30,6 +30,7 @@
         protected override void Load(ContainerBuilder builder)
         {
             // domain services
+            builder.RegisterType<AssemblyFailsDomainService>().As<IAssemblyFailsDomainService>();
             builder.RegisterType<BuildsSummaryReportService>().As<IBuildsSummaryReportService>();
             builder.RegisterType<WhoBuiltWhatReport>().As<IWhoBuiltWhatReport>();
             builder.RegisterType<OutstandingWorksOrdersReportService>().As<IOutstandingWorksOrdersReportService>();
@@ -74,7 +75,7 @@
             builder.RegisterType<ManufacturingSkillService>()
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
-            builder.RegisterType<AssemblyFailsService>().As<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
+            builder.RegisterType<AssemblyFailsService>().As<IAssemblyFailsService>();
             builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
             builder.RegisterType<BuildPlanDetailService>().As<IBuildPlanDetailsService>();
             builder.RegisterType<ProductionTriggerLevelService>().As<IProductionTriggerLevelsService>();
