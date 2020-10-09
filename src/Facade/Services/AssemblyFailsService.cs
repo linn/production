@@ -1,18 +1,21 @@
 ﻿namespace Linn.Production.Facade.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
 
-    public class AssemblyFailsService : FacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>
+    public class AssemblyFailsService : FacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>,
+                                        IAssemblyFailsService
     {
         private readonly IDatabaseService databaseService;
 
@@ -26,6 +29,8 @@
 
         private readonly IRepository<Part, string> partRepository;
 
+        private readonly IAssemblyFailsDomainService domainService;
+
         public AssemblyFailsService(
             IRepository<AssemblyFail, int> assemblyFailRepository,
             IRepository<Employee, int> employeeRepository,
@@ -34,7 +39,8 @@
             IRepository<Cit, string> citRepository,
             IRepository<Part, string> partRepository,
             ITransactionManager transactionManager,
-            IDatabaseService databaseService)
+            IDatabaseService databaseService,
+            IAssemblyFailsDomainService domainService)
             : base(assemblyFailRepository, transactionManager)
         {
             this.databaseService = databaseService;
@@ -43,6 +49,23 @@
             this.citRepository = citRepository;
             this.worksOrderRepository = worksOrderRepository;
             this.partRepository = partRepository;
+            this.domainService = domainService;
+        }
+
+        public IResult<IEnumerable<AssemblyFail>> RefinedSearch(
+            string partNumber,
+            int? productId,
+            string date,
+            string boardPart,
+            string circuitPart)
+        {
+            return new SuccessResult<IEnumerable<AssemblyFail>>(
+                this.domainService.RefinedSearchAssemblyFails(
+                    partNumber, 
+                    productId, 
+                    date == "undefined" ? null : (DateTime?)DateTime.Parse(date), 
+                    boardPart, 
+                    circuitPart));
         }
 
         protected override AssemblyFail CreateFromResource(AssemblyFailResource resource)

@@ -3,6 +3,7 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Domain.LinnApps.Measures;
+    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Services;
@@ -28,6 +29,8 @@
 
         protected IRepository<AssemblyFailFaultCode, string> FaultCodeRepository { get; private set; }
 
+        protected IAssemblyFailsDomainService domainService;
+
         protected ITransactionManager TransactionManager { get; private set; }
 
         protected IDatabaseService DbService { get; private set; }
@@ -43,6 +46,7 @@
             this.FaultCodeRepository = Substitute.For<IRepository<AssemblyFailFaultCode, string>>();
             this.TransactionManager = Substitute.For<ITransactionManager>();
             this.DbService = Substitute.For<IDatabaseService>();
+            this.domainService = Substitute.For<IAssemblyFailsDomainService>();
             this.Sut = new AssemblyFailsService(
                 this.AssemblyFailRepository,
                 this.EmployeeRepository,
@@ -51,7 +55,8 @@
                 this.CitRepository,
                 this.PartRepository,
                 this.TransactionManager,
-                this.DbService);
+                this.DbService,
+                this.domainService);
         }
     }
 }

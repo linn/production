@@ -1,10 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Grid from '@material-ui/core/Grid';
-import { Typeahead, CreateButton } from '@linn-it/linn-form-components-library';
+import {
+    Typeahead,
+    CreateButton,
+    InputField,
+    DatePicker
+} from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Page from '../../containers/Page';
 
-function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
+function AssemblyFails({ items, fetchItems, searchWithOptions, loading, clearSearch, history }) {
+    const [searchParameters, setSearchParameters] = useState({
+        partNumber: '',
+        productId: '',
+        circuitPart: '',
+        boardPart: '',
+        date: null
+    });
+    const handleFieldChange = (propertyName, newValue) => {
+        setSearchParameters({ ...searchParameters, [propertyName]: newValue });
+    };
+
     const forecastItems = items.map(item => ({
         ...item,
         name: `${item.id} - ${item.partNumber}`,
@@ -14,10 +36,117 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
     return (
         <Page>
             <Grid container spacing={3}>
+                <Grid item xs={9} />
+                <Grid item xs={3}>
+                    <CreateButton createUrl="/production/quality/assembly-fails/create" />
+                </Grid>
                 <Grid item xs={12}>
-                    <>
-                        <CreateButton createUrl="/production/quality/assembly-fails/create" />
-                    </>
+                    <Typography variant="h2"> Search Assembly Fails</Typography>{' '}
+                </Grid>
+                <Grid item xs={12}>
+                    <Accordion>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+                            <Typography>Refined Search</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Grid container spacing={3}>
+                                <Grid item xs={3}>
+                                    <InputField
+                                        label="Part Number"
+                                        value={searchParameters.partNumber}
+                                        propertyName="partNumber"
+                                        onChange={handleFieldChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <InputField
+                                        label="Circuit Part"
+                                        value={searchParameters.circuitPart}
+                                        propertyName="circuitPart"
+                                        onChange={handleFieldChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <InputField
+                                        label="Board Part"
+                                        value={searchParameters.boardPart}
+                                        propertyName="boardPart"
+                                        onChange={handleFieldChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <InputField
+                                        label="Product ID"
+                                        value={searchParameters.productId}
+                                        propertyName="productId"
+                                        onChange={handleFieldChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={8} />
+                                <Grid item xs={4}>
+                                    <DatePicker
+                                        value={searchParameters.date}
+                                        label="Date"
+                                        onChange={value => {
+                                            setSearchParameters(a => ({
+                                                ...a,
+                                                date: value
+                                            }));
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={8} />
+
+                                <Grid item xs={8} />
+                                <Grid item xs={2}>
+                                    <Button
+                                        variant="outlined"
+                                        onClick={() =>
+                                            setSearchParameters({
+                                                partNumber: '',
+                                                productId: '',
+                                                circuitPart: '',
+                                                boardPart: '',
+                                                date: null
+                                            })
+                                        }
+                                    >
+                                        Clear
+                                    </Button>
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        disabled={Object.values(searchParameters).every(v => !v)}
+                                        onClick={() =>
+                                            searchWithOptions(
+                                                '',
+                                                `&partNumber=${
+                                                    searchParameters.partNumber
+                                                }&productId=${
+                                                    searchParameters.productId
+                                                }&circuitPart=${
+                                                    searchParameters.circuitPart
+                                                }&boardPart=${
+                                                    searchParameters.boardPart
+                                                }&date=${searchParameters.date?.toISOString()}`
+                                            )
+                                        }
+                                    >
+                                        Search
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </AccordionDetails>
+                    </Accordion>
+                </Grid>
+
+                <Grid item xs={12}>
                     <Typeahead
                         items={forecastItems
                             .map(i => ({ ...i, name: i.name.toString() }))
@@ -25,8 +154,9 @@ function AssemblyFails({ items, fetchItems, loading, clearSearch, history }) {
                         fetchItems={fetchItems}
                         clearSearch={clearSearch}
                         loading={loading}
-                        title="Search Assembly Fails"
+                        title=""
                         history={history}
+                        placeholder="search for a part or fault keyword"
                     />
                 </Grid>
             </Grid>
@@ -45,6 +175,7 @@ AssemblyFails.propTypes = {
     ).isRequired,
     loading: PropTypes.bool,
     fetchItems: PropTypes.func.isRequired,
+    searchWithOptions: PropTypes.func.isRequired,
     clearSearch: PropTypes.func.isRequired,
     history: PropTypes.shape({}).isRequired
 };

@@ -12,7 +12,8 @@ import {
     DateTimePicker,
     Typeahead,
     Dropdown,
-    useSearch
+    useSearch,
+    smartGoBack
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -46,7 +47,8 @@ function AssemblyFail({
     addItem,
     updateItem,
     itemId,
-    history
+    history,
+    previousPaths
 }) {
     // Hooks
     const [assemblyFail, setAssemblyFail] = useState({
@@ -240,10 +242,6 @@ function AssemblyFail({
         }
         setEditStatus('view');
         clearWorksOrdersSearch('');
-    };
-
-    const handleBackClick = () => {
-        history.push('/production/reports/assembly-fails-waiting-list');
     };
 
     return (
@@ -677,7 +675,9 @@ function AssemblyFail({
                         saveDisabled={inputInvalid() || viewing()}
                         saveClick={handleSaveClick}
                         cancelClick={handleCancelClick}
-                        backClick={handleBackClick}
+                        backClick={() => {
+                            smartGoBack(previousPaths, history.goBack);
+                        }}
                     />
                 </Grid>
             </Grid>
@@ -686,7 +686,7 @@ function AssemblyFail({
 }
 
 AssemblyFail.propTypes = {
-    history: PropTypes.shape({ push: PropTypes.func }).isRequired,
+    history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
     profile: PropTypes.shape({}),
     editStatus: PropTypes.string.isRequired,
     snackbarVisible: PropTypes.bool,
@@ -722,7 +722,8 @@ AssemblyFail.propTypes = {
     pcasRevisionsLoading: PropTypes.bool,
     smtShiftsLoading: PropTypes.bool,
     employeesLoading: PropTypes.bool,
-    faultCodesLoading: PropTypes.bool
+    faultCodesLoading: PropTypes.bool,
+    previousPaths: PropTypes.arrayOf(PropTypes.string)
 };
 
 AssemblyFail.defaultProps = {
@@ -747,7 +748,8 @@ AssemblyFail.defaultProps = {
     pcasRevisionsLoading: false,
     smtShiftsLoading: false,
     employeesLoading: false,
-    faultCodesLoading: false
+    faultCodesLoading: false,
+    previousPaths: []
 };
 
 export default AssemblyFail;
