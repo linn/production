@@ -7,9 +7,9 @@ import {
     DatePicker
 } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -44,15 +44,15 @@ function AssemblyFails({ items, fetchItems, searchWithOptions, loading, clearSea
                     <Typography variant="h2"> Search Assembly Fails</Typography>{' '}
                 </Grid>
                 <Grid item xs={12}>
-                    <Accordion>
-                        <AccordionSummary
+                    <ExpansionPanel>
+                        <ExpansionPanelSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
                             <Typography>Refined Search</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
                             <Grid container spacing={3}>
                                 <Grid item xs={3}>
                                     <InputField
@@ -142,8 +142,8 @@ function AssemblyFails({ items, fetchItems, searchWithOptions, loading, clearSea
                                     </Button>
                                 </Grid>
                             </Grid>
-                        </AccordionDetails>
-                    </Accordion>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
                 </Grid>
 
                 <Grid item xs={12}>
