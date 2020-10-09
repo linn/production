@@ -6,6 +6,7 @@
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
     using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
@@ -25,7 +26,7 @@
         }
 
 
-        protected IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource> FacadeService
+        protected IAssemblyFailsService FacadeService
         {
             get;
             private set;
@@ -35,7 +36,7 @@
         public void EstablishContext()
         {
             this.FacadeService = Substitute
-                .For<IFacadeService<AssemblyFail, int, AssemblyFailResource, AssemblyFailResource>>();
+                .For<IAssemblyFailsService>();
 
             this.FaultCodeService = Substitute
                 .For<IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>>();

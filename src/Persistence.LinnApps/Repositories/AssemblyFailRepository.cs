@@ -35,7 +35,16 @@
 
         public IQueryable<AssemblyFail> FindAll()
         {
-            return this.serviceDbContext.AssemblyFails.Include(f => f.WorksOrder);
+            return this.serviceDbContext.AssemblyFails
+                .Include(f => f.WorksOrder)
+                .Include(f => f.WorksOrder.Part)
+                .Include(f => f.CitResponsible)
+                .Include(f => f.CompletedBy)
+                .Include(f => f.FaultCode)
+                .Include(f => f.EnteredBy)
+                .Include(f => f.PersonResponsible)
+                .Include(f => f.ReturnedBy)
+                .Include(f => f.BoardPart);
         }
 
         public void Add(AssemblyFail entity)
