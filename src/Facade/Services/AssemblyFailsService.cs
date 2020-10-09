@@ -63,7 +63,7 @@
                 this.domainService.RefinedSearchAssemblyFails(
                     partNumber, 
                     productId, 
-                    date == "undefined" ? null : (DateTime?)DateTime.Parse(date), 
+                    date == "undefined" || date == null ? null : (DateTime?)DateTime.Parse(date), 
                     boardPart, 
                     circuitPart));
         }
