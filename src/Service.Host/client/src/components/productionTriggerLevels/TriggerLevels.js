@@ -96,7 +96,7 @@ const ViewProductionTriggerLevels = ({
     const [citSearch, setCitSearch] = useState('');
     const [overrideSearch, setOverrideSearch] = useState(null);
     const [autoSearch, setAutoSearch] = useState(null);
-    const [workStationSearch, setWorkStationSearch] = useState(null);
+    const [workStationSearch, setWorkStationSearch] = useState('');
 
     useSearch(fetchItems, searchTerm, null, 'searchTerm');
 
