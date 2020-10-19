@@ -96,7 +96,7 @@
                         shortage.EarliestRequestedDate = shortageBackOrders.Min(o => o.RequestedDeliveryDate);
                     }
 
-                    var details = wswShortages.Where(w => w.PartNumber == shortage.PartNumber);
+                    var details = wswShortages.Where(w => w.PartNumber == shortage.PartNumber).GroupBy(w => w.ShortPartNumber).Select(w => w.First());
 
                     foreach (var detail in details)
                     {
