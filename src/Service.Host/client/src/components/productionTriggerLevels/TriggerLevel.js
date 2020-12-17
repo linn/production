@@ -277,7 +277,7 @@ function TriggerLevel({
                                             onChange={handleResourceFieldChange}
                                             label="Description"
                                             fullWidth
-                                            maxLength={50}
+                                            maxLength={100}
                                             propertyName="description"
                                             disabled={!allowedToUpdateDescription}
                                             helperText="This field is set to the part description upon creation. It can only be updated later if you have the right permission (max 50 chars)"
