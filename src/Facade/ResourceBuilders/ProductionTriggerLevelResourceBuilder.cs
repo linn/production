@@ -57,12 +57,12 @@
 
             if (this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdate, model.Privileges))
             {
-                yield return new LinkResource { Rel = "edit", Href = "/production/maintenance/production-trigger-levels/" };
+                yield return new LinkResource { Rel = "edit", Href = $"/production/maintenance/production-trigger-levels/{model.ResponseData.PartNumber}" };
             }
 
             if (this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdateDescription, model.Privileges))
             {
-                yield return new LinkResource { Rel = "edit-description", Href = "/production/maintenance/production-trigger-levels/" };
+                yield return new LinkResource { Rel = "edit-description", Href = $"/production/maintenance/production-trigger-levels/{model.ResponseData.PartNumber}" };
             }
         }
     }
