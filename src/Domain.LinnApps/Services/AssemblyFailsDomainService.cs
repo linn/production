@@ -27,7 +27,7 @@
             var result = this.assemblyFailsRepository.FindAll();
             if (partNumber != null)
             {
-                result = result.Where(f => f.WorksOrder.PartNumber == partNumber.ToUpper());
+                result = result.Where(f => f.WorksOrder.PartNumber.Contains(partNumber.ToUpper()));
             }
 
             if (productId != null)
@@ -42,12 +42,12 @@
 
             if (boardPart != null)
             {
-                result = result.Where(f => f.BoardPart.PartNumber == boardPart.ToUpper());
+                result = result.Where(f => f.BoardPart.PartNumber.Contains(boardPart.ToUpper()));
             }
 
             if (circuitPart != null)
             {
-                result = result.Where(f => f.CircuitPart == circuitPart.ToUpper());
+                result = result.Where(f => f.CircuitPart.Contains(circuitPart.ToUpper()));
             }
 
             return result;
