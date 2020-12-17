@@ -58,6 +58,8 @@ function TriggerLevel({
     const [allowedToEdit, setAllowedToEdit] = useState(false);
     const [allowedToCreate, setAllowedToCreate] = useState(false);
     const [allowedToDelete, setAllowedToDelete] = useState(false);
+    const [allowedToUpdateDescription, setAllowedToUpdateDescription] = useState(false);
+
     const [dialogOpen, setDialogOpen] = useState(false);
     const [copyFromPartNo, setcopyFromPartNo] = useState('');
 
@@ -71,6 +73,7 @@ function TriggerLevel({
             setAllowedToEdit(utilities.getHref(item, 'edit') !== null);
             setAllowedToCreate(utilities.getHref(item, 'edit') !== null);
             setAllowedToDelete(utilities.getHref(item, 'edit') !== null);
+            setAllowedToUpdateDescription(utilities.getHref(item, 'edit-description') !== null);
         }
     }, [applicationState, item, creating]);
 
@@ -271,11 +274,13 @@ function TriggerLevel({
                                     <Grid item xs={12}>
                                         <InputField
                                             value={triggerLevel.description}
+                                            onChange={handleResourceFieldChange}
                                             label="Description"
                                             fullWidth
+                                            maxLength={50}
                                             propertyName="description"
-                                            disabled
-                                            helperText="This field cannot be changed - description comes from part number"
+                                            disabled={!allowedToUpdateDescription}
+                                            helperText="This field is set to the part description upon creation. It can only be updated later if you have the right permission (max 50 chars)"
                                         />
                                     </Grid>
                                     <Grid item xs={12}>

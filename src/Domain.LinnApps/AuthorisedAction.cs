@@ -6,6 +6,8 @@
 
         public const string ProductionTriggerLevelUpdate = "production-trigger-levels-ut.admin";
 
+        public const string ProductionTriggerLevelUpdateDescription = "production-trigger-levels-ut.update-description";
+
         public const string StartTriggerRun = "production-trigger-levels.admin";
 
         public const string ManufacturingRouteUpdate = "manufacturing-routes.admin";

@@ -59,6 +59,11 @@
             {
                 yield return new LinkResource { Rel = "edit", Href = "/production/maintenance/production-trigger-levels/" };
             }
+
+            if (this.authorisationService.HasPermissionFor(AuthorisedAction.ProductionTriggerLevelUpdateDescription, model.Privileges))
+            {
+                yield return new LinkResource { Rel = "edit-description", Href = "/production/maintenance/production-trigger-levels/" };
+            }
         }
     }
 }
