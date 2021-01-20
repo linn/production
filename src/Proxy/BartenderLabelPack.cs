@@ -8,29 +8,6 @@
 
     public class BartenderLabelPack : IBartenderLabelPack
     {
-        public string ReturnPackageMessage()
-        {
-            var connection = new OracleConnection(ConnectionStrings.ManagedConnectionString());
-
-            var cmd = new OracleCommand("BARTENDER.RETURN_PACKAGE_MESSAGE", connection)
-                          {
-                              CommandType = CommandType.StoredProcedure
-                          };
-
-            var result = new OracleParameter(null, OracleDbType.Varchar2)
-                             {
-                                 Direction = ParameterDirection.ReturnValue,
-                                 Size = 2000
-                             };
-            cmd.Parameters.Add(result);
-
-            connection.Open();
-            cmd.ExecuteNonQuery();
-            connection.Close();
-
-            return result.Value.ToString();
-        }
-
         public bool PrintLabels(
             string fileName,
             string printer,

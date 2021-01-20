@@ -50,5 +50,21 @@
 
             return resource.ProductIdOnChip == "Y";
         }
+
+        public string GetSmallLabelType(string articleNumber)
+        {
+            var uri = new Uri($"{this.rootUri}/products/maint/sales-articles/{articleNumber}", UriKind.RelativeOrAbsolute);
+
+            var response = this.restClient.Get(
+                CancellationToken.None,
+                uri,
+                new Dictionary<string, string>(),
+                DefaultHeaders.JsonGetHeaders()).Result;
+
+            var json = new JsonSerializer();
+            var resource = json.Deserialize<SalesArticleResource>(response.Value);
+
+            return resource.SmallLabelType;
+        }
     }
 }

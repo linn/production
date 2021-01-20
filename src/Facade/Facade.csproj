@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Linn.Common.Authorisation" Version="1.0.0" />
-    <PackageReference Include="Linn.Common.Facade" Version="6.1.1" />
+    <PackageReference Include="Linn.Common.Facade" Version="6.2.0" />
     <PackageReference Include="Linn.Common.Logging" Version="2.0.0" />
     <PackageReference Include="Linn.Common.Persistence" Version="2.1.1" />
     <PackageReference Include="Linn.Common.Reporting" Version="1.4.0" />

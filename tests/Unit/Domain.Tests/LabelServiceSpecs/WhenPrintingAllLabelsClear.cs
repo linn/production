@@ -6,13 +6,14 @@
 
     using NUnit.Framework;
 
-    public class WhenPrintingAllLabels : ContextBase
+    public class WhenPrintingAllLabelsClear : ContextBase
     {
         [SetUp]
         public void SetUp()
         {
             this.ProductDataRepository.FindById(808)
                 .Returns(new ProductData { MACAddress = "99:99", ProductId = 808 });
+            this.SalesArticleService.GetSmallLabelType("article").Returns("CLEAR");
             this.Sut.PrintAllLabels(808, "article");
         }
 
@@ -34,9 +35,9 @@
             var value = Arg.Any<string>();
             this.BartenderLabelPack.Received().PrintLabels(
                 $"MACReprintm{808}",
-                "ProdLbl1",
+                "KlimaxClear",
                 2,
-                "c:\\lbl\\prodlblctr.btw",
+                "c:\\lbl\\macAddressClearDouble.btw",
                 "99:99",
                 ref value);
         }
@@ -47,9 +48,9 @@
             var value = Arg.Any<string>();
             this.BartenderLabelPack.Received().PrintLabels(
                 $"ProductReprint{808}",
-                "ProdLbl1",
+                "KlimaxClear",
                 3,
-                "c:\\lbl\\prodlbl.btw",
+                "c:\\lbl\\prodLblClearDouble.btw",
                 Arg.Any<string>(),
                 ref value);
         }

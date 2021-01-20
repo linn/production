@@ -1,6 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
     using System;
+    using System.Linq;
 
     using Linn.Common.Domain.Exceptions;
     using Linn.Common.Persistence;
@@ -10,6 +11,18 @@
 
     public class LabelService : ILabelService
     {
+        private const string SmallLabelPrinter = "ProdLbl1";
+
+        private const string SmallClearLabelPrinter = "KlimaxClear";
+
+        private const string ProductLabelTemplate = "c:\\lbl\\prodlbl.btw";
+
+        private const string ProductLabelClearTemplate = "c:\\lbl\\prodLblClearDouble.btw";
+
+        private const string MacLabelTemplate = "c:\\lbl\\prodlblctr.btw";
+
+        private const string MacLabelClearTemplate = "c:\\lbl\\macAddressClearDouble.btw";
+
         private readonly IBartenderLabelPack bartenderLabelPack;
 
         private readonly ILabelPack labelPack;
@@ -22,6 +35,8 @@
 
         private readonly IRepository<LabelType, string> labelTypeRepository;
 
+        private readonly ISalesArticleService salesArticleService;
+
         private string message;
 
         public LabelService(
@@ -30,7 +45,8 @@
             IRepository<ProductData, int> productDataRepository,
             IRepository<SerialNumber, int> serialNumberRepository,
             ISernosPack sernosPack,
-            IRepository<LabelType, string> labelTypeRepository)
+            IRepository<LabelType, string> labelTypeRepository,
+            ISalesArticleService salesArticleService)
         {
             this.labelPack = labelPack;
             this.bartenderLabelPack = bartenderLabelPack;
@@ -38,11 +54,21 @@
             this.serialNumberRepository = serialNumberRepository;
             this.sernosPack = sernosPack;
             this.labelTypeRepository = labelTypeRepository;
+            this.salesArticleService = salesArticleService;
+        }
+
+        private enum SmallLabelType
+        {
+            Normal,
+            Clear
         }
 
         public void PrintMACLabel(int serialNumber)
         {
-            this.PrintMACAddressLabel(serialNumber, this.GetMACAddress(serialNumber));
+            this.PrintMacAddressLabel(
+                serialNumber,
+                this.GetMacAddress(serialNumber),
+                this.GetSmallLabelType(serialNumber));
         }
 
         public void PrintLabel(string name, string printer, int qty, string template, string data)
@@ -59,10 +85,12 @@
         public void PrintAllLabels(int serialNumber, string articleNumber)
         {
             var labelData = this.labelPack.GetLabelData("BOX", serialNumber, articleNumber);
+            var smallLabelType = this.GetSmallLabelType(serialNumber, articleNumber);
+
             string macAddress = null;
             try
             {
-                macAddress = this.GetMACAddress(serialNumber);
+                macAddress = this.GetMacAddress(serialNumber);
             }
             catch (DomainException)
             {
@@ -71,11 +99,11 @@
 
             if (!string.IsNullOrEmpty(macAddress))
             {
-                this.PrintMACAddressLabel(serialNumber, this.GetMACAddress(serialNumber));
+                this.PrintMacAddressLabel(serialNumber, this.GetMacAddress(serialNumber), smallLabelType);
             }
 
             this.PrintBoxLabel(serialNumber, labelData);
-            this.PrintProductLabel(serialNumber, labelData);
+            this.PrintProductLabel(serialNumber, labelData, smallLabelType);
         }
 
         public LabelReprint CreateLabelReprint(
@@ -185,11 +213,20 @@
             var labelData = this.labelPack.GetLabelData(labelTypeCode, serialNumber, partNumber);
             var labelType = this.labelTypeRepository.FindById(labelTypeCode);
 
+            var printerName = labelType.DefaultPrinter;
+            var templateName = labelType.Filename;
+
+            if (labelTypeCode == "PRODUCT" && this.GetSmallLabelType(serialNumber, partNumber) == SmallLabelType.Clear)
+            {
+                printerName = SmallClearLabelPrinter;
+                templateName = ProductLabelClearTemplate;
+            }
+
             this.bartenderLabelPack.PrintLabels(
                 $"LabelReprint{serialNumber}",
-                labelType.DefaultPrinter,
+                printerName,
                 numberOfProducts,
-                labelType.Filename,
+                templateName,
                 labelData,
                 ref this.message);
 
@@ -202,9 +239,9 @@
 
                 this.bartenderLabelPack.PrintLabels(
                     $"LabelReprint{serialNumber}B",
-                    labelType.DefaultPrinter,
+                    printerName,
                     numberOfProducts,
-                    labelType.Filename,
+                    templateName,
                     labelData,
                     ref this.message);
             }
@@ -219,15 +256,31 @@
             this.serialNumberRepository.Add(newSerialNumber);
         }
 
-        private void PrintProductLabel(int serialNumber, string labelData)
+        private void PrintProductLabel(
+            int serialNumber,
+            string labelData,
+            SmallLabelType labelType = SmallLabelType.Normal)
         {
-            this.bartenderLabelPack.PrintLabels(
-                $"ProductReprint{serialNumber}",
-                "ProdLbl1",
-                3,
-                "c:\\lbl\\prodlbl.btw",
-                labelData,
-                ref this.message);
+            if (labelType == SmallLabelType.Clear)
+            {
+                this.bartenderLabelPack.PrintLabels(
+                    $"ProductReprint{serialNumber}",
+                    SmallClearLabelPrinter,
+                    3,
+                    ProductLabelClearTemplate,
+                    labelData,
+                    ref this.message);
+            }
+            else
+            {
+                this.bartenderLabelPack.PrintLabels(
+                    $"ProductReprint{serialNumber}",
+                    SmallLabelPrinter,
+                    3,
+                    ProductLabelTemplate,
+                    labelData,
+                    ref this.message);
+            }
         }
 
         private void PrintBoxLabel(int serialNumber, string labelData)
@@ -241,7 +294,7 @@
                 ref this.message);
         }
 
-        private string GetMACAddress(int serialNumber)
+        private string GetMacAddress(int serialNumber)
         {
             var productData = this.productDataRepository.FindById(serialNumber);
             if (productData == null)
@@ -252,15 +305,43 @@
             return productData.MACAddress;
         }
 
-        private void PrintMACAddressLabel(int serialNumber, string macAddress)
+        private void PrintMacAddressLabel(
+            int serialNumber,
+            string macAddress,
+            SmallLabelType labelType = SmallLabelType.Normal)
         {
-            this.bartenderLabelPack.PrintLabels(
-                $"MACReprintm{serialNumber}",
-                "ProdLbl1",
-                2,
-                "c:\\lbl\\prodlblctr.btw",
-                macAddress,
-                ref this.message);
+            if (labelType == SmallLabelType.Clear)
+            {
+                this.bartenderLabelPack.PrintLabels(
+                    $"MACReprintm{serialNumber}",
+                    SmallClearLabelPrinter,
+                    2,
+                    MacLabelClearTemplate,
+                    macAddress,
+                    ref this.message);
+            }
+            else
+            {
+                this.bartenderLabelPack.PrintLabels(
+                    $"MACReprintm{serialNumber}",
+                    SmallLabelPrinter,
+                    2,
+                    MacLabelTemplate,
+                    macAddress,
+                    ref this.message);
+            }
+        }
+
+        private SmallLabelType GetSmallLabelType(int? serialNumber, string articleNumber = null)
+        {
+            if (string.IsNullOrEmpty(articleNumber))
+            {
+                var serialNumberDetails = this.serialNumberRepository.FilterBy(a => a.SernosNumber == serialNumber);
+                articleNumber = serialNumberDetails.LastOrDefault()?.ArticleNumber;
+            }
+
+            var labelType = this.salesArticleService.GetSmallLabelType(articleNumber);
+            return labelType == "CLEAR" ? SmallLabelType.Clear : SmallLabelType.Normal;
         }
     }
 }
