@@ -23,6 +23,8 @@
 
         protected ISernosPack SernosPack { get; private set; }
 
+        protected ISalesArticleService SalesArticleService { get; private set; }
+
         protected IRepository<LabelType, string> LabelTypeRepository { get; private set; }
 
         [SetUp]
@@ -34,6 +36,7 @@
             this.ProductDataRepository = Substitute.For<IRepository<ProductData, int>>();
             this.SerialNumberRepository = Substitute.For<IRepository<SerialNumber, int>>();
             this.LabelTypeRepository = Substitute.For<IRepository<LabelType, string>>();
+            this.SalesArticleService = Substitute.For<ISalesArticleService>();
 
             this.Sut = new LabelService(
                 this.BartenderLabelPack,
@@ -41,7 +44,8 @@
                 this.ProductDataRepository,
                 this.SerialNumberRepository,
                 this.SernosPack,
-                this.LabelTypeRepository);
+                this.LabelTypeRepository,
+                this.SalesArticleService);
         }
     }
 }

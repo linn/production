@@ -5,5 +5,7 @@
         string GetDescriptionFromPartNumber(string partNumber);
 
         bool ProductIdOnChip(string partNumber);
+
+        string GetSmallLabelType(string articleNumber);
     }
 }
