@@ -6,7 +6,7 @@ import {
     Loading,
     InputField,
     Dropdown,
-    EditableTable,
+    SingleEditTable,
     DatePicker,
     CreateButton,
     SaveBackCancelButtons,
@@ -169,8 +169,9 @@ export default function BuildPlans({
         setBuildPlan(bp => ({ ...bp, [propertyName]: newValue }));
     };
 
-    const handleDeleteBuildPlanDetail = item => {
+    const handleDeleteBuildPlanDetail = id => {
         clearErrors();
+        const item = buildPlanDetailOptions.find(bpd => bpd.id === id);
         deleteBuildPlanDetail(null, item);
     };
 
@@ -342,7 +343,7 @@ export default function BuildPlans({
                                     <Typography variant="subtitle1">Build Plan Details</Typography>
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <EditableTable
+                                    <SingleEditTable
                                         columns={columns}
                                         rows={buildPlanDetailOptions.filter(
                                             bpd => bpd.buildPlanName === buildPlan.buildPlanName
