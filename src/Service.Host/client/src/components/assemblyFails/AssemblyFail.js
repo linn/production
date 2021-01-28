@@ -30,10 +30,10 @@ function AssemblyFail({
     worksOrdersSearchResults,
     worksOrdersSearchLoading,
     clearWorksOrdersSearch,
-    boardPartsSearchResults,
-    boardPartsSearchLoading,
-    searchBoardParts,
-    clearBoardPartsSearch,
+    partsSearchResults,
+    partsSearchLoading,
+    searchParts,
+    clearPartsSearch,
     pcasRevisions,
     pcasRevisionsLoading,
     fetchPcasRevisionsForBoardPart,
@@ -61,7 +61,7 @@ function AssemblyFail({
     });
     const [prevAssemblyFail, setPrevAssemblyFail] = useState({});
 
-    useSearch(searchBoardParts, assemblyFail.boardPartNumber, null);
+    useSearch(searchParts, assemblyFail.boardPartNumber, null);
 
     // Render Constants
     const creating = () => editStatus === 'create';
@@ -128,7 +128,7 @@ function AssemblyFail({
 
     // sets boardDescription when boardPart changes
     useEffect(() => {
-        const exactMatch = boardPartsSearchResults.find(
+        const exactMatch = partsSearchResults.find(
             p => p.partNumber === assemblyFail.boardPartNumber
         );
         if (assemblyFail.boardPartNumber === '') {
@@ -143,7 +143,7 @@ function AssemblyFail({
                 boardDescription: exactMatch.description
             }));
         }
-    }, [boardPartsSearchResults, assemblyFail.boardPartNumber]);
+    }, [partsSearchResults, assemblyFail.boardPartNumber]);
 
     // sets circuitpartNumber when circuitRef changes
     useEffect(() => {
@@ -486,14 +486,14 @@ function AssemblyFail({
                                                     boardDescription: newValue.partDescription
                                                 }));
                                             }}
-                                            label="Board Part"
+                                            label="Board or Assembly Part Number"
                                             modal
-                                            items={boardPartsSearchResults}
+                                            items={partsSearchResults}
                                             value={assemblyFail.boardPartNumber}
-                                            loading={boardPartsSearchLoading}
-                                            fetchItems={searchBoardParts}
+                                            loading={partsSearchLoading}
+                                            fetchItems={searchParts}
                                             links={false}
-                                            clearSearch={() => clearBoardPartsSearch}
+                                            clearSearch={() => clearPartsSearch}
                                             placeholder="Enter Board Part Number"
                                         />
                                     </Grid>
@@ -502,7 +502,7 @@ function AssemblyFail({
                                             fullWidth
                                             disabled
                                             value={
-                                                boardPartsSearchLoading
+                                                partsSearchLoading
                                                     ? 'loading...'
                                                     : assemblyFail.boardDescription
                                             }
@@ -536,17 +536,27 @@ function AssemblyFail({
                                             optionsLoading={pcasRevisionsLoading}
                                         />
                                     </Grid>
-                                    <Grid item xs={3}>
-                                        <InputField
-                                            fullWidth
+                                    <Grid item xs={4}>
+                                        <Typeahead
+                                            onSelect={newValue => {
+                                                setEditStatus('edit');
+                                                setAssemblyFail(a => ({
+                                                    ...a,
+                                                    circuitPartNumber: newValue.partNumber
+                                                }));
+                                            }}
+                                            label="Component"
+                                            modal
+                                            items={partsSearchResults}
                                             value={assemblyFail.circuitPartNumber}
-                                            label="Circuit Part"
-                                            disabled
-                                            onChange={handleFieldChange}
-                                            propertyName="circuitPartNumber"
+                                            loading={partsSearchLoading}
+                                            fetchItems={searchParts}
+                                            links={false}
+                                            clearSearch={() => clearPartsSearch}
+                                            placeholder="Enter Part Number"
                                         />
                                     </Grid>
-                                    <Grid item xs={6} />
+                                    <Grid item xs={5} />
                                     <Grid item xs={4}>
                                         <Dropdown
                                             label="CIT Responsible"
@@ -687,13 +697,13 @@ function AssemblyFail({
 
 AssemblyFail.propTypes = {
     history: PropTypes.shape({ goBack: PropTypes.func }).isRequired,
-    profile: PropTypes.shape({}),
+    profile: PropTypes.shape({ employee: PropTypes.string, name: PropTypes.string }),
     editStatus: PropTypes.string.isRequired,
     snackbarVisible: PropTypes.bool,
     loading: PropTypes.bool,
     setEditStatus: PropTypes.func.isRequired,
     setSnackbarVisible: PropTypes.func.isRequired,
-    boardPartsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
+    partsSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
     item: PropTypes.shape({}),
     itemErrors: PropTypes.arrayOf(
         PropTypes.shape({
@@ -716,9 +726,9 @@ AssemblyFail.propTypes = {
     searchWorksOrders: PropTypes.func.isRequired,
     worksOrdersSearchLoading: PropTypes.bool,
     clearWorksOrdersSearch: PropTypes.func.isRequired,
-    searchBoardParts: PropTypes.func.isRequired,
-    clearBoardPartsSearch: PropTypes.func.isRequired,
-    boardPartsSearchLoading: PropTypes.bool,
+    searchParts: PropTypes.func.isRequired,
+    clearPartsSearch: PropTypes.func.isRequired,
+    partsSearchLoading: PropTypes.bool,
     pcasRevisionsLoading: PropTypes.bool,
     smtShiftsLoading: PropTypes.bool,
     employeesLoading: PropTypes.bool,
@@ -730,7 +740,7 @@ AssemblyFail.defaultProps = {
     snackbarVisible: false,
     loading: null,
     profile: { employee: '', name: '' },
-    boardPartsSearchResults: [],
+    partsSearchResults: [],
     item: null,
     itemErrors: [],
     pcasRevisions: [],
@@ -744,7 +754,7 @@ AssemblyFail.defaultProps = {
     employees: [],
     fetchPcasRevisionsForBoardPart: null,
     worksOrdersSearchLoading: false,
-    boardPartsSearchLoading: false,
+    partsSearchLoading: false,
     pcasRevisionsLoading: false,
     smtShiftsLoading: false,
     employeesLoading: false,
