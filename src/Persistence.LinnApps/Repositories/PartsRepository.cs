@@ -7,6 +7,8 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class PartsRepository : IRepository<Part, string>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -43,7 +45,8 @@
 
         public IQueryable<Part> FilterBy(Expression<Func<Part, bool>> expression)
         {
-            return this.serviceDbContext.Parts.Where(expression).ToList().AsQueryable().Take(20);
+            return this.serviceDbContext.Parts.Where(expression)
+                .AsNoTracking().ToList().AsQueryable();
         }
     }
 }

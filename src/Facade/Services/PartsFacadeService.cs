@@ -29,6 +29,14 @@
 
         protected override Expression<Func<Part, bool>> SearchExpression(string searchTerm)
         {
+            var isBoardPartSearch = searchTerm.ToUpper().StartsWith("PCAS") 
+                                    || searchTerm.ToUpper().StartsWith("PCSM");
+
+            if (isBoardPartSearch && searchTerm.Length < 5)
+            {
+                return p => false;
+            }
+
             return p => p.PartNumber.Contains(searchTerm.ToUpper());
         }
     }
