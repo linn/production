@@ -36,8 +36,7 @@ const mapStateToProps = state => ({
     })),
     worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
     clearWorksOrdersSearch: worksOrdersActions.clearSearch,
-    boardParts: productionTriggerLevelsSelectors.getItems(state),
-    boardPartsLoading: productionTriggerLevelsSelectors.getLoading(state),
+    partsLoading: productionTriggerLevelsSelectors.getLoading(state),
     pcasRevisions: pcasRevisionsSelectors.getItems(state),
     pcasRevisionsLoading: pcasRevisionsSelectors.getLoading(state),
     employees: employeesSelectors.getItems(state),
@@ -48,10 +47,10 @@ const mapStateToProps = state => ({
     smtShiftsLoading: smtShiftsSelectors.getLoading(state),
     faultCodes: assemblyFailFaultCodesSelectors.getItems(state),
     faultCodesLoading: assemblyFailFaultCodeSelectors.getLoading(state),
-    boardPartsSearchResults: partsSelectors
-        .getSearchItems(state)
+    partsSearchResults: partsSelectors
+        .getSearchItems(state, 100)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
-    boardPartsSearchLoading: partsSelectors.getSearchLoading(state)
+    partsSearchLoading: partsSelectors.getSearchLoading(state)
 });
 
 const initialise = () => dispatch => {
@@ -69,8 +68,8 @@ const mapDispatchToProps = {
     searchWorksOrders: worksOrdersActions.search,
     fetchPcasRevisionsForBoardPart: pcasRevisionsActions.fetchByQueryString,
     clearWorksOrdersSearch: worksOrdersActions.clearSearch,
-    searchBoardParts: partsActions.search,
-    clearBoardPartsSearch: partsActions.clearSearch
+    searchParts: partsActions.search,
+    clearPartsSearch: partsActions.clearSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(AssemblyFail));

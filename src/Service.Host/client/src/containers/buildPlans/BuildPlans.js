@@ -28,7 +28,7 @@ const mapStateToProps = (state, { match }) => ({
     buildPlanRules: buildPlanRulesSelectors.getItems(state),
     buildPlanRulesLoading: buildPlanRulesSelectors.getLoading(state),
     partsSearchResults: partsSelectors
-        .getSearchItems(state)
+        .getSearchItems(state, 100)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     selectedBuildPlan: match.params.id,

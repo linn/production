@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
     itemErrors: getItemErrors(state),
     editStatus: partCadInfoSelectors.getEditStatus(state),
     partsSearchResults: partsSelectors
-        .getSearchItems(state)
+        .getSearchItems(state, 100)
         .map(p => ({ ...p, id: p.partNumber, name: p.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state)
 });

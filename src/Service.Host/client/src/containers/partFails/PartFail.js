@@ -26,7 +26,7 @@ const mapStateToProps = (state, { match }) => ({
     errorTypes: partFailErrorTypesSelectors.getItems(state),
     faultCodes: partFailFaultCodesSelectors.getItems(state),
     partsSearchResults: partsSelectors
-        .getSearchItems(state)
+        .getSearchItems(state, 100)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     storagePlaces: storagePlacesSelectors.getItems(state),

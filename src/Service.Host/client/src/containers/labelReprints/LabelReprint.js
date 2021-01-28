@@ -23,7 +23,7 @@ const mapStateToProps = (state, { match }) => ({
     labelTypes: labelTypesSelectors.getItems(state),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     partsSearchResults: partsSelectors
-        .getSearchItems(state)
+        .getSearchItems(state, 100)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber }))
 });
 

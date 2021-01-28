@@ -39,7 +39,7 @@ const mapStateToProps = (state, ownProps) => ({
     worksOrderDetails: worksOrderDetailsSelectors.getItem(state),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     partsSearchResults: partsSelectors
-        .getSearchItems(state)
+        .getSearchItems(state, 100)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     printWorksOrderLabelsErrorDetail: getItemErrorDetailMessage(
         state,

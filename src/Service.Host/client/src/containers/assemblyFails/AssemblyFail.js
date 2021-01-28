@@ -37,8 +37,6 @@ const mapStateToProps = (state, { match }) => ({
     })),
     worksOrdersSearchLoading: worksOrdersSelectors.getSearchLoading(state),
     clearWorksOrdersSearch: worksOrdersActions.clearSearch,
-    parts: productionTriggerLevelsSelectors.getItems(state),
-    partsLoading: productionTriggerLevelsSelectors.getLoading(state),
     pcasRevisions: pcasRevisionsSelectors.getItems(state),
     pcasRevisionsLoading: pcasRevisionsSelectors.getLoading(state),
     employees: employeesSelectors.getItems(state),
@@ -50,8 +48,7 @@ const mapStateToProps = (state, { match }) => ({
     faultCodes: assemblyFailFaultCodesSelectors.getItems(state),
     faultCodesLoading: assemblyFailFaultCodeSelectors.getLoading(state),
     partsSearchResults: partsSelectors
-        .getSearchItems(state)
-        .slice(0, 100)
+        .getSearchItems(state, 100)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state)
 });
