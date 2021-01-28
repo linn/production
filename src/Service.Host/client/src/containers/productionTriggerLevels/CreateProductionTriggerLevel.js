@@ -28,7 +28,7 @@ const mapStateToProps = state => ({
     itemErrors: getItemError(state, itemTypes.productionTriggerLevel.item),
     workStations: workStationSelectors.getItems(state),
     partsSearchResults: partsSelectors
-        .getSearchItems(state)
+        .getSearchItems(state, 100)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     applicationState: productionTriggerLevelSelectors.getApplicationState(state),

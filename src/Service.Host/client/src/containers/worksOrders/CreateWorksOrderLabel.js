@@ -19,7 +19,7 @@ const mapStateToProps = (state, ownProps) => ({
     itemError: getItemError(state, itemTypes.worksOrderLabel.item),
     loading: worksOrderLabelSelectors.getLoading(state),
     partsSearchResults: partsSelectors
-        .getSearchItems(state)
+        .getSearchItems(state, 100)
         .map(s => ({ ...s, id: s.partNumber, name: s.partNumber })),
     partsSearchLoading: partsSelectors.getSearchLoading(state),
     snackbarVisible: worksOrderLabelSelectors.getSnackbarVisible(state)
