@@ -314,6 +314,7 @@ function AssemblyFail({
                                         loading={worksOrdersSearchLoading}
                                         fetchItems={searchWorksOrders}
                                         links={false}
+                                        minimumSearchTermLength={3}
                                         clearSearch={() => clearWorksOrdersSearch}
                                         placeholder="Enter Works Order Number"
                                     />
@@ -495,6 +496,8 @@ function AssemblyFail({
                                             links={false}
                                             clearSearch={() => clearPartsSearch}
                                             placeholder="Enter Board Part Number"
+                                            minimumSearchTermLength={3}
+                                            debounce={1000}
                                         />
                                     </Grid>
                                     <Grid item xs={5}>
@@ -554,6 +557,8 @@ function AssemblyFail({
                                             links={false}
                                             clearSearch={() => clearPartsSearch}
                                             placeholder="Enter Part Number"
+                                            minimumSearchTermLength={3}
+                                            debounce={1000}
                                         />
                                     </Grid>
                                     <Grid item xs={5} />

@@ -64,7 +64,7 @@ function AssemblyFails({ items, fetchItems, searchWithOptions, loading, clearSea
                                 </Grid>
                                 <Grid item xs={3}>
                                     <InputField
-                                        label="Circuit Part"
+                                        label="Component"
                                         value={searchParameters.circuitPart}
                                         propertyName="circuitPart"
                                         onChange={handleFieldChange}
@@ -72,7 +72,7 @@ function AssemblyFails({ items, fetchItems, searchWithOptions, loading, clearSea
                                 </Grid>
                                 <Grid item xs={4}>
                                     <InputField
-                                        label="Board Part"
+                                        label="Board or Assembly Part Number"
                                         value={searchParameters.boardPart}
                                         propertyName="boardPart"
                                         onChange={handleFieldChange}
