@@ -497,7 +497,7 @@ function AssemblyFail({
                                             clearSearch={() => clearPartsSearch}
                                             placeholder="Enter Board Part Number"
                                             minimumSearchTermLength={3}
-                                            debounce={800}
+                                            debounce={1000}
                                         />
                                     </Grid>
                                     <Grid item xs={5}>
@@ -558,7 +558,7 @@ function AssemblyFail({
                                             clearSearch={() => clearPartsSearch}
                                             placeholder="Enter Part Number"
                                             minimumSearchTermLength={3}
-                                            debounce={800}
+                                            debounce={1000}
                                         />
                                     </Grid>
                                     <Grid item xs={5} />
