@@ -11,7 +11,7 @@ import {
     Dropdown,
     Typeahead,
     SaveBackCancelButtons,
-    DatePicker
+    DateTimePicker
 } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
 import Page from '../../containers/Page';
@@ -111,7 +111,9 @@ function PartFail({
             updateItem(itemId, partFail);
             setEditStatus('view');
         } else if (creating()) {
-            addItem(partFail);
+            const body = partFail;
+            body.dateCreated = new Date().toISOString();
+            addItem(body);
             setEditStatus('view');
         }
     };
@@ -210,7 +212,7 @@ function PartFail({
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
-                                    <DatePicker
+                                    <DateTimePicker
                                         value={partFail.dateCreated}
                                         label="Date Created"
                                         disabled
