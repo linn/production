@@ -71,7 +71,8 @@ function PartFail({
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
-    const inputInvalid = () => !partFail.partNumber || !partFail.faultCode || !partFail.errorType;
+    const inputInvalid = () =>
+        !partFail.partNumber || !partFail.faultCode || !partFail.errorType || !partFail.enteredBy;
 
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevPartFail) {
@@ -230,6 +231,7 @@ function PartFail({
                                             label="Entered By"
                                             disabled={!creating()}
                                             clearSearch={() => {}}
+                                            required
                                             loading={false}
                                             title="Search by Name"
                                             history={history}
