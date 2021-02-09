@@ -208,7 +208,7 @@ function PartFail({
                                             fetchItems={searchTerm => {
                                                 setSearchResults(
                                                     employees?.filter(i =>
-                                                        i.fullName.includes(
+                                                        i.fullName?.includes(
                                                             searchTerm?.toUpperCase()
                                                         )
                                                     )
