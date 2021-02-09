@@ -58,13 +58,10 @@ function PartFail({
     });
 
     const [searchResults, setSearchResults] = useState([]);
-    const [hasSearched, setHasSearched] = useState(false);
 
     useEffect(() => {
-        if (hasSearched) {
-            setSearchResults(employees);
-        }
-    }, [employees, hasSearched]);
+        setSearchResults(employees);
+    }, [employees]);
 
     const [prevPartFail, setPrevPartFail] = useState({});
 
@@ -209,7 +206,6 @@ function PartFail({
                                         <Typeahead
                                             items={searchResults.slice(0, 10)}
                                             fetchItems={searchTerm => {
-                                                setHasSearched(true);
                                                 setSearchResults(
                                                     employees?.filter(i =>
                                                         i.fullName.includes(
