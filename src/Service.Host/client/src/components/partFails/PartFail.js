@@ -49,18 +49,27 @@ function PartFail({
     searchStoragePlaces,
     storagePlacesSearchLoading,
     clearStoragePlacesSearch,
-    clearPartFailErrors
+    clearPartFailErrors,
+    employees,
+    employeesLoading
 }) {
     const [partFail, setPartFail] = useState({
         dateCreated: new Date().toISOString()
     });
+
+    const [searchResults, setSearchResults] = useState([]);
+
+    useEffect(() => {
+        setSearchResults(employees);
+    }, [employees]);
 
     const [prevPartFail, setPrevPartFail] = useState({});
 
     const creating = () => editStatus === 'create';
     const viewing = () => editStatus === 'view';
     const editing = () => editStatus === 'edit';
-    const inputInvalid = () => !partFail.partNumber || !partFail.faultCode || !partFail.errorType;
+    const inputInvalid = () =>
+        !partFail.partNumber || !partFail.faultCode || !partFail.errorType || !partFail.enteredBy;
 
     useEffect(() => {
         if (editStatus !== 'create' && item && item !== prevPartFail) {
@@ -68,16 +77,6 @@ function PartFail({
             setPrevPartFail(item);
         }
     }, [item, prevPartFail, editStatus]);
-
-    useEffect(() => {
-        if (editStatus === 'create' && profile) {
-            setPartFail(a => ({
-                ...a,
-                enteredBy: profile.employee.replace('/employees/', ''), // the current user
-                enteredByName: profile.name
-            }));
-        }
-    }, [profile, editStatus]);
 
     useEffect(() => {
         if (faultCodes && partFail.faultCode) {
@@ -201,13 +200,49 @@ function PartFail({
                             )}
                             <>
                                 <Grid item xs={3}>
+                                    {employeesLoading ? (
+                                        <Loading />
+                                    ) : (
+                                        <Typeahead
+                                            items={searchResults.slice(0, 10)}
+                                            fetchItems={searchTerm => {
+                                                setSearchResults(
+                                                    employees?.filter(i =>
+                                                        i.fullName.includes(
+                                                            searchTerm?.toUpperCase()
+                                                        )
+                                                    )
+                                                );
+                                            }}
+                                            links={false}
+                                            modal
+                                            value={partFail.enteredBy}
+                                            onSelect={newValue =>
+                                                setPartFail(f => ({
+                                                    ...f,
+                                                    enteredBy: newValue.name,
+                                                    enteredByName: newValue.description
+                                                }))
+                                            }
+                                            label="Entered By"
+                                            disabled={!creating()}
+                                            clearSearch={() => {}}
+                                            required
+                                            loading={false}
+                                            title="Search by Name"
+                                            history={history}
+                                            minimumSearchTermLength={2}
+                                            debounce={1}
+                                        />
+                                    )}
+                                </Grid>
+                                <Grid item xs={3}>
                                     <InputField
                                         fullWidth
-                                        disabled
                                         value={partFail.enteredByName}
-                                        label="Entered By"
-                                        maxLength={10}
-                                        onChange={handleFieldChange}
+                                        label="Name"
+                                        disabled
+                                        onChange={() => {}}
                                         propertyName="enteredByName"
                                     />
                                 </Grid>
@@ -218,7 +253,7 @@ function PartFail({
                                         disabled
                                     />
                                 </Grid>
-                                <Grid item xs={6} />
+                                <Grid item xs={3} />
                                 <Grid item xs={3}>
                                     <Typeahead
                                         onSelect={newValue => {
@@ -515,7 +550,9 @@ PartFail.propTypes = {
     searchStoragePlaces: PropTypes.func.isRequired,
     storagePlacesSearchLoading: PropTypes.bool,
     clearStoragePlacesSearch: PropTypes.func.isRequired,
-    clearPartFailErrors: PropTypes.func.isRequired
+    clearPartFailErrors: PropTypes.func.isRequired,
+    employees: PropTypes.arrayOf(PropTypes.shape({})),
+    employeesLoading: PropTypes.bool
 };
 
 PartFail.defaultProps = {
@@ -538,7 +575,9 @@ PartFail.defaultProps = {
     faultCodesLoading: false,
     storagePlacesSearchResults: [],
     storagePlacesSearchLoading: false,
-    partsSearchLoading: false
+    partsSearchLoading: false,
+    employees: [],
+    employeesLoading: false
 };
 
 export default PartFail;

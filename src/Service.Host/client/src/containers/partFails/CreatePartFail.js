@@ -20,6 +20,8 @@ import purchaseOrdersSelectors from '../../selectors/purchaseOrdersSelectors';
 import purchaseOrdersActions from '../../actions/purchaseOrdersActions';
 import partsActions from '../../actions/partsActions';
 import partsSelectors from '../../selectors/partsSelectors';
+import employeesActions from '../../actions/employeesActions';
+import employeesSelectors from '../../selectors/employeesSelectors';
 
 const mapStateToProps = state => ({
     item: { details: [] },
@@ -49,12 +51,17 @@ const mapStateToProps = state => ({
     storagePlacesSearchResults: storagePlacesSelectors
         .getSearchItems(state)
         .map(s => ({ ...s, id: s.storagePlaceId, name: s.siteCode })),
-    storagePlacesSearchLoading: storagePlacesSelectors.getSearchLoading(state)
+    storagePlacesSearchLoading: storagePlacesSelectors.getSearchLoading(state),
+    employees: employeesSelectors
+        .getItems(state)
+        .map(e => ({ ...e, name: e.id, description: e.fullName })),
+    employeesLoading: employeesSelectors.getLoading(state)
 });
 
 const initialise = () => dispatch => {
     dispatch(partFailErrorTypesActions.fetch());
     dispatch(partFailFailFaultCodesActions.fetch());
+    dispatch(employeesActions.fetch())
 };
 
 const mapDispatchToProps = {
