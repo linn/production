@@ -89,6 +89,7 @@ function WorksOrder({
     const [printerGroup, setPrinterGroup] = useState('Prod');
     const [viewSernos, setViewsernos] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [cancelClicked, setCancelClicked] = useState(false);
 
     const printerGroups = ['Prod', 'DSM', 'Flexible', 'Kiko', 'LP12', 'Metalwork', 'SpeakerCover'];
 
@@ -159,7 +160,7 @@ function WorksOrder({
     }, [worksOrderDetails, editStatus, creating]);
 
     useEffect(() => {
-        if (creating() && options.partNumber && !worksOrder.partNumber) {
+        if (creating() && options.partNumber && !worksOrder.partNumber && !cancelClicked) {
             fetchWorksOrderDetails(options.partNumber);
             setWorksOrder({
                 ...worksOrder,
@@ -167,10 +168,11 @@ function WorksOrder({
                 partNumber: options.partNumber
             });
         }
-    }, [options, creating, worksOrder, fetchWorksOrderDetails]);
+    }, [options, creating, worksOrder, fetchWorksOrderDetails, cancelClicked]);
 
     const handleCancelClick = () => {
-        setWorksOrder(item);
+        setCancelClicked(!cancelClicked);
+        setWorksOrder({ ...item, docType: 'WO' });
         setEditStatus('view');
     };
 
@@ -714,8 +716,15 @@ function WorksOrder({
 }
 
 WorksOrder.propTypes = {
-    item: PropTypes.shape({}),
-    worksOrderDetails: PropTypes.shape({}),
+    item: PropTypes.shape({ orderNumber: PropTypes.number, partNumber: PropTypes.string }),
+    worksOrderDetails: PropTypes.shape({
+        workStationCode: PropTypes.string,
+        departmentCode: PropTypes.string,
+        quantityToBuild: PropTypes.string,
+        auditDisclaimer: PropTypes.string,
+        partDescription: PropTypes.string,
+        departmentDescription: PropTypes.string
+    }),
     editStatus: PropTypes.string.isRequired,
     worksOrderDetailsError: PropTypes.string,
     worksOrderError: PropTypes.string,
@@ -753,7 +762,7 @@ WorksOrder.propTypes = {
     fetchSerialNumbers: PropTypes.func,
     serialNumbers: PropTypes.arrayOf(PropTypes.shape()),
     options: PropTypes.shape({ partNumber: PropTypes.string }),
-    profile: PropTypes.shape({}),
+    profile: PropTypes.shape({ employee: PropTypes.string }),
     previousPaths: PropTypes.arrayOf(PropTypes.string)
 };
 
