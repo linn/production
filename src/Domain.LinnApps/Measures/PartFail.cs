@@ -34,6 +34,10 @@
         public int? MinutesWasted { get; set; }
 
         public int? SerialNumber { get; set; }
+        
+        public string Comments { get; set; }
+
+        public Employee Owner { get; set; }
 
         public void UpdateFrom(PartFail updated)
         {
@@ -48,6 +52,7 @@
             this.Story = updated.Story;
             this.StorageLocation = updated.StorageLocation;
             this.SerialNumber = updated.SerialNumber;
+            this.Comments = updated.Comments;
         }
     }
 }
