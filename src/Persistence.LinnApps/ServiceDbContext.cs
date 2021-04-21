@@ -995,7 +995,8 @@
             e.HasOne<PartFailFaultCode>(f => f.FaultCode).WithMany(c => c.PartFails).HasForeignKey("FAULT_CODE");
             e.HasOne<StorageLocation>(f => f.StorageLocation).WithMany(l => l.PartFails).HasForeignKey("LOCATION_ID");
             e.HasOne<PartFailErrorType>(f => f.ErrorType).WithMany(t => t.PartFails).HasForeignKey("ERROR_TYPE");
-            // TODO do this
+            e.HasOne(f => f.Owner).WithMany(m => m.PartFailsOwned).HasForeignKey("OWNER");
+            e.Property(f => f.Comments).HasColumnName("COMMENTS");
         }
 
         private void BuildPartFailErrorTypes(ModelBuilder builder)
