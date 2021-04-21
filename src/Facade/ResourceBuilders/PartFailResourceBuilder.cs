@@ -32,6 +32,9 @@
                            SerialNumber = model.SerialNumber,
                            WorksOrderNumber = model.WorksOrder?.OrderNumber,
                            MinutesWasted = model.MinutesWasted,
+                           Comments = model.Comments,
+                           Owner = model.Owner?.Id,
+                           OwnerName = model.Owner?.FullName,
                            Links = this.BuildLinks(model).ToArray()
             };
         }

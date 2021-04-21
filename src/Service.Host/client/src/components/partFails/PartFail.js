@@ -510,13 +510,14 @@ function PartFail({
                                                     links={false}
                                                     modal
                                                     value={partFail.owner}
-                                                    onSelect={newValue =>
+                                                    onSelect={newValue => {
                                                         setPartFail(f => ({
                                                             ...f,
                                                             owner: newValue.name,
                                                             ownerName: newValue.description
-                                                        }))
-                                                    }
+                                                        }));
+                                                        setEditStatus('edit');
+                                                    }}
                                                     label="Owner"
                                                     clearSearch={() => {}}
                                                     required

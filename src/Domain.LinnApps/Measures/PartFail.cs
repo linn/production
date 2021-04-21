@@ -53,6 +53,7 @@
             this.StorageLocation = updated.StorageLocation;
             this.SerialNumber = updated.SerialNumber;
             this.Comments = updated.Comments;
+            this.Owner = updated.Owner;
         }
     }
 }

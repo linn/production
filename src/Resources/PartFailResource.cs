@@ -43,5 +43,7 @@
         public string Comments { get; set; }
 
         public int? Owner { get; set; }
+
+        public string OwnerName { get; set; }
     }
 }
