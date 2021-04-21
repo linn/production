@@ -205,6 +205,20 @@
                     new CalculationValueModel
                         {
                             RowId = fail.Id.ToString(),
+                            TextDisplay = fail.Comments,
+                            ColumnId = "Comments"
+                        });
+                values.Add(
+                    new CalculationValueModel
+                        {
+                            RowId = fail.Id.ToString(),
+                            TextDisplay = fail.Owner?.FullName,
+                            ColumnId = "Owner"
+                        });
+                values.Add(
+                    new CalculationValueModel
+                        {
+                            RowId = fail.Id.ToString(),
                             TextDisplay = supplier?.SupplierName,
                             ColumnId = "Supplier"
                     });
@@ -248,6 +262,14 @@
                            new AxisDetailsModel("Entered By")
                                {
                                    SortOrder = 9, GridDisplayType = GridDisplayType.TextValue
+                               },
+                           new AxisDetailsModel("Comments")
+                               {
+                                   SortOrder = 10, GridDisplayType = GridDisplayType.TextValue
+                               },
+                           new AxisDetailsModel("Owner")
+                               {
+                                   SortOrder = 11, GridDisplayType = GridDisplayType.TextValue
                                },
                            new AxisDetailsModel("Supplier")
                                {

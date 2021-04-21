@@ -59,14 +59,20 @@
                                     FaultCode = this.faultCodeRepository.FindById(resource.FaultCode),
                                     ErrorType = this.errorTypeRepository.FindById(resource.ErrorType),
                                     Story = resource.Story,
-                                    WorksOrder = resource.WorksOrderNumber != null 
-                                    ? new WorksOrder { OrderNumber = (int)resource.WorksOrderNumber }
-                                    : null,
-                                    StorageLocation = this.storageLocationRepository
-                                        .FindBy(s => s.LocationCode == resource.StoragePlace),
+                                    WorksOrder =
+                                        resource.WorksOrderNumber != null
+                                            ? new WorksOrder { OrderNumber = (int)resource.WorksOrderNumber }
+                                            : null,
+                                    StorageLocation =
+                                        this.storageLocationRepository.FindBy(
+                                            s => s.LocationCode == resource.StoragePlace),
                                     PurchaseOrderNumber = resource.PurchaseOrderNumber,
                                     MinutesWasted = resource.MinutesWasted,
-                                    SerialNumber = resource.SerialNumber
+                                    SerialNumber = resource.SerialNumber,
+                                    Comments = resource.Comments,
+                                    Owner = resource.Owner != null
+                                                ? this.employeeRepository.FindById((int)resource.Owner)
+                                                : null
                                 };
 
             return this.partFailService.Create(candidate);
@@ -92,7 +98,9 @@
                                     StorageLocation = this.storageLocationRepository
                                         .FindBy(s => s.LocationCode == resource.StoragePlace),
                                     PurchaseOrderNumber = resource.PurchaseOrderNumber,
-                                    MinutesWasted = resource.MinutesWasted
+                                    MinutesWasted = resource.MinutesWasted,
+                                    Comments = resource.Comments,
+                                    Owner = resource.Owner != null ? this.employeeRepository.FindById((int)resource.Owner) : null
                                 };
 
             partFail.UpdateFrom(this.partFailService.Create(candidate));

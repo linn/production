@@ -491,6 +491,66 @@ function PartFail({
                                                 propertyName="serialNumber"
                                             />
                                         </Grid>
+                                        <Grid item xs={6} />
+                                        <Grid item xs={3}>
+                                            {employeesLoading ? (
+                                                <Loading />
+                                            ) : (
+                                                <Typeahead
+                                                    items={searchResults.slice(0, 10)}
+                                                    fetchItems={searchTerm => {
+                                                        setSearchResults(
+                                                            employees?.filter(i =>
+                                                                i.fullName?.includes(
+                                                                    searchTerm?.toUpperCase()
+                                                                )
+                                                            )
+                                                        );
+                                                    }}
+                                                    links={false}
+                                                    modal
+                                                    value={partFail.owner}
+                                                    onSelect={newValue => {
+                                                        setPartFail(f => ({
+                                                            ...f,
+                                                            owner: newValue.name,
+                                                            ownerName: newValue.description
+                                                        }));
+                                                        setEditStatus('edit');
+                                                    }}
+                                                    label="Owner"
+                                                    clearSearch={() => {}}
+                                                    required
+                                                    loading={false}
+                                                    title="Search by Name"
+                                                    history={history}
+                                                    minimumSearchTermLength={2}
+                                                    debounce={1}
+                                                />
+                                            )}
+                                        </Grid>
+                                        <Grid item xs={3}>
+                                            <InputField
+                                                fullWidth
+                                                value={partFail.ownerName}
+                                                label="Name"
+                                                disabled
+                                                onChange={() => {}}
+                                                propertyName="ownerName"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={3} />
+                                        <Grid item xs={6}>
+                                            <InputField
+                                                fullWidth
+                                                rows={4}
+                                                value={partFail.comments}
+                                                label="Comments"
+                                                onChange={handleFieldChange}
+                                                propertyName="comments"
+                                            />
+                                        </Grid>
+                                        <Grid item xs={6} />
                                     </>
                                 )}
                             </>

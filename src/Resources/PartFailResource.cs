@@ -39,5 +39,11 @@
         public int? MinutesWasted { get; set; }
 
         public int? SerialNumber { get; set; }
+
+        public string Comments { get; set; }
+
+        public int? Owner { get; set; }
+
+        public string OwnerName { get; set; }
     }
 }

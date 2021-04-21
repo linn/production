@@ -28,6 +28,7 @@
                 .Include(f => f.ErrorType)
                 .Include(f => f.Part)
                 .Include(f => f.StorageLocation)
+                .Include(f => f.Owner)
                 .Where(f => f.Id == key).ToList().FirstOrDefault();
         }
 
@@ -62,6 +63,7 @@
                 .Include(f => f.ErrorType)
                 .Include(f => f.Part)
                 .Include(f => f.StorageLocation)
+                .Include(f => f.Owner)
                 .OrderBy(f => f.Id.ToString().Length);
         }
     }
