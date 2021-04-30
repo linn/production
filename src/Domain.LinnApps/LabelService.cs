@@ -85,6 +85,7 @@
         public void PrintAllLabels(int serialNumber, string articleNumber)
         {
             var labelData = this.labelPack.GetLabelData("BOX", serialNumber, articleNumber);
+            var productLabelData = this.labelPack.GetLabelData("PRODUCT", serialNumber, articleNumber);
             var smallLabelType = this.GetSmallLabelType(serialNumber, articleNumber);
 
             string macAddress = null;
@@ -103,7 +104,7 @@
             }
 
             this.PrintBoxLabel(serialNumber, labelData);
-            this.PrintProductLabel(serialNumber, labelData, smallLabelType);
+            this.PrintProductLabel(serialNumber, productLabelData, smallLabelType);
         }
 
         public LabelReprint CreateLabelReprint(
