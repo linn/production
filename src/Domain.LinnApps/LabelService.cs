@@ -230,7 +230,7 @@
                 labelData,
                 ref this.message);
 
-            if (numberOfBoxes == 2)
+            if (numberOfBoxes == 2 || (labelTypeCode == "PRODUCT" && numberOfSerialNumbers == 2))
             {
                 if (numberOfSerialNumbers == 2)
                 {
