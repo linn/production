@@ -61,7 +61,7 @@ const mapStateToProps = state => ({
 const initialise = () => dispatch => {
     dispatch(partFailErrorTypesActions.fetch());
     dispatch(partFailFailFaultCodesActions.fetch());
-    dispatch(employeesActions.fetch())
+    dispatch(employeesActions.fetch());
 };
 
 const mapDispatchToProps = {
