@@ -64,11 +64,11 @@
                     fails = fails.Where(f => string.IsNullOrEmpty(partNumber) || f.PartNumber == partNumber.ToUpper());
                 }
 
-                if (orderByDate != null && orderByDate.Equals("ASC"))
+                if (orderByDate == "ASC")
                 {
                     fails = fails.OrderBy(f => f.DateBooked);
                 }
-                if (orderByDate != null && orderByDate.Equals("DESC"))
+                if (orderByDate == "DESC")
                 {
                     fails = fails.OrderByDescending(f => f.DateBooked);
                 }
