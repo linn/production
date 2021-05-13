@@ -36,7 +36,7 @@ const Results = ({ reportData }) => (
 function FailedPartsReport({ reportData, loading, fetchReport }) {
     const [parameters, setParameters] = useState({ partNumber: '', orderByDate: '' });
     const handleFieldChange = (propertyName, newValue) => {
-        setParameters({ ...setParameters, [propertyName]: newValue });
+        setParameters({ ...parameters, [propertyName]: newValue });
     };
 
     return (
