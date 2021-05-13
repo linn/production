@@ -62,6 +62,7 @@ function FailedPartsReport({ reportData, loading, fetchReport }) {
                                         value={parameters.partNumber}
                                         propertyName="partNumber"
                                         onChange={handleFieldChange}
+                                        helperText="you can use * as a wildcard"
                                     />
                                 </Grid>
                                 <Grid item xs={3}>
@@ -74,6 +75,7 @@ function FailedPartsReport({ reportData, loading, fetchReport }) {
                                         ]}
                                         allowNoValue
                                         propertyName="orderByDate"
+                                        helperText="leave blank to order by part"
                                         onChange={handleFieldChange}
                                     />
                                 </Grid>{' '}
