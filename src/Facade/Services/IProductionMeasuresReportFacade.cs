@@ -13,7 +13,7 @@
 
         IResult<OsrInfo> GetOsrInfo();
 
-        IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(string citCode);
+        IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(string citCode, string partNumber, string orderByDate);
 
         IResult<IEnumerable<ResultsModel>> GetDaysRequiredReport(string citCode);
     }

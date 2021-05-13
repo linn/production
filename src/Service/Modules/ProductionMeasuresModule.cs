@@ -33,9 +33,10 @@
 
         private object GetFailedPartsReport()
         {
-            var requestResource = this.Bind<CitCodeRequestResource>();
+            var requestResource = this.Bind<FailedPartsReportOptionsResource>();
+            
             return this.Negotiate
-                .WithModel(this.productionMeasuresReportFacade.GetFailedPartsReport(requestResource.CitCode))
+                .WithModel(this.productionMeasuresReportFacade.GetFailedPartsReport(requestResource.CitCode, requestResource.PartNumber, requestResource.OrderByDate))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }

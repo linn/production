@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
@@ -26,14 +27,10 @@
             this.reportingHelper = reportingHelper;
         }
 
-        public IEnumerable<ResultsModel> FailedPartsReport(string citCode)
+        public IEnumerable<ResultsModel> FailedPartsReport(string citCode, string partNumber, string orderByDate)
         {
             var results = new List<ResultsModel>();
             var fails = this.failedPartsRepository.FindAll();
-            if (!string.IsNullOrEmpty(citCode))
-            {
-                fails = fails.Where(a => a.CitCode == citCode);
-            }
 
             var columns = new List<AxisDetailsModel>
                               {
@@ -47,6 +44,49 @@
                                   new AxisDetailsModel("Supplier Id", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Supplier Name", GridDisplayType.TextValue)
                               };
+
+            if (!string.IsNullOrEmpty(citCode))
+            {
+                fails = fails.Where(a => a.CitCode == citCode);
+            }
+
+            if (!string.IsNullOrEmpty(partNumber) || !string.IsNullOrEmpty(orderByDate))
+            {
+                if (partNumber.Contains("*"))
+                {
+                    var partNumberPattern = Regex.Escape(partNumber).Replace("\\*", ".*?");
+                    var r = new Regex(partNumberPattern, RegexOptions.IgnoreCase);
+                    fails = fails.Where(x => r.IsMatch(x.PartNumber.ToUpper()));
+                }
+                else
+                {
+                    fails = fails.Where(f => f.PartNumber == partNumber || string.IsNullOrEmpty(partNumber));
+                }
+
+                if (orderByDate != null && orderByDate.Equals("ASC"))
+                {
+                    fails = fails.OrderBy(f => f.DateBooked);
+                }
+                if (orderByDate != null && orderByDate.Equals("DESC"))
+                {
+                    fails = fails.OrderByDescending(f => f.DateBooked);
+                }
+                var result = new ResultsModel();
+                result.AddSortedColumns(columns);
+
+                var rowId = 0;
+                foreach (var fail in fails.OrderBy(g => g.PartNumber))
+                {
+                    this.reportingHelper.AddResultsToModel(
+                        result,
+                        this.ExtractFailData(rowId.ToString(), fail),
+                        CalculationValueModelType.Value,
+                        true);
+                    rowId++;
+                }
+                results.Add(result);
+                return results;
+            }
 
             var citFails = fails.GroupBy(a => a.CitCode);
             foreach (var citFailGroup in citFails)

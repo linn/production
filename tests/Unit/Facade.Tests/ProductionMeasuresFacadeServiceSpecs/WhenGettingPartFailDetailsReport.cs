@@ -19,16 +19,16 @@
         [SetUp]
         public void SetUp()
         {
-            this.ProductionMeasuresReportService.FailedPartsReport("P").Returns(
+            this.ProductionMeasuresReportService.FailedPartsReport("P", null, null).Returns(
                 new List<ResultsModel> { new ResultsModel { ReportTitle = new NameModel("Title") } });
 
-            this.results = this.Sut.GetFailedPartsReport("P");
+            this.results = this.Sut.GetFailedPartsReport("P", null, null);
         }
 
         [Test]
         public void ShouldGetReport()
         {
-            this.ProductionMeasuresReportService.Received().FailedPartsReport("P");
+            this.ProductionMeasuresReportService.Received().FailedPartsReport("P", null, null);
         }
 
         [Test]
