@@ -6,7 +6,7 @@
 
     public interface IProductionMeasuresReportService
     {
-        IEnumerable<ResultsModel> FailedPartsReport(string citCode);
+        IEnumerable<ResultsModel> FailedPartsReport(string citCode, string partNumber, string orderByDate);
 
         IEnumerable<ResultsModel> DayRequiredReport(string citCode);
     }

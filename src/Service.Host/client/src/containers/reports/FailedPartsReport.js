@@ -25,7 +25,8 @@ const initialise = ({ options }) => dispatch => {
 };
 
 const mapDispatchToProps = {
-    initialise
+    initialise,
+    fetchReport: actions.fetchReport
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(initialiseOnMount(FailedPartsReport));

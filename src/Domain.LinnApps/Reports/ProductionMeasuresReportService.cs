@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text.RegularExpressions;
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
@@ -26,14 +27,10 @@
             this.reportingHelper = reportingHelper;
         }
 
-        public IEnumerable<ResultsModel> FailedPartsReport(string citCode)
+        public IEnumerable<ResultsModel> FailedPartsReport(string citCode, string partNumber, string orderByDate)
         {
             var results = new List<ResultsModel>();
             var fails = this.failedPartsRepository.FindAll();
-            if (!string.IsNullOrEmpty(citCode))
-            {
-                fails = fails.Where(a => a.CitCode == citCode);
-            }
 
             var columns = new List<AxisDetailsModel>
                               {
@@ -47,6 +44,57 @@
                                   new AxisDetailsModel("Supplier Id", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Supplier Name", GridDisplayType.TextValue)
                               };
+
+            if (!string.IsNullOrEmpty(citCode))
+            {
+                fails = fails.Where(a => a.CitCode == citCode);
+            }
+
+            if (!string.IsNullOrEmpty(partNumber) || !string.IsNullOrEmpty(orderByDate))
+            {
+                columns.Add(new AxisDetailsModel("CIT", GridDisplayType.TextValue));
+                if (partNumber != null && partNumber.Contains("*"))
+                {
+                    var partNumberPattern = Regex.Escape(partNumber).Replace("\\*", ".*?");
+                    var r = new Regex(partNumberPattern, RegexOptions.IgnoreCase);
+                    fails = fails.Where(x => r.IsMatch(x.PartNumber.ToUpper()));
+                }
+                else
+                {
+                    fails = fails.Where(f => string.IsNullOrEmpty(partNumber) || f.PartNumber == partNumber.ToUpper());
+                }
+
+                if (orderByDate == "ASC")
+                {
+                    fails = fails.OrderBy(f => f.DateBooked);
+                }
+                if (orderByDate == "DESC")
+                {
+                    fails = fails.OrderByDescending(f => f.DateBooked);
+                }
+
+                if (string.IsNullOrEmpty(orderByDate))
+                {
+                    fails = fails.OrderBy(f => f.PartNumber);
+                }
+
+                var result = new ResultsModel();
+                result.AddSortedColumns(columns);
+
+                var rowId = 0;
+                foreach (var fail in fails)
+                {
+                    this.reportingHelper.AddResultsToModel(
+                        result,
+                        this.ExtractFailData(rowId.ToString(), fail, true),
+                        CalculationValueModelType.Value,
+                        true);
+                    rowId++;
+                }
+                results.Add(result);
+            
+                return results;
+            }
 
             var citFails = fails.GroupBy(a => a.CitCode);
             foreach (var citFailGroup in citFails)
@@ -125,7 +173,7 @@
             return results;
         }
 
-        private IList<CalculationValueModel> ExtractFailData(string rowId, FailedParts fail)
+        private IList<CalculationValueModel> ExtractFailData(string rowId, FailedParts fail, bool includeCitInRow = false)
         {
             var models = new List<CalculationValueModel>
                              {
@@ -139,6 +187,10 @@
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Id", TextDisplay = fail.PreferredSupplierId?.ToString() },
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Name", TextDisplay = fail.SupplierName }
                              };
+            if (includeCitInRow)
+            {
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "CIT", TextDisplay = fail.CitName });
+            }
 
             return models;
         }

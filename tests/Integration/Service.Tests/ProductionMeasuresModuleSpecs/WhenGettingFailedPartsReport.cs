@@ -21,7 +21,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.ProductionMeasuresReportFacade.GetFailedPartsReport("S")
+            this.ProductionMeasuresReportFacade.GetFailedPartsReport("S", null, null)
                 .Returns(new SuccessResult<IEnumerable<ResultsModel>>(new List<ResultsModel>
                                                                           {
                                                                               new ResultsModel { ReportTitle = new NameModel("Title") }
@@ -45,7 +45,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ProductionMeasuresReportFacade.Received().GetFailedPartsReport("S");
+            this.ProductionMeasuresReportFacade.Received().GetFailedPartsReport("S", null, null);
         }
 
         [Test]

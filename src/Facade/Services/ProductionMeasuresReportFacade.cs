@@ -57,9 +57,9 @@
             return new SuccessResult<OsrInfo>(info);
         }
 
-        public IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(string citCode)
+        public IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(string citCode, string partNumber, string orderByDate)
         {
-            return new SuccessResult<IEnumerable<ResultsModel>>(this.productionMeasuresReportService.FailedPartsReport(citCode));
+            return new SuccessResult<IEnumerable<ResultsModel>>(this.productionMeasuresReportService.FailedPartsReport(citCode, partNumber, orderByDate));
         }
 
         public IResult<IEnumerable<ResultsModel>> GetDaysRequiredReport(string citCode)
