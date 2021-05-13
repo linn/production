@@ -52,7 +52,8 @@
 
             if (!string.IsNullOrEmpty(partNumber) || !string.IsNullOrEmpty(orderByDate))
             {
-                if (partNumber.Contains("*"))
+                columns.Add(new AxisDetailsModel("CIT", GridDisplayType.TextValue));
+                if (partNumber != null && partNumber.Contains("*"))
                 {
                     var partNumberPattern = Regex.Escape(partNumber).Replace("\\*", ".*?");
                     var r = new Regex(partNumberPattern, RegexOptions.IgnoreCase);
@@ -60,7 +61,7 @@
                 }
                 else
                 {
-                    fails = fails.Where(f => f.PartNumber == partNumber || string.IsNullOrEmpty(partNumber));
+                    fails = fails.Where(f => string.IsNullOrEmpty(partNumber) || f.PartNumber == partNumber.ToUpper());
                 }
 
                 if (orderByDate != null && orderByDate.Equals("ASC"))
@@ -71,20 +72,27 @@
                 {
                     fails = fails.OrderByDescending(f => f.DateBooked);
                 }
+
+                if (string.IsNullOrEmpty(orderByDate))
+                {
+                    fails = fails.OrderBy(f => f.PartNumber);
+                }
+
                 var result = new ResultsModel();
                 result.AddSortedColumns(columns);
 
                 var rowId = 0;
-                foreach (var fail in fails.OrderBy(g => g.PartNumber))
+                foreach (var fail in fails)
                 {
                     this.reportingHelper.AddResultsToModel(
                         result,
-                        this.ExtractFailData(rowId.ToString(), fail),
+                        this.ExtractFailData(rowId.ToString(), fail, true),
                         CalculationValueModelType.Value,
                         true);
                     rowId++;
                 }
                 results.Add(result);
+            
                 return results;
             }
 
@@ -165,7 +173,7 @@
             return results;
         }
 
-        private IList<CalculationValueModel> ExtractFailData(string rowId, FailedParts fail)
+        private IList<CalculationValueModel> ExtractFailData(string rowId, FailedParts fail, bool includeCitInRow = false)
         {
             var models = new List<CalculationValueModel>
                              {
@@ -179,6 +187,10 @@
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Id", TextDisplay = fail.PreferredSupplierId?.ToString() },
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Name", TextDisplay = fail.SupplierName }
                              };
+            if (includeCitInRow)
+            {
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "CIT", TextDisplay = fail.CitName });
+            }
 
             return models;
         }
