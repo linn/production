@@ -82,7 +82,21 @@
                                                Qty = 2,
                                                TotalValue = 808.08m,
                                                StoragePlace = "Store 34"
-                                           }
+                                           },
+                                       new FailedParts
+                                           {
+                                               PartNumber = "variant of p1",
+                                               PartDescription = "p1 desc",
+                                               CitCode = "C",
+                                               CitName = "C Name",
+                                               PreferredSupplierId = 1,
+                                               SupplierName = "s1",
+                                               CreatedBy = "Person 1",
+                                               DateBooked = 1.July(2019),
+                                               Qty = 2,
+                                               TotalValue = 34.34m,
+                                               StoragePlace = "Store 1"
+                                           },
                                    };
             this.FailedPartsRepository.FindAll().Returns(this.FailedParts.AsQueryable());
 
