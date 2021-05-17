@@ -61,7 +61,7 @@
                 }
                 else
                 {
-                    fails = fails.Where(f => string.IsNullOrEmpty(partNumber) || f.PartNumber == partNumber.ToUpper());
+                    fails = fails.Where(f => string.IsNullOrEmpty(partNumber) || f.PartNumber.ToUpper() == partNumber.ToUpper());
                 }
 
                 if (orderByDate == "ASC")

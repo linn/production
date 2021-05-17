@@ -32,7 +32,7 @@
         {
             this.results.Should().HaveCount(1);
             var report1 = this.results.First(a => a.ReportTitle.DisplayValue == "C Name");
-            report1.Rows.Should().HaveCount(2);
+            report1.Rows.Should().HaveCount(3);
             report1.GetGridTextValue(report1.RowIndex("0"), report1.ColumnIndex("Part Number")).Should().Be("p1");
             report1.GetGridTextValue(report1.RowIndex("1"), report1.ColumnIndex("Part Number")).Should().Be("p2");
             report1.GetGridTextValue(report1.RowIndex("0"), report1.ColumnIndex("Description")).Should().Be("p1 desc");
