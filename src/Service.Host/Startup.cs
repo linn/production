@@ -45,16 +45,22 @@ namespace Linn.Production.Service.Host
                                                              {
                                                                  RegionEndpoint = RegionEndpoint.EUWest1
                                                              }));
+
+#if DEBUG
             services.Configure<IISServerOptions>(options =>
                 {
                     options.AllowSynchronousIO = true;
                 });
-
+#else
+             services.Configure<KestrelServerOptions>(options =>
+                {
+                    options.AllowSynchronousIO = true;
+                });            
+#endif
             services.AddDataProtection()
                 .SetApplicationName("auth-oidc")
                 .PersistKeysToAwsS3(new S3XmlRepositoryConfig(keysBucketName))
                 .ProtectKeysWithAwsKms(new KmsXmlEncryptorConfig(kmsKeyAlias) { DiscriminatorAsContext = true });
-
 
             services.AddLinnAuthentication(
                 options =>
