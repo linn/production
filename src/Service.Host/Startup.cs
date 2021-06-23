@@ -19,6 +19,7 @@ namespace Linn.Production.Service.Host
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
+    using Microsoft.AspNetCore.Server.Kestrel.Core;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
@@ -39,16 +40,28 @@ namespace Linn.Production.Service.Host
             var kmsKeyAlias = ConfigurationManager.Configuration["KMS_KEY_ALIAS"];
 
             services.TryAddSingleton<IAmazonS3>(new AmazonS3Client(new AmazonS3Config { RegionEndpoint = RegionEndpoint.EUWest1 }));
-            services.TryAddSingleton<IAmazonKeyManagementService>(new AmazonKeyManagementServiceClient(new AmazonKeyManagementServiceConfig
-                                                                                                           {
-                                                                                                               RegionEndpoint = RegionEndpoint.EUWest1
-                                                                                                           }));
+            services
+                .TryAddSingleton<IAmazonKeyManagementService>(
+                    new AmazonKeyManagementServiceClient(new AmazonKeyManagementServiceConfig
+                                                             {
+                                                                 RegionEndpoint = RegionEndpoint.EUWest1
+                                                             }));
 
+#if DEBUG
+            services.Configure<KestrelServerOptions>(options =>
+                {
+                    options.AllowSynchronousIO = true;
+                });
+#else
+             services.Configure<KestrelServerOptions>(options =>
+                {
+                    options.AllowSynchronousIO = true;
+                });            
+#endif
             services.AddDataProtection()
                 .SetApplicationName("auth-oidc")
                 .PersistKeysToAwsS3(new S3XmlRepositoryConfig(keysBucketName))
                 .ProtectKeysWithAwsKms(new KmsXmlEncryptorConfig(kmsKeyAlias) { DiscriminatorAsContext = true });
-
 
             services.AddLinnAuthentication(
                 options =>
