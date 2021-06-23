@@ -19,6 +19,7 @@ namespace Linn.Production.Service.Host
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.HttpOverrides;
+    using Microsoft.AspNetCore.Server.Kestrel.Core;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
     using Microsoft.Extensions.Logging;
@@ -47,7 +48,7 @@ namespace Linn.Production.Service.Host
                                                              }));
 
 #if DEBUG
-            services.Configure<IISServerOptions>(options =>
+            services.Configure<KestrelServerOptions>(options =>
                 {
                     options.AllowSynchronousIO = true;
                 });
