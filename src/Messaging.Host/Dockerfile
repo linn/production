@@ -1,6 +1,6 @@
 ﻿FROM microsoft/dotnet:2.2-runtime
 
-COPY bin/release/netcoreapp2.2/publish/ /app/bin/
+COPY bin/release/netcoreapp3.0/publish/ /app/bin/
 
 ENV TZ UTC
 

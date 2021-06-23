@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>Linn.Production.Messaging.Host</AssemblyName>
     <RootNamespace>Linn.Production.Messaging.Host</RootNamespace>
   </PropertyGroup>
