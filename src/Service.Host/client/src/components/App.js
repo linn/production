@@ -8,7 +8,7 @@ import Page from '../containers/Page';
 function App() {
     return (
         <Page>
-            <Typography variant="h6">Production</Typography>
+            <Typography variant="h6">Production sys</Typography>
             <List>
                 <ListItem component={Link} to="/production/quality/ate/fault-codes/" button>
                     <Typography color="primary">ATE Fault Codes</Typography>
