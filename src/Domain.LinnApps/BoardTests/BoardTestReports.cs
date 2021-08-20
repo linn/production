@@ -108,7 +108,7 @@
             var models = new List<CalculationValueModel>();
             foreach (var test in tests)
             {
-                var detail = this.ateTestDetailRepository.FindBy(x => x.BoardSerialNumber == test.BoardSerialNumber);
+                var detail = this.ateTestDetailRepository.FindBy(x => x.BoardSerialNumber.ToUpper() == test.BoardSerialNumber.ToUpper());
                 var rowId = $"{test.BoardSerialNumber}/{test.Seq}";
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board Name", TextDisplay = test.BoardName });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board Serial Number", TextDisplay = test.BoardSerialNumber });
