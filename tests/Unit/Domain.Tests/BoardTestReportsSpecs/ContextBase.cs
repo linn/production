@@ -2,6 +2,7 @@
 {
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.BoardTests;
 
     using NSubstitute;
@@ -16,12 +17,15 @@
 
         protected IReportingHelper ReportingHelper { get; private set; }
 
+        protected IRepository<AteTestDetail, AteTestDetailKey> DetailRepository { get; private set; }
+
         [SetUp]
         public void SetUpContext()
         {
             this.BoardTestRepository = Substitute.For<IRepository<BoardTest, BoardTestKey>>();
             this.ReportingHelper = new ReportingHelper();
-            this.Sut = new BoardTestReports(this.BoardTestRepository, this.ReportingHelper);
+            this.DetailRepository = Substitute.For<IRepository<AteTestDetail, AteTestDetailKey>>();
+            this.Sut = new BoardTestReports(this.BoardTestRepository, this.ReportingHelper, this.DetailRepository);
         }
     }
 }
