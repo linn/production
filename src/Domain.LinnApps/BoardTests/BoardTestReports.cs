@@ -6,6 +6,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
+    using Linn.Production.Domain.LinnApps.ATE;
 
     public class BoardTestReports : IBoardTestReports
     {
@@ -13,10 +14,16 @@
 
         private readonly IReportingHelper reportingHelper;
 
-        public BoardTestReports(IRepository<BoardTest, BoardTestKey> repository, IReportingHelper reportingHelper)
+        private IRepository<AteTestDetail, AteTestDetailKey> ateTestDetailRepository;
+
+        public BoardTestReports(
+            IRepository<BoardTest, BoardTestKey> repository, 
+            IReportingHelper reportingHelper,
+            IRepository<AteTestDetail, AteTestDetailKey> ateTestDetailRepository)
         {
             this.repository = repository;
             this.reportingHelper = reportingHelper;
+            this.ateTestDetailRepository = ateTestDetailRepository;
         }
 
         public ResultsModel GetBoardTestReport(DateTime fromDate, DateTime toDate, string boardId)
@@ -86,7 +93,9 @@
                                   new AxisDetailsModel("Test Date", "Test Date", GridDisplayType.TextValue) { SortOrder = 4, AllowWrap = false },
                                   new AxisDetailsModel("Time Tested", GridDisplayType.TextValue) { SortOrder = 5, AllowWrap = false },
                                   new AxisDetailsModel("Status", GridDisplayType.TextValue) { SortOrder = 6 },
-                                  new AxisDetailsModel("Fail Type", GridDisplayType.TextValue) { SortOrder = 7 }
+                                  new AxisDetailsModel("Fail Type", GridDisplayType.TextValue) { SortOrder = 7 },
+                                  new AxisDetailsModel("Circuit Ref", GridDisplayType.TextValue) { SortOrder = 8 },
+                                  new AxisDetailsModel("Fault Code", GridDisplayType.TextValue) { SortOrder = 9 }
                               };
             results.AddSortedColumns(columns);
 
@@ -99,6 +108,7 @@
             var models = new List<CalculationValueModel>();
             foreach (var test in tests)
             {
+                var detail = this.ateTestDetailRepository.FindBy(x => x.BoardSerialNumber == test.BoardSerialNumber);
                 var rowId = $"{test.BoardSerialNumber}/{test.Seq}";
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board Name", TextDisplay = test.BoardName });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Board Serial Number", TextDisplay = test.BoardSerialNumber });
@@ -108,6 +118,8 @@
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Time Tested", TextDisplay = test.TimeTested });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Status", TextDisplay = test.Status });
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Fail Type", TextDisplay = $"{test.FailType?.Type} - {test.FailType?.Description}" });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Circuit Ref", TextDisplay = detail?.CircuitRef });
+                models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "Fault Code", TextDisplay = detail?.AteTestFaultCode });
             }
 
             this.reportingHelper.AddResultsToModel(results, models, CalculationValueModelType.Quantity, true);
