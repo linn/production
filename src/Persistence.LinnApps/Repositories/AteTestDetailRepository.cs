@@ -43,7 +43,8 @@
 
         public AteTestDetail FindBy(Expression<Func<AteTestDetail, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext
+                .AteTestDetails.Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<AteTestDetail> FilterBy(Expression<Func<AteTestDetail, bool>> expression)
