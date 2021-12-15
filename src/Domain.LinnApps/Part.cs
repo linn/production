@@ -42,6 +42,10 @@
 
         public IEnumerable<WorksOrderLabel> WorksOrderLabels { get; set; }
 
+        public Bom Bom { get; set; }
+
+        public IEnumerable<BomDetail> BomDetailsWithThisPart { get; set; }
+
         public bool IsPhantomPart()
         {
             return this.BomType == "P";

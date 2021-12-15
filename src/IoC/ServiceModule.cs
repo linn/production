@@ -58,6 +58,7 @@
             builder.RegisterType<LabelPrintingService>().As<ILabelPrintingService>();
             builder.RegisterType<ManufacturingTimingsReportService>().As<IManufacturingTimingsReportService>();
             builder.RegisterType<ManufacturingTimingsReportProxy>().As<IManufacturingTimingsDatabaseReportService>();
+            builder.RegisterType<BomService>().As<IBomService>();
 
             // facade services
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
