@@ -32,15 +32,18 @@
                     var node = stack.Pop();
                     result.Add(node);
 
-                    foreach (var bomDetail in node.Details)
+                    foreach (var bomDetail in node.Details.ToList())
                     {
-                        var bom = this.bomRepository.FindBy(
-                            b => b.BomName == bomDetail.PartNumber 
-                                 && (bomDetail.Part.BomType != "C" && bomDetail.ChangeState == "LIVE"));
-
-                        if (bom != null)
+                        // only process a sub tree if this node is LIVE and not a component
+                        if (bomDetail.Part.BomType != "C" && bomDetail.ChangeState == "LIVE")
                         {
-                            stack.Push(bom);
+                            var bom = this.bomRepository.FindBy(
+                                b => b.BomName == bomDetail.PartNumber);
+
+                            if (bom != null)
+                            {
+                                stack.Push(bom);
+                            }
                         }
                     }
 
