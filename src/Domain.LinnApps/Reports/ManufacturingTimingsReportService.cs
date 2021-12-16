@@ -2,18 +2,33 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
+
+    using Linn.Common.Persistence;
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
     public class ManufacturingTimingsReportService : IManufacturingTimingsReportService
     {
         private readonly IManufacturingTimingsDatabaseReportService databaseService;
-        
+
+        private readonly IBomService bomService;
+
+        private readonly IRepository<ProductionTriggerLevel, string> triggerLevelRepository;
+
+        private readonly IRepository<ManufacturingRoute, string> routesRepository;
+
         public ManufacturingTimingsReportService(
-            IManufacturingTimingsDatabaseReportService databaseService)
+            IManufacturingTimingsDatabaseReportService databaseService,
+            IBomService bomService,
+            IRepository<ProductionTriggerLevel, string> triggerLevelRepository,
+            IRepository<ManufacturingRoute, string> routesRepository)
         {
             this.databaseService = databaseService;
+            this.bomService = bomService;
+            this.triggerLevelRepository = triggerLevelRepository;
+            this.routesRepository = routesRepository;
         }
 
         public ResultsModel GetTimingsReport(DateTime from, DateTime to, string citCode)
@@ -97,6 +112,50 @@
                 results.SetGridTextValue(rowIndex, 10, remainingBuild.ItemArray[4].ToString()); // expected total
 
                 rowIndex++;
+            }
+
+            return results;
+        }
+
+        public ResultsModel GetTimingsForAssembliesOnABom(string bomName)
+        {
+            var colHeaders = new List<string>
+                                 {
+                                     "Sub Assembly", "Route Code", "Skill Code", "Labour %", "Resource Code",
+                                     "Set and Clean (mins)", "Cycle (mins)", "CIT"
+                                 };
+
+            var subAssemblies = this.bomService.GetAllAssembliesOnBom(bomName).ToList();
+
+            var results = new ResultsModel(colHeaders)
+                              {
+                                  ReportTitle = new NameModel(
+                                      $"Labour Routes - {bomName}")
+                              };
+
+            var rowIndex = 0;
+            foreach (var bom in subAssemblies)
+            {
+                var triggerLevel = this.triggerLevelRepository.FindBy(x => x.PartNumber == bom.BomName);
+
+                if (triggerLevel != null)
+                {
+                    var route = this.routesRepository.FindById(triggerLevel.RouteCode);
+
+                    foreach (var op in route.Operations)
+                    {
+                        results.AddRow(rowIndex.ToString());
+                        results.SetGridTextValue(rowIndex, 0, bom.BomName);
+                        results.SetGridTextValue(rowIndex, 1, route.RouteCode);
+                        results.SetGridTextValue(rowIndex, 2, op.SkillCode);
+                        results.SetGridTextValue(rowIndex, 3, op.LabourPercentage.ToString());
+                        results.SetGridTextValue(rowIndex, 4, op.ResourceCode);
+                        results.SetGridTextValue(rowIndex, 5, op.SetAndCleanTime.ToString());
+                        results.SetGridTextValue(rowIndex, 6, op.CycleTime.ToString(CultureInfo.InvariantCulture));
+                        results.SetGridTextValue(rowIndex, 7, op.CITCode);
+                        rowIndex++;
+                    }
+                }
             }
 
             return results;

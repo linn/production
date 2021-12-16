@@ -1,7 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
     using System.Collections.Generic;
-    using System.Linq;
 
     using Linn.Common.Persistence;
 
@@ -19,9 +18,10 @@
         {
             var result = new List<Bom>();
 
-            // The root of the bom tree. Links to its children on its Details list. 
+            // The root node of this bom tree. Links to its subtree root nodes via the Details list. 
             var root = this.bomRepository.FindBy(x => x.BomName == bomName);
 
+            // Use a Queue for breadth first traversal to maintain hierarchy.
             var queue = new Queue<Bom>();
             queue.Enqueue(root);
             while (queue.Count != 0)
@@ -35,7 +35,7 @@
 
                     foreach (var bomDetail in node.Details)
                     {
-                        // only process a sub tree if this node is LIVE and not a COMPONENT
+                        // Only process a subtree if this node is LIVE and not a COMPONENT.
                         if (bomDetail.Part.BomType != "C" && bomDetail.ChangeState == "LIVE")
                         {
                             var bom = this.bomRepository.FindBy(
