@@ -30,8 +30,9 @@
         }
 
         private object GetTimingsReport()
+        
         {
-            var x = this.manufacturingTimingsService.GetTimingsForAssembliesOnABom("SK HUB");
+            var x = this.manufacturingTimingsService.GetTimingsForAssembliesOnABom("KLI DSM/A/3");
             var resource = this.Bind<ManufacturingTimingsRequestResource>();
             var result = this.manufacturingTimingsService.GetManufacturingTimingsReport(resource.StartDate, resource.EndDate, resource.CitCode);
 

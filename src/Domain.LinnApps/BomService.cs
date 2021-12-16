@@ -32,7 +32,7 @@
                     var node = stack.Pop();
                     result.Add(node);
 
-                    foreach (var bomDetail in node.Details.ToList())
+                    foreach (var bomDetail in node.Details)
                     {
                         // only process a sub tree if this node is LIVE and not a component
                         if (bomDetail.Part.BomType != "C" && bomDetail.ChangeState == "LIVE")
