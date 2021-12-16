@@ -9,7 +9,6 @@
     {
         private readonly IQueryRepository<Bom> bomRepository;
 
-
         public BomService(
             IQueryRepository<Bom> bomRepository)
         {
@@ -19,22 +18,24 @@
         public IEnumerable<Bom> GetAllAssembliesOnBom(string bomName)
         {
             var result = new List<Bom>();
+
+            // The root of the bom tree. Links to its children on its Details list. 
             var root = this.bomRepository.FindBy(x => x.BomName == bomName);
 
-            var stack = new Stack<Bom>();
-            stack.Push(root);
-            while (stack.Count != 0)
+            var queue = new Queue<Bom>();
+            queue.Enqueue(root);
+            while (queue.Count != 0)
             {
-                var n = stack.Count;
+                var n = queue.Count;
 
                 while (n > 0)
                 {
-                    var node = stack.Pop();
+                    var node = queue.Dequeue();
                     result.Add(node);
 
                     foreach (var bomDetail in node.Details)
                     {
-                        // only process a sub tree if this node is LIVE and not a component
+                        // only process a sub tree if this node is LIVE and not a COMPONENT
                         if (bomDetail.Part.BomType != "C" && bomDetail.ChangeState == "LIVE")
                         {
                             var bom = this.bomRepository.FindBy(
@@ -42,7 +43,7 @@
 
                             if (bom != null)
                             {
-                                stack.Push(bom);
+                                queue.Enqueue(bom);
                             }
                         }
                     }
