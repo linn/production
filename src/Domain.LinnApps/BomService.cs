@@ -7,42 +7,48 @@
 
     public class BomService : IBomService
     {
-        private readonly IQueryRepository<BomDetail> detailRepository;
         private readonly IQueryRepository<Bom> bomRepository;
 
 
         public BomService(
-            IQueryRepository<BomDetail> detailRepository,
             IQueryRepository<Bom> bomRepository)
         {
-            this.detailRepository = detailRepository;
             this.bomRepository = bomRepository;
         }
 
-        public IEnumerable<BomDetail> GetAllAssembliesOnBom(string bomName)
+        public IEnumerable<Bom> GetAllAssembliesOnBom(string bomName)
         {
-            var result = new List<BomDetail>();
-            var currentDetails = this.detailRepository
-                .FilterBy(x => x.Bom.BomName == bomName).ToList();
+            var result = new List<Bom>();
+            var root = this.bomRepository.FindBy(x => x.BomName == bomName);
 
-            foreach (var det in currentDetails)
+            var stack = new Stack<Bom>();
+            stack.Push(root);
+            while (stack.Count != 0)
             {
-                if (this.GetChildren(det) != null)
+                var n = stack.Count;
+
+                while (n > 0)
                 {
-                    var temp = this.GetChildren(det).Where(x => x.Part.BomType == "A").ToList();
-                    result.AddRange(temp);
-                    currentDetails = temp;
+                    var node = stack.Pop();
+                    result.Add(node);
+
+                    foreach (var bomDetail in node.Details)
+                    {
+                        var bom = this.bomRepository.FindBy(
+                            b => b.BomName == bomDetail.PartNumber 
+                                 && (bomDetail.Part.BomType != "C" && bomDetail.ChangeState == "LIVE"));
+
+                        if (bom != null)
+                        {
+                            stack.Push(bom);
+                        }
+                    }
+
+                    n -= 1;
                 }
             }
 
             return result;
-        }
-
-        private IEnumerable<BomDetail> GetChildren(BomDetail detail)
-        {
-            return this.bomRepository
-                .FindBy(b => b.BomName == detail.PartNumber)
-                ?.Details;
         }
     }
 }

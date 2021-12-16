@@ -4,6 +4,6 @@
 
     public interface IBomService
     {
-        IEnumerable<BomDetail> GetAllAssembliesOnBom(string bomName);
+        IEnumerable<Bom> GetAllAssembliesOnBom(string bomName);
     }
 }

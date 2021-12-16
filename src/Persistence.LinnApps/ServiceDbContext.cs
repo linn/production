@@ -1333,6 +1333,7 @@
             builder.Entity<BomDetail>().HasOne<Part>(b => b.Part)
                 .WithMany(p => p.BomDetailsWithThisPart).HasForeignKey(x => x.PartNumber);
             builder.Entity<BomDetail>().HasOne(d => d.Bom).WithMany(b => b.Details).HasForeignKey(x => x.BomId);
+            builder.Entity<BomDetail>().Property(d => d.ChangeState).HasColumnName("CHANGE_STATE");
         }
     }
 }
