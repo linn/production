@@ -160,8 +160,6 @@
 
         public DbSet<Bom> Boms { get; set; }
 
-        public DbSet<BomDetail> BomDetails { get; set; }
-
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
