@@ -70,7 +70,6 @@
         }
 
         [Test]
-
         public void ShouldAddAllNodesToResultListBreadthFirst()
         {
             this.result.Count.Should().Be(10);
