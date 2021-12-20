@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+
     using Linn.Common.Facade;
     using Linn.Common.Reporting.Models;
     using Linn.Common.Reporting.Resources.Extensions;
@@ -10,8 +11,9 @@
     public class ManufacturingTimingsFacadeService : IManufacturingTimingsFacadeService
     { 
         private readonly IManufacturingTimingsReportService reportService;
-        
-        public ManufacturingTimingsFacadeService(IManufacturingTimingsReportService reportService)
+
+        public ManufacturingTimingsFacadeService(
+            IManufacturingTimingsReportService reportService)
         {
             this.reportService = reportService;
         }
@@ -19,6 +21,12 @@
         public IResult<IEnumerable<IEnumerable<string>>> GetManufacturingTimingsExport(DateTime startDate, DateTime endDate, string citCode)
         {
             var result = this.reportService.GetTimingsReport(startDate, endDate, citCode).ConvertToCsvList();
+            return new SuccessResult<IEnumerable<IEnumerable<string>>>(result);
+        }
+
+        public IResult<IEnumerable<IEnumerable<string>>> GetTimingsForAssembliesOnABom(string bomName)
+        {
+            var result = this.reportService.GetTimingsForAssembliesOnABom(bomName).ConvertToCsvList();
             return new SuccessResult<IEnumerable<IEnumerable<string>>>(result);
         }
 

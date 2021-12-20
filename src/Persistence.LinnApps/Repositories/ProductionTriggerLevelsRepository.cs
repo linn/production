@@ -39,7 +39,7 @@
 
         public ProductionTriggerLevel FindBy(Expression<Func<ProductionTriggerLevel, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.ProductionTriggerLevels.Where(expression).ToList().FirstOrDefault();
         }
 
         public IQueryable<ProductionTriggerLevel> FilterBy(Expression<Func<ProductionTriggerLevel, bool>> expression)

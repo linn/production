@@ -16,5 +16,7 @@
             DateTime startDate,
             DateTime endDate,
             string citCode);
+
+        IResult<IEnumerable<IEnumerable<string>>> GetTimingsForAssembliesOnABom(string bomName);
     }
 }

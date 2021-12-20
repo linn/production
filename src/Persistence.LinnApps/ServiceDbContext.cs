@@ -157,7 +157,9 @@
         public DbQuery<OsrRunMaster> OsrRunMaster { get; set; }
 
         public DbQuery<PtlMaster> PtlMaster { get; set; }
-        
+
+        public DbSet<Bom> Boms { get; set; }
+
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -231,6 +233,8 @@
             this.QuerySernosIssuedView(builder);
             this.QueryPurchaseOrdersReceivedView(builder);
             this.BuildSuppliers(builder);
+            this.BuildBoms(builder);
+            this.BuildBomDetails(builder);
             base.OnModelCreating(builder);
         }
 
@@ -1306,6 +1310,28 @@
             q.Property(s => s.ShortPartNumber).HasColumnName("SHORT_PART_NUMBER").HasMaxLength(14);
             q.Property(s => s.Story).HasColumnName("STORY").HasMaxLength(100);
             q.Property(s => s.SortDate).HasColumnName("SORT_DATE");
+        }
+
+        private void BuildBoms(ModelBuilder builder)
+        {
+            builder.Entity<Bom>().ToTable("BOMS");
+            builder.Entity<Bom>().HasKey(b => b.BomId);
+            builder.Entity<Bom>().Property(b => b.BomId).HasColumnName("BOM_ID");
+            builder.Entity<Bom>().Property(b => b.BomName).HasColumnName("BOM_NAME");
+            builder.Entity<Bom>().HasOne<Part>(b => b.Part).WithOne(p => p.Bom);
+        }
+
+        private void BuildBomDetails(ModelBuilder builder)
+        {
+            builder.Entity<BomDetail>().ToTable("BOM_DETAILS");
+            builder.Entity<BomDetail>().HasKey(b => b.DetailId);
+            builder.Entity<BomDetail>().Property(b => b.DetailId).HasColumnName("DETAIL_ID");
+            builder.Entity<BomDetail>().Property(b => b.BomId).HasColumnName("BOM_ID");
+            builder.Entity<BomDetail>().Property(b => b.PartNumber).HasColumnName("PART_NUMBER");
+            builder.Entity<BomDetail>().HasOne<Part>(b => b.Part)
+                .WithMany(p => p.BomDetailsWithThisPart).HasForeignKey(x => x.PartNumber);
+            builder.Entity<BomDetail>().HasOne(d => d.Bom).WithMany(b => b.Details).HasForeignKey(x => x.BomId);
+            builder.Entity<BomDetail>().Property(d => d.ChangeState).HasColumnName("CHANGE_STATE");
         }
     }
 }

@@ -9,5 +9,7 @@
             DateTime from,
             DateTime to,
             string citCode);
+
+        ResultsModel GetTimingsForAssembliesOnABom(string bomName);
     }
 }

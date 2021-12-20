@@ -1,4 +1,4 @@
-﻿namespace Linn.Production.Service.Tests.MetalWorkTimingsReportModuleSpecs
+﻿namespace Linn.Production.Service.Tests.ManufacturingTimingsReportModuleSpecs
 {
     using System;
     using System.Collections.Generic;
