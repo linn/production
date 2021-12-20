@@ -22,6 +22,7 @@
         {
             return this.serviceDbContext.Boms.Where(expression)
                 .AsNoTracking()
+                .Include(b => b.Part)
                 .Include(b => b.Details).ThenInclude(d => d.Part).ToList()
                 .FirstOrDefault();
         }

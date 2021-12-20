@@ -121,7 +121,7 @@
         {
             var colHeaders = new List<string>
                                  {
-                                     "Sub Assembly", "Route Code", "Skill Code", "Labour %", "Resource Code",
+                                     "Sub Assembly", "Desc", "Type", "Route Code", "Operation", "Operation Desc", "Skill Code", "Labour %", "Resource Code",
                                      "Set and Clean (mins)", "Cycle (mins)", "CIT"
                                  };
 
@@ -146,13 +146,18 @@
                     {
                         results.AddRow(rowIndex.ToString());
                         results.SetGridTextValue(rowIndex, 0, bom.BomName);
-                        results.SetGridTextValue(rowIndex, 1, route.RouteCode);
-                        results.SetGridTextValue(rowIndex, 2, op.SkillCode);
-                        results.SetGridTextValue(rowIndex, 3, op.LabourPercentage.ToString());
-                        results.SetGridTextValue(rowIndex, 4, op.ResourceCode);
-                        results.SetGridTextValue(rowIndex, 5, op.SetAndCleanTime.ToString());
-                        results.SetGridTextValue(rowIndex, 6, op.CycleTime.ToString(CultureInfo.InvariantCulture));
-                        results.SetGridTextValue(rowIndex, 7, op.CITCode);
+                        results.SetGridTextValue(rowIndex, 1, bom.Part.Description);
+                        results.SetGridTextValue(rowIndex, 2, bom.Part.BomType);
+
+                        results.SetGridTextValue(rowIndex, 3, route.RouteCode);
+                        results.SetGridTextValue(rowIndex, 4, op.OperationNumber.ToString());
+                        results.SetGridTextValue(rowIndex, 5, op.Description);
+                        results.SetGridTextValue(rowIndex, 6, op.SkillCode);
+                        results.SetGridTextValue(rowIndex, 7, op.LabourPercentage.ToString());
+                        results.SetGridTextValue(rowIndex, 8, op.ResourceCode);
+                        results.SetGridTextValue(rowIndex, 9, op.SetAndCleanTime.ToString());
+                        results.SetGridTextValue(rowIndex, 10, op.CycleTime.ToString(CultureInfo.InvariantCulture));
+                        results.SetGridTextValue(rowIndex, 11, op.CITCode);
                         rowIndex++;
                     }
                 }

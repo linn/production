@@ -42,6 +42,10 @@
 
         private Bom n13;  // ...
 
+        private Bom n31;
+
+        private Bom n32;
+
         private Bom n111; // first child of first child of first child of root 
 
         private Bom n112; // etc
@@ -72,6 +76,7 @@
         [Test]
         public void ShouldAddAllNodesToResultListBreadthFirst()
         {
+            // the root plus the 9 boms that are "LIVE" and aren't Components
             this.result.Count.Should().Be(10);
             this.result.ElementAt(0).BomName.Should().Be("ROOT");
             this.result.ElementAt(1).BomName.Should().Be("n1");
@@ -83,18 +88,21 @@
             this.result.ElementAt(7).BomName.Should().Be("n111");
             this.result.ElementAt(8).BomName.Should().Be("n112");
             this.result.ElementAt(9).BomName.Should().Be("n1121");
+
+            this.result.All(x => x.Part.BomType != "C").Should().BeTrue();
         }
 
         private void BuildBomTree()
         {
-            this.n111 = new Bom { BomName = "n111", Details = new List<BomDetail>() };
+            this.n111 = new Bom { BomName = "n111", Details = new List<BomDetail>(), Part = new Part { BomType = "A" } };
 
-            this.n1121 = new Bom { BomName = "n1121", Details = new List<BomDetail>() };
+            this.n1121 = new Bom { BomName = "n1121", Details = new List<BomDetail>(), Part = new Part { BomType = "A" } };
 
             this.n112
                 = new Bom
                 {
                     BomName = "n112",
+                    Part = new Part { BomType = "A" },
                     Details = new List<BomDetail>
                                                           {
                                                               new BomDetail
@@ -110,6 +118,7 @@
                 = new Bom
                 {
                     BomName = "n11",
+                    Part = new Part { BomType = "A" },
                     Details = new List<BomDetail>
                                         {
                                             new BomDetail
@@ -127,42 +136,69 @@
                                         }
                 };
 
-            this.n12 = new Bom { BomName = "n12", Details = new List<BomDetail>() };
+            this.n12 = new Bom
+                           {
+                               Part = new Part { BomType = "A" },
+                               BomName = "n12", 
+                               Details = new List<BomDetail>()
+                           };
 
-            this.n13 = new Bom { BomName = "n13", Details = new List<BomDetail>() };
+            this.n13 = new Bom
+                           {
+                               Part = new Part { BomType = "A" },
+                               BomName = "n13", 
+                               Details = new List<BomDetail>()
+                           };
+
+            this.n31 = new Bom 
+                           { 
+                               BomName = "n31",
+                               Details = new List<BomDetail>(),
+                               Part = new Part { BomType = "A" },
+                           };
+
+            this.n32 = new Bom { BomName = "n32", Details = new List<BomDetail>(), Part = new Part { BomType = "C" }, };
 
             this.n1 = new Bom
             {
                 BomName = "n1",
+                Part = new Part { BomType = "A" },
                 Details = new List<BomDetail>
-                                            {
-                                                new BomDetail { Bom = this.n11, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
-                                                new BomDetail { Bom = this.n12, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
-                                                new BomDetail { Bom = this.n13, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
-                                            }
+                              {
+                                  new BomDetail { Bom = this.n11, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
+                                  new BomDetail { Bom = this.n12, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
+                                  new BomDetail { Bom = this.n13, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
+                              }
             };
 
             this.n2 = new Bom
             {
                 BomName = "n2",
+                Part = new Part { BomType = "A" },
                 Details = new List<BomDetail>()
             };
 
             this.n3 = new Bom
             {
                 BomName = "n3",
-                Details = new List<BomDetail>()
+                Part = new Part { BomType = "A" },
+                Details = new List<BomDetail>
+                              {
+                                  new BomDetail { Bom = this.n31, ChangeState = "HIST", Part = new Part { BomType = "A" } },
+                                  new BomDetail { Bom = this.n32, ChangeState = "LIVE", Part = new Part { BomType = "C" } }
+                              }
             };
 
             this.root = new Bom
             {
                 BomName = "ROOT",
+                Part = new Part { BomType = "A" },
                 Details = new List<BomDetail>
-                                              {
-                                                  new BomDetail { Bom = this.n1, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
-                                                  new BomDetail { Bom = this.n2, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
-                                                  new BomDetail { Bom = this.n3, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
-                                              }
+                              {
+                                  new BomDetail { Bom = this.n1, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
+                                  new BomDetail { Bom = this.n2, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
+                                  new BomDetail { Bom = this.n3, ChangeState = "LIVE", Part = new Part { BomType = "A" } },
+                              }
             };
         }
     }
