@@ -978,6 +978,7 @@
             builder.Entity<PartFailFaultCode>().HasKey(c => c.FaultCode);
             builder.Entity<PartFailFaultCode>().Property(c => c.FaultCode).HasColumnName("FAULT_CODE");
             builder.Entity<PartFailFaultCode>().Property(c => c.Description).HasColumnName("FAULT_DESCRIPTION");
+            builder.Entity<PartFailFaultCode>().Property(e => e.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void BuildPartFails(ModelBuilder builder)

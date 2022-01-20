@@ -310,7 +310,7 @@ function PartFail({
                                         </Grid>
                                         <Grid item xs={6} />
                                         <Grid item xs={3}>
-                                            <Dropdown
+                                            {/* <Dropdown
                                                 label="Fault Code"
                                                 propertyName="faultCode"
                                                 items={faultCodes.map(c => c.faultCode)}
@@ -319,7 +319,23 @@ function PartFail({
                                                 allowNoValue={creating()}
                                                 onChange={handleFieldChange}
                                                 required
-                                            />
+                                            /> */}
+
+                                            <FormControl fullWidth>
+                                            <InputLabel>Fault Code</InputLabel>
+                                            <Select
+                                                value={partFail.faultCode}
+                                                label="Fault Code"
+                                                propertyName="faultCode"
+                                                allowNoValue={creating()}
+                                                onChange={handleFieldChange}
+                                                required
+                                            >
+                                                {faultCodes.map(e => {
+                                                    <MenuItem value={e.faultCode} disabled={e.dateInvalid !== null}>{e.faultCode} - {e.description}</MenuItem>
+                                                })}                                               
+                                            </Select>
+                                            </FormControl>
                                         </Grid>
                                         <Grid item xs={6}>
                                             <InputField
@@ -332,7 +348,7 @@ function PartFail({
                                         </Grid>
                                         <Grid item xs={3} />
                                         <Grid item xs={3}>
-                                            <Dropdown
+                                            {/* <Dropdown
                                                 label="Error Type"
                                                 propertyName="errorType"
                                                 items={errorTypes.map(c => c.errorType)}
@@ -341,7 +357,23 @@ function PartFail({
                                                 allowNoValue={creating()}
                                                 onChange={handleFieldChange}
                                                 required
-                                            />
+                                            /> */}
+
+                                            <FormControl fullWidth>
+                                            <InputLabel>Error Type</InputLabel>
+                                            <Select
+                                                value={partFail.errorType}
+                                                label="Error Type"
+                                                propertyName="errorType"
+                                                allowNoValue={creating()}
+                                                onChange={handleFieldChange}
+                                                required
+                                            >
+                                                {errorTypes.map(e => {
+                                                    <MenuItem value={e.errorType} disabled={e.dateInvalid !== null}>{e.errorType}</MenuItem>
+                                                })}                                               
+                                            </Select>
+                                            </FormControl>
                                         </Grid>
                                         <Grid item xs={9} />
                                         <Grid item xs={6}>

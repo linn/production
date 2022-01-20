@@ -21,8 +21,9 @@
             return new PartFailFaultCode
                        {
                            FaultCode = resource.FaultCode,
-                           Description = resource.FaultDescription
-                       };
+                           Description = resource.FaultDescription,
+                           DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null
+            };
         }
 
         protected override void UpdateFromResource(PartFailFaultCode entity, PartFailFaultCodeResource updateResource)
