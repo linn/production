@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Service.Tests.PartFailModuleSpecs
 {
-    using System;
-
     using FluentAssertions;
     using FluentAssertions.Extensions;
 
@@ -23,15 +21,13 @@
         [SetUp]
         public void SetUp()
         {
-            var a = new PartFailErrorType
-                        {
-                            ErrorType = "ERROR",
-                            DateInvalid = DateTime.Parse("21/01/2021")
-                        };
+            var a = new PartFailErrorType { ErrorType = "ERROR", DateInvalid = 21.January(2021) };
 
-            this.requestResource = new PartFailErrorTypeResource { ErrorType = "ERROR", DateInvalid = 21.January(2021).ToString("O") };
+            this.requestResource =
+                new PartFailErrorTypeResource { ErrorType = "ERROR", DateInvalid = 21.January(2021).ToString("O") };
 
-            this.ErrorTypeService.Update("ERROR", Arg.Any<PartFailErrorTypeResource>()).Returns(new SuccessResult<PartFailErrorType>(a));
+            this.ErrorTypeService.Update("ERROR", Arg.Any<PartFailErrorTypeResource>())
+                .Returns(new SuccessResult<PartFailErrorType>(a));
 
             this.Response = this.Browser.Put(
                 "/production/quality/part-fail-error-types/ERROR",
@@ -43,17 +39,17 @@
         }
 
         [Test]
-        public void ShouldReturnOk()
+        public void ShouldCallService()
         {
-            this.Response.StatusCode.Should().Be(HttpStatusCode.OK);
+            this.ErrorTypeService.Received().Update(
+                "ERROR",
+                Arg.Is<PartFailErrorTypeResource>(r => r.ErrorType == this.requestResource.ErrorType));
         }
 
         [Test]
-        public void ShouldCallService()
+        public void ShouldReturnOk()
         {
-            this.ErrorTypeService
-                .Received()
-                .Update("ERROR", Arg.Is<PartFailErrorTypeResource>(r => r.ErrorType == this.requestResource.ErrorType));
+            this.Response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
 
         [Test]
