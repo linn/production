@@ -3,6 +3,7 @@
     using System;
 
     using FluentAssertions;
+    using FluentAssertions.Extensions;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
@@ -28,7 +29,7 @@
                             DateInvalid = DateTime.Parse("21/01/2021")
                         };
 
-            this.requestResource = new PartFailErrorTypeResource { ErrorType = "ERROR", DateInvalid = "21/01/2021" };
+            this.requestResource = new PartFailErrorTypeResource { ErrorType = "ERROR", DateInvalid = 21.January(2021).ToString("O") };
 
             this.ErrorTypeService.Update("ERROR", Arg.Any<PartFailErrorTypeResource>()).Returns(new SuccessResult<PartFailErrorType>(a));
 
