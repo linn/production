@@ -7,7 +7,8 @@ import {
     Loading,
     Title,
     ErrorCard,
-    SnackbarMessage
+    SnackbarMessage,
+    DatePicker
 } from '@linn-it/linn-form-components-library';
 import Page from '../../containers/Page';
 
@@ -127,6 +128,19 @@ function PartFailFaultCode({
                                     required
                                     onChange={handleFieldChange}
                                     propertyName="faultDescription"
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <DatePicker
+                                    label="Date Invalid"
+                                    value={
+                                        partFailFaultCode.dateInvalid
+                                            ? partFailFaultCode.dateInvalid
+                                            : null
+                                    }
+                                    onChange={value => {
+                                        handleFieldChange('dateInvalid', value);
+                                    }}
                                 />
                             </Grid>
                         </>

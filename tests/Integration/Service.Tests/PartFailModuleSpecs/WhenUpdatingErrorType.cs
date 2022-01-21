@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.PartFailModuleSpecs
 {
+    using System;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -22,10 +24,11 @@
         {
             var a = new PartFailErrorType
                         {
-                            ErrorType = "ERROR"
+                            ErrorType = "ERROR",
+                            DateInvalid = DateTime.Parse("21/01/2021")
                         };
 
-            this.requestResource = new PartFailErrorTypeResource { ErrorType = "ERROR" };
+            this.requestResource = new PartFailErrorTypeResource { ErrorType = "ERROR", DateInvalid = "21/01/2021" };
 
             this.ErrorTypeService.Update("ERROR", Arg.Any<PartFailErrorTypeResource>()).Returns(new SuccessResult<PartFailErrorType>(a));
 
@@ -57,6 +60,7 @@
         {
             var resource = this.Response.Body.DeserializeJson<PartFailErrorTypeResource>();
             resource.ErrorType.Should().Be("ERROR");
+            resource.DateInvalid.Should().Be("2021-01-21T00:00:00.0000000");
         }
     }
 }

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import Tooltip from '@material-ui/core/Tooltip';
 import {
     InputField,
     Loading,
@@ -8,7 +13,6 @@ import {
     ErrorCard,
     SnackbarMessage,
     TypeaheadDialog,
-    Dropdown,
     Typeahead,
     SaveBackCancelButtons,
     DateTimePicker
@@ -102,6 +106,14 @@ function PartFail({
             setEditStatus('edit');
         }
         setPartFail({ ...partFail, [propertyName]: newValue });
+    };
+
+    const handleErrorTypeChange = event => {
+        setPartFail({ ...partFail, errorType: event.target.value });
+    };
+
+    const handleFaultCodeChange = event => {
+        setPartFail({ ...partFail, faultCode: event.target.value });
     };
 
     const handleSaveClick = () => {
@@ -310,31 +322,32 @@ function PartFail({
                                         </Grid>
                                         <Grid item xs={6} />
                                         <Grid item xs={3}>
-                                            {/* <Dropdown
-                                                label="Fault Code"
-                                                propertyName="faultCode"
-                                                items={faultCodes.map(c => c.faultCode)}
-                                                fullWidth
-                                                value={partFail.faultCode}
-                                                allowNoValue={creating()}
-                                                onChange={handleFieldChange}
-                                                required
-                                            /> */}
-
                                             <FormControl fullWidth>
-                                            <InputLabel>Fault Code</InputLabel>
-                                            <Select
-                                                value={partFail.faultCode}
-                                                label="Fault Code"
-                                                propertyName="faultCode"
-                                                allowNoValue={creating()}
-                                                onChange={handleFieldChange}
-                                                required
-                                            >
-                                                {faultCodes.map(e => {
-                                                    <MenuItem value={e.faultCode} disabled={e.dateInvalid !== null}>{e.faultCode} - {e.description}</MenuItem>
-                                                })}                                               
-                                            </Select>
+                                                <InputLabel>Fault Code</InputLabel>
+                                                <Select
+                                                    value={partFail.faultCode}
+                                                    label="Fault Code"
+                                                    propertyName="faultCode"
+                                                    allowNoValue={creating()}
+                                                    onChange={handleFaultCodeChange}
+                                                    required
+                                                >
+                                                    {/* display valid options at the top so we don't need to scroll through old ones */}
+                                                    {faultCodes.map(e => {
+                                                        return e.dateInvalid === null ? (
+                                                            <MenuItem value={e.faultCode}>
+                                                                {e.faultCode} - {e.faultDescription}
+                                                            </MenuItem>
+                                                        ) : null;
+                                                    })}
+                                                    {faultCodes.map(e => {
+                                                        return e.dateInvalid !== null ? (
+                                                            <MenuItem value={e.faultCode} disabled>
+                                                                {e.faultCode} - {e.faultDescription}
+                                                            </MenuItem>
+                                                        ) : null;
+                                                    })}
+                                                </Select>
                                             </FormControl>
                                         </Grid>
                                         <Grid item xs={6}>
@@ -348,31 +361,32 @@ function PartFail({
                                         </Grid>
                                         <Grid item xs={3} />
                                         <Grid item xs={3}>
-                                            {/* <Dropdown
-                                                label="Error Type"
-                                                propertyName="errorType"
-                                                items={errorTypes.map(c => c.errorType)}
-                                                fullWidth
-                                                value={partFail.errorType}
-                                                allowNoValue={creating()}
-                                                onChange={handleFieldChange}
-                                                required
-                                            /> */}
-
                                             <FormControl fullWidth>
-                                            <InputLabel>Error Type</InputLabel>
-                                            <Select
-                                                value={partFail.errorType}
-                                                label="Error Type"
-                                                propertyName="errorType"
-                                                allowNoValue={creating()}
-                                                onChange={handleFieldChange}
-                                                required
-                                            >
-                                                {errorTypes.map(e => {
-                                                    <MenuItem value={e.errorType} disabled={e.dateInvalid !== null}>{e.errorType}</MenuItem>
-                                                })}                                               
-                                            </Select>
+                                                <InputLabel>Error Type</InputLabel>
+                                                <Select
+                                                    value={partFail.errorType}
+                                                    label="Error Type"
+                                                    propertyName="errorType"
+                                                    allowNoValue={creating()}
+                                                    onChange={handleErrorTypeChange}
+                                                    required
+                                                >
+                                                    {/* display valid options at the top so we don't need to scroll through old ones */}
+                                                    {errorTypes.map(e => {
+                                                        return e.dateInvalid === null ? (
+                                                            <MenuItem value={e.errorType}>
+                                                                {e.errorType}
+                                                            </MenuItem>
+                                                        ) : null;
+                                                    })}
+                                                    {errorTypes.map(e => {
+                                                        return e.dateInvalid !== null ? (
+                                                            <MenuItem value={e.errorType} disabled>
+                                                                {e.errorType}
+                                                            </MenuItem>
+                                                        ) : null;
+                                                    })}
+                                                </Select>
                                             </FormControl>
                                         </Grid>
                                         <Grid item xs={9} />

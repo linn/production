@@ -29,6 +29,9 @@
         protected override void UpdateFromResource(PartFailFaultCode entity, PartFailFaultCodeResource updateResource)
         {
             entity.Description = updateResource.FaultDescription;
+            entity.DateInvalid = updateResource.DateInvalid != null
+                                     ? DateTime.Parse(updateResource.DateInvalid)
+                                     : (DateTime?) null;
         }
 
         protected override Expression<Func<PartFailFaultCode, bool>> SearchExpression(string searchTerm)
