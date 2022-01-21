@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
 import {
     Dropdown,
     Title,
@@ -64,24 +68,18 @@ export default function PartFailDetailsReportOptions({
     const classes = useStyles();
 
     useEffect(() => {
-        const list = ['All'];
+        const list = [{ errorType: 'All', dateInvalid: null }];
         if (partFailErrorTypes) {
-            setErrorTypes([...list, ...partFailErrorTypes.map(errorType => errorType.errorType)]);
+            setErrorTypes([...list, ...partFailErrorTypes]);
             return;
         }
         setErrorTypes(list);
     }, [partFailErrorTypes]);
 
     useEffect(() => {
-        const list = [{ id: 'All', displayText: 'All' }];
+        const list = [{ faultCode: 'All', dateInvalid: null }];
         if (partFailFaultCodes) {
-            setFaultCodes([
-                ...list,
-                ...partFailFaultCodes.map(code => ({
-                    id: code.faultCode,
-                    displayText: code.faultDescription
-                }))
-            ]);
+            setFaultCodes([...list, ...partFailFaultCodes]);
             return;
         }
         setFaultCodes(list);
@@ -118,7 +116,7 @@ export default function PartFailDetailsReportOptions({
     }, [suppliers]);
 
     const handleFieldChange = (propertyName, newValue) => {
-        if (propertyName === 'department' || propertyName === 'faultCode') {
+        if (propertyName === 'department') {
             setReportOptions({
                 ...reportOptions,
                 [propertyName]: newValue.id
@@ -196,25 +194,56 @@ export default function PartFailDetailsReportOptions({
                     </Grid>
                     <Grid item xs={8} />
                     <Grid item xs={4}>
-                        <Dropdown
-                            label="Error Type"
-                            items={errorTypeOptions}
-                            fullWidth
-                            value={reportOptions.errorType}
-                            onChange={handleFieldChange}
-                            propertyName="errorType"
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel>Error Type</InputLabel>
+                            <Select
+                                value={reportOptions.errorType}
+                                label="Error Type"
+                                propertyName="errorType"
+                                onChange={e => handleFieldChange('errorType', e.target.value)}
+                                required
+                            >
+                                {/* display valid options at the top so we don't need to scroll through old ones */}
+                                {errorTypeOptions.map(e => {
+                                    return e.dateInvalid === null ? (
+                                        <MenuItem value={e.errorType}>{e.errorType}</MenuItem>
+                                    ) : null;
+                                })}
+                                {errorTypeOptions.map(e => {
+                                    return e.dateInvalid !== null ? (
+                                        <MenuItem value={e.errorType}>
+                                            {e.errorType} (invalid)
+                                        </MenuItem>
+                                    ) : null;
+                                })}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={8} />
                     <Grid item xs={4}>
-                        <Dropdown
-                            label="Fault Code"
-                            items={faultCodeOptions}
-                            fullWidth
-                            value={reportOptions.faultCode}
-                            onChange={handleFieldChange}
-                            propertyName="faultCode"
-                        />
+                        <FormControl fullWidth>
+                            <InputLabel>Fault Code</InputLabel>
+                            <Select
+                                value={reportOptions.faultCode}
+                                label="Fault Code"
+                                propertyName="faultCode"
+                                onChange={e => handleFieldChange('faultCode', e.target.value)}
+                            >
+                                {/* display valid options at the top so we don't need to scroll through old ones */}
+                                {faultCodeOptions.map(e => {
+                                    return e.dateInvalid === null ? (
+                                        <MenuItem value={e.faultCode}>{e.faultCode}</MenuItem>
+                                    ) : null;
+                                })}
+                                {faultCodeOptions.map(e => {
+                                    return e.dateInvalid !== null ? (
+                                        <MenuItem value={e.faultCode}>
+                                            {e.faultCode} (invalid)
+                                        </MenuItem>
+                                    ) : null;
+                                })}
+                            </Select>
+                        </FormControl>
                     </Grid>
                     <Grid item xs={8} />
                     <Grid item xs={4}>

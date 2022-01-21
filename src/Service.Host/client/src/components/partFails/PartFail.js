@@ -5,7 +5,6 @@ import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
-import Tooltip from '@material-ui/core/Tooltip';
 import {
     InputField,
     Loading,
@@ -106,14 +105,6 @@ function PartFail({
             setEditStatus('edit');
         }
         setPartFail({ ...partFail, [propertyName]: newValue });
-    };
-
-    const handleErrorTypeChange = event => {
-        setPartFail({ ...partFail, errorType: event.target.value });
-    };
-
-    const handleFaultCodeChange = event => {
-        setPartFail({ ...partFail, faultCode: event.target.value });
     };
 
     const handleSaveClick = () => {
@@ -322,14 +313,19 @@ function PartFail({
                                         </Grid>
                                         <Grid item xs={6} />
                                         <Grid item xs={3}>
-                                            <FormControl fullWidth>
+                                            <FormControl variant="standard" fullWidth>
                                                 <InputLabel>Fault Code</InputLabel>
                                                 <Select
                                                     value={partFail.faultCode}
                                                     label="Fault Code"
                                                     propertyName="faultCode"
                                                     allowNoValue={creating()}
-                                                    onChange={handleFaultCodeChange}
+                                                    onChange={e =>
+                                                        handleFieldChange(
+                                                            'faultCode',
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     required
                                                 >
                                                     {/* display valid options at the top so we don't need to scroll through old ones */}
@@ -361,14 +357,19 @@ function PartFail({
                                         </Grid>
                                         <Grid item xs={3} />
                                         <Grid item xs={3}>
-                                            <FormControl fullWidth>
+                                            <FormControl variant="standard" fullWidth>
                                                 <InputLabel>Error Type</InputLabel>
                                                 <Select
                                                     value={partFail.errorType}
                                                     label="Error Type"
                                                     propertyName="errorType"
                                                     allowNoValue={creating()}
-                                                    onChange={handleErrorTypeChange}
+                                                    onChange={e =>
+                                                        handleFieldChange(
+                                                            'errorType',
+                                                            e.target.value
+                                                        )
+                                                    }
                                                     required
                                                 >
                                                     {/* display valid options at the top so we don't need to scroll through old ones */}
