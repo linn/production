@@ -23,6 +23,7 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
             ? items.map(el => ({
                   faultCode: `${el.faultCode}`,
                   faultDescription: `${el.faultDescription}`,
+                  dateInvalid: `${el.dateInvalid}`,
                   links: el.links
               }))
             : null;
@@ -51,7 +52,8 @@ const PartFailFaultCodes = ({ loading, itemError, history, items }) => {
 
     const columns = {
         faultCode: 'Code',
-        faultDescription: 'Description'
+        faultDescription: 'Description',
+        dateInvalid: 'Date Invalid'
     };
 
     return (

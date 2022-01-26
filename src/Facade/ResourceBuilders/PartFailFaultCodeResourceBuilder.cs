@@ -17,6 +17,7 @@
                        {
                            FaultCode = faultCode.FaultCode,
                            FaultDescription = faultCode.Description,
+                           DateInvalid = faultCode.DateInvalid?.ToString("o"),
                            Links = this.BuildLinks(faultCode).ToArray()
                        };
         }
