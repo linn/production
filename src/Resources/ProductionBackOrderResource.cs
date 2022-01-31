@@ -18,6 +18,8 @@
 
         public string RequestedDeliveryDate { get; set; }
 
+        public string ProductionDate { get; set; }
+
         public string DatePossible { get; set; }
 
         public int QueuePosition { get; set; }

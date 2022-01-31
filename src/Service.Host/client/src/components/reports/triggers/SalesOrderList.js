@@ -18,7 +18,7 @@ function SalesOrderList({ salesOrders }) {
                     <TableCell>Order Number</TableCell>
                     <TableCell>Order Line</TableCell>
                     <TableCell>Qty On Order</TableCell>
-                    <TableCell>Requested Delivery Date</TableCell>
+                    <TableCell>Production Date</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -29,7 +29,7 @@ function SalesOrderList({ salesOrders }) {
                         </TableCell>
                         <TableCell>{o.orderLine}</TableCell>
                         <TableCell>{o.backOrderQty}</TableCell>
-                        <TableCell>{moment(o.requestedDeliveryDate).format('DD-MMM-YY')}</TableCell>
+                        <TableCell>{moment(o.productionDate).format('DD-MMM-YY')}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>

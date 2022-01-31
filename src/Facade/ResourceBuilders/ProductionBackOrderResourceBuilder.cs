@@ -19,7 +19,8 @@
                 RequestedDeliveryDate = order.RequestedDeliveryDate?.ToString("o"),
                 QueuePosition = order.QueuePosition,
                 BaseValue = order.BaseValue,
-                BackOrderQty = order.BackOrderQty
+                BackOrderQty = order.BackOrderQty,
+                ProductionDate = order.ProductionDate?.ToString("o")
             };
         }
 
