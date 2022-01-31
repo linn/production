@@ -23,5 +23,7 @@
         public DateTime? DatePossible { get; set; }
 
         public int QueuePosition { get; set; }
+
+        public DateTime? ProductionDate { get; set; }
     }
 }

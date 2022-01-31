@@ -248,7 +248,9 @@
             var dataSource =
                 $"(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={host})(PORT=1521))(CONNECT_DATA=(SERVICE_NAME={serviceId})(SERVER=dedicated)))";
 
-            optionsBuilder.UseOracle($"Data Source={dataSource};User Id={userId};Password={password};");
+            var connectionString = $"Data Source={dataSource};User Id={userId};Password={password};";
+
+            optionsBuilder.UseOracle(connectionString, options => options.UseOracleSQLCompatibility("11"));
             optionsBuilder.UseLoggerFactory(MyLoggerFactory);
             optionsBuilder.EnableSensitiveDataLogging(true);
             base.OnConfiguring(optionsBuilder);
@@ -1053,15 +1055,16 @@
         private void QueryProductionBackOrders(ModelBuilder builder)
         {
             var q = builder.Query<ProductionBackOrder>();
-            q.ToView("V_PRODUCTION_BACK_ORDERS");
+            q.ToView("V_PRODUCTION_TRIGGER_ORDERS");
             q.Property(e => e.CitCode).HasColumnName("CIT_CODE").HasMaxLength(10);
             q.Property(e => e.ArticleNumber).HasColumnName("ARTICLE_NUMBER").HasMaxLength(14);
             q.Property(e => e.JobId).HasColumnName("JOB_ID");
             q.Property(e => e.OrderNumber).HasColumnName("ORDER_NUMBER");
             q.Property(e => e.OrderLine).HasColumnName("ORDER_LINE");
-            q.Property(e => e.BackOrderQty).HasColumnName("BACK_ORDER_QTY");
-            q.Property(e => e.BaseValue).HasColumnName("BASE_VALUE");
+            q.Property(e => e.BackOrderQty).HasColumnName("QTY_OUTSTANDING");
+            q.Property(e => e.BaseValue).HasColumnName("BASE_UNIT_PRICE");
             q.Property(e => e.RequestedDeliveryDate).HasColumnName("REQUESTED_DELIVERY_DATE");
+            q.Property(e => e.ProductionDate).HasColumnName("PRODUCTION_DATE");
             q.Property(e => e.DatePossible).HasColumnName("DATE_POSSIBLE");
             q.Property(e => e.QueuePosition).HasColumnName("QUEUE_POSITION");
         }
