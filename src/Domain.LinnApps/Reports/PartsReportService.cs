@@ -175,6 +175,13 @@
                     });
                 values.Add(
                     new CalculationValueModel
+                        {
+                            RowId = fail.Id.ToString(),
+                            TextDisplay = fail.FaultCode.FaultCode,
+                            ColumnId = "Fault Code"
+                        });
+                values.Add(
+                    new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
                         TextDisplay = fail.ErrorType.ErrorType,
@@ -247,29 +254,31 @@
                                },
                            new AxisDetailsModel("Story") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
                            new AxisDetailsModel("Quantity") { SortOrder = 5, GridDisplayType = GridDisplayType.Value },
+                           new AxisDetailsModel("Fault Code") { SortOrder = 6, GridDisplayType = GridDisplayType.TextValue },
+
                            new AxisDetailsModel("Error Type")
                                {
-                                   SortOrder = 6, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 7, GridDisplayType = GridDisplayType.TextValue
                                },
                            new AxisDetailsModel("Base Unit Price")
                                {
-                                   SortOrder = 7, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
+                                   SortOrder = 8, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
                                },
                            new AxisDetailsModel("Total Price")
                                {
-                                   SortOrder = 8, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
+                                   SortOrder = 9, GridDisplayType = GridDisplayType.Value, DecimalPlaces = 2
                                },
                            new AxisDetailsModel("Entered By")
                                {
-                                   SortOrder = 9, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 10, GridDisplayType = GridDisplayType.TextValue
                                },
                            new AxisDetailsModel("Comments")
                                {
-                                   SortOrder = 10, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 11, GridDisplayType = GridDisplayType.TextValue
                                },
                            new AxisDetailsModel("Owner")
                                {
-                                   SortOrder = 11, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 12, GridDisplayType = GridDisplayType.TextValue
                                },
                            new AxisDetailsModel("Supplier")
                                {
