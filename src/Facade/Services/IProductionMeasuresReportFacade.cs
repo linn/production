@@ -13,7 +13,12 @@
 
         IResult<OsrInfo> GetOsrInfo();
 
-        IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(string citCode, string partNumber, string orderByDate);
+        IResult<IEnumerable<ResultsModel>> GetFailedPartsReport(
+            string citCode,
+            string partNumber,
+            string orderByDate,
+            bool excludeLinnProduced,
+            string vendorManager);
 
         IResult<IEnumerable<ResultsModel>> GetDaysRequiredReport(string citCode);
     }

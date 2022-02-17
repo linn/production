@@ -518,6 +518,8 @@
             builder.Query<FailedParts>().Property(t => t.StoragePlace).HasColumnName("STORAGE_PLACE");
             builder.Query<FailedParts>().Property(t => t.PreferredSupplierId).HasColumnName("PREFERRED_SUPPLIER");
             builder.Query<FailedParts>().Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
+            builder.Query<FailedParts>().Property(t => t.VendorManager).HasColumnName("VENDOR_MANAGER");
+            builder.Query<FailedParts>().Property(t => t.LinnProduced).HasColumnName("LINN_PRODUCED");
         }
 
         private void QueryDaysRequired(ModelBuilder builder)

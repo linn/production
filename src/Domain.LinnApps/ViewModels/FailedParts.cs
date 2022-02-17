@@ -31,5 +31,9 @@
         public int? PreferredSupplierId { get; set; }
 
         public string SupplierName { get; set; }
+
+        public string VendorManager { get; set; }
+
+        public string LinnProduced { get; set; }
     }
 }

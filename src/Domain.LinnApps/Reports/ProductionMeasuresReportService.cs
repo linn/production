@@ -27,7 +27,12 @@
             this.reportingHelper = reportingHelper;
         }
 
-        public IEnumerable<ResultsModel> FailedPartsReport(string citCode, string partNumber, string orderByDate)
+        public IEnumerable<ResultsModel> FailedPartsReport(
+            string citCode,
+            string partNumber,
+            string orderByDate,
+            bool excludeLinnProduced,
+            string vendorManager)
         {
             var results = new List<ResultsModel>();
             var fails = this.failedPartsRepository.FindAll();
@@ -48,6 +53,16 @@
             if (!string.IsNullOrEmpty(citCode))
             {
                 fails = fails.Where(a => a.CitCode == citCode);
+            }
+
+            if (!string.IsNullOrEmpty(vendorManager))
+            {
+                fails = fails.Where(f => f.VendorManager.Equals(vendorManager));
+            }
+
+            if (excludeLinnProduced)
+            {
+                fails = fails.Where(f => f.LinnProduced.Equals("N"));
             }
 
             if (!string.IsNullOrEmpty(partNumber) || !string.IsNullOrEmpty(orderByDate))

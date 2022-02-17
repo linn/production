@@ -36,7 +36,12 @@
             var requestResource = this.Bind<FailedPartsReportOptionsResource>();
             
             return this.Negotiate
-                .WithModel(this.productionMeasuresReportFacade.GetFailedPartsReport(requestResource.CitCode, requestResource.PartNumber, requestResource.OrderByDate))
+                .WithModel(this.productionMeasuresReportFacade.GetFailedPartsReport(
+                    requestResource.CitCode, 
+                    requestResource.PartNumber, 
+                    requestResource.OrderByDate,
+                    requestResource.ExcludeLinnProduced,
+                    requestResource.VendorManager))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
