@@ -47,7 +47,8 @@
                                   new AxisDetailsModel("User Name", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Storage Place", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Supplier Id", GridDisplayType.TextValue),
-                                  new AxisDetailsModel("Supplier Name", GridDisplayType.TextValue)
+                                  new AxisDetailsModel("Supplier Name", GridDisplayType.TextValue),
+                                  new AxisDetailsModel("Vendor Manager",  GridDisplayType.TextValue)
                               };
 
             if (!string.IsNullOrEmpty(citCode))
@@ -83,6 +84,7 @@
                 {
                     fails = fails.OrderBy(f => f.DateBooked);
                 }
+
                 if (orderByDate == "DESC")
                 {
                     fails = fails.OrderByDescending(f => f.DateBooked);
@@ -106,6 +108,7 @@
                         true);
                     rowId++;
                 }
+
                 results.Add(result);
             
                 return results;
@@ -200,8 +203,11 @@
                                  new CalculationValueModel { RowId = rowId, ColumnId = "User Name", TextDisplay = fail.CreatedBy },
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Storage Place", TextDisplay = fail.StoragePlace },
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Id", TextDisplay = fail.PreferredSupplierId?.ToString() },
-                                 new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Name", TextDisplay = fail.SupplierName }
+                                 new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Name", TextDisplay = fail.SupplierName },
+                                 new CalculationValueModel { RowId = rowId, ColumnId = "Vendor Manager", TextDisplay = fail.VendorManager }
+
                              };
+
             if (includeCitInRow)
             {
                 models.Add(new CalculationValueModel { RowId = rowId, ColumnId = "CIT", TextDisplay = fail.CitName });

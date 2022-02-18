@@ -34,7 +34,12 @@ const Results = ({ reportData }) => (
 );
 
 function FailedPartsReport({ reportData, loading, fetchReport }) {
-    const [parameters, setParameters] = useState({ partNumber: '', orderByDate: '' });
+    const [parameters, setParameters] = useState({
+        partNumber: '',
+        orderByDate: '',
+        excludeLinnProduced: 'false',
+        vendorManager: ''
+    });
     const handleFieldChange = (propertyName, newValue) => {
         setParameters({ ...parameters, [propertyName]: newValue });
     };
@@ -78,8 +83,26 @@ function FailedPartsReport({ reportData, loading, fetchReport }) {
                                         helperText="leave blank to order by part"
                                         onChange={handleFieldChange}
                                     />
-                                </Grid>{' '}
-                                <Grid item xs={6} />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <Dropdown
+                                        label="Exclude Linn Produced"
+                                        value={parameters.excludeLinnProduced}
+                                        items={['false', 'true']}
+                                        allowNoValue
+                                        propertyName="excludeLinnProduced"
+                                        onChange={handleFieldChange}
+                                    />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <InputField
+                                        label="Vendor Manager"
+                                        value={parameters.vendorManager}
+                                        propertyName="vendorManager"
+                                        onChange={handleFieldChange}
+                                        helperText="T,S,A,C,M,E,B,R,K,D,I,L or O"
+                                    />
+                                </Grid>
                                 <Grid item xs={2}>
                                     <Button
                                         variant="outlined"
