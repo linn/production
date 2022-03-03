@@ -24,7 +24,7 @@
 
         public string GetLocation(PartFailFaultCode faultCode)
         {
-            return $"/production/quality/part-fail-fault-codes/{faultCode.FaultCode}";
+            return $"/production/quality/part-fail-fault-codes/{Uri.EscapeDataString(faultCode.FaultCode)}";
         }
 
         object IResourceBuilder<PartFailFaultCode>.Build(PartFailFaultCode faultCode) => this.Build(faultCode);
