@@ -41,6 +41,7 @@ function TriggersList({ triggers, jobref, citcode }) {
                     <TableCell>Can Build</TableCell>
                     <TableCell>Kanban</TableCell>
                     <TableCell>Being Built</TableCell>
+                    <TableCell>Override Trigger</TableCell>
                     <TableCell>Story</TableCell>
                     <TableCell>Actions</TableCell>
                 </TableRow>
@@ -73,6 +74,7 @@ function TriggersList({ triggers, jobref, citcode }) {
                         </TableCell>
                         <TableCell>{m.kanbanSize}</TableCell>
                         <TableCell>{m.qtyBeingBuilt}</TableCell>
+                        <TableCell>{m.overrideTriggerLevel}</TableCell>
                         <TableCell>
                             {m.story ? (
                                 <NotesPopover id="story" tooltip="Story">

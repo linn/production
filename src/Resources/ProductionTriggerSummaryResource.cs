@@ -37,5 +37,7 @@
         public string Story { get; set; }
 
         public string ReportFormat { get; set; }
+
+        public int? OverrideTriggerLevel { get; set; }
     }
 }
