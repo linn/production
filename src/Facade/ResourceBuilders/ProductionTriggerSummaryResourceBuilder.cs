@@ -30,6 +30,7 @@
                 MaximumKanbans = trigger.MaximumKanbans,
                 ReqtForInternalAndTriggerLevelBT = trigger.ReqtForInternalAndTriggerLevelBT,
                 Story = trigger.Story,
+                OverrideTriggerLevel = trigger.OverrideTriggerLevel,
                 SortOrder = trigger.SortOrder,
                 ReportFormat = trigger.ReportType
             };
