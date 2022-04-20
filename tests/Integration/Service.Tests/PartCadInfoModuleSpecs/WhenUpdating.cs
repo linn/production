@@ -22,7 +22,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.requestResource = new PartResource { PartNumber = "PART", LibraryName = "LIB" } ;
+            this.requestResource = new PartResource { PartNumber = "PART", LibraryName = "LIB" };
 
             var part = new Part { PartNumber = "PART", LibraryName = "LIB" };
 
