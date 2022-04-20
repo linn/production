@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/styles';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import TextField from '@material-ui/core/TextField';
 import {
     Title,
     ErrorCard,
@@ -188,7 +189,13 @@ function WorksOrder({
 
     const handlePartSelect = part => {
         fetchWorksOrderDetails(encodeURIComponent(part.partNumber));
-        setWorksOrder({ ...worksOrder, partNumber: part.partNumber });
+        const message = part.worksOrderMessage ?? null;
+        setWorksOrder({
+            ...worksOrder,
+            partNumber: part.partNumber,
+            partId: part.partId,
+            worksOrderMessage: message
+        });
     };
 
     const handleFieldChange = (propertyName, newValue) => {
@@ -516,6 +523,7 @@ function WorksOrder({
                                         </div>
                                     </Grid>
                                 )}
+
                                 <Grid item xs={7}>
                                     <InputField
                                         fullWidth
@@ -529,6 +537,34 @@ function WorksOrder({
                                     />
                                 </Grid>
                             </>
+
+                            <Grid item xs={8}>
+                                <TextField
+                                    label="Works order message for part"
+                                    value={worksOrder.worksOrderMessage ?? ''}
+                                    disabled
+                                    inputProps={{ style: { color: 'purple' } }}
+                                    InputLabelProps={{ shrink: true }}
+                                    variant="outlined"
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                {/* <Button
+                                    className={classes.printButton}
+                                    onClick={() => {
+                                        window.open(
+                                            `/production/works-orders/messages/${worksOrder.partId}`,
+                                            '_blank'
+                                        );
+                                    }}
+                                    variant="outlined"
+                                    disabled={worksOrder.partNumber.length}
+                                >
+                                    Add/Edit message for part
+                                </Button> */}
+                            </Grid>
+
                             <Grid item xs={4}>
                                 <InputField
                                     fullWidth

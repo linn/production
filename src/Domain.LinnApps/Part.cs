@@ -46,6 +46,8 @@
 
         public IEnumerable<BomDetail> BomDetailsWithThisPart { get; set; }
 
+        public WorksOrderMessage WorksOrderMessage { get; set; }
+
         public bool IsPhantomPart()
         {
             return this.BomType == "P";

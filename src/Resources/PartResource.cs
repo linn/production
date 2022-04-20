@@ -21,5 +21,7 @@
         public string FootprintRef { get; set; }
 
         public string SernosSequence { get; set; }
+
+        public string WorksOrderMessage { get; set; }
     }
 }

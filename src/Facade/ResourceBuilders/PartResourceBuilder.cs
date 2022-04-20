@@ -8,6 +8,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     public class PartResourceBuilder : IResourceBuilder<ResponseModel<Part>>
@@ -33,6 +34,7 @@
                            LibraryName = part.LibraryName,
                            LibraryRef = part.LibraryRef,
                            FootprintRef = part.FootprintRef,
+                           WorksOrderMessage = part.WorksOrderMessage?.Message,
                            Links = this.BuildLinks(model).ToArray()
                        };
         }

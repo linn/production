@@ -1,11 +1,11 @@
 ﻿namespace Linn.Production.Domain.LinnApps.WorksOrders
 {
-    public class WorksOrderLabel
+    public class WorksOrderMessage
     {
-        public int Sequence { get; set; }
-
         public string PartNumber { get; set; }
 
-        public string LabelText { get; set; }
+        public string Message { get; set; }
+
+        public Part Part { get; set; }
     }
 }
