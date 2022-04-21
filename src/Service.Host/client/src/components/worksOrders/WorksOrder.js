@@ -538,7 +538,7 @@ function WorksOrder({
                                 </Grid>
                             </>
 
-                            <Grid item xs={8}>
+                            <Grid item xs={12}>
                                 <TextField
                                     label="Works order message for part"
                                     value={worksOrder.worksOrderMessage ?? ''}
@@ -548,21 +548,6 @@ function WorksOrder({
                                     variant="outlined"
                                     fullWidth
                                 />
-                            </Grid>
-                            <Grid item xs={4}>
-                                {/* <Button
-                                    className={classes.printButton}
-                                    onClick={() => {
-                                        window.open(
-                                            `/production/works-orders/messages/${worksOrder.partId}`,
-                                            '_blank'
-                                        );
-                                    }}
-                                    variant="outlined"
-                                    disabled={worksOrder.partNumber.length}
-                                >
-                                    Add/Edit message for part
-                                </Button> */}
                             </Grid>
 
                             <Grid item xs={4}>
