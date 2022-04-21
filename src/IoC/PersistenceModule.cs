@@ -83,6 +83,7 @@
             builder.RegisterType<SupplierRepository>().As<IRepository<Supplier, int>>();
             builder.RegisterType<CountryRepository>().As<IRepository<Country, string>>();
             builder.RegisterType<BomRepository>().As<IQueryRepository<Bom>>();
+            builder.RegisterType<WorksOrderMessageRepository>().As<IRepository<WorksOrderMessage, string>>();
 
             // linnapps views
             builder.RegisterType<WhoBuiltWhatRepository>().As<IRepository<WhoBuiltWhat, string>>();

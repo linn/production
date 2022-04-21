@@ -6,6 +6,7 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Domain.LinnApps.SerialNumberReissue;
+    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.Triggers;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
@@ -21,18 +22,22 @@
 
         private IRepository<AteTest, int> AteTestRepository { get; set; }
 
+        private IWorksOrderMessageService WorksOrderMessageService { get; set; }
+
+
         [SetUp]
         public void EstablishContext()
         {
             this.ProductionTriggersFacadeService = Substitute.For<IProductionTriggersFacadeService>();
             this.AteTestRepository = Substitute.For<IRepository<AteTest, int>>();
+            this.WorksOrderMessageService = Substitute.For<IWorksOrderMessageService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
                     with.Dependency(this.ProductionTriggersFacadeService);
                     with.Dependency<IResourceBuilder<ProductionTriggersReport>>(new ProductionTriggersReportResourceBuilder());
-                    with.Dependency<IResourceBuilder<ProductionTriggerFacts>>(new ProductionTriggersFactsResourceBuilder());
+                    with.Dependency<IResourceBuilder<ProductionTriggerFacts>>(new ProductionTriggersFactsResourceBuilder(this.WorksOrderMessageService));
                     with.Module<ProductionTriggersModule>();
                     with.ResponseProcessor<ProductionTriggersReportResponseProcessor>();
                     with.ResponseProcessor<ProductionTriggerFactstResponseProcessor>();

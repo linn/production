@@ -5,11 +5,19 @@
 
     using Linn.Common.Facade;
     using Linn.Common.Resources;
+    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     public class WorksOrderResourceBuilder : IResourceBuilder<WorksOrder>
     {
+        private readonly IWorksOrderMessageService worksOrderMessageService;
+
+        public WorksOrderResourceBuilder(IWorksOrderMessageService worksOrderMessageService)
+        {
+            this.worksOrderMessageService = worksOrderMessageService;
+        }
+
         public WorksOrderResource Build(WorksOrder worksOrder)
         {
             return new WorksOrderResource
@@ -24,7 +32,7 @@
                            Outstanding = worksOrder.Outstanding,
                            PartNumber = worksOrder.PartNumber,
                            PartDescription = worksOrder.Part.Description,
-                           WorksOrderMessage = worksOrder.Part.WorksOrderMessage?.Message,
+                           WorksOrderMessage = this.worksOrderMessageService.GetMessage(worksOrder.Part.PartNumber),
                            Quantity = worksOrder.Quantity,
                            QuantityBuilt = worksOrder.QuantityBuilt,
                            QuantityOutstanding = worksOrder.QuantityOutstanding,

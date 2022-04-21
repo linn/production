@@ -45,8 +45,7 @@
 
         public IQueryable<Part> FilterBy(Expression<Func<Part, bool>> expression)
         {
-            return this.serviceDbContext.Parts.Where(expression).Include(p => p.WorksOrderMessage)
-                .AsNoTracking().ToList().AsQueryable();
+            return this.serviceDbContext.Parts.Where(expression).AsNoTracking().ToList().AsQueryable();
         }
     }
 }

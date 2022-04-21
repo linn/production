@@ -7,6 +7,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
@@ -26,12 +27,15 @@
 
         protected IAuthorisationService AuthorisationService { get; private set; }
 
+        private IWorksOrderMessageService WorksOrderMessageService { get; set; }
+
         [SetUp]
         public void EstablishContext()
         {
             this.PartsService = Substitute.For<IFacadeService<Part, string, PartResource, PartResource>>();
             this.PartsRepository = Substitute.For<IRepository<Part, string>>();
             this.AuthorisationService = Substitute.For<IAuthorisationService>();
+            this.WorksOrderMessageService = Substitute.For<IWorksOrderMessageService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
@@ -39,10 +43,10 @@
                     with.Dependency(this.PartsService);
                     with.Dependency(this.PartsRepository);
                     with.Dependency(this.AuthorisationService);
-                    with.Dependency<IResourceBuilder<ResponseModel<Part>>>(
-                        new PartResourceBuilder(this.AuthorisationService));
+                    with.Dependency<IResourceBuilder<ResponseModel<Part>>>(new PartResourceBuilder(this
+                        .AuthorisationService, this.WorksOrderMessageService));
                     with.Dependency<IResourceBuilder<ResponseModel<IEnumerable<Part>>>>(
-                        new PartsResourceBuilder(this.AuthorisationService));
+                        new PartsResourceBuilder(this.AuthorisationService, this.WorksOrderMessageService));
                     with.Module<PartCadInfoModule>();
                     with.ResponseProcessor<PartResponseProcessor>();
                     with.ResponseProcessor<PartsResponseProcessor>();
