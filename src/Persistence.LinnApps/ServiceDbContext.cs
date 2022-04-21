@@ -160,8 +160,6 @@
 
         public DbSet<Bom> Boms { get; set; }
 
-        public DbSet<WorksOrderMessage> WorksOrderMessages { get; set; }
-
         private DbQuery<OsrRunMaster> OsrRunMasterSet { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -766,6 +764,8 @@
             e.Property(p => p.FootprintRef).HasColumnName("FOOTPRINT_REF");
             e.Property(p => p.LibraryRef).HasColumnName("LIBRARY_REF");
             e.Property(p => p.LibraryName).HasColumnName("LIBRARY_NAME");
+            e.HasOne<WorksOrderMessage>(p => p.WorksOrderMessage)
+                .WithOne(m => m.Part).HasForeignKey<Part>(x => x.PartNumber);
         }
 
         private void BuildAssemblyFailFaultCodes(ModelBuilder builder)
@@ -1349,6 +1349,8 @@
             builder.Entity<WorksOrderMessage>().HasKey(b => b.PartNumber);
             builder.Entity<WorksOrderMessage>().Property(b => b.PartNumber).HasColumnName("PART_NUMBER");
             builder.Entity<WorksOrderMessage>().Property(b => b.Message).HasColumnName("MESSAGE");
+            builder.Entity<WorksOrderMessage>().HasOne<Part>(b => b.Part)
+                .WithOne(p => p.WorksOrderMessage).HasForeignKey<WorksOrderMessage>(x => x.PartNumber);
         }
     }
 }

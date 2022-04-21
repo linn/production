@@ -4,18 +4,12 @@
     using System.Linq;
 
     using Linn.Common.Facade;
-    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     public class WorksOrdersResourceBuilder : IResourceBuilder<IEnumerable<WorksOrder>>
     {
-        private readonly WorksOrderResourceBuilder worksOrderResourceBuilder;
-
-        public WorksOrdersResourceBuilder(IWorksOrderMessageService worksOrderMessageService)
-        {
-            this.worksOrderResourceBuilder = new WorksOrderResourceBuilder(worksOrderMessageService);
-        }
+        private readonly WorksOrderResourceBuilder worksOrderResourceBuilder = new WorksOrderResourceBuilder();
 
         public IEnumerable<WorksOrderResource> Build(IEnumerable<WorksOrder> worksOrders)
         {

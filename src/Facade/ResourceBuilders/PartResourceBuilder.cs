@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Facade.ResourceBuilders
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -7,21 +8,16 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Services;
+    using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
 
     public class PartResourceBuilder : IResourceBuilder<ResponseModel<Part>>
     {
         private readonly IAuthorisationService authorisationService;
 
-        private readonly IWorksOrderMessageService worksOrderMessageService;
-
-        public PartResourceBuilder(
-            IAuthorisationService authorisationService,
-            IWorksOrderMessageService worksOrderMessageService)
+        public PartResourceBuilder(IAuthorisationService authorisationService)
         {
             this.authorisationService = authorisationService;
-            this.worksOrderMessageService = worksOrderMessageService;
         }
 
         public PartResource Build(ResponseModel<Part> model)
@@ -38,7 +34,7 @@
                            LibraryName = part.LibraryName,
                            LibraryRef = part.LibraryRef,
                            FootprintRef = part.FootprintRef,
-                           WorksOrderMessage = this.worksOrderMessageService.GetMessage(part.PartNumber),
+                           WorksOrderMessage = part.WorksOrderMessage?.Message,
                            Links = this.BuildLinks(model).ToArray()
                        };
         }
@@ -48,10 +44,7 @@
             return $"/production/maintenance/parts/{model.ResponseData.PartNumber}";
         }
 
-        object IResourceBuilder<ResponseModel<Part>>.Build(ResponseModel<Part> part)
-        {
-            return this.Build(part);
-        }
+        object IResourceBuilder<ResponseModel<Part>>.Build(ResponseModel<Part> part) => this.Build(part);
 
         private IEnumerable<LinkResource> BuildLinks(ResponseModel<Part> model)
         {

@@ -7,16 +7,15 @@
     using Linn.Common.Authorisation;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Resources;
 
     public class PartsResourceBuilder : IResourceBuilder<ResponseModel<IEnumerable<Part>>>
     {
         private readonly PartResourceBuilder partResourceBuilder;
 
-        public PartsResourceBuilder(IAuthorisationService authorisationService, IWorksOrderMessageService worksOrderMessageService)
+        public PartsResourceBuilder(IAuthorisationService authorisationService)
         {
-            this.partResourceBuilder = new PartResourceBuilder(authorisationService, worksOrderMessageService);
+            this.partResourceBuilder = new PartResourceBuilder(authorisationService);
         }
 
         public IEnumerable<PartResource> Build(ResponseModel<IEnumerable<Part>> model)

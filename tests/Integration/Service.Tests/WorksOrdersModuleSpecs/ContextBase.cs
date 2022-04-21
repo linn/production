@@ -7,7 +7,6 @@
     using Linn.Common.Reporting.Models;
     using Linn.Production.Domain.LinnApps.Exceptions;
     using Linn.Production.Domain.LinnApps.RemoteServices;
-    using Linn.Production.Domain.LinnApps.Services;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
@@ -35,8 +34,6 @@
 
         protected IWorksOrderLabelPack WorksOrderLabelPack { get; private set; }
 
-        private IWorksOrderMessageService WorksOrderMessageService { get; set; }
-
         [SetUp]
         public void EstablishContext()
         {
@@ -45,7 +42,6 @@
                 .For<IFacadeService<WorksOrderLabel, WorksOrderLabelKey, WorksOrderLabelResource, WorksOrderLabelResource>>();
             this.WorksOrdersService = Substitute.For<IWorksOrdersService>();
             this.WorksOrderLabelPack = Substitute.For<IWorksOrderLabelPack>();
-            this.WorksOrderMessageService = Substitute.For<IWorksOrderMessageService>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
@@ -55,10 +51,10 @@
                         with.Dependency(this.LabelService);
                         with.Dependency(this.WorksOrderLabelPack);
                         with.Dependency<IResourceBuilder<ResultsModel>>(new ResultsModelResourceBuilder());
-                        with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder(this.WorksOrderMessageService));
+                        with.Dependency<IResourceBuilder<WorksOrder>>(new WorksOrderResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(
-                            new WorksOrdersResourceBuilder(this.WorksOrderMessageService));
-                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(new WorksOrdersResourceBuilder(this.WorksOrderMessageService));
+                            new WorksOrdersResourceBuilder());
+                        with.Dependency<IResourceBuilder<IEnumerable<WorksOrder>>>(new WorksOrdersResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrderPartDetails>>(new WorksOrderPartDetailsResourceBuilder());
                         with.Dependency<IResourceBuilder<WorksOrderLabel>>(new WorksOrderLabelResourceBuilder());
                         with.Dependency<IResourceBuilder<IEnumerable<WorksOrderLabel>>>(new WorksOrderLabelsResourceBuilder());
