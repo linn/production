@@ -45,5 +45,7 @@
         public string BatchNotes { get; set; }
 
         public int QtyTested { get; set; }
+
+        public string WorksOrderMessage { get; set; }
     }
 }

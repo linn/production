@@ -24,6 +24,7 @@
                            Outstanding = worksOrder.Outstanding,
                            PartNumber = worksOrder.PartNumber,
                            PartDescription = worksOrder.Part.Description,
+                           WorksOrderMessage = worksOrder.Part.WorksOrderMessage?.Message,
                            Quantity = worksOrder.Quantity,
                            QuantityBuilt = worksOrder.QuantityBuilt,
                            QuantityOutstanding = worksOrder.QuantityOutstanding,

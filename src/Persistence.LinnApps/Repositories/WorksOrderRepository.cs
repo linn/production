@@ -24,7 +24,9 @@
 
         public WorksOrder FindById(int key)
         {
-            return this.serviceDbContext.WorksOrders.Where(o => o.OrderNumber == key).Include(w => w.Part).ToList().FirstOrDefault();
+            return this.serviceDbContext.WorksOrders.Where(o => o.OrderNumber == key)
+                .Include(w => w.Part).ThenInclude(p => p.WorksOrderMessage)
+                .ToList().FirstOrDefault();
         }
 
         public IQueryable<WorksOrder> FindAll()
