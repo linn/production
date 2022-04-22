@@ -18,10 +18,5 @@
         {
             return this.serviceDbContext.PtlSettings.ToList().FirstOrDefault();
         }
-
-        public void UpdateRecord(PtlSettings newValues)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

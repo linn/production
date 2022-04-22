@@ -18,10 +18,5 @@
         {
             return this.serviceDbContext.OsrRunMaster.ToList().FirstOrDefault();
         }
-
-        public void UpdateRecord(OsrRunMaster newValues)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }
