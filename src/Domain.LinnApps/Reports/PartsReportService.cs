@@ -52,7 +52,7 @@
             var fromDateParse = DateTime.Parse(fromDate);
             var toDateParse = DateTime.Parse(toDate);
 
-            var fails = this.partFailLogRepository.FilterBy(p => p.DateCreated > fromDateParse && p.DateCreated < toDateParse);
+            var fails = this.partFailLogRepository.FilterBy(p => p.DateCreated >= fromDateParse && p.DateCreated <= toDateParse);
 
             var purchaseOrders =
                 this.purchaseOrderRepository.FilterBy(p => fails.Any(f => f.PurchaseOrderNumber == p.OrderNumber));
@@ -94,7 +94,7 @@
             var model = new ResultsModel
                             {
                                 ReportTitle = new NameModel(
-                                    $"Part Fail - Details for dates {fromDateParse.ToShortDateString()} - {toDateParse.ToShortDateString()}")
+                                    $"Part Fail - Details for dates {fromDateParse.ToString("dd/MM/yy")} - {toDateParse.ToString("dd/MM/yy")}")
                             };
 
             var columns = this.ModelColumns();

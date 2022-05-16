@@ -56,7 +56,7 @@
         [Test]
         public void ShouldGetReportTitle()
         {
-            this.result.ReportTitle.DisplayValue.Should().Be("Part Fail - Details for dates 01/10/2019 - 31/10/2019");
+            this.result.ReportTitle.DisplayValue.Should().Be("Part Fail - Details for dates 01/10/19 - 31/10/19");
         }
 
         [Test]
