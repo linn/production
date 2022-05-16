@@ -324,7 +324,7 @@ function TriggerLevel({
                                             <InputField
                                                 value={triggerLevel.overrideTriggerLevel}
                                                 label="Override Trigger Level"
-                                                maxLength={2}
+                                                maxLength={4}
                                                 type="number"
                                                 fullWidth
                                                 onChange={handleResourceFieldChange}

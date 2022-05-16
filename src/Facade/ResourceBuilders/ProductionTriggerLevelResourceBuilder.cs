@@ -18,6 +18,7 @@
         {
             this.authorisationService = authorisationService;
         }
+
         public ProductionTriggerLevelResource Build(ResponseModel<ProductionTriggerLevel> model)
         {
             return new ProductionTriggerLevelResource
