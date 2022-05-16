@@ -4,9 +4,9 @@
     {
         public int? SupplierId { get; set; }
 
-        public string FromWeek { get; set; }
+        public string FromDate { get; set; }
 
-        public string ToWeek { get; set; }
+        public string ToDate { get; set; }
 
         public string ErrorType { get; set; }
 

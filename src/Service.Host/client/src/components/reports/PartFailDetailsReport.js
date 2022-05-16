@@ -12,7 +12,7 @@ import moment from 'moment';
 import Page from '../../containers/Page';
 
 export default function PartFailDetailsReport({ reportData, config, loading, options, error }) {
-    const href = `${config.appRoot}/production/quality/part-fails/detail-report/report/export?errorType=${options.errorType}&fromWeek=${options.fromWeek}&toWeek=${options.toWeek}&faultCode=${options.faultCode}&partNumber=${options.partNumber}&department=${options.department}`;
+    const href = `${config.appRoot}/production/quality/part-fails/detail-report/report/export?errorType=${options.errorType}&fromDate=${options.fromDate}&toDate=${options.toDate}&faultCode=${options.faultCode}&partNumber=${options.partNumber}&department=${options.department}`;
 
     return (
         <Page width="xl">
@@ -29,8 +29,8 @@ export default function PartFailDetailsReport({ reportData, config, loading, opt
                     <Typography variant="subtitle2">
                         Options - Error Type: {options.errorType}, Fault Code: {options.faultCode},
                         Part Number: {options.partNumber}, From:{' '}
-                        {moment(options.fromWeek).format('DD-MMM-YYYY')}, To:{' '}
-                        {moment(options.toWeek).format('DD-MMM-YYYY')}
+                        {moment(options.fromDate).format('DD-MMM-YYYY')}, To:{' '}
+                        {moment(options.toDate).format('DD-MMM-YYYY')}
                     </Typography>
                 </Grid>
                 <Grid item xs={12}>
@@ -59,8 +59,8 @@ PartFailDetailsReport.propTypes = {
         daysMethod: PropTypes.string,
         errorType: PropTypes.string,
         partNumber: PropTypes.string,
-        fromWeek: PropTypes.string,
-        toWeek: PropTypes.string,
+        fromDate: PropTypes.string,
+        toDate: PropTypes.string,
         faultCode: PropTypes.string,
         department: PropTypes.string
     }),

@@ -219,8 +219,8 @@
             var resource = this.Bind<PartFailDetailsReportRequestResource>();
             var results = this.partsReportFacadeService.GetPartFailDetailsReport(
                 resource.SupplierId,
-                resource.FromWeek,
-                resource.ToWeek,
+                resource.FromDate,
+                resource.ToDate,
                 resource.ErrorType,
                 resource.FaultCode,
                 resource.PartNumber,
@@ -239,8 +239,8 @@
                 .WithModel(
                     this.partsReportFacadeService.GetPartFailDetailsReportCsv(
                         resource.SupplierId,
-                        resource.FromWeek,
-                        resource.ToWeek,
+                        resource.FromDate,
+                        resource.ToDate,
                         resource.ErrorType,
                         resource.FaultCode,
                         resource.PartNumber,

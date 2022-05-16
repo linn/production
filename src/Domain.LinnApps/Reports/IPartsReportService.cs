@@ -6,8 +6,8 @@
     {
         ResultsModel PartFailDetailsReport(
             int? supplierId,
-            string fromWeek,
-            string toWeek,
+            string fromDate,
+            string toDate,
             string errorType,
             string faultCode,
             string partNumber,

@@ -9,8 +9,8 @@
     {
         IResult<ResultsModel> GetPartFailDetailsReport(
             int? supplierId,
-            string fromWeek,
-            string toWeek,
+            string fromDate,
+            string toDate,
             string errorType,
             string faultCode,
             string partNumber,
@@ -18,8 +18,8 @@
 
         IResult<IEnumerable<IEnumerable<string>>> GetPartFailDetailsReportCsv(
             int? supplierId,
-            string fromWeek,
-            string toWeek,
+            string fromDate,
+            string toDate,
             string errorType,
             string faultCode,
             string partNumber,

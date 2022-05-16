@@ -32,10 +32,6 @@
             this.PartFailLogRepository.FilterBy(Arg.Any<Expression<Func<PartFail, bool>>>())
                 .Returns(this.PartFailLogs.AsQueryable());
 
-            this.LinnWeekPack.Wwsyy(DateTime.Parse(this.fromDate)).Returns("12/3");
-
-            this.LinnWeekPack.Wwsyy(DateTime.Parse(this.toDate)).Returns("32/1");
-
             this.result = this.Sut.PartFailDetailsReport(null, this.fromDate, this.toDate, "All", "All", "All", "All");
         }
 
@@ -60,7 +56,7 @@
         [Test]
         public void ShouldGetReportTitle()
         {
-            this.result.ReportTitle.DisplayValue.Should().Be("Part Fail - Details for weeks 12/3 - 32/1");
+            this.result.ReportTitle.DisplayValue.Should().Be("Part Fail - Details for dates 01/10/19 - 31/10/19");
         }
 
         [Test]

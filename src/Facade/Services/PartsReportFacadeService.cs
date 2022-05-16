@@ -18,8 +18,8 @@
 
         public IResult<ResultsModel> GetPartFailDetailsReport(
             int? supplierId,
-            string fromWeek,
-            string toWeek,
+            string fromDate,
+            string toDate,
             string errorType,
             string faultCode,
             string partNumber,
@@ -28,8 +28,8 @@
             return new SuccessResult<ResultsModel>(
                 this.partsReportService.PartFailDetailsReport(
                     supplierId,
-                    fromWeek,
-                    toWeek,
+                    fromDate,
+                    toDate,
                     errorType,
                     faultCode,
                     partNumber,
@@ -38,8 +38,8 @@
 
         public IResult<IEnumerable<IEnumerable<string>>> GetPartFailDetailsReportCsv(
             int? supplierId,
-            string fromWeek,
-            string toWeek,
+            string fromDate,
+            string toDate,
             string errorType,
             string faultCode,
             string partNumber,
@@ -47,8 +47,8 @@
         {
             var results = this.partsReportService.PartFailDetailsReport(
                 supplierId,
-                fromWeek,
-                toWeek,
+                fromDate,
+                toDate,
                 errorType,
                 faultCode,
                 partNumber,
