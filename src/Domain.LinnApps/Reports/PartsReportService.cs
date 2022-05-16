@@ -42,17 +42,17 @@
 
         public ResultsModel PartFailDetailsReport(
             int? supplierId,
-            string fromWeek,
-            string toWeek,
+            string fromDate,
+            string toDate,
             string errorType,
             string faultCode,
             string partNumber,
             string department)
         {
-            var fromDate = DateTime.Parse(fromWeek);
-            var toDate = DateTime.Parse(toWeek);
+            var fromDateParse = DateTime.Parse(fromDate);
+            var toDateParse = DateTime.Parse(toDate);
 
-            var fails = this.partFailLogRepository.FilterBy(p => p.DateCreated > fromDate && p.DateCreated < toDate);
+            var fails = this.partFailLogRepository.FilterBy(p => p.DateCreated > fromDateParse && p.DateCreated < toDateParse);
 
             var purchaseOrders =
                 this.purchaseOrderRepository.FilterBy(p => fails.Any(f => f.PurchaseOrderNumber == p.OrderNumber));
@@ -94,7 +94,7 @@
             var model = new ResultsModel
                             {
                                 ReportTitle = new NameModel(
-                                    $"Part Fail - Details for weeks {this.linnWeekPack.Wwsyy(fromDate)} - {this.linnWeekPack.Wwsyy(toDate)}")
+                                    $"Part Fail - Details for dates {fromDateParse.ToShortDateString()} - {toDateParse.ToShortDateString()}")
                             };
 
             var columns = this.ModelColumns();

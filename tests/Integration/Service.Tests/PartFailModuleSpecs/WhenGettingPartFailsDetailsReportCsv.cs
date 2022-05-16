@@ -26,8 +26,8 @@
                     {
                         with.Header("Accept", "text/csv");
                         with.Query("supplierId", "123");
-                        with.Query("fromWeek", "fw");
-                        with.Query("toWeek", "tw");
+                        with.Query("fromDate", "fw");
+                        with.Query("toDate", "tw");
                         with.Query("errorType", "et");
                         with.Query("faultCode", "fc");
                         with.Query("partNumber", "pn");

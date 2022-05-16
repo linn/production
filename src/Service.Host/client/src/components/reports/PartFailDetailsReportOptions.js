@@ -6,16 +6,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import {
+    DatePicker,
     Dropdown,
     Title,
     Loading,
     InputField,
-    TypeaheadDialog,
-    LinnWeekPicker
+    TypeaheadDialog
 } from '@linn-it/linn-form-components-library';
 import { makeStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import Page from '../../containers/Page';
 
 const useStyles = makeStyles(theme => ({
@@ -23,16 +22,6 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(2)
     }
 }));
-
-const getWeekStartDate = date => {
-    if (date.day() === 6) {
-        return date.clone().endOf('week');
-    }
-    return date
-        .clone()
-        .startOf('week')
-        .subtract(1, 'days');
-};
 
 export default function PartFailDetailsReportOptions({
     history,
@@ -56,8 +45,8 @@ export default function PartFailDetailsReportOptions({
 
     const [reportOptions, setReportOptions] = useState({
         supplierId: 'All',
-        fromWeek: getWeekStartDate(moment().subtract(10, 'weeks')),
-        toWeek: getWeekStartDate(moment()),
+        fromDate: new Date(),
+        toDate: new Date(),
         errorType: 'All',
         faultCode: 'All',
         partNumber: 'All',
@@ -138,10 +127,10 @@ export default function PartFailDetailsReportOptions({
     };
 
     const handleRunClick = () => {
-        const fromString = reportOptions.fromWeek.toISOString();
-        const toString = reportOptions.toWeek.toISOString();
+        const fromString = reportOptions.fromDate.toISOString();
+        const toString = reportOptions.toDate.toISOString();
 
-        const searchString = `?errorType=${reportOptions.errorType}&fromWeek=${fromString}&toWeek=${toString}&faultCode=${reportOptions.faultCode}&partNumber=${reportOptions.partNumber}&department=${reportOptions.department}`;
+        const searchString = `?errorType=${reportOptions.errorType}&fromDate=${fromString}&toDate=${toString}&faultCode=${reportOptions.faultCode}&partNumber=${reportOptions.partNumber}&department=${reportOptions.department}`;
 
         history.push({
             pathname: '/production/quality/part-fails/detail-report/report',
@@ -164,21 +153,20 @@ export default function PartFailDetailsReportOptions({
             ) : (
                 <Grid style={{ marginTop: 40 }} container spacing={3} justify="center">
                     <Grid item xs={4}>
-                        <LinnWeekPicker
-                            selectedDate={reportOptions.fromWeek}
-                            setWeekStartDate={handleFieldChange}
-                            propertyName="fromWeek"
-                            label="From Week Starting"
+                        <DatePicker
+                            label="From Date"
+                            value={reportOptions.fromDate.toString()}
+                            onChange={value => handleFieldChange('fromDate', value)}
                             required={false}
                         />
                     </Grid>
                     <Grid item xs={8} />
                     <Grid item xs={4}>
-                        <LinnWeekPicker
-                            selectedDate={reportOptions.toWeek}
-                            setWeekStartDate={handleFieldChange}
-                            propertyName="toWeek"
-                            label="To Week Starting"
+                        <DatePicker
+                            label="To Date"
+                            value={reportOptions.toDate.toString()}
+                            onChange={value => handleFieldChange('toDate', value)}
+                            required={false}
                         />
                     </Grid>
                     <Grid item xs={8} />
@@ -294,6 +282,7 @@ export default function PartFailDetailsReportOptions({
                             variant="contained"
                             style={{ float: 'right' }}
                             onClick={handleRunClick}
+                            disabled={!reportOptions.fromDate && !reportOptions.toDate}
                         >
                             Run Report
                         </Button>
