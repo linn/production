@@ -32,7 +32,7 @@
                     });
 
             cmd.Parameters.Add(
-                new OracleParameter("p_part_number", OracleDbType.Varchar2)
+                new OracleParameter("p_printer_group", OracleDbType.Varchar2)
                     {
                         Direction = ParameterDirection.Input,
                         Size = 2000,
