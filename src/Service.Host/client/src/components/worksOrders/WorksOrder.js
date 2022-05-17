@@ -158,7 +158,7 @@ function WorksOrder({
     }, [employees, worksOrder]);
 
     useEffect(() => {
-        setPrinterGroup(defaultWorksOrderPrinter || 'Prod');
+        setPrinterGroup(defaultWorksOrderPrinter?.item || 'Prod');
     }, [defaultWorksOrderPrinter]);
 
     useEffect(() => {
@@ -214,7 +214,10 @@ function WorksOrder({
     const handleFieldChange = (propertyName, newValue) => {
         if (propertyName === 'printer') {
             setPrinterGroup(newValue);
-            setDefaultWorksOrderPrinter(newValue);
+            if (newValue !== 'ProdClear') {
+                setDefaultWorksOrderPrinter(newValue);
+            }
+
             return;
         }
 
