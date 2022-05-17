@@ -92,7 +92,16 @@ function WorksOrder({
     const [dialogOpen, setDialogOpen] = useState(false);
     const [cancelClicked, setCancelClicked] = useState(false);
 
-    const printerGroups = ['Prod', 'DSM', 'Flexible', 'Kiko', 'LP12', 'Metalwork', 'SpeakerCover'];
+    const printerGroups = [
+        'Prod',
+        'DSM',
+        'Flexible',
+        'Kiko',
+        'LP12',
+        'Metalwork',
+        'SpeakerCover',
+        'ProdClear'
+    ];
 
     useSearch(fetchWorksOrder, searchTerm, null);
 
@@ -147,6 +156,10 @@ function WorksOrder({
             }
         }
     }, [employees, worksOrder]);
+
+    useEffect(() => {
+        setPrinterGroup(defaultWorksOrderPrinter || 'Prod');
+    }, [defaultWorksOrderPrinter]);
 
     useEffect(() => {
         if (creating() && worksOrderDetails) {
@@ -446,7 +459,7 @@ function WorksOrder({
                                             fullWidth
                                             items={printerGroups}
                                             label="Label Printer Group"
-                                            value={defaultWorksOrderPrinter || 'Prod'}
+                                            value={printerGroup || 'Prod'}
                                             onChange={handleFieldChange}
                                             propertyName="printer"
                                             allowNoValue
