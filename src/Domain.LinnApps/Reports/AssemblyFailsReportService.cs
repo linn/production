@@ -192,6 +192,7 @@
                         new AxisDetailsModel("Week", GridDisplayType.TextValue),
                         new AxisDetailsModel("Date Found", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("PartNumber", "Part Number", GridDisplayType.TextValue) { AllowWrap = false },
+                        new AxisDetailsModel("SerialNumber", "Serial", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("BoardPartNumber", "Board Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("Fails", GridDisplayType.TextValue),
                         new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number", GridDisplayType.TextValue) { AllowWrap = false },
@@ -293,6 +294,13 @@
             IEnumerable<LinnWeek> weeks)
         {
             this.ExtractDetails(values, assemblyFail, weeks);
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "SerialNumber",
+                        TextDisplay = assemblyFail.SerialNumber.ToString()
+                    });
             values.Add(
                 new CalculationValueModel
                     {
