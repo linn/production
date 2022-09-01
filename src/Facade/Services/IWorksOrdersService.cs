@@ -5,8 +5,9 @@
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
 
-    public interface IWorksOrdersService : IFacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>
+    public interface IWorksOrdersService : IFacadeFilterService<WorksOrder, int, WorksOrderResource, WorksOrderResource, WorksOrderRequestResource>
     {
         IResult<WorksOrder> AddWorksOrder(WorksOrderResource resource);
 

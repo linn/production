@@ -75,9 +75,9 @@
 
         private object GetWorksOrders()
         {
-            var resource = this.Bind<SearchRequestResource>();
+            var resource = this.Bind<WorksOrderRequestResource>();
 
-            var worksOrders = this.worksOrdersService.Search(resource.SearchTerm);
+            var worksOrders = this.worksOrdersService.FilterBy(resource);
 
             return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
@@ -172,9 +172,9 @@
         private object GetWorksOrdersForPart()
         {
             var resource = this.Bind<SearchRequestResource>();
-            
+
             var worksOrders = this.worksOrdersService.SearchByBoardNumber(
-                resource.SearchTerm, 
+                resource.SearchTerm,
                 resource.Limit,
                 resource.OrderByDesc);
 
@@ -207,7 +207,7 @@
                     new WorksOrderLabelKey
                         {
                             Sequence = resource.Sequence, PartNumber = resource.PartNumber
-                        }, 
+                        },
                     resource);
             return this.Negotiate.WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get).WithView("Index");

@@ -11,8 +11,9 @@
     using Linn.Production.Domain.LinnApps.WorksOrders;
     using Linn.Production.Facade.Extensions;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
 
-    public class WorksOrdersService : FacadeService<WorksOrder, int, WorksOrderResource, WorksOrderResource>, IWorksOrdersService
+    public class WorksOrdersService : FacadeFilterService<WorksOrder, int, WorksOrderResource, WorksOrderResource, WorksOrderRequestResource>, IWorksOrdersService
     {
         private readonly IRepository<WorksOrder, int> worksOrderRepository;
 
@@ -25,7 +26,7 @@
         public WorksOrdersService(
             IRepository<WorksOrder, int> worksOrderRepository,
             ITransactionManager transactionManager,
-            IWorksOrderFactory worksOrderFactory, 
+            IWorksOrderFactory worksOrderFactory,
             IWorksOrderUtilities worksOrderUtilities)
             : base(worksOrderRepository, transactionManager)
         {
@@ -170,15 +171,29 @@
         protected override void UpdateFromResource(WorksOrder worksOrder, WorksOrderResource updateResource)
         {
             worksOrder.UpdateWorksOrder(
-                updateResource.Quantity, 
-                updateResource.BatchNotes, 
-                updateResource.CancelledBy, 
+                updateResource.Quantity,
+                updateResource.BatchNotes,
+                updateResource.CancelledBy,
                 updateResource.ReasonCancelled);
         }
 
         protected override Expression<Func<WorksOrder, bool>> SearchExpression(string searchTerm)
         {
+            throw new NotImplementedException();
             return w => w.OrderNumber.ToString().Equals(searchTerm);
+        }
+
+        protected override Expression<Func<WorksOrder, bool>> FilterExpression(WorksOrderRequestResource searchResource)
+        {
+            return w =>
+                (string.IsNullOrWhiteSpace(searchResource.SearchTerm)
+                 || w.OrderNumber.ToString().Equals(searchResource.SearchTerm))
+                && (string.IsNullOrWhiteSpace(searchResource.FromDate)
+                    || w.DateRaised >= DateTime.Parse(searchResource.FromDate))
+                && (string.IsNullOrWhiteSpace(searchResource.ToDate)
+                    || w.DateRaised <= DateTime.Parse(searchResource.ToDate))
+                && (string.IsNullOrWhiteSpace(searchResource.PartNumber)
+                    || w.PartNumber.ToString().Equals(searchResource.PartNumber));
         }
     }
 }

@@ -87,6 +87,9 @@ function WorksOrder({
     const [prevWorksOrder, setPrevWorksOrder] = useState({});
     const [raisedByEmployee, setRaisedByEmployee] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchFromDate, setSearchFromDate] = useState(moment(new Date()).add(-1, 'month'));
+    const [searchToDate, setSearchToDate] = useState();
+    const [searchPartNumber, setSearchPartNumber] = useState();
     const [printerGroup, setPrinterGroup] = useState('Prod');
     const [viewSernos, setViewsernos] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
@@ -103,7 +106,12 @@ function WorksOrder({
         'ProdClear'
     ];
 
-    useSearch(fetchWorksOrder, searchTerm, null);
+    useSearch(
+        fetchWorksOrder,
+        searchTerm,
+        null,
+        `&fromDate=${searchFromDate}&toDate=${searchToDate}&partNumber=${searchPartNumber}`
+    );
 
     const creating = useCallback(() => editStatus === 'create', [editStatus]);
     const viewing = () => editStatus === 'view';
@@ -416,7 +424,7 @@ function WorksOrder({
                 )}
                 {!creating() && (
                     <>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <SearchInputField
                                 label="Search for Order Number"
                                 fullWidth
@@ -427,7 +435,30 @@ function WorksOrder({
                                 value={searchTerm}
                             />
                         </Grid>
-                        <Grid item xs={8} />
+                        <Grid item xs={3}>
+                            <SearchInputField
+                                label="Search for Part Number"
+                                fullWidth
+                                placeHolder="Part Number"
+                                onChange={value => setSearchPartNumber(value)}
+                                propertyName="searchPartNumber"
+                                value={searchPartNumber}
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <DatePicker
+                                value={searchFromDate}
+                                label="From Date"
+                                onChange={value => setSearchFromDate(value)}
+                            />
+                        </Grid>
+                        <Grid item xs={3}>
+                            <DatePicker
+                                value={searchToDate}
+                                label="From Date"
+                                onChange={value => setSearchToDate(value)}
+                            />
+                        </Grid>
                     </>
                 )}
                 {loading || employeesLoading ? (
