@@ -416,7 +416,7 @@ function WorksOrder({
                 )}
                 {!creating() && (
                     <>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                             <SearchInputField
                                 label="Search for Order Number"
                                 fullWidth
@@ -427,7 +427,19 @@ function WorksOrder({
                                 value={searchTerm}
                             />
                         </Grid>
-                        <Grid item xs={8} />
+                        <Grid item xs={3}>
+                            <></>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Button
+                                className={classes.printButton}
+                                onClick={() => history.push('/production/works-orders-search')}
+                                variant="outlined"
+                                color="primary"
+                            >
+                                Search by part number or date
+                            </Button>
+                        </Grid>
                     </>
                 )}
                 {loading || employeesLoading ? (
