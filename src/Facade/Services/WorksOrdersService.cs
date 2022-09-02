@@ -179,7 +179,6 @@
 
         protected override Expression<Func<WorksOrder, bool>> SearchExpression(string searchTerm)
         {
-            throw new NotImplementedException();
             return w => w.OrderNumber.ToString().Equals(searchTerm);
         }
 
@@ -193,7 +192,7 @@
                 && (string.IsNullOrWhiteSpace(searchResource.ToDate)
                     || w.DateRaised <= DateTime.Parse(searchResource.ToDate))
                 && (string.IsNullOrWhiteSpace(searchResource.PartNumber)
-                    || w.PartNumber.ToString().Equals(searchResource.PartNumber));
+                    || w.PartNumber.ToString().ToUpper().Equals(searchResource.PartNumber.ToUpper()));
         }
     }
 }

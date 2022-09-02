@@ -114,6 +114,7 @@ import DaysRequiredReport from '../containers/reports/DaysRequiredReport';
 import manufacturingTimingsReport from '../containers/manufacturingTimings/TimingsReport';
 import manufacturingTimingsSetup from '../containers/manufacturingTimings/TimingsSetup';
 import PartCadInfo from '../containers/partCadInfo/PartCadInfo';
+import SearchWorksOrders from '../containers/worksOrders/SearchWorksOrders';
 
 const Root = ({ store }) => (
     <div>
@@ -171,6 +172,11 @@ const Root = ({ store }) => (
                                         exact
                                         path="/production/works-orders"
                                         component={WorksOrder}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/works-orders-search"
+                                        component={SearchWorksOrders}
                                     />
                                     <Route
                                         exact

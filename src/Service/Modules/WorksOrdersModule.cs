@@ -44,7 +44,7 @@
             this.Put("/production/works-orders/labels/{seq}/{part*}", _ => this.UpdateWorksOrderLabel());
             this.Post("production/works-orders/labels", _ => this.AddWorksOrderLabel());
             this.Get("/production/works-orders/labels", _ => this.GetWorksOrderLabelsForPart());
-            this.Get("/production/works-orders/batch-notes", _ => this.GetWorksOrderBatchNotes());
+            this.Get("/production/works-orders/batch-notes", _ => this.GetApp());
             this.Get("/production/works-orders/labels/{seq}/{part*}", parameters => this.GetWorksOrderLabel(parameters.part, parameters.seq));
             this.Get("/production/works-orders/{orderNumber}", parameters => this.GetWorksOrder(parameters.orderNumber));
             this.Post("/production/works-orders", _ => this.AddWorksOrder());
@@ -60,9 +60,10 @@
             this.Get("/production/works-orders/outstanding-works-orders-report", _ => this.GetOutstandingWorksOrdersReport());
             this.Get("/production/works-orders/outstanding-works-orders-report/export", _ => this.GetOutstandingWorksOrdersReportExport());
             this.Get("/production/works-orders-for-part", _ => this.GetWorksOrdersForPart());
+            this.Get("/production/works-orders-search", _ => this.GetApp());
         }
 
-        private object GetWorksOrderBatchNotes()
+        private object GetApp()
         {
             return this.Negotiate.WithModel(ApplicationSettings.Get()).WithView("Index");
         }
@@ -76,11 +77,19 @@
         private object GetWorksOrders()
         {
             var resource = this.Bind<WorksOrderRequestResource>();
-
-            var worksOrders = this.worksOrdersService.FilterBy(resource);
-
-            return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
-                .WithView("Index");
+            if (string.IsNullOrWhiteSpace(resource.PartNumber) && string.IsNullOrWhiteSpace(resource.FromDate)
+                                                               && string.IsNullOrWhiteSpace(resource.ToDate))
+            {
+                var worksOrders = this.worksOrdersService.Search(resource.SearchTerm);
+                return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
+            else
+            {
+                var worksOrders = this.worksOrdersService.FilterBy(resource);
+                return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
         }
 
         private object UpdateWorksOrder()
