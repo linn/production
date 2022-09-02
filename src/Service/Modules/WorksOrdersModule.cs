@@ -77,16 +77,25 @@
         private object GetWorksOrders()
         {
             var resource = this.Bind<WorksOrderRequestResource>();
-            if (string.IsNullOrWhiteSpace(resource.PartNumber) && string.IsNullOrWhiteSpace(resource.FromDate)
-                                                               && string.IsNullOrWhiteSpace(resource.ToDate))
+            bool searchTermsEmpty = string.IsNullOrWhiteSpace(resource.PartNumber)
+                                   && string.IsNullOrWhiteSpace(resource.FromDate)
+                                   && string.IsNullOrWhiteSpace(resource.ToDate);
+
+            if (searchTermsEmpty && !string.IsNullOrWhiteSpace(resource.SearchTerm))
             {
                 var worksOrders = this.worksOrdersService.Search(resource.SearchTerm);
                 return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                     .WithView("Index");
             }
-            else
+            else if (!searchTermsEmpty)
             {
                 var worksOrders = this.worksOrdersService.FilterBy(resource);
+                return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                    .WithView("Index");
+            }
+            else
+            {
+                var worksOrders = this.worksOrdersService.Search(string.Empty);
                 return this.Negotiate.WithModel(worksOrders).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                     .WithView("Index");
             }
