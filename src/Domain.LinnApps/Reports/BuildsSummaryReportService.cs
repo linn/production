@@ -42,7 +42,7 @@
                 values.Add(
                     new CalculationValueModel
                         {
-                            RowId = rowId.ToString(), TextDisplay = summary.WeekEnd.ToShortDateString(), ColumnId = "WeekEnd"
+                            RowId = rowId.ToString(), TextDisplay = summary.WeekEnd.ToString("dd-MMM-yyyy"), ColumnId = "WeekEnd"
                         });
                 values.Add(new CalculationValueModel { RowId = rowId.ToString(), TextDisplay = summary.DepartmentDescription, ColumnId = "Department" });
                 values.Add(new CalculationValueModel { RowId = rowId.ToString(), Value = summary.Value, ColumnId = "Value" });

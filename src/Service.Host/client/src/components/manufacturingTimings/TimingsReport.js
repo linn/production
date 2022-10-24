@@ -67,7 +67,7 @@ function TimingsReport({ reportData, loading, config, itemError, options }) {
 }
 
 TimingsReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.shape({ displayString: PropTypes.string }) }),
     config: PropTypes.shape({ appRoot: PropTypes.string.isRequired }).isRequired,
     loading: PropTypes.bool,
     itemError: PropTypes.shape({

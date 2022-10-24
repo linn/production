@@ -173,7 +173,8 @@ AteFaultCode.propTypes = {
         status: PropTypes.number,
         statusText: PropTypes.string,
         details: PropTypes.shape({}),
-        item: PropTypes.string
+        item: PropTypes.string,
+        faultCode: PropTypes.string
     }),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,

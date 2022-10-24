@@ -147,10 +147,12 @@ ProductionTriggers.propTypes = {
     }),
     loading: PropTypes.bool,
     config: PropTypes.shape({}),
-    cits: PropTypes.arrayOf(PropTypes.shape({})),
+    cits: PropTypes.arrayOf(PropTypes.shape({ appRoot: PropTypes.string })),
     fetchTriggers: PropTypes.func.isRequired,
     history: PropTypes.shape({ push: PropTypes.func }),
-    itemError: PropTypes.shape({ details: PropTypes.shape({}) })
+    itemError: PropTypes.shape({
+        details: PropTypes.shape({ message: PropTypes.string })
+    })
 };
 
 ProductionTriggers.defaultProps = {

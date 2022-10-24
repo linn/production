@@ -36,7 +36,7 @@
                     g => ((DateTime)g.First().ItemArray[4])).Distinct().OrderBy(w => w).ToList();
 
             var colHeaders = new List<string> { "Part Number" };
-            colHeaders.AddRange(weeks.Select(w => w.ToShortDateString()));
+            colHeaders.AddRange(weeks.Select(w => w.ToString("dd-MMM-yyyy")));
             colHeaders.Add("Total");
 
             var results = new ResultsModel(colHeaders)
@@ -56,13 +56,13 @@
                 for (var i = 0; i < weeks.Count; i++)
                 {
                     var valueExistsThisWeek = partGroup.FirstOrDefault(g =>
-                                          ((DateTime)g.ItemArray[4]).ToShortDateString()
-                                          == weeks.ElementAt(i).ToShortDateString()) != null;
+                                          ((DateTime)g.ItemArray[4]).ToString("dd-MMM-yyyy")
+                                          == weeks.ElementAt(i).ToString("dd-MMM-yyyy")) != null;
 
                     var val = valueExistsThisWeek
                                   ? ConvertFromDbVal<decimal>(
                                       partGroup.FirstOrDefault(
-                                          g => ((DateTime)g.ItemArray[4]).ToShortDateString() == weeks.ElementAt(i).ToShortDateString())
+                                          g => ((DateTime)g.ItemArray[4]).ToString("dd-MMM-yyyy") == weeks.ElementAt(i).ToString("dd-MMM-yyyy"))
                                           ?.ItemArray[quantityOrValue == "Mins" ? 6 : 5])
                                   : new decimal(0);
 
@@ -75,8 +75,8 @@
                     }
 
                     var itemArray = partGroup.First(
-                                g => ((DateTime)g.ItemArray[4]).ToShortDateString()
-                                     == weeks.ElementAt(i).ToShortDateString())
+                                g => ((DateTime)g.ItemArray[4]).ToString("dd-MMM-yyyy")
+                                     == weeks.ElementAt(i).ToString("dd-MMM-yyyy"))
                             ?.ItemArray;
                         {
                             if (itemArray != null)

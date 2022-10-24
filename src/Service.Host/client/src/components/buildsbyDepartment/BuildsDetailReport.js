@@ -50,7 +50,7 @@ function BuildsDetailReport({ reportData, loading, config, errorMessage, options
 }
 
 BuildsDetailReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.shape({ displayString: PropTypes.string }) }),
     options: PropTypes.shape({
         fromDate: PropTypes.string,
         toDate: PropTypes.string,

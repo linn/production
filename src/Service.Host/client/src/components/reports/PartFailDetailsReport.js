@@ -53,7 +53,7 @@ export default function PartFailDetailsReport({ reportData, config, loading, opt
 }
 
 PartFailDetailsReport.propTypes = {
-    reportData: PropTypes.shape({}),
+    reportData: PropTypes.shape({ title: PropTypes.shape({ displayString: PropTypes.string }) }),
     config: PropTypes.shape({ appRoot: PropTypes.string }).isRequired,
     options: PropTypes.shape({
         daysMethod: PropTypes.string,
