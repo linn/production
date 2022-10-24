@@ -177,7 +177,7 @@ PtlSettings.propTypes = {
     item: PropTypes.shape({}),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    itemError: PropTypes.shape({}),
+    itemError: PropTypes.shape({ statusText: PropTypes.string }),
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,
     loading: PropTypes.bool,

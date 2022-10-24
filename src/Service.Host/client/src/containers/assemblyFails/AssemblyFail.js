@@ -5,7 +5,6 @@ import assemblyFailActions from '../../actions/assemblyFailActions';
 import assemblyFailSelectors from '../../selectors/assemblyFailSelectors';
 import worksOrdersSelectors from '../../selectors/worksOrdersSelectors';
 import worksOrdersActions from '../../actions/worksOrdersActions';
-import productionTriggerLevelsSelectors from '../../selectors/productionTriggerLevelsSelectors';
 import pcasRevisionsActions from '../../actions/pcasRevisionsActions';
 import pcasRevisionsSelectors from '../../selectors/pcasRevisionsSelectors';
 import citsActions from '../../actions/citsActions';

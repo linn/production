@@ -4,7 +4,7 @@ import WorksOrderSearch from '../../components/worksOrders/WorksOrderSearch';
 import worksOrdersActions from '../../actions/worksOrdersActions';
 import worksOrdersSelectors from '../../selectors/worksOrdersSelectors';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
     searchItems: worksOrdersSelectors
         .getSearchItems(state)
         .map(w => ({ ...w, id: w.orderNumber, name: w.orderNumber })),

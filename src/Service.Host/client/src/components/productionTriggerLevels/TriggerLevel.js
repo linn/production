@@ -519,7 +519,7 @@ TriggerLevel.propTypes = {
     }),
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     editStatus: PropTypes.string.isRequired,
-    itemErrors: PropTypes.shape({}),
+    itemErrors: PropTypes.shape({ statusText: PropTypes.string }),
     itemId: PropTypes.string,
     snackbarVisible: PropTypes.bool,
     updateItem: PropTypes.func,

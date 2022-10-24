@@ -47,7 +47,9 @@ BuildsSummaryReport.propTypes = {
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,
     reportData: PropTypes.shape({ title: PropTypes.shape({}) }),
     loading: PropTypes.bool,
-    itemError: PropTypes.shape({ details: PropTypes.shape({}) })
+    itemError: PropTypes.shape({
+        details: PropTypes.shape({ message: PropTypes.string })
+    })
 };
 
 BuildsSummaryReport.defaultProps = {

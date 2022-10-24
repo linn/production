@@ -40,7 +40,7 @@ ProductionMeasures.propTypes = {
     citsData: PropTypes.arrayOf(PropTypes.shape({})),
     infoData: PropTypes.shape({}),
     loading: PropTypes.bool,
-    config: PropTypes.shape({})
+    config: PropTypes.shape({ appRoot: PropTypes.string })
 };
 
 ProductionMeasures.defaultProps = {

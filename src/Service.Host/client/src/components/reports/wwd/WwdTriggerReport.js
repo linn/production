@@ -89,7 +89,9 @@ WwdTriggerReport.propTypes = {
         workStationCode: PropTypes.string
     }),
     loading: PropTypes.bool,
-    itemError: PropTypes.shape({}),
+    itemError: PropTypes.shape({
+        details: PropTypes.shape({ message: PropTypes.string })
+    }),
     options: PropTypes.shape({
         ptlJobref: PropTypes.string,
         workStationCode: PropTypes.string,

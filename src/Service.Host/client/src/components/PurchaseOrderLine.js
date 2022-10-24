@@ -195,7 +195,19 @@ PurchaseOrderLine.propTypes = {
     itemError: PropTypes.shape({}),
     issueSernos: PropTypes.func.isRequired,
     buildSernos: PropTypes.func.isRequired,
-    detail: PropTypes.shape({}).isRequired,
+    detail: PropTypes.shape({
+        firstSernos: PropTypes.number,
+        lastSernos: PropTypes.number,
+        sernosIssued: PropTypes.number,
+        sernosBuilt: PropTypes.number,
+        orderQuantity: PropTypes.number,
+        orderLine: PropTypes.number,
+        partNumber: PropTypes.string,
+        partDescription: PropTypes.string,
+        ourUnitOfMeasure: PropTypes.string,
+        issuedSerialNumbers: PropTypes.string,
+        quantityReceived: PropTypes.number
+    }).isRequired,
     partNumber: PropTypes.string.isRequired,
     orderNumber: PropTypes.number.isRequired
 };
