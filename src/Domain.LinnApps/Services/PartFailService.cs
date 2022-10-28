@@ -53,7 +53,7 @@
             if (candidate.Story?.Length > 200)
             {
                 throw new PartFailException(
-                    $"Story cannot be longer than 200 characters (you entered {candidate.Story.Length}) characters");
+                    $"Story cannot be longer than 200 characters (you entered {candidate.Story.Length} characters)");
             }
 
             return candidate;
