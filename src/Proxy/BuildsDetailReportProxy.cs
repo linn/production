@@ -3,6 +3,7 @@
     using System;
     using System.Data;
     using System.Globalization;
+    using System.Linq;
 
     using Linn.Production.Domain.LinnApps.RemoteServices;
 
@@ -20,11 +21,24 @@
             DateTime to,
             string quantityOrValue,
             string department,
-            bool monthly = false)
+            bool monthly = false,
+            string partNumbers = null)
         {
             if (quantityOrValue == "Mins")
             {
                 quantityOrValue = "Days";
+            }
+            var partNumbersClause = String.Empty;
+
+            if (!string.IsNullOrEmpty(partNumbers))
+            {
+                partNumbersClause = "and a.part_number in (";
+                var parts = partNumbers.Trim().Split(",").Where(x => !string.IsNullOrEmpty(x)).Select(str => $"'{str.Trim().ToUpper()}'");
+                for (int i = 0; i < parts.Count(); i++)
+                {
+                    partNumbersClause += parts.ElementAt(i);
+                    partNumbersClause += i == parts.Count() - 1 ? ")" : ",";
+                }
             }
 
             var formula = @",
@@ -45,6 +59,7 @@
             and bu_date between trunc(to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') ) 
             and trunc(to_date('{to.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy')) +1
             and cr_dept = '{department}' and a.part_number = ptl.part_number(+)
+            {partNumbersClause}
             group by a.cr_dept , d.description , a.part_number , ptl.kanban_size , 
             decode('{totalBy}', 'MONTH', last_day(TRUNC(bu_date)), 'WEEK', linn_week_pack.linn_week_end_date(bu_date))
             ORDER BY 1 ASC,2 ASC,4 ASC,5 ASC,3 ASC";

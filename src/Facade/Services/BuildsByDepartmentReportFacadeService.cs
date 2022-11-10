@@ -21,9 +21,10 @@
             this.buildsDetailReportService = buildsDetailReportService;
         }
 
-        public IResult<ResultsModel> GetBuildsSummaryReport(DateTime fromWeek, DateTime toWeek, bool monthly = false)
+        public IResult<ResultsModel> GetBuildsSummaryReport(
+            DateTime fromWeek, DateTime toWeek, bool monthly = false, string partNumbers = null)
         {
-            return new SuccessResult<ResultsModel>(this.buildsSummaryReportService.GetBuildsSummaryReports(fromWeek, toWeek, monthly));
+            return new SuccessResult<ResultsModel>(this.buildsSummaryReportService.GetBuildsSummaryReports(fromWeek, toWeek, monthly, partNumbers));
         }
 
         public IResult<ResultsModel> GetBuildsDetailReport(
@@ -31,7 +32,8 @@
             DateTime toWeek,
             string department,
             string quantityOrValue,
-            bool monthly = false)
+            bool monthly = false,
+            string partNumbers = null)
         {
             return new SuccessResult<ResultsModel>(
                 this.buildsDetailReportService.GetBuildsDetailReport(
@@ -39,7 +41,8 @@
                     toWeek,
                     department,
                     quantityOrValue,
-                    monthly));
+                    monthly,
+                    partNumbers));
         }
 
         public IResult<IEnumerable<IEnumerable<string>>> GetBuildsDetailExport(

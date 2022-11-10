@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { OnOffSwitch, Dropdown, DatePicker, Loading } from '@linn-it/linn-form-components-library';
+import {
+    OnOffSwitch,
+    Dropdown,
+    DatePicker,
+    Loading,
+    InputField
+} from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import Page from '../../containers/Page';
@@ -59,6 +65,7 @@ function BuildsDetailReportOptions({
     const [monthly, setMonthly] = useState(getMonthly());
     const [department, setDepartment] = useState({ departmentCode: null, description: 'loading' });
     const [quantityOrValue, setQuantityOrValue] = useState(getQuantityOrValue());
+    const [partNumbers, setPartNumbers] = useState('');
 
     useEffect(() => {
         if (departments && options.department) {
@@ -67,6 +74,10 @@ function BuildsDetailReportOptions({
             setDepartment(departments.find(d => d.departmentCode === prevOptions.department));
         } else if (departments) {
             setDepartment(departments[0]);
+        }
+
+        if (options.partNumbers) {
+            setPartNumbers(options.partNumbers);
         }
     }, [departments, options, prevOptions]);
 
@@ -83,7 +94,7 @@ function BuildsDetailReportOptions({
             pathname: `/production/reports/builds-detail`,
             search: `?fromDate=${fromDate.toISOString()}&toDate=${toDate.toISOString()}&monthly=${monthly}&department=${
                 department.departmentCode
-            }&quantityOrValue=${quantityOrValue}`
+            }&quantityOrValue=${quantityOrValue}&partNumbers=${partNumbers}`
         });
     };
 
@@ -136,6 +147,16 @@ function BuildsDetailReportOptions({
                         />
                     </Grid>
                     <Grid item xs={12}>
+                        <InputField
+                            value={partNumbers}
+                            label="Optionally specify Part Numbers"
+                            helperText="Enter one part number, or a list seperated by commas"
+                            onChange={(_, newValue) => setPartNumbers(newValue)}
+                            fullWidth
+                            propertyName="partNumbers"
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
                         <Button
                             color="primary"
                             variant="contained"
@@ -161,7 +182,8 @@ BuildsDetailReportOptions.propTypes = {
         departmentCode: PropTypes.string,
         quantityOrValue: PropTypes.string,
         monthly: PropTypes.string,
-        department: PropTypes.string
+        department: PropTypes.string,
+        partNumbers: PropTypes.string
     }),
     departmentsLoading: PropTypes.bool,
     history: PropTypes.shape({ push: PropTypes.func }).isRequired,

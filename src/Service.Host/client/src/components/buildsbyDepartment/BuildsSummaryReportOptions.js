@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { OnOffSwitch, DatePicker } from '@linn-it/linn-form-components-library';
+import { OnOffSwitch, DatePicker, InputField } from '@linn-it/linn-form-components-library';
 import PropTypes from 'prop-types';
 import Page from '../../containers/Page';
 
@@ -10,11 +10,12 @@ function BuildsByDepartmentReportOptions({ history }) {
     const [fromDate, setFromDate] = useState(new Date().toISOString());
     const [toDate, setToDate] = useState(new Date().toISOString());
     const [monthly, setMonthly] = useState(false);
+    const [partNumbers, setPartNumbers] = useState('');
 
     const handleClick = () =>
         history.push({
             pathname: `/production/reports/builds-summary`,
-            search: `?fromDate=${fromDate}&toDate=${toDate}&monthly=${monthly}`
+            search: `?fromDate=${fromDate}&toDate=${toDate}&monthly=${monthly}&partNumbers=${partNumbers}`
         });
 
     return (
@@ -46,6 +47,16 @@ function BuildsByDepartmentReportOptions({ history }) {
                         value={monthly}
                         onChange={() => setMonthly(!monthly)}
                         propertyName="monthly"
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <InputField
+                        value={partNumbers}
+                        label="Optionally specify Part Numbers"
+                        helperText="Enter one part number, or a list seperated by commas"
+                        onChange={(_, newValue) => setPartNumbers(newValue)}
+                        fullWidth
+                        propertyName="partNumbers"
                     />
                 </Grid>
                 <Grid item xs={3}>

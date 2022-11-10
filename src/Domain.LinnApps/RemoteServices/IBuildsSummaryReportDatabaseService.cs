@@ -5,6 +5,7 @@
 
     public interface IBuildsSummaryReportDatabaseService
     {
-        IEnumerable<BuildsSummary> GetBuildsSummaries(DateTime from, DateTime to, bool monthly);
+        IEnumerable<BuildsSummary> GetBuildsSummaries(
+            DateTime from, DateTime to, bool monthly, string partNumbers);
     }
 }

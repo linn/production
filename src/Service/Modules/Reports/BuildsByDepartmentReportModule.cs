@@ -26,7 +26,8 @@
             var resource = this.Bind<BuildsSummaryReportOptionsRequestResource>();
             var from = DateTime.Parse(resource.FromDate);
             var to = DateTime.Parse(resource.ToDate);
-            var results = this.service.GetBuildsSummaryReport(from, to, resource.Monthly);
+            var partNumbers = resource.PartNumbers;
+            var results = this.service.GetBuildsSummaryReport(from, to, resource.Monthly, partNumbers);
             return this.Negotiate.WithModel(results).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
@@ -36,7 +37,8 @@
             var resource = this.Bind<BuildsDetailReportOptionsRequestResource>();
             var from = DateTime.Parse(resource.FromDate);
             var to = DateTime.Parse(resource.ToDate);
-            var results = this.service.GetBuildsDetailReport(from, to, resource.Department, resource.QuantityOrValue, resource.Monthly);
+            var results = this.service.GetBuildsDetailReport(
+                from, to, resource.Department, resource.QuantityOrValue, resource.Monthly, resource.PartNumbers);
             return this.Negotiate.WithModel(results).WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }
@@ -47,7 +49,8 @@
             var from = DateTime.Parse(resource.FromDate);
             var to = DateTime.Parse(resource.ToDate);
             return this.Negotiate
-                .WithModel(this.service.GetBuildsDetailExport(from, to, resource.Department, resource.QuantityOrValue, resource.Monthly))
+                .WithModel(this.service.GetBuildsDetailExport(
+                    from, to, resource.Department, resource.QuantityOrValue, resource.Monthly))
                 .WithAllowedMediaRange("text/csv")
                 .WithView("Index");
         }

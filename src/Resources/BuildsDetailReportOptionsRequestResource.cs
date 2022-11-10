@@ -11,5 +11,7 @@
         public string QuantityOrValue { get; set; }
 
         public string Department { get; set; }
+
+        public string PartNumbers { get; set; }
     }
 }

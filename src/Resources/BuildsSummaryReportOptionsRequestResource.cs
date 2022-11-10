@@ -7,5 +7,7 @@
         public string ToDate { get; set; }
 
         public bool Monthly { get; set; }
+
+        public string PartNumbers { get; set; }
     }
 }
