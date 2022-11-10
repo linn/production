@@ -11,6 +11,7 @@
             DateTime to,
             string department,
             string quantityOrValue,
-            bool monthly = false);
+            bool monthly = false,
+            string partNumbers = null);
     }
 }

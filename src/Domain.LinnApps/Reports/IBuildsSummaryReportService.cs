@@ -6,6 +6,7 @@
 
     public interface IBuildsSummaryReportService
     {
-        ResultsModel GetBuildsSummaryReports(DateTime from, DateTime to, bool monthly = false);
+        ResultsModel GetBuildsSummaryReports(
+            DateTime from, DateTime to, bool monthly = false, string partNumbers = null);
     }
 }

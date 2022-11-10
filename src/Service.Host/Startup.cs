@@ -75,7 +75,7 @@ namespace Linn.Production.Service.Host
 
             app.UseAuthentication();
 
-            app.UseBearerTokenAuthentication();
+            //app.UseBearerTokenAuthentication();
 
             app.UseOwin(x => x.UseNancy(
                 config =>

@@ -27,9 +27,10 @@
             DateTime to,
             string department,
             string quantityOrValue,
-            bool monthly = false)
+            bool monthly = false,
+            string partNumbers = null)
         {
-            var table = this.databaseService.GetBuildsDetail(from, to, quantityOrValue, department, monthly);
+            var table = this.databaseService.GetBuildsDetail(from, to, quantityOrValue, department, monthly, partNumbers);
             var partGroups = table.Select().GroupBy(r => r[2]).ToList();
             var weeks = partGroups
                 .Select(

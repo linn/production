@@ -20,9 +20,10 @@
             this.reportingHelper = reportingHelper;
         }
 
-        public ResultsModel GetBuildsSummaryReports(DateTime from, DateTime to, bool monthly = false)
+        public ResultsModel GetBuildsSummaryReports(
+            DateTime from, DateTime to, bool monthly = false, string partNumbers = null)
         {
-            var summaries = this.databaseService.GetBuildsSummaries(from, to, monthly).ToList();
+            var summaries = this.databaseService.GetBuildsSummaries(from, to, monthly, partNumbers).ToList();
 
             var model = new ResultsModel { ReportTitle = new NameModel("Builds Summary Report") };
 
@@ -53,7 +54,8 @@
                         "Department",
                         $"/production/reports/builds-detail/options?fromDate={from.Date.ToString("o", CultureInfo.InvariantCulture)}"
                         + $"&toDate={to.Date.ToString("o", CultureInfo.InvariantCulture)}"
-                        + $"&department={summaries[rowId].DepartmentCode}&quantityOrValue=Value" + $"&monthly={monthly}",
+                        + $"&department={summaries[rowId].DepartmentCode}&quantityOrValue=Value" + $"&monthly={monthly}"
+                        + $"&partNumbers={partNumbers}",
                         rowId,
                         model.ColumnIndex("Department")));
                 rowId++;
