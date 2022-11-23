@@ -32,9 +32,8 @@
         {
             var table = this.databaseService.GetBuildsDetail(from, to, quantityOrValue, department, monthly, partNumbers);
             var partGroups = table.Select().GroupBy(r => r[2]).ToList();
-            var weeks = partGroups
-                .Select(
-                    g => ((DateTime)g.First().ItemArray[4])).Distinct().OrderBy(w => w).ToList();
+            var weeks = partGroups.SelectMany(x => x.Select(y => (DateTime)y.ItemArray[4]))
+                .Distinct().OrderBy(date => date).ToList();
 
             var colHeaders = new List<string> { "Part Number" };
             colHeaders.AddRange(weeks.Select(w => w.ToString("dd-MMM-yyyy")));
