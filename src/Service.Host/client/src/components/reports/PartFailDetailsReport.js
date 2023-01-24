@@ -40,7 +40,7 @@ export default function PartFailDetailsReport({ reportData, config, loading, opt
                         reportData && (
                             <ReportTable
                                 reportData={reportData}
-                                showTotals={false}
+                                showTotals
                                 showTitle
                                 title={reportData?.title.displayString}
                             />
