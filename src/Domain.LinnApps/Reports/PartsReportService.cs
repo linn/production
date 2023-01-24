@@ -94,7 +94,7 @@
             var model = new ResultsModel
                             {
                                 ReportTitle = new NameModel(
-                                    $"Part Fail - Details for dates {fromDateParse.ToString("dd/MM/yy")} - {toDateParse.ToString("dd/MM/yy")}")
+                                    $"Part Fail - Details for dates {fromDateParse:dd/MM/yy} - {toDateParse:dd/MM/yy}")
                             };
 
             var columns = this.ModelColumns();
@@ -117,6 +117,7 @@
                     "/production/quality/part-fails/{rowId}",
                     null,
                     model.ColumnIndex("Id")));
+            model.SetTotalValue(model.ColumnIndex("Base Unit Price"), null);
 
             return model;
         }
