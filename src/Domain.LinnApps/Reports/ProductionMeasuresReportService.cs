@@ -41,7 +41,7 @@
                               {
                                   new AxisDetailsModel("Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                                   new AxisDetailsModel("Description", GridDisplayType.TextValue),
-                                  new AxisDetailsModel("Qty"),
+                                  new AxisDetailsModel("Qty") { DecimalPlaces = 1 },
                                   new AxisDetailsModel("Total Value") { DecimalPlaces = 2 },
                                   new AxisDetailsModel("Date Booked", GridDisplayType.TextValue) { AllowWrap = false },
                                   new AxisDetailsModel("User Name", GridDisplayType.TextValue),

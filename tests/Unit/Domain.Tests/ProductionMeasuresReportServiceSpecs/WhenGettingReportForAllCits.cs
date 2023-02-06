@@ -42,7 +42,7 @@
             report1.GetGridTextValue(report1.RowIndex("1"), report1.ColumnIndex("Part Number")).Should().Be("p2");
             report1.GetGridTextValue(report1.RowIndex("0"), report1.ColumnIndex("Description")).Should().Be("p1 desc");
             report1.GetGridTextValue(report1.RowIndex("1"), report1.ColumnIndex("Description")).Should().Be("p2 desc");
-            report1.GetGridValue(report1.RowIndex("0"), report1.ColumnIndex("Qty")).Should().Be(2);
+            report1.GetGridValue(report1.RowIndex("0"), report1.ColumnIndex("Qty")).Should().Be(2.5m);
             report1.GetGridValue(report1.RowIndex("1"), report1.ColumnIndex("Qty")).Should().Be(34);
             report1.GetGridValue(report1.RowIndex("0"), report1.ColumnIndex("Total Value")).Should().Be(34.34m);
             report1.GetGridValue(report1.RowIndex("1"), report1.ColumnIndex("Total Value")).Should().Be(10m);
