@@ -51,7 +51,7 @@
                                                SupplierName = "s1",
                                                CreatedBy = "Person 1",
                                                DateBooked = 1.July(2021),
-                                               Qty = 2,
+                                               Qty = 2.5m,
                                                TotalValue = 34.34m,
                                                StoragePlace = "Store 1"
                                            },
@@ -96,7 +96,7 @@
                                                Qty = 2,
                                                TotalValue = 34.34m,
                                                StoragePlace = "Store 1"
-                                           },
+                                           }
                                    };
             this.FailedPartsRepository.FindAll().Returns(this.FailedParts.AsQueryable());
 
