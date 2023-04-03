@@ -77,6 +77,7 @@
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Base Unit Price");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Total Price");
             this.result.Columns.Should().Contain(c => c.ColumnHeader == "Entered By");
+            this.result.Columns.Should().Contain(c => c.ColumnHeader == "No Cost");
         }
     }
 }

@@ -39,6 +39,8 @@
 
         public Employee Owner { get; set; }
 
+        public string NoCost { get; set; }
+
         public void UpdateFrom(PartFail updated)
         {
             this.PurchaseOrderNumber = updated.PurchaseOrderNumber;
@@ -54,6 +56,7 @@
             this.SerialNumber = updated.SerialNumber;
             this.Comments = updated.Comments;
             this.Owner = updated.Owner;
+            this.NoCost = updated.NoCost;
         }
     }
 }

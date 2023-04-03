@@ -35,6 +35,7 @@
                            Comments = model.Comments,
                            Owner = model.Owner?.Id,
                            OwnerName = model.Owner?.FullName,
+                           NoCost = model.NoCost == "Y",
                            Links = this.BuildLinks(model).ToArray()
             };
         }
