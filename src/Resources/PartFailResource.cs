@@ -45,5 +45,7 @@
         public int? Owner { get; set; }
 
         public string OwnerName { get; set; }
+
+        public bool NoCost { get; set; }
     }
 }

@@ -72,8 +72,9 @@
                                     Comments = resource.Comments,
                                     Owner = resource.Owner != null
                                                 ? this.employeeRepository.FindById((int)resource.Owner)
-                                                : null
-                                };
+                                                : null,
+                                    NoCost = resource.NoCost ? "Y" : "N"
+            };
 
             return this.partFailService.Create(candidate);
         }
@@ -100,8 +101,9 @@
                                     PurchaseOrderNumber = resource.PurchaseOrderNumber,
                                     MinutesWasted = resource.MinutesWasted,
                                     Comments = resource.Comments,
-                                    Owner = resource.Owner != null ? this.employeeRepository.FindById((int)resource.Owner) : null
-                                };
+                                    Owner = resource.Owner != null ? this.employeeRepository.FindById((int)resource.Owner) : null,
+                                    NoCost = resource.NoCost ? "Y" : "N",
+            };
 
             partFail.UpdateFrom(this.partFailService.Create(candidate));
         }

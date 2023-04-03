@@ -195,13 +195,28 @@
                         Quantity = fail.Part.BaseUnitPrice ?? 0,
                         ColumnId = "Base Unit Price"
                     });
-                values.Add(
+
+                if (fail.NoCost == "Y")
+                {
+                    values.Add(
                     new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
-                        Quantity = fail.Part.BaseUnitPrice * fail.Quantity ?? 0,
+                        Quantity = 0,
                         ColumnId = "Total Price"
                     });
+                }
+                else
+                {
+                    values.Add(
+                    new CalculationValueModel
+                        {
+                            RowId = fail.Id.ToString(),
+                            Quantity = fail.Part.BaseUnitPrice * fail.Quantity ?? 0,
+                            ColumnId = "Total Price"
+                        });
+                }
+
                 values.Add(
                     new CalculationValueModel
                         {
@@ -230,6 +245,13 @@
                             TextDisplay = supplier?.SupplierName,
                             ColumnId = "Supplier"
                     });
+                values.Add(
+                    new CalculationValueModel
+                        {
+                            RowId = fail.Id.ToString(),
+                            TextDisplay = fail.NoCost,
+                            ColumnId = "No Cost"
+                        });
             }
 
             return values;
@@ -284,6 +306,10 @@
                            new AxisDetailsModel("Supplier")
                                {
                                    SortOrder = 13, GridDisplayType = GridDisplayType.TextValue
+                               },
+                           new AxisDetailsModel("No Cost")
+                               {
+                                   SortOrder = 14, GridDisplayType = GridDisplayType.TextValue
                                }
                        };
         }

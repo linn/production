@@ -6,6 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import {
+    CheckboxWithLabel,
     InputField,
     Loading,
     Title,
@@ -311,7 +312,15 @@ function PartFail({
                                                 propertyName="batch"
                                             />
                                         </Grid>
-                                        <Grid item xs={6} />
+                                        <Grid item xs={6}>
+                                            <CheckboxWithLabel
+                                                label="No Cost?"
+                                                checked={partFail.noCost}
+                                                onChange={() =>
+                                                    handleFieldChange('noCost', !partFail.noCost)
+                                                }
+                                            />
+                                        </Grid>
                                         <Grid item xs={3}>
                                             <FormControl variant="standard" fullWidth>
                                                 <InputLabel>Fault Code</InputLabel>

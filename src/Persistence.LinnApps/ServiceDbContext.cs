@@ -1009,6 +1009,7 @@
             e.HasOne<PartFailErrorType>(f => f.ErrorType).WithMany(t => t.PartFails).HasForeignKey("ERROR_TYPE");
             e.HasOne(f => f.Owner).WithMany(m => m.PartFailsOwned).HasForeignKey("OWNER");
             e.Property(f => f.Comments).HasColumnName("COMMENTS");
+            e.Property(f => f.NoCost).HasColumnName("NO_COST");
         }
 
         private void BuildPartFailErrorTypes(ModelBuilder builder)
