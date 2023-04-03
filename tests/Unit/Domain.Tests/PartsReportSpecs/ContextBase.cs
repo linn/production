@@ -75,8 +75,10 @@
                                                 Part = new Part
                                                            {
                                                                PartNumber = "PART1",
-                                                               Description = "DESC1"
-                                                           }
+                                                               Description = "DESC1",
+                                                               BaseUnitPrice = 3m
+                                                           },
+                                                NoCost = "N"
                                             },
                                         new PartFail
                                             {
@@ -92,8 +94,10 @@
                                                 Part = new Part
                                                            {
                                                                PartNumber = "PART2",
-                                                               Description = "DESC2"
-                                                           }
+                                                               Description = "DESC2",
+                                                               BaseUnitPrice = 4m
+                                                           },
+                                                NoCost = "N"
                                             },
                                         new PartFail
                                             {
@@ -109,8 +113,10 @@
                                                 Part = new Part
                                                            {
                                                                PartNumber = "PART3",
-                                                               Description = "DESC3"
-                                                           }
+                                                               Description = "DESC3",
+                                                               BaseUnitPrice = 5m
+                                                           },
+                                                NoCost = "Y"
                                             },
                                         new PartFail
                                             {
@@ -126,8 +132,10 @@
                                                 Part = new Part
                                                            {
                                                                PartNumber = "PART4",
-                                                               Description = "DESC4"
-                                                           }
+                                                               Description = "DESC4",
+                                                               BaseUnitPrice = 6m
+                                                           },
+                                                NoCost = "Y"
                                             }
                                     };
         }
