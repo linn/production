@@ -301,6 +301,7 @@ function PartFail({
                                                 label="Quantity"
                                                 onChange={handleFieldChange}
                                                 propertyName="quantity"
+                                                step="0.5"
                                             />
                                         </Grid>
                                         <Grid item xs={3}>
