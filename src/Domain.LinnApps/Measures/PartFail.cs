@@ -17,7 +17,7 @@
 
         public int? PurchaseOrderNumber { get; set; }
 
-        public int? Quantity { get; set; }
+        public decimal? Quantity { get; set; }
 
         public string Batch { get; set; }
 
