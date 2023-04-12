@@ -171,7 +171,8 @@
                     new CalculationValueModel
                     {
                         RowId = fail.Id.ToString(),
-                        Quantity = fail.Quantity ?? 0,
+                        TextDisplay = fail.Quantity.ToString(),
+                     //   Quantity = fail.Quantity ?? 0,
                         ColumnId = "Quantity"
                     });
                 values.Add(
@@ -276,7 +277,7 @@
                                    SortOrder = 3, GridDisplayType = GridDisplayType.TextValue, AllowWrap = false
                                },
                            new AxisDetailsModel("Story") { SortOrder = 4, GridDisplayType = GridDisplayType.TextValue },
-                           new AxisDetailsModel("Quantity") { SortOrder = 5, GridDisplayType = GridDisplayType.Value },
+                           new AxisDetailsModel("Quantity") { SortOrder = 5, GridDisplayType = GridDisplayType.TextValue },
                            new AxisDetailsModel("Fault Code") { SortOrder = 6, GridDisplayType = GridDisplayType.TextValue },
 
                            new AxisDetailsModel("Error Type")
