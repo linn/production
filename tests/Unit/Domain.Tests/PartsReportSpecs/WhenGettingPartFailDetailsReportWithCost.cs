@@ -64,23 +64,24 @@
         {
             this.result.Rows.Should().HaveCount(4);
 
+
             // total price = base unit price * qty 
             this.result.GetGridValue(this.result.RowIndex("0"), this.result.ColumnIndex("Total Price")).Should().Be(3);
             this.result.GetGridValue(this.result.RowIndex("0"), this.result.ColumnIndex("Base Unit Price")).Should().Be(3);
-            this.result.GetGridValue(this.result.RowIndex("0"), this.result.ColumnIndex("Quantity")).Should().Be(1);
+            this.result.GetGridTextValue(this.result.RowIndex("0"), this.result.ColumnIndex("Quantity")).Should().Be("1");
 
             this.result.GetGridValue(this.result.RowIndex("1"), this.result.ColumnIndex("Total Price")).Should().Be(4);
             this.result.GetGridValue(this.result.RowIndex("1"), this.result.ColumnIndex("Base Unit Price")).Should().Be(4);
-            this.result.GetGridValue(this.result.RowIndex("1"), this.result.ColumnIndex("Quantity")).Should().Be(1);
+            this.result.GetGridTextValue(this.result.RowIndex("1"), this.result.ColumnIndex("Quantity")).Should().Be("1");
 
             // total price = base unit price * qty but No Cost set for next two rows so no price shown
             this.result.GetGridValue(this.result.RowIndex("2"), this.result.ColumnIndex("Total Price")).Should().Be(0);
             this.result.GetGridValue(this.result.RowIndex("2"), this.result.ColumnIndex("Base Unit Price")).Should().Be(5);
-            this.result.GetGridValue(this.result.RowIndex("2"), this.result.ColumnIndex("Quantity")).Should().Be(1);
+            this.result.GetGridTextValue(this.result.RowIndex("2"), this.result.ColumnIndex("Quantity")).Should().Be("1");
 
             this.result.GetGridValue(this.result.RowIndex("3"), this.result.ColumnIndex("Total Price")).Should().Be(0);
             this.result.GetGridValue(this.result.RowIndex("3"), this.result.ColumnIndex("Base Unit Price")).Should().Be(6);
-            this.result.GetGridValue(this.result.RowIndex("3"), this.result.ColumnIndex("Quantity")).Should().Be(1);
+            this.result.GetGridTextValue(this.result.RowIndex("3"), this.result.ColumnIndex("Quantity")).Should().Be("1");
         }
     }
 }
