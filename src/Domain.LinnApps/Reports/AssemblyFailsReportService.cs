@@ -146,7 +146,7 @@
                         new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("FaultCode", "Fault Code", GridDisplayType.TextValue),
                         new AxisDetailsModel("ReportedFault", "Reported Fault", GridDisplayType.TextValue),
-                        new AxisDetailsModel("MinsSpent", "Engineer Mins Spent", GridDisplayType.Value) { DecimalPlaces = 2 },
+                        new AxisDetailsModel("MinsSpent", "Engineer Mins Spent", GridDisplayType.TextValue),
                         new AxisDetailsModel("Analysis", GridDisplayType.TextValue),
                         new AxisDetailsModel("Cit", GridDisplayType.TextValue)
                     });
