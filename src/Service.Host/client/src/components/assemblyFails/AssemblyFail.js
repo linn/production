@@ -633,6 +633,7 @@ function AssemblyFail({
                                             fullWidth
                                             value={assemblyFail.minsSpent}
                                             label="Engineer Mins Spent"
+                                            type="number"
                                             onChange={handleFieldChange}
                                             propertyName="minsSpent"
                                         />
