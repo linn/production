@@ -392,7 +392,7 @@
                     {
                         RowId = assemblyFail.Id.ToString(),
                         ColumnId = "MinsSpent",
-                        TextDisplay = assemblyFail.MinsSpent.GetValueOrDefault().ToString(CultureInfo.InvariantCulture)
+                        TextDisplay = assemblyFail.MinsSpent?.ToString(CultureInfo.InvariantCulture)
                     });
             values.Add(
                 new CalculationValueModel
