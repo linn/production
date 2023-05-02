@@ -146,6 +146,7 @@
                         new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("FaultCode", "Fault Code", GridDisplayType.TextValue),
                         new AxisDetailsModel("ReportedFault", "Reported Fault", GridDisplayType.TextValue),
+                        new AxisDetailsModel("MinsSpent", "Engineer Mins Spent", GridDisplayType.TextValue),
                         new AxisDetailsModel("Analysis", GridDisplayType.TextValue),
                         new AxisDetailsModel("Cit", GridDisplayType.TextValue)
                     });
@@ -198,6 +199,7 @@
                         new AxisDetailsModel("CircuitPartNumber", "Circuit Part Number", GridDisplayType.TextValue) { AllowWrap = false },
                         new AxisDetailsModel("FaultCode", "Fault Code", GridDisplayType.TextValue),
                         new AxisDetailsModel("ReportedFault", "Reported Fault", GridDisplayType.TextValue),
+                        new AxisDetailsModel("MinsSpent", "Engineer Mins Spent", GridDisplayType.TextValue),
                         new AxisDetailsModel("Analysis", GridDisplayType.TextValue),
                         new AxisDetailsModel("Cit", GridDisplayType.TextValue),
                         new AxisDetailsModel("Entered By", GridDisplayType.TextValue),
@@ -384,6 +386,13 @@
                         RowId = assemblyFail.Id.ToString(),
                         ColumnId = "Analysis",
                         TextDisplay = assemblyFail.Analysis
+                    });
+            values.Add(
+                new CalculationValueModel
+                    {
+                        RowId = assemblyFail.Id.ToString(),
+                        ColumnId = "MinsSpent",
+                        TextDisplay = assemblyFail.MinsSpent?.ToString(CultureInfo.InvariantCulture)
                     });
             values.Add(
                 new CalculationValueModel

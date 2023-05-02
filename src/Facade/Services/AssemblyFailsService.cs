@@ -118,6 +118,7 @@
                                    ? this.faultCodeRepository.FindById(resource.FaultCode)
                                    : null,
                            Analysis = resource.Analysis,
+                           MinsSpent = resource.MinsSpent,
                            EngineeringComments = resource.EngineeringComments,
                            DateTimeComplete = resource.DateTimeComplete != null
                                                   ? DateTime.Parse(resource.DateTimeComplete)
@@ -158,6 +159,7 @@
             assemblyFail.OutSlot = resource.OutSlot;
             assemblyFail.CaDate = resource.CaDate != null ? DateTime.Parse(resource.CaDate) : (DateTime?)null;
             assemblyFail.DateInvalid = resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null;
+            assemblyFail.MinsSpent = resource.MinsSpent;
         }
 
         protected override Expression<Func<AssemblyFail, bool>> SearchExpression(string searchTerm)

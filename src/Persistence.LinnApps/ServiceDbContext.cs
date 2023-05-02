@@ -397,6 +397,7 @@
                 .HasForeignKey("FAULT_CODE");
             e.Property(f => f.Analysis).HasColumnName("ANALYSIS");
             e.Property(f => f.EngineeringComments).HasColumnName("ENGINEERING_COMMENTS");
+            e.Property(f => f.MinsSpent).HasColumnName("MINS_SPENT");
         }
 
         private void BuildBoardFailTypes(ModelBuilder builder)

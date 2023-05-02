@@ -51,6 +51,7 @@
                             CaDate = model.CaDate?.ToString("o"),
                             DateInvalid = model.DateInvalid?.ToString("o"),
                             AoiEscape = model.AoiEscape,
+                            MinsSpent = model.MinsSpent,
                             Links = this.BuildLinks(model).ToArray()
                        };
         }

@@ -77,5 +77,7 @@
         public string DateInvalid { get; set; }
 
         public string AoiEscape { get; set; }
+
+        public decimal? MinsSpent { get; set; }
     }
 }

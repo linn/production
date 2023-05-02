@@ -628,7 +628,17 @@ function AssemblyFail({
                                             propertyName="outSlot"
                                         />
                                     </Grid>
-                                    <Grid item xs={4} />
+                                    <Grid item xs={2}>
+                                        <InputField
+                                            fullWidth
+                                            value={assemblyFail.minsSpent}
+                                            label="Engineer Mins Spent"
+                                            type="number"
+                                            onChange={handleFieldChange}
+                                            propertyName="minsSpent"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={2} />
                                     <Grid item xs={2}>
                                         <Dropdown
                                             label="Returned By"
