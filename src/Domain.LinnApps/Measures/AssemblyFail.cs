@@ -64,5 +64,7 @@
         public string Analysis { get; set; }
 
         public string EngineeringComments { get; set; }
+
+        public decimal? MinsSpent { get; set; }
     }
 }
