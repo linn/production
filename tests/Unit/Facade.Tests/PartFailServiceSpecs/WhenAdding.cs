@@ -1,10 +1,9 @@
-﻿using FluentAssertions.Extensions;
-
-namespace Linn.Production.Facade.Tests.PartFailServiceSpecs
+﻿namespace Linn.Production.Facade.Tests.PartFailServiceSpecs
 {
     using System;
 
     using FluentAssertions;
+    using FluentAssertions.Extensions;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
