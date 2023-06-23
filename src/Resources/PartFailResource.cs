@@ -47,5 +47,11 @@
         public string OwnerName { get; set; }
 
         public bool NoCost { get; set; }
+
+        public string SentenceDecision { get; set; }
+
+        public string SentenceReason { get; set; }
+
+        public string DateSentenced { get; set; }
     }
 }

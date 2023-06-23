@@ -11,9 +11,11 @@ import {
     Loading,
     Title,
     ErrorCard,
+    Dropdown,
     SnackbarMessage,
     TypeaheadDialog,
     Typeahead,
+    DatePicker,
     SaveBackCancelButtons,
     DateTimePicker
 } from '@linn-it/linn-form-components-library';
@@ -49,10 +51,6 @@ function PartFail({
     history,
     errorTypesLoading,
     faultCodesLoading,
-    storagePlacesSearchResults,
-    searchStoragePlaces,
-    storagePlacesSearchLoading,
-    clearStoragePlacesSearch,
     clearPartFailErrors,
     employees,
     employeesLoading
@@ -485,49 +483,47 @@ function PartFail({
                                             </div>
                                         </Grid>
                                         <Grid item xs={5} />
-                                        <Grid item xs={5}>
-                                            <InputField
-                                                label="Storage Place (click search icon to change)"
+                                        <Grid item xs={3}>
+                                            <Dropdown
+                                                label="Sentence Decision"
+                                                propertyName="sentenceDecision"
+                                                items={['SCRAP', 'REPROCESS', 'CONCESSION']}
                                                 fullWidth
-                                                value={partFail.storagePlace}
+                                                value={
+                                                    partFail.sentenceDecision
+                                                        ? partFail.sentenceDecision
+                                                        : ''
+                                                }
+                                                allowNoValue
                                                 onChange={handleFieldChange}
-                                                propertyName="storagePlace"
                                             />
                                         </Grid>
-                                        <Grid item xs={1}>
-                                            <div className={classes.marginTop}>
-                                                <TypeaheadDialog
-                                                    title="Search For a Storage Place"
-                                                    onSelect={newValue => {
-                                                        setEditStatus('edit');
-                                                        setPartFail(a => ({
-                                                            ...a,
-                                                            storagePlace: newValue.name,
-                                                            storagePlaceDescription:
-                                                                newValue.description
-                                                        }));
-                                                    }}
-                                                    searchItems={storagePlacesSearchResults.map(
-                                                        w => ({
-                                                            name: w.storagePlaceId,
-                                                            description: w.description
-                                                        })
-                                                    )}
-                                                    loading={storagePlacesSearchLoading}
-                                                    fetchItems={searchStoragePlaces}
-                                                    clearSearch={clearStoragePlacesSearch}
-                                                />
-                                            </div>
+                                        <Grid item xs={4}>
+                                            <DatePicker
+                                                label="Date Sentenced"
+                                                value={
+                                                    partFail.dateSentenced
+                                                        ? partFail.dateSentenced.toString()
+                                                        : null
+                                                }
+                                                onChange={value => {
+                                                    handleFieldChange('dateSentenced', value);
+                                                }}
+                                                disabled={!partFail.sentenceDecision}
+                                            />
                                         </Grid>
+                                        <Grid item xs={5} />
                                         <Grid item xs={6}>
                                             <InputField
                                                 fullWidth
-                                                value={partFail.storagePlaceDescription}
-                                                label="Description"
-                                                onChange={() => {}}
-                                                propertyName="storagePlaceDescription"
+                                                rows={4}
+                                                value={partFail.sentenceReason}
+                                                label="Sentence Reason"
+                                                onChange={handleFieldChange}
+                                                propertyName="sentenceReason"
                                             />
                                         </Grid>
+                                        <Grid item xs={6} />
                                         <Grid item xs={3}>
                                             <InputField
                                                 fullWidth
@@ -538,17 +534,7 @@ function PartFail({
                                                 propertyName="minutesWasted"
                                             />
                                         </Grid>
-                                        <Grid item xs={3}>
-                                            <InputField
-                                                fullWidth
-                                                type="number"
-                                                value={partFail.serialNumber}
-                                                label="Serial Number"
-                                                onChange={handleFieldChange}
-                                                propertyName="serialNumber"
-                                            />
-                                        </Grid>
-                                        <Grid item xs={6} />
+                                        <Grid item xs={9} />
                                         <Grid item xs={3}>
                                             {employeesLoading ? (
                                                 <Loading />
@@ -663,10 +649,6 @@ PartFail.propTypes = {
     errorTypesLoading: PropTypes.bool,
     faultCodesLoading: PropTypes.bool,
     clearPartsSearch: PropTypes.func.isRequired,
-    storagePlacesSearchResults: PropTypes.arrayOf(PropTypes.shape({})),
-    searchStoragePlaces: PropTypes.func.isRequired,
-    storagePlacesSearchLoading: PropTypes.bool,
-    clearStoragePlacesSearch: PropTypes.func.isRequired,
     clearPartFailErrors: PropTypes.func.isRequired,
     employees: PropTypes.arrayOf(PropTypes.shape({})),
     employeesLoading: PropTypes.bool
@@ -690,8 +672,6 @@ PartFail.defaultProps = {
     partsSearchResults: [],
     errorTypesLoading: false,
     faultCodesLoading: false,
-    storagePlacesSearchResults: [],
-    storagePlacesSearchLoading: false,
     partsSearchLoading: false,
     employees: [],
     employeesLoading: false

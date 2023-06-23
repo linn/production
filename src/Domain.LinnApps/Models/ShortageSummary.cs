@@ -1,9 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Models
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Linn.Production.Domain.LinnApps.Triggers;
 
     public class ShortageSummary
     {

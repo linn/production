@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PurchaseOrderServiceSpecs\**" />
+    <EmbeddedResource Remove="PurchaseOrderServiceSpecs\**" />
+    <None Remove="PurchaseOrderServiceSpecs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="Linn.Common.Facade" Version="6.2.0" />
     <PackageReference Include="linn.common.reporting" Version="1.4.0" />
@@ -27,10 +33,6 @@
     <ProjectReference Include="..\..\..\src\Facade\Facade.csproj" />
     <ProjectReference Include="..\..\..\src\Persistence.LinnApps\Persistence.LinnApps.csproj" />
     <ProjectReference Include="..\..\..\src\Persistence\Persistence.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="PurchaseOrderServiceSpecs\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,5 @@
 ﻿namespace Linn.Production.Domain.LinnApps.Models
 {
-    using System;
-
     public class PtlStatPrioritySummary
     {
          public PtlStatPrioritySummary(int priority)
@@ -87,7 +85,7 @@
 
             if (stat.WorkingDays < (this.TargetDays + 1))
             {
-                // remembering that 3.8 still counts as within 3 days cos thats how current stats work
+                // remembering that 3.8 still counts as within 3 days cos that's how current stats work
                 this.WithinTargetDays++;
             }
         }
