@@ -41,6 +41,12 @@
 
         public string NoCost { get; set; }
 
+        public string SentenceDecision { get; set; }
+
+        public string SentenceReason { get; set; }
+
+        public DateTime? DateSentenced { get; set; }
+
         public void UpdateFrom(PartFail updated)
         {
             this.PurchaseOrderNumber = updated.PurchaseOrderNumber;
@@ -57,6 +63,9 @@
             this.Comments = updated.Comments;
             this.Owner = updated.Owner;
             this.NoCost = updated.NoCost;
+            this.SentenceDecision = updated.SentenceDecision;
+            this.SentenceReason = updated.SentenceReason;
+            this.DateSentenced = updated.DateSentenced;
         }
     }
 }

@@ -1009,8 +1009,11 @@
             e.HasOne<StorageLocation>(f => f.StorageLocation).WithMany(l => l.PartFails).HasForeignKey("LOCATION_ID");
             e.HasOne<PartFailErrorType>(f => f.ErrorType).WithMany(t => t.PartFails).HasForeignKey("ERROR_TYPE");
             e.HasOne(f => f.Owner).WithMany(m => m.PartFailsOwned).HasForeignKey("OWNER");
-            e.Property(f => f.Comments).HasColumnName("COMMENTS");
-            e.Property(f => f.NoCost).HasColumnName("NO_COST");
+            e.Property(f => f.Comments).HasColumnName("COMMENTS").HasMaxLength(200);
+            e.Property(f => f.NoCost).HasColumnName("NO_COST").HasMaxLength(1);
+            e.Property(f => f.SentenceDecision).HasColumnName("SENTENCE_DECISION").HasMaxLength(30);
+            e.Property(f => f.SentenceReason).HasColumnName("SENTENCE_REASON").HasMaxLength(300);
+            e.Property(f => f.DateSentenced).HasColumnName("DATE_SENTENCED");
         }
 
         private void BuildPartFailErrorTypes(ModelBuilder builder)

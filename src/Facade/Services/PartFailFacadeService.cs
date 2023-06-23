@@ -73,7 +73,12 @@
                                     Owner = resource.Owner != null
                                                 ? this.employeeRepository.FindById((int)resource.Owner)
                                                 : null,
-                                    NoCost = resource.NoCost ? "Y" : "N"
+                                    NoCost = resource.NoCost ? "Y" : "N",
+                                    DateSentenced = string.IsNullOrEmpty(resource.DateSentenced)
+                                        ? (DateTime?) null
+                                        : DateTime.Parse(resource.DateSentenced),
+                                    SentenceDecision = resource.SentenceDecision,
+                                    SentenceReason = resource.SentenceReason
             };
 
             return this.partFailService.Create(candidate);
@@ -101,6 +106,9 @@
                                     PurchaseOrderNumber = resource.PurchaseOrderNumber,
                                     MinutesWasted = resource.MinutesWasted,
                                     Comments = resource.Comments,
+                                    SentenceDecision = resource.SentenceDecision,
+                                    SentenceReason = resource.SentenceReason,
+                                    DateSentenced = string.IsNullOrEmpty(resource.DateSentenced) ? (DateTime?)null : DateTime.Parse(resource.DateSentenced),
                                     Owner = resource.Owner != null ? this.employeeRepository.FindById((int)resource.Owner) : null,
                                     NoCost = resource.NoCost ? "Y" : "N",
             };

@@ -36,6 +36,9 @@
                            Owner = model.Owner?.Id,
                            OwnerName = model.Owner?.FullName,
                            NoCost = model.NoCost == "Y",
+                           SentenceDecision = model.SentenceDecision,
+                           SentenceReason = model.SentenceReason,
+                           DateSentenced = model.DateSentenced?.ToString("o"),
                            Links = this.BuildLinks(model).ToArray()
             };
         }

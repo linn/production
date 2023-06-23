@@ -3,10 +3,10 @@
     using System;
 
     using FluentAssertions;
+    using FluentAssertions.Extensions;
 
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps.Measures;
-    using Linn.Production.Domain.LinnApps.ViewModels;
     using Linn.Production.Resources;
 
     using NSubstitute;
@@ -22,7 +22,6 @@
         [SetUp]
         public void SetUp()
         {
-            this.EmployeeRepository.FindById(1).Returns(new Employee { Id = 1, FullName = "Colin" });
             this.DbService.GetNextVal(Arg.Any<string>()).Returns(1);
 
             this.resource = new PartFailResource
@@ -36,10 +35,16 @@
                                     DateCreated = new DateTime().ToString("o"),
                                     ErrorType = "Error",
                                     FaultCode = "Fault",
-                                    SerialNumber = 101
+                                    SerialNumber = 101,
+                                    DateSentenced = 1.June(2024).ToString("o"),
+                                    SentenceDecision = "SCRAP",
+                                    SentenceReason = "Some"
                                 };
 
-            this.PartFailService.Create(Arg.Any<PartFail>())
+            this.PartFailService.Create(Arg.Is<PartFail>(a =>
+                    a.SentenceDecision == resource.SentenceDecision &&
+                    a.DateSentenced == 1.June(2024) &&
+                    a.SentenceReason == resource.SentenceReason))
                 .Returns(new PartFail { Id = 1 });
 
             this.result = this.Sut.Add(this.resource);
@@ -49,7 +54,10 @@
         public void ShouldCallService()
         {
             this.PartFailService.Received().Create(
-                Arg.Is<PartFail>(r => r.Id == this.resource.Id && r.SerialNumber == this.resource.SerialNumber));
+                Arg.Is<PartFail>(r => r.Id == this.resource.Id && 
+                                      r.SerialNumber == this.resource.SerialNumber &&
+                                      r.SentenceDecision == resource.SentenceDecision &&
+                                      r.SentenceReason == resource.SentenceReason));
         }
 
         [Test]
