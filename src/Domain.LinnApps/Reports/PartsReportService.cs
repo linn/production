@@ -229,9 +229,9 @@
                     new CalculationValueModel
                         {
                             RowId = fail.Id.ToString(),
-                            TextDisplay = fail.Comments,
-                            ColumnId = "Comments"
-                        });
+                            TextDisplay = fail.SentenceDecision,
+                            ColumnId = "SentenceDecision"
+                    });
                 values.Add(
                     new CalculationValueModel
                         {
@@ -296,9 +296,9 @@
                                {
                                    SortOrder = 10, GridDisplayType = GridDisplayType.TextValue
                                },
-                           new AxisDetailsModel("Comments")
+                           new AxisDetailsModel("SentenceDecision")
                                {
-                                   SortOrder = 11, GridDisplayType = GridDisplayType.TextValue
+                                   SortOrder = 11, GridDisplayType = GridDisplayType.TextValue, Name = "Sentence Decision"
                                },
                            new AxisDetailsModel("Owner")
                                {
