@@ -40,7 +40,6 @@
             this.action = () => this.Sut.IssueSerialNumber(this.partNumber, this.orderNumber, this.docType, this.createdBy, this.quantity);
         }
 
-
         [Test]
         public void ShouldThrowIssueSerialNumberException()
         {
