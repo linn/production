@@ -12,6 +12,6 @@ then
 fi
 
 cd ./src/Service.Host
-npm install
+npm install --force
 npm run build
 cd ../..
