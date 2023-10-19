@@ -1,5 +1,6 @@
 ﻿namespace Linn.Production.Domain.LinnApps.WorksOrders
 {
+    using System;
     using System.Linq;
 
     using Linn.Common.Domain.Exceptions;
@@ -59,12 +60,20 @@
             int createdBy,
             int quantity)
         {
-            if (!this.salesArticleService.ProductIdOnChip(partNumber))
+            try
             {
-                if (this.sernosPack.SerialNumbersRequired(partNumber))
+                if (!this.salesArticleService.ProductIdOnChip(partNumber))
                 {
-                    this.sernosPack.IssueSernos(orderNumber, docType, 0, partNumber, createdBy, quantity, null);
+                    if (this.sernosPack.SerialNumbersRequired(partNumber))
+                    {
+                        this.sernosPack.IssueSernos(orderNumber, docType, 0, partNumber, createdBy, quantity, null);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new IssueSerialNumberException(
+                    $"Error Issuing serial numbers. Does {partNumber} have a PRODUCT ANALYSIS CODE and SERNOS SEQUENCE set?  Message for IT: " + ex.Message, ex);
             }
         }
 

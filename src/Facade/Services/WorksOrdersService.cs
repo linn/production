@@ -52,24 +52,24 @@
             try
             {
                 worksOrder = this.worksOrderFactory.RaiseWorksOrder(worksOrder);
+                
+                this.worksOrderRepository.Add(worksOrder);
+
+                this.worksOrderUtilities.IssueSerialNumber(
+                    worksOrder.PartNumber,
+                    worksOrder.OrderNumber,
+                    worksOrder.DocType,
+                    worksOrder.RaisedBy,
+                    worksOrder.Quantity);
+
+                this.transactionManager.Commit();
+
+                return new CreatedResult<WorksOrder>(worksOrder);
             }
             catch (DomainException exception)
             {
                 return new BadRequestResult<WorksOrder>(exception.Message);
             }
-
-            this.worksOrderRepository.Add(worksOrder);
-
-            this.worksOrderUtilities.IssueSerialNumber(
-                worksOrder.PartNumber,
-                worksOrder.OrderNumber,
-                worksOrder.DocType,
-                worksOrder.RaisedBy,
-                worksOrder.Quantity);
-
-            this.transactionManager.Commit();
-
-            return new CreatedResult<WorksOrder>(worksOrder);
         }
 
         public IResult<WorksOrder> UpdateWorksOrder(WorksOrderResource resource)
