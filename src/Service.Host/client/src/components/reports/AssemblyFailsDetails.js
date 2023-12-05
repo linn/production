@@ -26,7 +26,11 @@ const AssemblyFailsDetails = ({ reportData, loading, history, options, config })
             <Grid item xs={12}>
                 {!loading && reportData ? (
                     <ExportButton
-                        href={`${config.appRoot}/production/reports/assembly-fails-details/report/export?fromDate=${options.fromDate}&toDate=${options.toDate}`}
+                        href={`${
+                            config.appRoot
+                        }/production/reports/assembly-fails-details/report/export?fromDate=${encodeURIComponent(
+                            options.fromDate
+                        )}&toDate=${encodeURIComponent(options.toDate)}`}
                     />
                 ) : (
                     ''
