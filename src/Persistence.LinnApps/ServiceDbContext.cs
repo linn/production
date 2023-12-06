@@ -463,6 +463,7 @@
             e.Property(p => p.Story).HasColumnName("STORY").HasMaxLength(200);
             e.Property(p => p.EngineerId).HasColumnName("PRODUCTION_ENGINEER").HasMaxLength(6);
             e.Property(p => p.RouteCode).HasColumnName("MFG_ROUTE_CODE").HasMaxLength(20);
+            e.HasOne<Cit>(f => f.Cit).WithMany(c => c.ProductionTriggerLevels).HasForeignKey(c => c.CitCode);
         }
 
         private void BuildPcasBoardsForAudit(ModelBuilder builder)
@@ -684,6 +685,7 @@
             e.Property(c => c.DateInvalid).HasColumnName("DATE_INVALID");
             e.Property(c => c.SortOrder).HasColumnName("SORT_ORDER");
             e.Property(c => c.DepartmentCode).HasColumnName("DEPARTMENT_CODE").HasMaxLength(10);
+            e.HasOne<Employee>(f => f.CitLeader).WithMany(c => c.Cits).HasForeignKey("CIT_LEADER_USER_NUMBER");
         }
 
         private void BuildProductionMeasures(ModelBuilder builder)
