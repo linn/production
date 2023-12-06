@@ -16,6 +16,8 @@
 
         public string CitCode { get; set; }
 
+        public CitResource Cit { get; set; }
+
         public int? BomLevel { get; set; }
 
         public string WorkStationName { get; set; }

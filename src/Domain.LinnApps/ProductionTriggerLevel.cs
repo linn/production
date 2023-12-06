@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
+    using Linn.Production.Domain.LinnApps.Measures;
+
     public class ProductionTriggerLevel
     {
         public string PartNumber { get; set; }
@@ -17,6 +19,8 @@
         public int MaximumKanbans { get; set; }
 
         public string CitCode { get; set; }
+
+        public Cit Cit { get; set; }
 
         public int? BomLevel { get; set; }
 

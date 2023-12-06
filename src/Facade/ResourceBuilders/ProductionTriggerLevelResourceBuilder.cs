@@ -38,6 +38,21 @@
                            EngineerId = model.ResponseData.EngineerId,
                            Story = model.ResponseData.Story,
                            RouteCode = model.ResponseData.RouteCode,
+                           Cit = model.ResponseData.Cit != null
+                                     ? new CitResource
+                                           {
+                                               Code = model.ResponseData.Cit?.Code,
+                                               Name = model.ResponseData.Cit?.Name,
+                                               CitLeader = model.ResponseData.Cit?.CitLeader != null
+                                                               ? new EmployeeResource
+                                                                     {
+                                                                         Id = model.ResponseData.Cit.CitLeader.Id,
+                                                                         FullName = model.ResponseData.Cit.CitLeader
+                                                                             .FullName
+                                                                     }
+                                                               : null
+                                           }
+                                     : null,
                            Links = this.BuildLinks(model).ToArray()
                        };
         }

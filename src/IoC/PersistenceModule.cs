@@ -41,7 +41,6 @@
             builder.RegisterType<BoardFailTypeRepository>().As<IRepository<BoardFailType, int>>();
             builder.RegisterType<AssemblyFailRepository>().As<IRepository<AssemblyFail, int>>();
             builder.RegisterType<WorksOrderRepository>().As<IRepository<WorksOrder, int>>();
-            builder.RegisterType<ProductionTriggerLevelRepository>().As<IRepository<ProductionTriggerLevel, string>>();
             builder.RegisterType<PcasRevisionRepository>().As<IRepository<PcasRevision, string>>();
             builder.RegisterType<CitRepository>().As<IRepository<Cit, string>>();
             builder.RegisterType<EmployeeRepository>().As<IRepository<Employee, int>>();

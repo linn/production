@@ -30,6 +30,8 @@
 
         public List<AssemblyFail> AssemblyFailsCompleted { get; set; }
 
+        public List<Cit> Cits { get; set; }
+
         public List<PartFail> PartFailsOwned { get; set; }
     }
 }

@@ -13,6 +13,7 @@
         public string DateInvalid { get; set; }
 
         public int? SortOrder { get; set; }
+
+        public EmployeeResource CitLeader { get; set; }
     }
 }
-

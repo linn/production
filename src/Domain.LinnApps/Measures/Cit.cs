@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using Linn.Production.Domain.LinnApps.ViewModels;
+
     public class Cit
     {
         public string Code { get; set; }
@@ -17,8 +19,12 @@
 
         public DateTime? DateInvalid { get; set; }
 
+        public Employee CitLeader { get; set; }
+
         public ProductionMeasures Measures { get; set; }
 
         public List<AssemblyFail> AssemblyFails { get; set; }
+
+        public List<ProductionTriggerLevel> ProductionTriggerLevels { get; set; }
     }
 }

@@ -7,6 +7,8 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
 
+    using Microsoft.EntityFrameworkCore;
+
     public class ProductionTriggerLevelsRepository : IRepository<ProductionTriggerLevel, string>
     {
         private readonly ServiceDbContext serviceDbContext;
@@ -18,7 +20,11 @@
 
         public ProductionTriggerLevel FindById(string key)
         {
-            return this.serviceDbContext.ProductionTriggerLevels.Where(p => p.PartNumber == key).ToList()
+            return this.serviceDbContext.ProductionTriggerLevels
+                .Where(p => p.PartNumber == key)
+                .Include(a => a.Cit)
+                .ThenInclude(b => b.CitLeader)
+                .ToList()
                 .FirstOrDefault();
         }
 
