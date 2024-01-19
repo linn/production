@@ -29,6 +29,7 @@
                 .Include(f => f.Part)
                 .Include(f => f.StorageLocation)
                 .Include(f => f.Owner)
+                .Include(f => f.PurchaseOrder)
                 .Where(f => f.Id == key).ToList().FirstOrDefault();
         }
 
@@ -64,6 +65,7 @@
                 .Include(f => f.Part)
                 .Include(f => f.StorageLocation)
                 .Include(f => f.Owner)
+                .Include(f => f.PurchaseOrder)
                 .OrderBy(f => f.Id.ToString().Length);
         }
     }
