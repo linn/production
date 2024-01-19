@@ -32,6 +32,8 @@
 
         public int? PurchaseOrderNumber { get; set; }
 
+        public PurchaseOrderResource PurchaseOrder { get; set; }
+
         public string StoragePlace { get; set; }
 
         public string StoragePlaceDescription { get; set; }

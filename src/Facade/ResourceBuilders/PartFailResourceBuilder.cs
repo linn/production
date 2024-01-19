@@ -25,6 +25,11 @@
                            Batch = model.Batch,
                            FaultCode = model.FaultCode.FaultCode,
                            PurchaseOrderNumber = model.PurchaseOrderNumber,
+                           PurchaseOrder = model.PurchaseOrder == null ? null : new PurchaseOrderResource
+                                               {
+                                                   OrderNumber = model.PurchaseOrder.OrderNumber,
+                                                   SupplierId = model.PurchaseOrder.SupplierId
+                                               },
                            ErrorType = model.ErrorType.ErrorType,
                            StoragePlace = model.StorageLocation?.LocationCode,
                            StoragePlaceDescription = model.StorageLocation?.Description,

@@ -77,7 +77,9 @@
 
             if (supplierId != null)
             {
-                fails = fails.Where(f => f.Part.PreferredSupplier == supplierId);
+                fails = fails.Where(
+                    f => (f.PurchaseOrder != null && f.PurchaseOrder.SupplierId == supplierId)
+                         || (f.PurchaseOrderNumber == null && f.Part.PreferredSupplier == supplierId));
             }
 
             if (department != "All")

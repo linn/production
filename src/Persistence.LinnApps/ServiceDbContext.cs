@@ -1000,6 +1000,7 @@
             e.Property(f => f.Batch).HasColumnName("BATCH").HasMaxLength(20);
             e.HasOne<WorksOrder>(f => f.WorksOrder).WithMany(o => o.PartFails).HasForeignKey("WORKS_ORDER_NUMBER");
             e.Property(f => f.PurchaseOrderNumber).HasColumnName("PURCHASE_ORDER_NUMBER");
+            e.HasOne(f => f.PurchaseOrder).WithMany().HasForeignKey(a => a.PurchaseOrderNumber);
             e.Property(f => f.DateCreated).HasColumnName("DATE_CREATED");
             e.HasOne<Employee>(f => f.EnteredBy).WithMany(m => m.PartFailsEntered).HasForeignKey("ENTERED_BY");
             e.Property(f => f.MinutesWasted).HasColumnName("MINUTES_WASTED");
