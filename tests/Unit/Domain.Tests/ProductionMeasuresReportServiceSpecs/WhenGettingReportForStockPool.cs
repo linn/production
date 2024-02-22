@@ -40,7 +40,7 @@
             report1.GetGridTextValue(report1.RowIndex("0"), report1.ColumnIndex("Description")).Should().Be("p1 desc");
             report1.GetGridValue(report1.RowIndex("0"), report1.ColumnIndex("Qty")).Should().Be(2.5m);
             report1.GetGridValue(report1.RowIndex("0"), report1.ColumnIndex("Total Value")).Should().Be(34.34m);
-            report1.GetGridTextValue(report.RowIndex("0"), report.ColumnIndex("Stock Pool")).Should().Be(this.stockPoolCode);
+            report1.GetGridTextValue(report1.RowIndex("0"), report1.ColumnIndex("Stock Pool")).Should().Be(this.stockPoolCode);
         }
     }
 }
