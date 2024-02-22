@@ -41,7 +41,8 @@
                     requestResource.PartNumber, 
                     requestResource.OrderByDate,
                     requestResource.ExcludeLinnProduced,
-                    requestResource.VendorManager))
+                    requestResource.VendorManager,
+                    requestResource.StockPoolCode))
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
                 .WithView("Index");
         }

@@ -32,7 +32,8 @@
             string partNumber,
             string orderByDate,
             bool excludeLinnProduced,
-            string vendorManager)
+            string vendorManager,
+            string stockPoolCode)
         {
             var results = new List<ResultsModel>();
             var fails = this.failedPartsRepository.FindAll();
@@ -60,6 +61,12 @@
             if (!string.IsNullOrEmpty(vendorManager))
             {
                 fails = fails.Where(f => f.VendorManager.Equals(vendorManager));
+            }
+
+
+            if (!string.IsNullOrEmpty(stockPoolCode))
+            {
+                fails = fails.Where(f => f.StockPoolCode == stockPoolCode.ToUpper());
             }
 
             if (excludeLinnProduced)
