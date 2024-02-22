@@ -523,6 +523,7 @@
             builder.Query<FailedParts>().Property(t => t.SupplierName).HasColumnName("SUPPLIER_NAME");
             builder.Query<FailedParts>().Property(t => t.VendorManager).HasColumnName("VENDOR_MANAGER");
             builder.Query<FailedParts>().Property(t => t.LinnProduced).HasColumnName("LINN_PRODUCED");
+            builder.Query<FailedParts>().Property(t => t.StockPoolCode).HasColumnName("STOCK_POOL_CODE").HasMaxLength(10);
         }
 
         private void QueryDaysRequired(ModelBuilder builder)

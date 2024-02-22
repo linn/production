@@ -53,7 +53,8 @@
                                                DateBooked = 1.July(2021),
                                                Qty = 2.5m,
                                                TotalValue = 34.34m,
-                                               StoragePlace = "Store 1"
+                                               StoragePlace = "Store 1",
+                                               StockPoolCode = "SPC 1"
                                            },
                                        new FailedParts
                                            {
@@ -67,7 +68,8 @@
                                                DateBooked = 1.August(2021),
                                                Qty = 34,
                                                TotalValue = 10m,
-                                               StoragePlace = "Store 2"
+                                               StoragePlace = "Store 2",
+                                               StockPoolCode = "SPC 2"
                                            },
                                        new FailedParts
                                            {

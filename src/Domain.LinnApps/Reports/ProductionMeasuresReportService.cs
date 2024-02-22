@@ -48,7 +48,8 @@
                                   new AxisDetailsModel("Storage Place", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Supplier Id", GridDisplayType.TextValue),
                                   new AxisDetailsModel("Supplier Name", GridDisplayType.TextValue),
-                                  new AxisDetailsModel("Vendor Manager",  GridDisplayType.TextValue)
+                                  new AxisDetailsModel("Vendor Manager",  GridDisplayType.TextValue),
+                                  new AxisDetailsModel("Stock Pool",  GridDisplayType.TextValue)
                               };
 
             if (!string.IsNullOrEmpty(citCode))
@@ -204,8 +205,8 @@
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Storage Place", TextDisplay = fail.StoragePlace },
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Id", TextDisplay = fail.PreferredSupplierId?.ToString() },
                                  new CalculationValueModel { RowId = rowId, ColumnId = "Supplier Name", TextDisplay = fail.SupplierName },
-                                 new CalculationValueModel { RowId = rowId, ColumnId = "Vendor Manager", TextDisplay = fail.VendorManager }
-
+                                 new CalculationValueModel { RowId = rowId, ColumnId = "Vendor Manager", TextDisplay = fail.VendorManager },
+                                 new CalculationValueModel { RowId = rowId, ColumnId = "Stock Pool", TextDisplay = fail.StockPoolCode }
                              };
 
             if (includeCitInRow)

@@ -35,5 +35,7 @@
         public string VendorManager { get; set; }
 
         public string LinnProduced { get; set; }
+
+        public string StockPoolCode { get; set; }
     }
 }

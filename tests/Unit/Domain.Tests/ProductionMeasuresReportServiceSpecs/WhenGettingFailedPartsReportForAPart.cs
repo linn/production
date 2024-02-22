@@ -53,6 +53,7 @@
             report.GetGridTextValue(report.RowIndex("1"), report.ColumnIndex("Supplier Name")).Should().Be("s1");
             report.GetGridTextValue(report.RowIndex("0"), report.ColumnIndex("CIT")).Should().Be("C Name");
             report.GetGridTextValue(report.RowIndex("1"), report.ColumnIndex("CIT")).Should().Be("D Name");
+            report.GetGridTextValue(report.RowIndex("0"), report.ColumnIndex("Stock Pool")).Should().Be("SPC 1");
         }
     }
 }
