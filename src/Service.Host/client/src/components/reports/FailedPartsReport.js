@@ -45,7 +45,7 @@ function FailedPartsReport({ reportData, loading, fetchReport }) {
     };
 
     return (
-        <Page>
+        <Page width="xl">
             <Grid container spacing={3} justify="center">
                 <Grid item xs={12}>
                     <Title text="Failed parts" />
