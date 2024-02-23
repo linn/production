@@ -9,5 +9,7 @@
         public bool ExcludeLinnProduced { get; set; }
 
         public string VendorManager { get; set; }
+
+        public string StockPoolCode { get; set; }
     }
 }

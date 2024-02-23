@@ -11,7 +11,8 @@
             string partNumber, 
             string orderByDate,
             bool excludeLinnProduced,
-            string vendorManager);
+            string vendorManager,
+            string stockPoolCode);
 
         IEnumerable<ResultsModel> DayRequiredReport(string citCode);
     }

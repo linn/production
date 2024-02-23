@@ -38,7 +38,8 @@ function FailedPartsReport({ reportData, loading, fetchReport }) {
         partNumber: '',
         orderByDate: '',
         excludeLinnProduced: 'false',
-        vendorManager: ''
+        vendorManager: '',
+        stockPoolCode: ''
     });
     const handleFieldChange = (propertyName, newValue) => {
         setParameters({ ...parameters, [propertyName]: newValue });
@@ -84,7 +85,7 @@ function FailedPartsReport({ reportData, loading, fetchReport }) {
                                         onChange={handleFieldChange}
                                     />
                                 </Grid>
-                                <Grid item xs={3}>
+                                <Grid item xs={2}>
                                     <Dropdown
                                         label="Exclude Linn Produced"
                                         value={parameters.excludeLinnProduced}
@@ -94,13 +95,22 @@ function FailedPartsReport({ reportData, loading, fetchReport }) {
                                         onChange={handleFieldChange}
                                     />
                                 </Grid>
-                                <Grid item xs={3}>
+                                <Grid item xs={2}>
                                     <InputField
                                         label="Vendor Manager"
                                         value={parameters.vendorManager}
                                         propertyName="vendorManager"
                                         onChange={handleFieldChange}
                                         helperText="T,S,A,C,M,E,B,R,K,D,I,L or O"
+                                    />
+                                </Grid>
+                                <Grid item xs={2}>
+                                    <InputField
+                                        label="Stock Pool"
+                                        value={parameters.stockPoolCode}
+                                        propertyName="stockPoolCode"
+                                        onChange={handleFieldChange}
+                                        helperText="stock pool code e.g. LINN, REWORK"
                                     />
                                 </Grid>
                                 <Grid item xs={2}>

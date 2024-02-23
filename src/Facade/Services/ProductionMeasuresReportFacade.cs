@@ -62,14 +62,16 @@
             string partNumber,
             string orderByDate,
             bool excludeLinnProduced,
-            string vendorManager)
+            string vendorManager,
+            string stockPoolCode)
         {
             return new SuccessResult<IEnumerable<ResultsModel>>(this.productionMeasuresReportService.FailedPartsReport(
                 citCode, 
                 partNumber, 
                 orderByDate,
                 excludeLinnProduced,
-                vendorManager));
+                vendorManager,
+                stockPoolCode));
         }
 
         public IResult<IEnumerable<ResultsModel>> GetDaysRequiredReport(string citCode)

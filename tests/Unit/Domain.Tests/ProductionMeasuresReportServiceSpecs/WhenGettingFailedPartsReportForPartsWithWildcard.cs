@@ -18,7 +18,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.results = this.Sut.FailedPartsReport(null, "*p1*", null, false, null);
+            this.results = this.Sut.FailedPartsReport(null, "*p1*", null, false, null, null);
         }
 
         [Test]
