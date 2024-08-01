@@ -100,7 +100,8 @@ function WorksOrder({
         'LP12',
         'Metalwork',
         'SpeakerCover',
-        'ProdClear'
+        'ProdClear',
+        'BAT'
     ];
 
     useSearch(fetchWorksOrder, searchTerm, null);
