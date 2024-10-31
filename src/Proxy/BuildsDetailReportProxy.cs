@@ -28,6 +28,7 @@
             {
                 quantityOrValue = "Days";
             }
+
             var partNumbersClause = String.Empty;
 
             if (!string.IsNullOrEmpty(partNumbers))
@@ -49,11 +50,15 @@
 
             var totalBy = monthly ? "MONTH" : "WEEK";
             var sql =
-                $@"select a.cr_dept dept, d.description, a.part_number, decode(ptl.kanban_size, 0, 1, null, 1, ptl.kanban_size) kanban_size, 
-            decode('{totalBy}', 'MONTH', last_day(TRUNC(bu_date)), 'WEEK', linn_week_pack.linn_week_end_date(bu_date))
-            month_end, sum(decode('{quantityOrValue}', 'Value', round(a.material_price + a.labour_price, 0),
-                'Quantity', QUANTITY, 'Days', QUANTITY, null)) t_adj, p.product_analysis_code 
-            {(quantityOrValue == "Days" ? formula : string.Empty)}
+                $@"select 
+                   a.cr_dept dept, 
+                   d.description, 
+                   a.part_number, 
+                   decode(ptl.kanban_size, 0, 1, null, 1, ptl.kanban_size) kanban_size, 
+                   decode('{totalBy}', 'MONTH', last_day(TRUNC(bu_date)), 'WEEK', linn_week_pack.linn_week_end_date(bu_date)) month_end, 
+                   sum(decode('{quantityOrValue}', 'Value', round(a.material_price + a.labour_price, 0), 'Quantity', QUANTITY, 'Days', QUANTITY, null)) t_adj, 
+                   p.product_analysis_code 
+                   {(quantityOrValue == "Days" ? formula : string.Empty)}
             from v_builds a, linn_departments d, production_trigger_levels ptl, parts p
             where a.cr_dept = d.department_code
             and bu_date between trunc(to_date('{from.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)}', 'dd/mm/yyyy') ) 

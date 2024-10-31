@@ -83,7 +83,7 @@
                         {
                             if (itemArray != null)
                             {
-                                partTotal += ConvertFromDbVal<decimal>(itemArray?[quantityOrValue == "Mins" ? 6 : 5]);
+                                partTotal += ConvertFromDbVal<decimal>(itemArray?[quantityOrValue == "Mins" ? 7 : 5]);
                             }
                         }
                 }
