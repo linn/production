@@ -295,7 +295,7 @@ describe('when creating', () => {
                     partNumber: 'PART',
                     workStationCode: 'AB',
                     departmentCode: 'DEPT',
-                    quantityToBuild: 6
+                    quantityToBuild: '6'
                 }}
                 partsSearchResults={[
                     { id: 'A', name: 'Part A', partNumber: 'Part A', description: 'Description A' },

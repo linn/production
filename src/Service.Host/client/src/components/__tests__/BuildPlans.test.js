@@ -22,6 +22,9 @@ const defaultProps = {
     buildPlanDetailsLoading: false,
     buildPlanRulesLoading: false,
     buildPlanDetailLoading: false,
+    clearBuildPlanErrors: jest.fn(),
+    deleteBuildPlanDetail: jest.fn(),
+    clearBuildPlanDetailErrors: jest.fn(),
     buildPlans: [
         {
             buildPlanName: 'name1',
