@@ -28,7 +28,8 @@
                 27,
                 54,
                 5,
-                "cit code test");
+                "cit code test",
+                10);
 
             this.resource = new ManufacturingOperationResource
             {
@@ -41,7 +42,8 @@
                 SetAndCleanTime = 27,
                 CycleTime = 54,
                 LabourPercentage = 5,
-                CITCode = "cit code test"
+                CITCode = "cit code test",
+                ResourcePercentage = 10
             };
 
             this.ManufacturingOperationRepository
@@ -71,6 +73,7 @@
             dataResult.CycleTime.Should().Be(this.manufacturingOperation.CycleTime);
             dataResult.LabourPercentage.Should().Be(this.manufacturingOperation.LabourPercentage);
             dataResult.CITCode.Should().Be(this.manufacturingOperation.CITCode);
+            dataResult.ResourcePercentage.Should().Be(this.manufacturingOperation.ResourcePercentage);
         }
     }
 }

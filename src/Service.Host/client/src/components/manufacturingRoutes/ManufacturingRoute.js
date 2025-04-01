@@ -72,6 +72,14 @@ function ManufacturingRoute({
             x => x.labourPercentage >= 0 && x.labourPercentage <= 100 && x.labourPercentage !== null
         );
 
+    const resourcePercentagesComplete = () =>
+        manufacturingRoute.operations.every(
+            x =>
+                x.resourcePercentage >= 0 &&
+                x.resourcePercentage <= 100 &&
+                x.resourcePercentage !== null
+        );
+
     const operationsComplete = () =>
         creating() ||
         (operationNumbersComplete() &&
@@ -81,7 +89,8 @@ function ManufacturingRoute({
             setAndCleanTimesComplete() &&
             resourceCodesComplete() &&
             cycleTimesComplete() &&
-            labourPercentagesComplete());
+            labourPercentagesComplete() &&
+            resourcePercentagesComplete());
 
     const problemColumns = () => {
         return `${operationNumbersComplete() ? '' : 'Operation Number;'}
@@ -91,7 +100,8 @@ function ManufacturingRoute({
         ${setAndCleanTimesComplete() ? '' : 'Set & Clean Time;'}
         ${resourceCodesComplete() ? '' : 'Resource Code;'}
         ${cycleTimesComplete() ? '' : 'Cycle Time;'}
-        ${labourPercentagesComplete() ? '' : 'Labour Percentage;'}`;
+        ${labourPercentagesComplete() ? '' : 'Skill Percentage;'}
+        ${resourcePercentagesComplete() ? '' : 'Resource Percentage;'}`;
     };
 
     const inputInvalid = () => RouteCodeInvalid() || !operationsComplete();
@@ -155,8 +165,8 @@ function ManufacturingRoute({
                 options: skillCodes
             },
             {
-                title: 'Set & Clean Time mins',
-                key: 'setAndCleanTime',
+                title: 'Skill Percentage',
+                key: 'labourPercentage',
                 type: 'number'
             },
             {
@@ -166,13 +176,18 @@ function ManufacturingRoute({
                 options: resourceCodes
             },
             {
-                title: 'Cycle Time mins',
-                key: 'cycleTime',
+                title: 'Resource Percentage',
+                key: 'resourcePercentage',
                 type: 'number'
             },
             {
-                title: 'Labour Percentage',
-                key: 'labourPercentage',
+                title: 'Set & Clean Time mins',
+                key: 'setAndCleanTime',
+                type: 'number'
+            },
+            {
+                title: 'Cycle Time mins',
+                key: 'cycleTime',
                 type: 'number'
             }
         ];

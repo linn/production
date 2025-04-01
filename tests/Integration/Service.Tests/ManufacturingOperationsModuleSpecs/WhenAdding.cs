@@ -18,7 +18,6 @@
         [SetUp]
         public void SetUp()
         {
-
             this.manufacturingOperation = new ManufacturingOperation(
                 "routecode 1",
                 77,
@@ -29,7 +28,8 @@
                 27,
                 54,
                 5,
-                "cit code test");
+                "cit code test",
+                10);
 
             this.requestResource = new ManufacturingOperationResource
             {
@@ -42,7 +42,8 @@
                 SetAndCleanTime = 27,
                 CycleTime = 54,
                 LabourPercentage = 5,
-                CITCode = "cit code test"
+                CITCode = "cit code test",
+                ResourcePercentage = 10
             };
 
             this.ManufacturingOperationService.Add(Arg.Any<ManufacturingOperationResource>())

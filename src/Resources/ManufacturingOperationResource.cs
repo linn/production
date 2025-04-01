@@ -16,6 +16,8 @@
 
         public string ResourceCode { get; set; }
 
+        public int ResourcePercentage { get; set; }
+
         public int SetAndCleanTime { get; set; }
 
         public decimal CycleTime { get; set; }

@@ -43,7 +43,8 @@
                 resource.SetAndCleanTime,
                 decimal.Round(resource.CycleTime, 1),
                 resource.LabourPercentage,
-                resource.CITCode);
+                resource.CITCode,
+                resource.ResourcePercentage);
         }
 
         protected override void UpdateFromResource(ManufacturingOperation entity, ManufacturingOperationResource updateResource)
@@ -58,6 +59,7 @@
             entity.CycleTime = decimal.Round(updateResource.CycleTime, 1);
             entity.LabourPercentage = updateResource.LabourPercentage;
             entity.CITCode = updateResource.CITCode;
+            entity.ResourcePercentage = updateResource.ResourcePercentage;
         }
 
         protected override Expression<Func<ManufacturingOperation, bool>> SearchExpression(string searchTerm)
