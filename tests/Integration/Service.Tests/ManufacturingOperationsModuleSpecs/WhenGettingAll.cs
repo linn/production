@@ -35,7 +35,8 @@
                 27,
                 54,
                 5,
-                "cit code test");
+                "cit code test",
+                10);
             this.manufacturingOperation2 = new ManufacturingOperation(
                 "routecode 2",
                 58,
@@ -46,7 +47,8 @@
                 272,
                 542,
                 52,
-                "cit code test2");
+                "cit code test2",
+                10);
 
             this.ManufacturingOperationService.GetAll()
                 .Returns(

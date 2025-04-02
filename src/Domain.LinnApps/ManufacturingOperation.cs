@@ -12,7 +12,8 @@
             int setAndCleanTime,
             decimal cycleTime,
             int labourPercentage,
-            string citCode)
+            string citCode,
+            decimal resourcePercentage)
         {
             this.RouteCode = routeCode;
             this.ManufacturingId = manufacturingId;
@@ -41,6 +42,8 @@
         public string SkillCode { get; set; }
 
         public string ResourceCode { get; set; }
+
+        public int ResourcePercentage { get; set; }
 
         public int SetAndCleanTime { get; set; }
 

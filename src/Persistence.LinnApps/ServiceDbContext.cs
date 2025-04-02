@@ -839,6 +839,7 @@
             e.Property(s => s.CycleTime).HasColumnName("CYCLE_TIME_MINS").HasMaxLength(7);
             e.Property(s => s.LabourPercentage).HasColumnName("LABOUR_PERCENTAGE").HasMaxLength(38);
             e.Property(s => s.CITCode).HasColumnName("CIT_CODE").HasMaxLength(10);
+            e.Property(s => s.ResourcePercentage).HasColumnName("RESOURCE_PERCENTAGE");
             e.HasOne<ManufacturingRoute>(s => s.ManufacturingRoute).WithMany(g => g.Operations)
                 .HasForeignKey(s => s.RouteCode);
         }

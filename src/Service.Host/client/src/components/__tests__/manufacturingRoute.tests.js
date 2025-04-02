@@ -20,7 +20,8 @@ const routeOperations = [
         resourceCode: 'resource1',
         cycleTime: 4,
         labourPercentage: 87,
-        manufacturingId: 0
+        manufacturingId: 0,
+        resourcePercentage: 87
     },
     {
         operationNumber: 222,
@@ -31,6 +32,7 @@ const routeOperations = [
         resourceCode: 'resource2',
         cycleTime: 8,
         labourPercentage: 16,
+        resourcePercentage: 16,
         manufacturingId: 1
     }
 ];

@@ -364,7 +364,7 @@ function LabelPrint({
                                     >
                                         <Grid item xs={4} className={classes.spacingRight}>
                                             <Dropdown
-                                                value={labelType || ''}
+                                                value={labelType}
                                                 label="Label Type"
                                                 fullWidth
                                                 items={labelPrintTypes.map(labelPrintType => ({

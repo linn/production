@@ -43,7 +43,8 @@
                                                        27,
                                                        54,
                                                        5,
-                                                       "cit code test"),
+                                                       "cit code test",
+                                                       10),
                                                    new ManufacturingOperation(
                                                        this.routeCode,
                                                        78,
@@ -54,7 +55,8 @@
                                                        28,
                                                        55,
                                                        6,
-                                                       "code test")
+                                                       "code test",
+                                                       10)
                                                };
             this.manufacturingRoute.Operations = this.manufacturingOperations;
 
@@ -71,7 +73,8 @@
                                                SetAndCleanTime = 27,
                                                CycleTime = 54,
                                                LabourPercentage = 5,
-                                               CITCode = "cit code test"
+                                               CITCode = "cit code test",
+                                               ResourcePercentage = 10
                                            },
                                        new ManufacturingOperationResource
                                            {
@@ -84,7 +87,8 @@
                                                SetAndCleanTime = 28,
                                                CycleTime = 55,
                                                LabourPercentage = 6,
-                                               CITCode = "code test"
+                                               CITCode = "code test",
+                                               ResourcePercentage = 10
                                            }
                                    };
             this.resource = new ManufacturingRouteResource

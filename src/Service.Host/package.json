@@ -55,7 +55,6 @@
     "file-loader": "^5.0.2",
     "jest": "^25.1.0",
     "moment-locales-webpack-plugin": "^1.1.2",
-    "node-sass": "^7.0.0",
     "postcss-loader": "^3.0.0",
     "prettier": "^1.19.1",
     "raf": "^3.4.1",

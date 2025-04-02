@@ -27,7 +27,7 @@ describe('<ProductionTriggers />', () => {
         const defaultReportData = {
             citCode: 'A',
             ptlJobref: 'AAAAAA',
-            ptlRunDateTime: new Date(),
+            ptlRunDateTime: new Date().toISOString(),
             triggers: [
                 {
                     partNumber: 'SERIES K',
@@ -87,7 +87,7 @@ describe('<ProductionTriggers />', () => {
         const defaultReportData = {
             citCode: 'A',
             ptlJobref: 'AAAAAA',
-            ptlRunDateTime: new Date(),
+            ptlRunDateTime: new Date().toISOString(),
             triggers: [
                 {
                     partNumber: 'SERIES K',
@@ -116,7 +116,7 @@ describe('<ProductionTriggers />', () => {
         const defaultReportData = {
             citCode: 'A',
             ptlJobref: 'AAAAAA',
-            ptlRunDateTime: new Date(),
+            ptlRunDateTime: new Date().toISOString(),
             triggers: [
                 {
                     partNumber: 'SERIES K',

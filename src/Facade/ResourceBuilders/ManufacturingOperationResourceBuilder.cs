@@ -22,6 +22,7 @@
                 SkillCode = manufacturingOperation.SkillCode,
                 ResourceCode = manufacturingOperation.ResourceCode,
                 SetAndCleanTime = manufacturingOperation.SetAndCleanTime,
+                ResourcePercentage = manufacturingOperation.ResourcePercentage,
                 CycleTime = manufacturingOperation.CycleTime,
                 LabourPercentage = manufacturingOperation.LabourPercentage,
                 CITCode = manufacturingOperation.CITCode,

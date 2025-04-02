@@ -16,7 +16,6 @@
         [SetUp]
         public void SetUp()
         {
-
             this.manufacturingOperation = new ManufacturingOperation(
                 "routecode1",
                 77,
@@ -27,7 +26,8 @@
                 27,
                 54,
                 5,
-                "cit code test");
+                "cit code test",
+                10);
 
             this.ManufacturingOperationService.GetById(77)
                 .Returns(new SuccessResult<ManufacturingOperation>(this.manufacturingOperation));
@@ -62,6 +62,7 @@
             resource.CycleTime.Should().Be(this.manufacturingOperation.CycleTime);
             resource.LabourPercentage.Should().Be(this.manufacturingOperation.LabourPercentage);
             resource.CITCode.Should().Be(this.manufacturingOperation.CITCode);
+            resource.ResourcePercentage.Should().Be(this.manufacturingOperation.ResourcePercentage);
         }
     }
 }
