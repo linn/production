@@ -9,5 +9,7 @@
         public string Description { get; set; }
 
         public double? Cost { get; set; }
+
+        public string DateInvalid { get; set; }
     }
 }

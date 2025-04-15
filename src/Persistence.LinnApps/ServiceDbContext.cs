@@ -739,6 +739,7 @@
             e.Property(s => s.SkillCode).HasColumnName("MFG_SKILL_CODE").HasMaxLength(10);
             e.Property(s => s.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
             e.Property(s => s.HourlyRate).HasColumnName("HOURLY_RATE");
+            e.Property(s => s.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void BuildManufacturingResources(ModelBuilder builder)
@@ -749,6 +750,7 @@
             e.Property(c => c.ResourceCode).HasColumnName("MFG_RESOURCE_CODE").HasMaxLength(10);
             e.Property(c => c.Description).HasColumnName("DESCRIPTION").HasMaxLength(50);
             e.Property(c => c.Cost).HasColumnName("COST_POUNDS_PER_HOUR").HasMaxLength(14);
+            e.Property(c => c.DateInvalid).HasColumnName("DATE_INVALID");
         }
 
         private void BuildParts(ModelBuilder builder)

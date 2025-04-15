@@ -6,6 +6,7 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Resources;
 
     public class ManufacturingSkillResourceBuilder : IResourceBuilder<ManufacturingSkill>
@@ -17,6 +18,7 @@
                 SkillCode = manufacturingSkill.SkillCode,
                 Description = manufacturingSkill.Description,
                 HourlyRate = manufacturingSkill.HourlyRate,
+                DateInvalid = manufacturingSkill.DateInvalid?.ToString("o"),
                 Links = this.BuildLinks(manufacturingSkill).ToArray()
             };
         }
