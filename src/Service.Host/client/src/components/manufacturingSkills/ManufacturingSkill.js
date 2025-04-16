@@ -166,7 +166,9 @@ function ManufacturingSkill({
                             </Grid>
                             <Grid item xs={8}>
                                 {!manufacturingSkill.dateInvalid && (
-                                    <Button onClick={makeInvalid}>Make Invalid</Button>
+                                    <Button onClick={makeInvalid} disabled={creating()}>
+                                        Make Invalid
+                                    </Button>
                                 )}
                             </Grid>
                             <Grid item xs={12}>

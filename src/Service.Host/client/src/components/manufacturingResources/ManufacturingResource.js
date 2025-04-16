@@ -1,6 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import {
     SaveBackCancelButtons,
     Loading,
@@ -64,6 +66,10 @@ function ManufacturingResource({
             setEditStatus('edit');
         }
         setManufacturingResource({ ...manufacturingResource, [propertyName]: newValue });
+    };
+
+    const makeInvalid = () => {
+        handleFieldChange('dateInvalid', new Date());
     };
 
     return (
@@ -135,6 +141,28 @@ function ManufacturingResource({
                                     onChange={handleFieldChange}
                                     propertyName="cost"
                                 />
+                            </Grid>
+                            <Grid item xs={8}>
+                                <InputField
+                                    value={
+                                        manufacturingResource.dateInvalid
+                                            ? moment(manufacturingResource.dateInvalid).format(
+                                                  'DD-MMM-YYYY'
+                                              )
+                                            : ''
+                                    }
+                                    disabled
+                                    fullWidth
+                                    label="Date Invalid"
+                                    propertyName="dateInvalid"
+                                />
+                            </Grid>
+                            <Grid item xs={8}>
+                                {!manufacturingResource.dateInvalid && (
+                                    <Button onClick={makeInvalid} disabled={creating()}>
+                                        Make Invalid
+                                    </Button>
+                                )}
                             </Grid>
                         </>
                     )
