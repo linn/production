@@ -14,7 +14,7 @@
         [SetUp]
         public void SetUp()
         {
-            var resource = new ManufacturingResource("TESTCODE", "desc", 155);
+            var resource = new ManufacturingResource { ResourceCode = "TESTCODE", Description = "desc", Cost = 155, DateInvalid = null };
             this.ManufacturingResourceService.GetById("TESTCODE")
                 .Returns(new SuccessResult<ManufacturingResource>(resource));
 

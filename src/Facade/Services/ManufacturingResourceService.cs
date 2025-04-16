@@ -16,13 +16,24 @@
 
         protected override ManufacturingResource CreateFromResource(ManufacturingResourceResource resource)
         {
-            return new ManufacturingResource(resource.ResourceCode, resource.Description, resource.Cost);
+            return new ManufacturingResource
+            {
+                ResourceCode = resource.ResourceCode,
+                Description = resource.Description,
+                Cost = resource.Cost,
+                DateInvalid = resource.DateInvalid != null
+                                  ? DateTime.Parse(resource.DateInvalid)
+                                  : (DateTime?)null
+            };
         }
 
         protected override void UpdateFromResource(ManufacturingResource manufacturingResource, ManufacturingResourceResource updateResource)
         {
             manufacturingResource.Description = updateResource.Description;
             manufacturingResource.Cost = updateResource.Cost;
+            manufacturingResource.DateInvalid = updateResource.DateInvalid != null
+                                                    ? DateTime.Parse(updateResource.DateInvalid)
+                                                    : (DateTime?)null;
         }
 
         protected override Expression<Func<ManufacturingResource, bool>> SearchExpression(string searchTerm)

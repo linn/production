@@ -16,7 +16,15 @@
 
         protected override ManufacturingSkill CreateFromResource(ManufacturingSkillResource resource)
         {
-            return new ManufacturingSkill(resource.SkillCode, resource.Description, resource.HourlyRate);
+            return new ManufacturingSkill
+            {
+                           SkillCode = resource.SkillCode,
+                           Description = resource.Description,
+                           HourlyRate = resource.HourlyRate,
+                           DateInvalid = resource.DateInvalid != null
+                                             ? DateTime.Parse(resource.DateInvalid)
+                                             : (DateTime?)null
+            };
         }
 
         protected override void UpdateFromResource(ManufacturingSkill entity, ManufacturingSkillResource updateResource)
@@ -24,6 +32,9 @@
             entity.SkillCode = updateResource.SkillCode;
             entity.Description = updateResource.Description;
             entity.HourlyRate = updateResource.HourlyRate;
+            entity.DateInvalid = updateResource.DateInvalid != null
+                                     ? DateTime.Parse(updateResource.DateInvalid)
+                                     : (DateTime?)null;
         }
 
         protected override Expression<Func<ManufacturingSkill, bool>> SearchExpression(string searchTerm)

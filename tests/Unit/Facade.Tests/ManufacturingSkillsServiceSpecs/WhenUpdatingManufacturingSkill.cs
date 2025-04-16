@@ -25,7 +25,13 @@
         [SetUp]
         public void SetUp()
         {
-            this.manufacturingSkill = new ManufacturingSkill("skill1", "Descr", 15);
+            this.manufacturingSkill = new ManufacturingSkill
+                                          {
+                                              SkillCode = "skill1",
+                                              Description = "Descr",
+                                              HourlyRate = 15,
+                                              DateInvalid = null
+                                          };
 
             this.resource = new ManufacturingSkillResource
             {

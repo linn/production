@@ -16,8 +16,8 @@
         [SetUp]
         public void SetUp()
         {
-            var a = new ManufacturingResource("a", "desc", 15);
-            var b = new ManufacturingResource("b", "desc", 17);
+            var a = new ManufacturingResource { ResourceCode = "a", Description = "desc", Cost = 15, DateInvalid = null };
+            var b = new ManufacturingResource { ResourceCode = "b", Description = "desc", Cost = 17, DateInvalid = null };
             this.ManufacturingResourceService.GetAll()
                 .Returns(new SuccessResult<IEnumerable<ManufacturingResource>>(new List<ManufacturingResource> { a, b }));
 

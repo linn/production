@@ -16,8 +16,8 @@
         [SetUp]
         public void SetUp()
         {
-            this.requestResource = new ManufacturingResourceResource() { ResourceCode = "MYTEST", Description = "Desc1", Cost = 150 };
-            var skill = new ManufacturingResource("MYTEST", "Desc1", 150);
+            this.requestResource = new ManufacturingResourceResource { ResourceCode = "MYTEST", Description = "Desc1", Cost = 150 };
+            var skill = new ManufacturingResource { ResourceCode = "MYTEST", Description = "Desc1", Cost = 150 };
             this.ManufacturingResourceService.Update("MYTEST", Arg.Any<ManufacturingResourceResource>())
                 .Returns(new SuccessResult<ManufacturingResource>(skill));
 

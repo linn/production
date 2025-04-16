@@ -23,7 +23,7 @@
 
         public IQueryable<ManufacturingSkill> FindAll()
         {
-            return this.serviceDbContext.ManufacturingSkills;
+            return this.serviceDbContext.ManufacturingSkills.Where(f => f.DateInvalid == null);
         }
 
         public void Add(ManufacturingSkill entity)

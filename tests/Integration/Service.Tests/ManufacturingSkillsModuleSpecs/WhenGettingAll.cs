@@ -16,8 +16,8 @@
         [SetUp]
         public void SetUp()
         {
-            var a = new ManufacturingSkill("a", "desc", 15);
-            var b = new ManufacturingSkill("b", "desc", 17);
+            var a = new ManufacturingSkill { SkillCode = "a", Description = "desc", HourlyRate = 15 };
+            var b = new ManufacturingSkill { SkillCode = "b", Description = "desc", HourlyRate = 17 };
             this.ManufacturingSkillService.GetAll()
                 .Returns(new SuccessResult<IEnumerable<ManufacturingSkill>>(new List<ManufacturingSkill> { a, b }));
 

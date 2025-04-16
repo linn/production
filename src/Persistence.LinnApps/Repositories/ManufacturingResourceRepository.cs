@@ -24,7 +24,7 @@
 
         public IQueryable<ManufacturingResource> FindAll()
         {
-            return this.serviceDbContext.ManufacturingResources;
+            return this.serviceDbContext.ManufacturingResources.Where(f => f.DateInvalid == null);
         }
 
         public void Add(ManufacturingResource entity)
