@@ -19,7 +19,7 @@
             this.requestResource = new ManufacturingSkillResource { SkillCode = "ADDTEST", Description = "Desc12", HourlyRate = 151 };
             var newSkill = new ManufacturingSkill { SkillCode = "ADDTEST", Description = "Desc12", HourlyRate = 151 };
 
-            this.ManufacturingSkillService.Add(Arg.Any<ManufacturingSkillResource>())
+            this.ManufacturingSkillFacadeService.Add(Arg.Any<ManufacturingSkillResource>())
                 .Returns(new CreatedResult<ManufacturingSkill>(newSkill));
 
             this.Response = this.Browser.Post(
@@ -41,7 +41,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingSkillService.Received()
+            this.ManufacturingSkillFacadeService.Received()
                 .Add(Arg.Is<ManufacturingSkillResource>(r => r.SkillCode == this.requestResource.SkillCode));
         }
 

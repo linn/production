@@ -73,8 +73,6 @@
             builder.RegisterType<AssemblyFailsReportsFacadeService>()
                 .As<IAssemblyFailsReportsFacadeService>();
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
-            builder.RegisterType<ManufacturingSkillService>()
-                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<AssemblyFailsService>().As<IAssemblyFailsService>();
             builder.RegisterType<WorksOrdersService>().As<IWorksOrdersService>();
@@ -87,7 +85,7 @@
             builder.RegisterType<AssemblyFailFaultCodesService>()
                 .As<IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>>();
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
-            builder.RegisterType<ManufacturingSkillService>()
+            builder.RegisterType<ManufacturingSkillFacadeService>()
                 .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
             builder.RegisterType<ManufacturingResourceService>()
@@ -143,6 +141,7 @@
             builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
             builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
             builder.RegisterType<ManufacturingTimingsFacadeService>().As<IManufacturingTimingsFacadeService>();
+            builder.RegisterType<ManufacturingSkillFacadeService>().As<IManufacturingSkillFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

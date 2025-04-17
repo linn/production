@@ -6,6 +6,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
+    using Microsoft.EntityFrameworkCore;
 
     public class ManufacturingSkillsRepository : IRepository<ManufacturingSkill, string>
     {
@@ -18,12 +19,12 @@
 
         public ManufacturingSkill FindById(string key)
         {
-            return this.serviceDbContext.ManufacturingSkills.Where(f => f.SkillCode == key).ToList().FirstOrDefault();
+            return this.serviceDbContext.ManufacturingSkills.ToList().FirstOrDefault();
         }
 
         public IQueryable<ManufacturingSkill> FindAll()
         {
-            return this.serviceDbContext.ManufacturingSkills.Where(f => f.DateInvalid == null);
+            return this.serviceDbContext.ManufacturingSkills;
         }
 
         public void Add(ManufacturingSkill entity)
@@ -43,7 +44,7 @@
 
         public IQueryable<ManufacturingSkill> FilterBy(Expression<Func<ManufacturingSkill, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.ManufacturingSkills.AsNoTracking().Where(expression);
         }
     }
 }

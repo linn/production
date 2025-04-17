@@ -15,7 +15,7 @@
         public void SetUp()
         {
             var skill = new ManufacturingSkill { SkillCode = "TESTCODE", Description = "desc", HourlyRate = 155 };
-            this.ManufacturingSkillService.GetById("TESTCODE")
+            this.ManufacturingSkillFacadeService.GetById("TESTCODE")
                 .Returns(new SuccessResult<ManufacturingSkill>(skill));
 
             this.Response = this.Browser.Get(
@@ -32,7 +32,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingSkillService.Received().GetById("TESTCODE");
+            this.ManufacturingSkillFacadeService.Received().GetById("TESTCODE");
         }
 
         [Test]
