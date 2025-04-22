@@ -6,7 +6,6 @@
     using Linn.Common.Facade;
     using Linn.Common.Resources;
     using Linn.Production.Domain.LinnApps;
-    using Linn.Production.Domain.LinnApps.ATE;
     using Linn.Production.Resources;
 
     public class ManufacturingSkillResourceBuilder : IResourceBuilder<ManufacturingSkill>
