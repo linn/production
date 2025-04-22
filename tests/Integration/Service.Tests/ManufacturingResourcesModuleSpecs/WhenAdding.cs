@@ -22,7 +22,7 @@
                                       ResourceCode = "ADD TEST", Description = "Descrip", Cost = 151, DateInvalid = null
                                   };
 
-            this.ManufacturingResourceService.Add(Arg.Any<ManufacturingResourceResource>())
+            this.ManufacturingResourceFacadeService.Add(Arg.Any<ManufacturingResourceResource>())
                 .Returns(new CreatedResult<ManufacturingResource>(newResource));
 
             this.Response = this.Browser.Post(
@@ -44,7 +44,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingResourceService.Received()
+            this.ManufacturingResourceFacadeService.Received()
                 .Add(Arg.Is<ManufacturingResourceResource>(r => r.ResourceCode == this.requestResource.ResourceCode));
         }
 

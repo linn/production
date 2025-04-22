@@ -18,7 +18,7 @@
         {
             this.requestResource = new ManufacturingResourceResource { ResourceCode = "MYTEST", Description = "Desc1", Cost = 150 };
             var skill = new ManufacturingResource { ResourceCode = "MYTEST", Description = "Desc1", Cost = 150 };
-            this.ManufacturingResourceService.Update("MYTEST", Arg.Any<ManufacturingResourceResource>())
+            this.ManufacturingResourceFacadeService.Update("MYTEST", Arg.Any<ManufacturingResourceResource>())
                 .Returns(new SuccessResult<ManufacturingResource>(skill));
 
             this.Response = this.Browser.Put(
@@ -40,7 +40,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingResourceService.Received()
+            this.ManufacturingResourceFacadeService.Received()
                 .Update("MYTEST", Arg.Is<ManufacturingResourceResource>(r => r.ResourceCode == this.requestResource.ResourceCode));
         }
 

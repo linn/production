@@ -2,6 +2,7 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
     using Linn.Production.Service.Models;
     using Nancy;
@@ -9,22 +10,20 @@
 
     public sealed class ManufacturingResourceModule : NancyModule
     {
-        private readonly
-            IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource> manufacturingResourceService;
+        private readonly IManufacturingResourceFacadeService manufacturingResourceFacadeService;
 
-        public ManufacturingResourceModule(
-            IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource> manufacturingResourceService)
+        public ManufacturingResourceModule(IManufacturingResourceFacadeService manufacturingResourceFacadeService)
         {
-            this.manufacturingResourceService = manufacturingResourceService;
+            this.manufacturingResourceFacadeService = manufacturingResourceFacadeService;
             this.Get("/production/resources/manufacturing-resources/{resourceCode*}", parameters => this.GetManufacturingResourceById(parameters.resourceCode));
-            this.Get("/production/resources/manufacturing-resources", _ => this.GetAllManufacturingResources());
+            this.Get("/production/resources/manufacturing-resources", _ => this.GetManufacturingResources());
             this.Put("/production/resources/manufacturing-resources/{resourceCode*}", parameters => this.UpdateManufacturingResource(parameters.resourceCode));
             this.Post("/production/resources/manufacturing-resources", _ => this.AddManufacturingResource());
         }
 
-        private object GetAllManufacturingResources()
+        private object GetManufacturingResources()
         {
-            var result = this.manufacturingResourceService.GetAll();
+            var result = this.manufacturingResourceFacadeService.GetValid();
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -33,7 +32,7 @@
 
         private object GetManufacturingResourceById(string faultCode)
         {
-            var result = this.manufacturingResourceService.GetById(faultCode);
+            var result = this.manufacturingResourceFacadeService.GetById(faultCode);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -44,7 +43,7 @@
         {
             var resource = this.Bind<ManufacturingResourceResource>();
 
-            var result = this.manufacturingResourceService.Add(resource);
+            var result = this.manufacturingResourceFacadeService.Add(resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -55,7 +54,7 @@
         {
             var resource = this.Bind<ManufacturingResourceResource>();
 
-            var result = this.manufacturingResourceService.Update(resourceCode, resource);
+            var result = this.manufacturingResourceFacadeService.Update(resourceCode, resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

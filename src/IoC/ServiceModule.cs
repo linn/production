@@ -85,11 +85,7 @@
             builder.RegisterType<AssemblyFailFaultCodesService>()
                 .As<IFacadeService<AssemblyFailFaultCode, string, AssemblyFailFaultCodeResource, AssemblyFailFaultCodeResource>>();
             builder.RegisterType<AteFaultCodeService>().As<IFacadeService<AteFaultCode, string, AteFaultCodeResource, AteFaultCodeResource>>();
-            builder.RegisterType<ManufacturingSkillFacadeService>()
-                .As<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
             builder.RegisterType<OutstandingWorksOrdersReportFacade>().As<IOutstandingWorksOrdersReportFacade>();
-            builder.RegisterType<ManufacturingResourceService>()
-                .As<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
             builder.RegisterType<ManufacturingRouteService>()
                 .As<IFacadeService<ManufacturingRoute, string, ManufacturingRouteResource, ManufacturingRouteResource>>();
             builder.RegisterType<ManufacturingOperationsService>()
@@ -142,6 +138,7 @@
             builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
             builder.RegisterType<ManufacturingTimingsFacadeService>().As<IManufacturingTimingsFacadeService>();
             builder.RegisterType<ManufacturingSkillFacadeService>().As<IManufacturingSkillFacadeService>();
+            builder.RegisterType<ManufacturingResourceFacadeService>().As<IManufacturingResourceFacadeService>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

@@ -15,7 +15,7 @@
         public void SetUp()
         {
             var resource = new ManufacturingResource { ResourceCode = "TESTCODE", Description = "desc", Cost = 155, DateInvalid = null };
-            this.ManufacturingResourceService.GetById("TESTCODE")
+            this.ManufacturingResourceFacadeService.GetById("TESTCODE")
                 .Returns(new SuccessResult<ManufacturingResource>(resource));
 
             this.Response = this.Browser.Get(
@@ -32,7 +32,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingResourceService.Received().GetById("TESTCODE");
+            this.ManufacturingResourceFacadeService.Received().GetById("TESTCODE");
         }
 
         [Test]
