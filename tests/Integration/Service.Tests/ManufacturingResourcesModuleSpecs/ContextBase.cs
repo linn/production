@@ -7,10 +7,8 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
-    using Linn.Production.Resources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
-    using Linn.Production.Service.Tests;
 
     using Nancy.Testing;
 
@@ -21,7 +19,6 @@
     public abstract class ContextBase : NancyContextBase
     {
         protected IManufacturingResourceFacadeService ManufacturingResourceFacadeService { get; private set; }
-
 
         [SetUp]
         public void EstablishContext()
