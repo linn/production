@@ -19,7 +19,7 @@
 
         public ManufacturingSkill FindById(string key)
         {
-            return this.serviceDbContext.ManufacturingSkills.ToList().FirstOrDefault();
+            return this.serviceDbContext.ManufacturingSkills.Where(f => f.SkillCode == key).ToList().FirstOrDefault();
         }
 
         public IQueryable<ManufacturingSkill> FindAll()
