@@ -22,15 +22,11 @@
 
         protected override ManufacturingResource CreateFromResource(ManufacturingResourceResource resource)
         {
-            return new ManufacturingResource
-            {
-                ResourceCode = resource.ResourceCode,
-                Description = resource.Description,
-                Cost = resource.Cost,
-                DateInvalid = resource.DateInvalid != null
-                                  ? DateTime.Parse(resource.DateInvalid)
-                                  : (DateTime?)null
-            };
+            return new ManufacturingResource(
+                resource.ResourceCode, 
+                resource.Description, 
+                resource.Cost, 
+                resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null);
         }
 
         protected override void UpdateFromResource(ManufacturingResource manufacturingResource, ManufacturingResourceResource updateResource)

@@ -22,10 +22,11 @@
         [SetUp]
         public void SetUp()
         {
-            var a = new ManufacturingResource { ResourceCode = "a", Description = "desc", Cost = 15, DateInvalid = null };
-            var b = new ManufacturingResource { ResourceCode = "b", Description = "desc", Cost = 17, DateInvalid = null };
-            var c = new ManufacturingResource { ResourceCode = "c", Description = "desc", Cost = 19, DateInvalid = DateTime.Today };
-            var d = new ManufacturingResource { ResourceCode = "d", Description = "desc", Cost = 21, DateInvalid = DateTime.Today };
+            var a = new ManufacturingResource("a", "desc", 15, null);
+            var b = new ManufacturingResource("b", "desc", 17, null);
+            var c = new ManufacturingResource("c", "desc", 17, DateTime.Today);
+            var d = new ManufacturingResource("d", "desc", 17, DateTime.Today);
+
             this.ManufacturingResourceFacadeService.FilterBy(Arg.Any<ManufacturingResourceResource>())
                 .Returns(new SuccessResult<IEnumerable<ManufacturingResource>>(new List<ManufacturingResource> { a, b }));
 
