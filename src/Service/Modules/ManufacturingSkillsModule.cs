@@ -11,9 +11,9 @@
 
     public sealed class ManufacturingSkillsModule : NancyModule
     {
-        private readonly IManufacturingSkillFacadeService manufacturingSkillFacadeService;
+        private readonly IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource> manufacturingSkillFacadeService;
 
-        public ManufacturingSkillsModule(IManufacturingSkillFacadeService manufacturingSkillFacadeService)
+        public ManufacturingSkillsModule(IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource> manufacturingSkillFacadeService)
         {
             this.manufacturingSkillFacadeService = manufacturingSkillFacadeService;
 
@@ -25,7 +25,9 @@
 
         private object GetManufacturingSkills()
         {
-            var result = this.manufacturingSkillFacadeService.GetValid();
+            var resource = this.Bind<ManufacturingSkillResource>();
+            var result = this.manufacturingSkillFacadeService.FilterBy(resource);
+            
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)

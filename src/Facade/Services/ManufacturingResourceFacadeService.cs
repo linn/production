@@ -8,7 +8,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    public class ManufacturingResourceFacadeService : FacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourceResource>, IManufacturingResourceFacadeService
+    public class ManufacturingResourceFacadeService : FacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourceResource>
     {
         private readonly IRepository<ManufacturingResource, string> manufacturingResourceRepository;
 
@@ -18,12 +18,6 @@
             : base(manufacturingResourceRepository, transactionManager)
         {
             this.manufacturingResourceRepository = manufacturingResourceRepository;
-        }
-
-        public IResult<IEnumerable<ManufacturingResource>> GetValid()
-        {
-            return new SuccessResult<IEnumerable<ManufacturingResource>>(
-                this.manufacturingResourceRepository.FilterBy(c => !c.DateInvalid.HasValue));
         }
 
         protected override ManufacturingResource CreateFromResource(ManufacturingResourceResource resource)
@@ -55,7 +49,7 @@
 
         protected override Expression<Func<ManufacturingResource, bool>> FilterExpression(ManufacturingResourceResource searchTerms)
         {
-            throw new NotImplementedException();
+            return m => !m.DateInvalid.HasValue;
         }
     }
 }

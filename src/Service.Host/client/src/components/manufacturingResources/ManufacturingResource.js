@@ -68,10 +68,6 @@ function ManufacturingResource({
         setManufacturingResource({ ...manufacturingResource, [propertyName]: newValue });
     };
 
-    const makeInvalid = () => {
-        handleFieldChange('dateInvalid', new Date());
-    };
-
     return (
         <Page>
             <Grid container spacing={3}>
@@ -161,7 +157,14 @@ function ManufacturingResource({
                                     </Grid>
                                     <Grid item xs={8}>
                                         {!manufacturingResource.dateInvalid && (
-                                            <Button onClick={makeInvalid}>Make Invalid</Button>
+                                            <Button
+                                                onClick={handleFieldChange(
+                                                    'dateInvalid',
+                                                    new Date()
+                                                )}
+                                            >
+                                                Make Invalid
+                                            </Button>
                                         )}
                                     </Grid>
                                 </>

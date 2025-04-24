@@ -137,8 +137,8 @@
             builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
             builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
             builder.RegisterType<ManufacturingTimingsFacadeService>().As<IManufacturingTimingsFacadeService>();
-            builder.RegisterType<ManufacturingSkillFacadeService>().As<IManufacturingSkillFacadeService>();
-            builder.RegisterType<ManufacturingResourceFacadeService>().As<IManufacturingResourceFacadeService>();
+            builder.RegisterType<ManufacturingSkillFacadeService>().As<IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource>>();
+            builder.RegisterType<ManufacturingResourceFacadeService>().As<IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourceResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

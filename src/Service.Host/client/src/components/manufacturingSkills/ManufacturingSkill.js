@@ -72,10 +72,6 @@ function ManufacturingSkill({
         setManufacturingSkill({ ...manufacturingSkill, [propertyName]: newValue });
     };
 
-    const makeInvalid = () => {
-        handleFieldChange('dateInvalid', new Date());
-    };
-
     return (
         <Page>
             <Grid container spacing={3}>
@@ -168,7 +164,14 @@ function ManufacturingSkill({
                                     </Grid>
                                     <Grid item xs={8}>
                                         {!manufacturingSkill.dateInvalid && (
-                                            <Button onClick={makeInvalid}>Make Invalid</Button>
+                                            <Button
+                                                onClick={handleFieldChange(
+                                                    'dateInvalid',
+                                                    new Date()
+                                                )}
+                                            >
+                                                Make Invalid
+                                            </Button>
                                         )}
                                     </Grid>
                                 </>

@@ -10,9 +10,9 @@
 
     public sealed class ManufacturingResourceModule : NancyModule
     {
-        private readonly IManufacturingResourceFacadeService manufacturingResourceFacadeService;
+        private readonly IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourceResource> manufacturingResourceFacadeService;
 
-        public ManufacturingResourceModule(IManufacturingResourceFacadeService manufacturingResourceFacadeService)
+        public ManufacturingResourceModule(IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourceResource> manufacturingResourceFacadeService)
         {
             this.manufacturingResourceFacadeService = manufacturingResourceFacadeService;
             this.Get("/production/resources/manufacturing-resources/{resourceCode*}", parameters => this.GetManufacturingResourceById(parameters.resourceCode));
@@ -23,7 +23,9 @@
 
         private object GetManufacturingResources()
         {
-            var result = this.manufacturingResourceFacadeService.GetValid();
+            var resource = this.Bind<ManufacturingResourceResource>();
+            var result = this.manufacturingResourceFacadeService.FilterBy(resource);
+
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
