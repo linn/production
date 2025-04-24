@@ -142,28 +142,30 @@ function ManufacturingResource({
                                     propertyName="cost"
                                 />
                             </Grid>
-                            <Grid item xs={8}>
-                                <InputField
-                                    value={
-                                        manufacturingResource.dateInvalid
-                                            ? moment(manufacturingResource.dateInvalid).format(
-                                                  'DD-MMM-YYYY'
-                                              )
-                                            : ''
-                                    }
-                                    disabled
-                                    fullWidth
-                                    label="Date Invalid"
-                                    propertyName="dateInvalid"
-                                />
-                            </Grid>
-                            <Grid item xs={8}>
-                                {!manufacturingResource.dateInvalid && (
-                                    <Button onClick={makeInvalid} disabled={creating()}>
-                                        Make Invalid
-                                    </Button>
-                                )}
-                            </Grid>
+                            {!creating() && (
+                                <>
+                                    <Grid item xs={8}>
+                                        <InputField
+                                            value={
+                                                manufacturingResource.dateInvalid
+                                                    ? moment(
+                                                          manufacturingResource.dateInvalid
+                                                      ).format('DD-MMM-YYYY')
+                                                    : ''
+                                            }
+                                            disabled
+                                            fullWidth
+                                            label="Date Invalid"
+                                            propertyName="dateInvalid"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        {!manufacturingResource.dateInvalid && (
+                                            <Button onClick={makeInvalid}>Make Invalid</Button>
+                                        )}
+                                    </Grid>
+                                </>
+                            )}
                         </>
                     )
                 )}

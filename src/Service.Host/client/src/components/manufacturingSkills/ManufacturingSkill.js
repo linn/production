@@ -149,28 +149,30 @@ function ManufacturingSkill({
                                     propertyName="hourlyRate"
                                 />
                             </Grid>
-                            <Grid item xs={8}>
-                                <InputField
-                                    value={
-                                        manufacturingSkill.dateInvalid
-                                            ? moment(manufacturingSkill.dateInvalid).format(
-                                                  'DD-MMM-YYYY'
-                                              )
-                                            : ''
-                                    }
-                                    disabled
-                                    fullWidth
-                                    label="Date Invalid"
-                                    propertyName="dateInvalid"
-                                />
-                            </Grid>
-                            <Grid item xs={8}>
-                                {!manufacturingSkill.dateInvalid && (
-                                    <Button onClick={makeInvalid} disabled={creating()}>
-                                        Make Invalid
-                                    </Button>
-                                )}
-                            </Grid>
+                            {!creating() && (
+                                <>
+                                    <Grid item xs={8}>
+                                        <InputField
+                                            value={
+                                                manufacturingSkill.dateInvalid
+                                                    ? moment(manufacturingSkill.dateInvalid).format(
+                                                          'DD-MMM-YYYY'
+                                                      )
+                                                    : ''
+                                            }
+                                            disabled
+                                            fullWidth
+                                            label="Date Invalid"
+                                            propertyName="dateInvalid"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        {!manufacturingSkill.dateInvalid && (
+                                            <Button onClick={makeInvalid}>Make Invalid</Button>
+                                        )}
+                                    </Grid>
+                                </>
+                            )}
                             <Grid item xs={12}>
                                 <SaveBackCancelButtons
                                     saveDisabled={viewing() || inputInvalid()}
