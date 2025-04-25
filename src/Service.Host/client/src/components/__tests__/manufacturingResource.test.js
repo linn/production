@@ -12,7 +12,8 @@ const setEditStatusMock = jest.fn();
 const manufacturingResource = {
     resourceCode: 'TESTCODE1',
     description: 'Descripticon',
-    cost: 10.55
+    cost: 10.55,
+    dateInvalid: new Date().toISOString()
 };
 
 const defaultProps = {

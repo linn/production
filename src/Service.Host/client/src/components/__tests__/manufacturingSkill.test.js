@@ -12,7 +12,8 @@ const setEditStatusMock = jest.fn();
 const manufacturingSkill = {
     skillCode: 'TESTCODE1',
     description: 'Descripticon',
-    hourlyRate: 10
+    hourlyRate: 10,
+    dateInvalid: new Date().toISOString()
 };
 
 const defaultProps = {
