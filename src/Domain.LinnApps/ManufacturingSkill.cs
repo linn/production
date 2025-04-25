@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Domain.LinnApps
 {
+    using System;
+
     public class ManufacturingSkill
     {
         public ManufacturingSkill(string skillCode, string description, int? hourlyRate)
@@ -14,5 +16,7 @@
         public string Description { get; set; }
 
         public int? HourlyRate { get; set; }
+
+        public DateTime? DateInvalid { get; set; }
     }
 }

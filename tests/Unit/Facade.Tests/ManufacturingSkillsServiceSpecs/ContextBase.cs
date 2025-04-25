@@ -10,7 +10,7 @@
 
     public abstract class ContextBase
     {
-        protected ManufacturingSkillService Sut { get; set; }
+        protected ManufacturingSkillFacadeService Sut { get; set; }
 
         protected IRepository<ManufacturingSkill, string> ManufacturingSkillRepository { get; private set; }
 
@@ -21,7 +21,7 @@
         {
             this.ManufacturingSkillRepository = Substitute.For<IRepository<ManufacturingSkill, string>>();
             this.TransactionManager = Substitute.For<ITransactionManager>();
-            this.Sut = new ManufacturingSkillService(this.ManufacturingSkillRepository, this.TransactionManager);
+            this.Sut = new ManufacturingSkillFacadeService(this.ManufacturingSkillRepository, this.TransactionManager);
         }
     }
 }

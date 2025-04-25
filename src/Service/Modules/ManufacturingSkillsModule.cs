@@ -2,7 +2,9 @@
 {
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Models;
 
     using Nancy;
@@ -10,20 +12,23 @@
 
     public sealed class ManufacturingSkillsModule : NancyModule
     {
-        private readonly IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource> manufacturingSkillService;
+        private readonly IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource> manufacturingSkillFacadeService;
 
-        public ManufacturingSkillsModule(IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource> manufacturingSkillService)
+        public ManufacturingSkillsModule(IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource> manufacturingSkillFacadeService)
         {
-            this.manufacturingSkillService = manufacturingSkillService;
-            this.Get("/production/resources/manufacturing-skills", _ => this.GetAll());
+            this.manufacturingSkillFacadeService = manufacturingSkillFacadeService;
+
+            this.Get("/production/resources/manufacturing-skills", _ => this.GetManufacturingSkills());
             this.Get("/production/resources/manufacturing-skills/{skillCode*}", parameters => this.GetById(parameters.skillCode));
             this.Put("/production/resources/manufacturing-skills/{skillCode*}", parameters => this.UpdateManufacturingSkill(parameters.skillCode));
             this.Post("/production/resources/manufacturing-skills", parameters => this.AddManufacturingSkill());
         }
 
-        private object GetAll()
+        private object GetManufacturingSkills()
         {
-            var result = this.manufacturingSkillService.GetAll();
+            var resource = this.Bind<IncludeInvalidRequestResource>();
+            var result = this.manufacturingSkillFacadeService.FilterBy(resource);
+            
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -32,7 +37,7 @@
 
         private object GetById(string skillCode)
         {
-            var result = this.manufacturingSkillService.GetById(skillCode);
+            var result = this.manufacturingSkillFacadeService.GetById(skillCode);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -43,7 +48,7 @@
         {
             var resource = this.Bind<ManufacturingSkillResource>();
 
-            var result = this.manufacturingSkillService.Update(skillCode, resource);
+            var result = this.manufacturingSkillFacadeService.Update(skillCode, resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
@@ -54,7 +59,7 @@
         {
             var resource = this.Bind<ManufacturingSkillResource>();
 
-            var result = this.manufacturingSkillService.Add(resource);
+            var result = this.manufacturingSkillFacadeService.Add(resource);
             return this.Negotiate
                 .WithModel(result)
                 .WithMediaRangeModel("text/html", ApplicationSettings.Get)
