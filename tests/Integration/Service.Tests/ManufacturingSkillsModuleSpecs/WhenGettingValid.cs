@@ -23,7 +23,7 @@
             var a = new ManufacturingSkill("a", "desc", 15);
             var b = new ManufacturingSkill("b", "desc", 17);
 
-            this.ManufacturingSkillFacadeService.FilterBy(Arg.Any<ManufacturingSkillsRequestResource>())
+            this.ManufacturingSkillFacadeService.FilterBy(Arg.Any<IncludeInvalidRequestResource>())
                 .Returns(new SuccessResult<IEnumerable<ManufacturingSkill>>(new List<ManufacturingSkill> { a, b }));
 
             this.Response = this.Browser.Get(
@@ -40,7 +40,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingSkillFacadeService.Received().FilterBy(Arg.Any<ManufacturingSkillsRequestResource>());
+            this.ManufacturingSkillFacadeService.Received().FilterBy(Arg.Any<IncludeInvalidRequestResource>());
         }
 
         [Test]

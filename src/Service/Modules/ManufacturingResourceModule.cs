@@ -11,9 +11,9 @@
 
     public sealed class ManufacturingResourceModule : NancyModule
     {
-        private readonly IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourcesRequestResource> manufacturingResourceFacadeService;
+        private readonly IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, IncludeInvalidRequestResource> manufacturingResourceFacadeService;
 
-        public ManufacturingResourceModule(IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourcesRequestResource> manufacturingResourceFacadeService)
+        public ManufacturingResourceModule(IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, IncludeInvalidRequestResource> manufacturingResourceFacadeService)
         {
             this.manufacturingResourceFacadeService = manufacturingResourceFacadeService;
             this.Get("/production/resources/manufacturing-resources/{resourceCode*}", parameters => this.GetManufacturingResourceById(parameters.resourceCode));
@@ -24,7 +24,7 @@
 
         private object GetManufacturingResources()
         {
-            var resource = this.Bind<ManufacturingResourcesRequestResource>();
+            var resource = this.Bind<IncludeInvalidRequestResource>();
             var result = this.manufacturingResourceFacadeService.FilterBy(resource);
 
             return this.Negotiate

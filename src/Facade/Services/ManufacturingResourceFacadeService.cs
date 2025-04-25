@@ -9,7 +9,7 @@
     using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;
 
-    public class ManufacturingResourceFacadeService : FacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourcesRequestResource>
+    public class ManufacturingResourceFacadeService : FacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, IncludeInvalidRequestResource>
     {
         private readonly IRepository<ManufacturingResource, string> manufacturingResourceRepository;
 
@@ -43,7 +43,7 @@
             throw new NotImplementedException();
         }
 
-        protected override Expression<Func<ManufacturingResource, bool>> FilterExpression(ManufacturingResourcesRequestResource searchTerms)
+        protected override Expression<Func<ManufacturingResource, bool>> FilterExpression(IncludeInvalidRequestResource searchTerms)
         {
             return m => searchTerms.IncludeInvalid.GetValueOrDefault() || !m.DateInvalid.HasValue;
         }

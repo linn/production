@@ -12,9 +12,9 @@
 
     public sealed class ManufacturingSkillsModule : NancyModule
     {
-        private readonly IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource> manufacturingSkillFacadeService;
+        private readonly IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource> manufacturingSkillFacadeService;
 
-        public ManufacturingSkillsModule(IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource> manufacturingSkillFacadeService)
+        public ManufacturingSkillsModule(IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource> manufacturingSkillFacadeService)
         {
             this.manufacturingSkillFacadeService = manufacturingSkillFacadeService;
 
@@ -26,7 +26,7 @@
 
         private object GetManufacturingSkills()
         {
-            var resource = this.Bind<ManufacturingSkillsRequestResource>();
+            var resource = this.Bind<IncludeInvalidRequestResource>();
             var result = this.manufacturingSkillFacadeService.FilterBy(resource);
             
             return this.Negotiate

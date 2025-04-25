@@ -20,12 +20,12 @@
 
     public abstract class ContextBase : NancyContextBase
     { 
-        protected IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource> ManufacturingSkillFacadeService { get; private set; }
+        protected IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource> ManufacturingSkillFacadeService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.ManufacturingSkillFacadeService = Substitute.For<IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource>>();
+            this.ManufacturingSkillFacadeService = Substitute.For<IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>

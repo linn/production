@@ -10,7 +10,7 @@
     using Linn.Production.Resources;
     using Linn.Production.Resources.RequestResources;
 
-    public class ManufacturingSkillFacadeService : FacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource>
+    public class ManufacturingSkillFacadeService : FacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource>
     {
         private readonly IRepository<ManufacturingSkill, string> manufacturingSkillRepository;
 
@@ -45,7 +45,7 @@
             throw new NotImplementedException();
         }
 
-        protected override Expression<Func<ManufacturingSkill, bool>> FilterExpression(ManufacturingSkillsRequestResource searchTerms)
+        protected override Expression<Func<ManufacturingSkill, bool>> FilterExpression(IncludeInvalidRequestResource searchTerms)
         {
             return m => searchTerms.IncludeInvalid.GetValueOrDefault() || !m.DateInvalid.HasValue;
         }

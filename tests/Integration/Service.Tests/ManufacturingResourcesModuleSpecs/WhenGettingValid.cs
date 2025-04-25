@@ -25,7 +25,7 @@
             var a = new ManufacturingResource("a", "desc", 15);
             var b = new ManufacturingResource("b", "desc", 17);
 
-            this.ManufacturingResourceFacadeService.FilterBy(Arg.Any<ManufacturingResourcesRequestResource>())
+            this.ManufacturingResourceFacadeService.FilterBy(Arg.Any<IncludeInvalidRequestResource>())
                 .Returns(new SuccessResult<IEnumerable<ManufacturingResource>>(new List<ManufacturingResource> { a, b }));
 
             this.Response = this.Browser.Get(
@@ -42,7 +42,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingResourceFacadeService.Received().FilterBy(Arg.Any<ManufacturingResourcesRequestResource>());
+            this.ManufacturingResourceFacadeService.Received().FilterBy(Arg.Any<IncludeInvalidRequestResource>());
         }
 
         [Test]
