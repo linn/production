@@ -14,7 +14,7 @@
         [SetUp]
         public void SetUp()
         {
-            var resource = new ManufacturingResource("TESTCODE", "desc", 155, null);
+            var resource = new ManufacturingResource("TESTCODE", "desc", 155);
             this.ManufacturingResourceFacadeService.GetById("TESTCODE")
                 .Returns(new SuccessResult<ManufacturingResource>(resource));
 

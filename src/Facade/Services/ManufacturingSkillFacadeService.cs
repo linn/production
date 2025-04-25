@@ -8,8 +8,9 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
 
-    public class ManufacturingSkillFacadeService : FacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource>
+    public class ManufacturingSkillFacadeService : FacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource>
     {
         private readonly IRepository<ManufacturingSkill, string> manufacturingSkillRepository;
 
@@ -26,8 +27,7 @@
             return new ManufacturingSkill(
                 resource.SkillCode,
                 resource.Description,
-                resource.HourlyRate,
-                resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null);
+                resource.HourlyRate);
         }
 
         protected override void UpdateFromResource(ManufacturingSkill entity, ManufacturingSkillResource updateResource)
@@ -45,9 +45,9 @@
             throw new NotImplementedException();
         }
 
-        protected override Expression<Func<ManufacturingSkill, bool>> FilterExpression(ManufacturingSkillResource searchTerms)
+        protected override Expression<Func<ManufacturingSkill, bool>> FilterExpression(ManufacturingSkillsRequestResource searchTerms)
         {
-            return m => !m.DateInvalid.HasValue;
+            return m => searchTerms.IncludeInvalid.GetValueOrDefault() || !m.DateInvalid.HasValue;
         }
     }
 }

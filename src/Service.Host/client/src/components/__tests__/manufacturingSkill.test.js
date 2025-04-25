@@ -13,7 +13,7 @@ const manufacturingSkill = {
     skillCode: 'TESTCODE1',
     description: 'Descripticon',
     hourlyRate: 10,
-    dateInvalid: new Date().toISOString()
+    dateInvalid: null
 };
 
 const defaultProps = {

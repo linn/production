@@ -8,6 +8,7 @@
     using Linn.Production.Facade.ResourceBuilders;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
 
@@ -19,12 +20,12 @@
 
     public abstract class ContextBase : NancyContextBase
     { 
-        protected IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource> ManufacturingSkillFacadeService { get; private set; }
+        protected IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource> ManufacturingSkillFacadeService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.ManufacturingSkillFacadeService = Substitute.For<IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource>>();
+            this.ManufacturingSkillFacadeService = Substitute.For<IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>

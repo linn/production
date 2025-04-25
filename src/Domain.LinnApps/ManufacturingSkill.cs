@@ -4,12 +4,11 @@
 
     public class ManufacturingSkill
     {
-        public ManufacturingSkill(string skillCode, string description, int? hourlyRate, DateTime? dateInvalid)
+        public ManufacturingSkill(string skillCode, string description, int? hourlyRate)
         {
             this.SkillCode = skillCode;
             this.Description = description;
             this.HourlyRate = hourlyRate;
-            this.DateInvalid = dateInvalid;
         }
 
         public string SkillCode { get; set; }

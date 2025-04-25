@@ -7,8 +7,9 @@
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
 
-    public class ManufacturingResourceFacadeService : FacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourceResource>
+    public class ManufacturingResourceFacadeService : FacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourcesRequestResource>
     {
         private readonly IRepository<ManufacturingResource, string> manufacturingResourceRepository;
 
@@ -25,8 +26,7 @@
             return new ManufacturingResource(
                 resource.ResourceCode, 
                 resource.Description, 
-                resource.Cost, 
-                resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null);
+                resource.Cost);
         }
 
         protected override void UpdateFromResource(ManufacturingResource manufacturingResource, ManufacturingResourceResource updateResource)
@@ -43,9 +43,9 @@
             throw new NotImplementedException();
         }
 
-        protected override Expression<Func<ManufacturingResource, bool>> FilterExpression(ManufacturingResourceResource searchTerms)
+        protected override Expression<Func<ManufacturingResource, bool>> FilterExpression(ManufacturingResourcesRequestResource searchTerms)
         {
-            return m => !m.DateInvalid.HasValue;
+            return m => searchTerms.IncludeInvalid.GetValueOrDefault() || !m.DateInvalid.HasValue;
         }
     }
 }

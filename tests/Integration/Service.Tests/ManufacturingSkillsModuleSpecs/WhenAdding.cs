@@ -17,7 +17,7 @@
         public void SetUp()
         {
             this.requestResource = new ManufacturingSkillResource { SkillCode = "ADDTEST", Description = "Desc12", HourlyRate = 151 };
-            var newSkill = new ManufacturingSkill("ADDTEST", "Desc12", 151, null);
+            var newSkill = new ManufacturingSkill("ADDTEST", "Desc12", 151);
             this.ManufacturingSkillFacadeService.Add(Arg.Any<ManufacturingSkillResource>())
                 .Returns(new CreatedResult<ManufacturingSkill>(newSkill));
 

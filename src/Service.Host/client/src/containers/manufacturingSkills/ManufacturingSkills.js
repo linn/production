@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 });
 
 const initialise = () => dispatch => {
-    dispatch(manufacturingSkillsActions.fetch());
+    dispatch(manufacturingSkillsActions.searchWithOptions('', '&includeInvalid=false'));
 };
 
 const mapDispatchToProps = {

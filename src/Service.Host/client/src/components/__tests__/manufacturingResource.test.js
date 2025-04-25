@@ -13,7 +13,7 @@ const manufacturingResource = {
     resourceCode: 'TESTCODE1',
     description: 'Descripticon',
     cost: 10.55,
-    dateInvalid: new Date().toISOString()
+    dateInvalid: null
 };
 
 const defaultProps = {

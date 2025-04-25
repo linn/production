@@ -17,8 +17,7 @@
         public void SetUp()
         {
             this.requestResource = new ManufacturingResourceResource { ResourceCode = "ADD TEST", Description = "Descrip", Cost = 151 };
-            var newResource = new ManufacturingResource("ADD TEST", "Descrip", 151, null);
-
+            var newResource = new ManufacturingResource("ADD TEST", "Descrip", 151);
             this.ManufacturingResourceFacadeService.Add(Arg.Any<ManufacturingResourceResource>())
                 .Returns(new CreatedResult<ManufacturingResource>(newResource));
 

@@ -8,7 +8,7 @@
 
         public string Description { get; set; }
 
-        public double? Cost { get; set; }
+        public decimal? Cost { get; set; }
 
         public string DateInvalid { get; set; }
     }

@@ -23,6 +23,8 @@
     using Linn.Production.Facade.Services;
     using Linn.Production.Proxy;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
+
     using Oracle.ManagedDataAccess.Client;
 
     public class ServiceModule : Module
@@ -137,8 +139,8 @@
             builder.RegisterType<SupplierService>().As<IFacadeWithSearchReturnTen<Supplier, int, SupplierResource, SupplierResource>>();
             builder.RegisterType<LabelPrintService>().As<ILabelPrintService>();
             builder.RegisterType<ManufacturingTimingsFacadeService>().As<IManufacturingTimingsFacadeService>();
-            builder.RegisterType<ManufacturingSkillFacadeService>().As<IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource>>();
-            builder.RegisterType<ManufacturingResourceFacadeService>().As<IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourceResource>>();
+            builder.RegisterType<ManufacturingSkillFacadeService>().As<IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource>>();
+            builder.RegisterType<ManufacturingResourceFacadeService>().As<IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, ManufacturingResourcesRequestResource>>();
 
             // oracle proxies
             builder.RegisterType<DatabaseService>().As<IDatabaseService>();

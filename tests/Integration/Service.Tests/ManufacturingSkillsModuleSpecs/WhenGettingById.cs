@@ -14,7 +14,7 @@
         [SetUp]
         public void SetUp()
         {
-            var skill = new ManufacturingSkill("TESTCODE", "desc", 155, null);
+            var skill = new ManufacturingSkill("TESTCODE", "desc", 155);
             this.ManufacturingSkillFacadeService.GetById("TESTCODE")
                 .Returns(new SuccessResult<ManufacturingSkill>(skill));
 

@@ -4,6 +4,7 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Models;
 
     using Nancy;
@@ -11,31 +12,21 @@
 
     public sealed class ManufacturingSkillsModule : NancyModule
     {
-        private readonly IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource> manufacturingSkillFacadeService;
+        private readonly IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource> manufacturingSkillFacadeService;
 
-        public ManufacturingSkillsModule(IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillResource> manufacturingSkillFacadeService)
+        public ManufacturingSkillsModule(IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, ManufacturingSkillsRequestResource> manufacturingSkillFacadeService)
         {
             this.manufacturingSkillFacadeService = manufacturingSkillFacadeService;
 
-            this.Get("/production/resources/manufacturing-skills/all", _ => this.GetAll());
             this.Get("/production/resources/manufacturing-skills", _ => this.GetManufacturingSkills());
             this.Get("/production/resources/manufacturing-skills/{skillCode*}", parameters => this.GetById(parameters.skillCode));
             this.Put("/production/resources/manufacturing-skills/{skillCode*}", parameters => this.UpdateManufacturingSkill(parameters.skillCode));
             this.Post("/production/resources/manufacturing-skills", parameters => this.AddManufacturingSkill());
         }
 
-        private object GetAll()
-        {
-            var result = this.manufacturingSkillFacadeService.GetAll();
-            return this.Negotiate
-                .WithModel(result)
-                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
-                .WithView("Index");
-        }
-
         private object GetManufacturingSkills()
         {
-            var resource = this.Bind<ManufacturingSkillResource>();
+            var resource = this.Bind<ManufacturingSkillsRequestResource>();
             var result = this.manufacturingSkillFacadeService.FilterBy(resource);
             
             return this.Negotiate

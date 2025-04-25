@@ -29,7 +29,7 @@
         [SetUp]
         public void SetUp()
         {
-            this.manufacturingSkill = new ManufacturingSkill("skill1", "Descr", 15, null);
+            this.manufacturingSkill = new ManufacturingSkill("skill1", "Descr", 15);
             this.resource = new ManufacturingSkillResource
             {
                 SkillCode = this.manufacturingSkill.SkillCode,

@@ -11,13 +11,13 @@ const manufacturingResources = [
         resourceCode: 'TESTCODE1',
         description: 'Descripticon',
         cost: 10,
-        dateInvalid: new Date().toISOString()
+        dateInvalid: null
     },
     {
         resourceCode: 'TESTCODE2',
         description: 'Descrip',
         cost: 12,
-        dateInvalid: new Date().toISOString()
+        dateInvalid: null
     }
 ];
 const defaultProps = {
