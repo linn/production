@@ -17,10 +17,20 @@
         {
             this.manufacturingSkillFacadeService = manufacturingSkillFacadeService;
 
+            this.Get("/production/resources/manufacturing-skills/all", _ => this.GetAll());
             this.Get("/production/resources/manufacturing-skills", _ => this.GetManufacturingSkills());
             this.Get("/production/resources/manufacturing-skills/{skillCode*}", parameters => this.GetById(parameters.skillCode));
             this.Put("/production/resources/manufacturing-skills/{skillCode*}", parameters => this.UpdateManufacturingSkill(parameters.skillCode));
             this.Post("/production/resources/manufacturing-skills", parameters => this.AddManufacturingSkill());
+        }
+
+        private object GetAll()
+        {
+            var result = this.manufacturingSkillFacadeService.GetAll();
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetManufacturingSkills()

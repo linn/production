@@ -23,15 +23,11 @@
 
         protected override ManufacturingSkill CreateFromResource(ManufacturingSkillResource resource)
         {
-            return new ManufacturingSkill
-            {
-                           SkillCode = resource.SkillCode,
-                           Description = resource.Description,
-                           HourlyRate = resource.HourlyRate,
-                           DateInvalid = resource.DateInvalid != null
-                                             ? DateTime.Parse(resource.DateInvalid)
-                                             : (DateTime?)null
-            };
+            return new ManufacturingSkill(
+                resource.SkillCode,
+                resource.Description,
+                resource.HourlyRate,
+                resource.DateInvalid != null ? DateTime.Parse(resource.DateInvalid) : (DateTime?)null);
         }
 
         protected override void UpdateFromResource(ManufacturingSkill entity, ManufacturingSkillResource updateResource)

@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Service.Tests.ManufacturingResourcesModuleSpecs
 {
+    using System;
+
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
@@ -17,7 +19,7 @@
         public void SetUp()
         {
             this.requestResource = new ManufacturingResourceResource { ResourceCode = "MYTEST", Description = "Desc1", Cost = 150 };
-            var skill = new ManufacturingResource("MYTEST", "Desc1", 150, null); 
+            var skill = new ManufacturingResource("MYTEST", "Desc1", 150, DateTime.Today); 
                             
             this.ManufacturingResourceFacadeService.Update("MYTEST", Arg.Any<ManufacturingResourceResource>())
                 .Returns(new SuccessResult<ManufacturingResource>(skill));
@@ -52,6 +54,7 @@
             resource.ResourceCode.Should().Be("MYTEST");
             resource.Description.Should().Be("Desc1");
             resource.Cost.Should().Be(150);
+            resource.DateInvalid.Should().Be(DateTime.Today.ToString("o"));
         }
     }
 }

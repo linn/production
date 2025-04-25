@@ -16,9 +16,19 @@
         {
             this.manufacturingResourceFacadeService = manufacturingResourceFacadeService;
             this.Get("/production/resources/manufacturing-resources/{resourceCode*}", parameters => this.GetManufacturingResourceById(parameters.resourceCode));
+            this.Get("/production/resources/manufacturing-resources/all", _ => this.GetAllManufacturingResources());
             this.Get("/production/resources/manufacturing-resources", _ => this.GetManufacturingResources());
             this.Put("/production/resources/manufacturing-resources/{resourceCode*}", parameters => this.UpdateManufacturingResource(parameters.resourceCode));
             this.Post("/production/resources/manufacturing-resources", _ => this.AddManufacturingResource());
+        }
+
+        private object GetAllManufacturingResources()
+        {
+            var result = this.manufacturingResourceFacadeService.GetAll();
+            return this.Negotiate
+                .WithModel(result)
+                .WithMediaRangeModel("text/html", ApplicationSettings.Get)
+                .WithView("Index");
         }
 
         private object GetManufacturingResources()
