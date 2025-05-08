@@ -487,7 +487,7 @@ function PartFail({
                                             <Dropdown
                                                 label="Sentence Decision"
                                                 propertyName="sentenceDecision"
-                                                items={['SCRAP', 'REPROCESS', 'CONCESSION']}
+                                                items={['SCRAP', 'REPROCESS', 'CONCESSION', 'NOT FAULTY']}
                                                 fullWidth
                                                 value={
                                                     partFail.sentenceDecision
