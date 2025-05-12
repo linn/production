@@ -17,6 +17,7 @@
                 ResourceCode = manufacturingResource.ResourceCode,
                 Description = manufacturingResource.Description,
                 Cost = manufacturingResource.Cost,
+                DateInvalid = manufacturingResource.DateInvalid?.ToString("o"),
                 Links = this.BuildLinks(manufacturingResource).ToArray()
             };
         }

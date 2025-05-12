@@ -6,10 +6,11 @@
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
-    using Linn.Production.Service.Tests;
 
     using Nancy.Testing;
 
@@ -18,18 +19,18 @@
     using NUnit.Framework;
 
     public abstract class ContextBase : NancyContextBase
-    {
-        protected IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource> ManufacturingSkillService { get; private set; }
+    { 
+        protected IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource> ManufacturingSkillFacadeService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.ManufacturingSkillService = Substitute.For<IFacadeService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource>>();
+            this.ManufacturingSkillFacadeService = Substitute.For<IFacadeFilterService<ManufacturingSkill, string, ManufacturingSkillResource, ManufacturingSkillResource, IncludeInvalidRequestResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
-                    with.Dependency(this.ManufacturingSkillService);
+                    with.Dependency(this.ManufacturingSkillFacadeService);
                     with.Dependency<IResourceBuilder<ManufacturingSkill>>(new ManufacturingSkillResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<ManufacturingSkill>>>(
                         new ManufacturingSkillsResourceBuilder());
