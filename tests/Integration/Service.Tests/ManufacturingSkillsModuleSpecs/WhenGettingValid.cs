@@ -22,7 +22,6 @@
         {
             var a = new ManufacturingSkill("a", "desc", 15);
             var b = new ManufacturingSkill("b", "desc", 17);
-
             this.ManufacturingSkillFacadeService.FilterBy(Arg.Any<IncludeInvalidRequestResource>())
                 .Returns(new SuccessResult<IEnumerable<ManufacturingSkill>>(new List<ManufacturingSkill> { a, b }));
 

@@ -8,8 +8,6 @@
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
 
-    using Microsoft.EntityFrameworkCore.Query.Internal;
-
     using NSubstitute;
 
     using NUnit.Framework;
