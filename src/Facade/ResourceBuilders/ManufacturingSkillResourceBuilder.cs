@@ -17,6 +17,7 @@
                 SkillCode = manufacturingSkill.SkillCode,
                 Description = manufacturingSkill.Description,
                 HourlyRate = manufacturingSkill.HourlyRate,
+                DateInvalid = manufacturingSkill.DateInvalid?.ToString("o"),
                 Links = this.BuildLinks(manufacturingSkill).ToArray()
             };
         }

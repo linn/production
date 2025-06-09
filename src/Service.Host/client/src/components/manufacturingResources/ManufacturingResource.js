@@ -1,6 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import {
     SaveBackCancelButtons,
     Loading,
@@ -136,6 +138,36 @@ function ManufacturingResource({
                                     propertyName="cost"
                                 />
                             </Grid>
+                            {!creating() && (
+                                <>
+                                    <Grid item xs={8}>
+                                        <InputField
+                                            value={
+                                                manufacturingResource.dateInvalid
+                                                    ? moment(
+                                                          manufacturingResource.dateInvalid
+                                                      ).format('DD-MMM-YYYY')
+                                                    : ''
+                                            }
+                                            disabled
+                                            fullWidth
+                                            label="Date Invalid"
+                                            propertyName="dateInvalid"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        {!manufacturingResource.dateInvalid && (
+                                            <Button
+                                                onClick={() =>
+                                                    handleFieldChange('dateInvalid', new Date())
+                                                }
+                                            >
+                                                Make Invalid
+                                            </Button>
+                                        )}
+                                    </Grid>
+                                </>
+                            )}
                         </>
                     )
                 )}

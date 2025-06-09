@@ -10,12 +10,14 @@ const manufacturingResources = [
     {
         resourceCode: 'TESTCODE1',
         description: 'Descripticon',
-        cost: 10
+        cost: 10,
+        dateInvalid: null
     },
     {
         resourceCode: 'TESTCODE2',
         description: 'Descrip',
-        cost: 12
+        cost: 12,
+        dateInvalid: null
     }
 ];
 const defaultProps = {

@@ -1,6 +1,8 @@
 ﻿import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import {
     SaveBackCancelButtons,
     InputField,
@@ -143,6 +145,36 @@ function ManufacturingSkill({
                                     propertyName="hourlyRate"
                                 />
                             </Grid>
+                            {!creating() && (
+                                <>
+                                    <Grid item xs={8}>
+                                        <InputField
+                                            value={
+                                                manufacturingSkill.dateInvalid
+                                                    ? moment(manufacturingSkill.dateInvalid).format(
+                                                          'DD-MMM-YYYY'
+                                                      )
+                                                    : ''
+                                            }
+                                            disabled
+                                            fullWidth
+                                            label="Date Invalid"
+                                            propertyName="dateInvalid"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        {!manufacturingSkill.dateInvalid && (
+                                            <Button
+                                                onClick={() =>
+                                                    handleFieldChange('dateInvalid', new Date())
+                                                }
+                                            >
+                                                Make Invalid
+                                            </Button>
+                                        )}
+                                    </Grid>
+                                </>
+                            )}
                             <Grid item xs={12}>
                                 <SaveBackCancelButtons
                                     saveDisabled={viewing() || inputInvalid()}

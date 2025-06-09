@@ -6,10 +6,11 @@
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Facade.ResourceBuilders;
+    using Linn.Production.Facade.Services;
     using Linn.Production.Resources;
+    using Linn.Production.Resources.RequestResources;
     using Linn.Production.Service.Modules;
     using Linn.Production.Service.ResponseProcessors;
-    using Linn.Production.Service.Tests;
 
     using Nancy.Testing;
 
@@ -19,17 +20,17 @@
 
     public abstract class ContextBase : NancyContextBase
     {
-        protected IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource> ManufacturingResourceService { get; private set; }
+        protected IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, IncludeInvalidRequestResource> ManufacturingResourceFacadeService { get; private set; }
 
         [SetUp]
         public void EstablishContext()
         {
-            this.ManufacturingResourceService = Substitute.For<IFacadeService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource>>();
+            this.ManufacturingResourceFacadeService = Substitute.For<IFacadeFilterService<ManufacturingResource, string, ManufacturingResourceResource, ManufacturingResourceResource, IncludeInvalidRequestResource>>();
 
             var bootstrapper = new ConfigurableBootstrapper(
                 with =>
                 {
-                    with.Dependency(this.ManufacturingResourceService);
+                    with.Dependency(this.ManufacturingResourceFacadeService);
                     with.Dependency<IResourceBuilder<ManufacturingResource>>(new ManufacturingResourceResourceBuilder());
                     with.Dependency<IResourceBuilder<IEnumerable<ManufacturingResource>>>(
                         new ManufacturingResourcesResourceBuilder());

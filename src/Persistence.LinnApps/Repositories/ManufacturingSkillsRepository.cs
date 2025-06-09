@@ -6,6 +6,7 @@
 
     using Linn.Common.Persistence;
     using Linn.Production.Domain.LinnApps;
+    using Microsoft.EntityFrameworkCore;
 
     public class ManufacturingSkillsRepository : IRepository<ManufacturingSkill, string>
     {
@@ -43,7 +44,7 @@
 
         public IQueryable<ManufacturingSkill> FilterBy(Expression<Func<ManufacturingSkill, bool>> expression)
         {
-            throw new NotImplementedException();
+            return this.serviceDbContext.ManufacturingSkills.AsNoTracking().Where(expression);
         }
     }
 }

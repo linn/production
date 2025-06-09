@@ -1,12 +1,16 @@
 ﻿namespace Linn.Production.Service.Tests.ManufacturingSkillsModuleSpecs
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Net;
+
     using FluentAssertions;
     using Linn.Common.Facade;
     using Linn.Production.Domain.LinnApps;
     using Linn.Production.Resources;
-    using Nancy;
+    using Linn.Production.Resources.RequestResources;
+
     using Nancy.Testing;
     using NSubstitute;
     using NUnit.Framework;
@@ -18,7 +22,7 @@
         {
             var a = new ManufacturingSkill("a", "desc", 15);
             var b = new ManufacturingSkill("b", "desc", 17);
-            this.ManufacturingSkillService.GetAll()
+            this.ManufacturingSkillFacadeService.FilterBy(Arg.Any<IncludeInvalidRequestResource>())
                 .Returns(new SuccessResult<IEnumerable<ManufacturingSkill>>(new List<ManufacturingSkill> { a, b }));
 
             this.Response = this.Browser.Get(
@@ -35,7 +39,7 @@
         [Test]
         public void ShouldCallService()
         {
-            this.ManufacturingSkillService.Received().GetAll();
+            this.ManufacturingSkillFacadeService.Received().FilterBy(Arg.Any<IncludeInvalidRequestResource>());
         }
 
         [Test]

@@ -1,5 +1,7 @@
 ﻿namespace Linn.Production.Facade.Tests.ManufacturingSkillsServiceSpecs
 {
+    using System;
+
     using FluentAssertions;
 
     using Linn.Common.Facade;
@@ -26,12 +28,12 @@
         public void SetUp()
         {
             this.manufacturingSkill = new ManufacturingSkill("skill1", "Descr", 15);
-
             this.resource = new ManufacturingSkillResource
             {
                 SkillCode = this.manufacturingSkill.SkillCode,
                 Description = NewDesc,
                 HourlyRate = NewHourlyRate,
+                DateInvalid = DateTime.Today.ToString("o")
             };
 
             this.ManufacturingSkillRepository.FindById(this.manufacturingSkill.SkillCode)
@@ -53,6 +55,7 @@
             dataResult.SkillCode.Should().Be(this.manufacturingSkill.SkillCode);
             dataResult.Description.Should().Be(NewDesc);
             dataResult.HourlyRate.Should().Be(NewHourlyRate);
+            dataResult.DateInvalid.Should().Be(DateTime.Today);
         }
     }
 }
