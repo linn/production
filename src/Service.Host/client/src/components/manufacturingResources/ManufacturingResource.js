@@ -158,10 +158,9 @@ function ManufacturingResource({
                                     <Grid item xs={8}>
                                         {!manufacturingResource.dateInvalid && (
                                             <Button
-                                                onClick={handleFieldChange(
-                                                    'dateInvalid',
-                                                    new Date()
-                                                )}
+                                                onClick={() =>
+                                                    handleFieldChange('dateInvalid', new Date())
+                                                }
                                             >
                                                 Make Invalid
                                             </Button>

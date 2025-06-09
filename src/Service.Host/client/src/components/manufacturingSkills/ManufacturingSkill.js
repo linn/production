@@ -165,10 +165,9 @@ function ManufacturingSkill({
                                     <Grid item xs={8}>
                                         {!manufacturingSkill.dateInvalid && (
                                             <Button
-                                                onClick={handleFieldChange(
-                                                    'dateInvalid',
-                                                    new Date()
-                                                )}
+                                                onClick={() =>
+                                                    handleFieldChange('dateInvalid', new Date())
+                                                }
                                             >
                                                 Make Invalid
                                             </Button>
