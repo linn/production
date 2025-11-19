@@ -33,12 +33,16 @@ function LabelReprint({
     searchParts,
     clearPartsSearch,
     clearErrors,
-    applicationState
+    applicationState,
+    options
 }) {
     const [labelReprint, setLabelReprint] = useState({
         numberOfProducts: 1,
         labelTypeCode: 'BOX',
-        reprintType: 'REPRINT'
+        reprintType: options?.reprintType || 'REPRINT',
+        partNumber: options?.partNumber || '',
+        reason: options?.reason || '',
+        serialNumber: options?.serialNumber || null
     });
     const [prevLabelReprint, setPrevLabelReprint] = useState(null);
 
@@ -108,7 +112,7 @@ function LabelReprint({
             return ['REPRINT', 'REISSUE', 'RSN REPRINT', 'REBUILD'];
         }
 
-        return ['REPRINT'];
+        return ['REPRINT', 'RSN REPRINT'];
     };
 
     return (
@@ -333,7 +337,13 @@ LabelReprint.propTypes = {
     searchParts: PropTypes.func.isRequired,
     clearPartsSearch: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
-    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) })
+    applicationState: PropTypes.shape({ links: PropTypes.arrayOf(PropTypes.shape({})) }),
+    options: PropTypes.shape({
+        partNumber: PropTypes.string,
+        reprintType: PropTypes.string,
+        reason: PropTypes.string,
+        serialNumber: PropTypes.number
+    })
 };
 
 LabelReprint.defaultProps = {
@@ -347,7 +357,8 @@ LabelReprint.defaultProps = {
     labelTypes: [],
     partsSearchResults: [],
     partsSearchLoading: false,
-    applicationState: null
+    applicationState: null,
+    options: {}
 };
 
 export default LabelReprint;
