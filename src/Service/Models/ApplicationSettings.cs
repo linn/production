@@ -11,9 +11,7 @@
         public string ProxyRoot { get; set; }
 
         public string CognitoClientId { get; set; }
-
-        public string AuthorityUri { get; set; }
-
+        
         public string CognitoDomainPrefix { get; set; }
 
         public string EntraLogoutUri { get; set; }
@@ -22,7 +20,6 @@
         {
             return new ApplicationSettings
             {
-                AuthorityUri = ConfigurationManager.Configuration["LEGACY_AUTHORITY_URI"],
                 CognitoHost = ConfigurationManager.Configuration["COGNITO_HOST"],
                 AppRoot = ConfigurationManager.Configuration["APP_ROOT"],
                 ProxyRoot = ConfigurationManager.Configuration["PROXY_ROOT"],
