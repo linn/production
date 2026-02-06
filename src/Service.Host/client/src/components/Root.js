@@ -158,7 +158,7 @@ const Root = ({ store }) => (
                                     />
                                     <Route
                                         exact
-                                        path="/production/maintenance/logged-out/"
+                                        path="/production/maintenance/auth/logged-out/"
                                         component={LoggedOut}
                                     />
                                     <Route exact path="/production/maintenance" component={App} />

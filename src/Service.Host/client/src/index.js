@@ -37,8 +37,8 @@ userManager
     .then(user => {
         if (
             (!user || user.expired) &&
-            window.location.pathname !== '/production/maintenance/' &&
-            window.location.pathname !== '/production/maintenance/logged-out'
+            window.location.pathname !== '/production/maintenance/auth/' &&
+            window.location.pathname !== '/production/maintenance/auth/logged-out'
         ) {
             userManager.signinRedirect({
                 data: { redirect: window.location.pathname + window.location.search }
