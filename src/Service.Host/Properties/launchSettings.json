@@ -17,11 +17,11 @@
     },
     "Service.Host": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:61799/"
+      "applicationUrl": "http://localhost:5050/"
     }
   }
 }

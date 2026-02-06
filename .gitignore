@@ -75,3 +75,5 @@ local-update.sh
 /src/Facade/StyleCop.Cache
 
 *.tgz
+
+.idea*
