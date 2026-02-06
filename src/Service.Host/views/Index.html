@@ -9,11 +9,14 @@
     <div id="root"></div>
     <script type="text/javascript">
         window.APPLICATION_SETTINGS = {
-            authorityUri: '@Model.AuthorityUri',
+            cognitoHost: '@Model.CognitoHost',
+            cognitoClientId: '@Model.CognitoClientId',
+            cognitoDomainPrefix: '@Model.CognitoDomainPrefix',
+            entraLogoutUri: '@Model.EntraLogoutUri',
             appRoot: '@Model.AppRoot',
             proxyRoot: '@Model.ProxyRoot'
         };
     </script>
-    <script src="/production/maintenance/build/app.js"></script>
+    <script src="/production/maintenance/build/app.jsv=1"></script>
 </body>
 </html>

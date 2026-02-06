@@ -4,10 +4,10 @@ import { Route, Redirect, Switch } from 'react-router';
 import { ConnectedRouter } from 'connected-react-router';
 import { OidcProvider } from 'redux-oidc';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Navigation } from '@linn-it/linn-form-components-library';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import PropTypes from 'prop-types';
+import NavigationContainer from '../containers/NavigationContainer';
 import history from '../history';
 import App from './App';
 import Callback from '../containers/Callback';
@@ -115,6 +115,7 @@ import manufacturingTimingsReport from '../containers/manufacturingTimings/Timin
 import manufacturingTimingsSetup from '../containers/manufacturingTimings/TimingsSetup';
 import PartCadInfo from '../containers/partCadInfo/PartCadInfo';
 import SearchWorksOrders from '../containers/worksOrders/SearchWorksOrders';
+import LoggedOut from './LoggedOut';
 
 const Root = ({ store }) => (
     <div>
@@ -124,7 +125,7 @@ const Root = ({ store }) => (
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                         <ConnectedRouter history={history}>
                             <div>
-                                <Navigation />
+                                <NavigationContainer />
                                 <CssBaseline />
 
                                 <Route
@@ -152,8 +153,13 @@ const Root = ({ store }) => (
                                 <Switch>
                                     <Route
                                         exact
-                                        path="/production/maintenance/signin-oidc-client"
+                                        path="/production/maintenance/auth/"
                                         component={Callback}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/production/maintenance/logged-out/"
+                                        component={LoggedOut}
                                     />
                                     <Route exact path="/production/maintenance" component={App} />
                                     <Route exact path="/production/quality" component={App} />
