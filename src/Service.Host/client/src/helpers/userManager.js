@@ -8,6 +8,8 @@ const domainPrefix = config.cognitoDomainPrefix;
 const { origin } = window.location;
 
 const redirectUri = `${origin}/production/maintenance/auth/`;
+
+localStorage.setItem('lastRedirectUri', redirectUri);
 const logoutUri = `${origin}/production/maintenance/auth/logged-out`;
 
 function getCognitoDomain(prefix, authorityUri) {
