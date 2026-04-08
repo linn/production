@@ -208,7 +208,7 @@ function AteTest({
                 options: ['', 'Y', 'N']
             },
             {
-                title: 'PCB Operator',
+                title: 'BAT Operator',
                 key: 'pcbOperator',
                 type: 'dropdown',
                 options: employees.map(e => ({ id: e.id, displayText: e.fullName })),
@@ -223,7 +223,7 @@ function AteTest({
                 }
             },
             {
-                title: 'PCB Operator Name',
+                title: 'BAT Operator Name',
                 key: 'pcbOperatorName',
                 type: 'text'
             },
@@ -593,7 +593,7 @@ function AteTest({
                                 <Dropdown
                                     label="Machine"
                                     propertyName="machine"
-                                    items={['GENRAD', 'TAKAYA']}
+                                    items={['GENRAD', 'TAKAYA', 'TERADYNE']}
                                     fullWidth
                                     value={ateTest.machine ? ateTest.machine : ''}
                                     allowNoValue
