@@ -466,31 +466,7 @@ const Root = ({ store }) => (
                                         path="/production/maintenance/production-trigger-levels-settings"
                                         component={PtlSettings}
                                     />
-                                    <Route
-                                        exact
-                                        path="/production/quality/part-fails"
-                                        component={PartFails}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/quality/part-fails/create"
-                                        component={CreatePartFail}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/quality/part-fails/detail-report/report"
-                                        component={PartFailDetailsReport}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/quality/part-fails/detail-report"
-                                        component={PartFailDetailsReportOptions}
-                                    />
-                                    <Route
-                                        exact
-                                        path="/production/quality/part-fails/:id"
-                                        component={PartFail}
-                                    />
+                                    
                                     <Route
                                         exact
                                         path="/production/quality/part-fail-error-types"
