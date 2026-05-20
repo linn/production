@@ -26,7 +26,7 @@ function App() {
                 <ListItem component={Link} to="/production/maintenance/build-plans" button>
                     <Typography color="primary">Build Plans Utility</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/quality/part-fails" button>
+                <ListItem component={Link} to="/production2/quality/part-fails" button>
                     <Typography color="primary">Part Fail Log</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/quality/part-fail-fault-codes" button>
@@ -124,7 +124,7 @@ function App() {
                 >
                     <Typography color="primary">Outstanding Works Orders Report</Typography>
                 </ListItem>
-                <ListItem component={Link} to="/production/quality/part-fails/detail-report" button>
+                <ListItem component={Link} to="/production2/quality/part-fails" button>
                     <Typography color="primary">Part Fail Details Report</Typography>
                 </ListItem>
                 <ListItem component={Link} to="/production/reports/production-back-orders" button>
